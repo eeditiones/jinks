@@ -1,0 +1,68 @@
+body {
+    max-width: 1400px;
+    margin: 20px auto;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.42857143;
+}
+h1, h2, h3 {
+    font-family: Oswald, sans-serif;
+    font-weight: 200;
+    font-size: 1.33em;
+}
+main {
+    display: grid;
+    grid-template-columns: 1fr minmax(220px, 480px);
+    column-gap: 20px;
+}
+jinn-codemirror {
+    display: block;
+}
+.hidden {
+    display: none;
+}
+#errorMsg {
+    color: red;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+details {
+    margin-top: 1rem;
+}
+details pb-markdown {
+    margin-top: 1rem;
+}
+table th, table td {
+    text-align: left;
+    border-bottom: 1px solid #ced4da;
+}
+table td:nth-child(1), table th:nth-child(1) {
+    width: 40%;
+}
+[slot=toolbar] {
+    margin-bottom: 4px;
+}
+[slot=toolbar] div {
+    height: 35px;
+}
+select {
+    background-color: transparent;
+    border: 1px solid #ced4da;
+    padding: 8px 30px 8px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+}
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+button {
+    background-color: #4CAF50; /* Match select focus color */
+    color: #fff;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
