@@ -55,6 +55,8 @@ declare variable $tmpl:TOKEN_REGEX := [
  :)
 declare function tmpl:tokenize($input as xs:string) {
     let $regex := "(?:" || string-join($tmpl:TOKEN_REGEX, "|") || ")"
+    (: First remove comments :)
+    let $input := replace($input, "\[(#)(.*?)#\]", "", "is")
     let $analyzed := analyze-string($input, $regex, "is")
     for $token in $analyzed/*
     return
@@ -191,7 +193,7 @@ declare %private function tmpl:do-parse($tokens as item()*) {
                     )
                 case element(include) | element(extends) return
                     ($next, tmpl:do-parse(tail($tokens)))
-                case element(endfor) | element(endif) | element(endblock) return
+                case element(endfor) | element(endif) | element(endblock) | element(comment) return
                     ()
                 default return
                     ($next, tmpl:do-parse(tail($tokens)))
