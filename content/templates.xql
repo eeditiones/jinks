@@ -269,7 +269,13 @@ declare %private function tmpl:emit($config as map(*), $nodes as item()*) {
                         || ")"
                     )
                 case element(value) return
-                    tmpl:escape($config, $node, $node/@expr)
+                    let $expr :=
+                        if (matches($node/@expr, "^[^$][\w_-]+$")) then
+                            "$" || $node/@expr
+                        else
+                            $node/@expr
+                    return
+                        tmpl:escape($config, $node, $expr)
                 case element(block) return
                     ()
                 case element() return
