@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title data-template="config:app-title"></title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+    <style>
+        body {
+            max-width: 1400px;
+            margin: 20px auto;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.42857143;
+        }
+        h1, h2, h3 {
+            font-family: Oswald, sans-serif;
+            font-weight: 200;
+            font-size: 1.33em;
+        }
+        main {
+            display: grid;
+            grid-template-columns: 1fr minmax(220px, 480px);
+            column-gap: 20px;
+            max-height: 640px;
+        }
+        jinn-codemirror {
+            display: block;
+        }
+        .hidden {
+            display: none;
+        }
+        #errorMsg {
+            color: red;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+    </style>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
+</head>
+<body>
+    <main>
+        <div>
+            <h1>Template</h1>
+            <jinn-codemirror id="template" mode="html" theme="material-dark">
+                <div slot="toolbar">
+                    <select id="examples">
+                        <option value="">[Select an example]</option>
+                    </select>
+                    <select name="modes">
+                        <option value="xquery">XQuery</option>
+                        <option value="css">CSS</option>
+                        <option value="html" selected="">HTML</option>
+                        <option value="xml">XML</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="default">Plain text</option>
+                    </select>
+                    <button id="eval">Eval</button>
+                </div>
+            </jinn-codemirror>
+        </div>
+        <div>
+            <h1>Parameters (JSON)</h1>
+            <jinn-codemirror id="parameters" mode="json" theme="material-dark">
+                <div slot="toolbar">
+                    <span>each key becomes a parameter</span>
+                </div>
+            </jinn-codemirror>
+        </div>
+    </main>
+    <div id="errorMsg" class="output hidden"></div>
+    <div class="output hidden">
+        <h1>HTML Output</h1>
+        <div id="html"></div>
+    </div>
+    <div class="output hidden">
+        <h1>Raw Output</h1>
+        <pb-code-highlight id="output" language="html" theme="tomorrow" line-numbers=""></pb-code-highlight>
+    </div>
+    <div class="output hidden">
+        <h1>Generated XQuery</h1>
+        <pb-code-highlight id="ast" language="xquery" theme="tomorrow" line-numbers=""></pb-code-highlight>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

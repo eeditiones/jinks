@@ -1,0 +1,56 @@
+[
+    {
+        "description": "Simple if expression",
+        "template":"<div>\n  [% if system:get-version() = \"6.2.0\" %]\n  <h3>Your system is up to date.</h3>\n  [% else %]\n  <h3>Please update your system!</h3>\n  [% endif %]\n</div>",
+        "params": {},
+        "mode": "html"
+    },
+    {
+        "description": "Else if",
+        "template":"<div>\n  [% if $version >= 6 %]\n  <h3>Your system is up to date.</h3>\n  [% elif $version >= 5 %]\n  <h3>We recommend an update!</h3>\n  [% else %]\n  <h3>Please update your system!</h3>\n  [% endif %]\n</div>",
+        "params":{"version":5},
+        "mode":"html"
+    },
+    {
+        "description": "Simple for loop",
+        "template":"<div>\n  <ul>\n    [% for $animal in $animals?* %]\n      <li>[[$animal]]</li>\n    [% endfor %]\n  </ul>\n</div>",
+        "params":{"animals":["lion","cat","dog","pig"]},
+        "mode": "html"
+    },
+    {
+        "description": "Nested for",
+        "template":"<div>\n  <ul>\n    [% for $person in $people?* %]\n      <li>\n        <h3>[[$person?name]], [[$person?city]]</h3>\n        [% if not($person?customer) %]\n        <p>Not a customer yet.</p>\n        [% endif %]\n        [% if count($person?phone?*) > 0 %]\n        <ul>\n        [% for $number in $person?phone?* %]\n          <li>[[ $number ]]</li>\n        [% endfor %]\n        </ul>\n        [% endif %]\n      </li>\n    [% endfor %]\n  </ul>\n</div>",
+        "params":{"people":[{"name":"Rudi Rüssel","city":"Düsseldorf","customer":true,"phone":["+4978767464","+4915152343"]},{"name":"Anna Szczurek","city":"Nowy Sącz","customer":false,"phone":["+48676465"]},{"name":"Gabi Gans","city":"Frankfurt","customer":true}]},
+        "mode":"html"
+    },
+    {
+        "description": "Templating CSS",
+        "template":"[% if $logo %]\n.logo {\n    background-image: url(\"[[ $logo ]]\");\n}\n[% endif %]\n\nbody {\n  --pb-base-font-family: [[ $font ]];\n  --pb-content-font-family: [[ $contentFont ]];\n}",
+        "params":{"logo":"../images/tei-publisher-logo-color.svg","font":"Helvetica","contentFont":"Times"},
+        "mode": "css"
+    },
+    {
+        "description": "Templating XQuery",
+        "template":"declare variable $config:webcomponents := \"[[$webcomponents]]\";\n\ndeclare variable $config:data-root := \n  [% if $data-root %]\n  \"[[ $data-root ]]\"\n  [% elif $alternate-root %]\n  \"[[ $alternate-root ]]\"\n  [% else %]\n  $config:app-root || \"/data\"\n  [% endif %];",
+        "params":{"webcomponents":"2.19.0","data-root":null,"alternate-root":null},
+        "mode":"xquery"
+    },
+    {
+        "description": "Including partials",
+        "template":"<div>\n  <p>The footer below is loaded from <code>pages/footer.html</code></p>\n  [% include \"pages/footer.html\" %]\n</div>",
+        "params":{"app":"TEI Publisher"},
+        "mode":"html"
+    },
+    {
+        "description": "Template inheritance with extends",
+        "template":"[% extends \"pages/base.html\" %]\n[% block menu %]\n<li>Extra menu item</li>\n[% endblock %]\n<div>\n  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n</div>",
+        "params":{"app":"TEI Publisher"},
+        "mode":"html"
+    },
+    {
+        "description": "Embedding markdown with extends",
+        "template":"[% extends \"pages/markdown.html\" %]\n\n## Lorem ipsum dolor sit amet\n\nConsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nPublished [[format-date(current-dateTime(), \"[MNn] [D], [Y]\", \"en\", (), ())]] by [[$author]].",
+        "params":{"author":"Rudi"},
+        "mode":"markdown"
+    }
+]

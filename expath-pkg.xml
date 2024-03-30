@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<package xmlns="http://expath.org/ns/pkg" name="http://tei-publisher.com/library/generator" abbrev="tei-publisher-generator" version="1.0.0" spec="1.0">
+    <title>TEI Publisher: App Generator Libraries</title>
+    <dependency processor="http://exist-db.org" semver-min="3.6.0" />
+    <xquery>
+        <namespace>http://e-editiones.org/xquery/templates</namespace>
+        <file>templates.xql</file>
+    </xquery>
+</package>
