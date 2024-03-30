@@ -1,16 +1,16 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <title data-template="config:app-title"></title>
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-    <link rel="stylesheet" href="styles.css"/>
+    <meta charset="utf-8">
+    <title>[[$title]]</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="[[$context?path]]/pages/styles.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
 </head>
 <body>
-    <pb-page endpoint="/exist/apps/tei-publisher-templates" api-version="1.0">
+    <pb-page endpoint="[[$context?path]]" api-version="1.0">
     <main>
         <div>
             <h1>Template</h1>
@@ -35,7 +35,7 @@
                   Syntax Cheatsheet
                   <span class="icon">👇</span>
                 </summary>
-                <pb-markdown url="cheatsheet.md"></pb-markdown>
+                <pb-markdown url="[[$context?path]]/pages/cheatsheet.md"></pb-markdown>
             </details>
         </div>
         <div>
@@ -61,6 +61,6 @@
         <pb-code-highlight id="ast" language="xquery" theme="tomorrow" line-numbers=""></pb-code-highlight>
     </div>
     </pb-page>
-    <script src="app.js"></script>
+    <script src="[[$context?path]]/pages/app.js"></script>
 </body>
 </html>

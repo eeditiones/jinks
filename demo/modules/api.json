@@ -25,6 +25,34 @@
         }
     },
     "paths": {
+        "/{page}.html": {
+            "get": {
+                "description": "Load HTML page via templating",
+                "operationId": "api:page",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The expanded HTML content",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/templates": {
             "post": {
                 "operationId": "api:expand-template",

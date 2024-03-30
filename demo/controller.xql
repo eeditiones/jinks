@@ -20,9 +20,9 @@ else if ($exist:path eq "/") then
     </dispatch>
 
 (: static HTML page for API documentation should be served directly to make sure it is always accessible :)
-else if (matches($exist:resource, "\.(html|json|js|md|css)$", "s")) then
+else if (matches($exist:path, "\.(json|js|md|css)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/pages/{$exist:resource}"/>
+        <forward url="{$exist:controller}/{$exist:path}"/>
     </dispatch>
 
 (: all other requests are passed on the Open API router :)
