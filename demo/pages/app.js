@@ -60,25 +60,31 @@ window.addEventListener('DOMContentLoaded', () => {
             params: params,
             mode: modes.value
         };
-        fetch('api/templates', {
-            method: 'POST',
-            mode: "cors",
-            credentials: "same-origin",
-            body: JSON.stringify(body),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.error) {
-                error.innerText = data.error;
-            } else {
+        try {
+            fetch('api/templates', {
+                method: 'POST',
+                mode: "cors",
+                credentials: "same-origin",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    response.text().then((data) => { error.innerText = data; });
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
                 output.language = modes.value;
                 output.code = data.result;
                 html.innerHTML = data.result;
                 ast.code = data.xquery;
-            }
-        });
+            });
+        } catch (error) {
+            error.innerText = error.description;
+        }
     });
 });

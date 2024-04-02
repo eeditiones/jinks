@@ -126,11 +126,7 @@ declare %private function tmpl:lookahead($tokens as item()*, $type as xs:string,
  : @param $resolver a function to resolve references to external resources (for include)
  :)
 declare function tmpl:parse($tokens as item()*) {
-    try {
-        <ast>{tmpl:do-parse($tokens)}</ast>
-    } catch tmpl:error-eof {
-        <error>{$err:description}</error>
-    }
+    <ast>{tmpl:do-parse($tokens)}</ast>
 };
 
 declare %private function tmpl:do-parse($tokens as item()*) {
@@ -305,7 +301,8 @@ declare %private function tmpl:escape($config as map(*), $node as element(), $co
 declare %private function tmpl:vars($params as map(*)) {
     if (map:size($params) > 0) then
         map:for-each($params, function($key, $value) {
-            ``[let $`{$key}` := $_params?`{$key}` ]``
+            ``[
+                let $`{$key}` := $_params?`{$key}` ]``
         }) => string-join()
         || " return "
     else
@@ -331,37 +328,22 @@ declare function tmpl:process($template as xs:string, $params as map(*), $plainT
 declare function tmpl:process($template as xs:string, $params as map(*), $plainText as xs:boolean?, 
     $resolver as function(*)?, $debug as xs:boolean?) {
     let $ast := tmpl:tokenize($template) => tmpl:parse()
+    let $mode := if ($plainText) then $tmpl:TEXT_MODE else $tmpl:XML_MODE
+    let $code := tmpl:generate($mode, $ast, $params)
+    let $result := tmpl:eval($code, $params, $resolver)
     return
-        if ($ast instance of element(error)) then
+        if ($debug) then
             map {
-                "error": $ast/text()
+                "ast": $ast,
+                "xquery": $code,
+                "result": 
+                    if (not($plainText)) then
+                        serialize($result, map { "indent": true() })
+                    else
+                        $result
             }
         else
-            let $mode := if ($plainText) then $tmpl:TEXT_MODE else $tmpl:XML_MODE
-            let $code := tmpl:generate($mode, $ast, $params)
-            return
-                try {
-                    let $result := tmpl:eval($code, $params, $resolver)
-                    return
-                        if ($debug) then
-                            map {
-                                "ast": $ast,
-                                "xquery": $code,
-                                "result": 
-                                    if (not($plainText)) then
-                                        serialize($result, map { "indent": true() })
-                                    else
-                                        $result
-                            }
-                        else
-                            map {
-                                "result": $result
-                            }
-                } catch * {
-                    map {
-                        "error": $err:description
-                    }
-                }
+            $result
 };
 
 declare function tmpl:include($path as xs:string, $resolver as function(*)?, $params as map(*), 
@@ -372,12 +354,12 @@ declare function tmpl:include($path as xs:string, $resolver as function(*)?, $pa
         let $template := $resolver($path)
         return
             if (exists($template)) then
-                let $result := tmpl:process($template, $params, $plainText, $resolver)
+                let $result := tmpl:process($template, $params, $plainText, $resolver, false())
                 return
-                    if ($result?error) then
+                    if ($result instance of map(*) and $result?error) then
                         error($tmpl:ERROR_INCLUDE, $result?error)
                     else
-                        $result?result
+                        $result
             else
                 error($tmpl:ERROR_INCLUDE, "Included template " || $path || " not found")
 };
@@ -406,21 +388,15 @@ declare function tmpl:extends($path as xs:string, $contentFunc as function(*), $
 declare %private function tmpl:process-blocks($template as xs:string, $params as map(*), $plainText as xs:boolean?,
     $resolver as function(*), $blocks as map(*)) {
     let $ast := tmpl:tokenize($template) => tmpl:parse()
+    let $modifiedAst := tmpl:replace-blocks($ast, $blocks)
+    let $mode := if ($plainText) then $tmpl:TEXT_MODE else $tmpl:XML_MODE
+    let $code := tmpl:generate($mode, $modifiedAst, $params)
     return
-        if ($ast instance of element(error)) then
-            map {
-                "error": $ast/text()
-            }
-        else
-            let $modifiedAst := tmpl:replace-blocks($ast, $blocks)
-            let $mode := if ($plainText) then $tmpl:TEXT_MODE else $tmpl:XML_MODE
-            let $code := tmpl:generate($mode, $modifiedAst, $params)
-            return
-                try {
-                    tmpl:eval($code, $params, $resolver)
-                } catch * {
-                    error($tmpl:ERROR_EXTENDS, $err:description)
-                }
+        try {
+            tmpl:eval($code, $params, $resolver)
+        } catch * {
+            error($tmpl:ERROR_EXTENDS, $err:description)
+        }
 };
 
 declare %private function tmpl:replace-blocks($nodes as node()*, $blocks as map(*)) {
