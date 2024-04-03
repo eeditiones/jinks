@@ -5,8 +5,11 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
+declare option output:method "html5";
+declare option output:media-type "text/html";
 declare option output:indent "no";
 
 declare function api:expand-template($request as map(*)) {
@@ -37,7 +40,7 @@ declare function api:page($request as map(*)) {
         else if (doc-available($path)) then
             doc($path) => serialize()
         else
-            roaster:response(404, $path || " not found")
+            error($errors:NOT_FOUND, $path || " not found")
     let $params := map {
         "context": map {
             "db-root": $config:app-root,
@@ -46,7 +49,7 @@ declare function api:page($request as map(*)) {
         "title": "TEI Publisher Templating"
     }
     return
-        tmpl:process($doc, $params, true(), ())
+        tmpl:process($doc, $params, false(), ())
 };
 
 let $lookup := function($name as xs:string) {
