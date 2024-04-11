@@ -1,5 +1,9 @@
 xquery version "3.1";
 
+(:~
+ : Functions for copying collections and resources. Handles potential conflicts
+ : by computing a sha-256 hash for each resource.
+ :)
 module namespace cpy="http://tei-publisher.com/library/generator/copy";
 
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
@@ -8,16 +12,38 @@ declare namespace expath="http://expath.org/ns/pkg";
 
 declare variable $cpy:ERROR_NOT_FOUND := xs:QName("cpy:not-found");
 declare variable $cpy:ERROR_TEMPLATE := xs:QName("cpy:template");
+declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
 
-declare %private function cpy:resolve-path($parent as xs:string, $relPath as xs:string) as xs:string {
-    if (starts-with($relPath, "/db")) then
-        $relPath
-    else
-        replace($parent || "/" || $relPath, "/{2,}", "/")
+declare %private function cpy:save-hash($context as map(*), $relPath as xs:string, $hash as xs:string) {
+    let $jsonFile := cpy:resolve-path($context?_config?target, ".generator.json")
+    let $json :=
+        if (util:binary-doc-available($jsonFile)) then
+            util:binary-doc($jsonFile) => util:binary-to-string() => parse-json()
+        else
+            map {}
+    let $updated := map:merge((
+        map {
+            $relPath: $hash
+        },
+        $json
+    )) => serialize(map { "method": "json", "indent": true() })
+    return
+        xmldb:store($context?_config?target, ".generator.json", $updated, "application/json")[2]
+};
+
+declare function cpy:resolve-path($parent as xs:string, $relPath as xs:string) as xs:string {
+    replace(
+        if (starts-with($relPath, "/db")) then
+            $relPath
+        else
+            replace($parent || "/" || $relPath, "/{2,}", "/"),
+        "/+$", 
+        ""
+    )
 };
 
 declare %private function cpy:resource-as-string($context as map(*), $relPath as xs:string) as xs:string? {
-    let $path := cpy:resolve-path($context?config?source, $relPath)
+    let $path := cpy:resolve-path($context?_config?source, $relPath)
     return
         if (util:binary-doc-available($path)) then
             util:binary-doc($path) => util:binary-to-string()
@@ -60,32 +86,39 @@ declare function cpy:mkcol($path, $userData as xs:string*, $permissions as xs:st
         cpy:mkcol-recursive("/db", tokenize($path, "/"), $userData, $permissions)
 };
 
-declare function cpy:set-execute-bit($permissions as xs:string) {
+declare %private function cpy:set-execute-bit($permissions as xs:string) {
     replace($permissions, "(..).(..).(..).", "$1x$2x$3x")
 };
 
 declare function cpy:copy-template($context as map(*), $source as xs:string, $target as xs:string) {
     let $template := cpy:resource-as-string($context, $source)
     let $expanded := cpy:expand-template($template, $context)
-    let $path := $context?config?target || "/" || $target
-    return (
-        xmldb:store($context?config?target, $target, $expanded),
-        sm:chown($path, $context?pkg?user?name),
-        sm:chgrp($path, $context?pkg?user?group),
-        sm:chmod($path, $context?pkg?permissions)
-    )
+    let $path := cpy:resolve-path($context?_config?target, $target)
+    let $relPath := substring-after($path, $context?_config?target || "/")
+    return 
+        cpy:overwrite($context, $relPath, $expanded, function() {(
+            xmldb:store($context?_config?target, $target, $expanded),
+            sm:chown($path, $context?pkg?user?name),
+            sm:chgrp($path, $context?pkg?user?group),
+            sm:chmod($path, $context?pkg?permissions)
+        )[5]})
 };
 
 declare function cpy:copy-resource($context as map(*), $source as xs:string, $target as xs:string) {
-    let $sourcePath := cpy:resolve-path($context?config?source, $source)
-    let $targetPath := cpy:resolve-path($context?config?target, $target)
+    let $sourcePath := cpy:resolve-path($context?_config?source, $source)
+    let $targetPath := cpy:resolve-path($context?_config?target, $target)
+    let $relPath := substring-after($targetPath, $context?_config?target || "/")
     return
-    xmldb:copy-resource(
-        replace($sourcePath, "^(.*?)/[^/]+$", "$1"),
-        replace($sourcePath, "^.*?/([^/]+)$", "$1"),
-        replace($targetPath, "^(.*?)/[^/]+$", "$1"),
-        replace($targetPath, "^.*?/([^/]+)$", "$1")
-    )
+        cpy:overwrite($context, $relPath, function() {
+            cpy:resource-as-string($context, $sourcePath)
+        }, function() {
+            xmldb:copy-resource(
+                replace($sourcePath, "^(.*?)/[^/]+$", "$1"),
+                replace($sourcePath, "^.*?/([^/]+)$", "$1"),
+                replace($targetPath, "^(.*?)/[^/]+$", "$1"),
+                replace($targetPath, "^.*?/([^/]+)$", "$1")
+            )[2]
+        })
 };
 
 declare function cpy:copy-collection($context as map(*)) {
@@ -94,26 +127,71 @@ declare function cpy:copy-collection($context as map(*)) {
 
 declare function cpy:copy-collection($context as map(*), $source as xs:string, $target as xs:string) {
     cpy:mkcol(
-        cpy:resolve-path($context?config?target, $target), 
+        cpy:resolve-path($context?_config?target, $target), 
         ($context?pkg?user?name, $context?pkg?user?group), 
         $context?pkg?permissions
     ),
-    let $absSource := cpy:resolve-path($context?config?source, $source)
+    let $absSource := cpy:resolve-path($context?_config?source, $source)
     return (
         for $resource in xmldb:get-child-resources($absSource)
         return
-            if (matches($resource, $context?config?template-suffix)) then
+            if (matches($resource, $context?_config?template-suffix)) then
                 let $template := cpy:resource-as-string($context, $absSource || "/" || $resource)
                 let $expanded := cpy:expand-template($template, $context)
-                let $targetName := replace($resource, $context?config?template-suffix, "")
+                let $targetName := replace($resource, $context?_config?template-suffix, "")
+                let $collection := cpy:resolve-path($context?_config?target, $target)
+                let $relPath := substring-after($collection || "/" || $targetName, $context?_config?target || "/")
                 return
-                    xmldb:store(cpy:resolve-path($context?config?target, $target), $targetName, $expanded)
+                    cpy:overwrite($context, $relPath, function() { $expanded }, function() {
+                        xmldb:store($collection, $targetName, $expanded)[2]
+                    })
             else
                 cpy:copy-resource($context, $source || "/" || $resource, $target || "/" || $resource),
         for $childColl in xmldb:get-child-collections($absSource)
         return
             cpy:copy-collection($context, $source || "/" || $childColl, $target || "/" || $childColl)
     )
+};
+
+declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $content as function(*), $callback as function(*)) {
+    if ($relPath = $context?ignore) then
+        ()
+    (: repo.xml gets modified by package install, so copy but do not check hash :)
+    else if ($relPath = "repo.xml") then
+        $callback()
+    else if ($context?_config?update) then
+        let $path := cpy:resolve-path($context?_config?target, $relPath)
+        let $currentContent :=
+            if (util:binary-doc-available($path)) then
+                util:binary-doc($path) => util:binary-to-string()
+            else
+                doc($path) => serialize()
+        let $currentHash := cpy:hash($currentContent)
+        let $expectedHash := $context?_hashes?($relPath)
+        return
+            if (empty($expectedHash) or $currentHash = $expectedHash) then (
+                if (empty($expectedHash) or $context?overwrite = "always") then (
+                    cpy:save-hash($context, $relPath, $currentHash),
+                    $callback()
+                ) else
+                    ()
+            ) else
+                (: conflict detected :)
+                map {
+                    "path": $relPath,
+                    "hash": map {
+                        "original": $expectedHash,
+                        "actual": $currentHash
+                    }
+                }
+    else (
+        cpy:save-hash($context, $relPath, cpy:hash($content())),
+        $callback()
+    )
+};
+
+declare %private function cpy:hash($content as xs:string) {
+    util:hash(replace($content, "[\s\n\r]+", " "), "sha-256")
 };
 
 declare %private function cpy:scan-resources($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {
