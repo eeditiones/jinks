@@ -1,0 +1,30 @@
+{
+    "id": "https://e-editiones.org/app/my-app",
+    "pkg": {
+        "abbrev": "my-app",
+        "version": "1.0.0",
+        "title": "My great new application",
+        "website": "http://tei-publisher.com",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "script": {
+        "webcomponents": "2.19.2",
+        "fore": "1.0.0",
+        "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"
+    },
+    "defaults": {
+        "view": "div",
+        "search": "div",
+        "data": "data",
+        "odd": "shakespeare.odd",
+        "template": "shakespeare.html"
+    },
+    "pages": [
+        "shakespeare.html"
+    ]
+}
