@@ -81,11 +81,13 @@ declare %private function cpy:mkcol-recursive($collection, $components, $userDat
 };
 
 declare function cpy:mkcol($context as map(*), $path as xs:string) {
-    cpy:mkcol(
+    let $null := cpy:mkcol(
         cpy:resolve-path($context?target, $path), 
         ($context?pkg?user?name, $context?pkg?user?group), 
         $context?pkg?permissions
     )
+    return
+        ()
 };
 
 declare %private function cpy:mkcol($path, $userData as xs:string*, $permissions as xs:string?) {
@@ -245,8 +247,9 @@ declare function cpy:package($collection as xs:string, $expathConf as element())
 
 declare function cpy:deploy($collection as xs:string) {
     let $expathConf := collection($collection)/expath:package
+    let $null := cpy:deploy($collection, $expathConf)
     return
-        cpy:deploy($collection, $expathConf)
+        ()
 };
 
 declare function cpy:deploy($collection as xs:string, $expathConf as element()) {

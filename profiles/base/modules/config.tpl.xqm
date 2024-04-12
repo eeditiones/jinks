@@ -380,7 +380,7 @@ declare variable $config:default-odd := "[[$defaults?odd]]";
  : make sure to run modules/generate-pm-config.xql to update the main configuration
  : module for transformations (modules/pm-config.xql).
  :)
-declare variable $config:odd-available := ( $config:default-odd );
+declare variable $config:odd-available := ( [[string-join($odds?*[. != "docx.odd"] ! ('"' || . || '"'), ", ")]] );
 
 (:~
  : List of ODD files which are used internally only, i.e. not for displaying information

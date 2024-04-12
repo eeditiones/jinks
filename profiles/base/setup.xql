@@ -5,7 +5,7 @@ module namespace teip="https://teipublisher.com/generator/setup";
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace generator="http://tei-publisher.com/library/generator";
+import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy";
 
 declare %generator:custom variable $teip:ERROR_TEIP_NOT_INSTALLED := xs:QName("teip:not-installed");
@@ -56,7 +56,7 @@ declare %private function teip:install-pages($context as map(*)) {
 };
 
 declare %private function teip:install-odd($context as map(*)) {
-    for $file in distinct-values(("docx.odd", "teipublisher.odd", "annotations.odd", $context?defaults?odd))
+    for $file in distinct-values($context?odds?*)
     let $source := doc($context?publisher || "/odd/" || $file)
     let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
     let $css := util:binary-doc-available($context?publisher || "/odd/" || $cssLink)

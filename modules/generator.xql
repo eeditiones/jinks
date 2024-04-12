@@ -1,39 +1,51 @@
 xquery version "3.1";
 
+(:~
+ : App generator module
+ :)
 module namespace generator="http://tei-publisher.com/library/generator";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
 import module namespace cpy="http://tei-publisher.com/library/generator/copy";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";
 
 declare variable $generator:ERROR_NOT_FOUND := xs:QName("generator:not-found");
+
+declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
 
 declare function generator:process($collection as xs:string) {
     generator:process($collection, ())
 };
 
 declare function generator:process($collection as xs:string, $settings as map(*)?) {
-    let $context := generator:prepare($collection, $settings)
-    for $profile in $context?profiles?*
-    let $adjContext := map:merge((
-        $context,
-        map {
-            "source": $profile,
-            "noDeploy": $profile != $collection
-        }
-    ))
+    let $context := generator:prepare($generator:PROFILES_ROOT || "/" || $collection, $settings)
+    let $result :=
+        for $profile in $context?profiles?*
+        let $adjContext := map:merge((
+            $context,
+            map {
+                "source": $generator:PROFILES_ROOT || "/" || $profile,
+                "_noDeploy": $profile != $collection
+            }
+        ))
+        return
+            generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profile)
     return
-        generator:write($adjContext, $profile)
+        map {
+            "conflicts": $result,
+            "config": $context
+        }
 };
 
 declare function generator:prepare($collection as xs:string, $settings as map(*)) {
     let $baseConfig := generator:config($settings, $collection)
     let $mergedConfig :=
         fold-right($baseConfig?profiles?*, $baseConfig, function($profile, $config) {
-            generator:call-prepare($profile, $config)
+            generator:call-prepare($generator:PROFILES_ROOT || "/" || $profile, $config)
         })
     return
         $mergedConfig
@@ -70,7 +82,7 @@ declare %private function generator:write($context as map(*)?, $collection as xs
                 if (exists($writeFunc)) then (
                     ($writeFunc?2)($context),
                     generator:save-config($context),
-                    if ($context?update or $context?noDeploy) then
+                    if ($context?_update or $context?_noDeploy) then
                         ()
                     else
                         cpy:deploy($context?target)
@@ -79,7 +91,7 @@ declare %private function generator:write($context as map(*)?, $collection as xs
         else (
             cpy:copy-collection($context),
             generator:save-config($context),
-            if ($context?update or $context?noDeploy) then
+            if ($context?_update or $context?_noDeploy) then
                 ()
             else
                 cpy:deploy($context?target)
@@ -129,7 +141,7 @@ declare %private function generator:config($settings as map(*)?, $collection as 
                         $installedPkg, 
                         "/db/system/temp/" || tokenize($collection, "/")[last()]
                     )),
-                "update": exists($installedPkg) or empty($userConfig?id),
+                "_update": exists($installedPkg) or empty($userConfig?id),
                 "template-suffix": ".tpl",
                 "_hashes": $templateMap
             })
@@ -146,25 +158,27 @@ declare %private function generator:config($settings as map(*)?, $collection as 
  : is written to property "profiles".
  :)
 declare %private function generator:extends($config as map(*), $collection as xs:string) {
-    if (exists($config?extends)) then
-        let $extendedConfig := 
-            generator:load-json($config?extends || "/config.json", map {})
-            => generator:extends($config?extends)
-        return
+    let $profileName := replace($collection, "^(?:" || $generator:PROFILES_ROOT || "/)?(.*)$", "$1")
+    return
+        if (exists($config?extends)) then
+            let $extendedConfig := 
+                generator:load-json($generator:PROFILES_ROOT || "/" || $config?extends || "/config.json", map {})
+                => generator:extends($config?extends)
+            return
+                map:merge((
+                    $extendedConfig,
+                    map {
+                        "profiles": array { $extendedConfig?profiles?*, $profileName }
+                    },
+                    map:remove($config, "extends")
+                ))
+        else
             map:merge((
-                $extendedConfig,
+                $config,
                 map {
-                    "profiles": array { $extendedConfig?profiles?*, $collection }
-                },
-                map:remove($config, "extends")
+                    "profiles": array { $config?profiles?*, $profileName }
+                }
             ))
-    else
-        map:merge((
-            $config,
-            map {
-                "profiles": array { $config?profiles?*, $collection }
-            }
-        ))
 };
 
 declare function generator:load-json($path as xs:string, $default as map(*)) {
@@ -179,7 +193,7 @@ declare function generator:load-json($path as xs:string, $default as map(*)) {
 declare %private function generator:save-config($context as map(*)) {
     let $config := map:merge(
         map:for-each($context, function($key, $value) {
-            if ($key = ("_hashes", "noDeploy")) then
+            if (starts-with($key, "_")) then
                 ()
             else
                 map:entry($key, $value)

@@ -1,9 +1,9 @@
 {
-    "id": "https://e-editiones.org/app/my-app",
+    "id": "https://e-editiones.org/app/tei-publisher/base",
     "pkg": {
-        "abbrev": "my-app",
+        "abbrev": "base-app",
         "version": "1.0.0",
-        "title": "My great new application",
+        "title": "TEI Publisher: Custom App Base Profile",
         "website": "http://tei-publisher.com",
         "user": {
             "name": "tei",
@@ -21,10 +21,13 @@
         "view": "div",
         "search": "div",
         "data": "data",
-        "odd": "shakespeare.odd",
-        "template": "shakespeare.html"
+        "odd": "teipublisher.odd",
+        "template": "view.html"
     },
     "pages": [
-        "shakespeare.html"
+        "view.html"
+    ],
+    "odds": [
+        "docx.odd", "teipublisher.odd"
     ]
 }

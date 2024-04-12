@@ -1,10 +1,10 @@
 {
-    "id": "https://e-editiones.org/app/my-annotations",
-    "extends": "/db/apps/tei-publisher-generator/profiles/base",
+    "id": "https://e-editiones.org/app/tei-publisher/annotations",
+    "extends": "base",
     "pkg": {
-        "abbrev": "my-annotations",
+        "abbrev": "tei-publisher-annotations",
         "version": "1.0.0",
-        "title": "My Annotations",
+        "title": "TEI Publisher: Annotation Editor Profile",
         "website": "http://tei-publisher.com",
         "user": {
             "name": "tei",
@@ -27,5 +27,8 @@
     },
     "pages": [
         "annotate.html"
+    ],
+    "odds": [
+        "docx.odd", "teipublisher.odd", "annotations.odd"
     ]
 }

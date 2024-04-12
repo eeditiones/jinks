@@ -1,10 +1,10 @@
 {
-    "id": "https://e-editiones.org/app/my-app",
-    "extends": "/db/apps/tei-publisher-generator/templates/annotate",
+    "id": "https://e-editiones.org/app/test-app",
+    "extends": "/db/apps/tei-publisher-generator/profiles/annotate",
     "pkg": {
         "abbrev": "my-app",
         "version": "1.0.0",
-        "title": "My great new application",
+        "title": "My great test application",
         "website": "http://tei-publisher.com",
         "user": {
             "name": "tei",
@@ -23,9 +23,9 @@
         "search": "div",
         "data": "data",
         "odd": "graves.odd",
-        "template": "graves.html"
+        "template": "letter.html"
     },
     "pages": [
-        "graves.html"
+        "letter.html"
     ]
 }
