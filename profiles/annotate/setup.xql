@@ -8,6 +8,8 @@ import module namespace generator="http://tei-publisher.com/library/generator";
 declare 
     %generator:write
 function anno:setup($context as map(*)) {
+    cpy:mkcol($context, "resources/scripts/annotations"),
     cpy:copy-collection($context, $context?publisher || "/resources/scripts/annotations", "resources/scripts/annotations"),
-    cpy:copy-resource($context, $context?publisher || "/resources/css/annotate.css", "resources/css/annotate.css")
+    cpy:copy-resource($context, $context?publisher || "/resources/css/annotate.css", "resources/css/annotate.css"),
+    cpy:copy-collection($context)
 };

@@ -30,11 +30,7 @@ function teip:setup($context as map(*)) {
     cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/modules/lib", "modules/lib"),
     cpy:copy-collection($context, $context?publisher || "/data/registers", "data/registers"),
-    cpy:mkcol(
-        cpy:resolve-path($context?_config?target, "/resources/scripts"), 
-        ($context?pkg?user?name, $context?pkg?user?group), 
-        $context?pkg?permissions
-    ),
+    cpy:mkcol($context, "resources/scripts"),
     cpy:copy-resource($context, $context?publisher || "/resources/scripts/browse.js", "resources/scripts/browse.js"),
     cpy:copy-resource($context, $context?publisher || "/data/taxonomy.xml", "data/taxonomy.xml"),
     cpy:copy-resource($context, $context?publisher || "/templates/api.html", "templates/api.html"),
@@ -52,11 +48,7 @@ function teip:setup($context as map(*)) {
 };
 
 declare %private function teip:install-pages($context as map(*)) {
-    cpy:mkcol(
-        cpy:resolve-path($context?_config?target, "/templates/pages"), 
-        ($context?pkg?user?name, $context?pkg?user?group), 
-        $context?pkg?permissions
-    ),
+    cpy:mkcol($context, "templates/pages"),
     for $page in $context?pages?*
     return
         cpy:copy-resource($context, $context?publisher || "/templates/pages/" || $page, 
@@ -72,7 +64,7 @@ declare %private function teip:install-odd($context as map(*)) {
         cpy:copy-resource($context, $context?publisher || "/odd/" || $file, "resources/odd/" || $file),
         if ($css) then
             cpy:copy-resource($context, $context?publisher || "/odd/" || $cssLink,
-                $context?_config?target || "/resources/odd/" || $cssLink)
+                $context?target || "/resources/odd/" || $cssLink)
         else
             ()
     )[3]

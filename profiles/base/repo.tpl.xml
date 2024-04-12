@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>[[$pkg?title]]</description>
+    <author>Wolfgang Meier</author>
+    <website>[[$pkg?website]]</website>
+    <status>stable</status>
+    <license>GPLv3</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>[[$pkg?abbrev]]</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <permissions user="[[$pkg?user?name]]" group="[[$pkg?user?group]]" password="[[$pkg?user?password]]" mode="rw-rw-r--" />
+</meta>

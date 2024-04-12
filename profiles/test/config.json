@@ -1,5 +1,6 @@
 {
     "id": "https://e-editiones.org/app/my-app",
+    "extends": "/db/apps/tei-publisher-generator/templates/annotate",
     "pkg": {
         "abbrev": "my-app",
         "version": "1.0.0",
@@ -21,10 +22,10 @@
         "view": "div",
         "search": "div",
         "data": "data",
-        "odd": "annotations.odd",
-        "template": "annotate.html"
+        "odd": "graves.odd",
+        "template": "graves.html"
     },
     "pages": [
-        "annotate.html"
+        "graves.html"
     ]
 }
