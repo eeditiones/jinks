@@ -19,6 +19,9 @@ declare variable $tmpl:XML_MODE := map {
     "enclose": map {
         "start": "{",
         "end": "}"
+    },
+    "text": function($text as xs:string) {
+        replace($text, "\{", "{{") => replace("\}", "}}")
     }
 };
 
@@ -31,6 +34,9 @@ declare variable $tmpl:TEXT_MODE := map {
     "enclose": map {
         "start": "`{",
         "end": "}`"
+    },
+    "text": function($text as xs:string) {
+        $text
     }
 };
 
@@ -277,7 +283,7 @@ declare %private function tmpl:emit($config as map(*), $nodes as item()*) {
                 case element() return
                     tmpl:emit($config, $node/node())
                 default return
-                    $node
+                    $config?text($node)
     )
 };
 
