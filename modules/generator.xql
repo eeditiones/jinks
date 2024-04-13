@@ -132,8 +132,8 @@ declare %private function generator:config($settings as map(*)?, $collection as 
     let $templateMap := generator:load-template-map($installedPkg)
     let $config :=
         map:merge((
-            $settings,
             $userConfig,
+            $settings,
             map {
                 "source": $collection,
                 "target": 

@@ -4,6 +4,7 @@ declare namespace api="https://tei-publisher.com/xquery/api";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
@@ -11,6 +12,14 @@ import module namespace tmpl="http://e-editiones.org/xquery/templates";
 declare option output:method "html5";
 declare option output:media-type "text/html";
 declare option output:indent "no";
+
+declare function api:generator($request as map(*)) {
+    let $config := $request?body
+    let $profile := $request?parameters?profile
+    let $reinstall := $request?parameters?reinstall
+    return
+        generator:process($profile, $config)
+};
 
 declare function api:expand-template($request as map(*)) {
     let $template := $request?body?template

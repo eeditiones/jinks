@@ -19,7 +19,6 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-(: static HTML page for API documentation should be served directly to make sure it is always accessible :)
 else if (matches($exist:path, "\.(json|js|md|css)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/{$exist:path}"/>

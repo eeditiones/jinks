@@ -2,13 +2,12 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "Custom API",
-        "description": "This is the place to add your own path endpoints"
+        "title": "API for the app generator/manager"
     },
     "servers": [
         {
             "description": "Endpoint for testing on localhost",
-            "url": "/exist/apps/tei-publisher-templates"
+            "url": "/exist/apps/tei-publisher-generator"
         }
     ],
     "components": {
@@ -46,6 +45,51 @@
                             "text/html": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/generator/{profile}": {
+            "post": {
+                "operationId": "api:generator",
+                "parameters": [
+                    {
+                        "name": "profile",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "base"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "reinstall",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+					"content": {
+                        "application/json": {
+							"schema": {
+								"type": "object"
+							}
+						}
+					}
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }

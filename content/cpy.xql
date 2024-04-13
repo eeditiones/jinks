@@ -256,12 +256,16 @@ declare function cpy:deploy($collection as xs:string, $expathConf as element()) 
     let $pkg := cpy:package($collection, $expathConf)
     let $name := $expathConf/@name/string()
     return (
-        if (index-of(repo:list(), $name)) then (
-            repo:undeploy($name),
-            repo:remove($name)
-        ) else
-            (),
+        cpy:undeploy($name),
         repo:install-and-deploy-from-db($pkg),
         xmldb:remove($collection)
     )
+};
+
+declare function cpy:undeploy($id as xs:string) {
+    if (index-of(repo:list(), $id)) then (
+        repo:undeploy($id),
+        repo:remove($id)
+    ) else
+        ()
 };
