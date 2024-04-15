@@ -1,5 +1,5 @@
 {
-    "name": "TEI Publisher: App Generator",
+    "name": "jinks: App Manager for TEI Publisher",
     "build": {
         "dockerfile": "Dockerfile.dev",
         "args": {
@@ -10,7 +10,7 @@
             "PUBLISHER_LIB_VERSION": "4.0.0"
         }
     },
-    "runArgs": ["--name=tei-publisher-generator-dev"],
+    "runArgs": ["--name=tei-publisher-jinks-dev"],
     "forwardPorts": [ 8080, 8001, 8443 ],
     "customizations": {
         "vscode": {

@@ -1,4 +1,4 @@
-![jinks logo](pages/logo.png)
+<img src="pages/logo.png" width="360">
 
 # jinks - Application Manager for TEI Publisher
 
