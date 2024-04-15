@@ -151,8 +151,10 @@ declare %private function generator:config($collection as xs:string, $settings a
     let $tempTarget := "/db/system/temp/" || tokenize($collection, "/")[last()]
     let $config :=
         map:merge((
-            $installedConfig,
-            $userConfig,
+            generator:merge-deep((
+                $installedConfig,
+                $userConfig
+            )),
             map {
                 "source": $collection,
                 "target":
@@ -242,4 +244,18 @@ declare %private function generator:load-template-map($collection as xs:string?)
         util:binary-doc($collection || "/.generator.json") => util:binary-to-string() => parse-json()
     else
         map {}
+};
+
+declare function generator:merge-deep($maps as map(*)*) {
+    map:merge(
+        for $key in distinct-values($maps ! map:keys(.))
+        let $mapsWithKey := filter($maps, function($map) { map:contains($map, $key) })
+        let $newVal :=
+            if ($mapsWithKey[1]($key) instance of map(*)) then
+                generator:merge-deep($mapsWithKey ! .($key))
+            else
+                $mapsWithKey[last()]($key)
+        return
+            map:entry($key, $newVal)
+    )
 };
