@@ -165,7 +165,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     (: repo.xml gets modified by package install, so copy but do not check hash :)
     else if ($relPath = "repo.xml") then
         $callback()
-    else if ($context?update) then
+    else if ($context?_update) then
         let $path := cpy:resolve-path($context?target, $relPath)
         let $currentContent :=
             if (util:binary-doc-available($path)) then
