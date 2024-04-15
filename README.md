@@ -45,6 +45,24 @@ which boils down to copying everything contained in the profile's source folder 
 
 The `cpy:copy-collection` function will automatically process any file containing `.tpl` in its name as a template, which means the contents will be expanded through the [templating module](templating.md) using the current *configuration*.
 
+## Usage
+
+Currently the functionality of jinks is only exposed via the API. Convenient configuration forms will be added later. After installing the jinks application package via the dashboard, open http://localhost:8080/exist/apps/tei-publisher-jinks/api.html in your browser. The `/api/generator/{profile}` provides the main API entry point.
+
+The main entry point into jinks is provided by the module [`modules/generator.xql`](modules/generator.xql), which exposes the function:
+
+```xquery
+declare function generator:process($profile as xs:string, $settings as map(*)?, $config as map(*)?)
+```
+
+where the parameters are as follows:
+
+* `$profile`: the name of the profile to apply
+* `$settings`: general settings to control the generator
+* `$config`: user-supplied configuration, which will overwrite the config.json in the profile
+
+The function will return a map with the properties: `conflicts` and `config`, where the first contains a list of resources which were modified by the user since the last run and were therefore not overwritten (see below). `config` shows the merged configuration used during the run.
+
 ### Updates and Conflicts
 
 When creating a new custom application, the profile (and its sub-profiles) will copy or write all required files into a temporary collection, package it up as an eXist application xar, and finally install it into eXist.
