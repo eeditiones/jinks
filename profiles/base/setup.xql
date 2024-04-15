@@ -56,7 +56,8 @@ declare %private function teip:install-pages($context as map(*)) {
 };
 
 declare %private function teip:install-odd($context as map(*)) {
-    for $file in distinct-values($context?odds?*)
+    let $odds := distinct-values(("teipublisher.odd", "docx.odd", $context?odds?*))
+    for $file in $odds
     let $source := doc($context?publisher || "/odd/" || $file)
     let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
     let $css := util:binary-doc-available($context?publisher || "/odd/" || $cssLink)

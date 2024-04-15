@@ -141,7 +141,6 @@ declare %private function generator:config($collection as xs:string, $settings a
             generator:get-package-target(head(($userConfig?id, $profileConfig?id)))
         else
             ()
-    let $log := util:log("INFO", ("Existing package: ", $installedPkg))
     let $installedConfig := 
         if ($installedPkg) then
             generator:load-json($installedPkg || "/config.json", $profileConfig)
@@ -186,7 +185,7 @@ declare %private function generator:extends($config as map(*), $collection as xs
                 generator:load-json($generator:PROFILES_ROOT || "/" || $config?extends || "/config.json", map {})
                 => generator:extends($config?extends)
             return
-                map:merge((
+                generator:merge-deep((
                     $extendedConfig,
                     map {
                         "profiles": array { $extendedConfig?profiles?*, $profileName }
