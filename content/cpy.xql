@@ -176,7 +176,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         let $expectedHash := $context?_hashes?($relPath)
         return
             if (empty($expectedHash) or $currentHash = $expectedHash) then (
-                if (empty($expectedHash) or $context?overwrite = "always") then (
+                if (empty($expectedHash) or $context?overwrite = "update") then (
                     cpy:save-hash($context, $relPath, $currentHash),
                     $callback()
                 ) else

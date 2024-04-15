@@ -66,11 +66,18 @@
                         "required": true
                     },
                     {
-                        "name": "reinstall",
+                        "name": "overwrite",
                         "in": "query",
                         "schema": {
-                            "type": "boolean"
-                        }
+                            "type": "string",
+                            "enum": [
+                                "default",
+                                "update",
+                                "all"
+                            ],
+                            "default": "default"
+                        },
+                        "required": true
                     }
                 ],
                 "requestBody": {

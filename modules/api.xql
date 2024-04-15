@@ -16,9 +16,9 @@ declare option output:indent "no";
 declare function api:generator($request as map(*)) {
     let $config := $request?body
     let $profile := $request?parameters?profile
-    let $reinstall := $request?parameters?reinstall
+    let $overwrite := $request?parameters?overwrite
     return
-        generator:process($profile, $config)
+        generator:process($profile, map { "overwrite": $overwrite }, $config)
 };
 
 declare function api:expand-template($request as map(*)) {

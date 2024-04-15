@@ -17,23 +17,36 @@ declare variable $generator:ERROR_NOT_FOUND := xs:QName("generator:not-found");
 
 declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
 
-declare function generator:process($collection as xs:string) {
-    generator:process($collection, ())
+declare function generator:process($profile as xs:string) {
+    generator:process($profile, (), ())
 };
 
-declare function generator:process($collection as xs:string, $settings as map(*)?) {
-    let $context := generator:prepare($generator:PROFILES_ROOT || "/" || $collection, $settings)
+(:~
+ : Generate or update an application using the provided profile, settings and configuration.
+ :
+ : In the settings, property "overwrite" controls how files in an existing app are updated:
+ : 
+ : * "overwrite=all": the entire app is regenerated and then reinstalled
+ : * "overwrite=update": files will be updated by the potentially newer versions from the profile –
+ :   unless local modifications were applied by the user
+ :
+ : @param $profile the name of the profile to apply
+ : @param $settings general settings to control the generator
+ : @param $config user-supplied configuration, which will overwrite the config.json in the profile
+ :)
+declare function generator:process($profile as xs:string, $settings as map(*)?, $config as map(*)?) {
+    let $context := generator:prepare($generator:PROFILES_ROOT || "/" || $profile, $settings, $config)
     let $result :=
-        for $profile in $context?profiles?*
+        for $profileName in $context?profiles?*
         let $adjContext := map:merge((
             $context,
             map {
-                "source": $generator:PROFILES_ROOT || "/" || $profile,
-                "_noDeploy": $profile != $collection
+                "source": $generator:PROFILES_ROOT || "/" || $profileName,
+                "_noDeploy": $profileName != $profile
             }
         ))
         return
-            generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profile)
+            generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profileName)
     return
         map {
             "conflicts": $result,
@@ -41,8 +54,8 @@ declare function generator:process($collection as xs:string, $settings as map(*)
         }
 };
 
-declare function generator:prepare($collection as xs:string, $settings as map(*)) {
-    let $baseConfig := generator:config($settings, $collection)
+declare function generator:prepare($collection as xs:string, $settings as map(*), $config as map(*)) {
+    let $baseConfig := generator:config($collection, $settings, $config)
     let $mergedConfig :=
         fold-right($baseConfig?profiles?*, $baseConfig, function($profile, $config) {
             generator:call-prepare($generator:PROFILES_ROOT || "/" || $profile, $config)
@@ -115,33 +128,39 @@ declare %private function generator:find-callback($funcs as function(*)*, $type 
     })
 };
 
-declare %private function generator:config($settings as map(*)?, $collection as xs:string) {
-    let $userConfig := 
+(:~
+ : Assemble the configuration by merging the config.json of the source profile, the one stored in an already installed
+ : application. $userConfig will overwrite the other two.
+ :)
+declare %private function generator:config($collection as xs:string, $settings as map(*)?, $userConfig as map(*)?) {
+    let $profileConfig := 
         generator:load-json($collection || "/config.json", map {})
         => generator:extends($collection)
     let $installedPkg := 
-        if ($userConfig?id) then
-            generator:get-package-target($userConfig?id)
+        if ($profileConfig?id) then
+            generator:get-package-target(head(($userConfig?id, $profileConfig?id)))
         else
             ()
-    let $userConfig := 
+    let $log := util:log("INFO", ("Existing package: ", $installedPkg))
+    let $installedConfig := 
         if ($installedPkg) then
-            generator:load-json($installedPkg || "/config.json", $userConfig)
+            generator:load-json($installedPkg || "/config.json", $profileConfig)
         else
-            $userConfig
+            $profileConfig
     let $templateMap := generator:load-template-map($installedPkg)
+    let $tempTarget := "/db/system/temp/" || tokenize($collection, "/")[last()]
     let $config :=
         map:merge((
+            $installedConfig,
             $userConfig,
-            $settings,
             map {
                 "source": $collection,
-                "target": 
-                    head((
-                        $installedPkg, 
-                        "/db/system/temp/" || tokenize($collection, "/")[last()]
-                    )),
-                "_update": exists($installedPkg) or empty($userConfig?id),
+                "target":
+                    if ($settings?overwrite = "all") then
+                        $tempTarget
+                    else
+                        head(($installedPkg, $tempTarget)),
+                "_update": exists($installedPkg) and $settings?overwrite != "all",
                 "template-suffix": ".tpl",
                 "_hashes": $templateMap
             })
