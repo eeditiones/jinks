@@ -1,9 +1,9 @@
 # Application Manager for TEI Publisher
 
-Replaces the custom app generator in earlier versions of TEI Publisher. The idea is to create a more powerful tool for creating, updating and maintaining a custom application. The generator
+Replaces the custom app generator in earlier versions of TEI Publisher. The idea is to create a more powerful tool for creating, updating and maintaining a custom application. The manager
 
 * can not only create new custom applications, but also reconfigure them at a later time
-* uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles.
+* uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles
 * detects local changes to files and leaves them untouched
 * comes with its own [templating language](templating.md), which can also process plain-text files (XQuery, CSS etc.)
 
@@ -42,3 +42,17 @@ which boils down to copying everything contained in the profile's source folder 
 ### Templates
 
 The `cpy:copy-collection` function will automatically process any file containing `.tpl` in its name as a template, which means the contents will be expanded through the [templating module](templating.md) using the current *configuration*.
+
+### Updates and Conflicts
+
+When creating a new custom application, the profile (and its sub-profiles) will copy or write all required files into a temporary collection, package it up as an eXist application xar, and finally install it into eXist.
+
+Once the application has been installed, users may call the manager again with a modified configuration. The manager detects that an app with the same URI does already exist and by default applies the changes to the existing app collection only. The `overwrite` property, which can be passed in the `settings` parameter to `generator:process`, determines how updates are handled:
+
+* *default*: existing files will not be overwritten
+* *update*: the target file will be overwritten by the version coming from the profile - unless the user has applied changes (see below)
+* *all*: the entire application is rebuilt from the profile and reinstalled into eXist
+
+The application manager will **never** overwrite files which have been changed since they were installed from the profile. To track changes, an SHA-256 key is computed for every file and stored in the `.generator.json` file in the target app.
+
+Conflicting files will be reported by the `generator:process` function.
