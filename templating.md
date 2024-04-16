@@ -17,3 +17,18 @@ Instead of being entirely based on regular expressions, the templating module im
 | `[# … #]` | Single or multi-line comment: content will be discarded |
 
 `expr` must be a valid XPath expression.
+
+Each top-level property in the context map is made available as an XQuery variable. So if you have a context map like
+
+```xquery
+map {
+    "title": "my title",
+    "theme": map {
+        "fonts": map {
+            "content": "serif"
+        }
+    }
+}
+```
+
+you can use a value expression `[[$title]]` to output the title. And to insert the content font, use `[[$theme?fonts?content]]`.
