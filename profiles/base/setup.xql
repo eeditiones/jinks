@@ -4,23 +4,28 @@ module namespace teip="https://teipublisher.com/generator/setup";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy";
 
-declare %generator:custom variable $teip:ERROR_TEIP_NOT_INSTALLED := xs:QName("teip:not-installed");
+declare variable $teip:ERROR_TEIP_NOT_INSTALLED := xs:QName("teip:not-installed");
 
+declare variable $teip:TEIP_PKG_ID := "http://existsolutions.com/apps/tei-publisher";
 declare 
     %generator:prepare
 function teip:prepare($context as map(*)) {
-    let $teipPath := generator:get-package-target("http://existsolutions.com/apps/tei-publisher")
+    let $teipPath := generator:get-package-target($teip:TEIP_PKG_ID)
+    let $teipVersion := 
+        generator:get-package-descriptor($teip:TEIP_PKG_ID)/expath:package/@version
     return
         if (empty($teipPath)) then
             error($teip:ERROR_TEIP_NOT_INSTALLED, "tei-publisher-app is not installed")
             (: repo:install("http://existsolutions.com/apps/tei-publisher") :)
         else
             map {
-                "publisher": $teipPath
+                "publisher": $teipPath,
+                "publisherVersion": $teipVersion
             }
 };
 
@@ -56,8 +61,7 @@ declare %private function teip:install-pages($context as map(*)) {
 };
 
 declare %private function teip:install-odd($context as map(*)) {
-    let $odds := distinct-values(("teipublisher.odd", "docx.odd", $context?odds?*))
-    for $file in $odds
+    for $file in $context?odds?*
     let $source := doc($context?publisher || "/odd/" || $file)
     let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
     let $css := util:binary-doc-available($context?publisher || "/odd/" || $cssLink)

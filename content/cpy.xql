@@ -15,7 +15,7 @@ declare variable $cpy:ERROR_TEMPLATE := xs:QName("cpy:template");
 declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
 
 declare %private function cpy:save-hash($context as map(*), $relPath as xs:string, $hash as xs:string) {
-    let $jsonFile := cpy:resolve-path($context?target, ".generator.json")
+    let $jsonFile := cpy:resolve-path($context?target, ".jinks.json")
     let $json :=
         if (util:binary-doc-available($jsonFile)) then
             util:binary-doc($jsonFile) => util:binary-to-string() => parse-json()
@@ -28,7 +28,7 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
         $json
     )) => serialize(map { "method": "json", "indent": true() })
     return
-        xmldb:store($context?target, ".generator.json", $updated, "application/json")[2]
+        xmldb:store($context?target, ".jinks.json", $updated, "application/json")[2]
 };
 
 declare function cpy:resolve-path($parent as xs:string, $relPath as xs:string) as xs:string {
@@ -160,10 +160,10 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
 };
 
 declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $content as function(*), $callback as function(*)) {
-    if ($relPath = $context?ignore) then
+    if ($relPath = $context?skip) then
         ()
-    (: repo.xml gets modified by package install, so copy but do not check hash :)
-    else if ($relPath = "repo.xml") then
+    (: copy but do not check hash :)
+    else if ($relPath = $context?ignore) then
         $callback()
     else if ($context?_update) then
         let $path := cpy:resolve-path($context?target, $relPath)

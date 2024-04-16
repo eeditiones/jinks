@@ -1,5 +1,6 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/base",
+    "version": "1.0.0",
     "pkg": {
         "abbrev": "base-app",
         "version": "1.0.0",
@@ -23,5 +24,21 @@
         "data": "data",
         "odd": "teipublisher.odd",
         "template": ""
-    }
+    },
+    "theme": {
+        "fonts": {
+            "base": "'Roboto', 'Noto', sans-serif",
+            "content": "Junicode, Georgia, 'Times New Roman', serif",
+            "heading": "Oswald, Verdana, Helvetica, sans-serif"
+        }
+    },
+    "odds": [
+        "teipublisher.odd", 
+        "docx.odd"
+    ],
+    "ignore": [
+        "repo.xml",
+        "modules/custom-api.xql",
+        "modules/custom-api.json"
+    ]
 }

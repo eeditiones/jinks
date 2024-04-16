@@ -168,8 +168,8 @@ declare %private function generator:config($collection as xs:string, $settings a
         )
     return
         map:merge(($config, map { 
-            "ignore": 
-                distinct-values(($config?ignore, "setup.xql", "config.json"))
+            "skip": 
+                distinct-values(($config?skip?*, "setup.xql", "config.json"))
         }))
 };
 
@@ -238,9 +238,18 @@ declare function generator:get-package-target($uri as xs:string?) {
                 ()
 };
 
+declare function generator:get-package-descriptor($uri as xs:string?) {
+    if (not(repo:list()[. = $uri])) then
+        ()
+    else
+        repo:get-resource($uri, "expath-pkg.xml")
+        => util:binary-to-string()
+        => parse-xml()
+};
+
 declare %private function generator:load-template-map($collection as xs:string?) {
-    if ($collection and util:binary-doc-available($collection || "/.generator.json")) then
-        util:binary-doc($collection || "/.generator.json") => util:binary-to-string() => parse-json()
+    if ($collection and util:binary-doc-available($collection || "/.jinks.json")) then
+        util:binary-doc($collection || "/.jinks.json") => util:binary-to-string() => parse-json()
     else
         map {}
 };
@@ -252,6 +261,10 @@ declare function generator:merge-deep($maps as map(*)*) {
         let $newVal :=
             if ($mapsWithKey[1]($key) instance of map(*)) then
                 generator:merge-deep($mapsWithKey ! .($key))
+            else if ($key = ("odds", "ignore")) then
+                array {
+                    $mapsWithKey ! .($key)?*
+                }
             else
                 $mapsWithKey[last()]($key)
         return
