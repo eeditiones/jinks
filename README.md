@@ -69,10 +69,10 @@ When creating a new custom application, the profile (and its sub-profiles) will 
 
 Once the application has been installed, users may call the manager again with a modified configuration. The manager detects that an app with the same URI does already exist and by default applies the changes to the existing app collection only. The `overwrite` property, which can be passed in the `settings` parameter to `generator:process`, determines how updates are handled:
 
-* *default*: existing files will not be overwritten
-* *update*: the target file will be overwritten by the version coming from the profile - unless the user has applied changes (see below)
+* *default*: target files are not overwritten unless there's a new incoming version whose content is different
+* *update*: the target file will always be overwritten by the incoming version even if the content has not changed
 * *all*: the entire application is rebuilt from the profile and reinstalled into eXist
 
-The application manager will **never** overwrite files which have been changed since they were installed from the profile. To track changes, an SHA-256 key is computed for every file and stored in the `.generator.json` file in the target app.
+Unless `overwrite=all`, jinks will **never** overwrite files which have been changed by the user since they were installed from the profile. To track changes, an SHA-256 key is computed for every file and stored in the `.generator.json` file in the target app.
 
 Conflicting files will be reported by the `generator:process` function.

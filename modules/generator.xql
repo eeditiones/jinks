@@ -162,6 +162,7 @@ declare %private function generator:config($collection as xs:string, $settings a
                     else
                         head(($installedPkg, $tempTarget)),
                 "_update": exists($installedPkg) and $settings?overwrite != "all",
+                "_overwrite": $settings?overwrite,
                 "template-suffix": ".tpl",
                 "_hashes": $templateMap
             })

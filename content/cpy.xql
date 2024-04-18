@@ -22,10 +22,10 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
         else
             map {}
     let $updated := map:merge((
+        $json,
         map {
             $relPath: $hash
-        },
-        $json
+        }
     )) => serialize(map { "method": "json", "indent": true() })
     return
         xmldb:store($context?target, ".jinks.json", $updated, "application/json")[2]
@@ -159,12 +159,18 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
     )
 };
 
-declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $content as function(*), $callback as function(*)) {
+(:~
+ : Determine if the file corresponding to $relPath can be overwritten, and if yes, call the $callback
+ : function. To detect conflicts, a hash key is computed and stored into .jinks.json.
+ :)
+declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $content as function(*), 
+    $callback as function(*)) {
     if ($relPath = $context?skip) then
         ()
-    (: copy but do not check hash :)
+    (: overwrite, but do not check or store hash :)
     else if ($relPath = $context?ignore) then
         $callback()
+    (: we're updating an already installed app :)
     else if ($context?_update) then
         let $path := cpy:resolve-path($context?target, $relPath)
         let $currentContent :=
@@ -175,13 +181,19 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         let $currentHash := cpy:hash($currentContent)
         let $expectedHash := $context?_hashes?($relPath)
         return
-            if (empty($expectedHash) or $currentHash = $expectedHash) then (
-                if (empty($expectedHash) or $context?overwrite = "update") then (
-                    cpy:save-hash($context, $relPath, $currentHash),
-                    $callback()
-                ) else
-                    ()
-            ) else
+            (: Check if there have been changes to the file since it was installed :)
+            if (empty($expectedHash) or $currentHash = $expectedHash) then
+                let $contentHash := cpy:hash($content())
+                return
+                    (: Still update if overwrite="update", the file was not there last time,
+                    : or the incoming content is different :)
+                    if (empty($expectedHash) or $context?_overwrite = "update"
+                        or $contentHash != $expectedHash) then (
+                        cpy:save-hash($context, $relPath, $contentHash),
+                        $callback()
+                    ) else
+                        ()
+            else
                 (: conflict detected :)
                 map {
                     "path": $relPath,
@@ -190,6 +202,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                         "actual": $currentHash
                     }
                 }
+    (: fresh install of new app package :)
     else (
         cpy:save-hash($context, $relPath, cpy:hash($content())),
         $callback()
