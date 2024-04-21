@@ -31,7 +31,7 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
         xmldb:store($context?target, ".jinks.json", $updated, "application/json")[2]
 };
 
-declare function cpy:resolve-path($parent as xs:string, $relPath as xs:string) as xs:string {
+declare function cpy:resolve-path($parent as xs:string?, $relPath as xs:string) as xs:string {
     replace(
         if (starts-with($relPath, "/db")) then
             $relPath
@@ -82,7 +82,7 @@ declare %private function cpy:mkcol-recursive($collection, $components, $userDat
 
 declare function cpy:mkcol($context as map(*), $path as xs:string) {
     let $null := cpy:mkcol(
-        cpy:resolve-path($context?target, $path), 
+        cpy:resolve-path($context?target, $path),
         ($context?pkg?user?name, $context?pkg?user?group), 
         $context?pkg?permissions
     )
@@ -188,14 +188,22 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                     (: Still update if overwrite="update", the file was not there last time,
                     : or the incoming content is different :)
                     if (empty($expectedHash) or $context?_overwrite = "update"
-                        or $contentHash != $expectedHash) then (
-                        cpy:save-hash($context, $relPath, $contentHash),
-                        $callback()
-                    ) else
+                        or $contentHash != $expectedHash) then
+                        if ($context?_dry) then
+                            map {
+                                "type": "update",
+                                "path": $relPath
+                            }
+                        else (
+                            cpy:save-hash($context, $relPath, $contentHash),
+                            $callback()
+                        )
+                    else
                         ()
             else
                 (: conflict detected :)
                 map {
+                    "type": "conflict",
                     "path": $relPath,
                     "hash": map {
                         "original": $expectedHash,
@@ -203,6 +211,11 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                     }
                 }
     (: fresh install of new app package :)
+    else if ($context?_dry) then
+        map {
+            "type": "write",
+            "path": $relPath
+        }
     else (
         cpy:save-hash($context, $relPath, cpy:hash($content())),
         $callback()

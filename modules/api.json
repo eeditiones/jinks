@@ -52,6 +52,24 @@
                 }
             }
         },
+        "/api/configurations": {
+            "get": {
+                "operationId": "api:configurations",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/generator/{profile}": {
             "post": {
                 "operationId": "api:generator",
@@ -80,6 +98,14 @@
                         },
                         "required": true,
                         "description": "The policy to use for overwriting existing files. The default is to not overwrite."
+                    },
+                    {
+                        "name": "dry",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": "false"
+                        }
                     }
                 ],
                 "requestBody": {

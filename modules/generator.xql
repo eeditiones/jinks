@@ -42,14 +42,14 @@ declare function generator:process($profile as xs:string, $settings as map(*)?, 
             $context,
             map {
                 "source": $generator:PROFILES_ROOT || "/" || $profileName,
-                "_noDeploy": $profileName != $profile
+                "_noDeploy": $profileName != $profile or $settings?dry
             }
         ))
         return
             generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profileName)
     return
         map {
-            "conflicts": $result,
+            "messages": array { $result },
             "config": $context
         }
 };
@@ -128,8 +128,15 @@ declare %private function generator:find-callback($funcs as function(*)*, $type 
     })
 };
 
+declare function generator:profile($name as xs:string) {
+    let $collection := $config:app-root || "/profiles/" || $name
+    return
+        generator:load-json($collection || "/config.json", map {})
+        => generator:extends($collection)
+};
+
 (:~
- : Assemble the configuration by merging the config.json of the source profile, the one stored in an already installed
+ : Assemble the configuration by merging the config.json of the source profile and the one stored in an already installed
  : application. $userConfig will overwrite the other two.
  :)
 declare %private function generator:config($collection as xs:string, $settings as map(*)?, $userConfig as map(*)?) {
@@ -147,13 +154,15 @@ declare %private function generator:config($collection as xs:string, $settings a
         else
             $profileConfig
     let $templateMap := generator:load-template-map($installedPkg)
-    let $tempTarget := "/db/system/temp/" || tokenize($collection, "/")[last()]
+    let $mergedConfig := 
+        generator:merge-deep((
+            $installedConfig,
+            $userConfig
+        ))
+    let $tempTarget := "/db/system/temp/" || $mergedConfig?pkg?abbrev
     let $config :=
         map:merge((
-            generator:merge-deep((
-                $installedConfig,
-                $userConfig
-            )),
+            $mergedConfig,
             map {
                 "source": $collection,
                 "target":
@@ -163,14 +172,14 @@ declare %private function generator:config($collection as xs:string, $settings a
                         head(($installedPkg, $tempTarget)),
                 "_update": exists($installedPkg) and $settings?overwrite != "all",
                 "_overwrite": $settings?overwrite,
+                "_dry": $settings?dry,
                 "template-suffix": ".tpl",
                 "_hashes": $templateMap
             })
         )
     return
         map:merge(($config, map { 
-            "skip": 
-                distinct-values(($config?skip?*, "setup.xql", "config.json"))
+            "skip": distinct-values(($config?skip?*, "setup.xql", "config.json"))
         }))
 };
 
@@ -212,16 +221,19 @@ declare function generator:load-json($path as xs:string, $default as map(*)) {
 };
 
 declare %private function generator:save-config($context as map(*)) {
-    let $config := map:merge(
-        map:for-each($context, function($key, $value) {
-            if (starts-with($key, "_")) then
-                ()
-            else
-                map:entry($key, $value)
-        })
-    )
-    return
-        xmldb:store($context?target, "config.json", serialize($config, map { "method": "json", "indent": true()}))[2]
+    if ($context?_dry) then
+        ()
+    else
+        let $config := map:merge(
+            map:for-each($context, function($key, $value) {
+                if (starts-with($key, "_") or $key = "source" or $key = "target") then
+                    ()
+                else
+                    map:entry($key, $value)
+            })
+        )
+        return
+            xmldb:store($context?target, "config.json", serialize($config, map { "method": "json", "indent": true()}))[2]
 };
 
 declare function generator:get-package-target($uri as xs:string?) {
@@ -264,7 +276,7 @@ declare function generator:merge-deep($maps as map(*)*) {
                 generator:merge-deep($mapsWithKey ! .($key))
             else if ($key = ("odds", "ignore")) then
                 array {
-                    $mapsWithKey ! .($key)?*
+                    distinct-values($mapsWithKey ! .($key)?*)
                 }
             else
                 $mapsWithKey[last()]($key)
