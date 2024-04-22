@@ -6,6 +6,7 @@ xquery version "3.1";
  :)
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
+import module namespace gen="https://e-editiones.org/tei-publisher/generator/config" at "generated-config.xql";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
@@ -34,16 +35,16 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port 
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "[[$script?webcomponents]]";
+declare variable $config:webcomponents := $gen:webcomponents;
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
  : own library extending pb-components and published it to a CDN.
  :)
-declare variable $config:webcomponents-cdn := "[[$script?cdn]]";
+declare variable $config:webcomponents-cdn := $gen:webcomponents-cdn;
 
 (: Version of fore to use for annotation editor :)
-declare variable $config:fore := "[[$script?fore]]";
+declare variable $config:fore := $gen:fore;
 
 (:~~
  : A list of regular expressions to check which external hosts are
@@ -82,18 +83,18 @@ declare variable $config:default-language := "en";
  : the parameters below for further configuration), or 'page' to browse
  : a document by actual pages determined by TEI pb elements.
  :)
-declare variable $config:default-view := "[[$defaults?view]]";
+declare variable $config:default-view := $gen:default-view;
 
 (:
  : The default HTML template used for viewing document content. This can be
  : overwritten by the teipublisher processing instruction inside a TEI document.
  :)
-declare variable $config:default-template := "[[$defaults?template]]";
+declare variable $config:default-template := $gen:default-template;
 
 (:
  : The element to search by default, either 'tei:div' or 'tei:text'.
  :)
-declare variable $config:search-default := "[[$defaults?search]]";
+declare variable $config:search-default := $gen:search-default;
 
 (:
  : Defines which nested divs will be displayed as single units on one
@@ -273,20 +274,7 @@ declare variable $config:epub-images-path := ();
 (:
     Determine the application root collection from the current module load path.
 :)
-declare variable $config:app-root :=
-    let $rawPath := system:get-module-load-path()
-    let $modulePath :=
-        (: strip the xmldb: part :)
-        if (starts-with($rawPath, "xmldb:exist://")) then
-            if (starts-with($rawPath, "xmldb:exist://embedded-eXist-server")) then
-                substring($rawPath, 36)
-            else
-                substring($rawPath, 15)
-        else
-            $rawPath
-    return
-        substring-before($modulePath, "/modules")
-;
+declare variable $config:app-root := $gen:app-root;
 
 (:
  : The context path to use for links within the application, e.g. menus.
@@ -320,11 +308,7 @@ declare variable $config:context-path :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
- [% if starts-with($defaults?data, "/") %]
-declare variable $config:data-root := "[[$defaults?data]]";
-[% else %]
-declare variable $config:data-root := $config:app-root || "/[[$defaults?data]]";
-[% endif %]
+declare variable $config:data-root := $gen:data-root;
 
 (:~
  : The root of the collection hierarchy whose files should be displayed
@@ -373,14 +357,14 @@ declare variable $config:register-map := map {
 (:~
  : The main ODD to be used by default
  :)
-declare variable $config:default-odd := "[[$defaults?odd]]";
+declare variable $config:default-odd := $gen:default-odd;
 
 (:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
  : make sure to run modules/generate-pm-config.xql to update the main configuration
  : module for transformations (modules/pm-config.xql).
  :)
-declare variable $config:odd-available := ( [[string-join($odds?*[. != "docx.odd"] ! ('"' || . || '"'), ", ")]] );
+declare variable $config:odd-available := $gen:odd-available;
 
 (:~
  : List of ODD files which are used internally only, i.e. not for displaying information
