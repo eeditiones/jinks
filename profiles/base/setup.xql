@@ -63,14 +63,18 @@ declare %private function teip:install-pages($context as map(*)) {
 declare %private function teip:install-odd($context as map(*)) {
     for $file in $context?odds?*
     let $source := doc($context?publisher || "/odd/" || $file)
-    let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
-    let $css := util:binary-doc-available($context?publisher || "/odd/" || $cssLink)
-    return (
-        cpy:copy-resource($context, $context?publisher || "/odd/" || $file, "resources/odd/" || $file),
-        if ($css) then
-            cpy:copy-resource($context, $context?publisher || "/odd/" || $cssLink,
-                $context?target || "/resources/odd/" || $cssLink)
+    return
+        if (exists($source)) then
+            let $cssLink := $source//tei:teiHeader/tei:encodingDesc/tei:tagsDecl/tei:rendition/@source
+            let $css := util:binary-doc-available($context?publisher || "/odd/" || $cssLink)
+            return (
+                cpy:copy-resource($context, $context?publisher || "/odd/" || $file, "resources/odd/" || $file),
+                if ($css) then
+                    cpy:copy-resource($context, $context?publisher || "/odd/" || $cssLink,
+                        $context?target || "/resources/odd/" || $cssLink)
+                else
+                    ()
+            )[3]
         else
             ()
-    )[3]
 };
