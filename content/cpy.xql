@@ -18,7 +18,7 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
     let $jsonFile := cpy:resolve-path($context?target, ".jinks.json")
     let $json :=
         if (util:binary-doc-available($jsonFile)) then
-            util:binary-doc($jsonFile) => util:binary-to-string() => parse-json()
+            json-doc($jsonFile)
         else
             map {}
     let $updated := map:merge((
@@ -29,6 +29,15 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
     )) => serialize(map { "method": "json", "indent": true() })
     return
         xmldb:store($context?target, ".jinks.json", $updated, "application/json")[2]
+};
+
+declare %private function cpy:load-hash($context as map(*), $relPath as xs:string) {
+    let $jsonFile := cpy:resolve-path($context?target, ".jinks.json")
+    return
+        if (util:binary-doc-available($jsonFile)) then
+            json-doc($jsonFile)($relPath)
+        else
+            ()
 };
 
 declare function cpy:resolve-path($parent as xs:string?, $relPath as xs:string) as xs:string {
@@ -179,7 +188,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
             else
                 doc($path) => serialize()
         let $currentHash := cpy:hash($currentContent)
-        let $expectedHash := $context?_hashes?($relPath)
+        let $expectedHash := cpy:load-hash($context, $relPath)
         return
             (: Check if there have been changes to the file since it was installed :)
             if (empty($expectedHash) or $currentHash = $expectedHash) then

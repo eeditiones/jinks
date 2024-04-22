@@ -153,7 +153,6 @@ declare %private function generator:config($collection as xs:string, $settings a
             generator:load-json($installedPkg || "/config.json", $profileConfig)
         else
             $profileConfig
-    let $templateMap := generator:load-template-map($installedPkg)
     let $mergedConfig := 
         generator:merge-deep((
             $installedConfig,
@@ -173,8 +172,7 @@ declare %private function generator:config($collection as xs:string, $settings a
                 "_update": exists($installedPkg) and $settings?overwrite != "all",
                 "_overwrite": $settings?overwrite,
                 "_dry": $settings?dry,
-                "template-suffix": ".tpl",
-                "_hashes": $templateMap
+                "template-suffix": ".tpl"
             })
         )
     return
@@ -213,9 +211,7 @@ declare %private function generator:extends($config as map(*), $collection as xs
 
 declare function generator:load-json($path as xs:string, $default as map(*)) {
     if (util:binary-doc-available($path)) then
-        util:binary-doc($path)
-        => util:binary-to-string()
-        => parse-json()
+        json-doc($path)
     else
         $default
 };
@@ -262,7 +258,7 @@ declare function generator:get-package-descriptor($uri as xs:string?) {
 
 declare %private function generator:load-template-map($collection as xs:string?) {
     if ($collection and util:binary-doc-available($collection || "/.jinks.json")) then
-        util:binary-doc($collection || "/.jinks.json") => util:binary-to-string() => parse-json()
+        json-doc($collection || "/.jinks.json")
     else
         map {}
 };
