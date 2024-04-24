@@ -21,7 +21,7 @@ declare variable $tmpl:XML_MODE := map {
         "end": "}"
     },
     "text": function($text as xs:string) {
-        replace($text, "\{", "{{") => replace("\}", "}}")
+        replace($text, "([\{\}])", "$1$1")
     }
 };
 
@@ -215,7 +215,7 @@ declare function tmpl:generate($config as map(*), $ast as element(ast), $params 
         string-join(
             for $block in $ast//block
             return
-                ``["`{$block/@name}`": `{serialize($block)}`]``,
+                ``["`{$block/@name}`": `{$config?text(serialize($block))}`]``,
             ",&#10;"
         )
     return
