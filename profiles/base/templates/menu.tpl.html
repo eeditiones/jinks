@@ -2,6 +2,7 @@
     <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
     <pb-media-query query="min-width: 1024px">
         <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
+        [% block menu %][% endblock %]
         <paper-menu-button id="download-button">
             <a slot="dropdown-trigger" data-i18n="[title]menu.download.title" title="i18n(download)">
                 <pb-i18n key="menu.download.title">Download</pb-i18n>

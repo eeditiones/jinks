@@ -1,0 +1,139 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<tei:TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:id="pb-persons">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Local Authority File: Person register</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <classDecl>
+            <taxonomy></taxonomy>
+         </classDecl>
+      </encodingDesc>
+   </teiHeader>
+   <standOff>
+      <listPerson>
+         <!-- 
+         -->
+         <person xml:id="person-000002" when="2024-01-25" resp="tei">
+            <persName type="main">Ewa z Szeluttów Lelewel</persName>
+            <persName type="sort">Lelewel, Ewa z Szeluttów Lelewel</persName>
+            <gender value="F"/>
+            <birth>
+               <date/>
+               <placeName/>
+            </birth>
+            <death>
+               <date/>
+               <placeName/>
+            </death>
+            <note type="bio">żona Karola Lelewela, córka Franciszka i Antoniny Cieciszowskiej</note>
+         </person>
+         <person xml:id="gnd-118779362" when="2024-01-25" resp="tei">
+            <persName type="main">Joachim Lelewel</persName>
+            <persName type="sort">Lelewel, Joachim</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1786-03-22"/>
+                <placeName ref="https://d-nb.info/gnd/4079048-4">Warszawa</placeName>
+            </birth>
+            <death>
+                <date when="1861-05-29"/>
+                <placeName ref="https://d-nb.info/gnd/4044660-8">Paryż</placeName>
+            </death>
+            <note type="bio">polski historyk, bibliograf, slawista, numizmatyk, poliglota, heraldyk, działacz polityczny oraz wolnomularz</note>
+            <occupation ref="https://d-nb.info/gnd/4025098-2">historyk</occupation>
+            <occupation ref="https://d-nb.info/gnd/4191824-1">bibliograf</occupation>
+        </person>
+        <person xml:id="gnd-122917871" when="2024-01-25" resp="tei">
+            <persName type="main">Prot Adam Jacek Lelewel</persName>
+            <persName type="sort">Lelewel, Prot Adam Jacek</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1790-09-11"/>
+                <placeName ref="https://d-nb.info/gnd/4079048-4">Warszawa</placeName>
+            </birth>
+            <death>
+                <date when="1884-03-21"/>
+                <placeName ref="https://www.geonames.org/755306">Wola Cygowska</placeName>
+            </death>
+            <note type="bio">oficer wojsk Księstwa Warszawskiego, poseł na Sejm Królestwa Polskiego; brat Joachima Lelewela</note>
+            <figure type="portrait">
+                <graphic url="https://upload.wikimedia.org/wikipedia/commons/2/21/Prot_Adam_Lelewel.jpg" corresp="https://polona.pl/preview/37eae75a-45a7-4299-b698-19d029dc87cd"/>
+                <head>Aleksander Regulski, drzeworyt [1884], domena publiczna</head>
+            </figure>
+        </person>
+        <person xml:id="gnd-101966814" when="2024-01-25" resp="tei">
+            <persName type="main">Karol Lelewel</persName>
+            <persName type="sort">Lelewel, Karol</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1748-02-21"/>
+                <placeName ref="https://d-nb.info/gnd/4079048-4">Warszawa</placeName>
+            </birth>
+            <death>
+                <date when="1830-11-29"/>
+                <placeName ref="https://d-nb.info/gnd/4079048-4">Warszawa</placeName>
+            </death>
+            <note type="bio">polski prawnik, urzędnik, skarbnik generalny Komisji Edukacji Narodowej; ojciec Joachima Lelewela</note>
+            <occupation ref="https://d-nb.info/gnd/4029050-5">prawnik</occupation>
+        </person>
+        <person xml:id="gnd-1035525534" when="2024-01-25" resp="tei">
+            <persName type="main">Jan Paweł Lelewel</persName>
+            <persName type="sort">Lelewel, Jan Paweł</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1796-06-26"/>
+                <placeName ref="https://d-nb.info/gnd/4079048-4">Warszawa</placeName>
+            </birth>
+            <death>
+                <date when="1847-04-09"/>
+                <placeName ref="https://d-nb.info/gnd/4005762-8">Bern</placeName>
+            </death>
+            <note type="bio">polski inżynier wojskowy i cywilny, budowniczy, urbanista, malarz; brat Joachima Lelewela</note>
+            <occupation ref="https://d-nb.info/gnd/4026955-3">inżynier</occupation>
+            <occupation ref="https://d-nb.info/gnd/4037215-7">malarz</occupation>
+        </person>
+    <person xml:id="gnd-103517502" when="2024-01-25" resp="tei">
+            <persName type="main">Tadeusz Czacki</persName>
+            <persName type="sort">Czacki, Tadeusz</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1765-08-28"/>
+                <placeName ref="https://d-nb.info/gnd/7569073-1">Pawliwka (Poryck), obwód wołyński</placeName>
+            </birth>
+            <death>
+                <date when="1813-02-08"/>
+                <placeName ref="https://d-nb.info/gnd/4740647-1">Dubno, obwód rówieński</placeName>
+            </death>
+            <note type="bio">herbu Świnka; polski działacz oświatowy i gospodarczy, pedagog, historyk, ekonomista, bibliofil, numizmatyk, członek Komisji Edukacji Narodowej, współtwórca Konstytucji 3 Maja, współzałożyciel warszawskiego Towarzystwa Przyjaciół Nauk, twórca Biblioteki Poryckiej, główny twórca i organizator Liceum Krzemienieckiego zwanego Atenami Wołyńskimi, ostatni starosta niegrodowy nowogrodzki (1786–1792), wizytator szkół guberni wołyńskiej, podolskiej i kijowskiej</note>
+            <occupation ref="https://d-nb.info/gnd/4046517-2">polityk</occupation>
+            <occupation ref="https://d-nb.info/gnd/4025098-2">historyk</occupation>
+            <occupation ref="https://d-nb.info/gnd/4035088-5">pedagog</occupation>
+        </person>
+        <person xml:id="gnd-119449145">
+            <persName type="main">Wincenty Kadłubek</persName>
+            <persName type="sort">Kadłubek, Wincenty</persName>
+            <persName type="alt">Vincentius Kadlubek</persName>
+            <gender value="M">male</gender>
+            <birth>
+                <date when="1160"/>
+            </birth>
+            <death>
+                <date when="1223-03-08"/>
+                <placeName ref="https://d-nb.info/gnd/4451374-4">Je̜drzejów (Kielce)</placeName>
+            </death>
+            <note type="bio">historyk, biskup krakowski; autor dzieła "Chronica Polonorum"; zmarł w klasztorze cystersów w Jędrzejowie; data urodzin przybliżona</note>
+            <occupation ref="https://d-nb.info/gnd/4006949-7">Bischof</occupation>
+        </person>
+      </listPerson>
+   </standOff>
+</tei:TEI>
