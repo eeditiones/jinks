@@ -41,13 +41,17 @@
         list-style: none;
         line-height: 2;
     }
+    .output li {
+        margin-top: 1rem;
+    }
     </style>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
 </head>
 <body class="editor">
     <nav></nav>
     <main>
-        <jinn-codemirror mode="json" theme="material-dark"></jinn-codemirror>
+        <p>Installed, configurable apps and available profiles (grey icons) are shown to the left. Click on an icon to edit the merged configuration properties in the editor below.</p>
+        <jinn-codemirror mode="json" theme="material-dark" placeholder="Merged configuration properties"></jinn-codemirror>
         <div class="buttons">
             <label>Overwrite mode: 
                 <select name="overwrite" placeholder="Overwrite mode">
@@ -62,6 +66,7 @@
         </div>
         <div>
             <ul class="output"></ul>
+            <div class="error"></div>
         </div>
     </main>
     <script src="pages/editor.js"></script>

@@ -9,11 +9,16 @@ h1, h2, h3 {
     font-size: 1.33rem;
 }
 
+p {
+    margin-top: 0;
+}
+
 jinn-codemirror {
     display: block;
     overflow: auto;
     max-height: 75vh;
 }
+
 .hidden {
     display: none;
 }
@@ -78,6 +83,10 @@ input:focus {
 
 .alert {
     background-color: red;
+}
+
+.error {
+    color: red;
 }
 
 #spinner {

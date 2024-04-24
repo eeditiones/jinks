@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('nav');
     const editor = document.querySelector('jinn-codemirror');
     const output = document.querySelector('.output');
+    const errors = document.querySelector('.error');
     const spinner = document.getElementById('spinner');
     spinner.style.display = 'none';
 
@@ -28,6 +29,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function process(dryRun) {
+        output.innerHTML = '';
+        errors.innerHTML = '';
         const overwrite = document.querySelector('[name=overwrite]').value;
         const config = JSON.parse(editor.value);
         const profile = config.profiles[config.profiles.length - 1];
@@ -44,7 +47,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json'
             }
         })
-        .then((response) => response.json())
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            response.text().then((text) => {
+                errors.innerHTML = text;
+            });
+            throw new Error(response.status);
+        })
         .then((result) => {
             spinner.style.display = 'none';
             if (result.messages) {
@@ -56,6 +67,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
             }
             loadConfigs();
+        })
+        .catch((error) => {
+            console.log(error);
+            spinner.style.display = 'none';
         });
     }
 
