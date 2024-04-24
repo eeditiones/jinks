@@ -21,7 +21,7 @@ declare variable $tmpl:XML_MODE := map {
         "end": "}"
     },
     "text": function($text as xs:string) {
-        replace($text, "([\{\}])", "$1$1")
+        replace($text, "\{", "{{") => replace("\}", "}}")
     }
 };
 
@@ -214,11 +214,13 @@ declare function tmpl:generate($config as map(*), $ast as element(ast), $params 
     let $blocks :=
         string-join(
             for $block in $ast//block
+            let $blockContent := "``[" || serialize($block) || "]``"
             return
-                ``["`{$block/@name}`": `{$config?text(serialize($block))}`]``,
+                ``["`{$block/@name}`": `{ $blockContent }`]``,
             ",&#10;"
         )
     return
+        (: if template extends another, output call to tmpl:extends :)
         if ($ast//extends) then
             ``[
 declare variable $local:blocks := map {
@@ -231,6 +233,7 @@ declare function local:content($_params as map(*), $_resolver as function(*)) {
             
 tmpl:extends(`{$ast/extends/@source}`, local:content#2, $_params, $_resolver, 
     `{if ($config?xml) then 'false()' else 'true()'}`, $local:blocks)]``
+        (: otherwise just output the code :)
         else
             $code
 };
@@ -370,6 +373,13 @@ declare function tmpl:include($path as xs:string, $resolver as function(*)?, $pa
                 error($tmpl:ERROR_INCLUDE, "Included template " || $path || " not found")
 };
 
+(:~
+ : Helper function called at runtime: 
+ : * load and parse the base template specified by $path
+ : * call $contentFunc to set variable $content
+ : * replace all named blocks in ast of base template with corresponding blocks from child
+ : given in $blocks
+ :)
 declare function tmpl:extends($path as xs:string, $contentFunc as function(*), $params as map(*), 
     $resolver as function(*)?, $plainText as xs:boolean?, $blocks as map(*)) {
     if (empty($resolver)) then
@@ -393,7 +403,9 @@ declare function tmpl:extends($path as xs:string, $contentFunc as function(*), $
 
 declare %private function tmpl:process-blocks($template as xs:string, $params as map(*), $plainText as xs:boolean?,
     $resolver as function(*), $blocks as map(*)) {
+    (: parse the extended template :)
     let $ast := tmpl:tokenize($template) => tmpl:parse()
+    (: replace blocks in template with corresponding blocks of child :)
     let $modifiedAst := tmpl:replace-blocks($ast, $blocks)
     let $mode := if ($plainText) then $tmpl:TEXT_MODE else $tmpl:XML_MODE
     let $code := tmpl:generate($mode, $modifiedAst, $params)
@@ -405,13 +417,13 @@ declare %private function tmpl:process-blocks($template as xs:string, $params as
         }
 };
 
-declare %private function tmpl:replace-blocks($nodes as node()*, $blocks as map(*)) {
-    for $node in $nodes
+declare %private function tmpl:replace-blocks($ast as node()*, $blocks as map(*)) {
+    for $node in $ast
     return
         typeswitch($node)
             case element(block) return
                 if (map:contains($blocks, $node/@name)) then
-                    $blocks($node/@name)/node()
+                    parse-xml($blocks($node/@name))/block/node()
                 else
                     $node/node()
             case element() return
