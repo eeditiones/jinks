@@ -6,6 +6,7 @@ Replaces the custom app generator in earlier versions of TEI Publisher. The idea
 
 * can not only create new custom applications, but also reconfigure them at a later time
 * uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles
+* profiles can be modular, i.e. contribute only one feature
 * detects local changes to files and leaves them untouched
 * comes with its own [templating language](templating.md), which can also process plain-text files (XQuery, CSS etc.)
 
@@ -17,7 +18,7 @@ Profiles are blueprints for applications targeted at a specific use case like a 
 
 The `config.json` must define a property named `id` with a unique, valid URI. This is the URI under which eXist's package manager will later install the application package.
 
-It may also specify a property `extends`, which should contain the name of a profile to extend. TEI Publisher apps will in general extend the *base* profile, which installs the required files shared by all custom TP applications.
+It may also specify a property `extends`, which should contain the names of one or more profiles to extend. TEI Publisher apps will in general extend the *base* profile, which installs the required files shared by all custom TP applications.
 
 The extension process works as follows:
 

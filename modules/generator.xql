@@ -128,7 +128,10 @@ declare %private function generator:find-callback($funcs as function(*)*, $type 
     })
 };
 
-declare function generator:profile($name as xs:string) {
+(:~
+ : Returns the merged configuration for the given profile.
+ :)
+declare function generator:profile($name as xs:string) as map(*) {
     let $collection := $config:app-root || "/profiles/" || $name
     return
         generator:load-json($collection || "/config.json", map {})
@@ -189,9 +192,16 @@ declare %private function generator:extends($config as map(*), $collection as xs
     let $profileName := replace($collection, "^(?:" || $generator:PROFILES_ROOT || "/)?(.*)$", "$1")
     return
         if (exists($config?extends)) then
-            let $extendedConfig := 
-                generator:load-json($generator:PROFILES_ROOT || "/" || $config?extends || "/config.json", map {})
-                => generator:extends($config?extends)
+            let $extendedProfiles :=
+                if ($config?extends instance of array(*)) then
+                    $config?extends?*
+                else
+                    $config?extends
+            let $extendedConfig :=
+                for $profile in $extendedProfiles
+                return
+                    generator:load-json($generator:PROFILES_ROOT || "/" || $profile || "/config.json", map {})
+                    => generator:extends($profile)
             return
                 generator:merge-deep((
                     $extendedConfig,

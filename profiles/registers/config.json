@@ -1,10 +1,10 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/registers",
-    "extends": "base",
+    "label": "TEI Publisher: Profile with Entity Registers",
+    "extends": ["base", "docker"],
     "version": "1.0.0",
     "pkg": {
-        "abbrev": "tei-publisher-registers",
-        "title": "TEI Publisher: Profile with Entity Registers"
+        "abbrev": "tei-publisher-registers"
     },
     "odds": [
         "lelewel.odd"

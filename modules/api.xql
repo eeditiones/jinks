@@ -55,7 +55,7 @@ declare function api:configurations($request as map(*)) {
                     map {
                         "type": "installed",
                         "profile": array:get($config?profiles, array:size($config?profiles)),
-                        "title": $config?pkg?title,
+                        "title": head(($config?label, $config?pkg?title)),
                         "config": $config
                     }
             else
@@ -68,7 +68,7 @@ declare function api:configurations($request as map(*)) {
                 map {
                     "type": "profile",
                     "profile": $collection,
-                    "title": $config?pkg?title,
+                    "title": head(($config?label, $config?pkg?title)),
                     "config": $config
                 }
     return
