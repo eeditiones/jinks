@@ -4,7 +4,7 @@ FROM openjdk:8-jdk-slim as builder
 USER root
 
 ENV NODE_MAJOR 20
-ENV ANT_VERSION 1.10.14
+ENV ANT_VERSION [[$docker?ant]]
 ENV ANT_HOME /etc/ant-${ANT_VERSION}
 
 WORKDIR /tmp
@@ -32,18 +32,12 @@ RUN curl -L -o apache-ant-${ANT_VERSION}-bin.tar.gz https://downloads.apache.org
 
 ENV PATH ${PATH}:${ANT_HOME}/bin
 
-# RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-#     && apt-get install -y nodejs \
-#     && curl -L https://www.npmjs.com/install.sh | sh
-
 FROM builder as tei
 
 ARG EXIST_VERSION=[[ $docker?eXist ]]
 ARG TEMPLATING_VERSION=1.1.0
-ARG PUBLISHER_LIB_VERSION=4.0.0
-ARG ROUTER_VERSION=1.8.1
-ARG SHAKESPEARE_VERSION=2.0.2
-ARG VANGOGH_VERSION=2.0.0
+ARG PUBLISHER_LIB_VERSION=[[ $docker?tei-publisher-lib ]]
+ARG ROUTER_VERSION=[[ $docker?roaster ]]
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
@@ -69,17 +63,15 @@ RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exi
 
 FROM duncdrum/existdb:${EXIST_VERSION}-debug-j8
 
-COPY --from=tei /tmp/tei-publisher-app/build/*.xar /exist/autodeploy/
-COPY --from=tei /tmp/shakespeare/build/*.xar /exist/autodeploy/
-COPY --from=tei /tmp/vangogh/build/*.xar /exist/autodeploy/
+COPY --from=tei /tmp/[[$pkg?abbrev]]/build/*.xar /exist/autodeploy/
 COPY --from=tei /tmp/*.xar /exist/autodeploy/
 
 WORKDIR /exist
 
 # ARG ADMIN_PASS=none
 
-ARG HTTP_PORT=8080
-ARG HTTPS_PORT=8443
+ARG HTTP_PORT=[[$docker?ports?http]]
+ARG HTTPS_PORT=[[$docker?ports?https]]
 
 ARG NER_ENDPOINT=http://localhost:8001
 ARG CONTEXT_PATH=auto

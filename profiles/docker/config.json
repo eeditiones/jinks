@@ -2,6 +2,19 @@
     "label": "Docker support",
     "type": "module",
     "docker": {
-        "eXist": "6.2.0"
+        "eXist": "6.2.0",
+        "tei-publisher-lib": "4.0.0",
+        "roaster": "1.8.1",
+        "ant": "1.10.14",
+        "ports": {
+            "http": 8080,
+            "https": 8443
+        },
+        "features": {
+            "nodejs": false,
+            "xst": false,
+            "ner": false,
+            "tex": false
+        }
     }
 }
