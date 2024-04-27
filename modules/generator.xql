@@ -7,7 +7,7 @@ module namespace generator="http://tei-publisher.com/library/generator";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
-import module namespace cpy="http://tei-publisher.com/library/generator/copy";
+import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 

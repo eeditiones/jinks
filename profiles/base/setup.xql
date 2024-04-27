@@ -7,7 +7,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
-import module namespace cpy="http://tei-publisher.com/library/generator/copy";
+import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "../../modules/cpy.xql";
 
 declare variable $teip:ERROR_TEIP_NOT_INSTALLED := xs:QName("teip:not-installed");
 

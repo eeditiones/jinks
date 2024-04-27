@@ -238,6 +238,9 @@ tmpl:extends(`{$ast/extends/@source}`, local:content#2, $_params, $_resolver,
             $code
 };
 
+(:~
+ : Recursively traverse AST nodes and generate XQuery code
+ :)
 declare %private function tmpl:emit($config as map(*), $nodes as item()*) {
     string-join(
         for $node in $nodes
@@ -375,6 +378,7 @@ declare function tmpl:include($path as xs:string, $resolver as function(*)?, $pa
 
 (:~
  : Helper function called at runtime: 
+ : 
  : * load and parse the base template specified by $path
  : * call $contentFunc to set variable $content
  : * replace all named blocks in ast of base template with corresponding blocks from child

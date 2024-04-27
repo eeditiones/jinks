@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace anno="https://teipublisher.com/generator/profiles/annotate";
 
-import module namespace cpy="http://tei-publisher.com/library/generator/copy";
+import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "../../modules/cpy.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
 
 declare 
