@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>[[$title]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@jinntec/fore@2.0.0/resources/fore.css"/>
+    <link rel="stylesheet" href="[[$context?path]]/pages/styles.css"/>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@2.0.0/dist/fore.js"></script>
+</head>
+<body>
+    <fx-fore>
+
+        <fx-model>
+            <fx-instance>
+                <data>
+                    <current></current>
+                    <profile></profile>
+                </data>
+            </fx-instance>
+            <!--fx-bind ref="profile" calculate="instance('i-profiles')(instance()/current)?profile"></fx-bind-->
+
+            <fx-instance id="i-profiles" type="json" src="[[$context?path]]/api/configurations"></fx-instance>
+
+            <fx-instance id="i-result" type="json"></fx-instance>
+
+            <fx-submission id="s-load" url="[[$context?path]]/api/configuration" replace="instance" instance="i-result"></fx-submission>
+
+            <fx-submission id="s-run" url="[[$context?path]]/api/generator/{instance()/profile}?dry=true" method="post"
+                replace="instance" instance="i-result" 
+                ref="instance('i-profiles')?*[number(instance()/current)]?config">
+            </fx-submission>
+        </fx-model>
+
+        <nav>
+            <h3>Profiles</h3>
+            <fx-repeat ref="instance('i-profiles')?*" id="profiles">
+                <template>
+                    <fx-control ref=".">
+                        <a href="#" class="widget">
+                            <img src="icon.png"/>
+                            <label>{?title}</label>
+                        </a>
+                        <fx-action event="click">
+                            <fx-send submission="s-load" url="[[$context?path]]/api/configuration"></fx-send>
+                            <!--fx-setvalue ref="instance()/current" value="index('profiles')"></fx-setvalue-->
+                        </fx-action>
+                    </fx-control>
+                </template>
+            </fx-repeat>
+        </nav>
+        <main>
+            <fx-group ref="instance('i-result')">
+                <fx-control ref="?pkg?title">
+                    <label>Title</label>
+                    <input class="widget" type="text"/>
+                </fx-control>
+                <fx-control ref="?pkg?abbrev">
+                    <label>Abbreviation</label>
+                    <input class="widget" type="text"/>
+                </fx-control>
+                <fx-control ref="?id">
+                    <label>URI</label>
+                    <input class="widget" type="text"/>
+                </fx-control>
+
+                <fx-trigger>
+                    <button>Dry run</button>
+                    <fx-send submission="s-run" url="[[$context?path]]/api/generator/{instance()/profile}?dry=true"></fx-send>
+                </fx-trigger>
+                <fx-trigger>
+                    <button>Run</button>
+                    <fx-send submission="s-run" url="[[$context?path]]/api/generator/{instance()/profile}"></fx-send>
+                </fx-trigger>
+            </fx-group>
+
+
+            <ul>
+                <fx-repeat ref="instance('i-result')?report?*">
+                    <template>
+                        <li>{?type}: {?path}</li>
+                    </template>
+                </fx-repeat>
+            </ul>
+
+            <!--fx-control ref="json" update-event="blur">
+                <jinn-codemirror mode="json" theme="material-dark" class="widget"></jinn-codemirror>
+                <fx-action event="value-changed">
+                    <fx-message>JSON changed</fx-message>
+                    <fx-replace ref="instance('i-profiles')?profiles?*[number(instance()/abbrev)]?config"
+                        with="parse(context())"/>
+                </fx-action>
+            </fx-control-->
+        </main>
+    </fx-fore>
+</body>
+</html>

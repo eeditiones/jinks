@@ -1,55 +1,8 @@
-<html>
+[% extends "pages/page.html" %]
 
-<head>
-    <meta charset="utf-8"/>
-    <title>[[$title]]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-    <link rel="stylesheet" href="[[$context?path]]/pages/styles.css"/>
-    <style>
-    .editor {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        column-gap: 1rem;
-        max-width: 1400px;
-        margin: 2rem auto;
-    }
-    .buttons {
-        display: flex;
-        column-gap: .5rem;
-        margin-top: 1rem;
-        align-items: center;
-    }
-    nav {
-        text-align: center;
-    }
-    nav h3 {
-        font-size: 1rem;
-    }
-    nav a {
-        display: block;
-        margin-bottom: 1rem;
-    }
-    nav a > img {
-        width: 64px;
-    }
-    nav a > img, nav a > label {
-        display: block;
-        margin: 0 auto;
-    }
-    .output {
-        list-style: none;
-        line-height: 2;
-    }
-    .output li {
-        margin-top: 1rem;
-    }
-    </style>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
-</head>
-<body class="editor">
-    <nav></nav>
-    <main>
+<main class="editor content">
+    <nav class="profiles"></nav>
+    <div>
         <p>Installed, configurable apps and available profiles (grey icons) are shown to the left. Click on an icon to edit the merged configuration properties in the editor below.</p>
         <jinn-codemirror mode="json" theme="material-dark" placeholder="Merged configuration properties"></jinn-codemirror>
         <div class="buttons">
@@ -68,7 +21,6 @@
             <ul class="output"></ul>
             <div class="error"></div>
         </div>
-    </main>
-    <script src="pages/editor.js"></script>
-</body>
-</html>
+    </div>
+</main>
+<script src="pages/editor.js"></script>

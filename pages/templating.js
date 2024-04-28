@@ -11,7 +11,7 @@ function toggleOutput(show) {
 }
 
 function loadExamples(select) {
-    fetch('pages/sample-templates.json')
+    fetch('pages/demo/sample-templates.json')
     .then((response) => response.json())
     .then((data) => {
         data.forEach((example, idx) => {

@@ -1,46 +1,12 @@
-<html>
+[% extends "pages/page.html" %]
 
-<head>
-    <meta charset="utf-8"/>
-    <title>[[$title]]</title>
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-    <link rel="stylesheet" href="[[$context?path]]/pages/styles.css"/>
-    <style>
-        body {
-            max-width: 1400px;
-            margin: 20px auto;
-        }
-        main {
-            display: grid;
-            grid-template-columns: 1fr minmax(220px, 480px);
-            column-gap: 20px;
-        }
-        #errorMsg {
-            color: red;
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-        details {
-            margin-top: 1rem;
-        }
-        details pb-markdown {
-            margin-top: 1rem;
-        }
-        table th, table td {
-            text-align: left;
-            border-bottom: 1px solid #ced4da;
-        }
-        table td:nth-child(1), table th:nth-child(1) {
-            width: 40%;
-        }
-    </style>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
-</head>
-<body>
-    <pb-page class="templating" endpoint="[[$context?path]]" api-version="1.0">
-    <main>
+[% block scripts %]
+<script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
+<script src="[[$context?path]]/pages/templating.js"></script>
+[% endblock %]
+
+<pb-page class="content" endpoint="[[$context?path]]" api-version="1.0">
+    <main class="templating">
         <div>
             <h1>Template</h1>
             <jinn-codemirror id="template" mode="html" theme="material-dark">
@@ -64,14 +30,14 @@
                   Syntax Cheatsheet
                   <span class="icon">👇</span>
                 </summary>
-                <pb-markdown url="[[$context?path]]/pages/cheatsheet.md"></pb-markdown>
+                <pb-markdown url="[[$context?path]]/pages/demo/cheatsheet.md"></pb-markdown>
             </details>
         </div>
         <div>
             <h1>Parameters (JSON)</h1>
             <jinn-codemirror id="parameters" mode="json" theme="material-dark" code="{}">
                 <div slot="toolbar">
-                    <div>Each key becomes a parameter</div>
+                    <div>Each top-level key becomes a parameter</div>
                 </div>
             </jinn-codemirror>
         </div>
@@ -89,7 +55,4 @@
         <h1>Generated XQuery</h1>
         <pb-code-highlight id="ast" language="xquery" theme="tomorrow" line-numbers=""></pb-code-highlight>
     </div>
-    </pb-page>
-    <script src="[[$context?path]]/pages/app.js"></script>
-</body>
-</html>
+</pb-page>

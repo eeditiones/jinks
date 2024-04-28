@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "API for the app generator/manager"
+        "title": "jinks API"
     },
     "servers": [
         {
@@ -24,7 +24,7 @@
         }
     },
     "paths": {
-        "/{page}.html": {
+        "/{page}": {
             "get": {
                 "description": "Load HTML page via templating",
                 "operationId": "api:page",
@@ -43,6 +43,11 @@
                         "description": "The expanded HTML content",
                         "content": {
                             "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/css": {
                                 "schema": {
                                     "type": "string"
                                 }

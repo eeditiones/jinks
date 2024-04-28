@@ -387,7 +387,7 @@ declare function tmpl:include($path as xs:string, $resolver as function(*)?, $pa
 declare function tmpl:extends($path as xs:string, $contentFunc as function(*), $params as map(*), 
     $resolver as function(*)?, $plainText as xs:boolean?, $blocks as map(*)) {
     if (empty($resolver)) then
-        error($tmpl:ERROR_EXTENDS, "Include is not available in this templating context")
+        error($tmpl:ERROR_EXTENDS, "Extends is not available in this templating context")
     else
         let $template := $resolver($path)
         return
@@ -402,7 +402,7 @@ declare function tmpl:extends($path as xs:string, $contentFunc as function(*), $
                 return
                     tmpl:process-blocks($template, $params, $plainText, $resolver, $blocks)
             else
-                error($tmpl:ERROR_EXTENDS, "Included template " || $path || " not found")
+                error($tmpl:ERROR_EXTENDS, "Extended template " || $path || " not found")
 };
 
 declare %private function tmpl:process-blocks($template as xs:string, $params as map(*), $plainText as xs:boolean?,

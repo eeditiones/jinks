@@ -37,19 +37,19 @@
     },
     {
         "description": "Including partials",
-        "template":"<div>\n  <p>The footer below is loaded from <code>pages/footer.html</code></p>\n  [% include \"pages/footer.html\" %]\n</div>",
+        "template":"<div>\n  <p>The footer below is loaded from <code>pages/demo/footer.html</code></p>\n  [% include \"pages/demo/footer.html\" %]\n</div>",
         "params":{"app":"TEI Publisher"},
         "mode":"html"
     },
     {
         "description": "Template inheritance with extends",
-        "template":"[% extends \"pages/base.html\" %]\n[% block menu %]\n<li>Extra menu item</li>\n[% endblock %]\n<div>\n  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n</div>",
+        "template":"[% extends \"pages/demo/base.html\" %]\n[% block menu %]\n<li>Extra menu item</li>\n[% endblock %]\n<div>\n  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n</div>",
         "params":{"app":"TEI Publisher"},
         "mode":"html"
     },
     {
         "description": "Embedding markdown with extends",
-        "template":"[% extends \"pages/markdown.html\" %]\n\n## Lorem ipsum dolor sit amet\n\nConsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nPublished [[format-date(current-dateTime(), \"[MNn] [D], [Y]\", \"en\", (), ())]] by [[$author]].",
+        "template":"[% extends \"pages/demo/markdown.html\" %]\n\n## Lorem ipsum dolor sit amet\n\nConsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nPublished [[format-date(current-dateTime(), \"[MNn] [D], [Y]\", \"en\", (), ())]] by [[$author]].",
         "params":{"author":"Rudi"},
         "mode":"markdown"
     }

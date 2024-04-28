@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector('.profiles');
     const editor = document.querySelector('jinn-codemirror');
     const output = document.querySelector('.output');
     const errors = document.querySelector('.error');

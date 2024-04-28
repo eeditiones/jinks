@@ -1,24 +1,52 @@
+[% include "pages/menu.css" %]
+
+:root {
+    --color-highlight: #F6A623;
+    --color-menu-bg: #F6C460;
+    --color-submenu: #FADCA1;
+}
+
 html {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 1.42857143;
 }
+
+pb-page {
+    display: block;
+}
+
+.content {
+    max-width: 1400px;
+    margin: 20px auto;
+}
+
+main {
+    display: grid;
+    column-gap: 1rem;
+}
+
+.editor {
+    grid-template-columns: auto 1fr;
+}
+
+.templating {
+    grid-template-columns: 1fr minmax(220px, 480px);
+}
+
 h1, h2, h3 {
     font-family: Oswald, sans-serif;
     font-weight: 200;
     font-size: 1.33rem;
 }
-
 p {
     margin-top: 0;
 }
-
 jinn-codemirror {
     display: block;
     overflow: auto;
     max-height: 75vh;
 }
-
 .hidden {
     display: none;
 }
@@ -101,4 +129,54 @@ input:focus {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.buttons {
+    display: flex;
+    column-gap: .5rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+.profiles {
+    text-align: center;
+}
+.profiles h3 {
+    font-size: 1rem;
+}
+.profiles a {
+    display: block;
+    margin-bottom: 1rem;
+}
+.profiles a > img {
+    width: 64px;
+}
+.profiles a > img, .profiles a > label {
+    display: block;
+    margin: 0 auto;
+}
+.output {
+    list-style: none;
+    line-height: 2;
+}
+.output li {
+    margin-top: 1rem;
+}
+
+#errorMsg {
+    color: red;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+details {
+    margin-top: 1rem;
+}
+details pb-markdown {
+    margin-top: 1rem;
+}
+table th, table td {
+    text-align: left;
+    border-bottom: 1px solid #ced4da;
+}
+table td:nth-child(1), table th:nth-child(1) {
+    width: 40%;
 }

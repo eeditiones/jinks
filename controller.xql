@@ -19,7 +19,7 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
-else if (matches($exist:path, "\.(json|js|md|css|png|svg)$", "s")) then
+else if (matches($exist:path, "\.(json|js|md|png|svg)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/{$exist:path}"/>
     </dispatch>

@@ -14,6 +14,17 @@ declare option output:method "html5";
 declare option output:media-type "text/html";
 declare option output:indent "no";
 
+declare function api:resolver($relPath as xs:string) {
+    let $path := $config:app-root || "/" || $relPath
+    return
+        if (util:binary-doc-available($path)) then
+            util:binary-doc($path) => util:binary-to-string()
+        else if (doc-available($path)) then
+            doc($path) => serialize()
+        else
+            ()
+};
+
 declare function api:generator($request as map(*)) {
     let $config := if ($request?body instance of array(*)) then $request?body?1 else $request?body
     let $profile := $request?parameters?profile
@@ -28,16 +39,7 @@ declare function api:expand-template($request as map(*)) {
     let $params := head(($request?body?params, map {}))
     return
         try {
-            tmpl:process($template, $params, not($request?body?mode = ('html', 'xml')), function ($relPath as xs:string) {
-                let $path := $config:app-root || "/" || $relPath
-                return
-                    if (util:binary-doc-available($path)) then
-                        util:binary-doc($path) => util:binary-to-string()
-                    else if (doc-available($path)) then
-                        doc($path) => serialize()
-                    else
-                        ()
-            }, true())
+            tmpl:process($template, $params, not($request?body?mode = ('html', 'xml')), api:resolver#1, true())
         } catch * {
             roaster:response(500, $err:description)
         }
@@ -76,7 +78,7 @@ declare function api:configurations($request as map(*)) {
 };
 
 declare function api:page($request as map(*)) {
-    let $path := $config:app-root || "/pages/" || $request?parameters?page || ".html"
+    let $path := $config:app-root || "/pages/" || $request?parameters?page
     let $doc :=
         if (util:binary-doc-available($path)) then
             util:binary-doc($path) => util:binary-to-string()
@@ -86,13 +88,14 @@ declare function api:page($request as map(*)) {
             error($errors:NOT_FOUND, $path || " not found")
     let $params := map {
         "context": map {
-            "db-root": $config:app-root,
             "path": $config:context-path
         },
         "title": "TEI Publisher Templating"
     }
+    let $output := tmpl:process($doc, $params, false(), api:resolver#1)
+    let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
     return
-        tmpl:process($doc, $params, false(), ())
+        roaster:response(200, $mime, $output)
 };
 
 let $lookup := function($name as xs:string) {
