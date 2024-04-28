@@ -8,7 +8,7 @@ Replaces the custom app generator in earlier versions of TEI Publisher. The idea
 * uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles
 * profiles can be modular, i.e. contribute only one feature
 * detects local changes to files and leaves them untouched
-* comes with its own [templating language](templating.md), which can also process plain-text files (XQuery, CSS etc.)
+* comes with its own [templating module](https://github.com/eeditiones/jinks-templates), which can also process plain-text files (XQuery, CSS etc.)
 
 ## Profiles
 
@@ -44,7 +44,7 @@ which boils down to copying everything contained in the profile's source folder 
 
 ### Templates
 
-The `cpy:copy-collection` function will automatically process any file containing `.tpl` in its name as a template, which means the contents will be expanded through the [templating module](templating.md) using the current *configuration*.
+The `cpy:copy-collection` function will automatically process any file containing `.tpl` in its name as a template, which means the contents will be expanded through the [templating module](https://github.com/eeditiones/jinks-templates) using the current *configuration*.
 
 ## Usage
 

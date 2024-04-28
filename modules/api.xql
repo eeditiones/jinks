@@ -86,13 +86,13 @@ declare function api:page($request as map(*)) {
             doc($path) => serialize()
         else
             error($errors:NOT_FOUND, $path || " not found")
-    let $params := map {
+    let $context := map {
         "context": map {
             "path": $config:context-path
         },
-        "title": "TEI Publisher Templating"
+        "title": "jinks"
     }
-    let $output := tmpl:process($doc, $params, false(), api:resolver#1)
+    let $output := tmpl:process($doc, $context, false(), api:resolver#1)
     let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
     return
         roaster:response(200, $mime, $output)
