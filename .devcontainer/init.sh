@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 sleep 10
+
 cd $(dirname "$0")/..
+npm install -g @existdb/xst
 ant
 for XAR in build/*.xar; do
     echo Installing $XAR
