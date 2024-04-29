@@ -79,23 +79,21 @@ declare function api:configurations($request as map(*)) {
 
 declare function api:page($request as map(*)) {
     let $path := $config:app-root || "/pages/" || $request?parameters?page
-    let $doc :=
-        if (util:binary-doc-available($path)) then
-            util:binary-doc($path) => util:binary-to-string()
-        else if (doc-available($path)) then
-            doc($path) => serialize()
-        else
-            error($errors:NOT_FOUND, $path || " not found")
-    let $context := map {
-        "context": map {
-            "path": $config:context-path
-        },
-        "title": "jinks"
-    }
-    let $output := tmpl:process($doc, $context, false(), api:resolver#1)
-    let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
+    let $doc := api:resolver("pages/" || $request?parameters?page)
     return
-        roaster:response(200, $mime, $output)
+        if (exists($doc)) then
+            let $context := map {
+                "context": map {
+                    "path": $config:context-path
+                },
+                "title": "jinks"
+            }
+            let $output := tmpl:process($doc, $context, false(), api:resolver#1)
+            let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
+            return
+                roaster:response(200, $mime, $output)
+    else
+        error($errors:NOT_FOUND, $path || " not found")
 };
 
 let $lookup := function($name as xs:string) {

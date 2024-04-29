@@ -7,7 +7,7 @@
 | `[% for $var in expr %] … [% endfor %]` | Loop `$var` over sequence returned by `expr` |
 | `[% include expr %]` | Include a partial. `expr` should resolve to relative path. |
 | `[% extends expr %]` | Extend a base template: contents of child template passed to base template in variable `$content`. Named blocks in child overwrite blocks in base. |
-| `[% block name %]` | Defines a named block or overwrites corresponding block in base template. |
+| `[% block name %]… [% endblock %]` | Defines a named block or overwrites corresponding block in base template. |
 | `[# … #]` | Single or multi-line comment: content will be discarded |
 
 `expr` must be a valid XPath expression.
