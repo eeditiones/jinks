@@ -1,29 +1,54 @@
-[% include "pages/menu.css" %]
-
 :root {
     --color-highlight: #F6A623;
-    --color-menu-bg: #F6C460;
+    --color-menu-bg: #35424b;
     --color-submenu: #FADCA1;
+    --pico-header-background: var(--color-menu-bg);
 }
 
-html {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.42857143;
+@media (min-width: 1536px) {
+    :root {
+      --pico-font-size: 100%;
+    }
+}
+
+.logo {
+    background-image: url("pages/tei-publisher-logo-contrast-color.svg");
+    height: 64px;
+    width: 140px;
+    background-size: auto auto;
+    background-position: left center;
+    background-repeat: no-repeat;
 }
 
 pb-page {
     display: block;
 }
 
-.content {
-    max-width: 1400px;
-    margin: 20px auto;
+header {
+    --pico-block-spacing-vertical: 0;
+    --pico-nav-element-spacing-vertical: 0;
+    --pico-primary: white;
+}
+
+@media (min-width: 1024px) {
+    .is-fixed-above-lg {    
+        z-index: 2;
+        position: sticky;
+        top: 0;
+        backdrop-filter: blur(1rem);
+        background-color: var(--pico-header-background);
+        transition:
+            border-top-color 0.4s ease-in-out,
+            box-shadow 0.4s ease-in-out;
+    }
+    .is-fixed {
+        border-bottom-color: var(--pico-header-border-color);
+        box-shadow: var(--pico-card-box-shadow);
+    }
 }
 
 main {
-    display: grid;
-    column-gap: 1rem;
+    padding-top: 1rem;
 }
 
 .editor {
@@ -39,64 +64,30 @@ h1, h2, h3 {
     font-weight: 200;
     font-size: 1.33rem;
 }
+
 p {
     margin-top: 0;
 }
+
 jinn-codemirror {
     display: block;
     overflow: auto;
     max-height: 75vh;
+    min-height: 20vh;
+    font-size: 1rem;
 }
+
 .hidden {
     display: none;
 }
 [slot=toolbar] {
+    display: flex;
     margin-bottom: 4px;
-}
-[slot=toolbar] div {
-    height: 35px;
-}
-select {
-    background-color: transparent;
-    border: 1px solid #ced4da;
-    padding: 8px 30px 8px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 13px;
-}
-select:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-button {
-    background-color: #4CAF50; /* Match select focus color */
-    color: #fff;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
+    --pico-spacing: 0;
 }
 
-/* Label style */
-label {
-    color: #616161;
-    font-size: 0.875rem;
-}
-
-input[type=text] {
-    display: block;
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: none;
-    border-bottom: 2px solid #bdbdbd; /* Bottom border color */
-    outline: none;
-    transition: border-bottom-color 0.3s ease;
-}
-
-input:focus {
-    border-bottom-color: #1976d2; /* Bottom border color when focused */
+#eval {
+    min-width: fit-content
 }
 
 .badge {
@@ -117,26 +108,12 @@ input:focus {
     color: red;
 }
 
-#spinner {
-    width: 1rem;
-    height: 1rem;
-    border: 5px solid #ccc;
-    border-top-color: #1c4716; /* Change to your desired color */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 .buttons {
     display: flex;
     column-gap: .5rem;
-    margin-top: 1rem;
     align-items: center;
 }
+
 .profiles {
     text-align: center;
 }
@@ -145,7 +122,7 @@ input:focus {
 }
 .profiles a {
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 .profiles a > img {
     width: 64px;
@@ -167,9 +144,11 @@ input:focus {
     font-size: 1.2em;
     margin: 10px 0;
 }
-details {
-    margin-top: 1rem;
+
+summary {
+    width: fit-content;
 }
+
 details pb-markdown {
     margin-top: 1rem;
 }

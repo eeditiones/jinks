@@ -5,12 +5,12 @@
 <script src="[[$context?path]]/pages/templating.js"></script>
 [% endblock %]
 
-<pb-page class="content" endpoint="[[$context?path]]" api-version="1.0">
-    <main class="templating">
+<pb-page class="container" endpoint="[[$context?path]]" api-version="1.0">
+    <main class="grid templating">
         <div>
             <h1>Template</h1>
             <jinn-codemirror id="template" mode="html" theme="material-dark">
-                <div slot="toolbar">
+                <fieldset slot="toolbar" class="grid">
                     <select id="examples">
                         <option value="">[Select an example]</option>
                     </select>
@@ -23,13 +23,10 @@
                         <option value="default">Plain text</option>
                     </select>
                     <button id="eval">Eval</button>
-                </div>
+                </fieldset>
             </jinn-codemirror>
             <details>
-                <summary>
-                  Syntax Cheatsheet
-                  <span class="icon">👇</span>
-                </summary>
+                <summary>Syntax Cheatsheet</summary>
                 <pb-markdown url="[[$context?path]]/pages/demo/cheatsheet.md"></pb-markdown>
             </details>
         </div>

@@ -4,23 +4,25 @@
 <script src="pages/editor.js"></script>
 [% endblock %]
 
-<main class="editor content">
-    <nav class="profiles"></nav>
+<main class="grid editor container">
+    <aside>
+        <nav class="profiles"></nav>
+    </aside>
     <div>
         <p>Installed, configurable apps and available profiles (grey icons) are shown to the left. Click on an icon to edit the merged configuration properties in the editor below.</p>
         <jinn-codemirror mode="json" theme="material-dark" placeholder="Merged configuration properties"></jinn-codemirror>
-        <div class="buttons">
-            <label>Overwrite mode: 
-                <select name="overwrite" placeholder="Overwrite mode">
-                    <option value="default">Default</option>
-                    <option value="update">Update</option>
-                    <option value="all">All</option>
-                </select>
-            </label>
-            <button id="dry-run">Dry Run</button>
+        <label>Overwrite mode:
+            <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
+                <option value="default">Default</option>
+                <option value="update">Update</option>
+                <option value="all">All</option>
+            </select>
+        </label>
+        <fieldset class="buttons">
+            <button id="dry-run" class="secondary">Dry Run</button>
             <button id="apply-config">Apply</button>
-            <div id="spinner"></div>
-        </div>
+            <span id="spinner" aria-busy="true">Applying configuration...</span>
+        </fieldset>
         <div>
             <ul class="output"></ul>
             <div class="error"></div>

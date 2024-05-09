@@ -5,13 +5,16 @@
     <title>[[$title]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
     <link rel="stylesheet" href="[[$context?path]]/styles.css"/>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
     [% block scripts %][% endblock %]
 </head>
 <body>
-    <header>
+    <header class="is-fixed-above-lg">
+        <div class="container-fluid">
         [% include "pages/menu.html" %]
+        </div>
     </header>
     [[$content]]
 </body>
