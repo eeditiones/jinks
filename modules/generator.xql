@@ -47,13 +47,26 @@ declare function generator:process($profile as xs:string, $settings as map(*)?, 
         ))
         return
             generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profileName)
+    let $postProcessed :=
+        for $profileName in $context?profiles?*
+        return
+            generator:after-write($context, $generator:PROFILES_ROOT || "/" || $profileName)
     return
         map {
-            "messages": array { $result },
+            "messages": array { $result, $postProcessed },
             "config": $context
         }
 };
 
+(:~
+ : Prepare the configuration by merging all profile configurations, then for each profile, 
+ : call the function annotated with "prepare" in the setup.xql, merging in any changes or additions
+ : returned by that function.
+ :
+ : @param $collection the collection containing the profile to use
+ : @param $settings general settings to control the generator
+ : @param $config user-supplied configuration, which will overwrite the config.json in the profile
+ :)
 declare function generator:prepare($collection as xs:string, $settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($collection, $settings, $config)
     let $mergedConfig :=
@@ -65,43 +78,25 @@ declare function generator:prepare($collection as xs:string, $settings as map(*)
 };
 
 declare %private function generator:call-prepare($collection as xs:string, $baseConfig as map(*)?) {
-    let $setupFuncs :=
-        if (util:binary-doc-available($collection || "/setup.xql")) then
-            inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
-        else
-            ()
+    let $prepFunc := generator:find-callback($collection, "prepare")
     return
-        if (exists($setupFuncs)) then
-            let $prepFunc := generator:find-callback($setupFuncs, "prepare")
-            return
-                if (exists($prepFunc)) then
-                    map:merge(($baseConfig, ($prepFunc?2)($baseConfig)))
-                else
-                    $baseConfig
+        if (exists($prepFunc)) then
+            map:merge(($baseConfig, ($prepFunc?2)($baseConfig)))
         else
             $baseConfig
 };
 
 declare %private function generator:write($context as map(*)?, $collection as xs:string) {
-    let $setupFuncs :=
-        if (util:binary-doc-available($collection || "/setup.xql")) then
-            inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
-        else
-            ()
+    let $writeFunc := generator:find-callback($collection, "write")
     return
-        if (exists($setupFuncs)) then
-            let $writeFunc := generator:find-callback($setupFuncs, "write")
-            return
-                if (exists($writeFunc)) then (
-                    ($writeFunc?2)($context),
-                    generator:save-config($context),
-                    if ($context?_update or $context?_noDeploy) then
-                        ()
-                    else
-                        cpy:deploy($context?target)
-                ) else
-                    error($generator:ERROR_NOT_FOUND, "No 'write' function found in " || $collection)
-        else (
+        if (exists($writeFunc)) then (
+            ($writeFunc?2)($context),
+            generator:save-config($context),
+            if ($context?_update or $context?_noDeploy) then
+                ()
+            else
+                cpy:deploy($context?target)
+        ) else (
             cpy:copy-collection($context),
             generator:save-config($context),
             if ($context?_update or $context?_noDeploy) then
@@ -111,21 +106,56 @@ declare %private function generator:write($context as map(*)?, $collection as xs
         )
 };
 
-declare %private function generator:find-callback($funcs as function(*)*, $type as xs:string) {
-    fold-right($funcs, (), function($func, $in) {
-        if (exists($in)) then
-            $in
-        else
-            let $desc := inspect:inspect-function($func)
-            let $anno := 
-                $desc/annotation[@namespace = $generator:NAMESPACE]
-                    [replace($desc/annotation/@name, "^.*?:(.*)$", "$1") = $type]
+declare function generator:after-write($context as map(*), $collection as xs:string) {
+    let $func := generator:find-callback($collection, "after-write")
+    return
+        if (exists($func)) then
+            let $targetCollection := generator:get-package-target($context?id)
+            let $adjContext := map:merge((
+                $context,
+                map {
+                    "base-uri": "http://localhost:" || request:get-server-port() ||
+                        request:get-context-path() || "/apps/" ||
+                        substring-after($targetCollection, repo:get-root())
+                }
+            ))
             return
-                if ($anno) then
-                    [$anno, $func]
+                ($func?2)($targetCollection, $adjContext)
+        else
+            ()
+};
+
+declare %private function generator:find-callback($collection as xs:string, $type as xs:string) {
+    let $funcs :=
+        if (util:binary-doc-available($collection || "/setup.xql")) then
+            inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
+        else
+            ()
+    return
+        if (exists($funcs)) then
+            fold-right($funcs, (), function($func, $in) {
+                if (exists($in)) then
+                    $in
                 else
-                    ()
-    })
+                    let $desc := inspect:inspect-function($func)
+                    let $anno := 
+                        $desc/annotation[@namespace = $generator:NAMESPACE]
+                            [replace($desc/annotation/@name, "^.*?:(.*)$", "$1") = $type]
+                    return
+                        if ($anno) then
+                            [$anno, $func]
+                        else
+                            ()
+            })
+        else
+            ()
+};
+
+declare function generator:find-setup($collection as xs:string) {
+    if (util:binary-doc-available($collection || "/setup.xql")) then
+        inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
+    else
+        ()
 };
 
 (:~

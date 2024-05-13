@@ -8,10 +8,12 @@ declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "../../modules/cpy.xql";
+import module namespace path="http://tei-publisher.com/jinks/path" at "../../modules/paths.xql";
 
 declare variable $teip:ERROR_TEIP_NOT_INSTALLED := xs:QName("teip:not-installed");
 
 declare variable $teip:TEIP_PKG_ID := "http://existsolutions.com/apps/tei-publisher";
+
 declare 
     %generator:prepare
 function teip:prepare($context as map(*)) {
@@ -32,10 +34,10 @@ function teip:prepare($context as map(*)) {
 declare 
     %generator:write
 function teip:setup($context as map(*)) {
-    cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/modules/lib", "modules/lib"),
+    cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/data/registers", "data/registers"),
-    cpy:mkcol($context, "resources/scripts"),
+    path:mkcol($context, "resources/scripts"),
     cpy:copy-resource($context, $context?publisher || "/resources/scripts/browse.js", "resources/scripts/browse.js"),
     cpy:copy-resource($context, $context?publisher || "/data/taxonomy.xml", "data/taxonomy.xml"),
     cpy:copy-resource($context, $context?publisher || "/templates/api.html", "templates/api.html"),
@@ -53,7 +55,7 @@ function teip:setup($context as map(*)) {
 };
 
 declare %private function teip:install-pages($context as map(*)) {
-    cpy:mkcol($context, "templates/pages"),
+    path:mkcol($context, "templates/pages"),
     for $page in $context?pages?*
     return
         cpy:copy-resource($context, $context?publisher || "/templates/pages/" || $page, 
