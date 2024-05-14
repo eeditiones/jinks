@@ -42,6 +42,8 @@ The profile may also include an XQuery module called `setup.xql`. If present, ji
 
 `%generator:write` receives the merged configuration as parameter `$context`. It should use the functions of the `cpy` module to copy or write files into the target collection, given by the property `$context?target`. The source, i.e. the collection containing the profile's source, is available in `$context?source`.
 
+`%generator:after-write` is called after the application has been updated (or installed if it was not generated before). The function receives the target collection in which the application is installed as first parameter, the current context as second.  
+
 If no `setup.xql` is present or no `%generator:write` function is defined, the default action is to call
 
 ```xquery
