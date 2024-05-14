@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+        <link rel="stylesheet" type="text/css" href="[[ $base-uri ]]/transform/shakespeare.css"/>
+        <style>
+            main {
+                columns: 2;
+            }
+
+            .tei-cb:not(:first-of-type) + * {
+                break-before: column;
+            }
+
+            .footnotes {
+                font-size: 0.875em;
+            }
+
+            .popovers {
+                display: none;
+            }
+
+            .icon {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            .icon.next {
+                background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /%3E%3C/svg%3E');
+            }
+
+            .icon.previous {
+                background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /%3E%3C/svg%3E');
+            }
+        </style>
+        <title>[[ $pkg?title ]]</title>
+    </head>
+    <body class="container">
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                    [% if $pagination?data?previous %]
+                        <a href="[[ '../' || $pagination?page - 1 || '/index.html' ]]" class="icon previous"
+                            title="Page [[ $pagination?page - 1 ]]"></a>
+                    [% endif %]
+                    </li>
+                    <li>
+                    [% if $pagination?data?next %]
+                        <a href="[[ '../' || $pagination?page + 1 || '/index.html' ]]" class="icon next"
+                            title="Page [[ $pagination?page + 1 ]]"></a>
+                    [% endif %]
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="grid">
+            <main>[[ $pagination?data?content ]]</main>
+            <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+        </div>
+        <div class="footnotes">[[ $pagination?data?footnotes ]]</div>
+    </body>
+</html>

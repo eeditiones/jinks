@@ -1,0 +1,22 @@
+{
+    "id": "https://e-editiones.org/app/shakespeare",
+    "label": "Shakespeare Static",
+    "extends": ["base"],
+    "version": "1.0.0",
+    "pkg": {
+        "abbrev": "shakes-static"
+    },
+    "odds": [
+        "shakespeare.odd"
+    ],
+    "defaults": {
+        "template": "shakespeare.html",
+        "odd": "shakespeare.odd"
+    },
+    "pages": [
+        "shakespeare.html"
+    ],
+    "skip": [
+        "static/page.html"
+    ]
+}

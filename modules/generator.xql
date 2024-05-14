@@ -116,7 +116,8 @@ declare function generator:after-write($context as map(*), $collection as xs:str
                 map {
                     "base-uri": "http://localhost:" || request:get-server-port() ||
                         request:get-context-path() || "/apps/" ||
-                        substring-after($targetCollection, repo:get-root())
+                        substring-after($targetCollection, repo:get-root()),
+                    "target": $targetCollection
                 }
             ))
             return

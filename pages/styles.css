@@ -30,6 +30,15 @@ header {
     --pico-primary: white;
 }
 
+nav details {
+    --pico-form-element-background-color: var(--color-menu-bg);
+    --pico-form-element-border-color: var(--color-menu-bg);
+    --pico-form-element-focus-color: var(--color-menu-bg);
+    --pico-form-element-placeholder-color: var(--pico-primary);
+    --pico-form-element-active-background-color: var(--color-menu-bg);
+    --pico-form-element-active-border-color: var(--color-menu-bg);
+}
+
 @media (min-width: 1024px) {
     .is-fixed-above-lg {    
         z-index: 2;
@@ -73,7 +82,7 @@ p {
 jinn-codemirror {
     display: block;
     overflow: auto;
-    max-height: 75vh;
+    max-height: 60vh;
     min-height: 20vh;
     font-size: 1rem;
 }
@@ -127,6 +136,7 @@ jinn-codemirror {
 }
 .profiles a > img {
     width: 64px;
+    margin-bottom: .5rem;
 }
 .profiles a > img, .profiles a > label {
     display: block;
