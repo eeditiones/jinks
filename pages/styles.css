@@ -104,18 +104,19 @@ jinn-codemirror {
     display: inline-block;
     padding: 0.25em 0.5em;
     border-radius: 0.25em;
-    background-color: #007bff; /* Badge background color */
-    color: #fff; /* Text color */
+    background-color: #2C6C0C; /* Badge background color */
+    color: var(--pico-primary-inverse); /* Text color */
     font-size: 0.875rem; /* Font size */
     font-weight: bold; /* Font weight */
 }
 
 .alert {
-    background-color: red;
+    background-color: #D93526;
+    color: var(--pico-primary-inverse);
 }
 
 .error {
-    color: red;
+    color: #D93526;
 }
 
 .buttons {
@@ -143,10 +144,10 @@ jinn-codemirror {
     margin: 0 auto;
 }
 .output {
-    list-style: none;
     line-height: 2;
 }
 .output li {
+    list-style: none;
     margin-top: 1rem;
 }
 

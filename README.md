@@ -81,7 +81,7 @@ When creating a new custom application, the profile (and its sub-profiles) will 
 
 Once the application has been installed, users may call the manager again with a modified configuration. The manager detects that an app with the same URI does already exist and by default applies the changes to the existing app collection only. The `overwrite` property, which can be passed in the `settings` parameter to `generator:process`, determines how updates are handled:
 
-* *default*: target files are not overwritten unless there's a new incoming version whose content is different
+* *default*: target files are not overwritten unless there's a new incoming version with different content
 * *update*: the target file will always be overwritten by the incoming version even if the content has not changed
 * *all*: the entire application is rebuilt from the profile and reinstalled into eXist
 

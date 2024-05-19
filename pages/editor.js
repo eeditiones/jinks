@@ -62,7 +62,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 output.innerHTML = '';
                 result.messages.forEach((message) => {
                     const li = document.createElement('li');
-                    li.innerHTML = `<span class="badge ${message.type === 'conflict' ? 'alert' : ''}">${message.type}</span> ${message.path}`;
+                    li.innerHTML = `
+                        <span class="badge ${message.type === 'conflict' ? 'alert' : ''}">${message.type}</span> 
+                        ${message.path} ${message.source ? ' from ' + message.source : ''}
+                    `;
                     output.appendChild(li);
                 });
             }

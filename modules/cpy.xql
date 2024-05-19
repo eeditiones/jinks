@@ -66,7 +66,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
     let $path := path:resolve-path($context?target, $target)
     let $relPath := substring-after($path, $context?target || "/")
     return 
-        cpy:overwrite($context, $relPath, $expanded, function() {(
+        cpy:overwrite($context, $relPath, $source, $expanded, function() {(
             xmldb:store($context?target, $target, $expanded),
             sm:chown($path, $context?pkg?user?name),
             sm:chgrp($path, $context?pkg?user?group),
@@ -79,7 +79,7 @@ declare function cpy:copy-resource($context as map(*), $source as xs:string, $ta
     let $targetPath := path:resolve-path($context?target, $target)
     let $relPath := substring-after($targetPath, $context?target || "/")
     return
-        cpy:overwrite($context, $relPath, function() {
+        cpy:overwrite($context, $relPath, $sourcePath, function() {
             cpy:resource-as-string($context, $sourcePath)
         }, function() {
             xmldb:copy-resource(
@@ -108,7 +108,7 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
                 let $collection := path:resolve-path($context?target, $target)
                 let $relPath := substring-after($collection || "/" || $targetName, $context?target || "/")
                 return
-                    cpy:overwrite($context, $relPath, function() { $expanded }, function() {
+                    cpy:overwrite($context, $relPath, $absSource || "/" || $resource, function() { $expanded }, function() {
                         xmldb:store($collection, $targetName, $expanded)[2]
                     })
             else
@@ -123,8 +123,8 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
  : Determine if the file corresponding to $relPath can be overwritten, and if yes, call the $callback
  : function. To detect conflicts, a hash key is computed and stored into .jinks.json.
  :)
-declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $content as function(*), 
-    $callback as function(*)) {
+declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string, 
+    $content as function(*), $callback as function(*)) {
     if ($relPath = $context?skip) then
         ()
     (: overwrite, but do not check or store hash :)
@@ -148,13 +148,12 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                     (: Still update if overwrite="update", the file was not there last time,
                     : or the incoming content is different :)
                     if (empty($expectedHash) or $context?_overwrite = "update"
-                        or $contentHash != $expectedHash) then
-                        if ($context?_dry) then
+                        or $contentHash != $expectedHash) then (
                             map {
                                 "type": "update",
-                                "path": $relPath
-                            }
-                        else (
+                                "path": $relPath,
+                                "source": $sourcePath
+                            },
                             cpy:save-hash($context, $relPath, $contentHash),
                             $callback()
                         )
