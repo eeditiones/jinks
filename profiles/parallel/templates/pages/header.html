@@ -1,0 +1,18 @@
+<div>
+    [% extends "templates/header.html" %]
+    [% block menubar %]
+    <li>
+        <pb-restricted login="login">
+            <a href="odd-editor.html?odd=[[ $doc?odd]].odd&amp;root=[[ $context?odd-root ]]&amp;output-root=[[ $context?output-root ]]&amp;output=[[ $context?output ]]" target="_blank">Edit ODD</a>
+        </pb-restricted>
+    </li>
+    [% endblock %]
+    [% block toolbar %]
+        <nav class="toolbar container-fluid">
+            <ul>
+                <li><pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/></li>
+                <li><pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/></li>
+            </ul>
+        </nav>
+    [% endblock %]
+</div>

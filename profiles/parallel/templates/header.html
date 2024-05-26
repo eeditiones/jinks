@@ -1,0 +1,17 @@
+<header class="is-fixed-above-lg">
+    <div>
+        <nav class="menubar container-fluid">
+            <ul>
+                <li><div class="logo"></div></li>
+                <li><a href="[[ $context?path ]]/index.html">Start</a></li>
+                [% block menubar %][% endblock %]
+            </ul>
+            <ul>
+                <li>
+                    <pb-login id="login" group="tei"></pb-login>
+                </li>
+            </ul>
+        </nav>
+        [% block toolbar %][% endblock %]
+    </div>
+</header>
