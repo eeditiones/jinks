@@ -23,6 +23,13 @@ body {
     height: 100vh;
 }
 
+@media (max-width: 767px) {
+    .grid-2c-scroll {
+        grid-template-columns: 100% 100%;
+        overflow: auto;
+    }
+}
+
 header {
     grid-area: header;
     margin-bottom: 1rem;
