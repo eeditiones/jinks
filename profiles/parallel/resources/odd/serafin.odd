@@ -156,7 +156,7 @@
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="id(substring-after(@ref, '#'), collection($global:data-root || '/auxiliary')/id('persons'))"/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), collection($global:register-root)/id('pb-persons'))"/>
             <outputRendition xml:space="preserve">
             color: #1565c0;
             </outputRendition>
@@ -191,12 +191,12 @@
                     <modelSequence predicate="$parameters?mode='map'">
             <model behaviour="webcomponent">
                 <param name="name" value="'pb-geolocation'"/>
-                <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:data-root || 'auxiliary/authorityLists.xml'))/location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:data-root || '/auxiliary/authorityLists.xml'))/location/geo, ' ')[1]"/>
-                <param name="label" value="id(substring-after(@ref, '#'), doc($global:data-root || '/auxiliary/authorityLists.xml'))/placeName"/>
+                <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[2]"/>
+                <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[1]"/>
+                <param name="label" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName"/>
                 <param name="key" value="substring-after(@ref, '#')"/>
                 <param name="emit" value="'map'"/>
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:data-root || '/auxiliary/authorityLists.xml'))/placeName/string()"/>
+                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
                 <outputRendition xml:space="preserve">
                 
             
@@ -206,7 +206,7 @@
                 </outputRendition>
             </model>
             <model behaviour="block">
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:data-root || '/auxiliary/authorityLists.xml'))/note"/>
+                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/note"/>
             </model>
         </modelSequence>
                     <model predicate="$parameters?header='short'" behaviour="inline"/>
@@ -220,7 +220,7 @@
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="id(substring-after(@ref, '#'), doc($global:data-root || '/auxiliary/authorityLists.xml'))"/>
+            <param name="alternate" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))"/>
             <outputRendition xml:space="preserve">
             color: #ef6c00;
             </outputRendition>

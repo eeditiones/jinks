@@ -18,7 +18,7 @@ declare variable $idx:app-root :=
             $rawPath
     ;
 
-declare variable $idx:persons := doc($idx:app-root || '/data/auxiliary/authorityLists.xml');
+declare variable $idx:registers := collection($idx:app-root || '/data/registers');
 
 (:~
  : Helper function called from collection.xconf to create index fields and facets.
@@ -87,11 +87,11 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
 };
 
 declare function idx:resolve-person($key) {
-    $idx:persons/id(substring-after($key, '#'))/tei:persName
+    $idx:registers/id(substring-after($key, '#'))/tei:persName
 };
 
 declare function idx:resolve-place($key) {
-    $idx:persons/id(substring-after($key, '#'))/tei:placeName
+    $idx:registers/id(substring-after($key, '#'))/tei:placeName
 };
 
 declare function idx:get-genre($header as element()?) {
