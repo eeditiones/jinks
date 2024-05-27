@@ -2,7 +2,14 @@
 
 body {
     --pb-view-max-width: 46rem;
-    /* overflow: hidden; */
+    --pb-color-primary: var(--pico-color);
+    --paper-checkbox-label-color: var(--pico-color);
+    background-color: var(--pico-background-color);
+    min-height: 100vh;
+}
+
+.splash {
+    background-color: var(--pico-background-color);
 }
 
 .grid-2c-scroll {
@@ -49,6 +56,10 @@ header {
     --pico-nav-element-spacing-vertical: 0;
 }
 
+.menubar .icon {
+    color: var(--pico-color);
+}
+
 .toolbar a {
     display: inline-block;
     margin-right: 1rem;
@@ -74,8 +85,16 @@ header {
     }
 }
 
+section > h1 {
+    margin-bottom: 2rem;
+}
+
+pb-paginate {
+    margin-bottom: 1rem;
+}
+
 .facets {
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .documents ul {
