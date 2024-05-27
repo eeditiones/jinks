@@ -89,13 +89,6 @@ declare function api:view($request as map(*)) {
                 tmpl:process(serialize($template), $model, false(), api:resolver#1)
 };
 
-declare function api:contents($request as map(*)) {
-    let $contents := id("main-contents", doc($config:data-root || "/" || $request?parameters?docid))
-    let $config := tpu:parse-pi(root($contents), ())
-    return
-        $pm-config:web-transform($contents, map { "mode": "toc", "root": $contents, "webcomponents": 7 }, $config?odd)
-};
-
 declare function api:resolver($relPath as xs:string) {
     let $path := $config:app-root || "/" || $relPath
     return

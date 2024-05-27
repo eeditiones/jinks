@@ -8,8 +8,10 @@
                 <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
                     subforms=".facets,.options" submit-on-load="submit-on-load">
                     <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
+                    <input type="hidden" name="field" value="text"/>
                 </pb-search>
-                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search"></pb-custom-form>
+                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+                </pb-custom-form>
             </aside>
             <div id="document-list">
                 <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
