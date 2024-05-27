@@ -36,6 +36,7 @@ declare function api:html($request as map(*)) {
                 "output-root": $config:output-root,
                 "odd-root": $config:odd-root
             },
+            "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
             "request": $request
         }
     ))
@@ -82,7 +83,9 @@ declare function api:view($request as map(*)) {
                         "output": $config:output,
                         "output-root": $config:output-root,
                         "odd-root": $config:odd-root
-                    }
+                    },
+                    "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
+                    "request": $request
                 }
             ))
             return

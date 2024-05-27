@@ -8,8 +8,15 @@
             </ul>
             <ul>
                 <li>
+                    <pb-lang name="lang">
+                        [% for $lang in map:keys($languages) %]
+                        <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
+                        [% endfor %]
+                    </pb-lang>
+                </li>
+                <li>
                     <a id="colorMode" href="#">
-                        <iron-icon icon="image:image:wb-sunny"></iron-icon>
+                        <iron-icon icon="image:wb-sunny"></iron-icon>
                     </a>
                 </li>
                 <li>
