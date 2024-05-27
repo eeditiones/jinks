@@ -35,7 +35,8 @@ declare function api:html($request as map(*)) {
                 "output": $config:output,
                 "output-root": $config:output-root,
                 "odd-root": $config:odd-root
-            }
+            },
+            "request": $request
         }
     ))
     return

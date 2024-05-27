@@ -5,7 +5,7 @@
         <h1>Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437 — 1459</h1>
         <div class="grid">
             <aside>
-                <pb-search id="search-form" subscribe="search" data-template="pages:parse-params" value="${query}"
+                <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
                     subforms=".facets,.options" submit-on-load="submit-on-load">
                     <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
                 </pb-search>
@@ -17,4 +17,7 @@
             </div>
         </div>
     </section>
+    [% block scripts %]
+    <script src="[[ $context?path ]]/resources/scripts/facets.js"></script>
+    [% endblock %]
 </main>
