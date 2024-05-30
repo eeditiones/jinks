@@ -14,13 +14,21 @@ declare option output:method "html5";
 declare option output:media-type "text/html";
 declare option output:indent "no";
 
-declare function api:resolver($relPath as xs:string) {
+declare function api:resolver($relPath as xs:string) as map(*)? {
     let $path := $config:app-root || "/" || $relPath
-    return
+    let $content :=
         if (util:binary-doc-available($path)) then
             util:binary-doc($path) => util:binary-to-string()
         else if (doc-available($path)) then
             doc($path) => serialize()
+        else
+            ()
+    return
+        if ($content) then
+            map {
+                "path": $path,
+                "content": $content
+            }
         else
             ()
 };
@@ -39,7 +47,11 @@ declare function api:expand-template($request as map(*)) {
     let $params := head(($request?body?params, map {}))
     return
         try {
-            tmpl:process($template, $params, not($request?body?mode = ('html', 'xml')), api:resolver#1, true())
+            tmpl:process($template, $params, map {
+                "plainText": not($request?body?mode = ('html', 'xml')), 
+                "resolver": api:resolver#1, 
+                "debug": true()
+            })
         } catch * {
             roaster:response(500, $err:description)
         }
@@ -79,7 +91,7 @@ declare function api:configurations($request as map(*)) {
 
 declare function api:page($request as map(*)) {
     let $path := $config:app-root || "/pages/" || $request?parameters?page
-    let $doc := api:resolver("pages/" || $request?parameters?page)
+    let $doc := api:resolver("pages/" || $request?parameters?page)?content
     return
         if (exists($doc)) then
             let $context := map {
@@ -88,7 +100,10 @@ declare function api:page($request as map(*)) {
                 },
                 "title": "jinks"
             }
-            let $output := tmpl:process($doc, $context, false(), api:resolver#1)
+            let $output := tmpl:process($doc, $context, map {
+                "plainText": false(), 
+                "resolver": api:resolver#1
+            })
             let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
             return
                 roaster:response(200, $mime, $output)

@@ -32,7 +32,9 @@ declare function api:page($request as map(*)) {
         $context
     ))
     return
-        tmpl:process($doc, $params, false(), ())
+        tmpl:process($doc, $params, map {
+            "plainText": false()
+    })
 };
 
 let $lookup := function($name as xs:string) {

@@ -54,7 +54,10 @@ declare function cpy:resource-as-string($context as map(*), $relPath as xs:strin
 
 declare function cpy:expand-template($template as xs:string, $context as map(*)) {
     try {
-        tmpl:process($template, $context, true(), cpy:resource-as-string($context, ?))
+        tmpl:process($template, $context, map {
+            "plainText": true(), 
+            "resolver": cpy:resource-as-string($context, ?)
+        })
     } catch * {
         error($cpy:ERROR_TEMPLATE, $err:description)
     }

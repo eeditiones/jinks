@@ -69,10 +69,17 @@ main.grid {
     grid-template-columns: 1fr minmax(220px, 480px);
 }
 
-h1, h2, h3 {
+h1, h2, h3, .output > label {
     font-family: Oswald, sans-serif;
     font-weight: 200;
-    font-size: 1.33rem;
+}
+
+.output > label {
+    color: var(--color-highlight);
+}
+
+.output {
+    margin-top: 1rem;
 }
 
 p {
@@ -146,7 +153,7 @@ jinn-codemirror {
 .output {
     line-height: 2;
 }
-.output li {
+ul.output li {
     list-style: none;
     margin-top: 1rem;
 }
@@ -159,6 +166,10 @@ jinn-codemirror {
 
 summary {
     width: fit-content;
+}
+
+details {
+    margin-top: 1rem;
 }
 
 details pb-markdown {

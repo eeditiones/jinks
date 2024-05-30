@@ -41,7 +41,10 @@ declare function api:html($request as map(*)) {
         }
     ))
     return
-        tmpl:process(serialize($template), $model, false(), api:resolver#1)
+        tmpl:process(serialize($template), $model, map {
+            "plainText": false(), 
+            "resolver": api:resolver#1
+        })
 };
 
 declare function api:view($request as map(*)) {
@@ -89,16 +92,27 @@ declare function api:view($request as map(*)) {
                 }
             ))
             return
-                tmpl:process(serialize($template), $model, false(), api:resolver#1)
+                tmpl:process(serialize($template), $model, map {
+                    "plainText": false(), 
+                    "resolver": api:resolver#1
+                })
 };
 
-declare function api:resolver($relPath as xs:string) {
+declare function api:resolver($relPath as xs:string) as map(*)? {
     let $path := $config:app-root || "/" || $relPath
-    return
+    let $content :=
         if (util:binary-doc-available($path)) then
             util:binary-doc($path) => util:binary-to-string()
         else if (doc-available($path)) then
             doc($path) => serialize()
+        else
+            ()
+    return
+        if ($content) then
+            map {
+                "path": $path,
+                "content": $content
+            }
         else
             ()
 };

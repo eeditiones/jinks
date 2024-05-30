@@ -8,6 +8,7 @@
 | `[% include expr %]` | Include a partial. `expr` should resolve to relative path. |
 | `[% extends expr %]` | Extend a base template: contents of child template passed to base template in variable `$content`. Named blocks in child overwrite blocks in base. |
 | `[% block name %]… [% endblock %]` | Defines a named block or overwrites corresponding block in base template. |
+| `[% import "uri" as "prefix" at "path" %]` | Import an XQuery module so its functions/variables can be used in template expressions. |
 | `[# … #]` | Single or multi-line comment: content will be discarded |
 
 `expr` must be a valid XPath expression.
