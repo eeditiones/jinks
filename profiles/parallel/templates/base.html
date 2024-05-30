@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="resources/css/custom-theme.css"/>
         <title>[[ $label ]]</title>
         
-        <script src="[[ $context?path ]]/resources/scripts/dark.js"></script>
+        <script src="[[ $config:context-path ]]/resources/scripts/dark.js"></script>
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
         <script type="module" src="[[$script?cdn]]/src/pb-tify.js"></script>
@@ -22,7 +22,7 @@
         [% endif %]
     </head>
     <body>
-        <pb-page endpoint="[[ $context?path ]]" app-root="[[ $context?path ]]" api-version="1.0.0" 
+        <pb-page endpoint="[[ $config:context-path ]]" app-root="[[ $config:context-path ]]" api-version="1.0.0" 
             locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" unresolved="unresolved">
         [[ $content ]]
         </pb-page>

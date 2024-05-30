@@ -29,13 +29,6 @@ declare function api:html($request as map(*)) {
     let $model := map:merge((
         $context,
         map {
-            "context": map {
-                "db-root": $config:app-root,
-                "path": $config:context-path,
-                "output": $config:output,
-                "output-root": $config:output-root,
-                "odd-root": $config:odd-root
-            },
             "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
             "request": $request
         }
@@ -43,7 +36,12 @@ declare function api:html($request as map(*)) {
     return
         tmpl:process(serialize($template), $model, map {
             "plainText": false(), 
-            "resolver": api:resolver#1
+            "resolver": api:resolver#1,
+            "modules": map {
+                "uri": "http://www.tei-c.org/tei-simple/config",
+                "prefix": "config",
+                "at": $config:app-root || "/modules/config.xqm"
+            }
         })
 };
 
@@ -80,13 +78,6 @@ declare function api:view($request as map(*)) {
                     },
                     "template": $templateName,
                     "media": if (map:contains($config, 'media')) then $config?media else (),
-                    "context": map {
-                        "db-root": $config:app-root,
-                        "path": $config:context-path,
-                        "output": $config:output,
-                        "output-root": $config:output-root,
-                        "odd-root": $config:odd-root
-                    },
                     "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
                     "request": $request
                 }
@@ -94,7 +85,12 @@ declare function api:view($request as map(*)) {
             return
                 tmpl:process(serialize($template), $model, map {
                     "plainText": false(), 
-                    "resolver": api:resolver#1
+                    "resolver": api:resolver#1,
+                    "modules": map {
+                        "uri": "http://www.tei-c.org/tei-simple/config",
+                        "prefix": "config",
+                        "at": $config:app-root || "/modules/config.xqm"
+                    }
                 })
 };
 

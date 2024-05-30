@@ -3,7 +3,7 @@
     [% block menubar %]
     <li>
         <pb-restricted login="login">
-            <a href="[[ $context?path ]]/odd-editor.html?odd=[[ $doc?odd]].odd&amp;root=[[ $context?odd-root ]]&amp;output-root=[[ $context?output-root ]]&amp;output=[[ $context?output ]]" target="_blank">Edit ODD</a>
+            <a href="[[ $config:context-path ]]/odd-editor.html?odd=[[ $doc?odd]].odd&amp;root=[[ $config:odd-root ]]&amp;output-root=[[ $config:output-root ]]&amp;output=[[ $config:output ]]" target="_blank">Edit ODD</a>
         </pb-restricted>
     </li>
     [% endblock %]
