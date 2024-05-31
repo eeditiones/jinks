@@ -45,7 +45,7 @@ else if ($exist:path eq '/api.html') then
         <forward url="{$exist:controller}/templates/api.html"/>
     </dispatch>
 
-else if (matches($exist:path, "^/site/.*index.html$")) then
+else if (matches($exist:path, "^/site/.*(.html|.json)$")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/{$exist:path}"/>
     </dispatch>

@@ -11,8 +11,25 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
         <link rel="stylesheet" type="text/css" href="[[ $base-uri ]]/transform/shakespeare.css"/>
         <style>
+            pb-page {
+                display: grid;
+                grid-template-rows: auto 1fr;
+                grid-template-columns: 50% 50%;
+                grid-template-areas: "header header" "text facsimile";
+                height: 100vh;
+            }
+
             main {
+                grid-area: text;
+                overflow: auto;
+            }
+
+            main .content {
                 columns: 2;
+            }
+
+            pb-tify {
+                grid-area: facsimile;
             }
 
             .tei-cb:not(:first-of-type) + * {
@@ -21,6 +38,18 @@
 
             .footnotes {
                 font-size: 0.875em;
+            }
+
+            header {
+                grid-area: header;
+            }
+
+            header nav li {
+                padding-bottom: 0;
+            }
+
+            [aria-label=breadcrumb] h5 {
+                font-size: 1rem;
             }
 
             .popovers {
@@ -44,30 +73,45 @@
             }
         </style>
         <title>[[ $pkg?title ]]</title>
+        
+        [% if $script?webcomponents = 'dev' %]
+        <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+        <script type="module" src="[[$script?cdn]]/src/pb-tify.js"></script>
+        [% else %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
+        [% endif %]
     </head>
-    <body class="container">
-        <header>
-            <nav>
-                <ul>
-                    <li>
-                    [% if $pagination?data?previous %]
-                        <a href="[[ '../' || $pagination?page - 1 || '/index.html' ]]" class="icon previous"
-                            title="Page [[ $pagination?page - 1 ]]"></a>
-                    [% endif %]
-                    </li>
-                    <li>
-                    [% if $pagination?data?next %]
-                        <a href="[[ '../' || $pagination?page + 1 || '/index.html' ]]" class="icon next"
-                            title="Page [[ $pagination?page + 1 ]]"></a>
-                    [% endif %]
-                    </li>
-                </ul>
-            </nav>
-        </header>
-        <div class="grid">
-            <main>[[ $pagination?data?content ]]</main>
+    <body>
+        <pb-page endpoint="[[ $base-uri ]]" api-version="1.0.0" class="container">
+            <header>
+                <nav>
+                    <ul>
+                        <li>
+                        [% if $parts?default?previous %]
+                            <a href="[[ '../' || $pagination?page - 1 || '/index.html' ]]" class="icon previous"
+                                title="Page [[ $pagination?page - 1 ]]"></a>
+                        [% endif %]
+                        </li>
+                        <li>
+                        [% if $parts?default?next %]
+                            <a href="[[ '../' || $pagination?page + 1 || '/index.html' ]]" class="icon next"
+                                title="Page [[ $pagination?page + 1 ]]"></a>
+                        [% endif %]
+                        </li>
+                    </ul>
+                </nav>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>[[ $parts?breadcrumbs?content ]]</li>
+                    </ul>
+                </nav>
+            </header>
             <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
-        </div>
-        <div class="footnotes">[[ $pagination?data?footnotes ]]</div>
+            <main>
+                [[ replace($parts?default?content, 'facs="api/iiif/([^"]+)', 'facs="' || $base-uri || '/site/iiif/$1.json') ]]
+                [[ $parts?default?footnotes ]]
+            </main>
+        </pb-page>
     </body>
 </html>
