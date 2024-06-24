@@ -6,10 +6,9 @@
             [% include "templates/menu.html" %]
 
             <div class="hero">
-                <h1>[[ $hero?main ]]</h1>
-                <p>[[ $hero?sub ]]</p>
-                
-                <a href="#collections">See the collections</a>
+                <h1><pb-i18n key="hero.jdp"/></h1>
+                <p><pb-i18n key="hero.sub"/></p>
+                <a href="#collections"><pb-i18n key="hero.see"/></a>
             </div>
         </div>
     </header>
@@ -17,18 +16,16 @@
     <main>
         <section id="collections">
             <header>
-                <h1>Featured Collections</h1>
-                <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing.</p>
+                <h1><pb-i18n key="menu.collections"/></h1>
             </header>
             [% include "templates/editions." || $request?parameters?lang || ".html" %]
         </section>
 
         <section id="about">
             <header>
-                <h1>About the Project</h1>
-                <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing</p>
+                <h1><pb-i18n key="menu.about"/></h1>
             </header>
-            <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing. Digital collections can be created by libraries, museums, archives, and other institutions, as well as by individuals and organizations. With the increasing availability of digital technologies, many institutions are shifting towards creating digital collections to provide greater access to their resources and to reach a wider audience.</p>
+            [% include "templates/about." || $request?parameters?lang || ".html" %]
         </section>
     </main>
     <script src="resources/scripts/language.js"></script>
