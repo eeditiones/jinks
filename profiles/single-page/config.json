@@ -1,17 +1,13 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/single-page",
     "label": "TEI Publisher: Single Page App",
-    "extends": ["parallel", "docker"],
+    "extends": ["base", "docker"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-single-page"
     },
-    "i18n": {
-        "default": "pl",
-        "languages": [
-            "en",
-            "pl"
-        ]
+    "defaults": {
+        "language": "pl"
     },
     "theme": {
         "fonts": {

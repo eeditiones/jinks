@@ -23,7 +23,10 @@
     </head>
     <body>
         <pb-page endpoint="[[ $config:context-path ]]" app-root="[[ $config:context-path ]]" api-version="1.0.0" 
-            locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" unresolved="unresolved">
+            supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
+            language="[[ if ($request?parameters?lang) then $request?parameters?lang else 'pl' ]]"
+            locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
+            unresolved="unresolved">
         [[ $content ]]
         </pb-page>
         <div class="splash"/>
