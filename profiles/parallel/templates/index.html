@@ -2,7 +2,7 @@
     [% extends "templates/base.html" %]
     [% include "templates/header.html" %]
     <section class="container">
-        <h1>Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437 — 1459</h1>
+        <h1>[[ $label ]]</h1>
         <div class="grid">
             <aside>
                 <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
