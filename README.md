@@ -10,13 +10,13 @@ Replaces the custom app generator in earlier versions of TEI Publisher. The idea
 * detects local changes to files and leaves them untouched
 * comes with its own [templating module](https://github.com/eeditiones/jinks-templates), which can also process plain-text files (XQuery, CSS etc.)
 
-## Profiles: blueprints, themes and modules
+## Profiles: blueprints, themes and features
 
 The core concept of jinks is the *profile*. Profiles can extend and import each other. We distinguish three different kinds of profiles:
 
 A *blueprint* is a complete template for an application targeted at a specific use case like a monography, correspondance edition, dictionary etc. An application generated from a blueprint is fully functional.
 
-A *module* is a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.
+A *feature* is a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.
 
 A *theme* is a customization of a base profile, changing mainly the look and feel, e.g. modify images, fonts or colors according to a corporate identity.
 
