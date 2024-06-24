@@ -17,7 +17,7 @@ declare variable $teip:TEIP_PKG_ID := "http://existsolutions.com/apps/tei-publis
 declare 
     %generator:prepare
 function teip:prepare($context as map(*)) {
-    let $teipPath := generator:get-package-target($teip:TEIP_PKG_ID)
+    let $teipPath := path:get-package-target($teip:TEIP_PKG_ID)
     let $teipVersion := 
         generator:get-package-descriptor($teip:TEIP_PKG_ID)/expath:package/@version
     return

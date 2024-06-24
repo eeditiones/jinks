@@ -10,6 +10,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace path="http://tei-publisher.com/jinks/path";
 
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";
 
@@ -110,7 +111,7 @@ declare function generator:after-write($context as map(*), $collection as xs:str
     let $func := generator:find-callback($collection, "after-write")
     return
         if (exists($func)) then
-            let $targetCollection := generator:get-package-target($context?id)
+            let $targetCollection := path:get-package-target($context?id)
             let $adjContext := map:merge((
                 $context,
                 map {
@@ -179,7 +180,7 @@ declare %private function generator:config($collection as xs:string, $settings a
         => generator:extends($collection)
     let $installedPkg := 
         if ($profileConfig?id) then
-            generator:get-package-target(head(($userConfig?id, $profileConfig?id)))
+            path:get-package-target(head(($userConfig?id, $profileConfig?id)))
         else
             ()
     let $installedConfig := 
@@ -271,21 +272,6 @@ declare %private function generator:save-config($context as map(*)) {
         )
         return
             xmldb:store($context?target, "config.json", serialize($config, map { "method": "json", "indent": true()}))[2]
-};
-
-declare function generator:get-package-target($uri as xs:string?) {
-    if (not(repo:list()[. = $uri])) then
-        ()
-    else
-        let $repoXML := 
-            repo:get-resource($uri, "repo.xml")
-            => util:binary-to-string()
-            => parse-xml()
-        return
-            if ($repoXML//repo:target) then
-                repo:get-root() || $repoXML//repo:target
-            else
-                ()
 };
 
 declare function generator:get-package-descriptor($uri as xs:string?) {

@@ -2,6 +2,8 @@ xquery version "3.1";
 
 module namespace path="http://tei-publisher.com/jinks/path";
 
+declare namespace repo="http://exist-db.org/xquery/repo";
+
 declare function path:resolve-path($parent as xs:string?, $relPath as xs:string) as xs:string {
     replace(
         if (starts-with($relPath, "/db")) then
@@ -22,13 +24,15 @@ declare function path:basename($path as xs:string) {
 };
 
 declare function path:mkcol($context as map(*), $path as xs:string) {
-    let $null := path:mkcol(
-        path:resolve-path($context?target, $path),
-        ($context?pkg?user?name, $context?pkg?user?group), 
-        $context?pkg?permissions
-    )
+    let $absPath := path:resolve-path($context?target, $path)
+    let $nil :=
+        path:mkcol(
+            $absPath,
+            ($context?pkg?user?name, $context?pkg?user?group), 
+            $context?pkg?permissions
+        )
     return
-        ()
+        $absPath
 };
 
 declare %private function path:mkcol-recursive($collection, $components, $userData as xs:string*, $permissions as xs:string?) {
@@ -58,4 +62,19 @@ declare %private function path:mkcol($path, $userData as xs:string*, $permission
 
 declare %private function path:set-execute-bit($permissions as xs:string) {
     replace($permissions, "(..).(..).(..).", "$1x$2x$3x")
+};
+
+declare function path:get-package-target($uri as xs:string?) {
+    if (not(repo:list()[. = $uri])) then
+        ()
+    else
+        let $repoXML := 
+            repo:get-resource($uri, "repo.xml")
+            => util:binary-to-string()
+            => parse-xml()
+        return
+            if ($repoXML//repo:target) then
+                repo:get-root() || $repoXML//repo:target
+            else
+                ()
 };
