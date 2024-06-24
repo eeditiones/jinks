@@ -1,0 +1,49 @@
+{
+    "id": "https://e-editiones.org/app/tei-publisher/single-page",
+    "label": "TEI Publisher: Single Page App",
+    "extends": ["parallel", "docker"],
+    "version": "1.0.0",
+    "pkg": {
+        "abbrev": "tei-publisher-single-page"
+    },
+    "i18n": {
+        "default": "pl",
+        "languages": [
+            "en",
+            "pl"
+        ]
+    },
+    "theme": {
+        "fonts": {
+            "content": "Poppins, sans-serif",
+            "base": "Poppins, sans-serif",
+            "heading": "Poppins, sans-serif"
+        }
+    },
+    "menu": [
+        {
+            "label": "About project",
+            "url": "#about"
+        },
+        {
+            "label": "Collections",
+            "url": "#collections"
+        },
+        {
+            "label": "Indexes",
+            "url": "#indexes"
+        },
+        {
+            "label": "Team",
+            "url": "#team"
+        },
+        {
+            "label": "Contact",
+            "url": "#contact"
+        }
+    ],
+    "hero": {
+        "main": "Jagiellonian Digital Platform",
+        "sub": "This site is a living database with new materials added every day, featuring prints, photographs, maps, manuscripts, streaming video, and more."
+    }
+}

@@ -1,0 +1,34 @@
+<div>
+    [% extends "templates/base.html" %]
+
+    <header class="page-header">
+        <div>
+            [% include "templates/menu.html" %]
+
+            <div class="hero">
+                <h1>[[ $hero?main ]]</h1>
+                <p>[[ $hero?sub ]]</p>
+                
+                <a href="#collections">See the collections</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="collections">
+            <header>
+                <h1>Featured Collections</h1>
+                <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing.</p>
+            </header>
+            [% include "templates/editions.en.html" %]
+        </section>
+
+        <section id="about">
+            <header>
+                <h1>About the Project</h1>
+                <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing</p>
+            </header>
+            <p>A digital collection refers to a carefully curated selection of digital materials, such as images, documents, audio files, and videos, that are stored in a digital format for easy access, preservation, and sharing. Digital collections can be created by libraries, museums, archives, and other institutions, as well as by individuals and organizations. With the increasing availability of digital technologies, many institutions are shifting towards creating digital collections to provide greater access to their resources and to reach a wider audience.</p>
+        </section>
+    </main>
+</div>

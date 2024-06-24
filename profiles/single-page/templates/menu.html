@@ -1,0 +1,27 @@
+<nav class="menubar container-fluid">
+    <ul>
+        <li><div class="logo"></div></li>
+        [% for $item in $menu?* %]
+        <li>
+            <a href="[[ $item?url ]]">[[ $item?label ]]</a>
+        </li>
+        [% endfor %]
+    </ul>
+    <ul>
+        <li>
+            <pb-lang name="lang">
+                [% for $lang in map:keys($languages) %]
+                <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
+                [% endfor %]
+            </pb-lang>
+        </li>
+        <li>
+            <a id="colorMode" href="#">
+                <iron-icon icon="image:wb-sunny"></iron-icon>
+            </a>
+        </li>
+        <li>
+            <pb-login id="login" group="tei"></pb-login>
+        </li>
+    </ul>
+</nav>

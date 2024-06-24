@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;1,300;1,600&display=swap');
+@import url('theme.css');
+
+:root {
+    --pico-font-family-sans-serif: 'Poppins', sans-serif;
+    --pico-line-height: 140%;
+    --Gray-1: #333333;
+    --Gray-2: #4F4F4F;
+}
+
+body {
+    --pb-menubar-background-color: transparent;
+    --pb-menubar-color: var(--pico-color);
+}
+
+.logo {
+    background-image: url("../images/uj-logo.png");
+    background-size: 100% auto;
+}
+
+.page-header {
+    width: 100vw;
+    height: 37.5rem;
+    background-image: url("../images/header-bg.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.page-header > div {
+    height: 100%;
+    width: 100%;
+    background-color: #d3d3d3dd;
+}
+
+.hero, .menubar, main {
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+.hero {
+    margin-top: 10rem;
+}
+
+.hero h1 {
+    max-width: 34.875rem;
+}
+.hero p {
+    max-width: 29.1875rem;
+}
+.hero a {
+    display: inline-block;
+    padding: 0.8125rem 1.875rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--Gray-2, #4F4F4F);
+    background-color: transparent;
+    color: var(--pico-color);
+    font-weight: 600;
+    line-height: 110%; /* 0.9625rem */
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+h1 {
+    color: var(--Gray-1, #333);
+    font-size: 3.375rem;
+    font-weight: 600;
+    line-height: 110%; /* 3.7125rem */
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 110%; /* 1.925rem */
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 110%; /* 1.375rem */
+    text-transform: uppercase;
+}
+
+section {
+    margin-top: 9rem;
+}
+section header {
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 34.0625rem);
+    justify-content: space-between;
+}
+
+section header p {
+    color: var(--Gray-1, #333);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 110%; /* 1.375rem */
+    text-transform: uppercase;
+}
+
+.slides {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 22.25rem);
+    column-gap: .2rem;
+    justify-content: space-between;
+    margin-top: 8rem;
+}
+
+.slides article h2 {
+    height: 30rem;
+    background-size: cover;
+}
+
+.slides article h2 span {
+    display: block;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 2rem 0 0 2rem;
+}
+
+.slides article:nth-child(3) h2 {
+    background-image: url("../images/skarga.png");
+}
+
+.slides article:nth-child(2) h2 {
+    background-image: url("../images/potowski.png");
+}
+
+.slides article:nth-child(1) h2 {
+    background-image: url("../images/neolatina.png");
+}
