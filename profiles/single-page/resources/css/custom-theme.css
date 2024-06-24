@@ -6,11 +6,29 @@
     --pico-line-height: 140%;
     --Gray-1: #333333;
     --Gray-2: #4F4F4F;
+
+    --page-header-background-color: rgba(255, 255, 255, 0.8);
+    --h1-color: var(--Gray-1);
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --h1-color: var(--pico-color);
+        --page-header-background-color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+[data-theme="dark"] {
+    --h1-color: var(--pico-color);
+    --page-header-background-color: rgba(0, 0, 0, 0.6);
 }
 
 body {
     --pb-menubar-background-color: transparent;
     --pb-menubar-color: var(--pico-color);
+    --pb-lang-input-color: var(--pico-color);
+    --pb-lang-label-color: var(--pico-color);
+    background-color: var(--pico-background-color);
 }
 
 .logo {
@@ -29,7 +47,7 @@ body {
 .page-header > div {
     height: 100%;
     width: 100%;
-    background-color: #d3d3d3dd;
+    background-color: var(--page-header-background-color);
 }
 
 .hero, .menubar, main {
@@ -61,7 +79,7 @@ body {
 }
 
 h1 {
-    color: var(--Gray-1, #333);
+    color: var(--h1-color, #333);
     font-size: 3.375rem;
     font-weight: 600;
     line-height: 110%; /* 3.7125rem */
@@ -92,7 +110,7 @@ section header {
 }
 
 section header p {
-    color: var(--Gray-1, #333);
+    color: var(--h1-color, #333);
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 110%; /* 1.375rem */
@@ -115,7 +133,7 @@ section header p {
 .slides article h2 span {
     display: block;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: var(--page-header-background-color);
     padding: 2rem 0 0 2rem;
 }
 
