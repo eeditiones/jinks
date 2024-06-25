@@ -1,9 +1,13 @@
 {
-    "id": "https://e-editiones.org/app/my-app",
-    "label": "Plain Application using Templating",
+    "id": "https://e-editiones.org/app/plain-app",
+    "label": "Plain Base Application",
+    "title": {
+        "main": "Plain Base Application",
+        "short": "No TEI Publisher. Uses Open API and templating for HTML."
+    },
     "version": "1.0.0",
     "pkg": {
-        "abbrev": "my-app",
+        "abbrev": "plain-app",
         "version": "1.0.0",
         "user": {
             "name": "tei",
@@ -13,6 +17,25 @@
         "permissions": "rw-r--r--"
     },
     "script": {
-        "webcomponents": "2.19.2"
-    }
+        "webcomponents": "2.19.2",
+        "fore": "1.0.0",
+        "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"
+    },
+    "defaults": {
+        "language": "en"
+    },
+    "menu": [
+        {
+            "label": "start",
+            "url": "#start"
+        },
+        {
+            "label": "about",
+            "url": "#about"
+        },
+        {
+            "label": "contact",
+            "url": "#contact"
+        }
+    ]
 }

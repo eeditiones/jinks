@@ -1,0 +1,35 @@
+<div>
+    [% extends "templates/base.html" %]
+
+    <header class="page-header">
+        <div>
+            [% include "templates/menu.html" %]
+
+            <aside class="mobile container-fluid">
+                <nav>
+                    <ul>
+                        [% for $item in $menu?* %]
+                        <li>
+                            <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
+                        </li>
+                        [% endfor %]
+                    </ul>
+                </nav>
+            </aside>
+            <div class="hero">
+                <h1>[[ $title?main ]]</h1>
+                <p>[[ $title?short ]]</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h1>Lorem Ipsum</h1>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+        </section>
+
+        [% include "templates/footer.html" %]
+    </main>
+</div>
