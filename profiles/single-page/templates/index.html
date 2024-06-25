@@ -25,7 +25,10 @@
             <header>
                 <h1><pb-i18n key="menu.about"/></h1>
             </header>
-            [% include "templates/about." || $request?parameters?lang || ".html" %]
+            <div class="grid">
+                [% include "templates/about." || $request?parameters?lang || ".html" %]
+                <div class="bg-transparent"><span></span></div>
+            </div>
         </section>
     </main>
     <script src="resources/scripts/language.js"></script>

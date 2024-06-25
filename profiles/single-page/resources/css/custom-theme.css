@@ -12,7 +12,7 @@
 }
 
 @media only screen and (prefers-color-scheme: dark) {
-    :root:not([data-theme]) {
+    body:not([data-theme]) {
         --h1-color: var(--pico-color);
         --page-header-background-color: rgba(0, 0, 0, 0.6);
     }
@@ -59,11 +59,8 @@ body {
     margin-top: 10rem;
 }
 
-.hero h1 {
-    max-width: 34.875rem;
-}
-.hero p {
-    max-width: 29.1875rem;
+.hero h1, .hero p {
+    max-width: 50rem;
 }
 .hero a {
     display: inline-block;
@@ -117,6 +114,15 @@ section header p {
     text-transform: uppercase;
 }
 
+.bg-transparent, .slides h2 {
+    background-size: cover;
+}
+.bg-transparent > *, .slides h2 > * {
+    display: block;
+    background-color: var(--page-header-background-color);
+    height: 100%;
+}
+
 .slides {
     display: grid;
     grid-template-columns: repeat(auto-fill, 22.25rem);
@@ -127,13 +133,9 @@ section header p {
 
 .slides article h2 {
     height: 30rem;
-    background-size: cover;
 }
 
 .slides article h2 span {
-    display: block;
-    height: 100%;
-    background-color: var(--page-header-background-color);
     padding: 2rem 0 0 2rem;
 }
 
@@ -147,4 +149,8 @@ section header p {
 
 .slides article:nth-child(1) h2 {
     background-image: url("../images/neolatina.png");
+}
+
+#about .bg-transparent {
+    background-image: url("../images/uni.png");
 }
