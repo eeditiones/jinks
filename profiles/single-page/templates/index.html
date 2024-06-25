@@ -34,6 +34,12 @@
         <section id="info">
             [% include "templates/info." || $request?parameters?lang || ".html" %]
         </section> 
+        <section id="team">
+            <header>
+                <h1><pb-i18n key="menu.team"/></h1>
+            </header>
+            [% include "templates/team." || $request?parameters?lang || ".html" %]
+        </section>
     </main>
     
     [% include "templates/footer.html" %]
