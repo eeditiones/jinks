@@ -132,6 +132,9 @@ section header p {
     background-color: var(--page-header-background-color);
     height: 100%;
 }
+.bg-transparent:hover > *, .slides article:hover h2 > * {
+    background-color: transparent;
+}
 
 .slides {
     display: grid;
