@@ -5,7 +5,19 @@
         <div>
             [% include "templates/menu.html" %]
 
-            <div class="hero">
+            <aside class="mobile container-fluid">
+                <nav>
+                    <ul>
+                        [% for $item in $menu?* %]
+                        <li>
+                            <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
+                        </li>
+                        [% endfor %]
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="hero container-fluid">
                 <h1><pb-i18n key="hero.jdp"/></h1>
                 <p><pb-i18n key="hero.sub"/></p>
                 <a href="#collections"><pb-i18n key="hero.see"/></a>
@@ -13,7 +25,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="container-fluid">
         <section id="collections">
             <header>
                 <h1><pb-i18n key="menu.collections"/></h1>

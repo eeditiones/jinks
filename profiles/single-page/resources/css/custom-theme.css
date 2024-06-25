@@ -3,6 +3,7 @@
 
 :root {
     --pico-font-family-sans-serif: 'Poppins', sans-serif;
+    font-size: var(--pico-font-size);
     --pico-line-height: 140%;
     --Gray-1: #333333;
     --Gray-2: #4F4F4F;
@@ -60,6 +61,17 @@ body {
     background-color: var(--page-header-background-color);
 }
 
+@media (max-width: 1023px) {
+    .hidden-mobile {
+        display: none;
+    }
+}
+@media (min-width: 1024px) {
+    .mobile {
+        display: none;
+    }
+}
+
 .hero, .menubar, main {
     max-width: 70rem;
     margin: 0 auto;
@@ -68,7 +80,6 @@ body {
 .hero {
     margin-top: 10rem;
 }
-
 .hero h1, .hero p {
     max-width: 50rem;
 }
@@ -83,6 +94,11 @@ body {
     line-height: 110%; /* 0.9625rem */
     text-transform: uppercase;
     text-decoration: none;
+}
+@media (max-width: 1023px) {
+    .hero {
+        margin-top: 2rem;
+    }
 }
 
 h1 {
@@ -107,21 +123,22 @@ h3 {
     text-transform: uppercase;
 }
 
+@media (max-width: 1023px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+    h2 {
+        font-size: 1.25rem;
+    }
+}
+
 section {
     margin-top: 9rem;
 }
-section header {
-    display: grid;
-    grid-template-columns: 1fr minmax(auto, 34.0625rem);
-    justify-content: space-between;
-}
-
-section header p {
-    color: var(--color-grey-1, #333);
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 110%; /* 1.375rem */
-    text-transform: uppercase;
+@media (max-width: 1023px) {
+    section {
+        margin-top: 2rem;
+    }
 }
 
 .bg-transparent, .slides h2 {
@@ -138,10 +155,21 @@ section header p {
 
 .slides {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 22.25rem);
-    column-gap: .2rem;
+    grid-template-columns: repeat(auto-fill, calc(33% - .5rem));
+    gap: .5rem;
     justify-content: space-between;
-    margin-top: 8rem;
+}
+
+@media (max-width: 1023px) {
+    .slides {
+        grid-template-columns: repeat(auto-fill, calc(50% - .5rem));
+    }
+}
+
+@media (max-width: 639px) {
+    .slides {
+        display: block;
+    }
 }
 
 .slides article h2 {
@@ -190,6 +218,12 @@ section header p {
     max-width: 300px;
 }
 
+@media (max-width: 639px) {
+    .info {
+        display: block;
+    }
+}
+
 footer {
     max-width: 70rem;
     margin: auto;
@@ -235,6 +269,7 @@ footer img {
     opacity: 0.6;
 }
 .team h3 {
+    flex: 3;
     color: var(--color-grey-3, #828282);
     font-size: 0.73956rem;
     font-style: normal;
@@ -260,4 +295,14 @@ footer img {
     line-height: 130%; /* 1.1375rem */
     text-transform: uppercase;
 }
+@media (max-width: 1023px) {
 
+    .team {
+        grid-template-columns: repeat(auto-fill, calc(50% - .5rem));
+    }
+
+    .team header img {
+        width: 3rem; /* Fixed size */
+        height: 3rem; /* Fixed size */
+    }
+}
