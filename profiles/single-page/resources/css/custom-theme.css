@@ -224,12 +224,12 @@ footer img {
 }
 .team header img {
     width: 6.875rem; /* Fixed size */
-    height: 8.25rem; /* Fixed size */
+    height: 6.875rem; /* Fixed size */
     border-radius: 50%; /* Makes it round */
     object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
     display: block; /* Removes the inline nature of images to allow centering */
     margin: 0 auto; /* Centers the image horizontally */
-    mix-blend-mode: luminosity; /* Makes the image transparent */
+    opacity: 0.6;
 }
 .team h3 {
     color: var(--color-grey-3, #828282);
@@ -257,3 +257,4 @@ footer img {
     line-height: 130%; /* 1.1375rem */
     text-transform: uppercase;
 }
+
