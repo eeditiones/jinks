@@ -61,6 +61,9 @@ window.addEventListener('DOMContentLoaded', () => {
             if (result.messages) {
                 output.innerHTML = '';
                 result.messages.forEach((message) => {
+                    if (!message.type) {
+                        return;
+                    }
                     const li = document.createElement('li');
                     li.innerHTML = `
                         <span class="badge ${message.type === 'conflict' ? 'alert' : ''}">${message.type}</span> 
