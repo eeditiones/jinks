@@ -30,6 +30,12 @@
                 <div class="bg-transparent"><span></span></div>
             </div>
         </section>
+
+        <section id="info">
+            [% include "templates/info." || $request?parameters?lang || ".html" %]
+        </section> 
     </main>
+    
+    [% include "templates/footer.html" %]
     <script src="resources/scripts/language.js"></script>
 </div>
