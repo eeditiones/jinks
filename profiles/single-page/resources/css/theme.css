@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;1,300;1,600&display=swap');
-@import url('theme.css');
 
 :root {
     --pico-font-family-sans-serif: 'Poppins', sans-serif;
+    --pico-font-size: 16px;
     --pico-line-height: 140%;
     --Gray-1: #333333;
     --Gray-2: #4F4F4F;
@@ -44,12 +44,15 @@ body {
 .logo {
     background-image: url("../images/uj-logo.png");
     background-size: 100% auto;
+    width: 140px;
+    height: 60px;
+    margin-right: 2rem;
 }
 
 .page-header {
     width: 100vw;
     height: 37.5rem;
-    background-image: url("../images/header-bg.jpeg");
+    background-image: url("../images/header-bg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -210,7 +213,7 @@ section {
 .info {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: .2rem;
+    column-gap: .5rem;
 }
 
 .info section {
