@@ -8,8 +8,14 @@
         <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-32.png" sizes="32x32" />
         <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-64.png" sizes="64x64" />
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
-        <link rel="stylesheet" href="[[ $config:context-path ]]/resources/css/single-page.css"/>
+        [% for $path in $styles?* %]
+            [% if matches($path, "(?:^https?://|^/).*$") %]
+            <link rel="stylesheet" href="[[ $path ]]" />
+            [% else %]
+            <link rel="stylesheet" href="[[ $config:context-path ]]/[[ $path ]]" />
+            [% endif %]
+        [% endfor %]
+
         <title>[[ $label ]]</title>
         
         [% if $script?webcomponents = 'dev' %]

@@ -12,8 +12,8 @@ html {
 }
 
 :root {
-    --pico-font-family-sans-serif: var(--tp-base-font-family);
-    /* --pico-font-size: 16px; */
+    --pico-font-family-sans-serif: var(--tp-font-family-sans-serif);
+    --pico-font-size: var(--tp-font-size, var(--pico-font-size));
     --pico-line-height: var(--tp-line-height);
 
     --tp-color: var(--tp-color-light, var(--pico-color));

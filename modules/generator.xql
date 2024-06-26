@@ -297,7 +297,7 @@ declare function generator:merge-deep($maps as map(*)*) {
         let $newVal :=
             if ($mapsWithKey[1]($key) instance of map(*)) then
                 generator:merge-deep($mapsWithKey ! .($key))
-            else if ($key = ("odds", "ignore")) then
+            else if ($key = ("odds", "ignore", "styles")) then
                 array {
                     distinct-values($mapsWithKey ! .($key)?*)
                 }
