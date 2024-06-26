@@ -1,3 +1,7 @@
+:root {
+    --pico-font-size: 16px;
+}
+
 .logo {
     background-image: url("../images/uj-logo.png");
     background-size: 100% auto;
@@ -6,6 +10,9 @@
     margin-right: 2rem;
 }
 
+.hero {
+    height: calc(100vh - 10rem);
+}
 .hero a {
     display: inline-block;
     padding: 0.8125rem 1.875rem;
@@ -159,6 +166,7 @@ footer img {
     max-height: 60px;
     margin: 1rem;
 }
+
 .team {
     display: grid;
     grid-template-columns: repeat(auto-fill, calc(25% - .5rem));
