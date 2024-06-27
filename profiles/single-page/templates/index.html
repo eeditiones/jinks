@@ -55,4 +55,5 @@
     </main>
     
     [% include "templates/footer.html" %]
+    [% include "templates/bottom." || $request?parameters?lang || ".html" %]
 </div>
