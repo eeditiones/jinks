@@ -4,7 +4,7 @@
 }
 
 .logo {
-    /* background-image: url("../images/uj-logo.png"); */
+    background-image: url("../images/SVG/pl-color-3lines.svg");
     background-size: 100% auto;
     width: 140px;
     height: 60px;
@@ -203,7 +203,12 @@ footer {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    background-color: #E3E3E3;
+}
+
+[data-theme="light"] {
+    .bottom {
+        background-color: #E3E3E3;
+    }
 }
 
 .bottom a {
