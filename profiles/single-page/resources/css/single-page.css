@@ -4,11 +4,31 @@
 }
 
 .logo {
-    background-image: url("../images/uj-logo.png");
+    /* background-image: url("../images/uj-logo.png"); */
     background-size: 100% auto;
     width: 140px;
     height: 60px;
     margin-right: 2rem;
+}
+
+[data-theme="dark"] {
+    .logo.en {
+        background-image: url("../images/SVG/eng-negative-3lines.svg");
+    }
+
+    .logo.pl {
+        background-image: url("../images/SVG/pl-negative-3lines.svg");
+    }
+}
+
+[data-theme="light"] {
+    .logo.en {
+        background-image: url("../images/SVG/eng-color-3lines.svg");
+    }
+
+    .logo.pl {
+        background-image: url("../images/SVG/pl-color-3lines.svg");
+    }
 }
 
 .menubar a:hover {
@@ -269,4 +289,8 @@ footer img {
         width: 3rem; /* Fixed size */
         height: 3rem; /* Fixed size */
     }
+}
+
+.info p {
+    font-size: 0.925rem;
 }
