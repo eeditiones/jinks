@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const parameters = document.getElementById('parameters');
     const output = document.getElementById('output');
     const error = document.getElementById('errorMsg');
-    const ast = document.getElementById('ast');
+    const xqueryCode = document.getElementById('xquery');
     const html = document.getElementById('html');
     const select = document.getElementById('examples');
     const modes = document.querySelector('[name=modes]');
@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
         toggleOutput(true);
         output.code = '';
         html.innerHTML = '';
-        ast.code = '';
+        xqueryCode.code = '';
         error.innerHTML = '';
         const code = editor.value;
         const params = JSON.parse(parameters.value);
@@ -72,7 +72,10 @@ window.addEventListener('DOMContentLoaded', () => {
             })
             .then((response) => {
                 if (!response.ok) {
-                    response.text().then((data) => { error.innerText = data; });
+                    response.json().then((data) => { 
+                        error.innerText = data.description;
+                        xqueryCode.code = data.code;
+                    });
                 } else {
                     return response.json();
                 }
@@ -81,7 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 output.language = modes.value;
                 output.code = data.result;
                 html.innerHTML = data.result;
-                ast.code = data.xquery;
+                xqueryCode.code = data.xquery;
             });
         } catch (error) {
             error.innerText = error.description;

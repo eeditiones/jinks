@@ -162,6 +162,16 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Error in template evaluation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -42,6 +42,7 @@ header {
     --pico-block-spacing-vertical: 0;
     --pico-nav-element-spacing-vertical: 0;
     --pico-primary: white;
+    --pico-primary-hover: white;
 }
 
 nav details {
@@ -51,6 +52,10 @@ nav details {
     --pico-form-element-placeholder-color: var(--pico-primary);
     --pico-form-element-active-background-color: var(--color-menu-bg);
     --pico-form-element-active-border-color: var(--color-menu-bg);
+}
+
+header nav svg {
+    height: 24px;
 }
 
 @media (min-width: 1024px) {

@@ -53,7 +53,7 @@ declare function api:expand-template($request as map(*)) {
                 "debug": true()
             })
         } catch * {
-            roaster:response(500, $err:description)
+            roaster:response(500, "application/json", $err:value)
         }
 };
 
