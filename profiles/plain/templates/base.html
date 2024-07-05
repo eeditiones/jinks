@@ -20,17 +20,21 @@
         
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
-        <script type="module" src="[[$script?cdn]]/src/pb-tify.js"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+        [% endfor %]
         [% elif $script?webcomponents = '' %]
         [% else %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+        [% endfor %]
         [% endif %]
     </head>
     <body>
         <pb-page endpoint="[[ $config:context-path ]]" app-root="[[ $config:context-path ]]" api-version="1.0.0" 
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
-            language="[[ if ($request?parameters?lang) then $request?parameters?lang else 'pl' ]]"
+            language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
             locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
             unresolved="unresolved">
             [[ $content ]]
