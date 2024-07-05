@@ -1,4 +1,5 @@
 :root {
+
     --color-highlight: #F6A623;
     --color-menu-bg: #35424b;
     --color-submenu: #FADCA1;
@@ -11,6 +12,14 @@
     }
 }
 
+@media only screen and (prefers-color-scheme: dark) {
+    body:not([data-theme]) {
+    }
+}
+
+[data-theme="dark"] {
+}
+
 .logo {
     background-image: url("pages/tei-publisher-logo-contrast-color.svg");
     height: 64px;
@@ -18,6 +27,10 @@
     background-size: auto auto;
     background-position: left center;
     background-repeat: no-repeat;
+}
+
+body {
+    background-color: var(--pico-background-color);
 }
 
 pb-page {
@@ -142,14 +155,18 @@ jinn-codemirror {
     display: block;
     margin-bottom: 2rem;
 }
-.profiles a > img {
-    width: 64px;
-    margin-bottom: .5rem;
-}
-.profiles a > img, .profiles a > label {
+.profiles img, .profiles a > label {
     display: block;
     margin: 0 auto;
 }
+.profiles img {
+    width: 64px;
+    margin-bottom: .5rem;
+}
+.profiles img.profile {
+    filter: grayscale(100%);
+}
+
 .output {
     line-height: 2;
 }

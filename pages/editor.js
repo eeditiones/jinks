@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const a = document.createElement('a');
                 a.innerHTML = `
                     <div>
-                        <img src="pages/${app.type}.svg" width="64px">
+                        <img class="${app.type}" src="pages/app.svg" width="64px">
                         <h3>${app.title}</h3>
                     </div>
                 `;
