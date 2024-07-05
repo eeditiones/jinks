@@ -24,6 +24,12 @@
         "mode":"html"
     },
     {
+        "description": "Nested for with if/else",
+        "template": "<ul>\n[% for $c in 1 to 5 %]\n  [% if $c mod 2 = 0 %]\n  <li>[[ $c ]]: even</li>\n  [% else %]\n  <li>[[ $c ]]: odd</li>\n  [% endif %]\n[% endfor %]\n</ul>",
+        "params": {},
+        "mode": "html"
+    },
+    {
         "description": "Templating CSS",
         "template":"[% if $logo %]\n.logo {\n    background-image: url(\"[[ $logo ]]\");\n}\n[% endif %]\n\nbody {\n  --pb-base-font-family: [[ $font ]];\n  --pb-content-font-family: [[ $contentFont ]];\n}",
         "params":{"logo":"../images/tei-publisher-logo-color.svg","font":"Helvetica","contentFont":"Times"},
