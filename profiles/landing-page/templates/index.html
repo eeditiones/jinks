@@ -1,29 +1,13 @@
 <div>
     [% extends "templates/base.html" %]
 
-    <header class="page-header">
-        <div>
-            [% include "templates/menu.html" %]
-
-            <aside class="mobile container-fluid">
-                <nav>
-                    <ul>
-                        [% for $item in $menu?* %]
-                        <li>
-                            <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
-                        </li>
-                        [% endfor %]
-                    </ul>
-                </nav>
-            </aside>
-
-            <div class="hero container-fluid">
-                <h1><pb-i18n key="hero.jdp"/></h1>
-                <p><pb-i18n key="hero.sub"/></p>
-                <a href="#editions"><pb-i18n key="hero.see"/></a>
-            </div>
-        </div>
-    </header>
+    [% block header %]
+    <div class="hero container-fluid">
+        <h1><pb-i18n key="hero.jdp"/></h1>
+        <p><pb-i18n key="hero.sub"/></p>
+        <a href="#editions"><pb-i18n key="hero.see"/></a>
+    </div>
+    [% endblock %]
 
     <main class="container-fluid">
         <section id="editions">

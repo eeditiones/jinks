@@ -37,6 +37,24 @@
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
             locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
             unresolved="unresolved">
+            <header class="page-header">
+                <div>
+                    [% include "templates/menu.html" %]
+            
+                    <aside class="mobile container-fluid">
+                        <nav>
+                            <ul>
+                                [% for $item in $menu?* %]
+                                <li>
+                                    <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
+                                </li>
+                                [% endfor %]
+                            </ul>
+                        </nav>
+                    </aside>
+                    [% block header %][% endblock %]
+                </div>
+            </header>
             [[ $content ]]
         </pb-page>
         <div class="splash"/>
