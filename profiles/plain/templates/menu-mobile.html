@@ -1,0 +1,23 @@
+<aside class="mobile container-fluid">
+    <nav>
+        <ul>
+            [% for $item in $menu?items?* %]
+            <li>
+                <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
+            </li>
+            [% endfor %]
+            <li>
+                <pb-lang name="lang">
+                    [% for $lang in map:keys($languages) %]
+                    <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
+                    [% endfor %]
+                </pb-lang>
+            </li>
+            [% if $menu?login %]
+            <li>
+                <pb-login id="login" group="[[ $pkg?user?group ]]"/>
+            </li>
+            [% endif %]
+        </ul>
+    </nav>
+</aside>

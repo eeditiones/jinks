@@ -19,22 +19,25 @@
     "styles": [
         "resources/css/single-page.css"
     ],
-    "menu": [
-        {
-            "label": "collections",
-            "url": "#editions"
-        },
-        {
-            "label": "about",
-            "url": "#about"
-        },
-        {
-            "label": "team",
-            "url": "#team"
-        },
-        {
-            "label": "contact",
-            "url": "#contact"
-        }
-    ]
+    "menu": {
+        "items": [
+            {
+                "label": "collections",
+                "url": "#editions"
+            },
+            {
+                "label": "about",
+                "url": "#about"
+            },
+            {
+                "label": "team",
+                "url": "#team"
+            },
+            {
+                "label": "contact",
+                "url": "#contact"
+            }
+        ],
+        "login": false
+    }
 }

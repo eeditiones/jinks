@@ -29,18 +29,21 @@
         "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
         "resources/css/theme.css"
     ],
-    "menu": [
-        {
-            "label": "start",
-            "url": "#start"
-        },
-        {
-            "label": "about",
-            "url": "#about"
-        },
-        {
-            "label": "contact",
-            "url": "#contact"
-        }
-    ]
+    "menu": {
+        "items": [
+            {
+                "label": "start",
+                "url": "#start"
+            },
+            {
+                "label": "about",
+                "url": "#about"
+            },
+            {
+                "label": "contact",
+                "url": "#contact"
+            }
+        ],
+        "login": true
+    }
 }
