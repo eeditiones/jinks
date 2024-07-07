@@ -73,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
             .then((response) => {
                 if (!response.ok) {
                     response.json().then((data) => { 
-                        error.innerText = data.description;
+                        error.innerText = data.description || data;
                         xqueryCode.code = data.code;
                     });
                 } else {

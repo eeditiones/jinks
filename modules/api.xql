@@ -53,7 +53,10 @@ declare function api:expand-template($request as map(*)) {
                 "debug": true()
             })
         } catch * {
-            roaster:response(500, "application/json", $err:value)
+            if (exists($err:value)) then
+                roaster:response(500, "application/json", $err:value)
+            else
+                roaster:response(500, "application/json", $err:description)
         }
 };
 
