@@ -1,0 +1,76 @@
+@import url('theme.css');
+
+.two-column {
+    display: flex;
+}
+
+section > h1 {
+    margin-bottom: 2rem;
+}
+
+pb-paginate {
+    margin-bottom: 1rem;
+}
+
+.facets {
+    margin-top: 2rem;
+}
+
+.documents ul {
+    list-style: none;
+}
+
+.documents div {
+    margin: 0;
+}
+
+.documents .error {
+    color: #c02020;
+}
+
+.documents a,
+.documents a:visited {
+    color: #303F9F;
+    text-decoration: none;
+}
+
+.documents li {
+    display:grid;
+    grid-template-columns:9rem auto;
+    grid-gap:1rem;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+}
+
+.documents li:last-child {
+    border: none;
+}
+li.document{
+    display:flex;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+    padding-bottom:1rem;
+    max-width:calc(100% - 1rem);
+    gap:1em;
+    position: relative;
+}
+
+.documents .document-select {
+    flex: 0 0;
+    margin-right: 20px;
+}
+
+.document-info{
+    min-width:min(28em,100%);    
+}
+
+a ~ .document-info {
+    width:70%;
+}
+
+.documents .sample-description {
+    font-size: var(--pb-footnote-font-size);
+}

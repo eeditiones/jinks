@@ -1,7 +1,7 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/parallel",
     "label": "TEI Publisher: Parallel text display",
-    "extends": ["base", "docker"],
+    "extends": ["base10", "docker"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-parallel"
@@ -10,10 +10,11 @@
         "serafin.odd"
     ],
     "defaults": {
-        "template": "view.html",
+        "template": "parallel.html",
         "odd": "serafin.odd"
     },
-    "pages": [
-        "view.html"
+    "pages": [],
+    "styles": [
+        "resources/css/parallel-theme.css"
     ]
 }
