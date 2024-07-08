@@ -27,16 +27,8 @@ declare function api:html($request as map(*)) {
             util:binary-doc($path) => util:binary-to-string()
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
-    let $model := map:merge((
-        $context,
-        map {
-            "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
-            "request": $request
-        }
-    ))
     return
-        tmpl:process($template, $model, map {
+        tmpl:process($template, api:load-config($request), map {
             "plainText": false(), 
             "resolver": api:resolver#1,
             "modules": map {
@@ -69,9 +61,8 @@ declare function api:view($request as map(*)) {
         else
             let $data := config:get-document($path)
             let $config := tpu:parse-pi(root($data), $request?parameters?view, $request?parameters?odd)
-            let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
             let $model := map:merge((
-                $context,
+                api:load-config($request),
                 map {
                     "doc": map {
                         "path": $path,
@@ -79,9 +70,7 @@ declare function api:view($request as map(*)) {
                         "view": $config?view
                     },
                     "template": $templateName,
-                    "media": if (map:contains($config, 'media')) then $config?media else (),
-                    "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
-                    "request": $request
+                    "media": if (map:contains($config, 'media')) then $config?media else ()
                 }
             ))
             return
@@ -94,6 +83,33 @@ declare function api:view($request as map(*)) {
                         "at": $config:app-root || "/modules/config.xqm"
                     }
                 })
+};
+
+declare function api:handle-error($error) {
+    let $path := $config:app-root || "/templates/error-page.html"
+    let $template :=
+        if (doc-available($path)) then
+            doc($path) => serialize()
+        else if (util:binary-doc-available($path)) then
+            util:binary-doc($path) => util:binary-to-string()
+        else
+            error($errors:NOT_FOUND, "HTML file " || $path || " not found")
+    let $model := map:merge((
+        api:load-config($error),
+        map {
+            "description": $error?description
+        }
+    ))
+    return
+        tmpl:process($template, $model, map {
+            "plainText": false(), 
+            "resolver": api:resolver#1,
+            "modules": map {
+                "uri": "http://www.tei-c.org/tei-simple/config",
+                "prefix": "config",
+                "at": $config:app-root || "/modules/config.xqm"
+            }
+        })
 };
 
 declare function api:resolver($relPath as xs:string) as map(*)? {
@@ -113,6 +129,18 @@ declare function api:resolver($relPath as xs:string) as map(*)? {
             }
         else
             ()
+};
+
+declare %private function api:load-config($request as map(*)) {
+    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+    return
+        map:merge((
+            $context,
+            map {
+                "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
+                "request": $request
+            }
+        ))
 };
 
 (:~

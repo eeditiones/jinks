@@ -31,6 +31,7 @@
 				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
 				"tags": ["view"],
 				"operationId": "custom:html",
+				"x-error-handler": "custom:handle-error",
 				"parameters": [
 					{
 						"name": "file",
@@ -71,7 +72,7 @@
 				"description": "Get the HTML template associated with the given document. This is called whenever the users tries to view a document. The actual content of the document will then be loaded by the template.",
 				"tags": ["view"],
 				"operationId": "custom:view",
-				"x-error-handler": "vapi:handle-error",
+				"x-error-handler": "custom:handle-error",
 				"parameters": [
 					{
 						"name": "docid",
