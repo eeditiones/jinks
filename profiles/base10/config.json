@@ -1,0 +1,57 @@
+{
+    "id": "https://e-editiones.org/app/tei-publisher/base",
+    "version": "1.0.0",
+    "label": "TEI Publisher Base App (New)",
+    "pkg": {
+        "abbrev": "tei-publisher-base",
+        "version": "1.0.0",
+        "website": "http://tei-publisher.com",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "script": {
+        "webcomponents": "2.19.2",
+        "extra-components": [],
+        "fore": "1.0.0",
+        "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components"
+    },
+    "styles": [
+        "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
+        "resources/css/theme.css"
+    ],
+    "data": "data",
+    "defaults": {
+        "view": "div",
+        "search": "div",
+        "odd": "teipublisher.odd",
+        "template": ""
+    },
+    "theme": {
+        "fonts": {
+            "base": "'Roboto', 'Noto', sans-serif",
+            "content": "Junicode, Georgia, 'Times New Roman', serif",
+            "heading": "Oswald, Verdana, Helvetica, sans-serif"
+        },
+        "toolbar": true
+    },
+    "odds": [
+        "teipublisher.odd", 
+        "docx.odd"
+    ],
+    "ignore": [
+        "repo.xml"
+    ],
+    "menu": {
+        "items": [
+            {
+                "label": "Start",
+                "url": "index.html"
+            }
+        ],
+        "login": true
+    }
+}

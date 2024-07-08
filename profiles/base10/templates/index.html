@@ -1,0 +1,36 @@
+<main>
+    ---json
+    {
+        "theme": {
+            "toolbar": false
+        }
+    }
+    ---
+    [% extends "templates/base.html" %]
+    <section class="container">
+        <h1>[[ $label ]]</h1>
+        <div class="grid">
+            <aside>
+                <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+                    subforms=".facets,.options" submit-on-load="submit-on-load">
+                    <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
+                    <input type="hidden" name="field" value="text"/>
+                </pb-search>
+                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+                </pb-custom-form>
+            </aside>
+            <div id="document-list">
+                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+                <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
+            </div>
+            <pb-restricted group="[[ $pkg?user?group ]]">
+                <aside>
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" event="pb-search-resubmit"></pb-upload>
+                </aside>
+            </pb-restricted>
+        </div>
+    </section>
+    [% block scripts %]
+    <script src="[[ $config:context-path ]]/resources/scripts/facets.js"></script>
+    [% endblock %]
+</main>

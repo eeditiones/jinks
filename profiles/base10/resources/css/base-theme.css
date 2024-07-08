@@ -1,0 +1,308 @@
+@import url("../fonts/font.css");
+@import url("variables.css");
+
+:root {
+    --pico-font-family-sans-serif: var(--pb-base-font-family);
+    --pico-font-size: var(--pb-base-font-size, var(--pico-font-size));
+    --pico-line-height: var(--pb-line-height);
+
+    --pb-color: var(--pb-color-primary, var(--pico-color));
+    --pb-logo: var(--pb-logo-light);
+    --pb-splash-image: var(--pb-spash-image-light);
+}
+
+/* Settings for dark mode based on preferred color scheme */
+@media only screen and (prefers-color-scheme: dark) {
+    body:not([data-theme]) {
+        --pb-color: var(--pb-color-inverse, var(--pico-color));
+        --pb-logo: var(--pb-logo-dark);
+        --pb-splash-image: var(--pb-spash-image-dark);
+    }
+}
+
+/* Settings for dark mode if manually chosen by user */
+[data-theme="dark"] {
+    --pb-color: var(--pb-color-inverse, var(--pico-color));
+    --pb-logo: var(--pb-logo-dark);
+    --pb-splash-image: var(--pb-spash-image-dark);
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: var(--pb-base-font-size);
+}
+@media screen and (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+/* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
+
+.logo {
+    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
+}
+
+.splash {
+    background-image: var(--pb-splash-image);
+}
+
+.menubar {
+    background-image: none;
+}
+
+.toolbar {
+    background-image: none;
+}
+
+body {
+    background-color: var(--pico-background-color);
+    font: var(--pb-base-font);
+    margin: 0;
+    min-height: 100vh;
+    color: var(--pb-color);
+}
+
+*:focus {
+    outline: none;
+}
+
+.splash {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    background-color: var(--pb-splash-background-color);
+    background-position: center center;
+    background-size: var(--pb-splash-image-size);
+    background-repeat: no-repeat;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+pb-page[unresolved]~.splash {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.menubar {
+    --pico-color: var(--pb-menubar-color);
+    --pb-login-link-color: var(--pico-color);
+    --pb-lang-input-color: var(--pico-color);
+    --pb-lang-label-color: var(--pico-color);
+    --pico-block-spacing-vertical: 0;
+    --pico-nav-element-spacing-vertical: 0;
+    background-color: var(--pb-menubar-background-color);
+    color: var(--pb-menubar-color);
+    --pb-search-suggestions-color: var(--pb-menubar-color);
+    --pb-search-suggestions-background: var(--pb-menubar-background-color);
+}
+
+.menubar .icon {
+    color: var(--pico-color);
+}
+
+.menubar a {
+    color: var(--pb-menubar-color);
+    text-decoration: none;
+}
+
+.toolbar a {
+    display: inline-block;
+    color: var(--pb-toolbar-color);
+}
+.toolbar a svg {
+    width: 24px;
+}
+
+.toolbar {
+    background-color: var(--pb-toolbar-background-color);
+}
+
+@media (min-width: 1024px) {
+    .page-header {    
+        z-index: 2;
+        position: sticky;
+        top: 0;
+        backdrop-filter: blur(1rem);
+        transition:
+            border-top-color 0.4s ease-in-out,
+            box-shadow 0.4s ease-in-out;
+    }
+}
+
+@media (max-width: 1023px) {
+    .hidden-mobile {
+        display: none;
+    }
+}
+@media (min-width: 1024px) {
+    .mobile {
+        display: none;
+    }
+}
+
+main {
+    max-width: var(--pb-content-max-width);
+    margin: 0 auto;
+}
+
+.logo {
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-position: left center;
+    width: var(--pb-logo-image-width);
+    height: var(--pb-logo-image-height);
+    margin-right: var(--pb-logo-margin-right, 1rem);
+    cursor: pointer;
+}
+
+pb-progress {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #downloadDialog {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+    #downloadDialog {
+        width: 50%;
+    }
+}
+
+pb-view, pb-view-annotate {
+    font-family: var(--pb-content-font-family);
+    font-size: var(--pb-content-font-size);
+    margin: 0 16px;
+    position: relative;
+}
+
+@media (min-width: 769px) {
+    pb-view, pb-view-annotate {
+        max-width: var(--pb-view-max-width);
+    }
+}
+
+pb-popover {
+    text-align: left !important;
+}
+
+.toc ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.toc ul ul {
+    margin-left: 28px;
+}
+
+.toc li {
+    margin-bottom: .5em;
+}
+
+.toc li:first-child {
+    margin-top: .5em;
+}
+
+.toc pb-link {
+    display: block;
+}
+
+.toc li>pb-link {
+    margin-left: 28px;
+}
+
+.toc pb-link {
+    font-family: var(--pb-link-font-family);
+    padding: 4px 8px;
+}
+
+.toc pb-link a {
+    color: var(--pb-link-color);
+    text-decoration: var(--pb-link-text-decoration);
+}
+
+.toc h1, .toc h2, .toc h3, .toc h4, .toc h5 {
+    font-family: var(--pb-link-font-family);
+}
+
+.toc [slot=collapse-trigger] pb-link {
+    margin-left: 0px;
+}
+
+.version {
+    text-align: right;
+    font-size: 0.85em;
+    padding: 1em;
+    color: var(--pb-color-lighter);
+}
+
+.version span {
+    font-weight: bold;
+}
+
+/* Display KWIC search results */
+.matches {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-family: var(--pb-content-font-family);
+}
+
+.matches .hi {
+    color: var(--pb-color-focus);
+}
+
+.matches .count {
+    margin-top: 1em;
+}
+
+.matches .count::before {
+    content: '[';
+}
+
+.matches .count::after {
+    content: ']';
+}
+
+.facets {
+    flex: 0;
+    min-width: 220px;
+}
+
+.facets h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.facets h3 paper-checkbox {
+    margin-left: 16px;
+    font-size: 11px;
+}
+
+.facets table {
+    font-size: 14px;
+}
+
+.facets table table {
+    padding-left: 16px;
+    width: 100%;
+}
+
+.facets table td {
+    padding: 4px 0;
+}
+
+.facets table td:nth-child(2) {
+    color: #808080;
+    text-align: right;
+    padding-left: 1em;
+    vertical-align: middle;
+}

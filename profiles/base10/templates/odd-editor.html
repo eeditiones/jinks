@@ -1,0 +1,11 @@
+<main>
+    [% extends "templates/base.html" %]
+    <pb-odd-editor output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]"
+    root-path="[[ $config:odd-root ]]"
+    output-prefix="transform"
+    odd="[[ request:get-parameter('odd', ()) ]]">
+    </pb-odd-editor>
+    [% block scripts %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-odd-editor.js"></script>
+    [% endblock %]
+</main>
