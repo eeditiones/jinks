@@ -8,23 +8,27 @@
 
     --pb-color: var(--pb-color-primary, var(--pico-color));
     --pb-logo: var(--pb-logo-light);
-    --pb-splash-image: var(--pb-spash-image-light);
+    --pb-splash-image: var(--pb-splash-image-light);
+
+    --primary-text-color: var(--pb-color);
 }
 
 /* Settings for dark mode based on preferred color scheme */
 @media only screen and (prefers-color-scheme: dark) {
     body:not([data-theme]) {
         --pb-color: var(--pb-color-inverse, var(--pico-color));
+        --primary-text-color: var(--pb-color);
         --pb-logo: var(--pb-logo-dark);
-        --pb-splash-image: var(--pb-spash-image-dark);
+        --pb-splash-image: var(--pb-splash-image-dark);
     }
 }
 
 /* Settings for dark mode if manually chosen by user */
 [data-theme="dark"] {
     --pb-color: var(--pb-color-inverse, var(--pico-color));
+    --primary-text-color: var(--pb-color);
     --pb-logo: var(--pb-logo-dark);
-    --pb-splash-image: var(--pb-spash-image-dark);
+    --pb-splash-image: var(--pb-splash-image-dark);
 }
 
 html {
@@ -75,6 +79,7 @@ body {
     right: 0;
     visibility: hidden;
     opacity: 0;
+    z-index: 3;
     background-color: var(--pb-splash-background-color);
     background-position: center center;
     background-size: var(--pb-splash-image-size);
@@ -90,9 +95,11 @@ pb-page[unresolved]~.splash {
 
 .menubar {
     --pico-color: var(--pb-menubar-color);
-    --pb-login-link-color: var(--pico-color);
-    --pb-lang-input-color: var(--pico-color);
-    --pb-lang-label-color: var(--pico-color);
+    --pico-primary: var(--pb-menubar-color);
+    --pico-primary-hover: var(--pb-menubar-color);
+    --pb-login-link-color: var(--pb-menubar-color);
+    --pb-lang-input-color: var(--pb-menubar-color);
+    --pb-lang-label-color: var(--pb-menubar-color);
     --pico-block-spacing-vertical: 0;
     --pico-nav-element-spacing-vertical: 0;
     background-color: var(--pb-menubar-background-color);
@@ -105,9 +112,22 @@ pb-page[unresolved]~.splash {
     color: var(--pico-color);
 }
 
-.menubar a {
+.menubar a:link, .menubar a:visited {
     color: var(--pb-menubar-color);
     text-decoration: none;
+}
+
+.menubar details.dropdown summary::after {
+    height: 1rem;
+}
+
+.menubar details {
+    --pico-form-element-background-color: var(--color-menu-bg);
+    --pico-form-element-border-color: var(--color-menu-bg);
+    --pico-form-element-focus-color: var(--color-menu-bg);
+    --pico-form-element-placeholder-color: var(--pico-primary);
+    --pico-form-element-active-background-color: var(--color-menu-bg);
+    --pico-form-element-active-border-color: var(--color-menu-bg);
 }
 
 .toolbar a {
@@ -120,6 +140,8 @@ pb-page[unresolved]~.splash {
 
 .toolbar {
     background-color: var(--pb-toolbar-background-color);
+    color: var(--pb-toolbar-color);
+    --pico-color: var(--pb-toolbar-color);
 }
 
 @media (min-width: 1024px) {
@@ -147,7 +169,7 @@ pb-page[unresolved]~.splash {
 
 main {
     max-width: var(--pb-content-max-width);
-    margin: 0 auto;
+    margin: var(--pico-block-spacing-vertical) auto;
 }
 
 .logo {

@@ -6,16 +6,16 @@
     --pb-header-background-color-light: rgba(255, 255, 255, 0.8);
     --pb-header-background-color-dark: rgba(0, 0, 0, 0.6);
 
-    --pb-spash-image-dark: var(--pb-logo-dark);
-    --pb-spash-image-light: var(--pb-logo-light);
-    --pb-splash-image-size: 360px auto;
-    --pb-splash-background-color: var(--pico-background-color);
-
     --pb-logo-light: url("../images/tei-publisher-logo-color.svg");
     --pb-logo-dark: url("../images/tei-publisher-logo-contrast-color.svg");
     --pb-logo-image-width: 140px;
     --pb-logo-image-height: 60px;
     --pb-logo-margin-right: 1rem;
+
+    --pb-splash-image-dark: var(--pb-logo-dark);
+    --pb-splash-image-light: var(--pb-logo-light);
+    --pb-splash-image-size: 360px auto;
+    --pb-splash-background-color: var(--pico-background-color);
 
     --pb-base-font-family: [[$theme?fonts?base]];
     --pb-base-font-size: 16px;

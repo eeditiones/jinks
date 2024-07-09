@@ -7,6 +7,19 @@
         </li>
         [% endfor %]
 
+        <li class="hidden-mobile">
+            <details class="dropdown">
+                <summary><pb-i18n key="menu.download.title">Download</pb-i18n></summary>
+                <ul dir="rtl">
+                    <li>
+                        <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
+                            XML
+                        </pb-edit-xml>
+                    </li>
+                </ul>
+            </details>
+        </li>
+        
         <pb-restricted group="[[ $pkg?user?group ]]">
             <li class="hidden-mobile">
                 <details class="dropdown">
