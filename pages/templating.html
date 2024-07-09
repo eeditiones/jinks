@@ -1,11 +1,11 @@
-[% extends "pages/page.html" %]
 
-[% block scripts %]
-<script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
-<script src="[[$context?path]]/pages/templating.js"></script>
-[% endblock %]
-
-<pb-page class="container" endpoint="[[$context?path]]" api-version="1.0">
+<pb-page class="container" endpoint="[[$config:context-path]]" api-version="1.0">
+    [% extends "pages/page.html" %]
+    
+    [% block scripts %]
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
+    <script src="[[$config:context-path]]/pages/templating.js"></script>
+    [% endblock %]
     <main class="grid templating">
         <div>
             <h1>Template</h1>
@@ -27,7 +27,7 @@
             </jinn-codemirror>
             <details>
                 <summary>Syntax Cheatsheet</summary>
-                <pb-markdown url="[[$context?path]]/pages/demo/cheatsheet.md"></pb-markdown>
+                <pb-markdown url="[[$config:context-path]]/pages/demo/cheatsheet.md"></pb-markdown>
             </details>
         </div>
         <div>

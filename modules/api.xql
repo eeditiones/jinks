@@ -98,14 +98,16 @@ declare function api:page($request as map(*)) {
     return
         if (exists($doc)) then
             let $context := map {
-                "context": map {
-                    "path": $config:context-path
-                },
                 "title": "jinks"
             }
             let $output := tmpl:process($doc, $context, map {
                 "plainText": false(), 
-                "resolver": api:resolver#1
+                "resolver": api:resolver#1,
+                "modules": map {
+                    "uri": "https://tei-publisher.com/generator/xquery/config",
+                    "prefix": "config",
+                    "at": $config:app-root || "/modules/config.xql"
+                }
             })
             let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))
             return
