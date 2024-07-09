@@ -134,8 +134,9 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color);
 }
-.toolbar a svg {
+.toolbar a svg, .toolbar pb-navigation {
     width: 24px;
+    display: inline-block;
 }
 
 .toolbar {
