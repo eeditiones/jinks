@@ -44,7 +44,7 @@
             <header class="page-header">
                 <div>
                     [% include "templates/menu.html" %]
-                    [% if $theme?toolbar %]
+                    [% if $features?toolbar %]
                     [% include "templates/toolbar.html" %]
                     [% endif %]
                     <aside class="mobile container-fluid">
@@ -63,6 +63,16 @@
                 <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
             </header>
             [[ $content ]]
+            [% if $features?toc %]
+            <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
+                <div class="drawer-content">
+                    <h3>
+                        <pb-i18n key="document.contents">Contents</pb-i18n>
+                    </h3>
+                    <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                </div>
+            </pb-drawer>
+            [% endif %]
         </pb-page>
         <div class="splash"/>
     </body>
