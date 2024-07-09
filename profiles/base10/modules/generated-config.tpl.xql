@@ -13,10 +13,14 @@ declare variable $config:default-view := "[[$defaults?view]]";
 declare variable $config:default-template := "[[$defaults?template]]";
 declare variable $config:search-default := "[[$defaults?search]]";
 
-[% if starts-with($defaults?data, "/") %]
-declare variable $config:data-root := "[[$data]]";
+[% if map:contains($context, "data") %]
+    [% if starts-with($context?data, "/") %]
+    declare variable $config:data-root := "[[$context?data]]";
+    [% else %]
+    declare variable $config:data-root := $config:app-root || "/[[$context?data]]";
+    [% endif %]
 [% else %]
-declare variable $config:data-root := $config:app-root || "/[[$data]]";
+    declare variable $config:data-root := $config:app-root || "/data";
 [% endif %]
 
 declare variable $config:default-odd := "[[$defaults?odd]]";
