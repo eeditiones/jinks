@@ -19,6 +19,10 @@ window.addEventListener('DOMContentLoaded', () => {
                         <h3>${app.title}</h3>
                     </div>
                 `;
+                if (app.description) {
+                    a.dataset.tooltip = app.description;
+                    a.dataset.placement = "right";
+                }
                 nav.appendChild(a);
 
                 a.addEventListener('click', () => {

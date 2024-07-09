@@ -67,12 +67,12 @@ declare function api:configurations($request as map(*)) {
         return
             if (util:binary-doc-available($configPath)) then
                 let $config := json-doc($configPath)
-                let $expath := generator:get-package-descriptor($config?id)
                 return
                     map {
                         "type": "installed",
                         "profile": $config?profiles?*[last()],
                         "title": head(($config?label, $config?pkg?title)),
+                        "description": $config?description,
                         "config": $config
                     }
             else
@@ -86,6 +86,7 @@ declare function api:configurations($request as map(*)) {
                     "type": "profile",
                     "profile": $collection,
                     "title": head(($config?label, $config?pkg?title)),
+                    "description": $config?description,
                     "config": $config
                 }
     return

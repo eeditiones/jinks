@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>[[ head(($pkg?title, $label)) ]]</description>
+    <description>[[ head(($context?description, $pkg?title, $label)) ]]</description>
     <author>Wolfgang Meier</author>
     <website>[[$pkg?website]]</website>
     <status>stable</status>
