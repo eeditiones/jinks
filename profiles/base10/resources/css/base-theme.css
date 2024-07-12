@@ -7,10 +7,11 @@
     --pico-line-height: var(--pb-line-height);
 
     --pb-color: var(--pb-color-primary, var(--pico-color));
+    --primary-text-color: var(--pb-color);
+    --pb-highlight-color: var(--pb-highlight-color-light);
+
     --pb-logo: var(--pb-logo-light);
     --pb-splash-image: var(--pb-splash-image-light);
-
-    --primary-text-color: var(--pb-color);
 }
 
 /* Settings for dark mode based on preferred color scheme */
@@ -18,6 +19,7 @@
     body:not([data-theme]) {
         --pb-color: var(--pb-color-inverse, var(--pico-color));
         --primary-text-color: var(--pb-color);
+        --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
         --pb-splash-image: var(--pb-splash-image-dark);
     }
@@ -27,6 +29,7 @@
 [data-theme="dark"] {
     --pb-color: var(--pb-color-inverse, var(--pico-color));
     --primary-text-color: var(--pb-color);
+    --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
     --pb-splash-image: var(--pb-splash-image-dark);
 }
@@ -134,7 +137,7 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color);
 }
-.toolbar a svg, .toolbar pb-navigation {
+.toolbar a svg, .toolbar pb-navigation:not([disabled]) {
     width: 24px;
     display: inline-block;
 }
@@ -143,6 +146,10 @@ pb-page[unresolved]~.splash {
     background-color: var(--pb-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
+}
+
+[disabled] {
+    display: none;
 }
 
 @media (min-width: 1024px) {
@@ -335,4 +342,63 @@ pb-drawer {
     text-align: right;
     padding-left: 1em;
     vertical-align: middle;
+}
+
+.documents ul {
+    list-style: none;
+}
+
+.documents div {
+    margin: 0;
+}
+
+.documents .error {
+    color: #c02020;
+}
+
+.documents a,
+.documents a:visited {
+    color: #303F9F;
+    text-decoration: none;
+}
+
+.documents li {
+    display:grid;
+    grid-template-columns:9rem auto;
+    grid-gap:1rem;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+}
+
+.documents li:last-child {
+    border: none;
+}
+li.document {
+    display:flex;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+    padding: 6px 0;
+    border-bottom: thin solid var(--paper-grey-300);
+    padding-bottom:1rem;
+    max-width:calc(100% - 1rem);
+    gap:1em;
+    position: relative;
+}
+
+.documents .document-select {
+    flex: 0 0;
+    margin-right: 20px;
+}
+
+.document-info{
+    min-width:min(28em,100%);    
+}
+
+a ~ .document-info {
+    width:70%;
+}
+
+.documents .sample-description {
+    font-size: var(--pb-footnote-font-size);
 }
