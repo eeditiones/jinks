@@ -120,6 +120,14 @@ pb-page[unresolved]~.splash {
     text-decoration: none;
 }
 
+.menubar li {
+    padding: 1rem 0;
+}
+
+.menubar details a:link, .menubar details a:visited {
+    color: var(--pb-color-primary);
+}
+
 .menubar details.dropdown summary::after {
     height: 1rem;
 }
