@@ -47,17 +47,8 @@
                     [% if $features?toolbar %]
                     [% include "templates/toolbar.html" %]
                     [% endif %]
-                    <aside class="mobile container-fluid">
-                        <nav>
-                            <ul>
-                                [% for $item in $menu?items?* %]
-                                <li>
-                                    <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
-                                </li>
-                                [% endfor %]
-                            </ul>
-                        </nav>
-                    </aside>
+                    [% include "templates/menu-mobile.html" %]
+
                     [% block header %][% endblock %]
                 </div>
                 <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
