@@ -8,7 +8,7 @@
         [% endfor %]
 
         [# display download menu if in document view #]
-        [% if map:contains($context, "doc") %]
+        [% if exists($context?doc) %]
         <li class="hidden-mobile">
             <details class="dropdown">
                 <summary><pb-i18n key="menu.download.title">Download</pb-i18n></summary>
@@ -20,7 +20,7 @@
                     </li>
                     [% if empty($context?media) or "print" = $context?media %]
                     <li>
-                        <a href="[[ $config:context-path ]]/print/[[ $doc?path ]]" target="_new">Print CSS</a>
+                        <a href="[[ $config:context-path ]]/print/[[ $context?doc?path ]]" target="_new">Print CSS</a>
                     </li>
                     [% endif %]
                     [% if empty($context?media) or "latex" = $context?media %]
@@ -71,6 +71,12 @@
                         [% for $odd in $odds?* %]
                         <li><a href="[[$config:context-path]]/odd-editor.html?odd=[[$odd]]"><pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: [[$odd]]</a></li>
                         [% endfor %]
+                        <li>
+                            <a href="[[ $config:context-path ]]/api.html" target="_blank">API Documentation</a>
+                        </li>
+                        <li>
+                            <a href="https://cdn.tei-publisher.com/" target="_blank">Webcomponents API</a>
+                        </li>
                     </ul>
                 </details>
             </li>

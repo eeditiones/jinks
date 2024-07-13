@@ -18,6 +18,12 @@
         "mode": "html"
     },
     {
+        "description": "Simple let expression",
+        "template": "[% let $version = system:get-version() %]\n  <p>You are running on eXist [[$version]]</p>\n[% endlet %]",
+        "params": {},
+        "mode": "html"
+    },
+    {
         "description": "Nested for",
         "template":"<div>\n  <ul>\n    [% for $person in $people?* %]\n      <li>\n        <h3>[[$person?name]], [[$person?city]]</h3>\n        [% if not($person?customer) %]\n        <p>Not a customer yet.</p>\n        [% endif %]\n        [% if count($person?phone?*) > 0 %]\n        <ul>\n        [% for $number in $person?phone?* %]\n          <li>[[ $number ]]</li>\n        [% endfor %]\n        </ul>\n        [% endif %]\n      </li>\n    [% endfor %]\n  </ul>\n</div>",
         "params":{"people":[{"name":"Rudi Rüssel","city":"Düsseldorf","customer":true,"phone":["+4978767464","+4915152343"]},{"name":"Anna Szczurek","city":"Nowy Sącz","customer":false,"phone":["+48676465"]},{"name":"Gabi Gans","city":"Frankfurt","customer":true}]},
@@ -73,6 +79,12 @@
         "params": {
             "author": "Rudi"
         },
+        "mode": "html"
+    },
+    {
+        "description": "Template expressions in frontmatter",
+        "template": "---json\n{\n  \"info\": [[ demo:sysinfo2() ]]\n}\n---\n[% import \"https://tei-publisher.com/jinks/xquery/demo\" as \"demo\" at \"modules/demo.xql\" %]\n<article>\n  <p>You are using eXist [[ $info?version ]], build [[ $info?build ]]</p>\n</article>",
+        "params": {},
         "mode": "html"
     }
 ]

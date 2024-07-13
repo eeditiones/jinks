@@ -20,7 +20,7 @@
             [% endif %]
 
             [# display download menu items if in document view #]
-            [% if map:contains($context, "doc") %]
+            [% if exists($context?doc) %]
                 <li>
                     <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
                         XML
@@ -28,7 +28,7 @@
                 </li>
                 [% if empty($context?media) or "print" = $context?media %]
                 <li>
-                    <a href="[[ $config:context-path ]]/print/[[ $doc?path ]]" target="_new">Print CSS</a>
+                    <a href="[[ $config:context-path ]]/print/[[ $context?doc?path ]]" target="_new">Print CSS</a>
                 </li>
                 [% endif %]
                 [% if empty($context?media) or "latex" = $context?media %]

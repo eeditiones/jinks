@@ -1,7 +1,7 @@
 <main class="container">
     ---json
     {
-        "theme": {
+        "features": {
             "toolbar": false
         }
     }
@@ -29,6 +29,7 @@
                 </aside>
             </pb-restricted>
         </div>
+        [% include "templates/footer.html" %]
     </section>
     [% block scripts %]
     <script src="[[ $config:context-path ]]/resources/scripts/facets.js"></script>

@@ -105,9 +105,10 @@ declare function api:page($request as map(*)) {
                 "plainText": false(), 
                 "resolver": api:resolver#1,
                 "modules": map {
-                    "uri": "https://tei-publisher.com/generator/xquery/config",
-                    "prefix": "config",
-                    "at": $config:app-root || "/modules/config.xql"
+                    "https://tei-publisher.com/generator/xquery/config": map {
+                        "prefix": "config",
+                        "at": $config:app-root || "/modules/config.xql"
+                    }
                 }
             })
             let $mime := head((xmldb:get-mime-type(xs:anyURI($path)), "text/html"))

@@ -32,9 +32,10 @@ declare function api:html($request as map(*)) {
             "plainText": false(), 
             "resolver": api:resolver#1,
             "modules": map {
-                "uri": "http://www.tei-c.org/tei-simple/config",
-                "prefix": "config",
-                "at": $config:app-root || "/modules/config.xqm"
+                "http://www.tei-c.org/tei-simple/config": map {
+                    "prefix": "config",
+                    "at": $config:app-root || "/modules/config.xqm"
+                }
             }
         })
 };
@@ -78,9 +79,10 @@ declare function api:view($request as map(*)) {
                     "plainText": false(), 
                     "resolver": api:resolver#1,
                     "modules": map {
-                        "uri": "http://www.tei-c.org/tei-simple/config",
-                        "prefix": "config",
-                        "at": $config:app-root || "/modules/config.xqm"
+                        "http://www.tei-c.org/tei-simple/config": map {
+                            "prefix": "config",
+                            "at": $config:app-root || "/modules/config.xqm"
+                        }
                     }
                 })
 };
@@ -105,9 +107,10 @@ declare function api:handle-error($error) {
             "plainText": false(), 
             "resolver": api:resolver#1,
             "modules": map {
-                "uri": "http://www.tei-c.org/tei-simple/config",
-                "prefix": "config",
-                "at": $config:app-root || "/modules/config.xqm"
+                "http://www.tei-c.org/tei-simple/config": map {
+                    "prefix": "config",
+                    "at": $config:app-root || "/modules/config.xqm"
+                }
             }
         })
 };

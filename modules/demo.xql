@@ -11,3 +11,10 @@ declare function demo:sysinfo($title as xs:string) {
         <li>Context path: {$config:context-path}</li>
     </ul>
 };
+
+declare function demo:sysinfo2() {
+    map {
+        "version": system:get-version(),
+        "build": system:get-build()
+    }
+};
