@@ -55,11 +55,14 @@ function teip:setup($context as map(*)) {
 };
 
 declare %private function teip:install-pages($context as map(*)) {
-    path:mkcol($context, "templates/pages"),
-    for $page in $context?pages?*
-    return
-        cpy:copy-resource($context, $context?publisher || "/templates/pages/" || $page, 
-            "templates/pages/" || $page)
+    if ($context?pages instance of array(*)) then (
+        path:mkcol($context, "templates/pages"),
+        for $page in $context?pages?*
+        return
+            cpy:copy-resource($context, $context?publisher || "/templates/pages/" || $page, 
+                "templates/pages/" || $page)
+    ) else
+        ()
 };
 
 declare %private function teip:install-odd($context as map(*)) {
