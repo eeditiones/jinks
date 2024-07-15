@@ -34,7 +34,7 @@ declare function api:html($request as map(*)) {
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
                     "prefix": "config",
-                    "at": $config:app-root || "/modules/config.xqm"
+                    "at": "modules/config.xqm"
                 }
             }
         })
@@ -81,7 +81,7 @@ declare function api:view($request as map(*)) {
                     "modules": map {
                         "http://www.tei-c.org/tei-simple/config": map {
                             "prefix": "config",
-                            "at": $config:app-root || "/modules/config.xqm"
+                            "at": "modules/config.xqm"
                         }
                     }
                 })
@@ -109,7 +109,7 @@ declare function api:handle-error($error) {
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
                     "prefix": "config",
-                    "at": $config:app-root || "/modules/config.xqm"
+                    "at": "modules/config.xqm"
                 }
             }
         })
