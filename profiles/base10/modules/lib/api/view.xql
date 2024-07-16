@@ -1,46 +1,65 @@
 xquery version "3.1";
 
-(:~
- : This is the place to import your own XQuery modules for either:
- :
- : 1. custom API request handling functions
- : 2. custom templating functions to be called from one of the HTML templates
- :)
-module namespace api="http://teipublisher.com/api/custom";
+module namespace vapi="http://teipublisher.com/api/view";
 
-(: Add your own module imports here :)
-import module namespace app="teipublisher.com/app" at "app.xql";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
-import module namespace rutil="http://e-editiones.org/roaster/util";
+import module namespace templates="http://exist-db.org/xquery/html-templating";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xql";
+import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
+import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
-import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xql";
 
-declare function api:html($request as map(*)) {
-    let $path := $config:app-root || "/templates/" || xmldb:decode($request?parameters?file) || ".html"
-    let $template :=
-        if (doc-available($path)) then
-            doc($path) => serialize()
-        else if (util:binary-doc-available($path)) then
-            util:binary-doc($path) => util:binary-to-string()
-        else
-            error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-    return
-        tmpl:process($template, api:load-config($request), map {
-            "plainText": false(), 
-            "resolver": api:resolver#1,
-            "modules": map {
-                "http://www.tei-c.org/tei-simple/config": map {
-                    "prefix": "config",
-                    "at": "modules/config.xqm"
-                }
-            }
-        })
+(:
+: We have to provide a lookup function to templates:apply to help it
+: find functions in the imported application modules. The templates
+: module cannot see the application modules, but the inline function
+: below does see them.
+:)
+declare function vapi:lookup($name as xs:string, $arity as xs:int) {
+    try {
+        let $cfun := custom:lookup($name, $arity)
+        return
+            if (empty($cfun)) then
+                function-lookup(xs:QName($name), $arity)
+            else
+                $cfun
+    } catch * {
+        ()
+    }
 };
 
-declare function api:view($request as map(*)) {
+declare function vapi:get-template($config as map(*), $template as xs:string?) {
+    if ($template) then
+        $template
+    else
+        $config?template
+};
+
+declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
+    let $document := config:get-document($doc)
+    return
+        if (exists($document)) then
+            tpu:parse-pi(root($document), $view)
+        else
+            error($errors:NOT_FOUND, "document " || $doc || " not found")
+};
+
+declare %private function vapi:load-config($request as map(*)) {
+    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+    return
+        map:merge((
+            $context,
+            map {
+                "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
+                "request": $request
+            }
+        ))
+};
+
+declare function vapi:view($request as map(*)) {
     let $path :=
         if ($request?parameters?suffix) then 
             xmldb:decode($request?parameters?docid) || $request?parameters?suffix
@@ -63,7 +82,7 @@ declare function api:view($request as map(*)) {
             let $data := config:get-document($path)
             let $config := tpu:parse-pi(root($data), $request?parameters?view, $request?parameters?odd)
             let $model := map:merge((
-                api:load-config($request),
+                vapi:load-config($request),
                 map {
                     "doc": map {
                         "path": $path,
@@ -77,7 +96,7 @@ declare function api:view($request as map(*)) {
             return
                 tmpl:process(serialize($template), $model, map {
                     "plainText": false(), 
-                    "resolver": api:resolver#1,
+                    "resolver": vapi:resolver#1,
                     "modules": map {
                         "http://www.tei-c.org/tei-simple/config": map {
                             "prefix": "config",
@@ -87,7 +106,7 @@ declare function api:view($request as map(*)) {
                 })
 };
 
-declare function api:handle-error($error) {
+declare function vapi:handle-error($error) {
     let $path := $config:app-root || "/templates/error-page.html"
     let $template :=
         if (doc-available($path)) then
@@ -97,7 +116,7 @@ declare function api:handle-error($error) {
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     let $model := map:merge((
-        api:load-config($error),
+        vapi:load-config($error),
         map {
             "description": $error?description
         }
@@ -105,7 +124,7 @@ declare function api:handle-error($error) {
     return
         tmpl:process($template, $model, map {
             "plainText": false(), 
-            "resolver": api:resolver#1,
+            "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
                     "prefix": "config",
@@ -115,7 +134,7 @@ declare function api:handle-error($error) {
         })
 };
 
-declare function api:resolver($relPath as xs:string) as map(*)? {
+declare function vapi:resolver($relPath as xs:string) as map(*)? {
     let $path := $config:app-root || "/" || $relPath
     let $content :=
         if (util:binary-doc-available($path)) then
@@ -134,25 +153,24 @@ declare function api:resolver($relPath as xs:string) as map(*)? {
             ()
 };
 
-declare %private function api:load-config($request as map(*)) {
-    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+declare function vapi:html($request as map(*)) {
+    let $path := $config:app-root || "/templates/" || xmldb:decode($request?parameters?file) || ".html"
+    let $template :=
+        if (doc-available($path)) then
+            doc($path) => serialize()
+        else if (util:binary-doc-available($path)) then
+            util:binary-doc($path) => util:binary-to-string()
+        else
+            error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     return
-        map:merge((
-            $context,
-            map {
-                "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
-                "request": $request
+        tmpl:process($template, vapi:load-config($request), map {
+            "plainText": false(), 
+            "resolver": vapi:resolver#1,
+            "modules": map {
+                "http://www.tei-c.org/tei-simple/config": map {
+                    "prefix": "config",
+                    "at": "modules/config.xqm"
+                }
             }
-        ))
-};
-
-(:~
- : Keep this. This function does the actual lookup in the imported modules.
- :)
-declare function api:lookup($name as xs:string, $arity as xs:integer) {
-    try {
-        function-lookup(xs:QName($name), $arity)
-    } catch * {
-        ()
-    }
+        })
 };

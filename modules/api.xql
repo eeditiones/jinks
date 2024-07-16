@@ -107,7 +107,7 @@ declare function api:page($request as map(*)) {
                 "modules": map {
                     "https://tei-publisher.com/generator/xquery/config": map {
                         "prefix": "config",
-                        "at": $config:app-root || "/modules/config.xql"
+                        "at": "modules/config.xql"
                     }
                 }
             })
