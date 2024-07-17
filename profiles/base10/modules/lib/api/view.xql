@@ -47,7 +47,7 @@ declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
             error($errors:NOT_FOUND, "document " || $doc || " not found")
 };
 
-declare %private function vapi:load-config($request as map(*)) {
+declare function vapi:load-config-json($request as map(*)) {
     let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
     return
         map:merge((
@@ -82,7 +82,7 @@ declare function vapi:view($request as map(*)) {
             let $data := config:get-document($path)
             let $config := tpu:parse-pi(root($data), $request?parameters?view, $request?parameters?odd)
             let $model := map:merge((
-                vapi:load-config($request),
+                vapi:load-config-json($request),
                 map {
                     "doc": map {
                         "path": $path,
@@ -116,7 +116,7 @@ declare function vapi:handle-error($error) {
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     let $model := map:merge((
-        vapi:load-config($error),
+        vapi:load-config-json($error),
         map {
             "description": $error?description
         }
@@ -163,7 +163,7 @@ declare function vapi:html($request as map(*)) {
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     return
-        tmpl:process($template, vapi:load-config($request), map {
+        tmpl:process($template, vapi:load-config-json($request), map {
             "plainText": false(), 
             "resolver": vapi:resolver#1,
             "modules": map {
