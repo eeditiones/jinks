@@ -1,9 +1,10 @@
 <div class="collection">
+    [# Receives a list of documents to display in $documents #]
     <ul class="documents">
-        [% if empty($browse?all) %]
+        [% if empty($documents) %]
         <li>No documents</li>
         [% else %]
-            [% for $doc in $browse?all %]
+            [% for $doc in $documents %]
             [% let $options = browse:document-options($doc) %]
             <li class="document">
                 <div class="document-info">

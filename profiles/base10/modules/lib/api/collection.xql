@@ -5,31 +5,38 @@ module namespace capi="http://teipublisher.com/api/collection";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
-import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace vapi="http://teipublisher.com/api/view" at "view.xql";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
-import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
 declare function capi:list($request as map(*)) {
+    let $per-page := $request?parameters?per-page
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
     let $params := capi:params2map($path)
     let $cached := session:get-attribute($config:session-prefix || ".works")
     let $useCached := capi:use-cache($params, $cached)
-    let $works := capi:list-works($path, if ($useCached) then $cached else (), $params)
-    return
+    let $worksAll := capi:list-works($path, if ($useCached) then $cached else (), $params)
+    let $total := count($worksAll?all)
+    let $start :=
+        if ($request?parameters?start > $total) then
+            ($total idiv $per-page) * $per-page + 1
+        else
+            $request?parameters?start
+    let $works := subsequence($worksAll?all, $start, $per-page)
+    return (
+        response:set-header("pb-start", xs:string($start)),
+        response:set-header("pb-total", xs:string($total)),
         if ($request?parameters?format = "html") then
             let $templatePath := $config:data-root || "/" || $path || "/collection.html"
             let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
             let $path := 
-                if ($templateAvail and $works?mode = 'browse') then 
+                if ($templateAvail and $worksAll?mode = 'browse') then 
                     $templatePath
                 else
                     $config:app-root || "/templates/documents.html"
@@ -40,7 +47,7 @@ declare function capi:list($request as map(*)) {
                     util:binary-doc($path) => util:binary-to-string()
                 else
                     error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-            let $model := map:merge((vapi:load-config-json($request), map { "browse": $works }))
+            let $model := map:merge((vapi:load-config-json($request), map { "documents": $works }))
             return
                 tmpl:process($template, $model, map {
                     "plainText": false(), 
@@ -54,6 +61,7 @@ declare function capi:list($request as map(*)) {
                 })
         else
             router:response(200, "application/json", $works)
+    )
 };
 
 declare

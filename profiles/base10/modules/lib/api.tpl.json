@@ -409,6 +409,24 @@
 						}
 					},
 					{
+						"name": "start",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"default": 1
+						}
+					},
+					{
+						"name": "per-page",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"default": 10
+						}
+					},
+					{
 						"name": "format",
 						"in": "query",
 						"schema": {
@@ -445,6 +463,24 @@
 							"type": "string",
 							"enum": ["html", "json"],
 							"default": "html"
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"default": 1
+						}
+					},
+					{
+						"name": "per-page",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"default": 10
 						}
 					}
 				],
