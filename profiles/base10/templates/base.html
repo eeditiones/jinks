@@ -43,11 +43,15 @@
             unresolved="unresolved">
             <header class="page-header">
                 <div>
+                    [% if $features?menubar %]
                     [% include "templates/menu.html" %]
+                    [% endif %]
                     [% if $features?toolbar %]
                     [% include "templates/toolbar.html" %]
                     [% endif %]
+                    [% if $features?menubar %]
                     [% include "templates/menu-mobile.html" %]
+                    [% endif %]
 
                     [% block header %][% endblock %]
                 </div>
