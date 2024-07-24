@@ -185,7 +185,7 @@ pb-page[unresolved]~.splash {
     }
 }
 
-main {
+main:not(.container-fluid) {
     max-width: var(--pb-content-max-width);
     margin: var(--pico-block-spacing-vertical) auto;
 }
