@@ -91,6 +91,8 @@ declare variable $config:default-view := $gen:default-view;
  :)
 declare variable $config:default-template := $gen:default-template;
 
+declare variable $config:default-media := $gen:default-media;
+
 (:
  : The element to search by default, either 'tei:div' or 'tei:text'.
  :)
@@ -487,7 +489,8 @@ declare function config:default-config($docUri as xs:string?) {
         "view": $config:default-view,
         "depth": $config:pagination-depth,
         "fill": $config:pagination-fill,
-        "template": $config:default-template
+        "template": $config:default-template,
+        "media": $config:default-media
     }
     let $collection := 
         if (exists($docUri)) then
