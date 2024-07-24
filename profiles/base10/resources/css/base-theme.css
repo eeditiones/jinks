@@ -145,7 +145,7 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color);
 }
-.toolbar a svg, .toolbar pb-navigation:not([disabled]) {
+.toolbar a svg, .toolbar pb-navigation:not([disabled]), .toolbar pb-ajax:not([disabled]) {
     width: 24px;
     display: inline-block;
 }
@@ -154,6 +154,8 @@ pb-page[unresolved]~.splash {
     background-color: var(--pb-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
+    --paper-checkbox-label-color: var(--pb-toolbar-color);
+    --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
 }
 
 [disabled] {

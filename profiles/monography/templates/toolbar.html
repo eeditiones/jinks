@@ -33,7 +33,11 @@
         <li>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
         </li>
-        [% block toolbar %][% endblock %]
+        <li>
+            <pb-toggle-feature name="p_norm" selector=".lb" emit="transcription" subscribe="transcription">
+                <pb-i18n key="document.normalized">Normalized View</pb-i18n>
+            </pb-toggle-feature>
+        </li>
         <li>
             <pb-navigation emit="transcription" keyboard="left"
                 subscribe="transcription" direction="backward" unit="page">
