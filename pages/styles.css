@@ -38,11 +38,27 @@ pb-page {
     display: block;
 }
 
+.splash {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background-color: #0f0f0f;
+    background-image: url("pages/jinks.png");
+    background-position: center center;
+    background-size: auto auto;
+    background-repeat: no-repeat;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
 header {
     --pico-block-spacing-vertical: 0;
     --pico-nav-element-spacing-vertical: 0;
     --pico-primary: white;
     --pico-primary-hover: white;
+    --pb-login-link-color: white;
 }
 
 nav details {
@@ -171,6 +187,9 @@ jinn-codemirror {
 }
 .profiles img.profile {
     filter: grayscale(100%);
+}
+.profiles .action {
+    width: 24px;
 }
 
 .output {

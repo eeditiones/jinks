@@ -7,6 +7,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
+import module namespace auth="http://e-editiones.org/roaster/auth";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 

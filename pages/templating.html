@@ -1,12 +1,12 @@
-
-<pb-page class="container" endpoint="[[$config:context-path]]" api-version="1.0">
-    [% extends "pages/page.html" %]
-    
-    [% block scripts %]
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
-    <script src="[[$config:context-path]]/pages/templating.js"></script>
-    [% endblock %]
+<div>
+    ---json
+    {
+        "scripts": ["pages/templating.js"]
+    }
+    ---
     <main class="grid templating">
+        [% extends "pages/page.html" %]
+        
         <div>
             <h1>Template</h1>
             <jinn-codemirror id="template" mode="html" theme="material-dark">
@@ -52,4 +52,4 @@
         <label>Generated XQuery</label>
         <pb-code-highlight id="xquery" language="xquery" theme="tomorrow" line-numbers=""></pb-code-highlight>
     </div>
-</pb-page>
+</div>

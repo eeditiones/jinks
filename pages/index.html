@@ -1,10 +1,10 @@
-[% extends "pages/page.html" %]
-
-[% block scripts %]
-<script src="pages/editor.js"></script>
-[% endblock %]
-
-<main class="grid editor container">
+<main class="grid editor">
+    ---json
+    {
+        "scripts": ["pages/editor.js"]
+    }
+    ---
+    [% extends "pages/page.html" %]
     <aside>
         <nav class="profiles"></nav>
     </aside>
