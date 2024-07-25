@@ -14,6 +14,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 declare variable $cpy:ERROR_NOT_FOUND := xs:QName("cpy:not-found");
 declare variable $cpy:ERROR_TEMPLATE := xs:QName("cpy:template");
 declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
+declare variable $cpy:ERROR_PERMISSION := xs:QName("cpy:permission-denied");
 
 declare %private function cpy:save-hash($context as map(*), $relPath as xs:string, $hash as xs:string) {
     let $jsonFile := path:resolve-path($context?target, ".jinks.json")
@@ -236,7 +237,11 @@ declare function cpy:package($collection as xs:string, $expathConf as element())
     let $entries := cpy:zip-entries($collection)
     let $xar := compression:zip($entries, true())
     return
-        xmldb:store("/db/system/repo", $name, $xar, "application/zip")
+        try {
+            xmldb:store("/db/system/temp", $name, $xar, "application/zip")
+        } catch * {
+            error($cpy:ERROR_PERMISSION, "Permission denied to store package '" || $name || "'")
+        }
 };
 
 declare function cpy:deploy($collection as xs:string) {
