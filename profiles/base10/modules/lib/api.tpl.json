@@ -434,6 +434,20 @@
 							"enum": ["html", "json"],
 							"default": "html"
 						}
+					},
+					{
+						"name": "query",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "field",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 				"responses": {
@@ -481,6 +495,20 @@
 							"type": "integer",
 							"minimum": 1,
 							"default": 10
+						}
+					},
+					{
+						"name": "query",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "field",
+						"in": "query",
+						"schema": {
+							"type": "string"
 						}
 					}
 				],
