@@ -1,0 +1,22 @@
+{
+    "id": "https://e-editiones.org/app/tei-publisher/monograph",
+    "label": "TEI Publisher: simple monograph",
+    "description": "Profile for a TEI Publisher 10 application featuring a collection of monographs.",
+    "extends": ["base10", "docker"],
+    "version": "1.0.0",
+    "pkg": {
+        "abbrev": "tei-publisher-monograph"
+    },
+    "odds": [
+        "dta.odd"
+    ],
+    "defaults": {
+        "template": "monograph.html",
+        "odd": "dta.odd",
+        "media": ["web", "print", "epub"]
+    },
+    "features": {
+        "toolbar": true,
+        "toc": true
+    }
+}
