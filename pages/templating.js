@@ -30,6 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
     const error = document.getElementById('errorMsg');
     const xqueryCode = document.getElementById('xquery');
+    const ast = document.getElementById('ast');
     const html = document.getElementById('html');
     const select = document.getElementById('examples');
     const modes = document.querySelector('[name=modes]');
@@ -52,6 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
         output.code = '';
         html.innerHTML = '';
         xqueryCode.code = '';
+        ast.code = '';
         error.innerHTML = '';
         const code = editor.value;
         const params = JSON.parse(parameters.value);
@@ -75,6 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     response.json().then((data) => { 
                         error.innerText = data.description || data;
                         xqueryCode.code = data.code;
+                        ast.code = data.ast;
                     });
                 } else {
                     return response.json();
@@ -85,6 +88,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 output.code = data.result;
                 html.innerHTML = data.result;
                 xqueryCode.code = data.xquery;
+                ast = data.ast;
             });
         } catch (error) {
             error.innerText = error.description;

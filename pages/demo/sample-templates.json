@@ -36,6 +36,17 @@
         "mode": "html"
     },
     {
+        "description": "If/else with nested for",
+        "template": "<ul class=\"documents\">\n  [% if empty($documents) %]\n  <li>No documents</li>\n  [% else %]\n    [% for $doc in $documents?* %]\n    <li>[[$doc]]</li>\n    [% endfor %]\n  [% endif %]\n</ul>",
+        "params": {
+            "documents": [
+                "one",
+                "two"
+            ]
+        },
+        "mode": "html"
+    },
+    {
         "description": "Templating CSS",
         "template":"[% if $logo %]\n.logo {\n    background-image: url(\"[[ $logo ]]\");\n}\n[% endif %]\n\nbody {\n  --pb-base-font-family: [[ $font ]];\n  --pb-content-font-family: [[ $contentFont ]];\n}",
         "params":{"logo":"../images/tei-publisher-logo-color.svg","font":"Helvetica","contentFont":"Times"},
