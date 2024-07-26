@@ -1,4 +1,4 @@
-<main class="container">
+<main class="container-fluid">
     ---json
     {
         "features": {
@@ -9,7 +9,7 @@
     [% extends "templates/base.html" %]
     <section>
         <h1>[[ $label ]]</h1>
-        <div class="grid">
+        <div class="grid browse">
             <aside>
                 <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
                     subforms=".facets,.options" submit-on-load="submit-on-load">
