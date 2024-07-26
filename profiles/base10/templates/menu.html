@@ -83,6 +83,12 @@
         </pb-restricted>
     </ul>
     <ul>
+        [% if $menu?search %]
+        <li>
+            <pb-search action="[[ $config:context-path ]]/search.html" value="[[ $request?parameters?query ]]"
+                redirect="redirect"></pb-search>
+        </li>
+        [% endif %]
         <li>
             <pb-lang name="lang">
                 [% for $lang in map:keys($languages) %]

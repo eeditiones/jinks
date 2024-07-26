@@ -190,6 +190,12 @@ main:not(.container-fluid) {
     margin: var(--pico-block-spacing-vertical) auto;
 }
 
+main.search {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+}
+
 .logo {
     background-repeat: no-repeat;
     background-size: auto auto;
