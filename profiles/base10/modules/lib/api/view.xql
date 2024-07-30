@@ -11,6 +11,7 @@ import module namespace browse="http://www.tei-c.org/tei-simple/templates" at ".
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 
 (:
 : We have to provide a lookup function to templates:apply to help it
@@ -85,9 +86,11 @@ declare function vapi:view($request as map(*)) {
                 vapi:load-config-json($request),
                 map {
                     "doc": map {
+                        "content": $data,
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
-                        "view": $config?view
+                        "view": $config?view,
+                        "transform": $pm-config:web-transform(?, ?, $config?odd)
                     },
                     "template": $templateName,
                     "media": if (map:contains($config, 'media')) then $config?media else ()

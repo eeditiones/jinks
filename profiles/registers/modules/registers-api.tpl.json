@@ -1,0 +1,311 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – Custom API",
+        "description": "This is the place to add your own path endpoints"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [],
+    "paths": {
+        "/people": {
+            "get": {
+				"summary": "Landing page for people",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "vapi:html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "people"
+						}
+					}				
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/people/{id}": {
+            "get": {
+				"summary": "Landing page for people",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "vapi:html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+                    {
+						"name": "id",
+						"in": "path",
+						"description": "ID of the person",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					},
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "person"
+						}
+					}			
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/api/people": {
+            "get": {
+                "summary": "List people",
+                "description": "Retrieve list of people in format required by pb-split-list",
+				"tags": ["view"],
+                "operationId": "rview:people-all",
+                "parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 50
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories and people to display",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/person/{id}": {
+			"get": {
+				"summary": "Get information about a specific person",
+				"description": "Get information about a specific person",
+				"tags": ["view"],
+				"operationId": "rview:person",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID of the person",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/places": {
+            "get": {
+				"summary": "Landing page for places",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "vapi:html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "places"
+						}
+					}					
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+		"/api/places": {
+            "get": {
+                "summary": "List places",
+                "description": "Retrieve list of places in format required by pb-split-list",
+				"tags": ["view"],
+                "operationId": "rview:places",
+                "parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 50
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories and places to display",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"/api/places/all": {
+            "get": {
+                "summary": "List all places",
+                "description": "Retrieve list of all places",
+				"tags": ["view"],
+                "operationId": "rview:places-all",
+				"responses": {
+                    "200": {
+                        "description": "List of all places",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+				}
+			}			
+		}
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

@@ -1,4 +1,12 @@
 <main class="container-fluid">
+    ---json
+    {
+        "features": {
+            "toolbar": false,
+            "toc": false
+        }
+    }
+    ---
     [% extends "templates/base.html" %]
     <pb-odd-editor output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]"
     root-path="[[ $config:odd-root ]]"

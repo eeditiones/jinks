@@ -10,7 +10,6 @@ module namespace api="http://teipublisher.com/api/custom";
 
 (: Add your own module imports here :)
 import module namespace rutil="http://e-editiones.org/roaster/util";
-import module namespace app="teipublisher.com/app" at "app.xql";
 import module namespace rview="http://teipublisher.com/api/registers/view" at "registers-view.xql";
 
 (:~

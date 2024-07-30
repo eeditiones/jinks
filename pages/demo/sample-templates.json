@@ -60,13 +60,13 @@
     },
     {
         "description": "Including partials",
-        "template":"<div>\n  <p>The footer below is loaded from <code>pages/demo/footer.html</code></p>\n  [% include \"pages/demo/footer.html\" %]\n</div>",
+        "template": "<div>\n  <p>The footer below is loaded from <code>pages/demo/footer.html</code></p>\n  [% include \"pages/demo/footer.html\" %]\n  [# We can also address blocks in the included template #]\n  [% block copyright %]\n  <p>© e-editiones</p>\n  [% endblock %]\n</div>",
         "params":{"app":"TEI Publisher"},
         "mode":"html"
     },
     {
         "description": "Template inheritance with extends",
-        "template":"[% extends \"pages/demo/base.html\" %]\n[% block menu %]\n<li>Extra menu item</li>\n[% endblock %]\n<div>\n  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n</div>",
+        "template": "[% extends \"pages/demo/base.html\" %]\n[% block menu %]\n<li>Extra menu item</li>\n[% endblock %]\n[# We can also address blocks in templates included by base #]\n[% block copyright %]\n<p>© e-editiones</p>\n[% endblock %]\n<div>\n  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n</div>",
         "params":{"app":"TEI Publisher"},
         "mode":"html"
     },
@@ -90,12 +90,6 @@
         "params": {
             "author": "Rudi"
         },
-        "mode": "html"
-    },
-    {
-        "description": "Template expressions in frontmatter",
-        "template": "---json\n{\n  \"info\": [[ demo:sysinfo2() ]]\n}\n---\n[% import \"https://tei-publisher.com/jinks/xquery/demo\" as \"demo\" at \"modules/demo.xql\" %]\n<article>\n  <p>You are using eXist [[ $info?version ]], build [[ $info?build ]]</p>\n</article>",
-        "params": {},
         "mode": "html"
     }
 ]

@@ -1,19 +1,24 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/registers",
     "label": "TEI Publisher: Profile with Entity Registers",
-    "extends": ["base", "docker"],
+    "extends": ["base10", "docker"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-registers"
     },
     "odds": [
-        "lelewel.odd"
+        "serafin.odd"
     ],
     "defaults": {
-        "template": "view.html",
-        "odd": "lelewel.odd"
+        "template": "parallel.html",
+        "odd": "serafin.odd"
     },
-    "pages": [
-        "view.html"
-    ]
+    "menu": {
+        "items": [
+            {
+                "label": "People",
+                "url": "people.html"
+            }
+        ]
+    }
 }

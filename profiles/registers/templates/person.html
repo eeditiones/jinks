@@ -1,40 +1,6 @@
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
-        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
-
-        <title data-template="config:app-title"></title>
-        <meta name="description" content="Person details"/>
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&amp;display=swap"/>
-
-        <link rel="stylesheet" href="resources/css/theme.css"/>
-
-        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"/>
-    </head>
-
-    <body>
-        <pb-page data-template="pages:pb-page" unresolved="unresolved" locales="resources/i18n/{{ns}}/{{lng}}.json" url-ignore="mode,view,category,search,foo">
-            <app-drawer-layout force-narrow="force-narrow">
-                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
-                <app-header-layout fullbleed="">
-                    <app-header slot="header" effects="waterfall" reveals="reveals" condenses="condenses" fixed="fixed">
-                        <app-toolbar data-template="templates:include" data-template-path="templates/banner.html"/>
-                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
-                    </app-header>
-                    <main>
-                        <section class="person">
-                            <pb-load url="${app}/api/person/${id}" expand="" auto="" data-template="pages:parse-params" id="person"/>
-                        </section>
-                    </main>
-                </app-header-layout>
-            </app-drawer-layout>
-        </pb-page>
-        <div class="splash"/>                  
-    </body>
-</html>
+<main>
+    [% extends "templates/base.html" %]
+    <section class="person">
+        <pb-load url="[[ $config:context-path ]]/api/person/[[ $request?parameters?id ]]" expand="" auto="" id="person"/>
+    </section>
+</main>

@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
+
+        <title data-template="config:app-title"></title>
+        <meta name="description" content="Place register"/>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&amp;display=swap"/>
+
+        <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="resources/css/lelewel.css"/>
+
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"/>
+        <script type="module" src="pb-leaflet-map.js" data-template="pages:load-components"/>
+        <style>
+            main {
+                height: calc(100vh - 200px);
+                --pb-highlight-color: #ba1e1e;
+            }
+
+            pb-leaflet-map {
+                height: 50%;
+                width: 100%;
+            }
+
+            .content-body .transcript {
+                max-width: none;
+            }
+
+            .list {
+                height: 60%;
+                max-width: 41.24rem;
+                margin: 0 auto;
+                overflow: auto;
+            }
+
+            [slot=controls] {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                align-items: center;
+            }
+
+            pb-split-list::part(items) {
+                margin-top: 1em;
+            }
+
+            .place iron-icon {
+                margin-left: 1em;
+                --iron-icon-height: 22px;
+            }
+            
+            .place {
+                margin-bottom: 0.5em;
+            }
+
+            @media (max-width: 767px) {
+                .list {
+                    --pb-categorized-list-columns: 1;
+                    max-width: auto;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+
+                form {
+                    display: block;
+                }
+                form label {
+                    margin: 0;
+                    display: block;
+                }
+            }         
+        </style>
+    </head>
+
+    <body>
+        <pb-page data-template="pages:pb-page" unresolved="unresolved" locales="resources/i18n/{{ns}}/{{lng}}.json" url-ignore="mode,view,category,search,foo">
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"/>
+                <app-header-layout fullbleed="">
+                    <app-header slot="header" effects="waterfall" reveals="reveals" condenses="condenses" fixed="fixed">
+                        <app-toolbar data-template="templates:include" data-template-path="templates/banner.html"/>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/>
+                    </app-header>
+                    <main>                                                                      
+                        <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
+                            <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
+                        </pb-leaflet-map>
+                        
+                        <div class="list">
+                            <pb-custom-form id="options" auto-submit="paper-input,paper-icon-button" emit="transcription">
+                                <paper-input id="query" name="search" data-i18n="[label]app.search" data-template="templates:form-control">
+                                    <paper-icon-button icon="search" slot="suffix"/>
+                                </paper-input>
+                            </pb-custom-form>
+                            <pb-split-list url="api/places" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
+                        </div>
+                    </main>
+                    <footer data-template="templates:include" data-template-path="templates/footer.html"/>
+                </app-header-layout>
+            </app-drawer-layout>
+        </pb-page>
+        <div class="splash"/>
+        <script>
+            window.addEventListener('WebComponentsReady', function() {
+                pbEvents.subscribe('pb-page-ready', null, function() {
+                    const endpoint = document.querySelector("pb-page").getEndpoint();
+                    const url = `${endpoint}/api/places/all`;
+                    console.log(`fetching places from: ${url}`);
+                    fetch(url)                
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(json) {
+                        pbEvents.emit("pb-update-map", "map", json)
+                    });
+                });
+
+                pbEvents.subscribe('pb-leaflet-marker-click', 'map', function(ev) {
+                    const label = ev.detail.label;
+                    const category = label.substring(0, 1);
+                    window.location = `${label}?category=${category}`;
+                });
+            });
+        </script>        
+    </body>
+</html>
