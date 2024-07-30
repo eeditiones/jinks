@@ -157,6 +157,10 @@ declare function vapi:resolver($relPath as xs:string) as map(*)? {
 };
 
 declare function vapi:html($request as map(*)) {
+    vapi:html($request, ())
+};
+
+declare function vapi:html($request as map(*), $extConfig as map(*)?) {
     let $path := $config:app-root || "/templates/" || xmldb:decode($request?parameters?file) || ".html"
     let $template :=
         if (doc-available($path)) then
@@ -165,8 +169,9 @@ declare function vapi:html($request as map(*)) {
             util:binary-doc($path) => util:binary-to-string()
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
+    let $config := map:merge((vapi:load-config-json($request), $extConfig))
     return
-        tmpl:process($template, vapi:load-config-json($request), map {
+        tmpl:process($template, $config, map {
             "plainText": false(), 
             "resolver": vapi:resolver#1,
             "modules": map {

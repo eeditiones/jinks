@@ -1,6 +1,16 @@
 <main>
     [% extends "templates/base.html" %]
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $config:context-path ]]/index.html?collection=[[ $request?parameters?collection ]]">People</a></li>
+                <li>[[ $data?root/*:persName ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endblock %]
     <section class="person">
-        <pb-load url="[[ $config:context-path ]]/api/person/[[ $request?parameters?id ]]" expand="" auto="" id="person"/>
+        [[ $data?transform($data?root, ()) ]]
     </section>
 </main>

@@ -4,6 +4,8 @@ module namespace rview="http://teipublisher.com/api/registers/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
+import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -83,6 +85,21 @@ declare function rview:output-person-all($list, $letter as xs:string,  $search a
                 <a href="people/{$person?3/@xml:id}">{$person?2}</a>
             </span>
     }
+};
+
+declare function rview:person-html($request as map(*)) {
+    let $id := xmldb:decode-uri($request?parameters?id)
+    let $pers := collection($config:register-root)/id($id)
+    let $config := tpu:parse-pi(root($pers), $request?parameters?view, $request?parameters?odd)
+    let $extConfig := map {
+        "data": map {
+            "id": $id,
+            "root": $pers,
+            "transform": $pm-config:web-transform(?, ?, $config?odd)
+        }
+    }
+    return
+        vapi:html($request, $extConfig)
 };
 
 declare function rview:person($request as map(*)) {
