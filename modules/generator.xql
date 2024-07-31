@@ -13,6 +13,7 @@ import module namespace config="https://tei-publisher.com/generator/xquery/confi
 import module namespace path="http://tei-publisher.com/jinks/path";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
+
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";
 
 declare variable $generator:ERROR_NOT_FOUND := xs:QName("generator:not-found");
@@ -37,7 +38,8 @@ declare function generator:process($profile as xs:string) {
  : @param $config user-supplied configuration, which will overwrite the config.json in the profile
  :)
 declare function generator:process($profile as xs:string, $settings as map(*)?, $config as map(*)?) {
-    let $context := generator:prepare($generator:PROFILES_ROOT || "/" || $profile, $settings, $config)
+    let $profile-id := $generator:PROFILES_ROOT || "/" || $profile
+    let $context := generator:prepare($profile-id, $settings, $config)
     let $result :=
         for $profileName in $context?profiles?*
         let $adjContext := map:merge((
@@ -53,10 +55,21 @@ declare function generator:process($profile as xs:string, $settings as map(*)?, 
         for $profileName in $context?profiles?*
         return
             generator:after-write($context, $generator:PROFILES_ROOT || "/" || $profileName)
+    let $nextStep := if (not(repo:list() = $context?id)) then
+                map {
+                    "message": "Package " || $profile || " is not deployed yet. Deploy it by calling /api/generator/{profile}/deploy" ,
+                    "action": "DEPLOY"
+                }
+            else
+                map {
+                    "message": "Package " || $profile || " is already deployed. No action needed",
+                    "action": "NONE"
+                }
     return
         map {
             "messages": array { $result, $postProcessed },
-            "config": $context
+            "config": $context,
+            "nextStep": $nextStep
         }
 };
 
@@ -88,23 +101,19 @@ declare %private function generator:call-prepare($collection as xs:string, $base
             $baseConfig
 };
 
+(:
+ : Write the updated app to the DB.
+ : If the app is not yet deployed, or the app needs to be redeployed the dep:deploy function needs to be called afterwards
+ :)
 declare %private function generator:write($context as map(*)?, $collection as xs:string) {
     let $writeFunc := generator:find-callback($collection, "write")
     return
         if (exists($writeFunc)) then (
             ($writeFunc?2)($context),
-            generator:save-config($context),
-            if ($context?_update or $context?_noDeploy) then
-                ()
-            else
-                cpy:deploy($context?target)
+            generator:save-config($context)
         ) else (
             cpy:copy-collection($context),
-            generator:save-config($context),
-            if ($context?_update or $context?_noDeploy) then
-                ()
-            else
-                cpy:deploy($context?target)
+            generator:save-config($context)
         )
 };
 
@@ -194,7 +203,7 @@ declare %private function generator:config($collection as xs:string, $settings a
             $installedConfig,
             $userConfig
         ))
-    let $tempTarget := "/db/system/temp/" || $mergedConfig?pkg?abbrev
+    let $tempTarget :=  $config:temp_directory || "/" || $mergedConfig?pkg?abbrev
     let $config :=
         map:merge((
             $mergedConfig,
