@@ -3,10 +3,12 @@
     {
         "features": {
             "toolbar": false
+        },
+        "templating": {
+            "extends": "templates/base.html"
         }
     }
     ---
-    [% extends "templates/base.html" %]
     <section>
         <h1>[[ $label ]]</h1>
         <div class="grid browse">

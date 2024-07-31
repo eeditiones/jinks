@@ -1,12 +1,13 @@
 <div>
     ---json
     {
-        "scripts": ["pages/templating.js"]
+        "scripts": ["pages/templating.js"],
+        "templating": {
+            "extends": "pages/page.html"
+        }
     }
     ---
     <main class="grid templating">
-        [% extends "pages/page.html" %]
-        
         <div>
             <h1>Template</h1>
             <jinn-codemirror id="template" mode="html" theme="material-dark">

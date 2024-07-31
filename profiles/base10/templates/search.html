@@ -3,10 +3,12 @@
     {
         "features": {
             "toolbar": false
+        },
+        "templating": {
+            "extends": "templates/base.html"
         }
     }
     ---
-    [% extends "templates/base.html" %]
     <pb-load id="results" url="api/search" emit="results"></pb-load>
     <div class="search-panel">
         <paper-card>

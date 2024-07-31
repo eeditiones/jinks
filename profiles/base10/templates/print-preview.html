@@ -5,10 +5,12 @@
             "toolbar": false,
             "menubar": false
         },
-        "styles": ["resources/css/print-preview.css"]
+        "styles": ["resources/css/print-preview.css"],
+        "templating": {
+            "extends": "templates/base.html"
+        }
     }
     ---
-    [% extends "templates/base.html" %]
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:app-root ]]"/>
     <aside>
