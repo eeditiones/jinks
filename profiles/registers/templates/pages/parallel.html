@@ -1,5 +1,11 @@
 <main class="two-column">
-    [% extends "templates/base.html" %]
+    ---json
+    {
+        "templating": {
+            "extends": "templates/base.html"
+        }
+    }
+    ---
     [% block breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
