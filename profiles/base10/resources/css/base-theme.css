@@ -121,7 +121,7 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar li {
-    padding: 1rem 0;
+    padding: 1rem var(--pico-nav-element-spacing-horizontal);
 }
 
 .menubar details a:link, .menubar details a:visited {
@@ -194,6 +194,10 @@ main.search {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 1rem;
+}
+
+button svg {
+    width: 24px;
 }
 
 .logo {

@@ -39,7 +39,8 @@
         <pb-page endpoint="[[ $config:context-path ]]" app-root="[[ $config:context-path ]]" api-version="1.0.0" 
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
-            locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
+            locales="resources/i18n/{{ns}}/{{lng}}.json" 
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved">
             <header class="page-header">
                 <div>
