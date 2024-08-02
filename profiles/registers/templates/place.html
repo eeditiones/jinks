@@ -1,4 +1,4 @@
-<main>
+<main class="place-details">
     ---json
     {
         "templating": {
@@ -6,28 +6,23 @@
         }
     }
     ---
+    [% block scripts %]
+    <script src="[[ $config:context-path ]]/resources/scripts/registers.js"></script>
+    [% endblock %]
     [% block breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li>Places</li>
+                <li><a href="[[ $config:context-path ]]/places">Places</a></li>
+                <li>[[ $data?root/tei:placeName ]]</li>
             </ul>
         </nav>
     </li>
     [% endblock %]
-    [% block scripts %]
-    <script src="[[ $config:context-path ]]/resources/scripts/registers.js"></script>
-    [% endblock %]
     <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
-    <div class="list">
-        <pb-custom-form id="options" auto-submit="input,button" emit="transcription">
-            <fieldset role="search">
-                <input id="query" type="text" name="search" data-i18n="[placeholder]app.search"/>
-                <button type="submit">Search</button>
-            </fieldset>
-        </pb-custom-form>
-        <pb-split-list url="api/places" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
-    </div>
+    <section class="place">
+        [[ $data?transform($data?root, map { "mode": "map" }) ]]
+    </section>
 </main>

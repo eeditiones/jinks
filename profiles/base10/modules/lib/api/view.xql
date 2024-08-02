@@ -105,6 +105,9 @@ declare function vapi:view($request as map(*)) {
                             "prefix": "config",
                             "at": "modules/config.xqm"
                         }
+                    },
+                    "namespaces": map {
+                        "tei": "http://www.tei-c.org/ns/1.0"
                     }
                 })
 };
@@ -179,6 +182,9 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
                     "prefix": "config",
                     "at": "modules/config.xqm"
                 }
+            },
+            "namespaces": map {
+                "tei": "http://www.tei-c.org/ns/1.0"
             }
         })
 };

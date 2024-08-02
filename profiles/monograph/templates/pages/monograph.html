@@ -6,6 +6,13 @@
         }
     }
     ---
+    [% block toolbar %]
+    <li>
+        <pb-toggle-feature name="p_norm" selector=".lb" emit="transcription" subscribe="transcription">
+            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
+        </pb-toggle-feature>
+    </li>
+    [% endblock %]
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:app-root ]]"/>
     <pb-view src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>

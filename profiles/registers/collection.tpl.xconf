@@ -34,6 +34,9 @@
             <text match="//tei:listPerson/tei:person">
                 <field name="name" expression="./tei:persName"/>
             </text>
+            <text match="//tei:listPlace/tei:place">
+                <field name="name" expression="./tei:placeName"/>
+            </text>
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
             <text qname="dbk:article">

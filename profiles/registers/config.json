@@ -17,7 +17,7 @@
         "items": [
             {
                 "label": "People",
-                "url": "people.html"
+                "url": "people"
             }
         ]
     },
@@ -28,5 +28,13 @@
             "path": "registers-api.xql",
             "uri": "http://teipublisher.com/api/registers/view"
         }
+    ],
+    "script": {
+        "extra-components": [
+            "pb-leaflet-map"
+        ]
+    },
+    "styles": [
+        "resources/css/registers-theme.css"
     ]
 }

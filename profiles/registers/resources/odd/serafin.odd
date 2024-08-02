@@ -11,6 +11,8 @@
                  
                  
                  
+                  
+                 
                   <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -180,6 +182,7 @@
                     <model behaviour="note"/>
                 </elementSpec>
         <elementSpec ident="placeName" mode="add">
+                    <model predicate="$parameters?mode = 'map'" behaviour="heading"/>
                     <model output="latex" behaviour="inline">
             <param name="id" value="substring-after(@ref, '#')"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
@@ -189,24 +192,6 @@
             color: #ef6c00;
             </outputRendition>
         </model>
-                    <modelSequence predicate="$parameters?mode='map'">
-            <model behaviour="webcomponent">
-                <param name="name" value="'pb-geolocation'"/>
-                <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[1]"/>
-                <param name="label" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName"/>
-                <param name="key" value="substring-after(@ref, '#')"/>
-                <param name="emit" value="'map'"/>
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
-                <outputRendition xml:space="preserve">
-                color: #1565c0;
-    cursor: pointer;
-                </outputRendition>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/note"/>
-            </model>
-        </modelSequence>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="parent::place" behaviour="inline">
             <outputRendition xml:space="preserve" scope="after">
@@ -385,9 +370,6 @@
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="place" mode="add">
-                    <model predicate="$parameters?mode='map'" behaviour="block">
-            <param name="content" value="(placeName/string(), ' ', note)"/>
-        </model>
                     <model output="latex" behaviour="glossary">
             <param name="name" value="placeName/text()"/>
             <param name="note" value="note"/>
@@ -395,6 +377,18 @@
                     <model behaviour="inline"/>
                 </elementSpec>
             
+            <elementSpec ident="location" mode="add">
+                    <model behaviour="webcomponent">
+            <param name="name" value="'pb-geolocation'"/>
+            <param name="latitude" value="tokenize(geo, ' ')[1]"/>
+            <param name="longitude" value="tokenize(geo, ' ')[2]"/>
+            <param name="emit" value="'map'"/>
+            <param name="auto" value="'auto'"/>
+            <param name="content" value="''"/>
+            <param name="label" value="../placeName/string()"/>
+            <param name="subscribe" value="'map'"/>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

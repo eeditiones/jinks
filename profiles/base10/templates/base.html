@@ -29,7 +29,7 @@
         [% else %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
-        <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
         [% endfor %]
         [% endif %]
 

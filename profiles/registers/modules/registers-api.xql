@@ -115,3 +115,101 @@ declare function rview:person($request as map(*)) {
     return
         $pm-config:web-transform($pers, $params, $config:default-odd)
 };
+
+declare function rview:places($request as map(*)){
+    let $search := normalize-space($request?parameters?search)
+    let $letterParam := $request?parameters?category
+    let $limit := $request?parameters?limit
+    let $places :=
+        if ($search and $search != '') then 
+            collection($config:register-root)//tei:place[ft:query(., 'name:(' || $search || '*)')]
+        else
+            collection($config:register-root)//tei:place
+    let $sorted := sort($places, "?lang=de-DE", function($place) { lower-case(($place/tei:placeName)[1]) })
+    let $letter := 
+        if (count($places) < $limit) then 
+            "all"
+        else if ($letterParam = '') then
+            substring($sorted[1], 1, 1) => upper-case()
+        else
+            $letterParam
+    let $byLetter :=
+        if ($letter = 'all') then
+            $sorted
+        else
+            filter($sorted, function($entry) {
+                starts-with(lower-case(($entry/tei:placeName)[1]), lower-case($letter))
+            })
+    return
+        map {
+            "items": rview:output-place($byLetter, $letter, $search),
+            "categories":
+                if (count($places) < $limit) then
+                    []
+                else array {
+                    for $index in 1 to string-length('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+                    let $alpha := substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $index, 1)
+                    let $hits := count(filter($sorted, function($entry) { starts-with(lower-case(($entry/tei:placeName)[1]), lower-case($alpha))}))
+                    where $hits > 0
+                    return
+                        map {
+                            "category": $alpha,
+                            "count": $hits
+                        },
+                    map {
+                        "category": "all",
+                        "count": count($sorted)
+                    }
+                }
+        }    
+};
+
+declare function rview:output-place($list, $category as xs:string, $search as xs:string?) {
+    array {
+        for $place in $list
+            let $label := ($place/tei:placeName)[1]/string()
+            let $id := $place/@xml:id
+            let $alt := $place/tei:placeName[@type='alt']
+
+            let $coords := tokenize($place/tei:location/tei:geo)
+        return
+            <span class="place split-list-item">
+                <a href="places/{$id}">
+                    {$label} {if ($alt) then ' (' || $alt/string() || ')' else ()}
+                </a>
+                <pb-geolocation latitude="{$coords[1]}" longitude="{$coords[2]}" label="{$label}" emit="map" event="click">
+                    { if ($place/@type != 'approximate') then attribute zoom { 12 } else attribute zoom { 9 } }
+                    <iron-icon icon="maps:map"></iron-icon>
+                </pb-geolocation>
+            </span>
+    }
+};
+
+declare function rview:places-all($request as map(*)) {
+    let $places := collection($config:register-root)//tei:place
+    return 
+        array { 
+            for $place in $places[tei:location/tei:geo/text()]
+                let $geo := $place/tei:location/tei:geo
+                let $coords := tokenize($geo, ' ')
+                return 
+                    map {
+                        "latitude":$coords[1],
+                        "longitude":$coords[2],
+                        "label":($place/tei:placeName)[1]/string()
+                    }
+            }        
+};
+
+declare function rview:geonames-link($id) {
+    let $geo := substring-after($id, 'geo-')
+
+    return
+    if ($geo) then
+            <a href="https://www.geonames.org/{$geo}" target="_blank">
+                w geonames
+                <iron-icon icon="maps:place"/> 
+            </a>      
+    else 
+        ()
+};

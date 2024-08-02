@@ -235,6 +235,57 @@
 				}
 			}
         },
+		"/places/{id}": {
+            "get": {
+				"summary": "HTML page for place details",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "rview:person-html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+                    {
+						"name": "id",
+						"in": "path",
+						"description": "ID of the person or place",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					},
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "place"
+						}
+					}			
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
 		"/api/places": {
             "get": {
                 "summary": "List places",

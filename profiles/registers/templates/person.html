@@ -11,7 +11,7 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $config:context-path ]]/index.html?collection=[[ $request?parameters?collection ]]">People</a></li>
-                <li>[[ $data?root/*:persName ]]</li>
+                <li>[[ $data?root/tei:persName/string() ]]</li>
             </ul>
         </nav>
     </li>
