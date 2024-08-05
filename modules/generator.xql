@@ -290,20 +290,40 @@ declare %private function generator:load-template-map($collection as xs:string?)
         map {}
 };
 
+declare %private function generator:distinct-values($values) {
+    typeswitch ($values)
+        case xs:anyAtomicType+ return
+            distinct-values($values)
+        default return
+            let $jsonValues := 
+                map:merge(
+                    for $value in $values 
+                    return map {
+                        serialize($value, map { "method": "json", "indent": false() }): $value
+                    }
+                )
+            for $json in distinct-values(map:keys($jsonValues))
+            return
+                $jsonValues($json)
+};
+
 declare function generator:merge-deep($maps as map(*)*) {
-    map:merge(
-        for $key in distinct-values($maps ! map:keys(.))
-        let $mapsWithKey := filter($maps, function($map) { map:contains($map, $key) })
-        let $newVal :=
-            if ($mapsWithKey[1]($key) instance of map(*)) then
-                generator:merge-deep($mapsWithKey ! .($key))
-            else if ($key = ("odds", "ignore", "styles")) then
-                array {
-                    distinct-values($mapsWithKey ! .($key)?*)
-                }
-            else
-                $mapsWithKey[last()]($key)
-        return
-            map:entry($key, $newVal)
-    )
+    if (count($maps) < 2) then
+        $maps
+    else
+        map:merge(
+            for $key in distinct-values($maps ! map:keys(.))
+            let $mapsWithKey := filter($maps, function($map) { map:contains($map, $key) })
+            let $newVal :=
+                if ($mapsWithKey[1]($key) instance of map(*)) then
+                    generator:merge-deep($mapsWithKey ! .($key))
+                else if ($mapsWithKey[1]($key) instance of array(*)) then
+                    let $values := $mapsWithKey ! .($key)?*
+                    return
+                        array { generator:distinct-values($values) }
+                else
+                    $mapsWithKey[last()]($key)
+            return
+                map:entry($key, $newVal)
+        )
 };
