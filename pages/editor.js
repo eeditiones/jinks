@@ -59,8 +59,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function doDeploy(abbrev) {
-        displaySpinnerDuringCallback(`Deploying app ${abbrev}…`, async () => {
+    async function doDeploy(abbrev) {
+        return displaySpinnerDuringCallback(`Deploying app ${abbrev}…`, async () => {
             errors.innerHTML = '';
 
             try {
