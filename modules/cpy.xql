@@ -6,6 +6,7 @@ xquery version "3.1";
  :)
 module namespace cpy="http://tei-publisher.com/library/generator/copy";
 
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
 
@@ -238,7 +239,7 @@ declare function cpy:package($collection as xs:string, $expathConf as element())
     let $xar := compression:zip($entries, true())
     return
         try {
-            xmldb:store("/db/system/temp", $name, $xar, "application/zip")
+            xmldb:store($config:temp_directory, $name, $xar, "application/zip")
         } catch * {
             error($cpy:ERROR_PERMISSION, "Permission denied to store package '" || $name || "'")
         }

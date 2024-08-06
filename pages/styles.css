@@ -188,8 +188,12 @@ jinn-codemirror {
 .profiles img.profile {
     filter: grayscale(100%);
 }
-.profiles .action {
+.profiles .action,
+.output .action {
     width: 24px;
+}
+.output .action {
+    display: inline-block;
 }
 
 .output {

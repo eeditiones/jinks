@@ -1,0 +1,66 @@
+{
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "scheme": "basic",
+                "type": "http"
+            },
+            "cookieAuth": {
+                "in": "cookie",
+                "name": "teipublisher.com.login",
+                "type": "apiKey"
+            }
+        }
+    },
+    "info": {
+        "title": "jinks API",
+        "version": "1.0.0"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/generator/{profile}/deploy": {
+            "post": {
+                "description": "Deploy a profile. Call for new profiles, or to re-deploy a profile from scratch. Requires DBA privileges.",
+                "operationId": "dep:deploy",
+                "parameters": [
+                    {
+                        "name": "profile",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "example": "base"
+                        },
+                        "required": true,
+                        "description": "The name of the profile to use"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "localhost:8080/exist/apps/tei-publisher-jinks"
+        }
+    ],
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}
