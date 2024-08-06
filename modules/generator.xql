@@ -296,15 +296,12 @@ declare %private function generator:distinct-values($values) {
             distinct-values($values)
         default return
             let $jsonValues := 
-                map:merge(
-                    for $value in $values 
-                    return map {
-                        serialize($value, map { "method": "json", "indent": false() }): $value
-                    }
-                )
-            for $json in distinct-values(map:keys($jsonValues))
+                for $value in $values 
+                return
+                    serialize($value, map { "method": "json", "indent": false() })
+            for $value in distinct-values($jsonValues)
             return
-                $jsonValues($json)
+                parse-json($value)
 };
 
 declare function generator:merge-deep($maps as map(*)*) {
