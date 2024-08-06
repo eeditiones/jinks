@@ -3,7 +3,7 @@
         <li class="logo [[ $request?parameters?lang ]]"></li>
         [% for $item in $menu?items?* %]
         <li class="hidden-mobile">
-            <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?label ]]">[[ $item?label ]]</pb-i18n></a>
+            <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
         </li>
         [% endfor %]
     </ul>

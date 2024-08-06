@@ -1,7 +1,8 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/registers",
     "label": "TEI Publisher: Profile with Entity Registers",
-    "extends": ["base10", "docker"],
+    "description": "Adds pages to browse entities, i.e. people, places",
+    "extends": ["base10"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-registers"
@@ -16,11 +17,11 @@
     "menu": {
         "items": [
             {
-                "label": "people",
+                "id": "people",
                 "url": "people"
             },
             {
-                "label": "places",
+                "id": "places",
                 "url": "places"
             }
         ]
@@ -30,7 +31,7 @@
             "spec": "registers-api.json",
             "prefix": "rview",
             "path": "registers-api.xql",
-            "uri": "http://teipublisher.com/api/registers/view"
+            "id": "http://teipublisher.com/api/registers/view"
         }
     ],
     "script": {

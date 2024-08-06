@@ -21,7 +21,7 @@ import module namespace rapi="http://teipublisher.com/api/registers" at "../regi
 import module namespace custom="http://teipublisher.com/api/custom" at "../custom-api.xql";
 
 [% for $module in $context?api?* %]
-import module namespace [[ $module?prefix ]]="[[ $module?uri ]]" at "../[[ $module?path ]]";
+import module namespace [[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";
 [% endfor %]
 
 declare option output:indent "no";
