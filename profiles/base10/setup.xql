@@ -34,6 +34,7 @@ function teip:prepare($context as map(*)) {
 declare 
     %generator:write
 function teip:setup($context as map(*)) {
+    util:log("INFO", "base10: Start copying files ..."),
     cpy:copy-collection($context, $context?publisher || "/modules/lib", "modules/lib"),
     cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/data/registers", "data/registers"),
@@ -44,14 +45,13 @@ function teip:setup($context as map(*)) {
     for $lib in (
         "map.xql", "facets.xql", "registers.xql", 
         "annotation-config.xqm", "nlp-config.xqm", 
-        "iiif-config.xqm", 
-        xmldb:get-child-resources($context?publisher || "/modules")[starts-with(., "navigation")],
-        xmldb:get-child-resources($context?publisher || "/modules")[starts-with(., "query")]
+        "iiif-config.xqm"
     )
     return
         cpy:copy-resource($context, $context?publisher || "/modules/" || $lib, "modules/" || $lib),
     teip:install-odd($context),
-    teip:install-pages($context)
+    teip:install-pages($context),
+    util:log("INFO", "base10: copying files done.")
 };
 
 declare %private function teip:install-pages($context as map(*)) {
