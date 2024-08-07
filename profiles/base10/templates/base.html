@@ -33,6 +33,10 @@
         [% endfor %]
         [% endif %]
 
+        [% if $script?fore %]
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+        [% endif %]
+
         [% block scripts %][% endblock %]
     </head>
     <body>
