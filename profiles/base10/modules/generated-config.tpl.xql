@@ -44,3 +44,7 @@ declare variable $config:app-root :=
     return
         substring-before($modulePath, "/modules")
 ;
+
+declare variable $config:pagination-depth := [[ $defaults?pagination?depth ]];
+
+declare variable $config:pagination-fill := [[ $defaults?pagination?fill ]];
