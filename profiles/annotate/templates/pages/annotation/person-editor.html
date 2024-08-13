@@ -1,8 +1,6 @@
 <html>
 <head>
     <title>TEI Publisher Person Register</title>
-    <link rel="stylesheet" href="fore.css" data-template="pages:load-fore"/>
-    <script type="module" src="fore.js" data-template="pages:load-fore"></script>
 </head>
 <body>
 
@@ -10,10 +8,10 @@
 
     <fx-model id="model-1">
 
-        <fx-instance id="default" src="../api/forms/template/person-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="default" src="[[ $config:context-path]]/api/forms/template/person-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
         </fx-instance>
 
-        <fx-instance id="i-template" src="../api/forms/template/person-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="i-template" src="[[ $config:context-path ]]/api/forms/template/person-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
             <data></data>
         </fx-instance>
 
@@ -203,18 +201,18 @@
     </fx-trigger>
 
     <fx-action event="ready" if="string-length(getRef()) = 0">
-        <fx-send event="ready" submission="load" url="../api/register/NEW"/>
+        <fx-send event="ready" submission="load" url="[[ $config:context-path]]/api/register/NEW"/>
     </fx-action>
     <fx-action event="ready" if="string-length(getRef()) != 0">
-        <fx-send event="ready" submission="load" url="../api/register/{getRef()}"/>
+        <fx-send event="ready" submission="load" url="[[ $config:context-path]]/api/register/{getRef()}"/>
     </fx-action>
 
     <fx-action id="saveAction">
         <fx-action if="string-length(getRef()) != 0">
-            <fx-send submission="save" url="../api/register/{getRef()}"/>
+            <fx-send submission="save" url="[[ $config:context-path]]/api/register/{getRef()}"/>
         </fx-action>
         <fx-action if="string-length(getRef()) = 0">
-            <fx-send submission="save" url="../api/register/person-NEW"/>
+            <fx-send submission="save" url="[[ $config:context-path]]/api/register/person-NEW"/>
         </fx-action>
     </fx-action>
 </fx-fore>

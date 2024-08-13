@@ -368,7 +368,7 @@
             </fx-action>
 
             <fx-action event="pb-authority-new-entity" target="#document">
-                <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
+                <fx-load url="[[ $config:context-path ]]/pages/annotation/{event('type')}-editor.html"
                     attach-to="#authority-editor"></fx-load>
                 <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
                 <fx-message>Remember to close/save editor before continuing</fx-message>
@@ -380,7 +380,7 @@
                 <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
                 <fx-message>Remember to close/save editor before continuing</fx-message>
                 <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
-                <fx-load url="templates/pages/annotation/{event('type')}-editor.html"
+                <fx-load url="[[ $config:context-path ]]/pages/annotation/{event('type')}-editor.html"
                     attach-to="#authority-editor"></fx-load>
                 <fx-dispatch name="pb-disable" targetid="view1"></fx-dispatch>
             </fx-action>
