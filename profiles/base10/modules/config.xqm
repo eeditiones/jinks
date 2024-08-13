@@ -460,28 +460,36 @@ declare variable $config:dts-import-collection := $config:data-default || "/play
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    [% if exists($context?collection-config) %]
-    let $prefix := replace($collection, "^([^/]+).*$", "$1") return
-    switch ($prefix)
-        [% for $relativeCollectionPath in map:keys($context?collection-config) %]
-        case "[[$relativeCollectionPath]]" return 
-            map {
-              (:
-                "odd": "[[$context?collection-config($relativeCollectionPath)?odd]]",
-              "view": "[[$context?collection-config($relativeCollectionPath)?view]]",:)
-              "overwrite": true(),
-              "depth": 1,
-              "fill": 0,
-              "template": "[[$context?collection-config($relativeCollectionPath)?template]]"
+    (: Return the generated configuration to use the json-defined config in collection-config :)
+	(: Example:
+	 : "collection-config": {
+     :   "annotate": {
+	 :       "odd": "annotate.odd",
+	 :       "view": "div",
+     :       "template": "annotate.html"
+     :   }
+     : },
+	 :)
+	gen:collection-config($collection, $docUri)
 
-            }
-        [% endfor %]
-        default return
-            ()
-    [% else %]
-    (: No special overrides apply. Return the default in all cases:)
-        ()
-    [% endif %]
+	(:
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root).
+     :)
+   (:
+    switch ($collection)
+        case "playground" return
+			 map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+			}
+		default return
+			gen:collection-config($collection, $docUri)
+		:)
+
 };
 
 (:~

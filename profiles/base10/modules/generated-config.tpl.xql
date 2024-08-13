@@ -52,3 +52,30 @@ declare variable $config:pagination-fill := [[ $defaults?pagination?fill ]];
 declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %];
 
 declare variable $config:default-language as xs:string := "[[ $context?defaults?language ]]";
+
+(:~
+ : Use the JSON configuration to determine which configuration applies for which collection
+ :)
+declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    [% if exists($context?collection-config) %]
+    let $prefix := replace($collection, "^([^/]+).*$", "$1") return
+    switch ($prefix)
+        [% for $relativeCollectionPath in map:keys($context?collection-config) %]
+        case "[[$relativeCollectionPath]]" return
+            map {
+              "odd": "[[$context?collection-config($relativeCollectionPath)?odd]]",
+              "view": "[[$context?collection-config($relativeCollectionPath)?view]]",
+              "overwrite": true(),
+              "depth": 1,
+              "fill": 0,
+              "template": "[[$context?collection-config($relativeCollectionPath)?template]]"
+
+            }
+        [% endfor %]
+        default return
+            ()
+    [% else %]
+    (: No special overrides apply. Return the default in all cases:)
+        ()
+    [% endif %]
+};
