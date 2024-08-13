@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // clicking on link to document opens annotation editor on this document in new tab
     // annotations for the document are first stored to local storage, so the editor
     // will pick them up
-    reviewDocLink = reviewDialog.querySelector('h3 a');
+    reviewDocLink = reviewDialog.querySelector('#review-doc-link');
     reviewDocLink.addEventListener('click', (ev) => {
         ev.preventDefault();
         const href = reviewDocLink.href;
@@ -86,8 +86,8 @@ function _reviewNext() {
         total: reviewDocs.length,
         count: currentReview + 1
     };
-    reviewDialog.querySelector('h3 [key="annotations.doc-count"]').options = counts;
-    const count = reviewDialog.querySelector('h3 .count');
+    reviewDialog.querySelector('[key="annotations.doc-count"]').options = counts;
+    const count = reviewDialog.querySelector('.count');
     const matches = reviewOffsets[doc];
     count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;

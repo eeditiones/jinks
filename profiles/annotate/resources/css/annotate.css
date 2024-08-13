@@ -445,39 +445,12 @@ paper-icon-button[data-type="edit"] {
 }
 
 #d-review {
-    position: fixed;
-    top: 128px;
-    bottom: 64px;
-    left: 10vw;
-    right: 10vw;
-    height: auto;
-    width: auto;
+    /* Lower the default z-index from pico (9999) to 99 so the paper-dialogs can overlap it */
     z-index: 99;
-}
-
-#d-review div.dialog-content {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    height: 100%;
-}
-
-#d-review .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    background-color: var(--pb-color-inverse);
-}
-
-#d-review h3 {
-    margin: 0;
 }
 
 #d-review ul {
     overflow: auto;
-}
-
-#d-review .close {
-    float: right;
 }
 
 #d-review ul li {
@@ -486,7 +459,6 @@ paper-icon-button[data-type="edit"] {
 
 #d-review footer {
     font-size: var(--pb-footnote-font-size);
-    text-align: right;
 }
 
 /* ### authority editor */
