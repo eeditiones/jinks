@@ -40,11 +40,11 @@ let $lookup := function($name as xs:string) {
 }
 let $resp := roaster:route(
     (
-        "modules/lib/api.json",
-        "modules/custom-api.json"
         [% for $module in $context?api?* %]
-        , "modules/[[ $module?spec ]]"
+        "modules/[[ $module?spec ]]",
         [% endfor %]
+        "modules/custom-api.json",
+        "modules/lib/api.json"
     ), $lookup)
 return
     $resp
