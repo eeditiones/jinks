@@ -75,6 +75,18 @@ RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https:/
 RUN curl -L -o /usr/local/exist/autodeploy/templating-${TEMPLATING_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
 
+# Download and install latest jinks and jinks-templates
+# TODO: Make this download the xar directly
+RUN git clone https://github.com/eeditiones/jinks.git \
+    && cd jinks \
+    && ant \
+    && cp build/*.xar /usr/local/exist/autodeploy;
+RUN git clone https://github.com/eeditiones/jinks-templates.git \
+    && cd jinks-templates \
+    && ant \
+    && cp build/*.xar /usr/local/exist/autodeploy;
+
+
 WORKDIR /usr/local/exist
 
 ENV EXIST_HOME=/usr/local/exist
