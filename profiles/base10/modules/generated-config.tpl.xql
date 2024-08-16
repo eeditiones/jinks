@@ -44,3 +44,5 @@ declare variable $config:app-root :=
     return
         substring-before($modulePath, "/modules")
 ;
+
+declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %]
