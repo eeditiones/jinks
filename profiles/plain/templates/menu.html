@@ -8,6 +8,7 @@
         [% endfor %]
     </ul>
     <ul>
+        [% if $menu?language %]
         <li class="hidden-mobile">
             <pb-lang name="lang">
                 [% for $lang in map:keys($languages) %]
@@ -15,6 +16,7 @@
                 [% endfor %]
             </pb-lang>
         </li>
+        [% endif %]
         <li>
             <a id="colorMode" href="#">
                 <iron-icon icon="image:wb-sunny"></iron-icon>
