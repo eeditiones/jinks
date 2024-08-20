@@ -45,4 +45,5 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %]
+declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %];
+declare variable $config:default-language as xs:string := "[[ $context?default-language ]]";

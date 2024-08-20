@@ -75,7 +75,7 @@ declare variable $config:address-by-id := $gen:address-by-id;
 (:~
  : Set default language for publisher app i18n
  :)
-declare variable $config:default-language := "en";
+declare variable $config:default-language := $gen:default-language;
 
 (:
  : The default to use for determining the amount of content to be shown

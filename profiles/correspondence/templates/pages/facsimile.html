@@ -1,0 +1,25 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/base.html"
+        },
+        "styles": [
+            "facsimile.css"
+        ]
+    }
+    ---
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
+                <pb-param name="mode" value="title" />
+            </pb-view>
+        </nav>
+    </li>
+    [% endblock %]
+    <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
+        subscribe="transcription" emit="transcription" wait-for="#facsimile" />
+    <pb-facsimile id="facsimile" default-zoom-level="0" show-navigation-control="show-navigation-control"
+        show-navigator="show-navigator" subscribe="transcription" />
+</main>

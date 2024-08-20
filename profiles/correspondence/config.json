@@ -1,0 +1,23 @@
+{
+    "id": "https://e-editiones.org/app/tei-publisher/correspondence",
+    "label": "TEI Publisher: Profile with correspondence",
+    "description": "Adds pages to browser correspondence, ie. letters",
+    "extends": [
+        "base10",
+        "registers"
+    ],
+    "version": "1.0.0",
+    "pkg": {
+        "abbrev": "tei-publisher-correspondence"
+    },
+    "odds": [
+        "serafin.odd"
+    ],
+    "defaults": {
+        "template": "parallel.html",
+        "odd": "serafin.odd"
+    },
+    "i18n": [
+        "correspondence"
+    ]
+}

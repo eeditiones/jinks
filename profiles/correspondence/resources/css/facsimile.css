@@ -1,0 +1,31 @@
+body {
+    --pb-view-height: calc(100vh - 212px);
+}
+
+#view1 {
+    flex: 1 1;
+    height: var(--pb-view-height);
+    overflow: auto;
+}
+
+.content-body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.content-body pb-tify {
+    flex: 1 1;
+    height: var(--pb-view-height);
+    display: block;
+}
+
+@media (max-width: 769px) {
+    pb-tify
+    
+    {
+        display: none;
+    }
+}
+

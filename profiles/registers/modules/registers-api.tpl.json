@@ -69,7 +69,7 @@
         },
         "/people/{id}": {
             "get": {
-				"summary": "Landing page for people",
+				"summary": "Landing page for a single person",
 				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
 				"tags": ["view"],
 				"operationId": "rview:person-html",
@@ -91,6 +91,98 @@
 						"schema": {
 							"type": "string",
                             "default": "person"
+						}
+					}			
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+		"/actors": {
+            "get": {
+				"summary": "Landing page for actors",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "vapi:html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "actors"
+						}
+					}				
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/actors/{id}": {
+            "get": {
+				"summary": "Landing page for a single actor: a person or an organization",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "rview:actor-html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+                    {
+						"name": "id",
+						"in": "path",
+						"description": "ID of the actor",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					},
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "actor"
 						}
 					}			
 				],
@@ -173,6 +265,82 @@
 						"name": "id",
 						"in": "path",
 						"description": "ID of the person",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/actors": {
+            "get": {
+                "summary": "List actors",
+                "description": "Retrieve list of actors in format required by pb-split-list",
+				"tags": ["view"],
+                "operationId": "rview:actors-all",
+                "parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 50
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories and people to display",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/actor/{id}": {
+			"get": {
+				"summary": "Get information about a specific actors",
+				"description": "Get information about a specific actors",
+				"tags": ["view"],
+				"operationId": "rview:actors",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID of the actors",
 						"required": true,						
 						"schema":{
 							"type": "string",
