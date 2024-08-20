@@ -13,8 +13,8 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $config:context-path ]]/places">Places</a></li>
-                <li>[[ $data?root/tei:placeName ]]</li>
+                <li><a href="[[ $config:context-path ]]/places"><pb-i18n key="menu.places"/></a></li>
+                <li>[[ $data?root/head((tei:placeName[@type = ('reg', 'main', 'full')], tei:placeName))/string() ]]</li>
             </ul>
         </nav>
     </li>
