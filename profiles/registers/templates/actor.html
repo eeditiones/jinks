@@ -1,0 +1,22 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/base.html"
+        }
+    }
+    ---
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $config:context-path ]]/index.html?collection=[[ $request?parameters?collection ]]"><pb-i18n key="menu.actors"/></a></li>
+                <li>[[ $data?root/head(((tei:persName | tei:orgName)[@type = ('reg', 'main', 'full')], (tei:persName | tei:orgName)))/string() ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endblock %]
+    <section class="actor">
+        [[ $data?transform($data?root, ()) ]]
+    </section>
+</main>

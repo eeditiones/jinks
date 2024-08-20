@@ -37,8 +37,8 @@ declare function rview:people-all($request as map(*)){
             [lower-case($label), $label, $person]
     })
     let $sorted := rview:sort($byKey, $sortDir)
-    let $letter := 
-        if (count($people) < $limit) then 
+    let $letter :=
+        if (count($people) < $limit) then
             "all"
         else if ($letterParam = '') then
             substring($sorted[1]?1, 1, 1) => upper-case()
@@ -105,7 +105,7 @@ declare function rview:person-html($request as map(*)) {
 declare function rview:person($request as map(*)) {
     let $id := xmldb:decode-uri($request?parameters?id)
     let $pers := collection($config:register-root)/id($id)
-    let $params := 
+    let $params :=
         map {
             "root": $pers,
             "view": "single",
@@ -132,8 +132,8 @@ declare function rview:actors-all($request as map(*)){
             [lower-case($label), $label, $actor]
     })
     let $sorted := rview:sort($byKey, $sortDir)
-    let $letter := 
-        if (count($actors) < $limit) then 
+    let $letter :=
+        if (count($actors) < $limit) then
             "all"
         else if ($letterParam = '') then
             substring($sorted[1]?1, 1, 1) => upper-case()
@@ -185,7 +185,7 @@ declare function rview:output-actors-all($list, $letter as xs:string,  $search a
 declare function rview:actor($request as map(*)) {
     let $id := xmldb:decode-uri($request?parameters?id)
     let $actor := collection($config:register-root)/id($id)
-    let $params := 
+    let $params :=
         map {
             "root": $actor,
             "view": "single",
@@ -216,13 +216,13 @@ declare function rview:places($request as map(*)){
     let $letterParam := $request?parameters?category
     let $limit := $request?parameters?limit
     let $places :=
-        if ($search and $search != '') then 
+        if ($search and $search != '') then
             collection($config:register-root)//tei:place[ft:query(., 'name:(' || $search || '*)')]
         else
             collection($config:register-root)//tei:place
     let $sorted := sort($places, "?lang=de-DE", function($place) { lower-case(($place/tei:placeName)[1]) })
-    let $letter := 
-        if (count($places) < $limit) then 
+    let $letter :=
+        if (count($places) < $limit) then
             "all"
         else if ($letterParam = '') then
             substring($sorted[1], 1, 1) => upper-case()
@@ -256,7 +256,7 @@ declare function rview:places($request as map(*)){
                         "count": count($sorted)
                     }
                 }
-        }    
+        }
 };
 
 declare function rview:output-place($list, $category as xs:string, $search as xs:string?) {
@@ -282,18 +282,18 @@ declare function rview:output-place($list, $category as xs:string, $search as xs
 
 declare function rview:places-all($request as map(*)) {
     let $places := collection($config:register-root)//tei:place
-    return 
-        array { 
+    return
+        array {
             for $place in $places[tei:location/tei:geo/text()]
                 let $geo := $place/tei:location/tei:geo
                 let $coords := tokenize($geo, ' ')
-                return 
+                return
                     map {
                         "latitude":$coords[1],
                         "longitude":$coords[2],
                         "label":($place/tei:placeName)[1]/string()
                     }
-            }        
+            }
 };
 
 declare function rview:geonames-link($id) {
@@ -303,8 +303,8 @@ declare function rview:geonames-link($id) {
     if ($geo) then
             <a href="https://www.geonames.org/{$geo}" target="_blank">
                 w geonames
-                <iron-icon icon="maps:place"/> 
-            </a>      
-    else 
+                <iron-icon icon="maps:place"/>
+            </a>
+    else
         ()
 };
