@@ -50,3 +50,4 @@ declare variable $config:pagination-depth := [[ $defaults?pagination?depth ]];
 declare variable $config:pagination-fill := [[ $defaults?pagination?fill ]];
 
 declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %];
+declare variable $config:default-language as xs:string := "[[ $context?default-language ]]";
