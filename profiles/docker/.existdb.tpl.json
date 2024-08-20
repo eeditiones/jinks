@@ -4,7 +4,7 @@
             "server": "http://127.0.0.1:8080/exist",
             "user": "admin",
             "password": "",
-            "root": "/apps/[[ $config?abbrev ]]"
+            "root": "/apps/[[ $context?abbrev ]]"
         }
     },
     "sync": {

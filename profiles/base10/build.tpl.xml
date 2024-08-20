@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="all" name="[[ $config?label ]]">
+<project default="all" name="[[ $context?label ]]">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="${package(abbrev)}"/>
