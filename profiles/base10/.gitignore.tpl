@@ -1,7 +1,6 @@
 build
 transform
 node_modules
-resources/scripts/*.js
 resources/scripts/*.map
 resources/lib/
 resources/css/leaflet/
