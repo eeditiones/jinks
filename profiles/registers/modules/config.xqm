@@ -70,7 +70,7 @@ declare variable $config:enable-proxy-caching :=
 (:~
  : Should documents be located by xml:id or filename?
  :)
-declare variable $config:address-by-id := false();
+declare variable $config:address-by-id := $gen:address-by-id;
 
 (:~
  : Set default language for publisher app i18n
