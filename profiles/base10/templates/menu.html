@@ -98,11 +98,13 @@
             </pb-lang>
         </li>
         [% endif %]
+        [% if $menu?dark-mode %]
         <li>
             <a id="colorMode" href="#">
                 <iron-icon icon="image:wb-sunny"></iron-icon>
             </a>
         </li>
+        [% endif %]
         [% if $menu?login %]
         <li>
             <pb-login id="login" group="[[ $pkg?user?group ]]"/>

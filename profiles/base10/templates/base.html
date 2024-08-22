@@ -18,8 +18,9 @@
 
         <title>[[ $label ]]</title>
         
+        [% if $menu?dark-mode %]
         <script src="[[ $config:context-path ]]/resources/scripts/dark.js"></script>
-
+        [% endif %]
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
