@@ -10,8 +10,8 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $config:context-path ]]/index.html?collection=[[ $request?parameters?collection ]]"><pb-i18n key="menu.people"/></a></li>
-                <li>[[ $data?root/tei:persName/string() ]]</li>
+                <li><a href="[[ $config:context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]"><pb-i18n key="menu.people"/></a></li>
+                <li>[[ $data?root/head((tei:persName[@type = ('reg', 'main', 'full')], tei:persName))/string() ]]</li>
             </ul>
         </nav>
     </li>
