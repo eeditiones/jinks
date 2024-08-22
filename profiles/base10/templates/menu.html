@@ -89,13 +89,15 @@
                 redirect="redirect"></pb-search>
         </li>
         [% endif %]
-        <li>
+        [% if $menu?language %]
+        <li class="hidden-mobile">
             <pb-lang name="lang">
                 [% for $lang in map:keys($languages) %]
                 <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
                 [% endfor %]
             </pb-lang>
         </li>
+        [% endif %]
         <li>
             <a id="colorMode" href="#">
                 <iron-icon icon="image:wb-sunny"></iron-icon>
