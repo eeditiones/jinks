@@ -1,0 +1,13 @@
+<div class="container">
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/base.html"
+        }
+    }
+    ---
+    <main>
+        [[ replace($parts?default?content, 'facs="api/iiif/([^"]+)', 'facs="' || $context-path || '/site/iiif/$1.json') ]]
+        [[ $parts?default?footnotes ]]
+    </main>
+</div>

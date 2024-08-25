@@ -1,0 +1,20 @@
+<nav class="toolbar container-fluid">
+    <ul>
+        <li>
+        [% if $context("parts")?default?previous %]
+            <a href="[[ '../' || $context('pagination')?page - 1 || '/index.html' ]]"
+                title="Page [[ $context('pagination')?page - 1 ]]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+            </a>
+        [% endif %]
+        </li>
+        <li>
+        [% if $context("parts")?default?next %]
+            <a href="[[ '../' || $context('pagination')?page + 1 || '/index.html' ]]"
+                title="Page [[ $context('pagination')?page + 1 ]]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+            </a>
+        [% endif %]
+        </li>
+    </ul>
+</nav>

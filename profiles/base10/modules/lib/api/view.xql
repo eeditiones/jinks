@@ -48,7 +48,7 @@ declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
             error($errors:NOT_FOUND, "document " || $doc || " not found")
 };
 
-declare function vapi:load-config-json($request as map(*)) {
+declare function vapi:load-config-json($request as map(*)?) {
     let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
     return
         map:merge((
@@ -93,7 +93,8 @@ declare function vapi:view($request as map(*)) {
                         "transform": $pm-config:web-transform(?, ?, $config?odd)
                     },
                     "template": $templateName,
-                    "media": if (map:contains($config, 'media')) then $config?media else ()
+                    "media": if (map:contains($config, 'media')) then $config?media else (),
+                    "context-path": $config:context-path
                 }
             ))
             return
@@ -124,7 +125,8 @@ declare function vapi:handle-error($error) {
     let $model := map:merge((
         vapi:load-config-json($error),
         map {
-            "description": $error?description
+            "description": $error?description,
+            "context-path": $config:context-path
         }
     ))
     return
@@ -172,7 +174,13 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
             util:binary-doc($path) => util:binary-to-string()
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-    let $config := map:merge((vapi:load-config-json($request), $extConfig))
+    let $config := map:merge((
+        vapi:load-config-json($request), 
+        map {
+            "context-path": $config:context-path
+        },
+        $extConfig
+    ))
     return
         tmpl:process($template, $config, map {
             "plainText": false(), 

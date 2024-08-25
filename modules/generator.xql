@@ -121,7 +121,7 @@ declare function generator:after-write($context as map(*), $collection as xs:str
     let $func := generator:find-callback($collection, "after-write")
     return
         if (exists($func)) then
-            let $targetCollection := path:get-package-target($context?id)
+            let $targetCollection := if ($context?_update) then path:get-package-target($context?id) else $collection
             let $adjContext := map:merge((
                 $context,
                 map {
@@ -132,7 +132,7 @@ declare function generator:after-write($context as map(*), $collection as xs:str
                 }
             ))
             return
-                ($func?2)($targetCollection, $adjContext)
+                ($func?2)($adjContext, $targetCollection)
         else
             ()
 };

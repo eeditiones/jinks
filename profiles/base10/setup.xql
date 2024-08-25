@@ -36,6 +36,7 @@ declare
 function teip:setup($context as map(*)) {
     util:log("INFO", "base10: Start copying files ..."),
     cpy:copy-collection($context, $context?publisher || "/modules/lib", "modules/lib"),
+    teip:install-odd($context),
     cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/data/registers", "data/registers"),
     path:mkcol($context, "resources/scripts"),
@@ -49,7 +50,6 @@ function teip:setup($context as map(*)) {
     )
     return
         cpy:copy-resource($context, $context?publisher || "/modules/" || $lib, "modules/" || $lib),
-    teip:install-odd($context),
     teip:install-pages($context),
     util:log("INFO", "base10: copying files done.")
 };
@@ -66,6 +66,7 @@ declare %private function teip:install-pages($context as map(*)) {
 };
 
 declare %private function teip:install-odd($context as map(*)) {
+    path:mkcol($context, "resources/odd"),
     for $file in $context?odds?*
     let $source := doc($context?publisher || "/odd/" || $file)
     return

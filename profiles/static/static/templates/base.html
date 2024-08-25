@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32" />
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64" />
+
+        [% for $path in $styles?* %]
+            [% if matches($path, "(?:^https?://|^/).*$") %]
+            <link rel="stylesheet" href="[[ $path ]]" />
+            [% else %]
+            <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
+            [% endif %]
+        [% endfor %]
+
+        <style>
+            .footnotes {
+                font-size: 0.875em;
+            }
+
+            [aria-label=breadcrumb] h5 {
+                font-size: 1rem;
+            }
+
+            .content {
+                font-family: var(--pb-content-font-family);
+                font-size: var(--pb-content-font-size);
+            }
+        </style>
+        <title>[[ $label ]]</title>
+        
+        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+        [% if $script?webcomponents = 'dev' %]
+        <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+        [% endfor %]
+        [% elif $script?webcomponents = '' %]
+        [% else %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
+        [% endfor %]
+        [% endif %]
+
+        [% block scripts %][% endblock %]
+    </head>
+    <body>
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
+            supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
+            locales="resources/i18n/{{ns}}/{{lng}}.json" 
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
+            unresolved="unresolved">
+            <header class="page-header">
+                [% if $features?menubar %]
+                [% include "static/templates/menu.html" %]
+                [% endif %]
+                [% if $features?toolbar %]
+                [% include "static/templates/toolbar.html" %]
+                [% endif %]
+            </header>
+            [[ $content ]]
+        </pb-page>
+        <div class="splash"/>
+    </body>
+</html>

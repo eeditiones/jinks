@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/base.html"
+        },
+        "features": {
+            "toolbar": false
+        }
+    }
+    ---
+    <main>
+        <ul>
+        [% for $doc in $content?* %]
+            <li>
+                [[$doc?content]]
+            </li>
+        [% endfor %]
+        </ul>
+    </main>
+</div>

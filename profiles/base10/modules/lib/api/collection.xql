@@ -102,6 +102,30 @@ function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
     )
 };
 
+declare function capi:documents($request as map(*)) {
+    let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
+    let $params := capi:params2map($path)
+    let $worksAll := capi:list-works($path, (), $params)
+    return
+        array {
+            for $doc in $worksAll?all
+            let $config := tpu:parse-pi(root($doc), (), ())
+            let $teiHeader := nav:get-header($config, root($doc)/*)
+            let $relPath := config:get-identifier($doc)
+            let $header :=
+                $pm-config:web-transform($teiHeader, map {
+                    "header": "short",
+                    "doc": $relPath,
+                    "static": true()
+                }, $config?odd)
+            return
+                map {
+                    "path": $relPath,
+                    "content": $header
+                }
+        }
+};
+
 declare %private function capi:params2map($root as xs:string?) {
     map:merge((
         for $param in request:get-parameter-names()[not(. = ("start", "per-page", "page", "path"))]

@@ -2,10 +2,6 @@
     --pb-line-height: 140%;
     --pb-content-max-width: 70rem;
 
-    --pb-header-background-image: url("../images/header-bg.jpg");
-    --pb-header-background-color-light: rgba(255, 255, 255, 0.8);
-    --pb-header-background-color-dark: rgba(0, 0, 0, 0.6);
-
     --pb-logo-light: url("../images/tei-publisher-logo-color.svg");
     --pb-logo-dark: url("../images/tei-publisher-logo-contrast-color.svg");
     --pb-logo-image-width: 140px;
@@ -36,10 +32,10 @@
     --pb-annotation-stripes-light: #e0e0ef;
     --pb-annotation-stripes-dark: #50505f;
     --pb-drawer-background-color: var(--pb-color-inverse);
-    --pb-menubar-background-color: #35424b;
-    --pb-menubar-color: var(--pb-color-inverse);
-    --pb-toolbar-background-color: #d1dae0;
-    --pb-toolbar-color: var(--pb-color-primary);
+    --pb-menubar-background-color: [[ $theme?colors?menubar?background ]];
+    --pb-menubar-color: [[ $theme?colors?menubar?color ]];
+    --pb-toolbar-background-color: [[ $theme?colors?toolbar?background ]];
+    --pb-toolbar-color: [[ $theme?colors?toolbar?color ]];
     --paper-tooltip-delay-in: 200;
     --pb-footnote-font-size: 13px;
     --pb-footnote-font-family: var(--pb-content-font-family);
