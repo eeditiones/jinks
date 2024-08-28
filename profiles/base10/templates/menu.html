@@ -8,7 +8,7 @@
         [% endfor %]
 
         [# display download menu if in document view #]
-        [% if exists($context?doc) %]
+        [% if exists($context?doc) and $menu?download %]
         <li class="hidden-mobile">
             <details class="dropdown">
                 <summary><pb-i18n key="menu.download.title">Download</pb-i18n></summary>
