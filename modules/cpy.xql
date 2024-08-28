@@ -193,7 +193,9 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
 };
 
 declare %private function cpy:hash($content as xs:string) {
-    util:hash(replace($content, "[\s\n\r]+", " "), "sha-256")
+    (: Remove whitespace and XML version tags. These are not relevant for the actual hash :)
+		(: TODO: self-closing elements are also not important, neither is attribute order. They can have the same hash :)
+    util:hash(replace($content, "(<?[xX][mM][lL](^\?)*?>)|[\s\n\r]+", " "), "sha-256")
 };
 
 declare %private function cpy:scan-resources($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {
