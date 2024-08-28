@@ -19,13 +19,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadConfigs() {
-        nav.innerHTML = '';
         try {
             const response = await fetch('api/configurations');
             if (!response.ok) {
                 throw new Error(response.status);
             }
             const apps = await response.json();
+			nav.innerHTML = '';
             apps.forEach((app) => {
                 const a = document.createElement('a');
                 a.innerHTML = `
