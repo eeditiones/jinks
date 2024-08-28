@@ -10,6 +10,9 @@ import module namespace gen="https://e-editiones.org/tei-publisher/generator/con
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace util="http://exist-db.org/xquery/util";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
+
 
 declare namespace templates="http://exist-db.org/xquery/html-templating";
 
@@ -457,26 +460,36 @@ declare variable $config:dts-import-collection := $config:data-default || "/play
  : @param $docUri relative document path (including $collection)
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
-    (: Return empty sequence to use default config :)
-    ()
+    (: Return the generated configuration to use the json-defined config in collection-config :)
+	(: Example:
+	 : "collection-config": {
+     :   "annotate": {
+	 :       "odd": "annotate.odd",
+	 :       "view": "div",
+     :       "template": "annotate.html"
+     :   }
+     : },
+	 :)
+	gen:collection-config($collection, $docUri)
 
-    (: 
+	(:
      : Replace line above with the following code to switch between different view configurations per collection.
-     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root).
      :)
-    (:
+   (:
     switch ($collection)
         case "playground" return
-            map {
+			 map {
                 "odd": "dodis.odd",
                 "view": "body",
                 "depth": $config:pagination-depth,
                 "fill": $config:pagination-fill,
                 "template": "facsimile.html"
-            }
-        default return
-            ()
-    :)
+			}
+		default return
+			gen:collection-config($collection, $docUri)
+		:)
+
 };
 
 (:~

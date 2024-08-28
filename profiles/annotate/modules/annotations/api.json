@@ -1,0 +1,318 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ $label ]]",
+        "description": "This describes the APIs defined and consumed by the annotate profile for Jinks"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[ $pkg?abbrev ]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "paths": {
+        "/api/annotations/occurrences": {
+            "post": {
+                "summary": "For each ID passed in, return the number of already marked up occurrences in TEI texts",
+                "tags": [
+                    "annotations"
+                ],
+                "operationId": "anno:find-references",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "register",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "an object mapping IDs to number of occurrences",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/annotations/merge": {
+            "put": {
+                "summary": "Merge a set of annotations on multiple documents into their source TEI and store the resulting data",
+                "tags": [
+                    "annotations"
+                ],
+                "operationId": "anno:save",
+                "x-constraints": {
+                    "groups": [
+                        "tei"
+                    ]
+                },
+                "requestBody": {
+                    "description": "An object mapping document paths to annotation arrays",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Properties map document paths to annotations",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "context": {
+                                                "type": "string"
+                                            },
+                                            "start": {
+                                                "type": "number"
+                                            },
+                                            "end": {
+                                                "type": "number"
+                                            },
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "text": {
+                                                "type": "string"
+                                            },
+                                            "properties": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the merged TEI XML",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/annotations/merge/{path}": {
+            "post": {
+                "summary": "Merge annotations into source TEI",
+                "tags": [
+                    "annotations"
+                ],
+                "operationId": "anno:save",
+                "requestBody": {
+                    "description": "An array of annotations to be applied",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "context": {
+                                            "type": "string"
+                                        },
+                                        "start": {
+                                            "type": "number"
+                                        },
+                                        "end": {
+                                            "type": "number"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "text": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "description": "Relative path to the TEI document to be changed",
+                        "schema": {
+                            "type": "string",
+                            "example": "annotate/graves20.xml"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the merged TEI XML",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Merge annotations into source TEI and store the resulting document",
+                "tags": [
+                    "annotations"
+                ],
+                "operationId": "anno:save",
+                "x-constraints": {
+                    "groups": [
+                        "tei"
+                    ]
+                },
+                "requestBody": {
+                    "description": "An array of annotations to be applied",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "context": {
+                                            "type": "string"
+                                        },
+                                        "start": {
+                                            "type": "number"
+                                        },
+                                        "end": {
+                                            "type": "number"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "text": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "description": "Relative path to the TEI document to be changed",
+                        "schema": {
+                            "type": "string",
+                            "example": "annotate/graves20.xml"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the merged TEI XML",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forms/template/{id}": {
+            "get": {
+                "summary": "Retrieve XML template document to be used as a form instance. TODO: Move to registers instead???",
+                "description": "Retrieve whole document as XML",
+                "tags": [
+                    "annotations"
+                ],
+                "operationId": "anno:form-template",
+                "x-constraints": {
+                    "group": "tei"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "person-template"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire form instance template as XML",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

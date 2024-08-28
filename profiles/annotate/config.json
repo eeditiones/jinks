@@ -1,6 +1,6 @@
 {
     "id": "https://e-editiones.org/app/tei-publisher/annotations",
-    "extends": "base",
+    "extends": "base10",
     "version": "1.0.0",
     "label": "TEI Publisher: Annotation Editor Profile",
     "pkg": {
@@ -15,5 +15,20 @@
     ],
     "odds": [
         "annotations.odd"
+    ],
+    "styles": [
+    ],
+    "collection-config": {
+        "annotate": {
+            "template": "annotate.html"
+        }
+    },
+    "api": [
+        {
+            "prefix": "anno",
+            "id": "http://teipublisher.com/api/annotations",
+            "path": "annotations/annotations.xql",
+            "spec": "annotations/api.json"
+        }
     ]
 }
