@@ -29,12 +29,14 @@
             </li>
         </pb-restricted>
 
+		[% if $toolbar?zoom %]
         <li>
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
         </li>
         <li>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
         </li>
+		[% endif %]
         [% block toolbar %][% endblock %]
         <li>
             <pb-navigation emit="transcription" keyboard="left"
