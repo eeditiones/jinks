@@ -1,13 +1,16 @@
 {
     "id": "https://e-editiones.org/app/static-app",
     "label": "Static Site",
-    "extends": ["monograph"],
+    "extends": ["parallel"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "static"
     },
     "static": {
-        "target": "site"
+        "target": "site",
+        "styles": [
+            "transform/serafin.css"
+        ]
     },
     "hero": {
         "main": "A static application",

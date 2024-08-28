@@ -305,24 +305,33 @@
                 </elementSpec>
                 <elementSpec ident="titleStmt" mode="change">
                     <model output="latex" behaviour="meta">
-            <param name="content" value="."/>
-        </model>
+                        <param name="content" value="."/>
+                    </model>
                     <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='title'" behaviour="heading">
+                        <param name="content" value="title[not(@type)]"/>
+                        <param name="level" value="5"/>
+                    </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
-            <model behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="author"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="link" predicate="$parameters?static">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?doc || '/1/index.html'"/>
+                        </model>
+                        <model behaviour="link" predicate="not($parameters?static)">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?doc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="subsequence(title, 2)"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="author"/>
+                        </model>
+                    </modelSequence>
                     <model output="web" predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="title[not(@type)]"/>
-        </model>
-                    <model output="web" behaviour="heading">
-            <param name="level" value="4"/>
-        </model>
+                        <param name="content" value="title[not(@type)]"/>
+                    </model>
+                    <model output="web" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
                     <modelSequence predicate="$parameters?mode='map'">

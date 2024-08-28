@@ -61,12 +61,19 @@ declare function static:paginate($context as map(*), $config as array(*), $templ
     static:next-page($context, $config, (), $template, 1, $targetPathGen)
 };
 
+(:~
+ : Recursively load the parts of the document using the part configuration with id "default" as the main part.
+ :)
 declare %private function static:next-page($context as map(*), $parts as array(map(*)+), 
     $root as xs:string?, $template as xs:string,
     $count as xs:int, $targetPathGen as function(*)) {
     let $json := map:merge((
         for $part in $parts?*
-        let $data := static:load-part($context, $part?path, map:merge((map { "root": $root }, $part)))
+        let $data := static:load-part(
+            $context, 
+            $part?path, 
+            map:merge((map { "root": $root }, $part))
+        )
         return
             map:entry(head(($part?id, "default")), $data)
     ))
@@ -117,9 +124,10 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
         return
             map:entry($param, $params($param))
     ))
+    let $urlParams := static:params-to-query($mergedParams)
     let $request := 
         <http:request method="GET" 
-            href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?{static:params-to-query($mergedParams)}"/>
+            href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?{$urlParams}"/>
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then

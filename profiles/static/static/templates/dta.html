@@ -6,8 +6,24 @@
         }
     }
     ---
-    <main>
-        [[ replace($parts?default?content, 'facs="api/iiif/([^"]+)', 'facs="' || $context-path || '/site/iiif/$1.json') ]]
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/index.html">Letters</a></li>
+                <li>[[ $parts?breadcrumb?content ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endblock %]
+    <main class="two-column">
+        <div class="col1">
+        [[ $parts?default?content ]]
         [[ $parts?default?footnotes ]]
+        </div>
+        <div class="col2">
+            [[ $parts?translation?content ]]
+            [[ $parts?translation?footnotes ]]
+        </div>
     </main>
 </div>
