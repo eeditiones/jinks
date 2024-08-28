@@ -8,7 +8,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace facets="http://teipublisher.com/facets" at "../../facets.xql";
-import module namespace facets-config="http://teipublisher.com/api/facets-config" at "../../facets-config.xqm";
+import module namespace facets-config="http://teipublisher.com/api/facets-config" at "../../facets-config.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
