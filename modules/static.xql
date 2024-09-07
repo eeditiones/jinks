@@ -184,5 +184,79 @@ declare function static:load($context as map(*), $url as xs:string, $target as x
                         default return
                             $response[2]
         else
-            error($static:ERROR_LOAD_FAILED, $response[1]/@status)
+            error($static:ERROR_LOAD_FAILED, "URI: " || $url || ": " || $response[1]/@status)
+};
+
+declare function static:split($context as map(*), $input as item()*, $batchSize as xs:int, 
+    $template as xs:string, $targetPathGen as function(*)) {
+    let $templateContent := cpy:resource-as-string($context, $template)?content
+    let $chunks :=
+        for $p in 0 to count($input) idiv $batchSize
+        return
+            array { subsequence($input, $p * $batchSize + 1, $batchSize) }
+    for $chunk at $page in $chunks
+    let $output :=
+        tmpl:process(
+            $templateContent, 
+            map:merge((
+                $context,
+                map {
+                    "pagination": map {
+                        "page": $page,
+                        "total": count($chunks)
+                    },
+                    "content": $chunk?*
+                }
+            )),
+            map {
+                "plainText": true(),
+                "resolver": cpy:resource-as-string($context, ?)
+            }
+        )
+    let $targetPath := path:resolve-path($context?target, $targetPathGen($context, $page))
+    return (
+        util:log("INFO", ("<static> Writing to ", $targetPath)),
+        path:mkcol($context, $targetPath),
+        xmldb:store(
+            $targetPath, 
+            "index.html",
+            $output,
+            "text/html"
+        )
+    )
+};
+
+declare function static:index($context as map(*), $input as item()*) {
+    let $lines := array {
+        for $doc in $input
+        let $request := 
+            <http:request method="GET" href="{$context?base-uri}/api/static/{encode-for-uri($doc?path)}"/>
+        let $response := http:send-request($request)
+        return
+            if ($response[1]/@status = 200) then
+                let $data := util:binary-to-string(xs:base64Binary($response[2]))
+                return
+                    parse-json($data)
+            else
+                error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
+    } => serialize(map{ "method": "json", "indent": true() })
+    return
+        xmldb:store($context?target, "index.json", $lines, "application/json")
+};
+
+declare function static:redirect($context as map(*), $target as xs:string, $redirectTo as xs:string) {
+    let $targetPath := path:resolve-path($context?target, $target)
+    let $html :=
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta http-equiv="refresh" content="0; url={$redirectTo}"/>
+                <title>Redirecting...</title>
+            </head>
+            <body>
+                <p>If you are not redirected automatically, follow this <a href="{$redirectTo}">link to the new page</a>.</p>
+            </body>
+        </html>
+    return
+        xmldb:store($targetPath, "index.html", $html, "text/html")
 };

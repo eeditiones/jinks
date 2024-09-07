@@ -24,7 +24,11 @@ let $context := map:merge((
 return (
     path:mkcol($context, $context?target),
     let $docs := static:load($context, $baseUri || "/api/documents")
-    let $start := cpy:copy-template(map:merge(($context, map:entry("content", $docs))), "static/templates/index.html", "index.html")
+    let $browse :=
+        static:split($context, $docs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
+            $page
+        })
+    let $index := static:index($context, $docs?*)
     for $doc in $docs?*
     return
         static:paginate(
@@ -47,18 +51,22 @@ return (
                     "user.mode": "breadcrumb"
                 }
             ],
-            "static/templates/dta.html", 
+            "static/templates/parallel.html", 
             function($context as map(*), $n as xs:int) {
                 $doc?path || "/" || $n
             }
         ),
     cpy:copy-template($context, "static/templates/about.html", "about.html"),
+    cpy:copy-template($context, "static/templates/search.html", "search.html"),
     cpy:copy-resource($context, "static/controller.xql", "controller.xql"),
+    cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
+    cpy:copy-resource($context, "static/search.js", "resources/scripts/search.js"),
     cpy:copy-collection($context, "resources/css", "resources/css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
-    cpy:copy-collection($context, "resources/fonts", "resources/fonts")
+    cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
+    static:redirect($context, "", "1/index.html")
     (: path:mkcol($context, "site/iiif"),
     static:load($context, $context?context-path || "/api/iiif/F-rom.xml", "site/iiif/F-rom.xml.json") :)
 )

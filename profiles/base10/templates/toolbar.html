@@ -29,7 +29,7 @@
             </li>
         </pb-restricted>
 
-		[% if $toolbar?zoom %]
+		[% if $toolbar?zoom and exists($context?doc) %]
         <li>
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
         </li>

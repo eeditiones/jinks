@@ -27,7 +27,13 @@
             </div>
             <pb-restricted group="[[ $pkg?user?group ]]">
                 <aside>
-                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" event="pb-search-resubmit"></pb-upload>
+                    [% if $context?defaults?upload %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+                    [% else %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit"></pb-upload>
+                    [% endif %]
                 </aside>
             </pb-restricted>
         </div>

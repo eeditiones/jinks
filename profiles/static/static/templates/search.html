@@ -1,0 +1,37 @@
+<div class="container">
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/base.html"
+        },
+        "features": {
+            "toolbar": false
+        }
+    }
+    ---
+    <main class="search">
+        <aside>
+            <pb-search id="search-input" label="Search" disable-autocomplete="disable-autocomplete"
+                subforms="#options" subscribe="search"></pb-search>
+            <pb-custom-form id="options">
+                <fieldset>
+                    <legend>Field</legend>
+                    <label>
+                        <input type="checkbox" name="field" value="content" checked="checked"/> Transcription
+                    </label>
+                    <label>
+                        <input type="checkbox" name="field" value="translation" checked="checked"/> Translation
+                    </label>
+                    <label>
+                        <input type="checkbox" name="field" value="commentary"/> Commentary
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <legend>Places</legend>
+                    <div id="places"></div>
+                </fieldset>
+            </pb-custom-form>
+        </aside>
+        <div id="results"></div>
+    </main>
+</div>

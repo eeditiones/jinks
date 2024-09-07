@@ -47,7 +47,7 @@ html {
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
 
 .logo {
-    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
+    background-image: var(--pb-logo-light);
 }
 
 .splash {
@@ -196,7 +196,7 @@ main:not(.container-fluid) {
 
 main.search {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr;
     gap: 1rem;
 }
 

@@ -10,8 +10,17 @@
     }
     ---
     <main>
+        <div role="group">
+            [% for $i in 1 to $pagination?total %]
+                [% if $pagination?page = $i %]
+                <a role="button" href="../[[ $i ]]/index.html" aria-current="page">[[ $i ]]</a>
+                [% else %]
+                <a role="button" href="../[[ $i ]]/index.html">[[ $i ]]</a>
+                [% endif %]
+            [% endfor %]
+        </div>
         <ul>
-        [% for $doc in $content?* %]
+        [% for $doc in $content %]
             <li>
                 [[$doc?content]]
             </li>
