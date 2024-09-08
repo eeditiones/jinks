@@ -41,7 +41,7 @@ function search(index, fields, query, facetPlace) {
         enrich: true,
         limit: 100
     };
-    if (fields !== 'all') {
+    if (fields && fields.length > 0 && fields !== 'all') {
         if (!Array.isArray(fields)) {
             fields = [fields];
         }
@@ -142,7 +142,7 @@ function outputPlaces(places, facetPlace) {
             pbEvents.emit('pb-search-resubmit', 'search');
         });
         label.appendChild(input);
-        const text = document.createTextNode(place);
+        const text = document.createTextNode(place.substring(1));
         label.appendChild(text);
         div.appendChild(label);
     });
@@ -174,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const fields = params.getAll('field');
         if (fields.length > 0) {
+            document.querySelectorAll('input[name="field"]').forEach(input => { input.checked = false; })
             fields.forEach(field => {
                 const input = document.querySelector(`input[name="field"][value="${field}"]`);
                 if (input) {
@@ -212,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (query) {
-                search(index, params.get('field'), params.get('query'), params.getAll('place'));
+                search(index, params.getAll('field'), params.get('query'), params.getAll('place'));
             }
             pbEvents.emit('pb-end-update', 'transcription');
         })
