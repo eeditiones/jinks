@@ -315,7 +315,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
                         <model behaviour="link" predicate="$parameters?static">
                             <param name="content" value="title[1]"/>
-                            <param name="uri" value="$parameters?doc || '/1/index.html'"/>
+                            <param name="uri" value="'../' || $parameters?doc || '/1/index.html'"/>
                         </model>
                         <model behaviour="link" predicate="not($parameters?static)">
                             <param name="content" value="title[1]"/>

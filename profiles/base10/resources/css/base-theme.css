@@ -206,7 +206,7 @@ button svg {
 
 .logo {
     background-repeat: no-repeat;
-    background-size: auto auto;
+    background-size: 100% 100%;
     background-position: left center;
     width: var(--pb-logo-image-width);
     height: var(--pb-logo-image-height);
@@ -412,6 +412,11 @@ li.document {
 
 li.document .actions {
     display: flex;
+}
+
+li.document .actions summary::after {
+    content: none;
+    width: 0;
 }
 
 li.document svg {

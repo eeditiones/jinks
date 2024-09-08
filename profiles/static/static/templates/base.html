@@ -16,20 +16,6 @@
             [% endif %]
         [% endfor %]
 
-        <style>
-            .footnotes {
-                font-size: 0.875em;
-            }
-
-            [aria-label=breadcrumb] h5 {
-                font-size: 1rem;
-            }
-
-            .content {
-                font-family: var(--pb-content-font-family);
-                font-size: var(--pb-content-font-size);
-            }
-        </style>
         <title>[[ $label ]]</title>
         
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
@@ -57,12 +43,14 @@
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved">
             <header class="page-header">
-                [% if $features?menubar %]
-                [% include "static/templates/menu.html" %]
-                [% endif %]
-                [% if $features?toolbar %]
-                [% include "static/templates/toolbar.html" %]
-                [% endif %]
+                <div>
+                    [% if $features?menubar %]
+                    [% include "static/templates/menu.html" %]
+                    [% endif %]
+                    [% if $features?toolbar %]
+                    [% include "static/templates/toolbar.html" %]
+                    [% endif %]
+                </div>
             </header>
             [[ $content ]]
         </pb-page>

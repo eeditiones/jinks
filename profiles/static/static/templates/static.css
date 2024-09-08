@@ -1,0 +1,27 @@
+.content [aria-label=breadcrumb] {
+    font-size: 1rem;
+    font-family: var(--pb-base-font-family);
+}
+
+.content a[rel="footnote"] {
+    font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+    font-family: var(--pb-footnote-font-family, --pb-content-font-family);
+    vertical-align: super;
+    color: var(--pb-footnote-color, var(--pb-color-primary, #333333));
+    text-decoration: none;
+    padding: var(--pb-footnote-padding, 0 0 0 .25em);
+}
+
+.footnote .fn-number {
+    float: left;
+    font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+}
+
+.content, .footnotes {
+    font-family: var(--pb-content-font-family);
+    font-size: var(--pb-content-font-size);
+}
+
+.footnotes {
+    font-size: 0.875em;
+}

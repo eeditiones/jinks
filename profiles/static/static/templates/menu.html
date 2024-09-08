@@ -10,8 +10,9 @@
     <ul>
         [% if $menu?search %]
         <li>
-            <pb-search action="[[ $context-path ]]/search.html" value="[[ $context('request')?parameters?query ]]"
-                redirect="redirect"></pb-search>
+            <form action="[[ $context-path ]]/search.html">
+                <input type="search" value="" name="query"/>
+            </form>
         </li>
         [% endif %]
         <li>
