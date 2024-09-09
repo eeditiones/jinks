@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS46">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Antoni do Mikołaja Serafina, <placeName ref="#Bochnia">Bochnia</placeName>,
+                        <date when-custom="1440-1444">1440-1444</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 167 (–)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>290 x 205 mm; górna krawędź karty o szerokości dwóch wierszy ukośnie
+                            obcięta; ślady zawilgocenia i ubytki papieru w dolnej części karty</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#AntoniItalik">Antoni</persName>
+                    <placeName ref="#Bochnia">Bochnia</placeName>
+                    <date when-custom="1440-1444">1440-1444</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="it">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Nobili
+                                    <expan>d(<ex>om</ex>)i(<ex>n</ex>)o</expan> <persName ref="#MS">Sarafino</persName>
+                                        <expan>Sub(<ex>bario</ex>)</expan> In
+                                    <expan>Vel(i)cha</expan>
+                            </seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>
+                                <gap/>
+                                <anchor xml:id="aa"/> agli vi
+                                rimando.</seg>
+                            <seg xml:id="s.1.2.2">Dispiaciemi a<gap/>
+                                <anchor xml:id="ab"/>
+                                <lb/> dachoxare / che vedete come stiamo <expan>co<ex>n</ex>
+                                </expan>
+                                <expan>q<ex>u</ex>esti</expan> signori / e lui ci puo <lb/> fare
+                                        <expan>dan<ex>n</ex>
+                                </expan>o assai ecc.</seg>
+                            <seg xml:id="s.1.2.3">
+                                <expan>Co<ex>n</ex>vie<ex>n</ex>ci</expan> co’
+                                    pazie<supplied>n</supplied>zia portare
+                                    <expan>q<ex>ue</ex>llo</expan> che forza dove
+                                        <expan>no<ex>n</ex>
+                                </expan> v’e giustizia. /</seg>
+                            <seg xml:id="s.1.2.4">E chavagli e balestrieri
+                                    <expan>ven(<ex>n</ex>)ono</expan> mecho stamani vi
+                                    rima<supplied>n</supplied>dai.</seg>
+                        </p>
+                        <p xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>Dite che que’ de signori di Charcovia v’ano
+                                deto <expan>p<ex>er</ex>
+                                </expan> lo scrivere faciemo
+                                        <expan>an<ex>n</ex>o</expan>
+                                <expan>co<ex>n</ex>chiuxo</expan> ecc. / dico salvo loro / che
+                                        <expan>p<ex>rim</ex>a</expan> la
+                                    <expan>lett<ex>era</ex>
+                                </expan> si scrise fui co’ signori 3 ore
+                                ieri <expan>i<ex>n</ex>anzi</expan> dizinare,
+                                    mostra<supplied>n</supplied>do loro l’arenda
+                                        <expan>asegna<ex>n</ex>do</expan> loro ogni
+                                        <expan>no<ex>st</ex>ra</expan> ragione /
+                                        <expan>dicie<ex>n</ex>do</expan> che solo in questa arenda
+                                        <expan>no<ex>n</ex>
+                                </expan> ve sta <corr>sta</corr> nel’anno
+                                anticho / e mai lui apresso a re no’ potere hotenere.</seg>
+                            <seg xml:id="s.1.3.2">I’re mi fecie forte paura
+                                    <expan>coma<ex>n</ex>do</expan> a volte a chapitano a
+                                protecione.</seg>
+                            <seg xml:id="s.1.3.3">Desi a lui la <expan>p<ex>r</ex>ociezione</expan>
+                                mai no’ potere <expan>es<ex>er</ex>e</expan> e dico bene io
+                                        <expan>an<ex>n</ex>o</expan>. Tanto che poi i’ re co’ belle
+                                        <expan>p<ex>r</ex>egherie</expan> no’
+                                    <expan>p<ex>er</ex>
+                                </expan> forza
+                                    <expan>dicie<ex>n</ex>do</expan> gli faciesi
+                                    <expan>q<ex>ue</ex>sto</expan> a piaciere lo ritogliesi
+                                        <expan>p<ex>er</ex>
+                                </expan> ½ <anchor xml:id="ac"/> anno e
+                                se no’ mi <expan>s<ex>er</ex>vise</expan> bene lo laschasi. /</seg>
+                            <seg xml:id="s.1.3.4">Poi a segnado tuto / <expan>no<ex>n</ex>ne</expan>
+                                stante violento.</seg>
+                            <seg xml:id="s.1.3.5">Mi risposono che volevono lo ritenesimo ecc.
+                                /</seg>
+                            <seg xml:id="s.1.3.6">E cosi <expan>p<ex>er</ex>che</expan> loro no
+                                credesino fusimo si facti gli scrisi <expan>p<ex>er</ex>
+                                </expan>
+                                loro / a
+                                    <expan>sp<ex>er</ex>a<supplied>n</supplied>t<ex>ia</ex>
+                                </expan>
+                                <expan>no<ex>st</ex>ra</expan> in bel modo l’articolo de l’arenda
+                                        <expan>n<ex>os</ex>tra</expan> come chiaro dice
+                                        <expan>no<ex>n</ex>ne</expan> stante altre
+                                        <expan>lett<ex>ere</ex>
+                                </expan> ecc. no debe pore uficiali
+                                se non noi salvo i ghabato<anchor xml:id="a1"/> /
+                                    pregha<supplied>n</supplied>dola non faciesimo
+                                        <expan>
+                                    <ex>in</ex>giura</expan> ecc./</seg>
+                            <seg xml:id="s.1.3.7">PSe voglono <expan>ro<ex>m</ex>pere</expan> le
+                                loro lettere ci posono <expan>tor<ex>r</ex>e</expan> anche le
+                                giube.</seg>
+                            <seg xml:id="s.1.3.8">
+                                <ex>In</ex>
+                                <expan>q<ex>ue</ex>sto</expan> ci e fato
+                                    <expan>to<ex>r</ex>to</expan> / e di meglo a
+                                        <expan>lascia<ex>r</ex>si</expan> fare
+                                    <expan>to<ex>r</ex>to</expan> che buona volonta.</seg>
+                            <seg xml:id="s.1.3.9">Che <expan>senp<ex>r</ex>e</expan> di
+                                        <expan>q<ex>u</ex>alcosa</expan> ci abiamo a
+                                ramarichare.</seg>
+                            <seg xml:id="s.1.3.10">Se
+                                    co<supplied>n</supplied>se<supplied>n</supplied>tiamo sono rotte
+                                le <expan>no<ex>st</ex>re</expan>
+                                <expan>lett<ex>ere</ex>
+                                </expan> siamo disfati. /</seg>
+                            <seg xml:id="s.1.3.11">Di dare salario <expan>sop<ex>r</ex>a</expan> la
+                                ragione de re co<supplied>n</supplied>se<supplied>n</supplied>tto
+                                        <expan>q<ex>u</ex>esto</expan> e giusto ma
+                                        <expan>sop<ex>r</ex>a</expan> di noi non.</seg>
+                            <seg xml:id="s.1.3.12">Poi che siamo a <expan>q(<ex>u</ex>)esto</expan>
+                                bisogna avere buono animo e
+                                        <expan>dife<supplied>n</supplied>de<ex>r</ex>se</expan>
+                                <ex>in</ex> meglo si puo e non
+                                        <expan>co<ex>n</ex>sa<supplied>n</supplied>tire</expan>.</seg>
+                            <seg xml:id="s.1.3.13">Meglo ancora che poi ecc. /
+                                    <expan>q<ex>u</ex>esto</expan> e i’
+                                co<supplied>n</supplied>siglo mio. /</seg>
+                        </p>
+                        <p xml:id="s.1.4">
+                            <seg xml:id="s.1.4.1">
+                                <lb/>L’ resto che mi duole che dite gli
+                                    U<supplied>n</supplied>gheri no’ veghono; da
+                                    <expan>q<ex>u</ex>esto</expan> mi da pasione piu che per altro.
+                                /</seg>
+                            <seg xml:id="s.1.4.2">Iddio ci aiuti.</seg>
+                            <seg xml:id="s.1.4.3">Che tale <expan>te<ex>m</ex>po</expan> datoci da
+                                Dio doviamo <expan>p<ex>er</ex>dere</expan>. /</seg>
+                            <seg xml:id="s.1.4.4">Sonne stato <expan>co<ex>n</ex>
+                                </expan>
+                                <persName ref="#Vanospe">Vanospe</persName> che
+                                    <expan>q<ex>u</ex>i</expan> fu a dexinare;
+                                    <expan>senp<ex>r</ex>e</expan> ci mannchano
+                                    <expan>p<ex>r</ex>omese</expan>
+                                <expan>molt<ex>o</ex>
+                                </expan>
+                                <expan>sop<ex>r</ex>a</expan> i fatti di <persName ref="#Pawełniezidentyfikowany">Pagholo</persName> dicie no’
+                                temiamo e che <expan>nient<ex>e</ex>
+                                </expan> faciamo per
+                                    i<supplied>n</supplied>sino gli altri signori veghino; e che lui
+                                vuole morire o ci sara tenuto le sue <expan>lett<ex>ere</ex>
+                                </expan>
+                                / de fati d’U<supplied>n</supplied>gheria.</seg>
+                            <seg xml:id="s.1.4.5">Stanote ne saro co’ lui a la sua villa tornato
+                                sara da la chacia<anchor xml:id="ad"/>. /</seg>
+                            <seg xml:id="s.1.4.6">Faro <expan>q<ex>ue</ex>lo</expan> si potra di
+                                domino <persName ref="#Antoni">Antonio</persName>; e
+                                        <expan>rito<ex>r</ex>nato</expan> costi a Charcovia no’ lo
+                                trovai <expan>q<ex>u</ex>i</expan> fare
+                                    <expan>gl<ex>orie</ex>
+                                </expan> di re ch’e fato tuto. /</seg>
+                            <seg xml:id="s.1.4.7">Ma lui co<supplied>n</supplied>tro <persName ref="#Pangrazia">Pa<supplied>n</supplied>graxia</persName> no’
+                                puo <expan>p<ex>er</ex>che</expan> Pa<supplied>n</supplied>grazia e
+                                nimico di domino Antonio.</seg>
+                            <seg xml:id="s.1.4.8">Sarebe buono i’ re scrivese <gap/> Pa<supplied>n</supplied>grazia.</seg>
+                            <seg xml:id="s.1.4.9">
+                                <expan>Q<ex>ue</ex>sto</expan> mi
+                                parebe la miglore ora.</seg>
+                            <seg xml:id="s.1.4.10">Iddio ci aiuti<gap/>
+                                <gap/>ssi <expan>co<ex>ntro</ex>
+                                </expan> <gap/>biamo. /</seg>
+                        </p>
+                        <p xml:id="s.1.5">
+                            <seg xml:id="s.1.5.1">
+                                <lb/>
+                                <expan>P<ex>er</ex>
+                                </expan> ora no’ dico altro faciami <expan>q<ex>u</ex>elo</expan> p<supplied>osi</supplied>amo i’ resto facci Iddio.</seg>
+                            <seg xml:id="s.1.5.2">E abiate
+                                buono animo.</seg>
+                            <seg xml:id="s.1.5.3">Christo vi <expan>gh<supplied>u</supplied>a<ex>r</ex>di</expan>.</seg>
+                            <seg xml:id="s.1.5.4">Data martedi <expan>i<ex>n</ex>
+                                </expan> <placeName ref="#Bochnia">Bochana</placeName>.</seg>
+                        </p>
+                        <signed xml:id="s.1.6">
+                            <seg xml:id="s.1.6.1">
+                                <lb/>
+                                <expan>Ant<ex>onio</ex>
+                                </expan> <expan>v<ex>ostro</ex>
+                                </expan>
+                                <anchor xml:id="a2"/>
+                            </seg>
+                        </signed>
+                        <postscript xml:id="s.1.7">
+                            <p xml:id="s.1.7.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">obcięty górny margines wraz z
+                            początkowym fragmentem tekstu.</note>
+                        <note n="b" type="transcription" target="#ab">jw., obcięte pół linijki
+                            tekstu.</note>
+                        <note n="c" type="transcription" target="#ac">½: znak konwencjonalny.</note>
+                        <note n="d" type="transcription" target="#ad">la chacia lub Lachana, może
+                            zamiast Bochana.</note>
+                        <note n="1" target="#a1">Nie wiadomo, jakiego urzędnika miał na myśli autor
+                            listu.</note>
+                        <note n="2" target="#a2">może <persName ref="#AntoniItalik">Antoni
+                                Italik</persName>, niezidentyfikowany jednak z powodu niemożności
+                            ustalenia daty listu.</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Szlachetnemu Panu <persName ref="#MS">Serafinowi</persName> żupnikowi w Wieliczce</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>
+                                <gap/> wam odsyłam.</seg>
+                            <seg xml:id="t.1.2.2">Przykro mi <gap/> obwiniać, ale widzicie, jak wygląda sytuacja
+                                z tymi ludźmi, a on może wyrządzić wiele szkody etc.</seg>
+                            <seg xml:id="t.1.2.3">Trzeba cierpliwie
+                                znosić to, czego nie da się uniknąć tam, gdzie nie ma sprawiedliwości.</seg>
+                            <seg xml:id="t.1.2.4">Konie
+                                i łucznicy przybędą ze mną, jak Wam dzisiaj rano napisałem.</seg>
+                        </p>
+                            <p xml:id="t.1.3">
+                                <seg xml:id="t.1.3.1">
+                                <lb/>Powiadacie, że niektórzy panowie z Krakowa napisali wam, abyśmy zamknęli
+                                    rok etc. — tzn. bez nich. Zanim ten list został napisany, spędziłem z nimi
+                                    wczoraj 3 godziny przed południem, pokazując im arendę, wyjaśniając wszystkie
+                                    nasze racje, dowodząc, że tylko tej arendy nie ma w starym roku, jak również
+                                    że on nigdy tego od króla nie uzyska.</seg>
+                                <seg xml:id="t.1.3.2">Król kilka razy mocno mnie wystraszył,
+                                    żądając nadzoru starosty.</seg>
+                                <seg xml:id="t.1.3.3">Powiedziałem mu, że w żadnym wypadku nie ma
+                                    mowy o nadzorze przez, jak to podkreśliłem, jeden rok. Tak że w końcu prosił
+                                    mnie grzecznie i bez przymuszania, abym zrobił mu tę grzeczność i wziął go
+                                    na pół roku, a gdyby nie służył mi dobrze, żebym go zwolnił.</seg>
+                                <seg xml:id="t.1.3.4">Potem podpisał
+                                    wszystko pomimo gwałtowności.</seg>
+                                <seg xml:id="t.1.3.5">Powiedzieli mi, że chcieli, abyśmy go zatrzymali
+                                    etc.</seg>
+                                <seg xml:id="t.1.3.6">Żeby nie myśleli, że jesteśmy tacy, spisałem wyraźnie na ich użytek
+                                    — a ku naszej nadziei — artykuł dotyczący naszej arendy, gdzie, poza innymi
+                                    pismami etc., wyraźnie mówi się, że tylko my mamy prawo do obsadzania
+                                    różnych funkcji, z wyjątkiem „gabato”, i poprosiłem go, aby nie dopuszczali
+                                    się wobec nas bezprawia etc.</seg>
+                                <seg xml:id="t.1.3.7">Jeżeli będą chcieli sprzeniewierzyć się własnym
+                                    pismom, mogą zedrzeć z nas ostatnie ubranie.</seg>
+                                <seg xml:id="t.1.3.8">W tym przypadku dzieje się
+                                    nam niesprawiedliwość, ale lepiej pogodzić się z niesprawiedliwością, niż nie
+                                    okazać dobrej woli.</seg>
+                                <seg xml:id="t.1.3.9">Zawsze jest coś, co nas martwi.</seg>
+                                <seg xml:id="t.1.3.10">Jeśli teraz pozwolimy, aby
+                                    nie dotrzymywano naszych umów, jesteśmy skończeni.</seg>
+                                <seg xml:id="t.1.3.11">Uważam za słuszne
+                                    wypłacanie wynagrodzenia z udziału królewskiego, ale nie z naszego.</seg>
+                                <seg xml:id="t.1.3.12">Skoro już
+                                    jesteśmy w takiej sytuacji, trzeba mieć odwagę i bronić się najlepiej, jak można.</seg>
+                                <seg xml:id="t.1.3.13">Lepiej teraz niż potem etc., taka jest moja rada.</seg>
+                        </p>
+                        <p xml:id="t.1.4">
+                            <seg xml:id="t.1.4.1">
+                                <lb/>Co do reszty, żałuję, że Węgrzy nie przybędą; to martwi mnie bardziej niż
+                                cokolwiek innego.</seg>
+                            <seg xml:id="t.1.4.2">Niech Bóg nas wspomaga.</seg>
+                            <seg xml:id="t.1.4.3">Tyle czasu danego nam przez Boga musimy zmarnować.</seg>
+                            <seg xml:id="t.1.4.4">Widziałem się z <persName ref="#Vanospe">Vanospe</persName>, który był u mnie na obiedzie;
+                                ciągle ich nie ma, obiecał w tym względzie bardzo wiele, a co do <persName ref="#Pawełniezidentyfikowany">Pawła</persName>,
+                                powiedział, aby się nie obawiać i nic nie robić do chwili przybycia pozostałych
+                                panów; on sam albo umrze, albo dotrzyma tego, co w sprawach węgierskich
+                                obiecywał w listach.</seg>
+                            <seg xml:id="t.1.4.5">Dzisiaj wieczór będę się z nim widział u niego we dworku,
+                                jak tylko wróci z <unclear>polowania</unclear>
+                            </seg>
+                            <seg xml:id="t.1.4.6">W sprawie pana <persName ref="#Antoni">Antoniego</persName> zrobię, co będzie
+                                można; kiedy wrócił on z Krakowa, nie słyszałem, aby wychwalał tu króla, a to
+                                wiele mówi.</seg>
+                            <seg xml:id="t.1.4.7">On jednak wiele przeciwko <persName ref="#Pangrazia">Pongraczowi</persName> nie zdziała, ponieważ
+                                Pongracz jest wrogiem pana Antoniego.</seg>
+                            <seg xml:id="t.1.4.8">Byłoby dobrze, gdyby król napisał do
+                                Pongracza. Wydaje mi się, że jest to najlepszy moment.</seg>
+                            <seg xml:id="t.1.4.9">Wydaje mi się, że jest to najlepszy moment.</seg>
+                            <seg xml:id="t.1.4.10">Niech Bóg nas wspomaga. <gap/>
+                            </seg>
+                        </p>
+                        <p xml:id="t.1.5">
+                            <seg xml:id="t.1.5.1">
+                                <lb/>Na razie nie piszę więcej, róbmy to, co możemy, resztę pozostawiając
+                                Bogu.</seg>
+                            <seg xml:id="t.1.5.2">Bądźcie dobrej myśli.</seg>
+                            <seg xml:id="t.1.5.3">Niech Chrystus ma was w swojej opiece.</seg>
+                            <seg xml:id="t.1.5.4">Dan we
+                                wtorek w <placeName ref="#Bochnia">Bochni</placeName>.</seg>
+                        </p>
+                        <signed xml:id="t.1.6">
+                            <seg xml:id="t.1.6.1">
+                                <lb/>Wasz <persName ref="#AntoniItalik">Antoni</persName>
+                            </seg>
+                        </signed>
+                        <postscript xml:id="t.1.7">
+                            <p xml:id="t.1.7.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

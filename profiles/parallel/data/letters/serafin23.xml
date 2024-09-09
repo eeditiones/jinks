@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS23">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Paweł Gładysz do Mikołaja Serafina, <placeName ref="#Bochnia">Bochnia</placeName>, <date when="1450-04-03">3 kwietnia 1450</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 142 (186)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci. </p>
+                    </msContents>
+                    <physDesc>
+                        <p>212 × 250 mm; ubytki papieru w dolnej części karty.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#PawełGładysz">Paweł Gładysz</persName>
+                    <persName ref="SztygarMikołaj">sztygar Mikołaj</persName>
+                    <placeName ref="#Bochnia">Bochnia</placeName>
+                    <date when="1450-04-03">3 kwietnia 1450</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Strenuo domino <persName ref="#MS">Nicolao
+                                    Seraphin</persName>
+                                <lb/> gladiffero Cracouiensi, vtriusque salis <lb/> zuppario, domino
+                                nostro gracioso.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Strenue domine noster graciose.</seg>
+                            <seg xml:id="s.1.2.2">Cupimus <expan>D<ex>ominacionem</ex>
+                                </expan>
+                                Vestram non latere, <lb/> quomodo sectores et omnes laboratores, qui
+                                sperabant habere <lb/> suam solucionem super <date when="1450-04-05" when-custom="5 IV">festa ista [5 IV]</date> et ipsi in spem
+                                eiusdem <lb/> solucionis habende diligencius laboribus insistebant,
+                                hodie in oculis nostris multas querimonyas lacrimosas et coram
+                                hominibus exponunt propter ipsis non solucionem.</seg>
+                            <seg xml:id="s.1.2.3">A tempore regiminis vestre zupparum maiorem
+                                querimoniam et exclamacionem contra
+                                    <expan>D<ex>ominacionem</ex>
+                                </expan> Vestram et nos non
+                                audiuimus, sicut a pauperibus auditur nunc.</seg>
+                            <seg xml:id="s.1.2.4">Exquo ipsis ad festa ista non potuit fieri
+                                solucio, credatis primitus, quod post festa ista cum duplici dampno
+                                oportebit ipsis providere, quia hoc sal, quod emptum est iam a
+                                duabus septimanis, non tam cito vendetur, et aliud sal circa nos non
+                                tam cito emant.</seg>
+                            <seg xml:id="s.1.2.5">Et prout scribitis, ut sepius, quando est aliqua
+                                necessitas, ut in mutuo pecuniam accquireremus: si aliquando
+                                pecuniam acquireremus, econuerso restituere non possumus, quia nos
+                                iam mandatis, iam pecunnis paratis oprimitis, ut nostris
+                                creditoribus minime facere possumus.</seg>
+                            <seg xml:id="s.1.2.6">Ecce pridie, instante necessitate non modica
+                                tragariorum, circa <persName ref="MichałzSącza">Michaelem de
+                                    Sandecz</persName> concessi XXti marcas, quas ista septimana
+                                sibi restituere debui, et ipsum in recessu suo certificaui, et vos
+                                me impediuistis in ista solucione.</seg>
+                            <seg xml:id="s.1.2.7">Sciatis, quod vtique ego sibi solucionem efficiam
+                                quocumque modo, si per spolia et depredaciones more latronico
+                                depredari deberem, sibi vtique solucionem perficiam.</seg>
+                            <seg xml:id="s.1.2.8">Ideo peto <expan>D<ex>ominacionem</ex>
+                                </expan>
+                                Vestram, iam prouideatis vobis, cui clawes dare velitis a cista,
+                                quia in isto officio a modo manere non propono, nec volo, ut istam
+                                obmissionem laborum et negligenciam non ascribetis in advertenciam
+                                meam; me excuso nec reus esse volo.</seg>
+                            <seg xml:id="s.1.2.9">Datum in <placeName ref="#Bochnia">Bochna</placeName>, <date when="1450-04-03">feria
+                                    Sexta Magna, anno etc. quinquagesimo</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="PawełGładysz">Paulus
+                                    Gladisz</persName> vicezupparius <lb/> et <persName ref="SztygarMikołaj">Nicol<supplied>aus</supplied>
+                                    stigarius</persName> , <lb/>
+                                <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>D<ex>ominationis</ex>
+                                </expan>
+                                <supplied>seruit</supplied>ores</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Mężnemu panu <persName ref="#MS">Mikołajowi
+                                    Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
+                                salin, naszemu łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Mężny panie nasz łaskawy.</seg>
+                            <seg xml:id="t.1.2.2">Pragniemy, aby nie uszło uwagi Waszej Dostojności,
+                                że kopacze i wszyscy robotnicy, którzy spodziewali się otrzymać
+                                swoją wypłatę <date when="1450-04-05" when-custom="5 IV">na święta
+                                    [5 IV]</date> i w nadziei na jej otrzymanie pilniej przykładali
+                                się do pracy, dzisiaj przedstawiają nam w oczy i przy ludziach
+                                płaczliwe skargi z powodu braku wypłaty.</seg>
+                            <seg xml:id="t.1.2.3">Od czasu przejęcia przez was zarządu żup nie
+                                słyszeliśmy większego narzekania i krzyku przeciwko Waszej
+                                Dostojności i nam, niż to się teraz słyszy od biedoty.</seg>
+                            <seg xml:id="t.1.2.4">Po pierwsze, zwróćcie uwagę, że ponieważ nie
+                                zdołano im zapłacić na święta, po świętach będzie trzeba zapłacić im
+                                z podwójną stratą, ponieważ sól kupiona u nas dwa tygodnie temu nie
+                                tak szybko zostanie sprzedana i nie tak szybko kupią u nas inną
+                                sól.</seg>
+                            <seg xml:id="t.1.2.5">Piszecie, jak zwykle, kiedy jest potrzeba, abyśmy
+                                pożyczyli pieniędzy. Otóż kiedykolwiek nie pożyczalibyśmy pieniędzy,
+                                nie możemy oddać, ponieważ zaskakujecie nas już to poleceniami
+                                    <supplied>wypłat</supplied>, już to żądaniem gotówki, tak że w
+                                ogóle nie możemy zadośćuczynić naszym wierzycielom.</seg>
+                            <seg xml:id="t.1.2.6">Oto wczoraj, pilnie potrzebując tragarzy,
+                                ugodziłem się z <persName ref="MichałzSącza">Michałem z
+                                    Sącza</persName> co do 20 grzywien, które miałem mu oddać w tym
+                                tygodniu, i upewniłem go o tym, gdy odjeżdżał, a wy
+                                przeszkodziliście mi w tej wypłacie.</seg>
+                            <seg xml:id="t.1.2.7">Wiedzcie, że ja w każdym razie jakoś mu zapłacę;
+                                nawet gdybym miał łupić i rabować na sposób zbójecki, i tak mu
+                                zapłacę.</seg>
+                            <seg xml:id="t.1.2.8">Przeto proszę Waszą Dostojność, abyście pomyśleli
+                                o tym, komu powierzycie klucze od szkatuły, ponieważ od tej chwili
+                                nie zamierzam i nie chcę pozostawać na tej funkcji, abyście
+                                zaniechania prac i niedbalstwa nie przypisali mojej działalności.
+                                Odżegnuję się i nie chcę być oskarżany.</seg>
+                            <seg xml:id="t.1.2.9">Dan w <placeName ref="#Bochnia">Bochni</placeName>, <date when="1450-04-03">w Wielki
+                                    Piątek, roku etc. 50</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="PawełGładysz">Paweł
+                                    Gładysz</persName> podżupek i <persName ref="SztygarMikołaj">Mikołaj sztygar</persName>, słudzy Waszej Dostojności</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

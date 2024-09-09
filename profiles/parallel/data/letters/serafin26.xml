@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS26">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>NN do Mikołaja Serafina, <placeName ref="#Kraków">Kraków</placeName>, <date when="1451-12-24">24 grudnia [1451]</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 181 (225)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, dopisek, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>216 × 304 mm; dolna część karty zbutwiała, ubytki papieru.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <placeName ref="#Kraków">Kraków</placeName>
+                    <date when="1451-12-24">24 grudnia [1451]</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico domino <persName ref="#MS">Nicolao
+                                    Seraphin</persName>
+                                <lb/> gladiffero Cracouiensi, salis utrius- <supplied>que</supplied>
+                                <lb/> zuppario, domino et benefactori
+                                    gracio<supplied>sissimo.</supplied>
+                            </seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice domine, benefactor
+                                graciosissime.</seg>
+                            <seg xml:id="s.1.2.2">Noueritis, quod iam estis ab <lb/> omnibus
+                                excomunicacionibus et interdictis absolutus cum <lb/> omnibus
+                                    officia<supplied>lib</supplied>us et domino <persName ref="#JakubZawrzykraj">Iacobo</persName> germano
+                                        <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>M<ex>agnificencie</ex>
+                                </expan>, <lb/> et ergo iam potestis
+                                diuina officia audire.</seg>
+                            <seg xml:id="s.1.2.3">Et istas absoluciones omnes viceversa mittatis,
+                                quoniam die dominico proximo habebo de eisdem maximam
+                                necesitatem.</seg>
+                            <seg xml:id="s.1.2.4">Scire velitis, quod <persName ref="#Świętosław">frater domini plebani</persName> noluit consentire in
+                                absolucionem circa dominum <persName ref="#RafałzeSkawiny">officialem</persName> , solum in suspensionem interdicti, et
+                                sic cum maxima difficultate consensit ad <date when="1452-01-06" when-custom="6 I 1452">Epifaniam Domini [6 I 1452]</date>.</seg>
+                            <seg xml:id="s.1.2.5">Et ergo petatis dominum plebanum, quod scribat ad
+                                eundem fratrem, ut consenciat in absolucionem ad festum <date when="1452-02-02" when-custom="2 II 1452">Purificacionis [2 II
+                                    1452]</date>, quia dicebat, quod dominus plebanus solum sibi
+                                scripsit de suspensione <ex>et absolucione non</ex>.</seg>
+                            <seg xml:id="s.1.2.6">Dominus Iacobus frater
+                                    <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>M<ex>agnificencie</ex>
+                                </expan> fecit scribere de domino
+                                    <persName ref="#JanCzyżowski">castellano Cracouiensi</persName>,
+                                quod irascitur, quod ita dudum non venistis Cracouiam.</seg>
+                            <seg xml:id="s.1.2.7">Et eciam fecit vobis scribere, quomodo ad<anchor xml:id="aa"/>
+                                <date when="1452-01-01" when-custom="1 I 1452">Circumcisionem Domini
+                                    [1 I 1452]</date> debet domino <persName ref="#MichałLasocki">Lassoczski</persName> constitui in <placeName ref="#Łęczyca">Lacicia</placeName> , quia promisit sibi, dum componebat cum
+                                    <persName ref="#JanMorsztyn">Morstin</persName>.</seg>
+                            <seg xml:id="s.1.2.8">Deus scit, quod cum maxima difficultate et
+                                peticionibus obtinui omnes absoluciones et composui cum
+                                omnibus.</seg>
+                            <seg xml:id="s.1.2.9">Dominus <persName ref="#JanElgot">Elgoth</persName> petiuit <expan>V<ex>estram</ex>
+                                </expan>
+                                <expan>M<ex>agnificenciam</ex>)</expan> pro uno octuali ceruisie,
+                                similiter et dominus officialis, quia cum adiutorio istorum obtinui
+                                absoluciones et eciam cum iuuamine domini Mathie notarii<anchor xml:id="a1"/> domini officialis.</seg>
+                            <seg xml:id="s.1.2.10">Bonum esset, ut iam soluerent ista, secundum quod
+                                composui cum istis spiritualibus, ut <expan>V<ex>estra</ex>
+                                </expan>
+                                <expan>M<ex>agnificencia</ex>)</expan> iam in istas pessimas
+                                    excomu<supplied>ni</supplied>caciones non caderet.</seg>
+                            <seg xml:id="s.1.2.11">Et dominus Iacobus iam habet absolucionem a
+                                domino plebano de Nyepolomicze<anchor xml:id="a2"/>.</seg>
+                            <seg xml:id="s.1.2.12">Comittatis, ut de metrica<anchor xml:id="a3"/>
+                                describatur.</seg>
+                            <seg xml:id="s.1.2.13">Comittatis domino <persName ref="#AntoniItalik">Anthonio</persName>, ut soluat retenta dicto domino plebano de
+                                Nyepolomicze, quia statim consensit in absolucionem vobis et domino
+                                Iacobo et Anthonio vicezuppar<supplied>io</supplied>
+                                <anchor xml:id="ab"/>.</seg>
+                            <seg xml:id="s.1.2.14">Ad hospitale sancte Hedvigis<anchor xml:id="a4"/>
+                                retenta faciatis soluere, quia eciam
+                                    <supplied>de</supplied>sta<supplied>n</supplied>t de
+                                    interd<supplied>icto</supplied>.</seg>
+                            <seg xml:id="s.1.2.15">
+                                <supplied>Da</supplied>tum <placeName ref="#Kraków">Cracouie</placeName>, <date when="1451-12-24">
+                                    <supplied>in v</supplied>igilia
+                                        Natiuitat<supplied>is Christi<gap/>
+                                    </supplied>
+                                </date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <gap/>
+                            </seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                                <add>
+                                    <supplied>Di</supplied>catis domino
+                                        <orgName ref="#PiotriMikołaj">Petro et domino Nicolao <lb/>
+                                        <gap/>enscy</orgName>, ut soluent mansionariis<anchor xml:id="a5"/>
+                                    <lb/>
+                                    <supplied>quatu</supplied>or marcas et domino Nicolao altariste
+                                    sancte Dorothee<anchor xml:id="a6"/> 3 marcas ad feriam quintam
+                                    proximam, quia ita cum eis composui.</add>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po ad skreślone nouum
+                            an.</note>
+                        <note n="b" type="transcription" target="#ab">vicezuppar(io) lub
+                            vicezuppar(iis).</note>
+                        <note n="1" target="#a1">W tym czasie w konsystorzu krak. notariuszem o tym
+                            imieniu był Maciej Cieciela (Ceczyelya) z Grójca na Mazowszu, kleryk
+                            diecezji poznańskiej 1439, notariusz powagą apostolską oficjałów Jana
+                            Elgota i Rafała ze Skawiny oraz protonotariusz, czyli kanclerz
+                            konsystorza 1441–1458, pleban w Raciborowicach 1445, zm. 1477
+                                (<title>Crac. art. Suppl. 1441–1450</title>, wg indeksu).</note>
+                        <note n="2" target="#a2">W latach 1452–1455 plebanem w Niepołomicach był
+                            Stanisław. 16 marca 1452 r. miał on sprawę z Serafinem o zapłatę
+                            należności pod rygorem odwieszenia ekskomuniki (Off. Crac. 9, s. 254,
+                            425; 7, s. 318).</note>
+                        <note n="3" target="#a3">W prawie kościelnym opornych dłużników skazywano na
+                            karę ekskomuniki, której treść przybijano na drzwiach kościołów i
+                            ogłaszano przez miesiąc z ambony ze specjalnej księgi ekskomunikowanych
+                            (metrica excommunicatorum). Jeśli dłużnik w dalszym ciągu nie regulował
+                            zobowiązań, podpadał pod karę ekskomuniki większej połączonej z klątwą,
+                            a w razie dalszego oporu spotykała go anatema, w końcu stawał się
+                            podejrzanym o herezję. Z terenu diecezji krakowskiej najstarsza
+                            zachowana księga ekskomunikowanych pochodzi dopiero z początku XVI w. i
+                            znajduje się w Archiwum Kapitulnym w Krakowie.</note>
+                        <note n="4" target="#a4">Szpital Św. Jadwigi dla ubogiej szlachty na
+                            Stradomiu, przedmieściu Krakowa, wraz z klasztorem miechowitów został
+                            założony przez Kazimierza Wielkiego w 1351 r. Fundację dokończyła
+                            królowa Elżbieta, która w 1372 r. uposażyła szpital sumą 26 grz. rocznie
+                            z żup wielickiej i bocheńskiej. Według Jana Długosza prepozyt miechowski
+                            Michał z Radomska kupił w Bochni ok. 1410 r. za 2000 grz. bergrecht,
+                            przynoszący tygodniowo 1 kopę szerokich groszy praskich, i nadał go
+                            klasztorowi na imię królowej Elżbiety Granowskiej. W 1441 r. czynsz ten,
+                            pobierany dla szpitala przez burgrabiego krak. Mikołaja Wierzynka, nie
+                            został wypłacony. W odzyskaniu go pomógł Jan Pilecki syn królowej
+                            Elżbiety, który od tego czasu uzurpował sobie prawo prezentowania
+                            magistry szpitala (<title>Crac. art. Suppl. 1441–1450</title>, s. 33–34;
+                            toż <hi rend="i">1451–1460</hi>, nr 165; <hi rend="i">DLb.</hi> 3, s.
+                            29–34; <title>Opis żup 1518</title>, s. 24–25, 112; S. Tomkowicz,
+                                <title>Klasztor szpitalny św. Jadwigi</title>, Rocznik Krak. 22,
+                            1929, s. 59–79).</note>
+                        <note n="5" target="#a5">Chodzi najpewniej o mansjonarzy post magnum altare
+                            w katedrze krak. Stanowili oni założone przez biskupa krak. Zawiszę z
+                            Kurozwęk (1381–1382) kolegium kapłańskie w kaplicy Narodzenia NMP w
+                            katedrze krak. za wielkim ołtarzem. Mansjonarzy było ośmiu (precentor, 6
+                            mansjonarzy, kleryk), a ich obowiązkiem było codzienne śpiewanie o
+                            świcie oficjum o NMP. Posad swych nie mogli łączyć z innymi beneficjami.
+                            Mieszkali obowiązkowo przy katedrze, początkowo w domu przy kościele Św.
+                            Jerzego, następnie zostali przeniesieni przez Hinczę z Rogowa do
+                            zbudowanego przez niego domu przy murze zamkowym między Pińczowem
+                            Oleśnickich a domem prebendarzy Świętej Trójcy. Na żupach krak. zostali
+                            najpewniej uposażeni przez królową Jadwigę lub Władysława Jagiełłę, choć
+                            nie zachował się żaden świadczący o tym dokument. W 1518 r. pobierali
+                            oni z żup 18 grz. rocznie, czyli 4½ grz. na każde Suche Dni. Oprócz nich
+                            na żupach wielickich uposażeni byli też w 1406 r. przez Władysława
+                            Jagiełłę mansjonarze przy ołtarzu Św. Erazma, ufundowanym w 1399 r.
+                            przez królową Jadwigę. Czynsz wynosił 13 grz. rocznie, czyli 3½ grz.
+                            kwartalnie (Kumor, <title>Dzieje diec. krak.</title>, s. 348–349,
+                            374–381; <title>Crac. art. Suppl. 1462–1475</title>, s. 77–79;
+                                <title>Opis żup 1518</title>, s. 23, 26).</note>
+                        <note n="6" target="#a6">Ołtarz Św. Doroty Dziewicy i Męczennicy w katedrze
+                            krak. erygowany w 1345 r. przez biskupa krak. Bodzętę posiadał dwa
+                            ministeria, pierwsze fundacyjne, uposażone na wsiach kapituły krak., i
+                            drugie, uposażone w 1406 r. przez króla Władysława Jagiełłę, który przed
+                            tym ołtarzem pochował żonę Annę Cylejską i córkę Jadwigę. Uposażenie
+                            król. stanowił m.in. czynsz 12½ grz. z żup krak. (<title>Opis żup
+                                1518</title>, s. 23; Kumor, <title>Dzieje diec. krak.</title>, s.
+                            340: z błędami).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
+                                żupnikowi obojga salin, wielce łaskawemu panu i dobrodziejowi.
+                            </seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny panie, wielce łaskawy
+                                dobrodzieju.</seg>
+                            <seg xml:id="t.1.2.2">Wiedzcie, że jesteście już uwolnieni od wszystkich
+                                ekskomunik i interdyktów, wraz ze wszystkimi urzędnikami i panem
+                                    <persName ref="#JakubZawrzykraj">Jakubem</persName>, bratem
+                                Waszej Wielmożności, i że możecie już słuchać nabożeństw.</seg>
+                            <seg xml:id="t.1.2.3">Wszystkie te absolucje prześlijcie z powrotem,
+                                ponieważ w najbliższą niedzielę będę ich wielce potrzebował.</seg>
+                            <seg xml:id="t.1.2.4">Zechciejcie wiedzieć, że <persName ref="#Świętosław">brat pana plebana</persName> nie chciał u pana
+                                    <persName ref="#RafałzeSkawiny">oficjała</persName> zgodzić się
+                                na absolucję, a jedynie na zawieszenie interdyktu i w końcu z
+                                największym trudem zgodził się na termin <date when="1452-01-06" when-custom="6 I 1452">Objawienia Pańskiego [6 I
+                                1452]</date>.</seg>
+                            <seg xml:id="t.1.2.5">Poproście więc pana plebana, aby napisał do tegoż
+                                brata, aby ów zgodził się na absolucję do święta <date when="1452-02-02" when-custom="2 II 1452">Oczyszczenia Panny
+                                    Marii [2 II 1452]</date>, ponieważ mówił on, że pan pleban
+                                napisał mu jedynie o zawieszeniu <ex>a nie o absolucji</ex>.</seg>
+                            <seg xml:id="t.1.2.6">Pan Jakub, brat Waszej Wielmożności, kazał
+                                napisać, że pan <persName ref="#JanCzyżowski">kasztelan
+                                    krakowski</persName> gniewa się, iż od tak dawna nie przybywacie
+                                do Krakowa.</seg>
+                            <seg xml:id="t.1.2.7">Kazał też wam napisać, że na <date when="1452-01-01" when-custom="1 I 1452">Obrzezanie Pańskie [1 I
+                                    1452]</date> ma się stawić panu <persName ref="#MichałLasocki">Lasockiemu</persName> w <placeName ref="#Łęczyca">Łęczycy</placeName>, ponieważ tak mu obiecał, gdy układał się z
+                                    <persName ref="#JanMorsztyn">Morsztynem</persName>.</seg>
+                            <seg xml:id="t.1.2.8">Bóg wie, z jakim trudem i wskutek jakich starań
+                                uzyskałem wszystkie absolucje i ułożyłem się ze wszystkimi.</seg>
+                            <seg xml:id="t.1.2.9">Pan <persName ref="#JanElgot">Elgot</persName>
+                                prosił Waszą Wielmożność o jeden achtel piwa, podobnie też i pan
+                                oficjał, ponieważ z ich pomocą, a także ze wsparciem pana Macieja
+                                notariusza pana oficjała uzyskałem absolucje.</seg>
+                            <seg xml:id="t.1.2.10">Dobrze byłoby, aby już dali spokój, według tego,
+                                jak ułożyłem się z duchownymi, aby Wasza Wielmożność już więcej nie
+                                popadał w te nieszczęsne ekskomuniki.</seg>
+                            <seg xml:id="t.1.2.11">Także pan Jakub ma już absolucję od pana plebana
+                                z Niepołomic.</seg>
+                            <seg xml:id="t.1.2.12">Polećcie, aby wypisano to z księgi
+                                    <supplied>ekskomunikowanych</supplied>.</seg>
+                            <seg xml:id="t.1.2.13">Polećcie też panu <persName ref="#AntoniItalik">Antoniemu</persName>, aby wypłacił zaległości rzeczonemu panu
+                                plebanowi z Niepołomic, ponieważ od razu zgodził się on na absolucję
+                                dla was i dla panów podżupków Jakuba i Antoniego.</seg>
+                            <seg xml:id="t.1.2.14">Każcie wypłacić zaległości szpitalowi Św.
+                                Jadwigi, ponieważ także odstępują od interdyktu.</seg>
+                            <seg xml:id="t.1.2.15">Dan w <placeName ref="#Kraków">Krakowie</placeName>, <date when="1451-12-24">w wigilię
+                                    Bożego Narodzenia <gap/>
+                                </date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <gap/>
+                            </seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                                <add>Powiedzcie panu <orgName ref="#PiotriMikołaj">Piotrowi i panu Mikołajowi
+                                        <gap/>eńskim</orgName>, aby do najbliższego czwartku
+                                    zapłacili mansjonarzom 4 grzywny, a panu Mikołajowi altaryście u
+                                    Św. Doroty 3 grzywny, ponieważ tak z nimi uzgodniłem.</add>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

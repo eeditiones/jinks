@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS4">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName ref="#Kraków">Kraków</placeName>, <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
+                    1441]</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 165 (209)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci</p>
+                    </msContents>
+                    <physDesc>
+                        <p>213 × 291 mm; ubytki papieru, w dolnej części karty ślady
+                            zawilgocenia</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#JakubZawrzykraj">Jakub z Dąbrówki</persName>
+                    <placeName ref="#Kraków">Kraków</placeName>
+                    <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
+                        1441]</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/> Strennuo domino <persName ref="#MikołajSerafin">Nicolao
+                                    Seraphin</persName>
+                                <lb/> gladifero Cracouiensi, salis utriusque <lb/> zuppario, domino
+                                et fratri carissimo.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Strennue domine ac frater carissime.</seg>
+                            <seg xml:id="s.1.2.2">Scire dignetur Dominacio Vestra, quia iuxta <lb/>
+                                comissa cum domino <persName ref="#PiotrCikowski">Czycowski</persName> ita disposuimus, quod iam <persName ref="#MichałDybacz">Dybacz</persName> habet possessionem <lb/>
+                                in villam <placeName ref="#Rakowice">Racowicze</placeName>, sed cum
+                                dificultate ex eo, quia ille <persName ref="#Złocki">Szlosthski</persName>
+                                <lb/> fuit retractus et noluit fideiubere<anchor xml:id="aa"/>,
+                                    nisi<anchor xml:id="ab"/> dominus Czycowski sibi
+                                fideiussit.</seg>
+                            <seg xml:id="s.1.2.3">Ecciam Dominacio Vestra michi comisit, ut deberem
+                                debita soluere, videlicet domino <persName ref="#JanRokosz">Rokosch</persName> vicecapitaneo Cracouiensi et <persName ref="#Paweł">Passek</persName>
+                                <anchor xml:id="a1"/>, quibus <persName ref="#MS">solucionem</persName> nequeo habere, qui me
+                                multum <sic>gravent</sic> et amonent, et Deus est michi testis, quod
+                                nullomodo possum acquire<unclear>re</unclear> pecunias inter
+                                mercatores.</seg>
+                            <seg xml:id="s.1.2.4">Ceterum scire velit
+                                    <expan>S<ex>trennuita</ex>
+                                </expan>s
+                                    <expan>V<ex>estra</ex>
+                                </expan>, quia isti psalteriste<anchor xml:id="a2"/> noluerunt recipere viginti marcas, sed me
+                                monuerunt et vos.</seg>
+                            <seg xml:id="s.1.2.5">Et feria secunda proxima <date when="1441-04-10">10 IV</date> monicio exspirabit, et ex eo debita illa non
+                                possum exsoluere, quia id, quod ement in sale mercatores de
+                                Cracouia, hoc defalcant super antiqua debita.</seg>
+                            <seg xml:id="s.1.2.6">Item sciatis, quia illa septimana preterita
+                                solucio fuit laboratoribus in zuppis centum triginta marcarum, ita
+                                vero, uix quod ducentis marcis laboratores possemus exspedire.</seg>
+                            <seg xml:id="s.1.2.7">Eciam iuxta comissa vestra dominus Czycowski de
+                                zuppa Bochnensi tantum michi de illa septimana misit quinquaginta
+                                florenos, quos dedi <persName ref="#KunczaReych">Cuncza</persName>,
+                                domine autem <persName ref="#Jadwiga">castellanisse</persName>
+                                nichil, de Vyeliczka enim cesserunt centum et
+                                    qu<supplied>atu</supplied>ordecim floreni, de quibus dedi domino
+                                    <persName ref="#JanTeszner">Theschner</persName> triginta,
+                                    <persName ref="#JanŚwidniczar">Swidnicer</persName> XXX,
+                                    <persName ref="#MikołajKoźbiał">Koczybyal</persName> XXX, et
+                                    <persName ref="#PiotrCikowski">Petrus</persName> de eisdem dedit
+                                viginti quat<supplied>u</supplied>or domino <persName ref="#JanZyndram">Zindram</persName>.</seg>
+                            <seg xml:id="s.1.2.8">Iste enim Swidnicer multum irascebatur, quia
+                                tantum XXX sibi dedi, quia dixit, quomodo sibi Dominacio Vestra
+                                illos omnes dare promisit, qui debuerunt cedi de zuppis.</seg>
+                            <seg xml:id="s.1.2.9">Ergo provideatis, ne haberetis cum ipso
+                                displicenciam.</seg>
+                            <seg xml:id="s.1.2.10">Insuper scire velitis de isto Koczbyal, quia,
+                                prout conu<supplied>eni</supplied>t,
+                                        promisit<expan>flor<ex>enos</ex>
+                                </expan> habere pro domino
+                                    <persName ref="#StanisławGiedka">Gethka</persName>, et nunc
+                                    promittit<anchor xml:id="ac"/>, nisi posset habere.</seg>
+                            <seg xml:id="s.1.2.11">Ista enim <add>septimana</add> hic Cracouie fuit
+                                dux <persName ref="#MikołajV">Rathiboriensis</persName> et voluit
+                                sibi obligare <placeName ref="#Koszyce">Koschicze</placeName> et
+                                    <placeName ref="#Kuchary">Kwchari</placeName>, sed ipse non
+                                aduertit, quia mallet Dominacionem Vestram conseruare.</seg>
+                            <seg xml:id="s.1.2.12">Iam enim apud ipsum Koczbyal reposuit quingentos
+                                et quinquaginta florenos sub sigillo suo, sed adhuce sibi ipsos non
+                                exdedit et feria <date when="1441-04-17" when-custom="17 IV">secunda
+                                    dierum Paschatis</date> deberent sibi ipsos exdare siue manibus
+                                tradere.</seg>
+                            <seg xml:id="s.1.2.13">Insuper sciatis, quia apud istum Nicolaum uniter
+                                cum domino Orienth recepimus tricentas marcas super florenos,
+                                computando florenum pro tres fertones.</seg>
+                            <seg xml:id="s.1.2.14">Cui solucionem promisimus ad festum <date when="1442-02-02" when-custom="2 II 1442">Purificacionis Beate
+                                    Marie</date> proximum, et cum istis debita soluemus et non
+                                admittemus <expan>V<ex>estram</ex>
+                                </expan>
+                                <expan>S<ex>trennuitatem</ex>
+                                </expan> excomunicare, quod negocium
+                                primo hodie terminamus.</seg>
+                            <seg xml:id="s.1.2.15">Item scire Vestram Dominacionem cupio, non
+                                latere, quia dominus <persName ref="#PiotrSzafraniec">Schaffranecz</persName> viam universe carnis ingressus
+                                est.</seg>
+                            <seg xml:id="s.1.2.16">Datum <placeName ref="#Kraków">Cracouie</placeName>, <date when="1441-04-07">feria sexta
+                                    <supplied>ante</supplied> dominicam Ramispalmarum.</date>
+                            </seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#JakubZawrzykraj">Iacobus</persName>
+                                    v<supplied>ice</supplied>zupparius Bochnensis, <lb/>
+                                    am<supplied>icus vester</supplied>
+                            </seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <seg xml:id="s.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po fideiubere skreślone iuxta
+                            quo.</note>
+                        <note n="b" type="transcription" target="#ab">nisi nadpisane.</note>
+                        <note n="c" type="transcription" target="#ac">po promittit skreślone
+                            si.</note>
+                        <note n="d" type="transcription" target="#ad">adhuc przerobione z
+                                <unclear>adhunc</unclear>.</note>
+                        <note n="1" target="#a1">Może tożsamy z <persName ref="#Paweł">Paszkiem
+                                (Pawłem)</persName> ważnikiem wielickim występującym w latach
+                            1430–1459, zm. przed 1470.</note>
+                        <note n="2" target="#a2">Kolegium Psałterzystów w katedrze krak. zostało
+                            ustanowione przez królową Jadwigę w 1393 r., co potwierdził osobnym
+                            dokumentem Władysław Jagiełło. Obowiązkiem szesnastu psałterzystów było
+                            śpiewanie psałterza przez całą dobę, z wyjątkiem czasu, gdy odprawiane
+                            były nabożeństwa. W tym śpiewie zmieniali się cztery razy, stając w
+                            stallach kanonicznych po czterech, i śpiewali na przemian wiersz po
+                            wierszu z Psalmodii. Ponadto obowiązani byli odprawiać codziennie przy
+                            ołtarzu Św. Krzysztofa msze za dusze króla Władysława Jagiełły i jego
+                            żony Jadwigi, zaś w rocznicę ich śmierci (na św. Petroneli 31 maja i św.
+                            Aleksego 17 lipca) urządzali uroczysty aniwersarz. Początkowo pobierali
+                            uposażenie 200 grz. łącznie z żup solnych w Wieliczce i Bochni, tj.
+                            każdy kapłan otrzymywał kwartalnie 3 grz., a kleryk 2 grz., które
+                            wypłacał biskup krak. lub jego wikariusz generalny. W 1421 r.
+                            uposażenie, jako niewystarczające, zostało podwyższone o 100 grz.
+                            wypłacanych z żup w ratach co kwartał. Psałterzyści mieszkali na Wawelu,
+                            w tzw. Psałterii — domu ufundowanym przez królową Jadwigę, stojącym
+                            pomiędzy kościołem Św. Jerzego a Wieżą Sandomierską, później
+                            przebudowanym od fundamentów przez Jana Długosza (<title>Crac. art.
+                                Suppl. 1451–1460</title>, s. 45–46; Kumor, <title>Dzieje diec.
+                                krak.</title>, s. 381–385; <title>Wypisy</title> 1440–1500, s.
+                            43).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Mężnemu panu <persName ref="#MS">Mikołajowi
+                                    Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
+                                salin, panu i bratu najdroższemu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Mężny panie i bracie najdroższy.</seg>
+                            <seg xml:id="t.1.2.2">Zechce wiedzieć Wasza Dostojność, że według
+                                poleceń tak z panem <persName ref="#PiotrCikowski">Cikowskim</persName> rozporządziliśmy, że <persName ref="#MichałDybacz">Dybacz</persName> ma już osiadłość we wsi
+                                    <placeName ref="#Rakowice">Rakowice</placeName>, lecz z trudem,
+                                ponieważ ów <persName ref="#Złocki">Złocki</persName> został
+                                odsunięty i nie chciał poręczyć, jeśli mu pan Cikowski nie
+                                poręczy.</seg>
+                            <seg xml:id="t.1.2.3">Przykazał mi także Wasza Dostojność, że mam
+                                spłacić długi, mianowicie panu <persName ref="#JanRokosz">Rokoszowi</persName> podstarościemu krakowskiemu i <persName ref="#Paweł">Paszkowi</persName>. Nie mam jak im zapłacić, a oni
+                                wielce mnie prześladują i ponaglają. Bóg mi świadkiem, że w żaden
+                                sposób nie mogę zdobyć pieniędzy u kupców.</seg>
+                            <seg xml:id="t.1.2.4">Ponadto zechce wiedzieć Wasza Mężność, że
+                                psałterzyści nie chcieli wziąć 20 grzywien, lecz upomnieli mnie i
+                                was.</seg>
+                            <seg xml:id="t.1.2.5">W najbliższy poniedziałek <date when="1441-04-10">10 IV</date> upływa termin zwrotu, a ja dlatego nie mam jak
+                                spłacić tych długów, że należność za sól, którą nabywają kupcy z
+                                Krakowa, potrącają sobie oni w imię dawnych długów.</seg>
+                            <seg xml:id="t.1.2.6">Wiedzcie ponadto, że w zeszłym tygodniu wypłacono
+                                robotnikom w żupach 130 grzywien, jednak pod takim warunkiem —
+                                niełatwym — że będę mógł im wypłacić 200 grzywien.</seg>
+                            <seg xml:id="t.1.2.7">Ponadto, stosownie do waszych poleceń, pan
+                                Cikowski przysłał mi z żupy bocheńskiej z tegotygodnia jedynie 50
+                                florenów, które dałem <persName ref="#KunczaReych">Kunczy</persName>. Pani <persName ref="#Jadwiga">kasztelanowej</persName> zaś nic nie dałem, bowiem z Wieliczki
+                                zeszło 114 florenów, z których dałem panu <persName ref="#JanTeszner">Tesznerowi</persName> 30, <persName ref="#JanŚwidniczar">Świdniczarowi</persName> 30, <persName ref="#MikołajKoźbiał">Koźbiałowi</persName> 30, a <persName ref="#PiotrCikowski">Piotr</persName> dał z tej sumy 24 panu
+                                    <persName ref="#JanZyndram">Zyndramowi</persName>.</seg>
+                            <seg xml:id="t.1.2.8">Świdniczar bardzo się gniewał, że dałem mu tylko
+                                30, ponieważ powiedział, że Wasza Dostojność przyrzekł mu dać
+                                wszystko, co miało zejść z żup.</seg>
+                            <seg xml:id="t.1.2.9">Baczcie przeto, abyście nie mieli z nim
+                                zatargu.</seg>
+                            <seg xml:id="t.1.2.10">Ponadto zechciejcie wiedzieć o Koźbiale, że wedle
+                                tego, co uzgodnił, przyrzekł mieć floreny dla pana <persName ref="#StanisławGiedka">Giedki</persName>, i nadal przyrzeka — o
+                                ile będzie je miał.</seg>
+                            <seg xml:id="t.1.2.11">W tym tygodniu był tu w Krakowie <persName ref="#MikołajV">książę raciborski</persName> i chciał, by mu
+                                zastawić <placeName ref="#Koszyce">Koszyce</placeName> i <placeName ref="#Kuchary">Kuchary</placeName>, lecz ów
+                                    <supplied>Koźbiał</supplied> nie zezwolił, ponieważ wolał, aby
+                                Wasza Dostojność je zachował.</seg>
+                            <seg xml:id="t.1.2.12">Złożył już u Koźbiała 550 florenów pod swoją
+                                pieczęcią, lecz dotąd mu ich nie wydał. Powinni mu je wydać, czyli
+                                przekazać do rąk, w <date when="1441-04-17" when-custom="17 IV">poniedziałek wielkanocny</date>.</seg>
+                            <seg xml:id="t.1.2.13">Ponadto wiedzcie, że u Mikołaja otrzymaliśmy
+                                razem z panem Orientem 300 grzywien za floreny, licząc florena za 3
+                                wiardunki.</seg>
+                            <seg xml:id="t.1.2.14">Przyrzekliśmy mu zwrot do najbliższego święta
+                                    <date when="1442-02-02" when-custom="2 II 1442">Oczyszczenia
+                                    Panny Marii</date>. Tymi pieniędzmi spłacimy długi i nie
+                                pozwolimy, aby ekskomunikowano Waszą Mężność. Dopiero dziś kończymy
+                                tę sprawę.</seg>
+                            <seg xml:id="t.1.2.15">Ponadto pragnę, aby Wasza Dostojność wiedział
+                                raczej, niż nie wiedział, że pan <persName ref="#PiotrSzafraniec">Szafraniec</persName> wkroczył na ostatnią drogę wszelkiego
+                                stworzenia.</seg>
+                            <seg xml:id="t.1.2.16">Dan w <placeName ref="#Kraków">Krakowie</placeName>, w <date when="1441-04-07">piątek przed Niedzielą
+                                Palmową.</date>
+                            </seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#JakubZawrzykraj">Jakub</persName> podżupek
+                                bocheński, wasz przyjaciel</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <seg xml:id="t.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

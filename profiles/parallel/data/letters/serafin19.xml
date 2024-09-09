@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS19">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>NN do Mikołaja Serafina, <placeName ref="#Kraków">Kraków</placeName>, <date when="1445-11-10">10 listopada 1445</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 182 (226)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu; verso: ciąg dalszy tekstu, adres, ślady po pieczęci; bez podpisu.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>220 × 301 mm; znak wodny: mały okrąg; dolna część karty zbutwiała, ubytki papieru.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <placeName ref="#Kraków">Kraków</placeName>
+                    <date when="1445-11-10">10 listopada 1445</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Generoso ac strennuo domino <lb/> <persName ref="#MS">Nicolao Seraphin</persName> gladifero <lb/> Cracouiensi, salis utriusque zuppario, <lb/> domino meo gracioso.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Generose ac strennue domine michi graciose.</seg>
+                            <seg xml:id="s.1.2.2">Scripta Vestre Dominacionis moleste <lb/> intelexi et intimata per <persName ref="#Andrzej">Andream</persName> notarium, quomodo alyqui emuli mei erga <lb/> me scribunt et palam acusant.</seg>
+                            <seg xml:id="s.1.2.3">De illo vero Vestre Dominacioni graciarumacciones <lb/> refero perimmensas, quia talibus fidem creditiuam non adhibetis, quoniam talia dicta non sunt vera, neque fierent.</seg>
+                            <seg xml:id="s.1.2.4">Dum Christo duce venietis, melius inteligetis, quoniam diligenciam facio.</seg>
+                            <seg xml:id="s.1.2.5">Dominus Deus scit et boni homines, mirantur enim terrigene, quoniam audaciam habeo, et dicunt: „Si non contraxisses nobiscum noticiam, non sustineremus tibi, sed amplius desiste”.</seg>
+                            <seg xml:id="s.1.2.6">Ecciam retulit michi Vestri ex p<supplied>ar</supplied>te Andreas, vt deberem subici domino <persName ref="#MikołajZawrzykraj">Nicolao Zawrzicray</persName>, tamquam patri vestro, et sibi silere.</seg> 
+                            <seg xml:id="s.1.2.7">Hoc feci ipsumque supplicaui, ut non deberet erga me iram habere.</seg>
+                            <seg xml:id="s.1.2.8">Et, prout eciam scriptotenus comisistis, de denunciacione ipsius sciatis, quomodo iste <persName ref="#PiotrGawrzyjał">Gawrzia</persName> de Bochnia, veniens in domum vestram cum ministeriali<anchor xml:id="a1"/> et iusticionario<anchor xml:id="a2"/> et familia, ipsum fecit transire ad dominum <persName ref="#JanCzyżowski">capitaneum</persName> coactum et ab ipso noluit recedere <sic>protestens</sic>, si aliquis ipsum uellet defendere. Et protunc satis bona familia fuit in domo, nullus hoc audebat facere.</seg>
+                            <seg xml:id="s.1.2.9">Recepto consilio inter nos, transiui in pretorium ad dominos consules, qui ad hec non potuerunt consulere, dicentes: „Ipse non est coincola noster”.</seg>
+                            <seg xml:id="s.1.2.10">Demum transiui ad dominum <persName ref="#JerzySzworc">Georgium Sworcz</persName>, qui non aliud consuliuit, quod deberet transire ad dominum <persName ref="#JanRokosz">Rokosch</persName> et non mittere se trahere asumpta familia.</seg>
+                            <seg xml:id="s.1.2.11">Transiuimus meque antecedente ad dominum Rokosch, petendo pro consiliis.</seg>
+                            <seg xml:id="s.1.2.12">Qui, asenciens meis peticionibus, induxit ipsum Gabrielem, quod suscepit ab eo<anchor xml:id="a3"/> nouam inscripcionem.</seg>
+                            <seg xml:id="s.1.2.13">Ego eciam iuui, quia ab eo omnes fuerant.</seg>
+                            <seg xml:id="s.1.2.14">Solus mansi cum eo, et illam astuciam f<supplied>e</supplied>ci, quod de omni lucro ipsum liberum dimisit.</seg>
+                            <seg xml:id="s.1.2.15">Et hoc est multum pro ipso, quod eciam mirabatur solus<anchor xml:id="a4"/> et familia, dicens: „Ec<supplied>c</supplied>e ipse sibi compatitur<anchor xml:id="aa"/> pro ipsius malicia”.</seg>
+                            <seg xml:id="s.1.2.16">Et ec<supplied>c</supplied>e, mi domine graciose, mox in crastino michi tantam molestiam intulit, quod cor meum dolet, sed opportet, quod silebo, prout michi comisistis, sed doleat Dominus Deus, quod ab ipso tanta pacior.</seg>
+                            <seg xml:id="s.1.2.17">Si enim debeo sedere circa mensam, locat vetulas et alios, qui sibi applaudunt, me autem opportet sedere in viliori loco.</seg>
+                            <seg xml:id="s.1.2.18">Sed per amplius non uisitabo mensam, exspectabo vestrum felicem adventum in propriis expensis.</seg>
+                            <seg xml:id="s.1.2.19">De ista vendicione salis vnicum grossum non recepi, et estimo, quod non deveniet me grossus a banco, ut iam a consulibus inteligo.</seg>
+                            <seg xml:id="s.1.2.20">Nichilominus <expan>V<ex>estre</ex>
+                                </expan> <expan>D<ex>ominacioni</ex>
+                                </expan> regracior de fauore.</seg>
+                            <seg xml:id="s.1.2.21">De terminis sciatis, prout eciam prius scripsi, et hiis tribus diebus cum eisdem solus utique laboro cum maximis investacionibus<anchor xml:id="ab"/> .</seg>
+                            <seg xml:id="s.1.2.22">In iure terestri pauca habetis, sed ad ius castrense multi Vestram Dominacionem trahunt, et terminos iam ignoro quo diferre.</seg>
+                            <seg xml:id="s.1.2.23">Scitis, sed michi non scripsistis, an pro maiori<anchor xml:id="a5"/> essem ausus coram isto <persName ref="#MarekzBolesławca">Bolaslawski</persName> prorogare.</seg>
+                            <seg xml:id="s.1.2.24">Peto, non permittatis vos iure vincere, quia malum est.</seg>
+                            <seg xml:id="s.1.2.25">Prelocutorem<anchor xml:id="ac"/> nullum possem habere, qui me subveniret. Iste enim <persName ref="#LaczekzSosnowic">Laczko</persName> domino <supplied>Ni</supplied>cola<supplied>o</supplied> promisit fieri procurator, sed dum ipsum pecii et induxy, dixit: „Si michi darentur <expan>centum marc<ex>e</ex>
+                                </expan>, non suscipiam, quia video quantus clamor”.</seg>
+                            <seg xml:id="s.1.2.26">Peto, veniatis eo<supplied>cici</supplied>us, quia vlterius non possum fore, quia neque scio, qualiter <unclear>ad</unclear> <gap/> deb<supplied>erem</supplied> respondere ex eo, quia nullam infor<supplied>m</supplied>acionem a vobis habeo hic <gap/>
+                                <anchor xml:id="ad"/> mouet enim <gap/> alique p<gap/>a et <gap/>
+                                <anchor xml:id="ae"/> requisicion <gap/>
+                                <anchor xml:id="af"/> ad solus <gap/>
+                                <anchor xml:id="ag"/> cur ita <gap/>
+                                <anchor xml:id="ah"/>.</seg>
+                            <seg xml:id="s.1.2.27">Heri contra invasi Katherinam relictam <persName ref="#PiotrKrawiec">Petri Sartoris</persName> de Cracouia coram i<supplied>us</supplied> castrense pro centum marcis solariorum retentorum iuxta literam vestram obligatoriam, quia exsistens actrix, t<ex>er</ex>m<ex>i</ex>n<ex>o</ex>
+                                <anchor xml:id="ai"/> non paruit.</seg>
+                            <seg xml:id="s.1.2.28">Peto, non obliuiscatis me, <sic>polliceo</sic> prout et aliam familiam.</seg>
+                            <seg xml:id="s.1.2.29">Ecciam intimastis michi per dominum Heradum dispensatorem <persName ref="#Herad">Vyeliciensem</persName>, qualiter me iste <persName ref="#Nikiel">Nikyel</persName>
+                                <anchor xml:id="a6"/> coram Vestra Dominacione acusaret, et bene scitis, qualiter istum <persName ref="#Motyka">Moticam</persName> grauiter plascauit Vestre Dominacioni in grauem iurisdiccionem, quod protestaui ipsius wlnera graui.</seg>
+                            <seg xml:id="s.1.2.30">Hec ego non feci in preiudicium vestrum, sed quia audiui, quod circa eandem percussionem fuerunt extranei, et eciam, quia est nobilis, anno enim preterito eciam michi wlnera intulit, cui hucusque sustineo ipsaque protestata.</seg>
+                            <seg xml:id="s.1.2.31">Deus doleat de percussione mea.</seg>
+                            <seg xml:id="s.1.2.32">Ceterum sciatis, quomodo ista <persName ref="#Magdalena">Magdalena Iudea</persName> vadia vestra, que habet in obligacione, videlicet monilia, cuppas, ro s z t h rc h a n i, tunicas et pallia de axamito auro texto coram iure<anchor xml:id="aj"/> exibuit, protestans ipsa vendi.</seg>
+                            <seg xml:id="s.1.2.33">Peto instantissime, habeatis prelocutorem<anchor xml:id="ak"/> bonum, bene aliquas res protegat et defendet.</seg>
+                            <seg xml:id="s.1.2.34">Domino Deo comitto Dominacionem Vestram, peto, habeatis me vobis recomissum et dominis famosis<anchor xml:id="a7"/>, superque omnibus et singulis me velitis habere informatum.</seg>
+                            <seg xml:id="s.1.2.35">Hodie que agentur in terminis castrensibus, illa per <persName ref="#Klingisor">Clingizar</persName> describam.</seg>
+                            <seg xml:id="s.1.2.36">Datum <placeName ref="#Kraków">Cracouie</placeName>, <date when="1445-11-10">feria quarta, in vigilia sancti Martini, anno Domini mo cccco xlv</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1"/>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <seg xml:id="s.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po compatitur skreślone sibi.</note>
+                        <note n="b" type="transcription" target="#ab">investacionibus lub invastacionibus może zamiast infestacionibus.</note>
+                        <note n="c" type="transcription" target="#ac">Prelocutorem może zamiast Prolocutorem.</note>
+                        <note n="d" type="transcription" target="#ad">ok. pięciu wyrazów.</note>
+                        <note n="e" type="transcription" target="#ae">ok. siedmiu wyrazów.</note>
+                        <note n="f" type="transcription" target="#af">jedna niepełna linijka.</note>
+                        <note n="g" type="transcription" target="#ag">jedna niepełna linijka.</note>
+                        <note n="h" type="transcription" target="#ah">jedna niepełna linijka.</note>
+                        <note n="i" type="transcription" target="#ai">t(er)m(i)n(o) lub t(a)m(e)n.</note>
+                        <note n="j" type="transcription" target="#aj">po iure skreślone exchu.</note>
+                        <note n="k" type="transcription" target="#ak">prelocutorem może zamiast prolocutorem.</note>
+                        <note n="1" target="#a1">Woźnym delegowanym przez starostę był Piotr Sitko.</note>
+                        <note n="2" target="#a2">Justycjariuszem był wówczas Jan Janikowski (Fedorowicz, <title>Dostojnicy</title>, s. 145).</note>
+                        <note n="3" target="#a3">Mowa o <persName ref="#MikołajZawrzykraj">Mikołaju Zawrzykraju</persName>.</note>
+                        <note n="4" target="#a4">Prawdopodobnie mowa o <persName ref="#JanRokosz">Janie Rokoszu</persName>.</note>
+                        <note n="5" target="#a5">Tego dnia, czyli 10 listopada 1445 r., Serafin miał rzeczywiście w Przemyślu termin sprawy większej wagi (pro maiori) z Andrzejem z Pomorzan pisarzem przemyskim o 200 grz. i przemoc, o czym burgrabia donosił w piśmie sędziemu grodzkiemu krak. Stanisławowi Niemście (<hi rend="i">ZDM</hi> III, nr 724). W prawie polskim sprawy dzieliły się na causae maiores i causae minores, a w przypadku nałożenia się terminów tych spraw przed różnymi sądami sprawy większe miały pierwszeństwo przed mniejszymi.</note>
+                        <note n="6" target="#a6">Może tożsamy z Nikielem, czyli <persName ref="#MikołajczyliNikiel">Mikołajem z Młodocina</persName> późniejszym podstarościm krak.</note>
+                        <note n="7" target="#a7">Tytuł „sławetny” (famosus) odnosi się do mieszczan.</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Szlachetnemu i mężnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, memu łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Szlachetny i mężny łaskawy mi panie.</seg>
+                            <seg xml:id="t.1.2.2">Z listu Waszej Dostojności, a także z wiadomości przekazanej przez <persName ref="#Andrzej">Andrzeja</persName> notariusza z przykrością dowiedziałem się, że niektórzy moi wrogowie donoszą na mnie i otwarcie mnie oskarżają.</seg>
+                            <seg xml:id="t.1.2.3">Ja zaś składam Waszej Dostojności przeogromne podziękowania za to, że nie dajecie wiary takim plotkom, ponieważ nie są one prawdziwe ani się takie nie staną.</seg>
+                            <seg xml:id="t.1.2.4">Gdy z Bożą pomocą przybędziecie, zrozumiecie lepiej, jak bardzo się staram.</seg>
+                            <seg xml:id="t.1.2.5">Wie o tym Pan Bóg i dobrzy ludzie, dziwią się bowiem tutejsi, że mam tyle odwagi i mówią: „Gdybyśmy cię nie znali, nie pomagalibyśmy ci, lecz nie posuwaj się dalej”.</seg>
+                            <seg xml:id="t.1.2.6">Zawiadomił mnie w waszym imieniu Andrzej, abym podporządkował się panu <persName ref="#MikołajZawrzykraj">Mikołajowi Zawrzykrajowi</persName>, tak jakby waszemu ojcu, i milczał w jego obecności.</seg>
+                            <seg xml:id="t.1.2.7">Uczyniłem tak i poprosiłem, aby nie żywił względem mnie gniewu.</seg>
+                            <seg xml:id="t.1.2.8">Ponieważ poleciliście mi na piśmie <supplied>was zawiadamiać</supplied>, dowiedzcie się o wniesionym przeciw niemu oskarżeniu: ów <persName ref="#PiotrGawrzyjał">Gawrzyjał</persName> z Bochni, przybywszy do waszego domu z woźnym, justycjariuszem i służbą, wbrew jego woli zaprowadził go do pana <persName ref="#JanCzyżowski">starosty</persName> i nie chciał go odstąpić, na wypadek gdyby ktoś chciał go bronić, i chociaż w tym momencie w domu była dość liczna służba, nikt nie ośmielił się tego uczynić.</seg>
+                            <seg xml:id="t.1.2.9">Zasięgnąwszy rady naszych, udałem się do ratusza do panów rajców, którzy nic na to nie mogli poradzić, mówiąc: „Nie jest on naszym współmieszkańcem”.</seg>
+                            <seg xml:id="t.1.2.10">Wreszcie udałem się do pana <persName ref="#JerzySzworc">Jerzego Szworca</persName>, który poradził, że trzeba pójść do pana <persName ref="#JanRokosz">Rokosza</persName> i, wziąwszy służbę, nie pozwolić się ciągać.</seg>
+                            <seg xml:id="t.1.2.11">Udaliśmy się, ja przodem, do pana Rokosza z prośbą o radę.</seg>
+                            <seg xml:id="t.1.2.12">On, przystając na moją prośbę, przekonał tegoż Gabriela, aby przyjął od niego nowy zapis.</seg>
+                            <seg xml:id="t.1.2.13">Ja także to popierałem, ponieważ wszyscy go opuścili.</seg>
+                            <seg xml:id="t.1.2.14">Tylko ja z nim pozostałem i wykazałem taką przebiegłość, że puścił go wolnym od wszelkiego przezysku.</seg>
+                            <seg xml:id="t.1.2.15">To i tak wiele dla niego — dziwił się wraz z domownikami, mówiąc: „Oto ten mu współczuje w zamian za doznane złośliwości”.</seg>
+                            <seg xml:id="t.1.2.16">I oto, mój łaskawy panie, już nazajutrz taką mi wyrządził przykrość, że serce me boleje, lecz muszę milczeć, jak mi przykazaliście. Niech więc Pan Bóg użali się, że tyle od niego cierpię.</seg>
+                            <seg xml:id="t.1.2.17">Gdy bowiem mam siedzieć przy stole, sadza staruszki i innych, którzy mu schlebiają, ja zaś muszę siedzieć na podlejszym miejscu.</seg>
+                            <seg xml:id="t.1.2.18">Lecz już więcej nie będę odwiedzał jego stołu, na własny koszt oczekując waszego szczęśliwego przybycia.</seg>
+                            <seg xml:id="t.1.2.19">Ze sprzedaży soli nie otrzymałem ani jednego grosza i obawiam się, że — jak dowiaduję się od rajców — nie wyjdzie mi grosz od bałwana.</seg>
+                            <seg xml:id="t.1.2.20">Niemniej dziękuję Waszej Dostojności za łaskę.</seg>
+                            <seg xml:id="t.1.2.21">Co do procesów sądowych, wiedzcie, że — jak zresztą już pisałem — przez te trzy dni sam zmagam się z nimi wśród licznych przeciwności.</seg>
+                            <seg xml:id="t.1.2.22">W sądzie ziemskim macie mało spraw, lecz do sądu grodzkiego liczni ciągają Waszą Dostojność; nie wiem już, jak odraczać terminy.</seg>
+                            <seg xml:id="t.1.2.23">Wiecie o tym, nie napisaliście mi jednak, czy miałem się ważyć na odroczenie sprawy pro maiori przed <persName ref="#MarekzBolesławca">Bolesławskim</persName>.</seg>
+                            <seg xml:id="t.1.2.24">Byłoby źle, gdyby was pokonano w sądzie, więc proszę, nie pozwólcie na to.</seg>
+                            <seg xml:id="t.1.2.25">Nie mogę znaleźć żadnego pełnomocnika, który by mi pomagał, <persName ref="#LaczekzSosnowic">Laczek</persName> bowiem przyrzekł panu Mikołajowi, że będzie zachodźcą, lecz gdy go prosiłem i nakłaniałem, rzekł: „Choćby mi dawano 100 grzywien, nie podejmę się, ponieważ widzę, jaki podnosi się krzyk”.</seg>
+                            <seg xml:id="t.1.2.26">Proszę, przybądźcie jak najprędzej, ponieważ dłużej nie wytrzymam, bo ani nie wiem, jak mam odpowiedzieć na <gap/> dlatego, że nie mam od was żadnej wiadomości, tu <gap/> rusza bowiem <gap/> jakieś <gap/> rekwizyc<gap/> a sam <gap/> dlaczego tak <gap/>.</seg>
+                            <seg xml:id="t.1.2.27">Wczoraj z kolei pozwałem przed sąd grodzki Katarzynę, wdowę po <persName ref="#PiotrKrawiec">Piotrze Krawcu</persName> z Krakowa, z powodu wstrzymanej zapłaty 100 grzywien, wedle waszego listu zastawnego, ponieważ nie stawiła się przed sądem, chociaż jest powódką.</seg>
+                            <seg xml:id="t.1.2.28">Proszę, nie zapominajcie, że polecam siebie i wszystkich domowników.</seg>
+                            <seg xml:id="t.1.2.29">Ponadto powiadomiliście mnie przez pana <persName ref="#Herad">Herada</persName>, szafarza wielickiego, że <persName ref="#Nikiel">Nikiel</persName> oskarża mnie wobec Waszej Dostojności. Wiecie wszak dobrze, że kiedy mocno obił twarz <persName ref="#Motyka">Motyce</persName>, podpadając poważnie pod jurysdykcję Waszej Dostojności, ja oprotestowałem te ciężkie rany.</seg>
+                            <seg xml:id="t.1.2.30">Nie uczyniłem tego, by naruszyć wasze prawa, lecz ponieważ słyszałem, że byli przy tym zranieniu ludzie z zewnątrz, a także dlatego, że jest szlachcicem, w zeszłym bowiem roku zadał rany także mnie i aż do dziś procesuję się z nim w tej sprawie.</seg>
+                            <seg xml:id="t.1.2.31">Niech Bóg użali się nad moimi ranami.</seg>
+                            <seg xml:id="t.1.2.32">Ponadto wiedzcie, że <persName ref="#Magdalena">Żydówka Magdalena</persName> wystawiła przed sądem wasze rzeczy, które otrzymała w zastaw, mianowicie klejnoty, kielichy, roztruchany, suknie i płaszcze z aksamitu tkanego złotem, oświadczając, że chce je sprzedać.</seg>
+                            <seg xml:id="t.1.2.33">Proszę najgorliwiej, postarajcie się o dobrego pełnomocnika, niech dobrze strzeże i broni pewnych spraw.</seg>
+                            <seg xml:id="t.1.2.34">Polecam Waszą Dostojność Panu Bogu, proszę, miejcie mnie za poleconego sobie i sławetnym panom i o wszystkich rzeczach oraz każdej z osobna zechciejcie mnie poinformować.</seg>
+                            <seg xml:id="t.1.2.35">Co się dziś wydarzy w sądzie grodzkim, opiszę przez <persName ref="#Klingisor">Klingisora</persName>.</seg>
+                            <seg xml:id="t.1.2.36">Dan w <placeName ref="#Kraków">Krakowie</placeName>, <date when="1445-11-10">w środę, w wigilię św. Marcina, roku Pańskiego 1445</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1"/>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <seg xml:id="t.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

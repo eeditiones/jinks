@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS21">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Stanisław ze Złotej do Mikołaja Serafina, <placeName ref="#Bochnia">Bochnia</placeName>, <date when="1447-02-05">5 lutego 1447</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 163 (207)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu; verso: ciąg dalszy tekstu, podpis, adres, ślady po
+                            pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>197 × 224 mm; znak wodny: trójwzgórze z prętem; ślady zawilgocenia i
+                            plamy w dolnej części karty.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#StanisławzeZłotej">Stanisław ze Złotej</persName>
+                    <placeName ref="#Bochnia">Bochnia</placeName>
+                    <date when="1447-02-05">5 lutego 1447</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Strenuo domino <persName ref="#MS">Nicolao
+                                <lb/> Seraphin</persName> gladiffero Cracouiensi, <lb/> vtriusque salis
+                                zuppario, <lb/> amico dilecto.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Strenue domine.</seg>
+                            <seg xml:id="s.1.2.2">Prout michi scribitis, ut Cracouiam venire
+                                    <supplied>d</supplied>eberem cum <lb/> domino <persName ref="#DobiesławzPałuszyc">Dobcone</persName> finem faciendo,
+                                scit bene <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, quia nequeo ego <lb/> Cracouiam
+                                venire propter sepum, quem teneor domino <persName ref="#JanCzyżowski">castellano Cracouiensi</persName> ,
+                                videlicet xxx <lb/> marcas, quia me grauiter amonet, dum me
+                                videt.</seg>
+                            <seg xml:id="s.1.2.3"> Et prout assentatis, ut finem cum domino Dobcone
+                                facerem, inteligere potestis, vtrum ego possim venire ad hoc, pro
+                                quo sibi fideiuberem, ex quo dominus Dobco iam diu tenet et vtique
+                                suum recipere non potest, et satis modicum pro zuppis dat, et me
+                                oporteret dare neccessaria zuppe, ut esset pro honore vestro et
+                                meo.</seg>
+                            <seg xml:id="s.1.2.4">Sed vtique non recuso nec contradico, ut possem
+                                mea bona <sic>bona</sic> liberare et zuppam in ordine tenere, tali
+                                condicione, ut michi pro subsidio zuppe velletis dare quicquam vltra
+                                quinquaginta florenos domini <persName ref="#AndrzejTęczyński">Andree Thancz<supplied>i</supplied>nsky</persName> remanserit,
+                                ut cum istis florenis me possem<anchor xml:id="aa"/> iuuare pro
+                                laboratoribus.</seg>
+                            <seg xml:id="s.1.2.5">Et si hoc non adnueret<anchor xml:id="ab"/>
+                                <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, extunc peto, ut velitis habere curam
+                                de bonis meis, ut ipsa possem liberare.</seg>
+                            <seg xml:id="s.1.2.6">Ceterum, prout michi per Iacobum pincernam<anchor xml:id="a1"/> intimastis, ut super equo meo nuccium ad vos
+                                destinarem, sciatis, ego tantum vnum famulum habeo et illum circa me
+                                oportet semper habere.</seg>
+                            <seg xml:id="s.1.2.7">Insuper de isto sepo domini castellani
+                                Cracouiensis, peto disponatis, ut me non amonebit, quia non audeo
+                                venire Cracouiam, et peto dicatis cum domino Dobcone, ut michi
+                                faciat soluere xvii lapides sepi, quem dedit pro sectoribus super
+                                suo labore et concessionem septem marcarum ut michi faciat
+                                dare.</seg>
+                            <seg xml:id="s.1.2.8">Hic dirigo racionem domini Dobconis, sed oportebit
+                                vos eam examinare, dum eritis in Bochna.</seg>
+                            <seg xml:id="s.1.2.9">Datum in <placeName ref="#Bochnia">Bochna</placeName>, <date when="1447-02-05">die
+                                    dominico sancte Agathe, anno Domini 1447</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#StanisławzeZłotej">Stanislaus
+                                    de Zlotha</persName>
+                                <lb/> gener vester et amicus.</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>Ista septimana dominus Dobek dedit <lb/> pro
+                                sectoribus, tragariis et carpentariis <lb/> quinquaginta nouem
+                                marcas.</p>
+                            <p xml:id="s.1.4.2">
+                                <lb/>Consulo, ut cum domino Dobcone, qualitercumque
+                                <lb/> potestis, finem faciatis, quia maximum dampnum <lb/> vestrum
+                                est nec montes habetis liberos.</p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">possem poprawione z
+                            possum.</note>
+                        <note n="b" type="transcription" target="#ab">adnueret: r poprawione z
+                            e.</note>
+                        <note n="1" target="#a1">Jakub piwniczny w żupie wielickiej. Z tym tytułem
+                            Jakub pojawił się jeszcze raz w drugiej połowie lat czterdziestych. Do
+                            obowiązków piwnicznego należał nadzór nad piwnicą żupnika — który
+                            utrzymywał przy swoim stole oficjalistów żupnych i ich ubierał — oraz
+                            zaopatrzenie kuchni w dobre piwo i chleb. Osobnego piwnicznego miała
+                            żupa bocheńska. Na początku XVI w. piwniczni pobierali wynagrodzenie w
+                            wysokości 4 gr tygodniowo (Off. Crac. 8, s. 476; <title>Opis żup</title>
+                            1518, s. 55, 21).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Mężnemu panu <persName ref="#MS">Mikołajowi
+                                    Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
+                                salin, umiłowanemu przyjacielowi.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Mężny panie.</seg>
+                            <seg xml:id="t.1.2.2">Odnośnie do tego, co mi piszecie, że powinienem
+                                przybyć do Krakowa, aby zakończyć sprawy z panem <persName ref="#DobiesławzPałuszyc">Dobkiem</persName>, wie dobrze Wasza
+                                Dostojność, że nie mogę przybyć do Krakowa z powodu łoju, który
+                                jestem winien panu <persName ref="#JanCzyżowski">kasztelanowi
+                                    krakowskiemu</persName>, czyli 30 grzywien. Napomina mnie bowiem
+                                surowo, ilekroć mnie widzi.</seg>
+                            <seg xml:id="t.1.2.3"> I skoro przyznajecie, że powinienem zakończyć z
+                                panem Dobkiem, chyba zdajecie sobie sprawę, czy ja mogę przybyć w
+                                związku z tym, za co mu poręczyłem. Dlatego pan Dobek już długo
+                                oczekuje zwrotu i wciąż nie może odebrać swego, daje więc dość mało
+                                na żupy. Toteż, aby zachować godność waszą i moją, to, co niezbędne
+                                dla żupy, musiałbym dawać ja.</seg>
+                            <seg xml:id="t.1.2.4">Niemniej nie odmawiam i nie sprzeciwiam się,
+                                bylebym mógł uwolnić moje dobra i utrzymać w porządku żupę, jednak
+                                pod takim warunkiem, że zechcecie dać mi na zasilenie żup to, co
+                                zostanie ponad 50 florenów pana <persName ref="#AndrzejTęczyński">Andrzeja Tęczyńskiego</persName>, abym mógł zasilić tymi
+                                florenami wypłaty dla robotników.</seg>
+                            <seg xml:id="t.1.2.5">A jeżeliby na to Wasza Dostojność nie przystał,
+                                proszę, aby się w takim wypadku zechciał zatroszczyć o moje dobra,
+                                bym je mógł uwolnić.</seg>
+                            <seg xml:id="t.1.2.6">Wreszcie, co do tego, o czym zawiadomiliście mnie
+                                przez cześnika Jakuba, abym wyprawił do was posłańca na moim koniu,
+                                wiedzcie, że mam tylko jednego sługę i potrzebuję mieć go stale przy
+                                sobie.</seg>
+                            <seg xml:id="t.1.2.7">Prócz tego, co do owego łoju pana kasztelana
+                                krakowskiego, proszę, nakażcie, aby mnie nie napominał, ponieważ nie
+                                śmiem przybyć do Krakowa, i proszę, porozmawiajcie z panem Dobkiem,
+                                aby kazał wypłacić mi 17 kamieni łoju, które przeznaczył dla kopaczy
+                                za ich pracę, i aby kazał pożyczyć mi 7 grzywien.</seg>
+                            <seg xml:id="t.1.2.8">Posyłam niniejszym rachunek pana Dobka,
+                                powinniście go jednak sprawdzić, kiedy będziecie w Bochni.</seg>
+                            <seg xml:id="t.1.2.9">Dan w <placeName ref="#Bochnia">Bochni</placeName>, <date when="1447-02-05">w niedzielę
+                                    w dniu św. Agaty, roku Pańskiego 1447</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#StanisławzeZłotej">Stanisław
+                                    ze Złotej</persName> wasz zięć i przyjaciel</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>W tym tygodniu pan Dobek dał dla kopaczy,
+                                tragarzy i cieśli 59 grzywien.</p>
+                            <p xml:id="t.1.4.2">
+                                <lb/>Doradzam, abyście w jakikolwiek sposób
+                                skończyli sprawę z panem Dobkiem, ponosicie bowiem wielkie straty, a
+                                żupy nie są uwolnione.</p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

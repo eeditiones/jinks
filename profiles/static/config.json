@@ -1,6 +1,7 @@
 {
     "id": "https://e-editiones.org/app/static-app",
-    "label": "Static Site",
+    "label": "Demo for a static application",
+    "description": "A purely static application based on the parallel text profile",
     "extends": ["parallel"],
     "version": "1.0.0",
     "pkg": {
@@ -12,10 +13,6 @@
             "resources/css/static.css",
             "transform/serafin.css"
         ]
-    },
-    "hero": {
-        "main": "A static application",
-        "short": "All content is pregenerated."
     },
     "styles": [
     ],

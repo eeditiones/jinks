@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS18">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Piotr Cikowski i Jan Rokosz do Mikołaja Serafina, <placeName ref="#Kraków">Kraków</placeName>, <date when="1445-09-28">28 września 1445</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 151 (195)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>ślady zawilgocenia w dolnej części karty.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#PiotrCikowski">Piotr Cikowski</persName>
+                    <persName ref="#JanRokosz">Jan Rokosz</persName>
+                    <placeName ref="#Kraków">Kraków</placeName>
+                    <date when="1445-09-28">28 września 1445</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Generoso et strenuo domino <persName ref="#MS">Nicolao Serap<supplied>hin</supplied>
+                                </persName>
+                                <lb/> gladifero Cracouiensi, zuppario vtriusque salis,
+                                    a<supplied>mico</supplied>
+                                <lb/> nostro etc.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Generose et strenue domine, amice
+                                dilecte.</seg>
+                            <seg xml:id="s.1.2.2">Reducimus vobis ad memoriam, <lb/> quomodo dum
+                                nobis in <placeName ref="#Paszyna">Paschina</placeName> dixistis,
+                                pro gaudiis et nouitatibus dixistis, <lb/> quod liberastis nos de
+                                caucione fideiussoria erga famosum dominum <persName ref="#JerzySzworc">Georgium Swarcz</persName>
+                                <lb/> de fideiussoriis et debitis vestris et vestri germani domini
+                                    <persName ref="#JakubZawrzykraj">Iacobi</persName> vicezuparii,
+                                de quo multum gratulabamur.</seg>
+                            <seg xml:id="s.1.2.3">Modo autem, dum venimus in Cracouiam, idem
+                                Georgius Swarcz satis verbis obprobrosis nos ammonuit pro solucione
+                                eiusdem fideiussorie, dicens in hec verba, quod „A multis temporibus
+                                deluditis me, et ego prorogaui vobis terminum ad festum <date when="1445-09-29" when-custom="29 IX">sancti Michaelis</date>,
+                                quod in crastino instat.</seg>
+                            <seg xml:id="s.1.2.4">Ideo si non soluetis michi, volo vos manifestare
+                                et vestras delusiones ciuitati toti et omnibus, qui sunt in annuali
+                                foro, et ita facere usque ad vestram solucionem”.</seg>
+                            <seg xml:id="s.1.2.5">Nos autem ambo diximus, quod vos liberassetis nos,
+                                secundum hoc, quod dixistis in Paschyna.</seg>
+                            <seg xml:id="s.1.2.6">Ille respondit, quod „Nec mecum aliquid dominus
+                                zupparius conclusit verbo aut facto de omnibus istis”.</seg>
+                            <seg xml:id="s.1.2.7">Dominus eciam <persName ref="#JanCzyżowski">Cracouiensis</persName> monuit nos pro illo sale satis
+                                obprobriose, quod sibi pro vobis fideiussimus ad festum sancti
+                                Michaelis, et <persName ref="#JurekKesinger">Iurek</persName> filius
+                                Claus similiter pro debitis suis.</seg>
+                            <seg xml:id="s.1.2.8">Ideo, amice dilecte, iam sentimus, quod qui vobis
+                                magis amicantur, illos vestris verbis deluditis, et iam speramus,
+                                quod nec aliter, nisi more aliorum, qui vobis non amicantur,
+                                opportet vos<anchor xml:id="aa"/> querere deliberaciones nostras de
+                                debitis.</seg>
+                            <seg xml:id="s.1.2.9">Pro vobis fideiussimus, petimus igitur et hortamur
+                                vos, ut nos quocumque modo potestis, siue per literas, siue per
+                                locuciones ab eodem Georgio Swarcz liberetis, ne nos vituperet et
+                                maledicet, ac mendaces asserat, quia non consueuimus ista
+                                pati.</seg>
+                            <seg xml:id="s.1.2.10">Alias si quid nobis verecundie aut inhonestatis
+                                euenerit, condolendo in duplo vobis non parcemus.</seg>
+                            <seg xml:id="s.1.2.11">Responsum detis.</seg>
+                            <seg xml:id="s.1.2.12">Datum <placeName ref="#Kraków">Cracouie</placeName>, <date when="1445-09-28">feria
+                                    tercia, ipso die sancti Venceslai martiris, anno etc.
+                                    xlvto</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#PiotrCikowski">Petrus
+                                    Sczicowsky</persName> subiudex terre <lb/> Cracouiensis
+                                generalis et <persName ref="#JanRokosz">Iohannes Rokos <lb/> de
+                                    Cosczicze</persName> vicecapitaneus Cracouiensis</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <seg xml:id="s.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po vos skreślone
+                            extorquere.</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Szlachetnemu i mężnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi
+                                krakowskiemu, żupnikowi obojga salin, naszemu przyjacielowi
+                                etc.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Szlachetny i mężny panie, umiłowany
+                                przyjacielu.</seg>
+                            <seg xml:id="t.1.2.2">Przypominamy wam, że gdy rozmawialiście z nami w
+                                    <placeName ref="#Paszyna">Paszynie</placeName>, przekazaliście
+                                nam radosną nowinę, że uwolniliście nas od rękojmi poręk i długów
+                                waszych oraz waszego brata pana <persName ref="#JakubZawrzykraj">Jakuba</persName> podżupka wobec sławetnego pana <persName ref="#JerzySzworc">Jerzego Szworca</persName>, z czego się
+                                bardzo cieszyliśmy.</seg>
+                            <seg xml:id="t.1.2.3">Teraz zaś, gdy przybyliśmy do Krakowa, ów Jerzy
+                                Szworc w słowach dość obelżywych upomniał się o zapłatę tej poręki,
+                                mówiąc tak: „Od dawna mnie zwodzicie, a ja przedłużyłem wam termin
+                                do <date when="1445-09-29" when-custom="29 IX">św. Michała</date>,
+                                czyli do jutra.</seg>
+                            <seg xml:id="t.1.2.4">Przeto jeśli nie zapłacicie mi, przedstawię was i
+                                wasze wykręty całemu miastu i wszystkim obecnym na dorocznym targu i
+                                będę to robił, dopóki mi nie zapłacicie”.</seg>
+                            <seg xml:id="t.1.2.5">My zaś obaj — zgodnie z tym, co powiedzieliście w
+                                Paszynie — powiedzieliśmy, że uwolniliście nas.</seg>
+                            <seg xml:id="t.1.2.6">On odpowiedział: „Pan żupnik niczego ze mną nie
+                                ustalił ani nie zrobił w tej sprawie”.</seg>
+                            <seg xml:id="t.1.2.7">Również pan <persName ref="#JanCzyżowski">
+                                    <supplied>kasztelan</supplied> krakowski</persName>
+                                upomniał nas dość obelżywie w sprawie soli, za którą mu w waszym
+                                imieniu poręczyliśmy do św. Michała, podobnie <persName ref="#JurekKesinger">Jurek</persName> syn Klausa w sprawie
+                                swoich wierzytelności.</seg>
+                            <seg xml:id="t.1.2.8">Sądzimy przeto, umiłowany przyjacielu, że
+                                zwodzicie swoimi słowami tych, którzy wam co bardziej sprzyjają.
+                                Obawiamy się, że wzorem tych, którzy wam nie sprzyjają, będziemy
+                                musieli prosić was o uwolnienie od zobowiązań.</seg>
+                            <seg xml:id="t.1.2.9">Poręczyliśmy za was, prosimy więc i zachęcamy,
+                                abyście w jakikolwiek sposób, czy to listownie, czy osobiście,
+                                uwolnili nas od tegoż Jerzego Szworca, by nas nie karcił, nie
+                                przeklinał i nie ogłaszał kłamcami, ponieważ nie zwykliśmy tego
+                                znosić.</seg>
+                            <seg xml:id="t.1.2.10">Inaczej, jeśli spotka nas jakiś wstyd lub
+                                zniewaga, bolejąc podwójnie nie będziemy was oszczędzać.</seg>
+                            <seg xml:id="t.1.2.11">Dajcie odpowiedź.</seg>
+                            <seg xml:id="t.1.2.12">Dan w <placeName ref="#Kraków">Krakowie</placeName>, <date when="1445-09-28">we wtorek w dzień św. Wacława Męczennika, roku etc.
+                                45.</date>
+                            </seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#PiotrCikowski">Piotr
+                                    Cikowski</persName> podsędek generalny ziemi krakowskiej i
+                                    <persName ref="#JanRokosz">Jan Rokosz z Koszyc</persName>
+                                podstarości krakowski</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <seg xml:id="t.1.4.1.1">1</seg>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

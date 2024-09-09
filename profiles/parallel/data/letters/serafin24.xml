@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS24">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Krzesław z Kurozwęk do Mikołaja Serafina, <placeName ref="#Schottwien">Schottwien</placeName>, <date when="1450-04-07">7 kwietnia
+                    1450</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 158 (202)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>207 × 222 mm; ślady zawilgocenia w dolnej części karty.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#KrzesławzKurozwęk">Krzesław z Kurozwęk</persName>
+                    <placeName ref="#Schottwien">Schottwien</placeName>
+                    <date when="1450-04-07">7 kwietnia 1450</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Strennuo domino <persName ref="#MS">Nicolao
+                                    Seraphin</persName>
+                                <lb/> salis utriusque zuppario, amico nostro singulari.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Strennue domine, amice singularissime.</seg>
+                            <seg xml:id="s.1.2.2">Auido animo opinantes <lb/> vos nostri gressus
+                                successum scire et audire, censuimus ipsum breuiter <lb/>
+                                perstringere.</seg>
+                            <seg xml:id="s.1.2.3">Dominus primum <persName ref="#MikulášBrcál">Byerczal</persName> de <placeName ref="#Kieżmark">Kyesmarg</placeName> nos in <placeName ref="#Košice">Coschicze</placeName>
+                                <lb/> conduxit.</seg>
+                            <seg xml:id="s.1.2.4">Ipsi non placuit, ut per <placeName ref="#Ostrzyhom">Ostrzegom</placeName>
+                                    transe<supplied>a</supplied>mus, eo quod nullum nobis potuisset
+                                dare auxilium, cum Hungari oderint Bohemos.</seg>
+                            <seg xml:id="s.1.2.5">Ipse nos honorifice tractauit, et venimus in
+                                    <placeName ref="#Kövesd">Kyewyesch</placeName>.</seg>
+                            <seg xml:id="s.1.2.6">Ipse dominus <persName ref="#JanJiskra">Hyskra</persName> cum domino <persName ref="#JánosHunyadi">Hunjed Ianusch</persName> habuit conuencionem et composicionem
+                                amicabilem, quam tunc terminarunt<anchor xml:id="a1"/>.</seg>
+                            <seg xml:id="s.1.2.7">Et ipse dominus Hyskra adiunxit suum familiarem
+                                vsque in <placeName ref="#WienerNeustadt">Nowam Ciuitatem
+                                    Austrie</placeName> ad presenciam domini <persName ref="#FryderykIIIHabsburg">regis Romanorum</persName>, vt
+                                haberet scienciam de nostra ibi translacione.</seg>
+                            <seg xml:id="s.1.2.8">Et <supplied>i</supplied>nterim de <placeName ref="#Buda">Buda</placeName> usque <persName ref="#JánosRozgonyi">Rosgoni Ianusch</persName> sumus conducti,
+                                de ibi vsque ad comittem de <placeName ref="#Altenburg">Altemburg</placeName> et episcopum <placeName ref="#Győr">Iauriensem</placeName>
+                            </seg>
+                            <seg xml:id="s.1.2.9">Per hos eciam sumus conducti vsque Nouam
+                                Ciuitatem.</seg>
+                            <seg xml:id="s.1.2.10">Et ipse dominus Romanorum rex honorifice nos
+                                excepit et votiwe expediuit.</seg>
+                            <seg xml:id="s.1.2.11">Iamque transiuimus viam metui congruam et dea
+                                securitate suspectam, sed amplius non opportet timore indui, sed
+                                sublimes montes et scrupulosi animum nostrum, qui adhuc transire
+                                restant, lacerant.</seg>
+                            <seg xml:id="s.1.2.12">Et hodie in <placeName ref="#Schottwien">Schadwyn</placeName> facimus noctem.</seg>
+                            <seg xml:id="s.1.2.13">Interim pettimus pro natis nostris, ne aliquem in
+                                pecunis <sic>daturis</sic> per vos paciantur defectum, nam caro
+                                nostra est, et ipsorum defectum opporteret nos merito vlcisci ad
+                                extremum.</seg>
+                            <seg xml:id="s.1.2.14">Nec maior nobis oriretur displicencia, nam, per
+                                vos assecurati, ipsos sine pecunis reliquimus.</seg>
+                            <seg xml:id="s.1.2.15">Rogamus igitur, ut prouideatis, qualiter nobis
+                                ostendatis complacenciam.</seg>
+                            <seg xml:id="s.1.2.16">Datum in <placeName ref="#Schottwien">Schadwyn</placeName>, <date when="1450-04-07">feria tercia festi Pasche 14
+                                lmo</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#KrzesławzKurozwęk">Creslaus
+                                    de Curozwanki</persName>
+                                <lb/> castellanus Lublinensis</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po de skreślone se</note>
+                        <note n="1" target="#a1">Mowa o wieczystym pokoju, jaki za pośrednictwem
+                            kardynała Zbigniewa Oleśnickiego i królowej zawarli w Mezőkövesd 28
+                            marca 1450 r. Jan Jiskra starosta spiski i János Hunyadi regent
+                            Królestwa Węgier. Pokój ten miał zakończyć krwawe walki wewnętrzne o
+                            tron węgierski po śmierci Warneńczyka pomiędzy zaciężnymi czeskimi w
+                            służbie Habsburgów a Węgrami. W trakcie rokowań potwierdzono Jiskrze
+                            prawo do dzierżenia kilkunastu miast na Spiszu, który stanowił zaplecze
+                            gospodarcze i ludnościowe dla jego działań militarnych, złożono porękę
+                            wypłaty znacznej sumy pieniędzy i propozycję poślubienia przez Jiskrę
+                            owdowiałej siostry Hunyadiego. W zamian Jiskra miał rozpuścić część
+                            swych zaciężnych, oddawać wszelkie spory z Węgrami pod sąd polubowny i
+                            przestrzegać pokoju do czasu objęcia tronu przez Władysława Pogrobowca
+                            znajdującego sie wówczas pod kuratelą króla niemieckiego Fryderyka III.
+                            Ten wieczysty pokój przetrwał tylko rok (Kwiatkowski, <title>Jan
+                                Jiskra</title>, s. 24–25; <title>Dejiny Slovenska</title>, t. 1,
+                            Bratislava 1986, s. 405; Żabiński, Bratczykowie, s. 53–54).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Mężnemu panu <persName ref="#MS">Mikołajowi
+                                    Serafinowi</persName> żupnikowi obojga salin, przyjacielowi
+                                naszemu wybornemu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Mężny panie, przyjacielu przewyborny.</seg>
+                            <seg xml:id="t.1.2.2">Sądząc, że chętnie dowiecie się i usłyszycie o
+                                postępach naszej podróży, postanowiliśmy ją w skrócie
+                                przedstawić.</seg>
+                            <seg xml:id="t.1.2.3">Najpierw pan <persName ref="#MikulášBrcál">Brcál</persName> z <placeName ref="#Kieżmark">Kieżmarku</placeName> zawiódł nas do <placeName ref="#Košice">Koszyc</placeName>.</seg>
+                            <seg xml:id="t.1.2.4">Nie chciał, abyśmy jechali przez <placeName ref="#Ostrzyhom">Ostrzyhom</placeName>, ponieważ nie mógłby
+                                udzielić nam żadnej pomocy, jako że Węgrzy nienawidzą Czechów.</seg>
+                            <seg xml:id="t.1.2.5">Sam nas zaszczytnie potraktował, po czym
+                                przybyliśmy do <placeName ref="#Kövesd">Kövesd</placeName>.</seg>
+                            <seg xml:id="t.1.2.6">Pan <persName ref="#JanJiskra">Jiskra</persName> z
+                                panem <persName ref="#JánosHunyadi">Jánosem Hunyadim</persName> miał
+                                spotkanie i przyjacielskie układy, które właśnie zakończyli.</seg>
+                            <seg xml:id="t.1.2.7">I pan Jiskra dołączył do nas swego sługę,
+                                    <supplied>żeby towarzyszył nam</supplied> aż do Wiener Neustadt,
+                                do pana <persName ref="#FryderykIIIHabsburg">króla
+                                    rzymskiego</persName>, aby mieć wiadomości o naszej
+                                podróży.</seg>
+                            <seg xml:id="t.1.2.8">A tymczasem z <placeName ref="#Buda">Budy</placeName> poprowadzono nas do <persName ref="#JánosRozgonyi">Jánosa Rozgonyi</persName>, stamtąd do
+                                żupana <placeName ref="#Altenburg">Altenburga</placeName> i biskupa <placeName ref="#Győr">Győr</placeName>.</seg>
+                            <seg xml:id="t.1.2.9">Przez nich zostaliśmy zaprowadzeni aż do Wiener Neustadt.</seg>
+                            <seg xml:id="t.1.2.10">Pan król rzymski zaszczytnie nas przyjął i szczodrze wyposażył.</seg>
+                            <seg xml:id="t.1.2.11">Drogę, której
+                                towarzyszył strach i niebezpieczeństwa, już mamy za sobą, więcej nie musimy
+                                się obawiać, lecz wysokie i strome góry, które jeszcze zostały do przebycia, niepokoją nas.</seg>
+                            <seg xml:id="t.1.2.12">Dzisiaj nocujemy w <placeName ref="#Schottwien">Schottwien</placeName>.</seg>
+                            <seg xml:id="t.1.2.13">Tymczasem prosimy, aby nasze
+                                dzieci nie cierpiały przez was niedostatku. Z naszego są bowiem ciała i ich
+                                szkodę słusznie musielibyśmy surowo pomścić.</seg>
+                            <seg xml:id="t.1.2.14">I oby nie zrodziła się między
+                                nami większa niechęć, albowiem, przez was zabezpieczani, pozostawiliśmy je
+                                bez pieniędzy.</seg>
+                            <seg xml:id="t.1.2.15">Prosimy przeto, abyście starali się pokazać nam wasze dobre
+                                chęci.</seg>
+                            <seg xml:id="t.1.2.16">Dan w <placeName ref="#Schottwien">Schottwien</placeName>, <date when="1450-04-07">we wtorek wielkanocny 1450</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#KrzesławzKurozwęk">Krzesław z Kurozwęk</persName> kasztelan lubelski
+                            </seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

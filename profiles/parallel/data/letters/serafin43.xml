@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS43">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Jerzy Pomorski, Maciej i Mikołaj Ziema do Mikołaja Serafina, <placeName ref="#Wieliczka">Wieliczka</placeName>, <date when="1458-09-06">6 września
+                        1458</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 176 (220)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>217 × 300 mm; znak wodny: głowa wołu z krzyżem i kwiatem ośmiopłatkowym
+                            na podwójnym pręcie między rogami; dolna część karty zbutwiała, ubytki
+                            papieru</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#Maciej">Maciej</persName>
+                    <persName ref="#MikołajZiema">Mikołaj Ziema</persName>
+                    <placeName ref="#Wieliczka">Wieliczka</placeName>
+                    <date when="1458-09-06">6 września 1458</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico domino <persName ref="#MS">Nicola<supplied>o</supplied>
+                                    <lb/> Seraphin</persName> gladifero
+                                    Cra<supplied>couiensi</supplied>
+                                <lb/> et salis vtriusque et Rus<supplied>sie</supplied>
+                                <lb/> zuppario, domino graciosso.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice domine graciosse.</seg>
+                            <seg xml:id="s.1.2.2">Nouerit <expan>M<ex>agnificencia</ex>
+                                </expan>
+                                Vestra, quia dominus <persName ref="#Wojtaszek">Voytaszek</persName>
+                                cum domino <lb/>
+                                <persName ref="#MikołajKorytko">Korithko</persName> hodie ante
+                                prandium venerant in Vyeliczkam et vsque post decimam <lb/> nonam
+                                horam de <sic>Vyeliczkam</sic> recesserunt.</seg>
+                            <seg xml:id="s.1.2.3">Et idem dominus Voytaszek dixit, quomodo
+                                        <expan>M<ex>agnificencia</ex>
+                                </expan> Vestra ad ipsum
+                                intimauit, quia hodie debuistis fore ad prandium in Vyeliczka, et
+                                ita venerat iuxta intimacionem <expan>M<ex>agnificencie</ex>
+                                </expan>
+                                Vestre.</seg>
+                            <seg xml:id="s.1.2.4">
+                                <persName ref="#MikołajZyszno">Szyszno</persName>
+                                ipsum ita certificauit.</seg>
+                            <seg xml:id="s.1.2.5">Et eciam dominus <persName ref="#JanBiałkowski">vicecapitaneus</persName> fuit hic querens
+                                        <expan>M<ex>agnificenciam</ex>
+                                </expan> Vestram.</seg>
+                            <seg xml:id="s.1.2.6">De tragariis scire velitis, quia solum feria
+                                secunda laboraverunt et heri et hodie non laborant.</seg>
+                            <seg xml:id="s.1.2.7">Solum, domine gracioss[e], familia cum est
+                                necessitas laborant, et hodie descenderunt pro sale centenariato pro
+                                expediendis t o v a r n i c i s, sed <sic>idem</sic> familia dicit,
+                                quod nichil posunt invenire, cum dificultate aliquid
+                                inveniunt.</seg>
+                            <seg xml:id="s.1.2.8">De t o v a r n i c i s scribit
+                                        <expan>M<ex>agnificencia</ex>
+                                </expan> Vestra, quomodo istis
+                                diebus multi t o v a r n i c i in zuppa cum prouisionibus fuerunt,
+                                primo de avena istis diebus duxerunt mensuras 65, item de ceruisia
+                                viginti quator actualia duxerunt et de piso quinque mensuras.</seg>
+                            <seg xml:id="s.1.2.9">De milio nichil duxerunt et de aliis.</seg>
+                            <seg xml:id="s.1.2.10">Item heri direximus quator actualia ceruisie pro
+                                stacione domine <persName ref="#ElżbietaRakuska">regine</persName>
+                                et hodie direximus quinquaginta sexagenas de panibus et quator
+                                mensuras de sale.</seg>
+                            <seg xml:id="s.1.2.11">Item <unclear>Matias</unclear> stigarius plus non
+                                habet mensuras<anchor xml:id="aa"/> de sale, solum 45 mercatorum et
+                                de <expan>do<ex>n</ex>at<ex>iuo</ex>
+                                </expan> quinque.</seg>
+                            <seg xml:id="s.1.2.12">Item aput Pomorsky<anchor xml:id="a1"/> nullus
+                                bancus est mercatorum, solum viginti banci
+                                    <expan>donat<ex>iui</ex>
+                                </expan>.</seg>
+                            <seg xml:id="s.1.2.13">Item scire velit M(agnificencia) Vestra, quia
+                                istis diebus non plus vendidimus de sale: solum <persName ref="#MikołajCzasław">Czaslav</persName> emit bancos quinque in
+                                    Regis<anchor xml:id="a2"/> pro marcis 6 grossis 36, <persName ref="#MaciekMotyczka">Matias Moticzka</persName> emit bancos
+                                quinque in Regis pro marcis 7 grossis 36 et <persName ref="#Kopyto">Kopito</persName> emit eciam hodie bancos quinque in Regis pro
+                                marcis 7.</seg>
+                            <seg xml:id="s.1.2.14">Plus, domine graciosse, non vendidimus<anchor xml:id="ab"/>, excepto adhuc uno banco, quem eciam vendidimus
+                                pro marca 1 grossis 36, sed illi <persName ref="#JanTęczyński">v o g
+                                    e v o d e</persName> ad racionem sex florenorum dedimus florenos
+                                3 pro equo et adhuc debet habere 3 florenos.</seg>
+                            <seg xml:id="s.1.2.15">In montibus vero habetis de sale mercatorum primo
+                                vndecim in Seraphin<anchor xml:id="a3"/> et pro istis <persName ref="#Gniadek">Gnyadek</persName> solum dabat marcas 14 cum ½
+                                    <anchor xml:id="ac"/>, misimus sibi pro marcis 15; et in
+                                        <expan>Script<ex>oris</ex>
+                                </expan>
+                                <anchor xml:id="a4"/> sunt
+                                banci decem satis pulcri, pro quibus <persName ref="#Skrok">Skrok</persName> dabat marcas 14, misimus sibi pro marcis 15 et
+                                ita recessit absque foro — noluit plus dare.</seg>
+                            <seg xml:id="s.1.2.16">Non est bonum, domine graciosse, ipsos absque
+                                foro mittere sallicidas, sed eciam non esset bonum ita sal leviter
+                                declinare, et ita est satis in leui taxa.</seg>
+                            <seg xml:id="s.1.2.17">Si placebit uobis, idem Skrok tenebit forum,
+                                conuenimus.</seg>
+                            <seg xml:id="s.1.2.18">Si aliquis plus pro dicta<anchor xml:id="ad"/> s
+                                z c h t a daret, bonum esset, tamen, domine graciosse, nullus plus
+                                fuit ex sallicidis in Vyeliczka, solum isti, quos
+                                        <expan>M<ex>agnificencie</ex>
+                                </expan> Vestre
+                                descripssimus.</seg>
+                            <seg xml:id="s.1.2.19">Item, domine graciosse, in paratis pecuniis
+                                habemus pro dictis solucionibus florenos 40; fuit et unus, sed ipsum
+                                dedimus v o g e v o d e<anchor xml:id="a5"/> pro equo.</seg>
+                            <seg xml:id="s.1.2.20">Et pecuniis minutis habemus marcas 26 grossos 36,
+                                exceptis istis, qui forisant.</seg>
+                            <seg xml:id="s.1.2.21">
+                                <persName ref="#MikołajZyszno">Zyszno</persName>
+                                et dominus <persName ref="#MaciejBłędowski">Bludovsky</persName>
+                                sunt Cracouie.</seg>
+                            <seg xml:id="s.1.2.22">Quibus nichil tardans direxi literas
+                                        <expan>r<ex>e</ex>f<ex>e</ex>re<ex>ntes</ex>
+                                </expan>.</seg>
+                            <seg xml:id="s.1.2.23">Datum in <placeName ref="#Wieliczka">Vyeliczka</placeName>, <date when="1458-09-06">feria quarta
+                                    ante Natiuitatis Marie, anno etc. 1458</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>Pomorsky, Matias<anchor xml:id="a6"/>
+                                <lb/> et <persName ref="#MikołajZiema">Zema</persName>
+                                <expan>M<ex>agnificencie</ex>
+                                </expan>
+                                <expan>V<ex>estre</ex>
+                                </expan> seruitores</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">mensuras poprawione z
+                            ms.</note>
+                        <note n="b" type="transcription" target="#ab">po vendidimus skreślone solum
+                            ban(cum).</note>
+                        <note n="c" type="transcription" target="#ac">½: znak konwencjonalny.</note>
+                        <note n="d" type="transcription" target="#ad">po dicta skreślone si.</note>
+                        <note n="1" target="#a1">Jerzy Pomorski, w 1459 r. występuje jako podżupek
+                            bocheński.</note>
+                        <note n="2" target="#a2">Szyb Regis, w zespole najstarszych szybów kopalni
+                            wielickiej zwanym Starymi Górami, zgłębiony w czasach Kazimierza
+                            Wielkiego, może przez wójta myślenickiego Hanka z Zakliczyna
+                            (Wyrozumski, Państwowa, s. 97; Dzieje żup, s. 124).</note>
+                        <note n="3" target="#a3">Szyb Serafin zgłębiany był od 1440 r. na pd.-wsch.
+                            od dotychczasowego rejonu górniczego (<title>Dzieje żup</title>, s. 149.
+                            Szyb Świętosławski, lokalizowany w zespole najstarszych szybów kopalni
+                            wielickiej zwanym Starymi Górami (Regis, Wodna Góra, czyli Surowiczy),
+                            eksploatujących sól w pn. części złoża, w pobliżu głównych budowli
+                            miasta: fary i zamku żupnego. Nie został wspomniany z nazwy w źródłach
+                            średniowiecznych. Jego zgłębienie łączy się w literaturze z okresem
+                            żupnictwa Świętosława ok. 1338 r., bądź z działalnością Świętosława
+                            podskarbiego król. 1355–1370. Szyb ten wyczerpał się w 1440 r., a
+                            wówczas Serafin rozpoczął głębienie nowego szybu na pd.-wsch. od szybu
+                            Regis, zwanego potem szybem Serafin, tworząc tym samym nowe pole
+                            eksploatacyjne zwane Nowymi Górami (Wyrozumski,
+                            <title>Państwowa</title>, s. 97; <title>Dzieje żup</title>, s. 124;
+                            Długosz, <title>Roboty</title>, s. 136)).</note>
+                        <note n="4" target="#a4">Szyb Scriptoris, czyli Pisarka, wspomniany jeszcze
+                            w 1452 r. w listach nr 28 i 33, nie jest notowany w innych źródłach, nie
+                            wymienia go również <title>Opis żup 1518</title>. Najpewniej jeszcze w
+                            XV w. został wyłączony z eksploatacji. W 1510 r. ważnik wielicki Maciej
+                            Alemanus otrzymał od króla aream alias mons Pyszarka in suburbio
+                            Vyelicensi inter gazas regias ex una et hortulanum Lassothe ex altera
+                            parte. W 1518 r. wodoleje prowadzili wodę do wieży (czyli warzelni)
+                            zwanej Nadolna de Pissarca aut lacubus. Możliwe, że chodzi o zalany wodą
+                            szyb Pisarka (<hi rend="i">MS</hi> IV/2, nr 9612; <hi rend="i">Opis żup
+                                1518</hi>, s. 45).</note>
+                        <note n="5" target="#a5">Wojewoda, zapewne wojewoda solny, urzędnik żupny o
+                            nieustalonych bliżej kompetencjach; w źródłach występuje jedynie w 1422
+                            r.: <hi rend="i">Barthossius condam woyewoda salis</hi> (<title>Księga
+                                ławn. przemyska</title> I, nr 1389).</note>
+                        <note n="6" target="#a6">Maciej sztygar lub bakałarz <persName ref="#Maciej">Maciej</persName> pisarz żupny.</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu i
+                                żupnikowi obojga salin i Rusi, łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny i łaskawy panie.</seg>
+                            <seg xml:id="t.1.2.2">Niech wie Wasza Wielmożność, że pan <persName ref="#Wojtaszek">Wojtaszek</persName> z panem <persName ref="#MikołajKorytko">Korytko</persName> przybyli dziś przed
+                                obiadem do Wieliczki, a wyjechali dopiero po godzinie
+                                dziewiętnastej.</seg>
+                            <seg xml:id="t.1.2.3">Tenże pan Wojtaszek powiedział, że Wasza
+                                Wielmożność zawiadomił go, że dziś mieliście być na obiad w
+                                Wieliczce — przybył więc stosownie do zawiadomienia Waszej
+                                Wielmożności.</seg>
+                            <seg xml:id="t.1.2.4">Tak go zapewnił <persName ref="#MikołajZyszno">Zyszno</persName>.</seg>
+                            <seg xml:id="t.1.2.5">Był tu także pan <persName ref="#JanBiałkowski">podstarości</persName>, poszukując Waszej Wielmożności.</seg>
+                            <seg xml:id="t.1.2.6">W sprawie tragarzy zechciejcie wiedzieć, że
+                                pracowali tylko w poniedziałek, a wczoraj i dziś już nie.</seg>
+                            <seg xml:id="t.1.2.7">Załoga pracuje, łaskawy panie, jedynie gdy jest
+                                taka konieczność. Zeszli dziś po sól cetnarową dla towarników, lecz
+                                mówi załoga, że nie mogą niczego znaleźć, z trudem znajdują
+                                cokolwiek.</seg>
+                            <seg xml:id="t.1.2.8">Pisze Wasza Wielmożność o towarnikach, że w tych
+                                dniach wielu z nich było w żupie z zaopatrzeniem. Przywieźli w tych
+                                dniach po pierwsze 65 ćwiertni owsa, dalej 24 achtele piwa i 5
+                                ćwiertni grochu.</seg>
+                            <seg xml:id="t.1.2.9">Prosa wcale nie przywieźli, ani też niczego
+                                innego.</seg>
+                            <seg xml:id="t.1.2.10">Dalej, wczoraj wysłaliśmy 4 achtele piwa na
+                                potrzeby stacji dla pani <persName ref="#ElżbietaRakuska">królowej</persName>, a dziś jeszcze 50 kop chlebów i 4
+                                ćwiertnie soli.</seg>
+                            <seg xml:id="t.1.2.11">Dalej, Maciej sztygar nie ma więcej ćwiertni soli
+                                jak tylko 45 dla kupców i 5 donatywnej.</seg>
+                            <seg xml:id="t.1.2.12">Ponadto Pomorski nie ma ani jednego bałwana dla
+                                kupców, jedynie 20 bałwanów donatywnych.</seg>
+                            <seg xml:id="t.1.2.13">Oprócz tego zechce wiedzieć Wasza Wielmożność, że
+                                w tych dniach nie sprzedaliśmy więcej soli, jedynie <persName ref="#MikołajCzasław">Czasław</persName> kupił 5 bałwanów w
+                                szybie Regis za 6 grzywien i 36 groszy, <persName ref="#MaciekMotyczka">Maciej Motyczka</persName> 5 bałwanów w
+                                Regis za 7 grzywien i 36 groszy i <persName ref="#Kopyto">Kopyto</persName> kupił dziś także 5 bałwanów
+                                w Regis za 7 grzywien.</seg>
+                            <seg xml:id="t.1.2.14">Więcej, łaskawy
+                                panie, nie sprzedaliśmy, z wyjątkiem jeszcze jednego bałwana, który sprzedaliśmy
+                                za jedną grzywnę i 36 groszy, lecz 3 floreny daliśmy <persName ref="#JanTęczyński">wojewodzie</persName> na poczet
+                                6 florenów za konia i jeszcze powinien otrzymać 3.</seg>
+                            <seg xml:id="t.1.2.15">W szybach natomiast macie
+                                dla kupców po pierwsze 11 bałwanów w szybie Serafin, <persName ref="#Gniadek">Gniadek</persName> dawał za
+                                nie tylko 14 i pół grzywny, oddaliśmy mu za 15; w szybie Pisarka jest 10 dość
+                                ładnych bałwanów, za które <persName ref="#Skrok">Skrok</persName> dawał 14 grzywien, oddawaliśmy mu za 15,
+                                lecz odszedł, nie dobiwszy targu, nie chcąc dać więcej.</seg>
+                            <seg xml:id="t.1.2.16">Nie jest dobrą rzeczą,
+                                łaskawy panie, wypuszczać kupców bez dobicia targu, lecz także nie byłoby
+                                dobrze tak nisko opuszczać cenę soli, i tak jest dość tania.</seg>
+                            <seg xml:id="t.1.2.17">Jeśli sobie zażyczycie,
+                                Skrok dobije targu, dogadamy się.</seg>
+                            <seg xml:id="t.1.2.18">Byłoby dobrze, gdyby ktoś dawał więcej za tę
+                                szychtę, jednak, łaskawy panie, nie było więcej kupców w Wieliczce, tylko ci,
+                                o których napisaliśmy Waszej Wielmożności.</seg>
+                            <seg xml:id="t.1.2.19">Dalej, łaskawy panie, na wspomniane
+                                wypłaty mamy w gotówce 40 florenów. Był jeszcze jeden, lecz daliśmy
+                                go wojewodzie za konia.</seg>
+                            <seg xml:id="t.1.2.20">W drobnej monecie mamy — nie biorąc pod uwagę
+                                tych, którzy handlują — 26 grzywien i 36 groszy.</seg>
+                            <seg xml:id="t.1.2.21">
+                                <persName ref="#MikołajZyszno">Zyszno</persName> i pan <persName ref="#MaciejBłędowski">Błędowski</persName> są
+                                w Krakowie.</seg>
+                            <seg xml:id="t.1.2.22">Nie zwlekając, posłałem im list z relacją.</seg>
+                            <seg xml:id="t.1.2.23">Dan w <placeName ref="#Wieliczka">Wieliczce</placeName>, w <date when="1458-09-06">środę
+                                przed Narodzeniem Panny Marii, roku etc. 1458</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>Pomorski, Maciej i <persName ref="#MikołajZiema">Ziema</persName>, słudzy Waszej Wielmożności</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

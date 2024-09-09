@@ -2,17 +2,10 @@
     "id": "https://e-editiones.org/app/tei-publisher/registers",
     "label": "TEI Publisher: Profile with Entity Registers",
     "description": "Adds pages to browse entities, i.e. people, places",
-    "extends": ["base10"],
+    "extends": ["parallel"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-registers"
-    },
-    "odds": [
-        "serafin.odd"
-    ],
-    "defaults": {
-        "template": "parallel.html",
-        "odd": "serafin.odd"
     },
     "menu": {
         "items": [

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS28">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Dorota Szczytnicka do Mikołaja Serafina, <placeName ref="#Wieliczka">Wieliczka</placeName>, <date when="1452-09-14">14 września 1452</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 155 (199)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>215 × 242 mm; karta pognieciona, plamy po obu stronach.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#DorotaSzczytnicka">Dorota Szczytnicka</persName>
+                    <placeName ref="#Wieliczka">Wieliczka</placeName>
+                    <date when="1452-09-14">14 września 1452</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico ac generoso domino <persName ref="#MS">Nicolao Seraphin</persName>
+                                <lb/> gladifero Cracouiensi, zuppario salis vtriusque, domino <lb/>
+                                gracioso.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice ac generose domine graciose.</seg>
+                            <seg xml:id="s.1.2.2">Vestre Magnificencie in reminiscenciis cordis mei
+                                promissiones <lb/> bene ac firmiter teneo, et easdem radicavi, que
+                                etenim non modicas refocillaciones in animo meo anxio et <lb/>
+                                turbato generarunt post decessum mariti <persName ref="#MikołajSzczytnicki">carissimi mei</persName>, qui tamen,
+                                magnifice domine, post suum <lb/> decessum relinquit me cum pueris
+                                meis in toto egentem et nichil habentem.</seg>
+                            <seg xml:id="s.1.2.3">Nam, <expan>m<ex>agnifice</ex>
+                                </expan> domine, pro
+                                eius sepultura opportebat me accomodare circa <persName ref="#Zaremba">Sarambam</persName> unum fertonem et pro exequiis
+                                faciendis.</seg>
+                            <seg xml:id="s.1.2.4">Sed tamen, magnifice domine, tota mea spes est in
+                                Vestra Magnificencia, quod me non sinetis vna cum pueris meis perire
+                                racione seruiciorum bone memorie mariti mei predilectissimi.</seg>
+                            <seg xml:id="s.1.2.5">Nam quecumque habuimus, omnia sunt aput Vestram
+                                Magnificenciam.</seg>
+                            <seg xml:id="s.1.2.6">Ecce, <expan>m<ex>agnifice</ex>
+                                </expan> domine,
+                                post mortem eius solum banccos nowem inveni in c l it a montis
+                                        <expan>Scriptor<ex>is</ex>
+                                </expan>
+                                <anchor xml:id="a1"/>,
+                                quos pro equis aput Vestram <expan>M<ex>agnificenciam</ex>
+                                </expan>
+                                receperat; eosdemque <expan>V<ex>estra</ex>
+                                </expan>
+                                <expan>M<ex>agnificencia</ex>
+                                </expan> sub arestatum posuit et
+                                arestare fecit.</seg>
+                            <seg xml:id="s.1.2.7">In quo spem me nutricionis cum pueris habuit hiis
+                                temporibus.</seg>
+                            <seg xml:id="s.1.2.8">En frustrata est spes et animus meus frustratus
+                                est, si Vestre <expan>M<ex>agnificencie</ex>
+                                </expan> benignitas
+                                defuerit.</seg>
+                            <seg xml:id="s.1.2.9">Nam, magnifice, modum nutricionis me cum pueris
+                                nescio et viam penitus ignoro, quid sim vltra factura, quia partibus
+                                ex vtrisque iam<anchor xml:id="aa"/> oppressa sum magna egestate et
+                                paupertate.</seg>
+                            <seg xml:id="s.1.2.10">Tum opprimor a ciuibus nostre ciuitatis pro
+                                debitis et eorum pecunis, <add>quas vestra pro necessitate receperat
+                                    ab eisdem</add>, in hereditatem et in bona se intromittentibus
+                                et aliis grauaminibus, que pre amaritudine cordis
+                                        <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>M<ex>agnificencie</ex>
+                                </expan> explicare minime valeo.</seg>
+                            <seg xml:id="s.1.2.11">Heu iam sum misera!</seg>
+                            <seg xml:id="s.1.2.12">Preter me nulla extat miserabilior et pauperior
+                                nostra in ciuitate<anchor xml:id="ab"/>.</seg>
+                            <seg xml:id="s.1.2.13">Maximis turbacionibus et anxietatibus sum
+                                involuta.</seg>
+                            <seg xml:id="s.1.2.14">Nescio, quid sum actura.</seg>
+                            <seg xml:id="s.1.2.15">Deus sit mecum et custos mei<anchor xml:id="ac"/>
+                                , ne pre tristicia racionem amitterem.</seg>
+                            <seg xml:id="s.1.2.16">Quocirca <expan>V<ex>estram</ex>
+                                </expan>
+                                <expan>M<ex>agnificenciam</ex>
+                                </expan> ingentissime rogitto, velitis
+                                vestris hic directoribus vestra litera precipere, vt ipsi
+                                prescriptos nowem banccos, pro quibus michi dantur nowem
+                                    marc<ex>e</ex>, libere permittant vendere michi pro victu cum
+                                pueris meis, intuitu magne benignitatis.</seg>
+                            <seg xml:id="s.1.2.17">De aliis autem debitis credo Omnipotenti Deo et
+                                Sue Sanctitati que<anchor xml:id="ad"/> Vestre
+                                        <expan>M<ex>agnificencie</ex>
+                                </expan>, quod me ita
+                                    <sic>anichalatam</sic> et nichil habentem in eisdem expedietis,
+                                secundum quod in regestris reperietis.</seg>
+                            <seg xml:id="s.1.2.18">Cum hiis comitto vos Domino Deo.</seg>
+                            <seg xml:id="s.1.2.19">Datum in <placeName ref="#Wieliczka">Wyeliczka</placeName>, <date when="1452-09-14">feria
+                                    quinta, ipso die Sancte Crucis, anno
+                                        <expan>D<ex>omini</ex>
+                                    </expan> 1452</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#DorotaSzczytnicka">Dorothea</persName> relicta<anchor xml:id="ae"/>
+                                <lb/> Nicolai Sczythnyczsky, <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>M<ex>agnificencie</ex>
+                                </expan>
+                                <lb/> minima servitrix</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">iam: i przerobione z v</note>
+                        <note n="b" type="transcription" target="#ab">po ciuitate trzy litery
+                            skreślone.</note>
+                        <note n="c" type="transcription" target="#ac">po mei dwie litery
+                            skreślone.</note>
+                        <note n="d" type="transcription" target="#ad">que zamiast et.</note>
+                        <note n="e" type="transcription" target="#ae">po relicta skreślone
+                            olim.</note>
+                        <note n="1" target="#a1">Szyb Scriptoris, czyli Pisarka, wspomniany jeszcze
+                            raz w 1452 r. w liście nr 33, nie jest notowany w innych źródłach, nie
+                            wymienia go również <title>Opis żup 1518</title>. Najpewniej jeszcze w
+                            XV w. został wyłączony z eksploatacji. W 1510 r. ważnik wielicki Maciej
+                            Alemanus otrzymał od króla aream alias mons Pyszarka in suburbio
+                            Vyelicensi inter gazas regias ex una et hortulanum Lassothe ex altera
+                            parte. W 1518 r. wodoleje prowadzili wodę do wieży (czyli warzelni)
+                            zwanej Nadolna de Pissarca aut lacubus. Możliwe, że chodzi o zalany wodą
+                            szyb Pisarka (<hi rend="i">MS</hi> IV/2, nr 9612; <hi rend="i">Opis żup
+                                1518</hi>, s. 45).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu i szlachetnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi
+                                krakowskiemu, żupnikowi obojga salin, łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny i szlachetny łaskawy panie.</seg>
+                            <seg xml:id="t.1.2.2">Przyrzeczenia Waszej Wielmożności zachowuję
+                                głęboko w sercu. Pokrzepiły one niemało mego ducha, niespokojnego i
+                                skołatanego po śmierci mojego <persName ref="#MikołajSzczytnicki">najdroższego męża</persName>, który jednak, wielmożny panie,
+                                pozostawił mnie z dziećmi pozbawioną wszystkiego i bez żadnych
+                                środków do życia.</seg>
+                            <seg xml:id="t.1.2.3">Albowiem, wielmożny panie, na jego pogrzeb
+                                musiałam pożyczyć u <persName ref="#Zaremba">Zaremby</persName>
+                                jeden wiardunek, a także na odprawienie egzekwii.</seg>
+                            <seg xml:id="t.1.2.4">Lecz jednak, wielmożny panie, całą moją nadzieję
+                                pokładam w Waszej Wielmożności, że z uwagi na służbę świętej pamięci
+                                mojego najukochańszego męża nie pozwolicie zginąć mnie i moim
+                                dzieciom.</seg>
+                            <seg xml:id="t.1.2.5">Albowiem wszystko, co mieliśmy, jest u Waszej
+                                Wielmożności.</seg>
+                            <seg xml:id="t.1.2.6">Oto, wielmożny panie, po jego śmierci znalazłam w
+                                klecie szybu Pisarka tylko 9 bałwanów, które otrzymał od Waszej
+                                Wielmożności na konie; te bałwany Wasza Wielmożność położył pod
+                                aresztem i nakazał zatrzymać,</seg>
+                            <seg xml:id="t.1.2.7">a on miał nadzieję, że będą one w tym czasie
+                                podstawą utrzymania dla mnie i dla dzieci.</seg>
+                            <seg xml:id="t.1.2.8">Cóż, próżne są nadzieje i duch mój doznaje zawodu,
+                                skoro brak łaski Waszej Wielmożności.</seg>
+                            <seg xml:id="t.1.2.9">Albowiem, wielmożny, nie znajduję sposobu
+                                utrzymania siebie i dzieci i nie wiem zupełnie, co mam dalej robić,
+                                ponieważ zewsząd już uciska mnie niedostatek i bieda.</seg>
+                            <seg xml:id="t.1.2.10">Ponadto prześladują mnie obywatele naszego miasta
+                                z powodu długów i pieniędzy, które <supplied>mój mąż</supplied>
+                                przyjął od nich na wasze potrzeby. Chcą wwiązać się w dobra
+                                dziedziczne i grożą innymi ciężarami, o których nie pozwala mi mówić
+                                Waszej Wielmożności gorycz w sercu.</seg>
+                            <seg xml:id="t.1.2.11">Ach, jakaż jestem nieszczęśliwa!</seg>
+                            <seg xml:id="t.1.2.12">Nie ma w naszym mieście nieszczęśliwszej ani
+                                biedniejszej ode mnie.</seg>
+                            <seg xml:id="t.1.2.13">Ogarnął mnie wielki zamęt i niepokój.</seg>
+                            <seg xml:id="t.1.2.14">Nie wiem, co mam czynić.</seg>
+                            <seg xml:id="t.1.2.15">Niech Bóg będzie ze mną i niech mnie strzeże,
+                                abym ze smutku nie utraciła rozumu.</seg>
+                            <seg xml:id="t.1.2.16">Dlatego niezmiernie proszę Waszą Wielmożność,
+                                zechciejcie w wielkiej łaskawości nakazać listownie waszym tutaj
+                                zarządcom, aby pozwolili mi sprzedać rzeczone 9 bałwanów, za które
+                                otrzymam 9 grzywien, na potrzeby wyżywienia mojego i moich
+                                dzieci.</seg>
+                            <seg xml:id="t.1.2.17">W sprawie innych długów wierzę Bogu
+                                Wszechmogącemu i Jego Świętości, a także Waszej Wielmożności, że
+                                mnie, tak sponiewieraną i pozostającą bez środków, spłacicie
+                                stosownie do tego, co znajdziecie w rejestrach.</seg>
+                            <seg xml:id="t.1.2.18">Z tym powierzam was Panu Bogu.</seg>
+                            <seg xml:id="t.1.2.19">Dan w <placeName ref="#Wieliczka">Wieliczce</placeName>, <date when="1452-09-14">w
+                                    czwartek w dzień <supplied>Podwyższenia</supplied> Krzyża
+                                    Świętego, roku Pańskiego 1452</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#DorotaSzczytnicka">Dorota</persName> wdowa po Mikołaju Szczytnickim, Waszej Wielmożności pokorna
+                                służebnica</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS30">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Piotr Szczerba do Mikołaja Serafina, <placeName ref="#Gawłówek">Gawłówek</placeName>, <date when="1452-10-17">17 października
+                    1452</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 180 (224)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu; verso: dalszy ciąg tekstu, podpis, dopisek Magdaleny,
+                            adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>220 × 306 mm; karta pognieciona, dolny brzeg zbutwiały, ubytki
+                            papieru</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#JakubZawrzykraj"/>
+                    <placeName ref="#Gawłówek">Gawłówek</placeName>
+                    <date when="1452-10-17">17 października 1452</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico domino <persName ref="#MS">Nicolao
+                                        <sic>Se<lb/>rathin</sic>
+                                </persName> gladifero Cracouiensi,
+                                <lb/> salis vtriusque zuppario, domino <lb/> et fratri
+                                carissimo.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice domine fraterque michi.</seg>
+                            <seg xml:id="s.1.2.2">Pridie scripsit michi Dominacio Vestra, quomodo
+                                <lb/> non potuistis michi describere omnem voluntatem vestram
+                                propter repentem <lb/> expedicionem istius <persName ref="#Mężyk">Maziconis</persName> pro solucione sectorum in Wyeliczkam cum
+                                <lb/> pecunis.</seg>
+                            <seg xml:id="s.1.2.3">Ecciam scribit michi Dominacio Vestra indignatiue,
+                                quomodo non expedirem nunccios, dum hic veniunt, celeriter ad
+                                Vestram Dominacionem.</seg>
+                            <seg xml:id="s.1.2.4">Sciatis, quam primo occurrunt aliqui nunccii, mox
+                                ipsos expedire semper non omitto, et similiter pridie feci.</seg>
+                            <seg xml:id="s.1.2.5">Ecciam scribit michi
+                                    <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, quod male fecissem, quod in illo
+                                equo nunccium misi ad Vestram Dominacionem, in quo ille <persName ref="#JanUliński">Wlinski</persName> venit.</seg>
+                            <seg xml:id="s.1.2.6">Sciatis, quia pro tempore nullus equs talis fuit,
+                                ex eo, quia ex illis equis vectigalibus Mazik, dum in Vyeliczkam
+                                transiuit, recepit duos, et sciatis, quia quam cito nunccii veniunt,
+                                    mox<anchor xml:id="aa"/> ipsos remitto, tantum fit
+                                    <sic>intervellom</sic>, cum literam scribo.</seg>
+                            <seg xml:id="s.1.2.7">Ceterum pridie, ut sepe, scripsi Dominacioni
+                                    <sic>Vestra</sic> de ista aura pestifera, quomodo hic viguit
+                                bona et aliquando mala, quia vertitur ista aura, quasi rota fortune,
+                                iam bona et inpost mala.</seg>
+                            <seg xml:id="s.1.2.8">Et eciam scripsi, ut hic mansio michi placeret et
+                                status.</seg>
+                            <seg xml:id="s.1.2.9">Verum est, sed die dominico proximo vocauit
+                                dominam <persName ref="#MagdalenacórkaMikołajaSerafina">Magdalenam</persName> et <persName ref="#BarbaracórkaHoze">consortem</persName> ad prandium, et me pro consolacione et
+                                bona collacione, ibique nobis <sic>existantibu</sic>s leto et bono
+                                animo, in villa ipsius <placeName ref="#Mikluszowice">Miclwschowicze</placeName> circa vnum k m e t h o n e m eodem
+                                die tres sunt ista peste<anchor xml:id="a1"/> pueri mortui, sic quod
+                                ignoro, quid facere, ista enim aura<anchor xml:id="ab"/> disturbiosa
+                                hodie est.</seg>
+                            <seg xml:id="s.1.2.10">Ignoro, quo diuerti, et hic in domibus stilat
+                                hincinde, et eciam domina Magdalena est, cui eciam fauendo locum
+                                recedo spaciosum, et ita dificulter est nos comprehendere, quia
+                                pueri multi et pluuie et frigora instant.</seg>
+                            <seg xml:id="s.1.2.11">Ecciam ista septimana per aliquos de Cracouia due
+                                litere sunt scripte domine Magdalene, quomodo<anchor xml:id="ac"/>
+                                iste <persName ref="#PiotrAksamit">Axamith</persName> haberet curam
+                                de ipsa et me precustodiendo, et sic non vnum nos urit, sed due
+                                miserie nos impediunt, et sic nescio, quid sum facturus, nec scio,
+                                quo diuerti.</seg>
+                            <seg xml:id="s.1.2.12">Item<anchor xml:id="ad"/>, prout michi
+                                        <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan> scribit pro sex florenis pro
+                                laboratoribus in <placeName ref="#Niepołomice">Nyepolomicze</placeName>, sciatis, quod misi de bancato
+                                sale.</seg>
+                            <seg xml:id="s.1.2.13">Item scribit michi
+                                    <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, ut deberem continuare hic illam
+                                caminatam per vos inceptam.</seg>
+                            <seg xml:id="s.1.2.14">Sciatis, quia carpentarios non possum habere,
+                                quia illi<anchor xml:id="ae"/>
+                                <orgName ref="#Nogajowie">Nogayowye</orgName> et alii in<anchor xml:id="af"/>
+                                <placeName ref="#Kłaj">Clay</placeName> sunt mortuy et alii
+                                moriuntur, et<anchor xml:id="ag"/> feci<anchor xml:id="ah"/> querere
+                                in <placeName ref="#Raba">Raba</placeName> molendinatores neque
+                                potui habere, ex eo quia quilibet se excusat, dicens, quod
+                                „Obstacula pro yeme ista opportet nos laborare”, neque in
+                                    Bo<supplied>c</supplied>hnia possum ipsos habere.</seg>
+                            <seg xml:id="s.1.2.15">Ideo velit scribere
+                                    <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan> viceprocuratori, ut carpentarios
+                                inveniat, et ego paratus sum ipsis soluere, quia isti k m e t h o n
+                                e s de Clayo hodie inceperunt robora ducere et ne forte malam auram
+                                hic apportabunt.</seg>
+                            <seg xml:id="s.1.2.16">Item prout scripsistis, ut pro ista septimana
+                                deberem solucionem sectoribus facere, spero, quod
+                                    f<supplied>a</supplied>ciam, et si est vobis necesse, pro
+                                expensis pro pecuniis vobis
+                                    <unclear>
+                                    <supplied>m</supplied>ittam</unclear>.</seg>
+                            <seg xml:id="s.1.2.17">E<supplied>x</supplied>
+                                <gap/>
+                                <anchor xml:id="ai"/> speciali vestra<anchor xml:id="aj"/> significo
+                                    <supplied>volu</supplied>ntatem<anchor xml:id="ak"/>
+                                <gap/>
+                                <anchor xml:id="al"/>
+                                <unclear>pueris</unclear> et cum d<supplied>omi</supplied>n
+                                    <gap/>
+                                <anchor xml:id="am"/>.</seg>
+                        </p>
+                        <p>
+                            <seg xml:id="s.1.2.18">
+                                <lb/>Item ego, Magdalena, seruicia mea refero
+                                tanquam domino et benefactori meo singularissimo et scire Vestre
+                                Dominacioni significo, quomodo ista septimana sum ab aliquibus
+                                amicis meis precustodita, quomodo iste Axamith habet super me curam
+                                et vigilat, ut referunt, de periculo et dampno meo.</seg>
+                            <seg xml:id="s.1.2.19">Quare queso, velitis michi consulere, tamquam
+                                amicus et benefactor famosus, et an me abhinc deberem movere, aut
+                                non.</seg>
+                            <seg xml:id="s.1.2.20">Et sciat <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, quia illud<anchor xml:id="an"/> non
+                                est de intencione mea et animo meo, quod<anchor xml:id="ao"/> non
+                                esset possibile, quod ipse Axamit deberet in me curam habere, sed ne
+                                    forte<anchor xml:id="ap"/> aliter aliquis deberet se facere
+                                Axamith, illa est mea intencio.</seg>
+                            <seg xml:id="s.1.2.21">Item sciat <expan>D<ex>ominacio</ex>
+                                </expan>
+                                <expan>V<ex>estra</ex>
+                                </expan>, quia de illa intencione fui, ut si
+                                dominus Iacobus se abhinc mowisset, tunc ego volui ad dominum
+                                    <persName ref="#PiotrCikowski">subiudicem</persName> intrare,
+                                sed pridie, videlicet dominico, apud eundem tres sunt mortui.</seg>
+                            <seg xml:id="s.1.2.22">Ideo Domino Deo comitto me pro consiliis et
+                                        <expan>V<ex>estre</ex>
+                                </expan>
+                                <expan>D<ex>ominacioni</ex>
+                                </expan>
+                                <anchor xml:id="aq"/>, ut
+                                    <sic>volitis</sic> me informare, quo me diuerti habeo;
+                                    <sic>volitis</sic> michi describere et scriptis vestris
+                                informare.</seg>
+                            <seg xml:id="s.1.2.23">Cum aliis comitto Vestram
+                                        <expan>D<ex>ominacionem</ex>
+                                </expan> consortemque vestram et
+                                    <persName ref="#PiotrsynSerafina">puer<supplied>um</supplied>
+                                </persName>, qui dignetur vos
+                                conservare ad tempora longewa.</seg>
+                            <seg xml:id="s.1.2.24">Datum in <placeName ref="#Gawłówek">Gawlowek</placeName>, <date when="1452-10-17">feria tercia,
+                                    hora noctis tercia<anchor xml:id="ar"/>, ante festum sancti Luce
+                                    Euangeliste, anno Domini 1452</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#JakubZawrzykraj">Iacobus</persName> vicezupparius Bochnensis, <lb/> vester in
+                                omnibus semper</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>Item domina <persName ref="#KunczaLang">Langcuczowa</persName> in <placeName ref="#NowySącz">Sandecz</placeName>
+                                <lb/> est mortua cum duobus pueris, <lb/> solus recessit in
+                                    <placeName ref="#Lwów">Lambergam</placeName>
+                                <lb/> cum duobus pueris.</p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po mox skreślone dwie
+                            litery.</note>
+                        <note n="b" type="transcription" target="#ab">po aura skreślone
+                            distr.</note>
+                        <note n="c" type="transcription" target="#ac">po quomodo skreślone
+                            iste.</note>
+                        <note n="d" type="transcription" target="#ad">po Item skreślone
+                            sciatis.</note>
+                        <note n="e" type="transcription" target="#ae">po illi skreślone dwie
+                            litery.</note>
+                        <note n="f" type="transcription" target="#af">po in skreślony początek
+                            litery C.</note>
+                        <note n="g" type="transcription" target="#ag">po et skreślone feci.</note>
+                        <note n="h" type="transcription" target="#ah">feci nadpisane.</note>
+                        <note n="i" type="transcription" target="#ai">brak jednego słowa.</note>
+                        <note n="j" type="transcription" target="#aj">vestra lub viam.</note>
+                        <note n="k" type="transcription" target="#ak">po -ntatem skreślone cztery
+                            litery.</note>
+                        <note n="l" type="transcription" target="#al">brak ok. pięciu słów.</note>
+                        <note n="m" type="transcription" target="#am">jedna niepełna linijka.</note>
+                        <note n="n" type="transcription" target="#an">po illud skreślone dwie
+                            litery.</note>
+                        <note n="o" type="transcription" target="#ao">po quod skreślone ipse.</note>
+                        <note n="p" type="transcription" target="#ap">po forte skreślone
+                            aliter.</note>
+                        <note n="q" type="transcription" target="#aq">
+                            <expan>V<ex>estre</ex>
+                            </expan>
+                            <expan>D<ex>ominacioni</ex>
+                            </expan> lub <expan>V<ex>estram</ex>
+                            </expan>
+                            <expan>D<ex>ominacionem</ex>
+                            </expan>.</note>
+                        <note n="r" type="transcription" target="#ar">po tercia skreślone ipso
+                            die.</note>
+                        <note n="1" target="#a1">Wspomniana tu zaraza ogarnęła latem 1452 r. Śląsk,
+                            ziemię wieluńską, rozszerzyła się następnie na całą Małopolskę (nie
+                            ominąwszy Krakowa), potem zaś na Litwę. Według relacji Jana Długosza
+                            mieszkańcy ziemi krak. pouciekali przed morowym powietrzem, opuszczając
+                            włości i miasteczka. Z tego też powodu odwołano planowaną wyprawę na
+                            księcia Bolesława Opolskiego. Zaraza ustąpiła dopiero przed 2 lutego
+                            1453 r. (<title>DHn.</title>, lib. XII, s. 137, 146, 152; A. Walawender,
+                                <title>Kronika klęsk elementarnych w Polsce i w krajach sąsiednich w
+                                latach 1450–1586</title>, cz. 1: <title>Zjawiska meteorologiczne i
+                                pomory</title>, Lwów 1932, s. 165).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
+                                żupnikowi obojga salin, panu i najdroższemu bratu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny panie, mój bracie.</seg>
+                            <seg xml:id="t.1.2.2">Wczoraj napisał mi Wasza Dostojność, że nie
+                                mogliście napisać o wszystkich waszych życzeniach z powodu nagłej
+                                konieczności wyprawienia do Wieliczki <persName ref="#Mężyk">Mężyka</persName> z pieniędzmi na zapłatę dla kopaczy.</seg>
+                            <seg xml:id="t.1.2.3">Pisze mi też Wasza Dostojność z oburzeniem, że gdy
+                                przybywają tu posłańcy, nie wyprawiam ich szybko do Waszej
+                                Dostojności.</seg>
+                            <seg xml:id="t.1.2.4">Wiedzcie, że skoro tylko pojawiają się jacyś
+                                posłańcy, nigdy nie zwlekam z wyprawieniem ich, i podobnie uczyniłem
+                                wczoraj.</seg>
+                            <seg xml:id="t.1.2.5">Pisze mi także Wasza Dostojność, że źle uczyniłem,
+                                śląc posłańca do Waszej Dostojności na tym koniu, na którym przybył
+                                    <persName ref="#JanUliński">Uliński</persName>.</seg>
+                            <seg xml:id="t.1.2.6">Wiedzcie, że w tamtej chwili nie było innego
+                                konia, ponieważ Mężyk, gdy przybył do Wieliczki, zabrał dwa spośród
+                                koni pociągowych. Wiedzcie też, że jak tylko posłańcy przybywają, od
+                                razu ich odsyłam, dając sobie jedynie czas na napisanie listu.</seg>
+                            <seg xml:id="t.1.2.7">Pisałem wczoraj, tak jak zwykle, Waszej
+                                Dostojności w sprawie morowego powietrza, że było tu dobre powietrze
+                                a niekiedy złe, ponieważ odmienia się ono jak koło fortuny, raz jest
+                                dobre, to znów złe.</seg>
+                            <seg xml:id="t.1.2.8">Napisałem też, że podoba mi się mieszkanie i
+                                tutejsze warunki.</seg>
+                            <seg xml:id="t.1.2.9">To prawda, lecz w zeszłą niedzielę
+                                    <supplied>Cikowski</supplied> zaprosił panią <persName ref="#MagdalenacórkaMikołajaSerafina">Magdalenę</persName> i
+                                    <persName ref="#BarbaracórkaHoze">żonę</persName> na obiad, a
+                                także mnie, abyśmy się radowali miłym towarzystwem, i gdy tam
+                                przebywaliśmy w dobrym humorze, <supplied>doniesiono, że</supplied>
+                                w jego wiosce <placeName ref="#Mikluszowice">Mikluszowicach</placeName> tegoż dnia u jednego kmiecia trójka
+                                dzieci zmarła na zarazę. Przeto nie wiem, co czynić, powietrze
+                                bowiem jest dziś niepewne.</seg>
+                            <seg xml:id="t.1.2.10">Nie wiem, dokąd się zwrócić, a tu w domach
+                                gdzieniegdzie przecieka, a jeszcze jest pani Magdalena, której chcąc
+                                ulżyć, ustąpiłem przestronne pomieszczenie. Trudno się nam
+                                pomieścić, ponieważ jest tu wiele dzieci, a nadchodzą deszcze i
+                                chłody.</seg>
+                            <seg xml:id="t.1.2.11">Ponadto w tym tygodniu pani Magdalena otrzymała
+                                od pewnych ludzi z Krakowa dwa listy z ostrzeżeniem, że chce się nią
+                                i mną zaopiekować <persName ref="#PiotrAksamit">Aksamit</persName>.
+                                Tak więc nie jedno nam dolega, lecz dwa nieszczęścia, i nie wiem,
+                                ani co mam czynić, ani dokąd się zwrócić.</seg>
+                            <seg xml:id="t.1.2.12">Ponadto, ponieważ Wasza Dostojność napisał mi w
+                                sprawie 6 florenów dla robotników w <placeName ref="#Niepołomice">Niepołomicach</placeName>, wiedzcie, że wysłałem je z wpływów
+                                za sól w bałwanach.</seg>
+                            <seg xml:id="t.1.2.13">Pisze mi ponadto Wasza Dostojność, że mam
+                                kontynuować prace przy rozpoczętym przez was pomieszczeniu.</seg>
+                            <seg xml:id="t.1.2.14">Wiedzcie, że nie mam cieśli, ponieważ <orgName ref="#Nogajowie">Nogajowie</orgName> i inni w <placeName ref="#Kłaj">Kłaju</placeName> zmarli, a jeszcze inni wciąż
+                                umierają. Nakazałem szukać w <placeName ref="#Raba">Rabie</placeName> młynarzy i nie mogłem znaleźć, ponieważ każdy
+                                usprawiedliwia się, mówiąc: „Musimy umacniać jazy przed zimą”; w
+                                Bochni też nikogo nie znalazłem.</seg>
+                            <seg xml:id="t.1.2.15">Przeto zechce Wasza Dostojność napisać
+                                podrzędczemu, aby znalazł cieśli, a ja gotów jestem im zapłacić,
+                                ponieważ kmiecie z Kłaja zaczęli dziś wozić kłody. Oby tylko nie
+                                przywlekli tu złego powietrza.</seg>
+                            <seg xml:id="t.1.2.16">Ponadto piszecie, abym zapłacił za ten tydzień
+                                kopaczom; mam nadzieję to uczynić i jeśli wam będzie potrzeba, poślę
+                                wam na wydatki.</seg>
+                            <seg xml:id="t.1.2.17">Według waszej specjalnej <gap/> zawiadamiam
+                                <gap/>] dziećmi i z panem <gap/>.</seg>
+                        </p>
+                        <p>
+                            <seg xml:id="t.1.2.18">Ponadto ja, Magdalena, zasyłam swoje posługi, jako
+                                panu i memu szczególnemu dobrodziejowi i zawiadamiam Waszą
+                                Dostojność, że w tym tygodniu przestrzegli mnie pewni moi
+                                przyjaciele, że Aksamit sprawuje nade mną opiekę i strzeże mnie, jak
+                                donoszą, przed niebezpieczeństwem i szkodą.</seg>
+                            <seg xml:id="t.1.2.19">Proszę przeto, zechciejcie mi doradzić jak
+                                przyjaciel i sławetny dobrodziej, czy powinnam się stąd ruszyć, czy
+                                nie.</seg>
+                            <seg xml:id="t.1.2.20">I niech wie Wasza Dostojność, że nie jest to moją
+                                intencją ani myślą, aby Aksamit miał sprawować nade mną opiekę, co
+                                zresztą nie byłoby możliwe, lecz to jest moją intencją, by
+                                przypadkiem Aksamit w inny sposób nie uczynił się
+                                    <unclear>kimś</unclear>.</seg>
+                            <seg xml:id="t.1.2.21">Ponadto niech wie Wasza Dostojność, że miałam
+                                taki zamiar, jeśliby się pan Jakub stąd ruszył, udać się do pana
+                                    <persName ref="#PiotrCikowski">podsędka</persName>, lecz
+                                wczoraj, to jest w niedzielę, zmarły u niego trzy osoby.</seg>
+                            <seg xml:id="t.1.2.22">Przeto polecam się Panu Bogu i Waszej Dostojności
+                                z prośbą o radę, abyście zechcieli mnie zawiadomić, dokąd mam się
+                                zwrócić; zechciejcie mnie powiadomić pisemnie.</seg>
+                            <seg xml:id="t.1.2.23">Wraz z innymi polecam Waszą Dostojność, żonę
+                                waszą i <persName ref="#PiotrsynSerafina">syna</persName>
+                                <supplied>Bogu</supplied>, który oby zechciał zachować was na długie
+                                lata.</seg>
+                            <seg xml:id="t.1.2.24">Dan w <placeName ref="#Gawłówek">Gawłówku</placeName>, <date when="1452-10-17">o godzinie nocnej
+                                    trzeciej we wtorek przed świętem św. Łukasza Ewangelisty, roku
+                                    Pańskiego 1452</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#JakubZawrzykraj">Jakub</persName> podżupek bocheński, zawsze wasz we
+                                wszystkim</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>Ponadto pani <persName ref="#KunczaLang">Langkunczowa</persName> zmarła w <placeName ref="#NowySącz">Sączu</placeName> z dwojgiem dzieci, a on sam pojechał z
+                                dwojgiem do <placeName ref="#Lwów">Lwowa</placeName>.</p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

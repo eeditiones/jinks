@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS33">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Stanisław Barwałdzki do Mikołaja Serafina, <placeName ref="#Wieliczka">Wieliczka</placeName>, <date when="1452-11-14">14 listopada 1452</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 152 (196)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu; verso: ciąg dalszy tekstu (do góry
+                            nogami), podpis, adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>217 × 305 mm; karta pognieciona, w dolnej
+                            części ślady zawilgocenia i duża dziura po lewej stronie, w górnej części rozdarcie
+                            pionowe, sięgające ósmej linijki tekstu, podklejone papierem w taki sposób, że zasłonięte
+                            zostały niektóre litery</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#StanisławBarwałdzki"/>
+                    <placeName ref="#Wieliczka">Wieliczka</placeName>
+                    <date when="1452-11-14">14 listopada 1452</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico domino <persName ref="#MS">Nicolao Sera<lb/>phin</persName> gladiffero Cracouiensi nec non <lb/> salis
+                                utriusque zuppario, domino meo <lb/> gracioso.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice ac gener<supplied>o</supplied>se domineque semper graciose<anchor xml:id="aa"/>.</seg>
+                            <seg xml:id="s.1.2.2">Ex litera Vestre Magnificencie
+                                <lb/> michi nuperime per <persName ref="#Miczek">Miczek</persName> exhibita sane intellexi, quomodo <expan>M<ex>agnificencia</ex>
+                                </expan>
+                                Vestra miratur <lb/> ex eo, quod nuccium ad vos sine mora licet cum
+                                incertis nouitatibus non expedimus, <lb/> existens incertus de voluntate vestra.</seg>
+                            <seg xml:id="s.1.2.3">Sciat
+                                ergo Vestra Magnificencia de nouitatibus ad presens ocurrenti<supplied>b</supplied>us, quomodo
+                                heri hora quasi noctis tercia, me cum domino <persName ref="#JakubZawrzykraj">Iacobo</persName>
+                                <anchor xml:id="ab"/> germano vestro ad camenum
+                                circa ignem seden<supplied>te</supplied>, litera ex parte cuiusdam certi amici michi venit.</seg>
+                            <seg xml:id="s.1.2.4">Idem amicus michi refferens, qualiter isti maledicti predones de ciuitate <placeName ref="#Oświęcim">Osswacimiensi</placeName>
+                                iter arripuerunt cum scalis, fistulis, pixidibus et cum aliis armis bellicis
+                                ordinati, famam inter se dicti emuli clamdestine mittentes de claustro <placeName ref="#Mogiła">Mogila</placeName>
+                                <sic>devestando</sic>
+                            </seg>
+                            <seg xml:id="s.1.2.5">Hodie tamen et hac nocte, Domino auxiliante, nobis et claustro
+                                Mogila dampnum nullum intulerunt, sed hodie iam indigescenti<anchor xml:id="ac"/> ante <placeName ref="#Skawina">Skauina</placeName>
+                                ad villam <placeName ref="#Radziszów">Radzechow</placeName> et ad alias prope<anchor xml:id="ad"/> eandem sitas descendentes hostilliter
+                                devastarunt.</seg>
+                            <seg xml:id="s.1.2.6">Aput enim consules Wyelicienses pro illa litera consulum Cracouiensium
+                                instabam, ut fuisset michi per eos data.</seg>
+                            <seg xml:id="s.1.2.7">Nullomodo opptinere potui
+                                propter repugnanciam dominorum hodie in consulatu residencium.</seg>
+                            <seg xml:id="s.1.2.8">De zuppa et
+                                montibus, iuxta <sic>uestram</sic>, cum omnibus officialibus totaque familia satis grauem
+                                omni nocte gerimus custodiam.</seg>
+                            <seg xml:id="s.1.2.9">Credimus tamen, Domino auxiliante, in casu, quem Deus auferat, de illo sibo Pisarka<anchor xml:id="a1"/> nullum per ignem fieri nocumentum,
+                                quia omni die aqua illo porrigitur.</seg>
+                            <seg xml:id="s.1.2.10">Alii duo, videlicet Swathoslawsky<anchor xml:id="a2"/> et
+                                Surowiczni<anchor xml:id="a3"/> de zuppis, adiutorio nostri Saluatoris nobis suffragante, bene per nos
+                                <sic>poterint</sic> defendi, sed si quid <sic>graui</sic> senserimus, illos claudi non obmittemus
+                                sine mora.</seg>
+                            <seg xml:id="s.1.2.11">Sectoribus et tragariis solucionem, Domino disponente, ordinauimus
+                                heri summo mane, ita quod vtique labor in montibus exercetur continue, licet
+                                popullus ciuitatis valde agrauat<supplied>ur</supplied> vna nobiscum custodia.</seg>
+                            <seg xml:id="s.1.2.12">Magistro <persName ref="#PawełzZatora">Paulo</persName>
+                                procuratori capituli Cracouiensis dominico proxime preterito xxiiii florenos et
+                                mansionariis<anchor xml:id="a4"/> x marcas, dominoque <persName ref="#PiotrSzafraniec">succamerario</persName> xii florenos minus fertonem
+                                persoluimus super ipsorum solaria.</seg>
+                            <seg xml:id="s.1.2.13">Sciat eciam <expan>V<ex>estra</ex>
+                                </expan> <expan>M<ex>agnificencia</ex>
+                                </expan>,
+                                quod amoneor omni quasi die ex parte officialium domini <persName ref="#JanCzyżowski">Cracouiensis</persName> pro
+                                centum banc<supplied>os</supplied> aut centum flor<supplied>enos</supplied> qualibet septimana ipsis <sic>dandos</sic>,
+                                iuxta comissa ipsis per dominum Cracouiensem facta.</seg>
+                            <seg xml:id="s.1.2.14">Sed eos evado de die in
+                                diem informacionem super hiis a Magnificencia Vestra exspectando.</seg>
+                            <seg xml:id="s.1.2.15">Quare me
+                                velitis informare quantocius<anchor xml:id="ae"/>, quomodo eos evadere deberem.</seg>
+                            <seg xml:id="s.1.2.16">Peccunias eciam
+                                expensales dominico expediui cum ceteris, sed de retentis eciam ammoneor per
+                                eosdem.</seg>
+                            <seg xml:id="s.1.2.17">A magistro <persName ref="#Bachmistrz">moncium</persName> propter ipsius absenciam literam habere non
+                                potuimus.</seg>
+                            <seg xml:id="s.1.2.18">Aura Cracouie et aput nos variatur, iam bene, iam male, iam cessat,
+                                iam invalescit.</seg>
+                            <seg xml:id="s.1.2.19">De domino <persName ref="#KunczaLang">Cuncza</persName> sciatis, quod bene habet, solum quod filius
+                                suus vnus est mortuus, sed de <persName ref="#Bartłomiej">Bartholomeo</persName> penitus nichil scio, quomodo
+                                habet, si viuit aut mortuus sit.</seg>
+                            <seg xml:id="s.1.2.20">Verum est, quod aliqui venientes in Cracouiam
+                                mortui sunt, sed Deus solus scit, quid facit cum illis<anchor xml:id="af"/>.</seg>
+                            <seg xml:id="s.1.2.21">An aura tali infecti sunt,
+                                illa ignoramus.</seg>
+                            <seg xml:id="s.1.2.22">De negocio isto michi oretenus per <persName ref="#Mężyk">Masik</persName> explicato michi
+                                penitus non constat.</seg>
+                            <seg xml:id="s.1.2.23">Silwa pro gassis et pro zuppis caremus usquemodo<anchor xml:id="ag"/> sic,
+                                quod omnes terrigene absentantur propter istos predones.</seg>
+                            <seg xml:id="s.1.2.24">Et dominus <persName ref="#KlemensNawojowski">Clemens
+                                Nawoywsky</persName> pro illa sillwa in <placeName ref="#Bieżanów">Byeszanow</placeName> non audet exire de Cracouia, quod nobiscum forum fecisset, disserens, quod exspectaremus, quousque g w a r r e iste
+                                cessarent.</seg>
+                            <seg xml:id="s.1.2.25">Et nos tam in gasis, quam in ciuitate lignis caremus et pro tempore
+                                ygemali vectoribus ipsa comparanda.</seg>
+                            <seg xml:id="s.1.2.26">Inscii sumus, vbi fieri deberet.</seg>
+                            <seg xml:id="s.1.2.27">Gase tres
+                                iam stant extincte propter carenciam lignorum.</seg>
+                            <seg xml:id="s.1.2.28">Vectores non habemus, nec super
+                                sal bancatum, nec super minutum, quia magna spolia in vigys<anchor xml:id="ah"/> super ipsis
+                                modo comittuntur, ita quod nullus ad nos iam audet pro sale venire.</seg>
+                            <seg xml:id="s.1.2.29">Sic, quod
+                                nec heri, nec hodie nulli homini bancum aliquomodo vendere potuimus.</seg>
+                            <seg xml:id="s.1.2.30">Nisi
+                                Deus sit nobiscum, pro tempore ygemali quomodo stabimus, Deus scit.</seg>
+                            <seg xml:id="s.1.2.31">Alia
+                                scribenda modo non ocurrunt Vestre Magnificencie, solum quod gauderemus
+                                de sanitate et prosperitate vestra.</seg>
+                            <seg xml:id="s.1.2.32">Datum in <placeName ref="#Wieliczka">Wyeliczka</placeName>, <date when="1452-11-14">feria tercia post sancti
+                                Briccii, anno Domini etc. lii</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#StanisławBarwałdzki">Stanislaus Berwaldsky</persName> <lb/> vester vicezupparius in Wyeliczka <lb/> et seruitor</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">graciose nadpisane.</note>
+                        <note n="b" type="transcription" target="#ab">po Iacobo skreślone g.</note>
+                        <note n="c" type="transcription" target="#ac">indigescenti czytaj: indiescenti.</note>
+                        <note n="d" type="transcription" target="#ad">prope
+                            skreślone an.</note>
+                        <note n="e" type="transcription" target="#ae">po quantocius skreślone quos.</note>
+                        <note n="f" type="transcription" target="#af">po illis skreślone agit.</note>
+                        <note n="g" type="transcription" target="#ag">po usquemodo skreślone plus cadere.</note>
+                        <note n="h" type="transcription" target="#ah">1</note>
+                        <note n="i" type="transcription" target="#ai">1</note>
+                        <note n="j" type="transcription" target="#aj">1</note>
+                        <note n="k" type="transcription" target="#ak">1</note>
+                        <note n="l" type="transcription" target="#al">1</note>
+                        <note n="m" type="transcription" target="#am">1</note>
+                        <note n="n" type="transcription" target="#an">1</note>
+                        <note n="o" type="transcription" target="#ao">1</note>
+                        <note n="1" target="#a1">Szyb Scriptoris, czyli Pisarka, wspomniany jeszcze
+                            raz w 1452 r. w liście nr 33, nie jest notowany w innych źródłach, nie
+                            wymienia go również <title>Opis żup 1518</title>. Najpewniej jeszcze w
+                            XV w. został wyłączony z eksploatacji. W 1510 r. ważnik wielicki Maciej
+                            Alemanus otrzymał od króla aream alias mons Pyszarka in suburbio
+                            Vyelicensi inter gazas regias ex una et hortulanum Lassothe ex altera
+                            parte. W 1518 r. wodoleje prowadzili wodę do wieży (czyli warzelni)
+                            zwanej Nadolna de Pissarca aut lacubus. Możliwe, że chodzi o zalany wodą
+                            szyb Pisarka (<hi rend="i">MS</hi> IV/2, nr 9612; <hi rend="i">Opis żup
+                                1518</hi>, s. 45).</note>
+                        <note n="2" target="#a2">Szyb Świętosławski, lokalizowany w zespole najstarszych szybów kopalni wielickiej zwanym
+                            Starymi Górami (Regis, Wodna Góra, czyli Surowiczy), eksploatujących sól w pn. części złoża,
+                            w pobliżu głównych budowli miasta: fary i zamku żupnego. Nie został wspomniany z nazwy
+                            w źródłach średniowiecznych. Jego zgłębienie łączy się w literaturze z okresem żupnictwa Świętosława
+                            ok. 1338 r., bądź z działalnością Świętosława podskarbiego król. 1355–1370. Szyb ten
+                            wyczerpał się w 1440 r., a wówczas Serafin rozpoczął głębienie nowego szybu na pd.-wsch. od
+                            szybu Regis, zwanego potem szybem Serafin, tworząc tym samym nowe pole eksploatacyjne zwane
+                            Nowymi Górami (Wyrozumski, <title>Państwowa</title>, s. 97; <title>Dzieje żup</title>, s. 124; Długosz, <title>Roboty</title>, s. 136).</note>
+                        <note n="3" target="#a3">Szyb Surowiczy, nazwany też Surowicą, a potem Wodną Górą, w sąsiedztwie szybów Świętosławskiego
+                            i Regis, oddalony był od Świętosławskiego o ok. 45 m. Został zgłębiony w 1378 r.,
+                            jego istnienie poświadcza też akt z 1381 r. Był to szyb wodny, z którego czerpano solankę do
+                            produkcji warzonki. Został zasypany w 1902 r. (Długosz, <title>Roboty</title>, s. 136; Wyrozumski, <title>Państwowa</title>,
+                            s. 97; <title>Dzieje żup</title>, s. 124).</note>
+                        <note n="4" target="#a4">Kolegium mansjonarzy w kaplicy Narodzenia NMP w katedrze krak. za wielkim ołtarzem. Stanowili oni założone przez biskupa krak. Zawiszę z
+                            Kurozwęk (1381–1382) kolegium kapłańskie w kaplicy Narodzenia NMP w
+                            katedrze krak. za wielkim ołtarzem. Mansjonarzy było ośmiu (precentor, 6
+                            mansjonarzy, kleryk), a ich obowiązkiem było codzienne śpiewanie o
+                            świcie oficjum o NMP. Posad swych nie mogli łączyć z innymi beneficjami.
+                            Mieszkali obowiązkowo przy katedrze, początkowo w domu przy kościele Św.
+                            Jerzego, następnie zostali przeniesieni przez Hinczę z Rogowa do
+                            zbudowanego przez niego domu przy murze zamkowym między Pińczowem
+                            Oleśnickich a domem prebendarzy Świętej Trójcy. Na żupach krak. zostali
+                            najpewniej uposażeni przez królową Jadwigę lub Władysława Jagiełłę, choć
+                            nie zachował się żaden świadczący o tym dokument. W 1518 r. pobierali
+                            oni z żup 18 grz. rocznie, czyli 4½ grz. na każde Suche Dni. Oprócz nich
+                            na żupach wielickich uposażeni byli też w 1406 r. przez Władysława
+                            Jagiełłę mansjonarze przy ołtarzu Św. Erazma, ufundowanym w 1399 r.
+                            przez królową Jadwigę. Czynsz wynosił 13 grz. rocznie, czyli 3½ grz.
+                            kwartalnie (Kumor, <title>Dzieje diec. krak.</title>, s. 348–349,
+                            374–381; <title>Crac. art. Suppl. 1462–1475</title>, s. 77–79;
+                            <title>Opis żup 1518</title>, s. 23, 26).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu
+                                i żupnikowi obojga salin, memu łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny i szlachetny, zawsze łaskawy panie.</seg>
+                            <seg xml:id="t.1.2.2">Z doręczonego mi przed
+                                chwilą przez <persName ref="#Miczek">Miczka</persName>Miczka listu Waszej Wielmożności zrozumiałem dokładnie, że
+                                Wasza Wielmożność dziwi się temu, iż pozostając w niepewności co do waszej
+                                woli, nie wysłałem do was niezwłocznie posłańca, choćby z niepewnymi
+                                wiadomościami.</seg>
+                            <seg xml:id="t.1.2.3">Niech więc wie Wasza Wielmożność, że jeśli chodzi o bieżące
+                                wiadomości, wczoraj około trzeciej godziny nocy, kiedy wraz z waszym bratem
+                                <persName ref="#JakubZawrzykraj">Jakubem</persName> siedzieliśmy przy rozpalonym kominku, przyszedł do mnie list od
+                                pewnego zaufanego przyjaciela.</seg>
+                            <seg xml:id="t.1.2.4">Donosi mi ów przyjaciel, że ci przeklęci zbójcy
+                                z <placeName ref="#Oświęcim">Oświęcimia</placeName>, zawiadamiając się potajemnie o zamiarze splądrowania klasztoru
+                                w <placeName ref="#Mogiła">Mogile</placeName>, uformowali oddział i wyruszyli w drogę, uzbrojeni w drabiny, piszczałki,
+                                puszki i inną broń.</seg>
+                            <seg xml:id="t.1.2.5">Ani dzisiaj jednak, ani ubiegłej nocy dzięki Bogu
+                                nie zrobili nic złego nam ani klasztorowi w Mogile. Dotarłszy jednak dzisiaj
+                                o świcie do wioski <placeName ref="#Radziszów">Radziszów</placeName> koło <placeName ref="#Skawina">Skawiny</placeName> i do innych niedaleko położonych
+                                wsi, spustoszyli je jak najeźdźcy.</seg>
+                            <seg xml:id="t.1.2.6">Zwracałem się do rajców wielickich, aby mi
+                                dali ów list rajców krakowskich.</seg>
+                            <seg xml:id="t.1.2.7">Nie mogłem go jednak w żaden sposób uzyskać
+                                z powodu odmowy panów, zasiadających dziś w radzie.</seg>
+                            <seg xml:id="t.1.2.8">Zgodnie z waszą
+                                wolą wraz ze wszystkimi urzędnikami i całą służbą każdej nocy pełnimy uciążliwą
+                                straż w żupie i w szybach.</seg>
+                            <seg xml:id="t.1.2.9">Wierzymy jednak, że, z Bożą pomocą, w razie wypadku, od którego niech Bóg strzeże, szyb Pisarka nie dozna żadnej szkody
+                                od ognia, bowiem każdego dnia jest polewany wodą.</seg>
+                            <seg xml:id="t.1.2.10">Pozostałe dwa, mianowicie
+                                Świętosławski i Surowiczy w żupach, z pomocą wspierającego nas naszego
+                                Zbawiciela zdołamy odpowiednio obronić, jeżeli jednak dostrzeżemy coś poważnego,
+                                nie omieszkamy ich bezzwłocznie zamknąć.</seg>
+                            <seg xml:id="t.1.2.11">Zrządzeniem Pańskim
+                                wczoraj wczesnym rankiem dokonaliśmy wypłaty dla kopaczy i tragarzy, tak
+                                że prace w szybach prowadzone są bez przerw, mimo że ludność miasta bardzo
+                                jest wraz z nami obciążona stróżowaniem.</seg>
+                            <seg xml:id="t.1.2.12">W ubiegłą niedzielę wypłaciliśmy
+                                należności: prokuratorowi kapituły krakowskiej mistrzowi <persName ref="#PiotrSzafraniec">Pawłowi</persName> 24 floreny,
+                                mansjonarzom 10 grzywien, zaś panu podkomorzemu 12 florenów bez jednego
+                                wiardunku.</seg>
+                            <seg xml:id="t.1.2.13">Niech wie również Wasza Wielmożność, że prawie codziennie
+                                jestem nagabywany przez urzędników pana <persName ref="#JanCzyżowski">kasztelana</persName> krakowskiego z tytułu
+                                100 bałwanów lub 100 florenów, które mieli odbierać co tydzień według zaleceń,
+                                danych im przez pana kasztelana krakowskiego.</seg>
+                            <seg xml:id="t.1.2.14">Wymykam się im jednak
+                                z dnia na dzień, oczekując informacji na ten temat od Waszej Wielmożności.</seg>
+                            <seg xml:id="t.1.2.15">Dlatego zechciejcie mnie jak najszybciej poinformować, w jaki sposób mam się
+                                od nich uwolnić.</seg>
+                            <seg xml:id="t.1.2.16">Wypłaciłem im również w niedzielę razem z innymi wypłatami
+                                pieniądze na bieżące wydatki, lecz jestem przez nich nagabywany także
+                                o zaległości.</seg>
+                            <seg xml:id="t.1.2.17">Nie mogliśmy otrzymać listu od <persName ref="#Bachmistrz">bachmistrza</persName> z powodu jego nieobecności.</seg>
+                            <seg xml:id="t.1.2.18">Powietrze jest zmienne zarówno w Krakowie, jak i u nas — raz jest
+                                dobrze, raz źle, już to ustępuje, już to przybiera na sile.</seg>
+                            <seg xml:id="t.1.2.19">O panu <persName ref="#KunczaLang">Kunczy</persName> wiedzcie,
+                                że ma się dobrze, tyle że zmarł jeden jego syn, o <persName ref="#Bartłomiej">Bartłomieju</persName> jednak zupełnie
+                                nie wiem, jak się czuje, żyje, czy może umarł.</seg>
+                            <seg xml:id="t.1.2.20">To prawda, że zmarli niektórzy
+                                przybywający do Krakowa, lecz tylko Bóg wie, co z nimi czyni.</seg>
+                            <seg xml:id="t.1.2.21">Czy zostali
+                                zarażeni tym powietrzem, nie wiemy.</seg>
+                            <seg xml:id="t.1.2.22">O sprawie, przekazanej mi ustnie przez
+                                <persName ref="#Mężyk">Mężyka</persName>, nic mi dokładniej nie wiadomo.</seg>
+                            <seg xml:id="t.1.2.23">Nie mamy lasu na potrzeby warzelni
+                                i żup, a to dlatego, że wszyscy ziemianie są nieobecni z powodu zbójców.</seg>
+                            <seg xml:id="t.1.2.24">Także
+                                pan <persName ref="#KlemensNawojowski">Klemens Nawojowski</persName> nie ośmiela się wyjechać z Krakowa, aby dobić z nami targu w sprawie owego lasu w <placeName ref="#Bieżanów">Bieżanowie</placeName>. Mówi, abyśmy poczekali, aż ustaną
+                                niepokoje.</seg>
+                            <seg xml:id="t.1.2.25">Nam zaś brakuje drewna tak w warzelniach, jak i w mieście, a także
+                                woźniców, którzy by je zwieźli na zimę.</seg>
+                            <seg xml:id="t.1.2.26">Nie wiemy, gdzie ich znaleźć.</seg>
+                            <seg xml:id="t.1.2.27">Trzy warzelnie
+                                stoją już wygaszone z powodu braku drew.</seg>
+                            <seg xml:id="t.1.2.28">Nie mamy woźniców ani do
+                                soli w bałwanach, ani do drobnej, ponieważ na drogach popełniane są na nich
+                                teraz rabunki, tak że nikt już nie ośmiela się przyjeżdżać do nas po sól.</seg>
+                            <seg xml:id="t.1.2.29">Tak to
+                                ani wczoraj, ani dzisiaj nie zdołaliśmy żadnym sposobem nikomu sprzedać nawet
+                                jednego bałwana.</seg>
+                            <seg xml:id="t.1.2.30">Bóg wie, jak przetrwamy okres zimy. Tylko On może nam
+                                pomóc.</seg>
+                            <seg xml:id="t.1.2.31">Nic innego godnego napisania do Waszej Wielmożności nie przychodzi
+                                mi na myśl, prócz tego, że cieszylibyśmy się z waszego zdrowia i pomyślności.</seg>
+                            <seg xml:id="t.1.2.32">Dan w <placeName ref="#Wieliczka">Wieliczce</placeName>, <date when="1452-11-14">we wtorek po św. Brykcjuszu, roku Pańskiego etc. 52</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#StanisławBarwałdzki">Stanisław Barwałdzki</persName>, wasz podżupek w Wieliczce i sługa</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

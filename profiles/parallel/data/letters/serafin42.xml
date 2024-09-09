@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS42">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Andrzej Odrowąż ze Sprowy do Mikołaja Serafina, <placeName ref="#StarySambor">Sambor</placeName>, <date when="1457-08-22">22 sierpnia 1457</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 170 (214)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres,
+                            ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>221 × 234 mm; znak wodny: głowa wołu
+                            z kwiatem siedmiopłatkowym na podwójnym pręcie między rogami; ślady zawilgocenia
+                            i ubytki papieru w dolnej części karty</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#AndrzejOdrowąż"/>
+                    <placeName ref="#StarySambor">Sambor</placeName>
+                    <date when="1457-08-22">22 sierpnia 1457</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Strenuo domino <persName ref="#MS">Nicolao Seraphin</persName> zuppario sa<supplied>lis</supplied> <lb/> vtriusque et gladiferro
+                                Cracouiensi, amico nostro dilecto.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Strenue domine, amice noster dilecte.</seg>
+                            <seg xml:id="s.1.2.2">Scriptis <expan>v<ex>estris</ex>
+                                </expan> bene intelleximus,
+                                quibus <lb/> nobis scribitis, sicut soliti estis semper promittitis et numquam verbum
+                                vestrum adimpletis.<lb/>
+                            </seg>
+                            <seg xml:id="s.1.2.3">Recolimus enim post decessum nostri <persName ref="#PiotrOdrowąż">genitoris</persName>
+                                <anchor xml:id="a1"/> amantissimi,
+                                ita diu nobis <lb/> debita nostra ista tenemini et vsquemodo ea soluere non
+                                aduertitis.</seg>
+                            <seg xml:id="s.1.2.4">Propter que multa dampna percepimus, quia et nostra bona nos vendere
+                                opportebat, de quibus longe dolebimus, et propter non complecionem verbi
+                                vestri ad dominum <persName ref="#JanCzyżowski">castellanum Cracouiensem</persName> et ad alios nos induxistis non
+                                complentem, et festum <date when="1457-08-15" when-custom="15 VIII">Assumpcionis Virginis Gloriose [15 VIII]</date> preteriit, vbi
+                                debuistis solucionem impendere, neque quidquam fecistis.</seg>
+                            <seg xml:id="s.1.2.5">Excusatis se bello,
+                                tamen in vestra descripcione continetur, quod neque bellicali expedicione<anchor xml:id="aa"/> subterfugere
+                                nos potestis, quamuis autem ibi bella geruntur, tamen hic adhuc, per
+                                Dei graciam, pax habetur.</seg>
+                            <seg xml:id="s.1.2.6">Idcirco rogamus amicanter, quatenus nostra debita
+                                <add>cum dampnis</add>
+                                <anchor xml:id="ab"/> nobis exsoluere dignemini.</seg>
+                            <seg xml:id="s.1.2.7">Si autem nunc plura non possetis,
+                                extunc petimus domino castellano Cracouiensi centum et triginta marcas et
+                                sexaginta<anchor xml:id="ac"/> florenos exsoluere velitis.</seg>
+                            <seg xml:id="s.1.2.8">Et quemadmodum honorabilem <persName ref="#Jakub">Iacobum</persName>
+                                nostrum capellanum transmisimus, adhuc Cracouie moratur, idcirco rogamus,
+                                velitis arma nostra, que dedimus parare, et balistas, prout idem capellanus refferret,
+                                expedire.</seg>
+                            <seg xml:id="s.1.2.9">Sique hec feceritis, extunc residui debiti longiorem terminum
+                                vobis concedemus.</seg>
+                            <seg xml:id="s.1.2.10">Si autem nolueritis, extunc inscripcione, qua se nobis inscripsistis,
+                                modis omnibus, quibus maioribus poterimus, volumus vti et agere.</seg>
+                            <seg xml:id="s.1.2.11">Et scriptis <expan>v<ex>estris</ex>
+                                </expan> nobis intencionem vestram apperire velitis, si<anchor xml:id="ad"/> soluere nobis
+                                wltis aut non.</seg>
+                            <seg xml:id="s.1.2.12">In promissione tamen nobis non sufficit, quia promittendo ad diem Iudicii nobis sic non exsolueritis.</seg>
+                            <seg xml:id="s.1.2.13">Et hoc nos prestolari nolumus, nisi iam
+                                nostris insc<supplied>ri</supplied>pcionibus vtemur.</seg>
+                            <seg xml:id="s.1.2.14">Datum in <placeName ref="#StarySambor">Sambor</placeName>, <date when="1457-08-22">feria secunda in octaua
+                                Assumpcionis Virginis Gloriose, etc. lvii</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#AndrzejOdrowąż">Andreas Odrowans de Sprowa</persName> palatinus <lb/> et capitaneus terre Russie generalis</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">po expedicione skreślone se.</note>
+                        <note n="b" type="transcription" target="#ab">cum dampnis na marginesie innym atramentem.</note>
+                        <note n="c" type="transcription" target="#ac">sexaginta
+                            skreślone florenos poprawione z flores.</note>
+                        <note n="d" type="transcription" target="#ad">od tego słowa do końca list pisany tym samym atramentem,
+                            co dopisek marginalny cum dampnis.</note>
+                        <note n="1" target="#a1">zm. 8 września 1450</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Mężnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> żupnikowi obojga salin i miecznikowi
+                                krakowskiemu, naszemu umiłowanemu przyjacielowi.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Mężny panie, nasz umiłowany przyjacielu.</seg>
+                            <seg xml:id="t.1.2.2">Dobrze pojęliśmy, co piszecie
+                                w waszym liście — zawsze, jak to macie w zwyczaju, obiecujecie i nigdy nie
+                                dotrzymujecie słowa.</seg>
+                            <seg xml:id="t.1.2.3">Przypominamy, że tak długo po śmierci naszego najukochańszego
+                                <persName ref="#PiotrOdrowąż">rodzica</persName> zatrzymujecie nasze należności i do tej pory nie zatroszczyliście
+                                się o ich spłacenie.</seg>
+                            <seg xml:id="t.1.2.4">Ponieśliśmy przez to duże straty, ponieważ — nad czym
+                                bardzo bolejemy — musieliśmy sprzedać nasze dobra. Nie dotrzymując słowa,
+                                spowodowaliście również, że i my nie dotrzymaliśmy go panu <persName ref="#JanCzyżowski">kasztelanowi
+                                    krakowskiemu</persName> oraz innym. Minęło już święto <date when="1457-08-15" when-custom="15 VIII">Wniebowzięcia Panny Marii
+                                [15 VIII]</date>, kiedy to powinniście byli zapłacić, a nic nie uczyniliście.</seg>
+                            <seg xml:id="t.1.2.5">Tłumaczycie
+                                się wojną, jednak w waszym piśmie stoi, że nie możecie wymawiać się przed
+                                nami nawet wyprawą wojenną. Zresztą, chociaż tam prowadzona jest wojna,
+                                tutaj jednak, dzięki Bogu, dotychczas panuje pokój.</seg>
+                            <seg xml:id="t.1.2.6">Dlatego życzliwie prosimy,
+                                abyście zechcieli wypłacić nam nasze należności razem z procentem.</seg>
+                            <seg xml:id="t.1.2.7">Jeżeli zaś
+                                teraz nie moglibyście więcej, prosimy, abyście zechcieli zapłacić panu kasztelanowi
+                                krakowskiemu 130 grzywien i 60 florenów.</seg>
+                            <seg xml:id="t.1.2.8">A ponieważ dotąd przebywa
+                                w Krakowie nasz kapelan czcigodny <persName ref="#Jakub">Jakub</persName>, którego tam posłaliśmy, prosimy,
+                                zechciejcie wysłać naszą zbroję, którą kazaliśmy przysposobić, oraz kusze, stosownie
+                                do wskazówek tegoż kapelana.</seg>
+                            <seg xml:id="t.1.2.9">Jeżeli to uczynicie, wtedy damy wam
+                                odleglejszy termin spłaty pozostałych długów.</seg>
+                            <seg xml:id="t.1.2.10">Jeżeli zaś nie zechcecie, wtedy zamierzamy
+                                na wszelkie sposoby, jakie będą nam dostępne, posłużyć się zapisem,
+                                który nam wystawiliście, i wejść na drogę sądową.</seg>
+                            <seg xml:id="t.1.2.11">Zechciejcie więc napisać nam
+                                o waszych zamiarach, czy chcecie nam zapłacić, czy nie.</seg>
+                            <seg xml:id="t.1.2.12">Nie wystarczy nam jednak obietnica, ponieważ obiecując, nie zapłacicie nam do Sądnego Dnia.</seg>
+                            <seg xml:id="t.1.2.13">Nie zamierzamy na to czekać, raczej posłużymy się danym nam zapisem.</seg>
+                            <seg xml:id="t.1.2.14">Dan
+                                w <placeName ref="#StarySambor">Samborze</placeName>, w <date when="1457-08-22">poniedziałek w oktawę Wniebowzięcia Panny Marii, etc. 57</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#AndrzejOdrowąż">Andrzej Odrowąż ze Sprowy</persName>, wojewoda i starosta generalny Ziemi Ruskiej</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS22">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Jan z Czyżowa do Mikołaja Serafina, <placeName ref="#Ruda">Ruda</placeName>, <date when="1447-11-11">11 listopada 1447</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                    1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 157 (201)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p> recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>215 × 158 mm; stan zachowania bardzo dobry</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#JanCzyżowski">Jan z Czyżowa</persName>
+                    <placeName ref="#Ruda">Ruda</placeName>
+                    <date when="1447-11-11">11 listopada 1447</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Generoso domino <persName ref="#MS">Nicolao
+                                    Seraphin</persName>, salis <lb/> vtriusque zuppario, amico nobis
+                                dilecto.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Generose domine, amice noster dilecte.</seg>
+                            <seg xml:id="s.1.2.2">Habuimus scripta domini <persName ref="#WojciechMichowski">Alberti Michowsky</persName> castellani
+                                <lb/> Zauichosciensis, in quibus scribit nobis nos amonendo, quomodo
+                                secundum condictacionem cum ipso factam <lb/> sibi intromissionem in
+                                zuppam Premisliensem hucusque non dedistis<anchor xml:id="a1"/>.</seg>
+                            <seg xml:id="s.1.2.3">Ideo rogamus Vestram Amiciciam, quatinus, <lb/>
+                                iuxta illa condictata inter vos facta, intromissionem in zuppam
+                                prefatam eidem domino Michowsky dare velitis sine dilacione, omnia
+                                sibi adimplentes conclusa.</seg>
+                            <seg xml:id="s.1.2.4"> Consulimus autem vobis, quatinus sine presencia
+                                nostri ipsam zuppam nulli homini arrendare admittatis, ymmo nec ad
+                                arrendam consentire velitis, sed dum ad festum <date when="1447-12-06" when-custom="6 XII">sancti Nicolai
+                                    proximum</date> in illis partibus feliciter constituemur, tunc
+                                illud, quod pro bono vestro nobis visum fuerit, nostra consilia
+                                desuper vobis porrigemus opportuna.</seg>
+                            <seg xml:id="s.1.2.5">Et quia familiares nostri in zuppa prefata
+                                degentes non ex parte nostri, sed ex parte vestri sunt constituti,
+                                et vestra facultate suffulti, ideo tam nostris, quam vestris
+                                familiaribus per literam vestram committere velitis, vt sine quauis
+                                opposicione ipsam zuppam prefatam etc. iuxta condictacionem factam
+                                domino Michowsky condescendant sine mora.</seg>
+                            <seg xml:id="s.1.2.6">Datum in <placeName ref="#Ruda">Ruda</placeName>, <date when="1447-11-11">sabbato, ipso die sancti Martini, anno
+                                    Domini Mo cccco xl septimo</date>.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#JanCzyżowski">Iohannes de
+                                    Czyszow</persName> castellanus <lb/> et capitaneus
+                                Cracouiensis</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="1" target="#a1">Umowa dotycząca wwiązania Michowskiego w żupę
+                            przemyską celem spłaty długu Serafina nie jest znana. Natomiast 6 lutego
+                            1447 r. w obecności kasztelana i starosty krak. Czyżowskiego dłużnik i
+                            wierzyciel zawarli umowę, że Michowski będzie pobierał z żupy wielickiej
+                            20 fl. węg. i 8 bałwanów oświęcimskich tygodniowo aż do spłaty 750 grz.
+                            długu, sam też będzie mógł sprzedawać sól w Wieliczce i Krakowie.
+                            Realizacja tego układu przebiegała z trudem, o czym świadczą pozwy
+                            kasztelana przeciwko Serafinowi z października t.r. Kolejna umowa
+                            dotyczała prawdopodobnie wwiązania w żupę przemyską, jak świadczy
+                            informacja w niniejszym liście (GK 9, s. 917–918; 10, s. 196).</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Szlachetnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> żupnikowi obojga salin,
+                                naszemu umiłowanemu przyjacielowi.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Szlachetny panie, nasz umiłowany
+                                przyjacielu.</seg>
+                            <seg xml:id="t.1.2.2">Dostaliśmy list pana <persName ref="#WojciechMichowski">Wojciecha Michowskiego</persName>
+                                kasztelana zawichojskiego, w którym upomina nas, pisząc, że dotąd
+                                nie daliście mu, stosownie do zawartej z nim umowy, wwiązania w żupę
+                                przemyską.</seg>
+                            <seg xml:id="t.1.2.3">Przeto prosimy Waszą Życzliwość, abyście
+                                zechcieli, wedle umowy zawartej między wami, dać bezzwłocznie
+                                wwiązanie we wspomnianą żupę temuż panu Michowskiemu i wypełnić
+                                względem niego wszystko, co ustaliliście.</seg>
+                            <seg xml:id="t.1.2.4">Radzimy też wam, abyście pod naszą nieobecność nie
+                                oddawali nikomu tej żupy w dzierżawę, ani nie umawiali się w tej
+                                sprawie, lecz gdy na <date when="1447-12-06" when-custom="6 XII">dzień św. Mikołaja</date> szczęśliwie staniemy w tych stronach,
+                                wówczas przedstawimy wam, co wydaje się nam dla was dobre, i
+                                udzielimy wam stosownych rad.</seg>
+                            <seg xml:id="t.1.2.5">A ponieważ
+                                nasi słudzy zostali do tej żupy wprowadzeni nie przez nas, ale przez was, i wy
+                                się o nich troszczycie, zechciejcie przeto polecić listownie sługom tak naszym,
+                                jak waszym, aby bez jakiegokolwiek sprzeciwu i bez zwłoki odstąpili panu Michowskiemu wspomnianą żupę etc. według zawartej umowy.</seg>
+                            <seg xml:id="t.1.2.6">Dan w <placeName ref="#Ruda">Rudzie</placeName>Rudzie, <date when="1447-11-11">w sobotę w dniu św. Marcina, roku Pańskiego 1447</date>.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#JanCzyżowski">Jan z Czyżowa</persName> kasztelan i starosta krakowski</seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <lb/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

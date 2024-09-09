@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS11">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Mikołaj Suchorabski do Mikołaja Serafina, <placeName ref="#Kraków">Kraków</placeName>, <date when-custom="1443-1445">[1443-1445]</date>
+                </title>
+                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
+                <editor>Anna Skolimowska</editor>
+                <editor>Waldemar Bukowski</editor>
+                <editor>Tomasz Płóciennik</editor>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Anna Krzysik</persName>
+                </respStmt>
+                <respStmt>
+                    <resp>TEI encoding</resp>
+                    <persName>Magdalena Turska</persName>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Societas Vistulana</publisher>
+                <pubPlace>Kraków</pubPlace>
+                <date>2006</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc type="fair-copy">
+                    <msIdentifier>
+                        <institution>B. Ossol.</institution>
+                        <idno>rkps 165, k. 179 (223)</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                    </msContents>
+                    <physDesc>
+                        <p>217 × 282 mm;  dolna część karty zbutwiała, ubytki papieru.</p>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName ref="#MikołajSuchorabski">Mikołaj Suchorabski</persName>
+                    <placeName ref="#Kraków">Kraków</placeName>
+                    <date when-custom="1443-1445">[1443-1445]</date>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+        <revisionDesc>
+            <listChange>
+                <change/>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <group>
+            <text type="source" xml:lang="la">
+                <body>
+                    <div xml:id="s.1">
+                        <opener xml:id="s.1.1">
+                            <seg xml:id="s.1.1.1">
+                                <lb/>Magnifico domino <persName ref="#MS">Nicolao Seraphin</persName> <lb/> gladiffero Cracouiensi, salis vtriusque <lb/> zuppario, domino meo graciosissimo.</seg>
+                        </opener>
+                        <p xml:id="s.1.2">
+                            <seg xml:id="s.1.2.1">
+                                <lb/>Magnifice domine michi graciosissime.</seg>
+                            <seg xml:id="s.1.2.2">Iuxta comissa Dominacionis Vestre de hiis, <lb/> de quibus michi scripsistis, feci diligenciam.</seg>
+                            <seg xml:id="s.1.2.3">Dominum <persName ref="#MichałLasocki">Laschoczski</persName> in centum florenis receptis a domino <persName ref="#JerzyOrient">Orienth</persName> expediui et in litera scripsi.</seg>
+                            <seg xml:id="s.1.2.4">Centum <lb/> absque tribus sobolinis dedy <persName ref="#Siestrzeniec">Schesczenecz</persName> , quas posuit in cista in testudine.</seg>
+                            <seg xml:id="s.1.2.5">Illam cistam cum quitacionibus posuimus ad testudinem domine.</seg>
+                            <seg xml:id="s.1.2.6">De panno autem sciatis, quia dominus Orienth habet curam, vt posset carius vendere, quam per 9½<anchor xml:id="aa"/> florenos.</seg> 
+                            <seg xml:id="s.1.2.7">Heri in presencia mei istum <persName ref="#Ambroży">Ambrosium</persName> ammonuit, vt emisserit eundem panum et dimisserit sibi ipsum absque hor t h per X florenos, et vellet expectare sibi causa vtilitatis Dominacionis Vestre ducentos florenos ad duas septimanas ob hanc causam, vt Vestra Dominacio non essetis ita dampnificatus. </seg>
+                            <seg xml:id="s.1.2.8">Hodie debet idem Ambrosius responsum, si voluerit eundem pannum recipere taliter, prout sibi dominus Orienth dimissit.</seg>
+                            <seg xml:id="s.1.2.9">Intelligo, quod idem dominus Orienth bonus amicus Dominacionis Vestre est et non libenter videret dampnum vestrum.</seg>
+                            <seg xml:id="s.1.2.10">Illas centum marcas heri recepi a domino <persName ref="#JanTęczyński">pallatino</persName>, de quibus, prout comisistis, dedi domino <persName ref="#JanZagórzański">Zagorzenski</persName> marcas XX, <persName ref="#Dąbrowski">Dambrowski</persName> marcas X, et per <persName ref="#Świeczka">Sweczkam</persName> pro tragariis destinaui marcas XXti.</seg>
+                            <seg xml:id="s.1.2.11">Hodie vero Dominacio Vestra scripsistis, vt de istis Lta marcis, que remanent apud me, darem ex hiis <persName ref="#StanisławRusek">Russkoni</persName> pro XX florenis, cui dedi, domino <persName ref="#KunczaReych">Cuncza</persName> similiter pro XXti florenis, domino <persName ref="#JanGałka">Galcze</persName> marcas quinque et domino <persName ref="#JanRokosz">Rokosch</persName> eciam quinque.</seg>
+                            <seg xml:id="s.1.2.12">Adhuc ipsis non dedi, quia primo hodie computaui eandem pecuniam, quia easdem Lta marcas rec<supplied>e</supplied>peram sub<anchor xml:id="ab"/> sigillo domini <persName ref="#Jan">Iohannis</persName> notarii.</seg>
+                            <seg xml:id="s.1.2.13">Dominus <persName ref="#JakubZawrzykraj">vicezupparius</persName> cum <persName ref="#PiotrItalik">Petro Italico</persName> fuerunt in comunitate apud sallicidas monendo ipsos, vt sal domini Cuncze emerant<anchor xml:id="ac"/>, qui distulerunt vsque in diem crastinum, prout melius vobis <persName ref="#PiotrItalik">Petro Italico</persName>Petrus descripsit.</seg>
+                            <seg xml:id="s.1.2.14">Ille frater de <placeName ref="#Mogiła">Mogila</placeName> heri in recessum Dominacionis Vestre portauit XVI perdices, quatuor capones et unum agnellum.</seg>
+                            <seg xml:id="s.1.2.15">Dominus <persName ref="#GrotekzJankowic">Grotek</persName> multum habuit Dominacioni Vestre pro bono, quod ad ipsum destinastis, et coram multis dixit: „Iam video, quod dominus castellanus et multi, cum quibus dominus zupparius habet facere, veritatem loquitur, quod verax est in verbo suo, sed frater suus dominus Iacobus multum promittit<anchor xml:id="ad"/>”.</seg>
+                            <seg xml:id="s.1.2.16">Alia Vestre Dominacioni<anchor xml:id="ae"/> Schesczenecz dicet, et ego veniens die crastina alia.</seg>
+                            <seg xml:id="s.1.2.17">Datum <placeName ref="#Kraków">Cracouie</placeName>, dominico.</seg>
+                        </p>
+                        <signed xml:id="s.1.3">
+                            <seg xml:id="s.1.3.1">
+                                <lb/>
+                                <persName ref="#MikołajSuchorabski">Nicolaus Sucho<ex>rab</ex>sk</persName> <lb/> vester seruitor</seg>
+                        </signed>
+                        <postscript xml:id="s.1.4">
+                            <p xml:id="s.1.4.1">
+                                <seg xml:id="s.1.4.1.1"/>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+                <back>
+                    <div type="notes">
+                        <note n="a" type="transcription" target="#aa">9½: znak konwencjonalny.</note>
+                        <note n="b" type="transcription" target="#ab">sub poprawione z super.</note>
+                        <note n="c" type="transcription" target="#ac">emerant czytaj: emerent.</note>
+                        <note n="d" type="transcription" target="#ad">po promittit skreślone prout.</note>
+                        <note n="e" type="transcription" target="#ae">po Dominacioni skreślone dwie litery i esche.</note>
+                    </div>
+                </back>
+            </text>
+            <text type="translation" xml:lang="pl">
+                <body>
+                    <div xml:id="t.1">
+                        <opener xml:id="t.1.1">
+                            <seg xml:id="t.1.1.1">
+                                <lb/>Wielmożnemu panu <persName ref="#MS">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, memu wielce łaskawemu panu.</seg>
+                        </opener>
+                        <p xml:id="t.1.2">
+                            <seg xml:id="t.1.2.1">
+                                <lb/>Wielmożny panie wielce mi łaskawy.</seg>
+                            <seg xml:id="t.1.2.2">Stosownie do poleceń Waszej Dostojności wykazałem gorliwość w sprawach, o których mi napisaliście.</seg>
+                            <seg xml:id="t.1.2.3">Wypłaciłem panu <persName ref="#MichałLasocki">Lasockiemu</persName> 100 florenów otrzymanych od pana <persName ref="#JerzyOrient">Orienta</persName>, o czym napisałem w liście.</seg>
+                            <seg xml:id="t.1.2.4">
+                                <persName ref="#Siestrzeniec">Siestrzeńcowi</persName> dałem 100 skór sobolowych bez trzech, złożył je w skrzyni w piwnicy</seg>
+                            <seg xml:id="t.1.2.5">Skrzynię z rachunkami złożyliśmy w piwnicy pani.</seg>
+                            <seg xml:id="t.1.2.6">W sprawie sukna wiedzcie, że pan Orient stara się je sprzedać drożej niż po 9 i pół florena.</seg>
+                            <seg xml:id="t.1.2.7">Wczoraj w mojej obecności powiadomił <persName ref="#Ambroży">Ambrożego</persName>, że odstąpi to sukno i zostawi mu je po 10 florenów bez orta, i że zgadza się poczekać do dwóch tygodni na 200 florenów ze względu na korzyść Waszej Dostojności, aby Wasza Dostojność nie poniósł strat.</seg>
+                            <seg xml:id="t.1.2.8">Dziś tenże Ambroży ma odpowiedzieć, czy chce otrzymać to sukno na takich warunkach, jak mu zostawił pan Orient.</seg>
+                            <seg xml:id="t.1.2.9">Rozumiem z tego, że tenże pan Orient jest dobrym przyjacielem Waszej Dostojności i niechętnie widziałby waszą szkodę.</seg>
+                            <seg xml:id="t.1.2.10">Otrzymałem wczoraj od pana <persName ref="#JanTęczyński">wojewody</persName> 100 grzywien, dałem z nich, tak jak poleciliście, panu <persName ref="#JanZagórzański">Zagorzeńskiemu</persName> 20, <persName ref="#Dąbrowski">Dąbrowskiemu</persName> 10, a tragarzom wysłałem 20 grzywien przez <persName ref="#Świeczka">Świeczkę</persName>.</seg>
+                            <seg xml:id="t.1.2.11">Dziś natomiast Wasza Dostojność napisał, abym z tych 50 grzywien, które u mnie pozostają, dał <persName ref="#StanisławRusek">Ruskowi</persName> za 20 florenów — dałem mu — podobnie też panu <persName ref="#KunczaReych">Kunczy</persName> za 20 florenów, panu <persName ref="#JanGałka">Gałce</persName> 5 grzywien i panu <persName ref="#JanRokosz">Rokoszowi</persName> także 5.</seg>
+                            <seg xml:id="t.1.2.12">Tym jeszcze nie dałem, ponieważ dopiero dziś policzyłem te pieniądze, otrzymałem bowiem owe 50 grzywien pod pieczęcią pana <persName ref="#Jan">Jana</persName> notariusza.</seg>
+                            <seg xml:id="t.1.2.13">Pan <persName ref="#JakubZawrzykraj">podżupek</persName> z <persName ref="#PiotrItalik">Piotrem Italikiem</persName> byli u solarzy w cechu i upomnieli ich, aby kupili sól pana Kunczy. Oni odłożyli to do jutra, o czym dokładniej napisał wam <persName ref="#PiotrItalik">Piotr</persName>.</seg>
+                            <seg xml:id="t.1.2.14">Ów brat z <placeName ref="#Mogiła">Mogiły</placeName> przywiózł wczoraj na powrót Waszej Dostojności 16 kuropatw, 4 kapłony i jedno jagnię.</seg>
+                            <seg xml:id="t.1.2.15">Pan <persName ref="#GrotekzJankowic">Grotek</persName> bardzo był wdzięczny Waszej Dostojności, że posłaliście do niego, i rzekł publicznie: „Widzę teraz, że pan kasztelan i wielu innych, z którymi pan żupnik ma do czynienia, mówią prawdę, że można polegać na słowie 〈żupnika〉, lecz jego brat pan Jakub za wiele przyrzeka”.</seg>
+                            <seg xml:id="t.1.2.16">O innych rzeczach powie Waszej Dostojności Siestrzeniec, a ja, przybywszy jutro, o jeszcze innych.</seg>
+                            <seg xml:id="t.1.2.17">Dan w <placeName ref="#Kraków">Krakowie</placeName>, w niedzielę.</seg>
+                        </p>
+                        <signed xml:id="t.1.3">
+                            <seg xml:id="t.1.3.1">
+                                <lb/>
+                                <persName ref="#MikołajSuchorabski">Mikołaj Suchorabski</persName> wasz sługa
+                            </seg>
+                        </signed>
+                        <postscript xml:id="t.1.4">
+                            <p xml:id="t.1.4.1">
+                                <seg xml:id="t.1.4.1.1">1</seg>
+                            </p>
+                        </postscript>
+                    </div>
+                </body>
+            </text>
+        </group>
+    </text>
+</TEI>

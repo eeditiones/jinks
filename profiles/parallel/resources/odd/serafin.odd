@@ -11,7 +11,8 @@
                  
                  
                  
-                  <desc>15th c. manuscript correspondence with parallel translation</desc>
+                  
+                 <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -168,7 +169,9 @@
             <param name="name" value="persName/text()"/>
             <param name="note" value="note"/>
         </model>
-                    <model predicate="parent::listPerson" behaviour="inline"/>
+                    <model predicate="parent::listPerson" behaviour="inline">
+            <param name="content" value="(persName[@type='main'], note)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline">
@@ -199,8 +202,10 @@
                 <param name="emit" value="'map'"/>
                 <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
                 <outputRendition xml:space="preserve">
+                
                 color: #1565c0;
     cursor: pointer;
+                
                 </outputRendition>
             </model>
             <model behaviour="block">
@@ -305,32 +310,32 @@
                 </elementSpec>
                 <elementSpec ident="titleStmt" mode="change">
                     <model output="latex" behaviour="meta">
-                        <param name="content" value="."/>
-                    </model>
+            <param name="content" value="."/>
+        </model>
                     <model output="fo" behaviour="heading"/>
                     <model predicate="$parameters?mode='title'" behaviour="heading">
-                        <param name="content" value="title[not(@type)]"/>
-                        <param name="level" value="5"/>
-                    </model>
+            <param name="content" value="title[not(@type)]"/>
+            <param name="level" value="5"/>
+        </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
-                        <model behaviour="link" predicate="$parameters?static">
-                            <param name="content" value="title[1]"/>
-                            <param name="uri" value="'../' || $parameters?doc || '/1/index.html'"/>
-                        </model>
-                        <model behaviour="link" predicate="not($parameters?static)">
-                            <param name="content" value="title[1]"/>
-                            <param name="uri" value="$parameters?doc"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="subsequence(title, 2)"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="author"/>
-                        </model>
-                    </modelSequence>
+            <model predicate="$parameters?static" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="'../' || $parameters?doc || '/1/index.html'"/>
+            </model>
+            <model predicate="not($parameters?static)" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?doc"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="subsequence(title, 2)"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="author"/>
+            </model>
+        </modelSequence>
                     <model output="web" predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-                        <param name="content" value="title[not(@type)]"/>
-                    </model>
+            <param name="content" value="title[not(@type)]"/>
+        </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
@@ -389,7 +394,7 @@
         </model>
                     <model output="web" predicate="@when" behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ())"/>
+            <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ()) } catch * { @when/string() }"/>
         </model>
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
@@ -401,7 +406,9 @@
             <param name="name" value="placeName/text()"/>
             <param name="note" value="note"/>
         </model>
-                    <model behaviour="inline"/>
+                    <model behaviour="inline">
+            <param name="content" value="(placeName[@type='main'], note)"/>
+        </model>
                 </elementSpec>
             
             </schemaSpec>
