@@ -68,7 +68,8 @@ return (
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
     cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
-    static:redirect($context, "", "1/index.html")
+    static:redirect($context, "", "1/index.html"),
+    static:fix-links($context)
     (: path:mkcol($context, "site/iiif"),
     static:load($context, $context?context-path || "/api/iiif/F-rom.xml", "site/iiif/F-rom.xml.json") :)
 )
