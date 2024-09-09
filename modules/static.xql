@@ -7,6 +7,8 @@ import module namespace cpy="http://tei-publisher.com/library/generator/copy" at
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
 
+declare namespace xhtml="http://www.w3.org/1999/xhtml";
+
 declare variable $static:ERROR_PART_LOAD_FAILED := QName("http://tei-publisher.com/jinks/static", "part-load-failed");
 declare variable $static:ERROR_LOAD_FAILED := QName("http://tei-publisher.com/jinks/static", "load-failed");
 
@@ -259,4 +261,48 @@ declare function static:redirect($context as map(*), $target as xs:string, $redi
         </html>
     return
         xmldb:store($targetPath, "index.html", $html, "text/html")
+};
+
+declare %private function static:fix-links($nodes as node()*, $links as map(*)) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case document-node() return
+                static:fix-links($node/node(), $links)
+            case element(a) | element(xhtml:a) return
+                if (starts-with($node/@href, "?id=")) then
+                    let $resolved := $links(substring-after($node/@href, "?id="))
+                    return
+                        element { node-name($node) } {
+                            $node/@* except $node/@href,
+                            attribute href { $resolved },
+                            $node/node()
+                        }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        static:fix-links($node/node(), $links)
+                    }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    static:fix-links($node/node(), $links)
+                }
+            default return
+                $node
+};
+
+declare function static:fix-links($context as map(*)) {
+    util:log("INFO", ("<static> Fixing links ...")),
+    let $base := path:resolve-path($context?target, "")
+    let $targets :=
+        map:merge(
+            for $node in collection($context?target)/html//@id
+            return
+                map:entry($node, $context?context-path || "/" || document-uri(root($node)) => substring-after($base || "/"))
+        )
+    for $doc in collection($context?target)
+    let $modified := static:fix-links($doc, $targets)
+    return
+        xmldb:store(util:collection-name($doc), util:document-name($doc), $modified)
 };

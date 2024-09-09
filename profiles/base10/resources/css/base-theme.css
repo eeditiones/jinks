@@ -143,7 +143,7 @@ pb-page[unresolved]~.splash {
 
 .toolbar a {
     display: inline-block;
-    color: var(--pb-toolbar-color);
+    color: var(--pb-toolbar-color) !important;
 }
 .toolbar a svg, .toolbar pb-navigation:not([disabled]), .toolbar pb-ajax:not([disabled]) {
     width: 24px;
