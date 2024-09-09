@@ -139,7 +139,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     if ($relPath = $context?skip) then
         ()
     (: overwrite, but do not check or store hash :)
-    else if ($relPath = $context?ignore) then
+    else if ($context?force-overwrite or $relPath = $context?ignore) then
         $callback()
     (: we're updating an already installed app :)
     else if ($context?_update) then

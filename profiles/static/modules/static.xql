@@ -16,6 +16,7 @@ let $context := map:merge((
     map {
         "source": $config:app-root,
         "base-uri": $baseUri,
+        "force-overwrite": true(),
         "context-path": request:get-context-path() || "/apps/" || $jsonConfig?static?target,
         "target": repo:get-root() || "/" || $jsonConfig?static?target,
         "languages": json-doc($config:app-root || "/resources/i18n/languages.json")
