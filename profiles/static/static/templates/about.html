@@ -6,10 +6,12 @@
         }
     }
     ---
+    [% if $context?hero %]
     <div class="hero">
-        <h1>[[ $hero?main ]]</h1>
-        <p>[[ $hero?short ]]</p>
+        <h1>[[ $context?hero?main ]]</h1>
+        <p>[[ $context?hero?short ]]</p>
     </div>
+    [% endif %]
     <main>
         <section>
             <h1>Lorem Ipsum</h1>
