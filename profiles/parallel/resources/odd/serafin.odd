@@ -12,6 +12,7 @@
                  
                  
                   
+                 
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -148,6 +149,13 @@
             color: #1565c0;
             </outputRendition>
         </model>
+                    <model predicate="$parameters?mode='register'" behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="parent::person/note"/>
+            <outputRendition xml:space="preserve">
+            color: #1565c0;
+            </outputRendition>
+        </model>
                     <model predicate="parent::person" behaviour="inline">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -168,6 +176,9 @@
                     <model output="latex" behaviour="glossary">
             <param name="name" value="persName/text()"/>
             <param name="note" value="note"/>
+        </model>
+                    <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
+            <param name="content" value="persName[@type='main']"/>
         </model>
                     <model predicate="parent::listPerson" behaviour="inline">
             <param name="content" value="(persName[@type='main'], note)"/>
@@ -202,10 +213,8 @@
                 <param name="emit" value="'map'"/>
                 <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
                 <outputRendition xml:space="preserve">
-                
                 color: #1565c0;
     cursor: pointer;
-                
                 </outputRendition>
             </model>
             <model behaviour="block">
@@ -213,6 +222,13 @@
             </model>
         </modelSequence>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register'" behaviour="alternate">
+            <param name="default" value="."/>
+            <param name="alternate" value="../note"/>
+            <outputRendition xml:space="preserve">
+            color: #ef6c00;
+            </outputRendition>
+        </model>
                     <model predicate="parent::place" behaviour="inline">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -406,11 +422,42 @@
             <param name="name" value="placeName/text()"/>
             <param name="note" value="note"/>
         </model>
+                    <model predicate="$parameters?mode='register'" behaviour="listItem">
+            <param name="content" value="placeName[@type='main']"/>
+            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+            <param name="label" value="placeName[@type='main']/node()"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map">[[content]]</pb-geolocation></pb:template>
+        </model>
                     <model behaviour="inline">
             <param name="content" value="(placeName[@type='main'], note)"/>
         </model>
                 </elementSpec>
             
+            <elementSpec ident="div" mode="change">
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+            <param name="people" value="for $ref in distinct-values(.//persName/@ref) let $person := collection($global:register-root)/id(substring-after($ref, '#')) return   $person"/>
+            <param name="places" value="for $ref in distinct-values(.//placeName/@ref) let $place := collection($global:register-root)/id(substring-after($ref, '#')) return   $place"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="register">
+  <h3>People</h3>
+  <ul>
+    [[people]]
+  </ul>
+
+  <h3>Places</h3>
+  <ul>
+    [[places]]
+  </ul>
+</div></pb:template>
+        </model>
+                    <model predicate="@type='title_page'" behaviour="block">
+            <outputRendition xml:space="preserve">
+            border: 1px solid black; padding: 5px;
+            </outputRendition>
+        </model>
+                    <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
+                    <model behaviour="block"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

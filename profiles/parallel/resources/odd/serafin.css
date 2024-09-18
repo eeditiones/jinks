@@ -2,3 +2,25 @@
     color: #1269B0;
     text-decoration: none;
 }
+
+.register {
+    font-family: var(--pb-base-font-family);
+    font-size: var(--pb-base-font-size);
+}
+
+.register h3 {
+    margin-top: 0;
+}
+
+.register ul {
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.register li {
+    list-style-type: none;
+}
+
+pb-popover {
+    --pb-popover-theme: "light-border";
+}

@@ -8,3 +8,15 @@ pb-leaflet-map {
     height: 33vh;
     width: 100%;
 }
+
+.three-column {
+    --pb-content-max-width: 90rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(auto, 25rem);
+    column-gap: 2rem;
+}
+
+aside pb-leaflet-map {
+    width: 100%;
+    height: 360px;
+}
