@@ -6,6 +6,14 @@
         }
     }
     ---
+    [% block scripts %]
+        [% if $script?webcomponents = 'dev' %]
+        <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
+        [% elif $script?webcomponents = '' %]
+        [% else %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-leaflet-map.js"></script>
+        [% endif %]
+    [% endblock %]
     [% block breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
@@ -16,7 +24,7 @@
         </nav>
     </li>
     [% endblock %]
-    <main class="two-column">
+    <main class="three-column">
         <div class="col1">
         [[ $parts?default?content ]]
         [[ $parts?default?footnotes ]]
@@ -24,6 +32,13 @@
         <div class="col2">
             [[ $parts?translation?content ]]
             [[ $parts?translation?footnotes ]]
+        </div>
+        <div class="col3">
+            [[ $parts?register?content ]]
+
+            <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
+                <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+            </pb-leaflet-map>
         </div>
     </main>
 </div>

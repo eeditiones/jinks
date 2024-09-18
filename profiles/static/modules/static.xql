@@ -50,6 +50,11 @@ return (
                     "xpath": "//titleStmt",
                     "view": "single",
                     "user.mode": "breadcrumb"
+                },
+                map {
+                    "id": "register",
+                    "path": $doc?path,
+                    "user.mode": "register"
                 }
             ],
             "static/templates/parallel.html", 
