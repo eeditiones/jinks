@@ -149,12 +149,13 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                 util:binary-doc($path) => util:binary-to-string()
             else
                 doc($path) => serialize()
-        let $currentHash := cpy:hash($currentContent)
+        let $mime := xmldb:get-mime-type(xs:anyURI($path))
+        let $currentHash := cpy:hash($currentContent, $mime)
         let $expectedHash := cpy:load-hash($context, $relPath)
         return
             (: Check if there have been changes to the file since it was installed :)
             if (empty($expectedHash) or $currentHash = $expectedHash) then
-                let $contentHash := cpy:hash($content())
+                let $contentHash := cpy:hash($content(), $mime)
                 return
                     (: Still update if overwrite="update", the file was not there last time,
                     : or the incoming content is different :)
@@ -187,15 +188,22 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
             "path": $relPath
         }
     else (
-        cpy:save-hash($context, $relPath, cpy:hash($content())),
+        cpy:save-hash($context, $relPath, cpy:hash($content(), xmldb:get-mime-type($sourcePath))),
         $callback()
     )
 };
 
 declare %private function cpy:hash($content as xs:string) {
+    cpy:hash($content, ())
+};
+
+declare %private function cpy:hash($content as xs:string, $mime as xs:string?) {
     (: Remove whitespace and XML version tags. These are not relevant for the actual hash :)
-		(: TODO: self-closing elements are also not important, neither is attribute order. They can have the same hash :)
-    util:hash(replace($content, "(<?[xX][mM][lL](^\?)*?>)|[\s\n\r]+", " "), "sha-256")
+    (: TODO: self-closing elements are also not important, neither is attribute order. They can have the same hash :)
+    if ($mime = ("text/html", "application/xml")) then
+        util:hash(replace($content, "(<?[xX][mM][lL](^\?)*?>)|[\s\n\r]+", " "), "sha-256")
+    else
+        util:hash($content, "sha-256")
 };
 
 declare %private function cpy:scan-resources($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {
