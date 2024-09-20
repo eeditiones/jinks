@@ -22,26 +22,27 @@ declare function browse:document-options($doc as element()) {
     ))
 };
 
+declare function browse:header($context as map(*), $doc as element()) {
+    browse:header($context, $doc, browse:document-options($doc))
+};
+
 declare function browse:header($context as map(*), $doc as element(), $config as map(*)) {
-    let $relPath := config:get-identifier($doc)
-    return
-        try {
-            let $config := tpu:parse-pi(root($doc), (), ())
-            let $teiHeader := nav:get-header($config, root($doc)/*)
-            let $header :=
-                $pm-config:web-transform($teiHeader, map {
-                    "header": "short",
-                    "doc": $relPath
-                }, $config?odd)
-            return
-                if ($header) then
-                    $header
-                else
-                    <a href="{$relPath}">{$header}</a>
-        } catch * {
-            <a href="{$relPath}">{util:document-name($doc)}</a>,
-            <p class="error">Failed to output document metadata: {$err:description}</p>
-        }
+    try {
+        let $teiHeader := nav:get-header($config, root($doc)/*)
+        let $header :=
+            $pm-config:web-transform($teiHeader, map {
+                "header": "short",
+                "doc": $config:context-path || "/" || $config?relpath
+            }, $config?odd)
+        return
+            if ($header) then
+                $header
+            else
+                <a href="{$config?relPath}">{$header}</a>
+    } catch * {
+        <a href="{$config?relPath}">{util:document-name($doc)}</a>,
+        <p class="error">Failed to output document metadata: {$err:description}</p>
+    }
 };
 
 declare function browse:show-hits($context as map(*), $doc as element()) {

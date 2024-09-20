@@ -6,7 +6,10 @@
         },
         "toolbar": {
             "zoom": false
-        }
+        },
+        "styles": [
+            "transform/serafin.css"
+        ]
     }
     ---
     [% block breadcrumb %]
@@ -21,5 +24,12 @@
     [% endblock %]
     <section class="person">
         [[ $data?transform($data?root, ()) ]]
+
+        <h4>Letters</h4>
+        <ul>
+            [% for $letter in $data?letters %]
+            <li>[[ browse:header($context, $letter) ]]</li>
+            [% endfor %]
+        </ul>
     </section>
 </main>
