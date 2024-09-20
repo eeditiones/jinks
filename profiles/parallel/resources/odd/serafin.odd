@@ -13,6 +13,7 @@
                  
                   
                  
+                  
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -149,13 +150,21 @@
             color: #1565c0;
             </outputRendition>
         </model>
-                    <model predicate="$parameters?mode='register'" behaviour="alternate">
-            <param name="default" value="."/>
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+            <param name="content" value="."/>
             <param name="alternate" value="parent::person/note"/>
+            <param name="id" value="parent::person/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="../people/[[id]]">
+  <pb-popover>
+    <span slot="default">[[content]]</span>
+    <template slot="alternate">[[alternate]]</template>
+  </pb-popover>
+</a></pb:template>
             <outputRendition xml:space="preserve">
             color: #1565c0;
             </outputRendition>
         </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::person" behaviour="inline">
             <outputRendition xml:space="preserve" scope="after">
             content: ': ';
@@ -180,9 +189,19 @@
                     <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
             <param name="content" value="persName[@type='main']"/>
         </model>
-                    <model predicate="parent::listPerson" behaviour="inline">
-            <param name="content" value="(persName[@type='main'], note)"/>
-        </model>
+                    <modelSequence predicate="parent::listPerson">
+            <model behaviour="pass-through">
+                <param name="content" value="persName[@type='main']/node()"/>
+                <param name="dates" value="(birth, death)"/>
+                <pb:template xmlns="" xml:space="preserve"><h3>[[content]] <span class="dates">[[dates]]</span></h3></pb:template>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="persName[@type='variant']"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline">
@@ -213,8 +232,12 @@
                 <param name="emit" value="'map'"/>
                 <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
                 <outputRendition xml:space="preserve">
+                
+                
                 color: #1565c0;
     cursor: pointer;
+                
+                
                 </outputRendition>
             </model>
             <model behaviour="block">
@@ -405,8 +428,8 @@
                 <elementSpec ident="date" mode="change">
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model output="print" predicate="text()" behaviour="inline"/>
-                    <model output="print" predicate="@when and not(text())" behaviour="inline">
-            <param name="content" value="@when"/>
+                    <model predicate="@when and (not(text()) or text() = '')" behaviour="pass-through">
+            <param name="content" value="text { @when }"/>
         </model>
                     <model output="web" predicate="@when" behaviour="alternate">
             <param name="default" value="."/>
@@ -436,8 +459,8 @@
             
             <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-            <param name="people" value="for $ref in distinct-values(.//persName/@ref) let $person := collection($global:register-root)/id(substring-after($ref, '#')) return   $person"/>
-            <param name="places" value="for $ref in distinct-values(.//placeName/@ref) let $place := collection($global:register-root)/id(substring-after($ref, '#')) return   $place"/>
+            <param name="people" value="for $ref in distinct-values(root(.)//persName/@ref) let $person := collection($global:register-root)/id(substring-after($ref, '#')) return   $person"/>
+            <param name="places" value="for $ref in distinct-values(root(.)//placeName/@ref) let $place := collection($global:register-root)/id(substring-after($ref, '#')) return   $place"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
   <h3>People</h3>
   <ul>
@@ -457,6 +480,12 @@
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="birth" mode="add">
+                    <model behaviour="inline" cssClass="birth"/>
+                </elementSpec>
+                <elementSpec ident="death" mode="add">
+                    <model behaviour="inline" cssClass="death"/>
                 </elementSpec>
             </schemaSpec>
         </body>

@@ -24,3 +24,30 @@
 pb-popover {
     --pb-popover-theme: "light-border";
 }
+
+.person .dates {
+    font-size: var(--pb-base-font-size);
+}
+.person .dates::before {
+    content: ' (';
+}
+.person .death::before {
+    content: '–';
+}
+.person .dates::after {
+    content: ')';
+}
+.person .dates:empty {
+    display: none;
+}
+
+.name.variant {
+    font-style: italic;
+}
+.name.variant:not(:last-child)::after {
+    content: ", ";
+}
+
+.person div {
+    margin-top: 1rem;
+}

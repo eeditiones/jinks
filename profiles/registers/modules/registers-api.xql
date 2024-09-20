@@ -91,7 +91,7 @@ declare function rview:person-html($request as map(*)) {
     let $id := xmldb:decode-uri($request?parameters?id)
     let $pers := collection($config:register-root)/id($id)
     let $config := tpu:parse-pi(root($pers), $request?parameters?view, $request?parameters?odd)
-    let $letters := collection($config:data-root)//tei:persName[@ref = '#' || $id]/ancestor::tei:TEI
+    let $letters := collection($config:data-root || "/letters")//tei:persName[@ref = '#' || $id]/ancestor::tei:TEI
     let $extConfig := map {
         "data": map {
             "id": $id,
