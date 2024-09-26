@@ -27,6 +27,12 @@ declare function local:mkcol($collection, $path) {
     local:mkcol-recursive($collection, tokenize($path, "/"))
 };
 
+local:mkcol(repo:get-root(), replace($target, "^.*/([^/]+)$", "$1")),
+sm:chgrp(xs:anyURI($target), "[[ $pkg?user?group]]"),
+sm:chown(xs:anyURI($target), "[[ $pkg?user?name]]"),
+
+(: store the app files :)
+xdb:store-files-from-pattern($target, $dir, 'index.xql'),
 (: store the collection configuration :)
 local:mkcol("/db/system/config", $target),
 xdb:store-files-from-pattern(concat("/system/config", $target), $dir, "*.xconf")
