@@ -42,7 +42,6 @@ function teip:setup($context as map(*)) {
     path:mkcol($context, "resources/scripts"),
     cpy:copy-resource($context, $context?publisher || "/resources/scripts/browse.js", "resources/scripts/browse.js"),
     cpy:copy-resource($context, $context?publisher || "/data/taxonomy.xml", "data/taxonomy.xml"),
-    cpy:copy-resource($context, $context?publisher || "/templates/api.html", "templates/api.html"),
     for $lib in (
         "map.xql", "facets.xql", "registers.xql", 
         "annotation-config.xqm", "nlp-config.xqm", 
