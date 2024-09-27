@@ -1,0 +1,54 @@
+<main class="container-fluid">
+    ---json
+    {
+        "features": {
+            "toolbar": false
+        },
+        "templating": {
+            "extends": "templates/base.html"
+        }
+    }
+    ---
+    <section>
+        <h1>[[ $label ]]</h1>
+        <div class="grid browse">
+            <aside>
+                <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+                    subforms=".facets,.options,#timeline-options" submit-on-load="submit-on-load">
+                    <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
+                    <input type="hidden" name="field" value="text"/>
+                </pb-search>
+                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+                </pb-custom-form>
+            </aside>
+            <div id="document-list">
+                <pb-custom-form id="timeline-options" emit="search" style="display: none">
+                    <input type="hidden" name="dates" value="[[ $request?parameters?dates ]]"/>
+                </pb-custom-form>
+                <div class="timeline">
+                    <pb-timeline url="api/timeline" scopes="[&#34;D&#34;, &#34;M&#34;, &#34;Y&#34;, &#34;5Y&#34;, &#34;10Y&#34;]" resettable="" max-interval="80" subscribe="search" emit="timeline">
+                        <span slot="label">Angezeigter Zeitraum: </span>
+                    </pb-timeline>
+                </div>
+                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+                <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
+            </div>
+            <pb-restricted group="[[ $pkg?user?group ]]">
+                <aside>
+                    [% if $context?defaults?upload %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+                    [% else %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit"></pb-upload>
+                    [% endif %]
+                </aside>
+            </pb-restricted>
+        </div>
+        [% include "templates/footer.html" %]
+    </section>
+    [% block scripts %]
+    <script src="[[ $config:context-path ]]/resources/scripts/facets.js"></script>
+    <script src="[[ $config:context-path ]]/resources/scripts/correspondence.js"></script>
+    [% endblock %]
+</main>

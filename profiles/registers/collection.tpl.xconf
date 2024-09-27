@@ -10,7 +10,7 @@
                 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')" type="xs:date"/>
                 <field name="file" expression="util:document-name(.)"/>
                 <field name="text" expression="."/>
-                <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI) =&gt; tokenize('-')" hierarchical="yes"/>
+                <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') =&gt; tokenize('-')" hierarchical="yes"/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                 <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>

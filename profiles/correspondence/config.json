@@ -1,0 +1,18 @@
+{
+    "id": "https://e-editiones.org/app/tei-publisher/correspondence",
+    "label": "TEI Publisher: Correspondence Profile",
+    "description": "Adds timeline, navigation next/previous letter ...",
+    "extends": ["registers"],
+    "version": "1.0.0",
+    "pkg": {
+        "abbrev": "tei-publisher-correspondence"
+    },
+    "api": [
+        {
+            "spec": "correspondence-api.json",
+            "prefix": "corresp",
+            "path": "correspondence-api.xql",
+            "id": "http://teipublisher.com/api/correspondence"
+        }
+    ]
+}
