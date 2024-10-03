@@ -24,7 +24,7 @@ let $context := map:merge((
 ))
 return (
     path:mkcol($context, $context?target),
-    let $docs := static:load($context, $baseUri || "/api/documents")
+    let $docs := static:load($baseUri || "/api/documents")
     let $browse :=
         static:split($context, $docs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
             $page

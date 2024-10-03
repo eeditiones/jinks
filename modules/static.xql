@@ -54,9 +54,18 @@ declare function static:save-index($path as xs:string, $entries as map(*)*) {
 };
 
 (:~
- : Process the document at the given path and break it up into pages, storing each page as a separate file.
+ : Paginate a document outputting HTML for each page.
+ :
+ : Process the document at the given path and break it up into pages, storing each page as a separate index.html file
+ : in a directory. The output directory path is determined by the string returned by $targetPathGen.
+ :
  : The function calls the `/api/parts/{path}/json` endpoint of the application to retrieve the pages. This means
  : the actual pagination algorithm is determined by the application.
+ : @param $context The context map passed to templating when expanding the template
+ : @param $config An array of part configurations 
+ : @param $template The path to the template to use for rendering the pages
+ : @param $targetPathGen A function that generates the target path for each page. The function is passed the context
+ : and the page number as arguments.
  :)
 declare function static:paginate($context as map(*), $config as array(*), $template as xs:string,
     $targetPathGen as function(*)) {
@@ -159,11 +168,28 @@ declare function static:compute-key($params as map(*)) {
     )
 };
 
-declare function static:load($context as map(*), $url as xs:string) {
-    static:load($context, $url, ())
+(:~
+ : Load a resource from a URL and store it in the database.
+ :
+ : The function sends a GET request to the given URL and returns the content.
+ :
+ : @param $url The URL of the resource to load
+ :)
+declare function static:load($url as xs:string) {
+    static:load((), $url, ())
 };
 
-declare function static:load($context as map(*), $url as xs:string, $target as xs:string?) {
+(:~
+ : Load a resource from a URL and store it in the database.
+ :
+ : The function sends a GET request to the given URL and stores the response in the database. The target path
+ : is determined by the $target parameter. If no target is specified, the function will return the response content.
+ :
+ : @param $context The context map used to resolve relative URLs
+ : @param $url The URL of the resource to load
+ : @param $target The target path in the database. If relative, it will be resolved against context?target.
+ :)
+declare function static:load($context as map(*)?, $url as xs:string, $target as xs:string?) {
     let $request := 
         <http:request method="GET" href="{$url}"/>
     let $response := http:send-request($request)
@@ -172,7 +198,8 @@ declare function static:load($context as map(*), $url as xs:string, $target as x
             let $contentType := $response[1]/http:header[@name="content-type"]/@value
             return
                 if ($target) then
-                    let $targetPath := path:resolve-path($context?target, $target)
+                    let $targetPath := 
+                        if (exists($context)) then path:resolve-path($context?target, $target) else $target
                     return
                         xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
                 else
@@ -189,6 +216,16 @@ declare function static:load($context as map(*), $url as xs:string, $target as x
             error($static:ERROR_LOAD_FAILED, "URI: " || $url || ": " || $response[1]/@status)
 };
 
+(:~
+ : Split the input sequence into chunks of $batchSize items and render each chunk using a template.
+ :
+ : @param $context The context map passed to the template when expanding the template
+ : @param $input The input sequence to split
+ : @param $batchSize The maximum size of each batch
+ : @param $template The path to the template to use for rendering each batch
+ : @param $targetPathGen A function that generates the target path for each batch. The function is passed the context
+ : and the batch number as arguments.
+ :)
 declare function static:split($context as map(*), $input as item()*, $batchSize as xs:int, 
     $template as xs:string, $targetPathGen as function(*)) {
     let $templateContent := cpy:resource-as-string($context, $template)?content
@@ -246,6 +283,14 @@ declare function static:index($context as map(*), $input as item()*) {
         xmldb:store($context?target, "index.json", $lines, "application/json")
 };
 
+(:~
+ : Redirect the user to a new page. The function generates an HTML page with a meta refresh tag that redirects the
+ : user to the new page.
+ :
+ : @param $context The context map used to resolve relative paths
+ : @param $target The target path in the database. If relative, it will be resolved against context?target.
+ : @param $redirectTo The URL to redirect to
+ :)
 declare function static:redirect($context as map(*), $target as xs:string, $redirectTo as xs:string) {
     let $targetPath := path:resolve-path($context?target, $target)
     let $html :=
