@@ -3,7 +3,7 @@
         <li class="logo"></li>
         [% for $item in $menu?items?* %]
         <li class="hidden-mobile">
-            <a href="[[ $config:context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
+            <a href="[[ $context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
         </li>
         [% endfor %]
 
@@ -20,7 +20,7 @@
                     </li>
                     [% if empty($context?media) or "print" = $context?media %]
                     <li>
-                        <a href="[[ $config:context-path ]]/print/[[ $context?doc?path ]]" target="_new">Print CSS</a>
+                        <a href="[[ $context-path ]]/print/[[ $context?doc?path ]]" target="_new">Print CSS</a>
                     </li>
                     [% endif %]
                     [% if empty($context?media) or "latex" = $context?media %]
@@ -69,10 +69,10 @@
                     <summary><pb-i18n key="menu.admin.title">Admin</pb-i18n></summary>
                     <ul dir="rtl">
                         [% for $odd in $odds?* %]
-                        <li><a href="[[$config:context-path]]/odd-editor.html?odd=[[$odd]]" target="_blank"><pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: [[$odd]]</a></li>
+                        <li><a href="[[$context-path]]/odd-editor.html?odd=[[$odd]]" target="_blank"><pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: [[$odd]]</a></li>
                         [% endfor %]
                         <li>
-                            <a href="[[ $config:context-path ]]/api.html" target="_blank">API Documentation</a>
+                            <a href="[[ $context-path ]]/api.html" target="_blank">API Documentation</a>
                         </li>
                         <li>
                             <a href="https://cdn.tei-publisher.com/" target="_blank">Webcomponents API</a>
@@ -85,8 +85,14 @@
     <ul>
         [% if $menu?search %]
         <li>
-            <pb-search action="[[ $config:context-path ]]/search.html" value="[[ $request?parameters?query ]]"
+            [% if $context('isStatic') %]
+            <form action="[[ $context-path ]]/search.html">
+                <input type="search" value="" name="query"/>
+            </form>
+            [% else %]
+            <pb-search action="[[ $context-path ]]/search.html" value="[[ page:parameter($context, 'query', '') ]]"
                 redirect="redirect"></pb-search>
+            [% endif %]
         </li>
         [% endif %]
         [% if $menu?language %]
@@ -105,7 +111,7 @@
             </a>
         </li>
         [% endif %]
-        [% if $menu?login %]
+        [% if $menu?login and not($context?isStatic) %]
         <li>
             <pb-login id="login" group="[[ $pkg?user?group ]]"/>
         </li>

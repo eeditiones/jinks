@@ -2,17 +2,17 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
-        <link rel="shortcut icon" type="image/x-icon" href="[[ $config:context-path ]]/resources/images/favicon.ico" />
-        <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-16.png" sizes="16x16" />
-        <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-24.png" sizes="24x24" />
-        <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-32.png" sizes="32x32" />
-        <link rel="shortcut icon" type="image/png" href="[[ $config:context-path ]]/resources/images/favicon-64.png" sizes="64x64" />
+        <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-16.png" sizes="16x16" />
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-24.png" sizes="24x24" />
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png" sizes="32x32" />
+        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png" sizes="64x64" />
 
         [% for $path in $styles?* %]
             [% if matches($path, "(?:^https?://|^/).*$") %]
             <link rel="stylesheet" href="[[ $path ]]" />
             [% else %]
-            <link rel="stylesheet" href="[[ $config:context-path ]]/[[ $path ]]" />
+            <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
             [% endif %]
         [% endfor %]
 
@@ -32,7 +32,7 @@
         [% endif %]
     </head>
     <body>
-        <pb-page endpoint="[[ $config:context-path ]]" app-root="[[ $config:context-path ]]" api-version="1.0.0" 
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
             locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
@@ -48,7 +48,7 @@
             [[ $content ]]
         </pb-page>
         <div class="splash"/>
-        <script src="[[ $config:context-path ]]/resources/scripts/dark.js"></script>
-        <script src="[[ $config:context-path ]]/resources/scripts/language.js"></script>
+        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+        <script src="[[ $context-path ]]/resources/scripts/language.js"></script>
     </body>
 </html>

@@ -14,6 +14,7 @@ let $baseUri :=
 let $context := map:merge((
     $jsonConfig,
     map {
+        "isStatic": true(),
         "source": $config:app-root,
         "base-uri": $baseUri,
         "force-overwrite": true(),

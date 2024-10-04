@@ -10,3 +10,20 @@ declare function page:system() {
         "api": json-doc($config:app-root || "/modules/lib/api.json")?info?version
     }
 };
+
+declare function page:parameter($context as map(*), $name as xs:string) {
+    page:parameter($context, $name, ())
+};
+
+(:~
+ : Get a parameter from the request. Return the default value if the parameter
+ : is not present.
+ :)
+declare function page:parameter($context as map(*), $name as xs:string, $default as item()*) {
+    let $reqParam := $context?request?parameters?($name)
+    return
+        if (exists($reqParam)) then
+            $reqParam
+        else
+            $default
+};

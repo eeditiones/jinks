@@ -55,7 +55,8 @@ declare function vapi:load-config-json($request as map(*)?) {
             $context,
             map {
                 "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
-                "request": $request
+                "request": $request,
+                "context-path": $config:context-path
             }
         ))
 };
@@ -93,8 +94,7 @@ declare function vapi:view($request as map(*)) {
                         "transform": $pm-config:web-transform(?, ?, $config?odd)
                     },
                     "template": $templateName,
-                    "media": if (map:contains($config, 'media')) then $config?media else (),
-                    "context-path": $config:context-path
+                    "media": if (map:contains($config, 'media')) then $config?media else ()
                 }
             ))
             return
