@@ -18,6 +18,9 @@
                     <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
                     <input type="hidden" name="field" value="text"/>
                 </pb-search>
+                <pb-custom-form class="options">
+                    <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+                </pb-custom-form>
                 <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
                 </pb-custom-form>
             </aside>
@@ -41,5 +44,6 @@
     </section>
     [% block scripts %]
     <script src="[[ $context-path ]]/resources/scripts/facets.js"></script>
+    <script src="[[ $context-path ]]/resources/scripts/browse.js"></script>
     [% endblock %]
 </main>

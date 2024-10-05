@@ -97,7 +97,8 @@ declare function rview:person-html($request as map(*)) {
             "id": $id,
             "root": $pers,
             "letters": $letters,
-            "transform": $pm-config:web-transform(?, ?, $config?odd)
+            "transform": $pm-config:web-transform(?, ?, $config?odd),
+            "transform-with": $pm-config:web-transform
         }
     }
     return

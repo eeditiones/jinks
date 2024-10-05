@@ -91,7 +91,8 @@ declare function vapi:view($request as map(*)) {
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
                         "view": $config?view,
-                        "transform": $pm-config:web-transform(?, ?, $config?odd)
+                        "transform": $pm-config:web-transform(?, ?, $config?odd),
+                        "transform-with": $pm-config:web-transform
                     },
                     "template": $templateName,
                     "media": if (map:contains($config, 'media')) then $config?media else ()

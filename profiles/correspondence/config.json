@@ -2,11 +2,12 @@
     "id": "https://e-editiones.org/app/tei-publisher/correspondence",
     "label": "TEI Publisher: Correspondence Profile",
     "description": "Adds timeline, navigation next/previous letter ...",
-    "extends": ["registers"],
+    "extends": ["parallel"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "tei-publisher-correspondence"
     },
+    "data-default": "letters",
     "api": [
         {
             "spec": "correspondence-api.json",

@@ -21,10 +21,22 @@ declare function facets-config:get-name($id as xs:string, $type as xs:string) as
  :)
 declare variable $facets-config:facets := [
     map {
-        "dimension": "genre",
-        "heading": "facets.genre",
+        "dimension": "place",
+        "heading": "serafin.facets.place",
+        "max": 3,
+        "hierarchical": false()
+    },
+    map {
+        "dimension": "author",
+        "heading": "serafin.facets.author",
         "max": 5,
-        "hierarchical": true()
+        "hierarchical": false()
+    },
+    map {
+        "dimension": "year",
+        "heading": "serafin.facets.date",
+        "max": 20,
+        "hierarchical": false()
     },
     map {
         "dimension": "language",
@@ -33,11 +45,9 @@ declare variable $facets-config:facets := [
         "hierarchical": false(),
         "output": function($label) {
             switch($label)
-                case "de" return "German"
-                case "es" return "Spanish"
-                case "la" return "Latin"
-                case "fr" return "French"
-                case "en" return "English"
+                case "it" return "włoski"
+                case "cz" return "czeski"
+                case "la" return "łaciński"
                 default return $label
         }
     }

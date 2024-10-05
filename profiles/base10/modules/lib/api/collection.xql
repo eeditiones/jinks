@@ -33,7 +33,7 @@ declare function capi:list($request as map(*)) {
         response:set-header("pb-start", xs:string($start)),
         response:set-header("pb-total", xs:string($total)),
         if ($request?parameters?format = "html") then
-            let $templatePath := $config:data-root || "/" || $path || "/collection.html"
+            let $templatePath := $config:data-default || "/" || $path || "/collection.html"
             let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
             let $path := 
                 if ($templateAvail and $worksAll?mode = 'browse') then 
@@ -140,7 +140,7 @@ declare %private function capi:use-cache($params as map(*), $cached) {
     let $timestamp := session:get-attribute($config:session-prefix || ".timestamp")
     return
         if (exists($cached) and exists($cachedParams) and deep-equal($params, $cachedParams) and exists($timestamp)) then
-            empty(xmldb:find-last-modified-since(collection($config:data-root), $timestamp))
+            empty(xmldb:find-last-modified-since(collection($config:data-default), $timestamp))
         else
             false()
 };
@@ -158,14 +158,14 @@ declare %private function capi:upload($root, $paths, $payloads) {
             if (ends-with($path, ".odd")) then
                 xmldb:store($config:odd-root, xmldb:encode($path), $data)
             else
-                let $collectionPath := $config:data-root || "/" || $root
+                let $collectionPath := $config:data-default || "/" || $root
                 return
                     if (xmldb:collection-available($collectionPath)) then
                         if (ends-with($path, ".docx")) then
-                            let $mediaPath := $config:data-root || "/" || $root || "/" || xmldb:encode($path) || ".media"
+                            let $mediaPath := $config:data-default || "/" || $root || "/" || xmldb:encode($path) || ".media"
                             let $stored := xmldb:store($collectionPath, xmldb:encode($path), $data)
                             let $tei :=
-                                docx:process($stored, $config:data-root, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
+                                docx:process($stored, $config:data-default, $pm-config:tei-transform(?, ?, "docx.odd"), $mediaPath)
                             let $teiDoc :=
                                 document {
                                     processing-instruction teipublisher {
@@ -182,7 +182,7 @@ declare %private function capi:upload($root, $paths, $payloads) {
         return
             map {
                 "name": $path,
-                "path": substring-after($path, $config:data-root || "/" || $root),
+                "path": substring-after($path, $config:data-default || "/" || $root),
                 "type": xmldb:get-mime-type($path),
                 "size": 93928
             }

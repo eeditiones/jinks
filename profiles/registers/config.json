@@ -4,8 +4,12 @@
     "description": "Adds pages to browse entities, i.e. people, places",
     "extends": ["parallel"],
     "version": "1.0.0",
+    "data-default": "letters",
     "pkg": {
         "abbrev": "tei-publisher-registers"
+    },
+    "defaults": {
+        "template": "registers.html"
     },
     "menu": {
         "items": [

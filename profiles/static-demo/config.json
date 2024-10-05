@@ -2,7 +2,7 @@
     "id": "https://e-editiones.org/app/static-app",
     "label": "Demo for a static application",
     "description": "A purely static application based on the registers profile",
-    "extends": ["registers"],
+    "extends": ["registers", "monograph"],
     "version": "1.0.0",
     "pkg": {
         "abbrev": "static-demo"
@@ -14,7 +14,9 @@
             "transform/serafin.css"
         ]
     },
+    "data-default": false,
     "styles": [
+        "resources/css/static-demo-theme.css"
     ],
     "api": [
         {
@@ -23,5 +25,19 @@
             "path": "static-index.xql",
             "id": "http://tei-publisher.com/jinks/static/index"
         }
+    ],
+    "collection-config": {
+        "letters": {
+            "odd": "serafin.odd",
+            "template": "registers.html",
+            "view": "single"
+        },
+        "monograph": {
+            "odd": "dta.odd",
+            "template": "monograph.html"
+        }
+    },
+    "i18n": [
+        "static-demo"
     ]
 }

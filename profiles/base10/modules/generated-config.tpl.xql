@@ -24,6 +24,16 @@ declare variable $config:search-default := "[[$defaults?search]]";
     declare variable $config:data-root := $config:app-root || "/data";
 [% endif %]
 
+[% if $context?data-default %]
+    [% if starts-with($context?data-default, "/") %]
+    declare variable $config:data-default := "[[$context?data-default]]";
+    [% else %]
+    declare variable $config:data-default := $config:data-root || "/[[$context?data-default]]";
+    [% endif %]
+[% else %]
+    declare variable $config:data-default := $config:data-root;
+[% endif %]
+
 declare variable $config:default-odd := "[[$defaults?odd]]";
 declare variable $config:odd-available := ( [[string-join($odds?*[. != "docx.odd"] ! ('"' || . || '"'), ", ")]] );
 
@@ -62,15 +72,7 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
     switch ($prefix)
         [% for $relativeCollectionPath in map:keys($context?collection-config) %]
         case "[[$relativeCollectionPath]]" return
-            map {
-              "odd": "[[$context?collection-config($relativeCollectionPath)?odd]]",
-              "view": "[[$context?collection-config($relativeCollectionPath)?view]]",
-              "overwrite": true(),
-              "depth": 1,
-              "fill": 0,
-              "template": "[[$context?collection-config($relativeCollectionPath)?template]]"
-
-            }
+            [[ serialize($context?collection-config($relativeCollectionPath), map { "method": "adaptive" }) ]]
         [% endfor %]
         default return
             ()

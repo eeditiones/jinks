@@ -291,7 +291,7 @@ declare variable $config:data-root := $gen:data-root;
  : The root of the collection hierarchy whose files should be displayed
  : on the entry page. Can be different from $config:data-root.
  :)
-declare variable $config:data-default := $config:data-root;
+declare variable $config:data-default := $gen:data-default;
 
 (:~
  : A sequence of root elements which should be excluded from the list of

@@ -3,6 +3,9 @@
     {
         "templating": {
             "extends": "templates/base.html"
+        },
+        "features": {
+            "toc": false
         }
     }
     ---
@@ -11,7 +14,7 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/index.html?collection=[[ $request?parameters?collection ]]">Letters</a></li>
-                <li>[[ $doc?transform($doc?content//*:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                <li>[[ $doc?transform-with($doc?content//*:titleStmt, map { "mode": "breadcrumb" }, "serafin.odd") ]]</li>
             </ul>
         </nav>
     </li>
@@ -30,7 +33,7 @@
         <pb-view class="col1" src="document1" xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
         <pb-view class="col2" src="document1" xpath="//text[@xml:lang='pl']/body" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>
         <aside class="col3">
-            <pb-view class="col3" src="document1" subscribe="transcription">
+            <pb-view class="col3" src="document1" subscribe="transcription" view="div">
                 <pb-param name="mode" value="register"/>
             </pb-view>
             <pb-leaflet-map id="map" zoom="11">
