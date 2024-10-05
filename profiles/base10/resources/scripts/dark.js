@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const newTheme = theme === 'dark' ? 'light' : 'dark';
             document.body.dataset.theme = newTheme;
             localStorage.setItem('tp.theme', newTheme);
+            modeSwitch.classList.toggle('theme-toggle--toggled');
         });
     }
 
@@ -17,5 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (theme) {
         document.body.dataset.theme = theme;
         localStorage.setItem('tp.theme', theme);
+        modeSwitch.classList.toggle('theme-toggle--toggled', theme === 'dark');
     }
 });
