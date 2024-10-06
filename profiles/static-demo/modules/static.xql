@@ -5,6 +5,80 @@ import module namespace cpy="http://tei-publisher.com/library/generator/copy" at
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace path="http://tei-publisher.com/jinks/path";
 
+declare function local:letters($context as map(*), $baseUri as xs:string) {
+    (: Load documents and their titles via the API :)
+    let $letters := static:load($baseUri || "/api/documents/letters?link=" || $context?context-path || "/documents")
+    return (
+        (: Create search index :)
+        static:index($context, $letters?*),
+        (: Create the browse page by splitting the documents into chunks of 10 :)
+        static:split($context, $letters?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
+            "letters/" || $page
+        }),
+        (: Create document view for each document :)
+        for $doc in $letters?*
+        return
+            static:paginate(
+                $context,
+                [
+                    map {
+                        "path": $doc?path,
+                        "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+                        "odd": "serafin.odd"
+                    },
+                    map {
+                        "id": "translation",
+                        "path": $doc?path,
+                        "odd": "serafin.odd",
+                        "xpath": "//text[@xml:lang='pl']/body"
+                    },
+                    map {
+                        "id": "breadcrumb",
+                        "path": $doc?path,
+                        "odd": "serafin.odd",
+                        "xpath": "//titleStmt",
+                        "view": "single",
+                        "user.mode": "breadcrumb"
+                    },
+                    map {
+                        "id": "register",
+                        "odd": "serafin.odd",
+                        "path": $doc?path,
+                        "user.mode": "register"
+                    }
+                ],
+                "static/templates/registers.html", 
+                function($context as map(*), $n as xs:int) {
+                    "documents/" || $doc?path || "/" || $n
+                }
+            )
+    )
+};
+
+declare function local:monographs($context as map(*), $baseUri as xs:string) {
+    let $monographs := static:load($baseUri || "/api/documents/monograph?link=" || $context?context-path || "/documents")
+    return (
+        static:split($context, $monographs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
+            "monograph/" || $page
+        }),
+        for $doc in $monographs?*
+        return
+            static:paginate(
+                $context,
+                [
+                    map {
+                        "path": $doc?path,
+                        "odd": "dta.odd"
+                    }
+                ],
+                "static/templates/monograph.html",
+                function($context as map(*), $n as xs:int) {
+                    "documents/" || $doc?path || "/" || $n
+                }
+            )
+    )
+};
+
 let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
 let $baseUri := 
     request:get-scheme() || "://" || request:get-server-name() || ":" || 
@@ -24,45 +98,11 @@ let $context := map:merge((
     }
 ))
 return (
+    path:rmcol($context, $context?target),
     path:mkcol($context, $context?target),
-    let $docs := static:load($baseUri || "/api/documents")
-    let $browse :=
-        static:split($context, $docs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
-            $page
-        })
-    let $index := static:index($context, $docs?*)
-    for $doc in $docs?*
-    return
-        static:paginate(
-            $context,
-            [
-                map {
-                    "path": $doc?path,
-                    "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]"
-                },
-                map {
-                    "id": "translation",
-                    "path": $doc?path,
-                    "xpath": "//text[@xml:lang='pl']/body"
-                },
-                map {
-                    "id": "breadcrumb",
-                    "path": $doc?path,
-                    "xpath": "//titleStmt",
-                    "view": "single",
-                    "user.mode": "breadcrumb"
-                },
-                map {
-                    "id": "register",
-                    "path": $doc?path,
-                    "user.mode": "register"
-                }
-            ],
-            "static/templates/parallel.html", 
-            function($context as map(*), $n as xs:int) {
-                $doc?path || "/" || $n
-            }
-        ),
+    local:monographs($context, $baseUri),
+    local:letters($context, $baseUri),
+    cpy:copy-template($context, "static/templates/start.html", "index.html"),
     cpy:copy-template($context, "static/templates/about.html", "about.html"),
     cpy:copy-template($context, "static/templates/search.html", "search.html"),
     cpy:copy-resource($context, "static/controller.xql", "controller.xql"),
@@ -74,8 +114,5 @@ return (
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
     cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
-    static:redirect($context, "", "1/index.html"),
     static:fix-links($context)
-    (: path:mkcol($context, "site/iiif"),
-    static:load($context, $context?context-path || "/api/iiif/F-rom.xml", "site/iiif/F-rom.xml.json") :)
 )

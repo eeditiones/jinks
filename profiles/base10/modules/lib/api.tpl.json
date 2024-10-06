@@ -749,7 +749,7 @@
 				}
 			}
 		},
-		"/api/documents/{id}": {
+		"/api/documents/{path}": {
 			"get": {
 				"summary": "List documents",
 				"description": "Retrieve list of documents in a collection",
@@ -757,7 +757,7 @@
 				"operationId": "capi:documents",
 				"parameters": [
 					{
-						"name": "id",
+						"name": "path",
 						"in": "path",
 						"required": true,
 						"schema": {

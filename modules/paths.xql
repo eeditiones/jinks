@@ -64,6 +64,12 @@ declare %private function path:set-execute-bit($permissions as xs:string) {
     replace($permissions, "(..).(..).(..).", "$1x$2x$3x")
 };
 
+declare function path:rmcol($context as map(*), $path as xs:string) {
+    let $absPath := path:resolve-path($context?target, $path)
+    return
+        xmldb:remove($absPath)
+};
+
 declare function path:get-package-target($uri as xs:string?) {
     if (not(repo:list()[. = $uri])) then
         ()

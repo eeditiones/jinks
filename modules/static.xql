@@ -308,6 +308,12 @@ declare function static:redirect($context as map(*), $target as xs:string, $redi
         xmldb:store($targetPath, "index.html", $html, "text/html")
 };
 
+(:~
+ : Fix links in the document by replacing relative links using ids with absolute links pointing to the static HTML.
+ :
+ : @param $nodes The nodes to process
+ : @param $links A map of target elements indexed by their id attribute
+ :)
 declare %private function static:fix-links($nodes as node()*, $links as map(*)) {
     for $node in $nodes
     return
@@ -337,6 +343,9 @@ declare %private function static:fix-links($nodes as node()*, $links as map(*)) 
                 $node
 };
 
+(:~
+ : Fix links in the document by replacing relative links using ids with absolute links pointing to the static HTML.
+ :)
 declare function static:fix-links($context as map(*)) {
     util:log("INFO", ("<static> Fixing links ...")),
     let $base := path:resolve-path($context?target, "")

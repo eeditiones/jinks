@@ -359,7 +359,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <model predicate="$parameters?static" behaviour="link">
                 <param name="content" value="title[1]"/>
-                <param name="uri" value="'../' || $parameters?doc || '/1/index.html'"/>
+                <param name="uri" value="$parameters?context-path || '/' || $parameters?doc || '/1/index.html'"/>
             </model>
             <model predicate="not($parameters?static)" behaviour="link">
                 <param name="content" value="title[1]"/>
