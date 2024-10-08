@@ -17,6 +17,13 @@ declare function browse:parent-link($context as map(*)) {
         string-join(subsequence($parts, 1, count($parts) - 1), "/")
 };
 
+declare function browse:is-writable($context as map(*)) {
+    let $path := $config:data-root || "/" || $context?request?parameters?path
+    let $writable := sm:has-access(xs:anyURI($path), "rw-")
+    return
+        if ($writable) then "writable" else ""
+};
+
 declare function browse:document-options($doc as element()) {
     let $config := tpu:parse-pi(root($doc), ())
     return map:merge((
