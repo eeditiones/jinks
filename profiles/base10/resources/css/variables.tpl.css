@@ -8,8 +8,8 @@
     --pb-logo-image-height: [[ $theme?logo?height ]];
     --pb-logo-margin-right: 1rem;
 
-    --pb-splash-image-dark: var(--pb-logo-dark);
-    --pb-splash-image-light: var(--pb-logo-light);
+    --pb-splash-image-dark: url("[[ $theme?logo?splash?dark ]]");
+    --pb-splash-image-light: url("[[ $theme?logo?splash?light ]]");
     --pb-splash-image-size: 360px auto;
     --pb-splash-background-color: var(--pico-background-color);
 
