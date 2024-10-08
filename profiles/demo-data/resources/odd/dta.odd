@@ -4,7 +4,8 @@
         <fileDesc>
             <titleStmt>
                 <title>Deutsches Textarchiv (dta) (Custom ODD)
-                      <desc>A simple ODD to render documents encoded according to the </desc>
+                      
+                   <desc>A simple ODD to render documents encoded according to the </desc>
                 </title>
                 <title type="short">Deutsches Textarchiv</title>
             </titleStmt>
@@ -68,9 +69,15 @@
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
             display: inline-block;
                             margin-bottom: 1em;
                             color: #CCC;
+            
+            
+            
             
             
             </outputRendition>
@@ -81,8 +88,14 @@
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
             margin-top: 1em;
 color: #A0A0A0;
+            
+            
+            
             
             
             </outputRendition>
@@ -96,8 +109,14 @@ color: #A0A0A0;
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
             margin-top: 1em;
 color: #A0A0A0;
+            
+            
+            
             
             
             </outputRendition>
@@ -109,6 +128,7 @@ color: #A0A0A0;
                     <model predicate="parent::p or parent::head" behaviour="inline" cssClass="lb" useSourceRendition="true"/>
                 </elementSpec>
             <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
         </model>

@@ -17,7 +17,7 @@ declare function idx:entry($request as map(*)) {
             "translation": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'pl'], true()) => string-join(),
             "commentary": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'la']//tei:note, false()) => string-join(),
             "title": $pm-config:web-transform($doc//tei:titleStmt, map { "mode": "breadcrumb" }, $config:default-odd),
-            "link": config:get-relpath($doc) || "/1/index.html",
+            "link": "documents/" || config:get-relpath($doc) || "/1/index.html",
             "places": idx:places($doc)
         }
 };

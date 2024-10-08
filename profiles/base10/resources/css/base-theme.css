@@ -212,6 +212,34 @@ main.search {
     gap: 1rem;
 }
 
+.paginated .content {
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.paginated .nav-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.paginated .nav-button.left {
+    left: 20px; /* Adjust as needed */
+}
+
+.paginated .nav-button.right {
+    right: 20px; /* Adjust as needed */
+}
+
+.paginated .nav-button a {
+    width: 48px; /* Adjust as needed */
+    height: 48px; /* Adjust as needed */
+}
+
+.paginated .nav-button svg {
+    width: 48px;
+}
+
 button svg {
     width: 24px;
 }

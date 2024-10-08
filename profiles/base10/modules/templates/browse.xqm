@@ -12,7 +12,7 @@ import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function browse:parent-link($context as map(*)) {
-    let $parts := $context?request?parameters?path => tokenize("/")
+    let $parts := head(($context?request?parameters?path, $context?request?parameters?docid)) => tokenize("/")
     return
         string-join(subsequence($parts, 1, count($parts) - 1), "/")
 };

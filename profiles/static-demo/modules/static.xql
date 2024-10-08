@@ -69,6 +69,14 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
                     map {
                         "path": $doc?path,
                         "odd": "dta.odd"
+                    },
+                    map {
+                        "id": "breadcrumb",
+                        "path": $doc?path,
+                        "odd": "dta.odd",
+                        "xpath": "//teiHeader/fileDesc/titleStmt/title[@type='main']",
+                        "view": "single",
+                        "user.mode": "breadcrumb"
                     }
                 ],
                 "static/templates/monograph.html",
@@ -111,8 +119,9 @@ return (
     cpy:copy-collection($context, "resources/css", "resources/css"),
     cpy:copy-resource($context, "static/templates/static.css", "resources/css/static.css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
+    cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
-    cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
+    cpy:copy-resource($context, "transform/dta.css", "transform/dta.css"),
     static:fix-links($context)
 )
