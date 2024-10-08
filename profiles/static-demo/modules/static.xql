@@ -4,6 +4,7 @@ import module namespace static="http://tei-publisher.com/jinks/static" at "xmldb
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "xmldb:exist:///db/apps/jinks/modules/cpy.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace path="http://tei-publisher.com/jinks/path";
+import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare function local:letters($context as map(*), $baseUri as xs:string) {
     (: Load documents and their titles via the API :)
@@ -106,7 +107,7 @@ let $context := map:merge((
     }
 ))
 return (
-    path:rmcol($context, $context?target),
+    if (xmldb:collection-available($context?target)) then path:rmcol($context, $context?target) else (),
     path:mkcol($context, $context?target),
     local:monographs($context, $baseUri),
     local:letters($context, $baseUri),
