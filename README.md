@@ -59,7 +59,13 @@ The `cpy:copy-collection` function will automatically process any file containin
 
 ## Usage
 
-Currently the functionality of jinks is only exposed via the API. Convenient configuration forms will be added later. After installing the jinks application package via the dashboard, open http://localhost:8080/exist/apps/tei-publisher-jinks/api.html in your browser. The `/api/generator/{profile}` provides the main API entry point.
+For the time being, we provide a basic web interface for jinks, which allows you to select a profile, see its full configuration (with inherited profile configurations merged together), and generate a custom app.
+
+Convenient configuration forms will be added later once the basic profiles reach a more stable state.
+
+## API endpoint and XQuery module
+
+After installing the jinks application package via the dashboard, open http://localhost:8080/exist/apps/tei-publisher-jinks/api.html in your browser. The `/api/generator/{profile}` provides the main API entry point.
 
 The main entry point into jinks is provided by the module [`modules/generator.xql`](modules/generator.xql), which exposes the function:
 
