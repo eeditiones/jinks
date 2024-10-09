@@ -11,7 +11,7 @@ declare function local:letters($context as map(*), $baseUri as xs:string) {
     let $letters := static:load($baseUri || "/api/documents/letters?link=" || $context?context-path || "/documents")
     return (
         (: Create search index :)
-        static:index($context, $letters?*),
+        static:index($context, $letters?*, 'single'),
         (: Create the browse page by splitting the documents into chunks of 10 :)
         static:split($context, $letters?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
             "letters/" || $page
@@ -59,6 +59,9 @@ declare function local:letters($context as map(*), $baseUri as xs:string) {
 declare function local:monographs($context as map(*), $baseUri as xs:string) {
     let $monographs := static:load($baseUri || "/api/documents/monograph?link=" || $context?context-path || "/documents")
     return (
+        (: Create search index :)
+        static:index($context, $monographs?*, 'div'),
+
         static:split($context, $monographs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
             "monograph/" || $page
         }),
@@ -69,7 +72,8 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
                 [
                     map {
                         "path": $doc?path,
-                        "odd": "dta.odd"
+                        "odd": "dta.odd",
+                        "view": "div"
                     },
                     map {
                         "id": "breadcrumb",
@@ -84,7 +88,8 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
                 function($context as map(*), $n as xs:int) {
                     "documents/" || $doc?path || "/" || $n
                 }
-            )
+            ),
+            ()
     )
 };
 
@@ -125,5 +130,6 @@ return (
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
     cpy:copy-resource($context, "transform/dta.css", "transform/dta.css"),
-    static:fix-links($context)
+    static:fix-links($context),
+    ()
 )

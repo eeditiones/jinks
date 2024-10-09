@@ -26,24 +26,24 @@
     },
     "tags": [],
     "paths": {
-		"/api/static/{id}": {
+        "/api/static/{id}/single": {
             "get": {
                 "summary": "Retrieve index entry for the document given by id",
                 "description": "Retrieve index entry for the document given by id",
-				"tags": ["view"],
+                "tags": ["view"],
                 "operationId": "idx:entry",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"description": "ID of the resource",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
                     "200": {
                         "description": "List of all places",
                         "content": {
@@ -54,9 +54,40 @@
                             }
                         }
                     }
-				}
-			}			
-		}
+                }
+            }
+        },
+        "/api/static/{id}/div": {
+            "get": {
+                "summary": "Retrieve the index entries for the document given by id, split up per div",
+                "description": "Retrieve the index entry for the document given by id, split up per div",
+                "tags": ["view"],
+                "operationId": "idx:entry-part",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all places",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {
