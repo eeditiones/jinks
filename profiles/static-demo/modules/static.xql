@@ -121,6 +121,7 @@ return (
     cpy:copy-resource($context, "static/templates/static.css", "resources/css/static.css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
     cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
+    cpy:copy-collection($context, "resources/i18n", "resources/i18n"),
     path:mkcol($context, "transform"),
     cpy:copy-resource($context, "transform/serafin.css", "transform/serafin.css"),
     cpy:copy-resource($context, "transform/dta.css", "transform/dta.css"),
