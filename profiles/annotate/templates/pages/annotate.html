@@ -67,7 +67,7 @@
             <button class="annotation-action before" data-i18n="[title]annotations.pb" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
                 data-type="pb" disabled="disabled" title="Page break"><iron-icon
                     icon="editor:format-textdirection-r-to-l"></iron-icon></button>
-            <button class="annotation-action before" data-i18n="[title]annotations.note" data-shortcut="⌘+⇧+f,ctrl+⇧+f"
+            <button class="annotation-action after" data-i18n="[title]annotations.note" data-shortcut="⌘+⇧+f,ctrl+⇧+f"
                 data-type="note" disabled="disabled" title="Note"><iron-icon
                     icon="icons:speaker-notes"></iron-icon></button>
             <button class="annotation-action" data-i18n="[title]annotations.modify" data-shortcut="⌘+⇧+m,ctrl+⇧+m"
@@ -225,7 +225,7 @@
                             <div class="annotation-form note">
                                 <jinn-xml-editor name="content"
                                     placeholder="[Inline text/markup or sequence of paragraphs]"
-                                    schema="resources/scripts/annotations/tei.json" schema-root="note"
+                                    schema="resources/scripts/tei.json" schema-root="note"
                                     namespace="http://www.tei-c.org/ns/1.0">
                                     <div slot="toolbar">
                                         <button data-command="selectElement"
