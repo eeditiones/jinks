@@ -5,6 +5,8 @@
 let currentReview = 0;
 let reviewDocs = [];
 let reviewData = {};
+let reviewUser = null;
+let reviewStrings = [];
 let reviewDialog;
 let reviewDocLink;
 
@@ -27,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // clicking on link to document opens annotation editor on this document in new tab
     // annotations for the document are first stored to local storage, so the editor
     // will pick them up
-    reviewDocLink = reviewDialog.querySelector('#review-doc-link');
+    reviewDocLink = reviewDialog.querySelector('h3 a');
     reviewDocLink.addEventListener('click', (ev) => {
         ev.preventDefault();
         const href = reviewDocLink.href;
@@ -61,12 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
  * 
  * @param {Array} docs list of documents to review
  * @param {Object} data object mapping document paths to annotation list
+ * @param {string} currentUser name of the currently logged in user
  */
-function review(docs, data) {
+function review(docs, data, strings, currentUser) {
     currentReview = 0;
     reviewDocs = docs;
     reviewOffsets = data;
     reviewData = {};
+    reviewStrings = strings.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+    });
+    reviewUser = currentUser;
     _reviewNext();
 }
 
@@ -86,8 +93,8 @@ function _reviewNext() {
         total: reviewDocs.length,
         count: currentReview + 1
     };
-    reviewDialog.querySelector('[key="annotations.doc-count"]').options = counts;
-    const count = reviewDialog.querySelector('.count');
+    reviewDialog.querySelector('h3 [key="annotations.doc-count"]').options = counts;
+    const count = reviewDialog.querySelector('h3 .count');
     const matches = reviewOffsets[doc];
     count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;
@@ -186,7 +193,14 @@ function _saveCurrent() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(reviewData[doc]),
+        body: JSON.stringify({
+            annotations: reviewData[doc],
+            log: {
+                user: reviewUser,
+                message: `Batch-reviewed and merged annotations for strings: ${reviewStrings.join(", ")}`,
+                status: "batch-review"
+            }
+        })
     })
     .then((response) => {
         window.pbEvents.emit("pb-end-update", "transcription", {});

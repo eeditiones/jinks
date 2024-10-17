@@ -76,7 +76,7 @@ async function verifyPermission(fileHandle, withWrite) {
 	return false;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("WebComponentsReady", () => {
 	const form = document.getElementById("edit-form");
 	let selection = null;
 	let activeSpan = null;
@@ -91,6 +91,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	let autoSave = false;
 	let type = "";
 	let emptyElement = false;
+	let elementPosition = "around"; //default position of the annotation element to be inserted; can be also "before" (for <pb/>) or "after" (for <note>)
 	let text = "";
 	let enablePreview = true;
 	let currentEntityInfo = null;
@@ -304,7 +305,8 @@ window.addEventListener("DOMContentLoaded", () => {
 				view.addAnnotation({
 					type,
 					properties: data,
-					before: emptyElement
+					before: emptyElement,
+					position : elementPosition
 				});
 			} catch (e) {
 				document.getElementById('runtime-error-dialog').show('Error', e);
@@ -415,10 +417,15 @@ window.addEventListener("DOMContentLoaded", () => {
 					query: selection
 				});
 			}
-			emptyElement = false;
-			if (button.classList.contains("before")) {
-				emptyElement = true;
+			elementPosition = "around";
+			if (button.classList.contains("after")) {
+				elementPosition = "after";
 			}
+			if (button.classList.contains("before")) {
+				elementPosition = "before";
+			}
+			//if class contains 'before' or 'after' value, it's an empty element
+			emptyElement = (elementPosition != "around");
 			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
 			text = selection;
@@ -496,7 +503,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			if (saveAll) {
 				saveOccurrences(json);
 			} else {
-				review(docs, json);
+				review(docs, json, strings, currentUser);
 			}
 		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
 	}
@@ -642,7 +649,8 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (trackHistory) {
 			document.dispatchEvent(new CustomEvent('pb-before-save', {
 				detail: {
-					user: currentUser
+					user: currentUser,
+					export: false
 				}
 			}));
 		} else {
