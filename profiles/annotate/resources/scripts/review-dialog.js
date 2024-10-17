@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // clicking on link to document opens annotation editor on this document in new tab
     // annotations for the document are first stored to local storage, so the editor
     // will pick them up
-    reviewDocLink = reviewDialog.querySelector('h3 a');
+    reviewDocLink = reviewDialog.querySelector('header a');
     reviewDocLink.addEventListener('click', (ev) => {
         ev.preventDefault();
         const href = reviewDocLink.href;

@@ -76,7 +76,7 @@ async function verifyPermission(fileHandle, withWrite) {
 	return false;
 }
 
-window.addEventListener("WebComponentsReady", () => {
+document.addEventListener("pb-page-loaded", () => {
 	const form = document.getElementById("edit-form");
 	let selection = null;
 	let activeSpan = null;
