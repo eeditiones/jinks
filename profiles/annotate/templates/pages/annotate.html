@@ -2,7 +2,8 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/base.html",
+            "strip-root": true
         },
         "styles": [
             "resources/css/annotate.css"
@@ -22,11 +23,10 @@
     [% endblock %]
 
     [% block header %]
-    <span class="header-toolbar">
+    <span class="header-toolbar toolbar">
         <span class="icon-group">
-            <a id="toolbar-parent" href="${app}/index.html?collection=${collection}"
-                data-i18n="[title]browse.${collection}.title" title="" data-template="pages:parse-params">
-                <button><iron-icon icon="icons:folder-open"></iron-icon></button>
+            <a id="toolbar-parent" href="[[ $context-path ]]/index.html?collection=[[ $request?parameters?collection ]]" data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
             </a>
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
@@ -90,19 +90,16 @@
     </span>
     [% endblock %]
 
-    <main class="text">
-        <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]"></pb-document>
-
-        <div class="text">
-            <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                <pb-param name="header" value="short"></pb-param>
-            </pb-view>
-            <pb-view-annotate id="view1" src="document1" odd="annotations" key="ref" append-footnotes="append-footnotes"
-                suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
-                <pb-param name="track-ids" value="yes"></pb-param>
-            </pb-view-annotate>
-        </div>
+    <main class="text">
+        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+            <pb-param name="header" value="short"></pb-param>
+        </pb-view>
+        <pb-view-annotate id="view1" src="document1" odd="annotations" key="ref" append-footnotes="append-footnotes"
+            suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
+            <pb-param name="track-ids" value="yes"></pb-param>
+        </pb-view-annotate>
     </main>
 
     <aside class="preview edit-panel">

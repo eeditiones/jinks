@@ -249,13 +249,12 @@ fx-fore #markupPanel .preview-toolbar {
     height: 25vh;
 }
 
-.annotate-root {
+pb-page {
+    height: 100vh;
     display: grid;
-    grid-template-areas:
-        "main aside";
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 1fr minmax(30rem, 30vw);
-    position: relative;
+    grid-template-areas: "header header" "body aside"
 }
 
 @media (max-width: 1023px) {
@@ -265,11 +264,24 @@ fx-fore #markupPanel .preview-toolbar {
     }
 }
 
-.text {
-    grid-area: main;
+.page-header {
+    grid-area: header;
+    position: relative;
+}
+
+main {
+    grid-area: body;
+}
+.edit-panel {
+    grid-area: aside;
     overflow: auto;
+}
+
+.text {
+    overflow: auto;
+    /* overflow: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; */
     max-width: var(--pb-view-max-width);
     margin: 0 auto;
 }

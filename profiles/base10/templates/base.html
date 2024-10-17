@@ -63,7 +63,7 @@
                 </div>
                 <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
             </header>
-            [[ $content ]]
+            [[ if ($context?templating?strip-root) then $content/node() else $content ]]
             [% if $features?toc %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                 <div class="drawer-content">
