@@ -20,7 +20,8 @@ declare function api:html($request as map(*)) {
         $context,
         map {
             "languages": json-doc($config:app-root || "/resources/i18n/languages.json"),
-            "request": $request
+            "request": $request,
+            "context-path": $config:context-path
         }
     ))
     return
