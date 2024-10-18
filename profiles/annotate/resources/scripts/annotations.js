@@ -405,6 +405,15 @@ document.addEventListener("pb-page-loaded", () => {
 	function actionHandler(button) {
 		if (selection) {
 			type = button.getAttribute("data-type");
+			elementPosition = "around";
+			if (button.classList.contains("after")) {
+				elementPosition = "after";
+			}
+			if (button.classList.contains("before")) {
+				elementPosition = "before";
+			}
+			// if class contains 'before' or 'after' value, it's an empty element
+			emptyElement = (elementPosition == "before");
 			if (button.classList.contains("toggle")) {
 				save();
 				return;
@@ -417,15 +426,6 @@ document.addEventListener("pb-page-loaded", () => {
 					query: selection
 				});
 			}
-			elementPosition = "around";
-			if (button.classList.contains("after")) {
-				elementPosition = "after";
-			}
-			if (button.classList.contains("before")) {
-				elementPosition = "before";
-			}
-			//if class contains 'before' or 'after' value, it's an empty element
-			emptyElement = (elementPosition != "around");
 			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
 			text = selection;
