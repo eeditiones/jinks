@@ -6,10 +6,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "../../annotation-config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
-import module namespace rapi="http://teipublisher.com/api/registers" at "../../registers.xql";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotation-config.xqm";
 
 declare function anno:find-references($request as map(*)) {
     map:merge(

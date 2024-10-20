@@ -19,8 +19,8 @@
     ---
 
     [% block scripts %]
-    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/review-dialog.js"></script>
-    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/annotations.js"></script>
+    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/annotations/review-dialog.js"></script>
+    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/annotations/annotations.js"></script>
     [% endblock %]
 
     [% block header %]
@@ -225,7 +225,7 @@
                             <div class="annotation-form note">
                                 <jinn-xml-editor name="content"
                                     placeholder="[Inline text/markup or sequence of paragraphs]"
-                                    schema="resources/scripts/tei.json" schema-root="note"
+                                    schema="resources/scripts/annotations/tei.json" schema-root="note"
                                     namespace="http://www.tei-c.org/ns/1.0">
                                     <div slot="toolbar">
                                         <button data-command="selectElement"

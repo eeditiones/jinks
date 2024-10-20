@@ -4,7 +4,7 @@ module namespace anno="http://teipublisher.com/api/annotations/config";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 (:~
  : Name of the attribute to use as reference key for entities
