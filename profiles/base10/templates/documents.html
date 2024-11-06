@@ -18,6 +18,14 @@
                         [[ browse:show-hits($context, $doc) ]]
                     </div>
                     <div class="actions">
+                    [% if $menu?delete %]
+                        <pb-restricted login="login" group="tei">
+                            <pb-ajax url="api/document/[[ escape-uri($options?relpath, true()) ]]" method="delete" emit="search" event="pb-search-resubmit" confirm="browse.confirmDeletion" quiet="">
+                                <button data-i18n="[title]menu.delete" title="Delete"><iron-icon icon="icons:delete" /></button>
+                                <h3 slot="title"><pb-i18n key="menu.delete">Delete</pb-i18n></h3>
+                            </pb-ajax>
+                        </pb-restricted>
+                    [% endif %]
                     [% if $menu?download %]
                         <details class="dropdown">
                             <summary title="menu.download.title" data-i18n="[title]menu.download.title">
