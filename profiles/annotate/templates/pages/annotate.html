@@ -76,6 +76,16 @@
             <button data-i18n="[title]annotations.ner.title" id="ner-action"><iron-icon
                     icon="social:group-add"></iron-icon></button>
         </span>
+
+		<span class="icon-group">
+		  <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page">
+			<button data-i18n="[title]annotations.next-page" data-shortcut="left" title="Next"><iron-icon icon="icons:chevron-left"/></button>
+		  </pb-navigation>
+		  <pb-navigation emit="transcription" subscribe="transcription" unit="page">
+			<button data-i18n="[title]annotations.previous-page" data-shortcut="left" title="Previous"><iron-icon icon="icons:chevron-right"/></button>
+		  </pb-navigation>
+		</span>
+
         <span class="icon-group">
             <button data-i18n="[title]annotations.reload" id="reload-all"><iron-icon
                     icon="icons:restore"></iron-icon></button>
