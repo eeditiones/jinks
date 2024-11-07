@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace browse="http://teipublisher.com/ns/templates/browse";
 
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
@@ -45,7 +45,8 @@ declare function browse:header($context as map(*), $doc as element(), $config as
         let $header :=
             $pm-config:web-transform($teiHeader, map {
                 "header": "short",
-                "doc": $config:context-path || "/" || $config?relpath
+                "doc": $config:context-path || "/" || $config?relpath,
+                "language": $context?language
             }, $config?odd)
         return
             if ($header) then

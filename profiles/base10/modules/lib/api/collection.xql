@@ -47,7 +47,7 @@ declare function capi:list($request as map(*)) {
                     util:binary-doc($path) => util:binary-to-string()
                 else
                     error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-            let $model := map:merge((vapi:load-config-json($request), map { "documents": $works }))
+            let $model := map:merge((vapi:load-config-json($request), map { "documents": $works, "language": $request?parameters?language }))
             return
                 tmpl:process($template, $model, map {
                     "plainText": false(), 
