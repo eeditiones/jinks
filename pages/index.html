@@ -15,6 +15,10 @@
             <fieldset>
                 <h3>Application Configuration</h3>
                 <label>
+                    Abbreviation
+                    <input type="text" name="abbrev" placeholder="Abbreviation"/>
+                </label>
+                <label>
                     Label
                     <input type="text" name="label" placeholder="Short title"/>
                 </label>
@@ -22,22 +26,24 @@
                     Unique identifier
                     <input type="text" name="id" placeholder="URI" value="https://e-editiones.org/apps/"/>
                 </label>
-                <label>
-                    Abbreviation
-                    <input type="text" name="abbrev" placeholder="Abbreviation"/>
-                </label>
             </fieldset>
         </section>
         <section>
             <fieldset>
                 <legend>Base Profile</legend>
-                [% for $profile in filter($context?profiles, function($p) { $p?type = "base"}) %]
+                [% let $baseProfiles = filter($context?profiles, function($p) { $p?type = "base"}) %]
+                [% for $profile in $baseProfiles %]
                 <label data-tooltip="[[ $profile?description ]]"
                     data-placement="right">
-                    <input type="radio" name="base" value="[[ $profile?path ]]"/>
+                    [% if $profile?path = head($baseProfiles)?path %]
+                    <input type="radio" name="base" value="[[ $profile?path ]]" checked=""/>
+                    [% else %]
+                    <input type="radio" name="base" value="[[ $profile?path ]]" />
+                    [% endif %]
                     [[ $profile?label ]]
                 </label>
                 [% endfor %]
+                [% endlet %]
             </fieldset>
 
             <fieldset>
@@ -60,10 +66,11 @@
                 <label>
                     Overwrite mode
                     <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
-                        <option value="default">Default</option>
-                        <option value="update">Update</option>
-                        <option value="all">All</option>
+                        <option value="default">Default: overwrite files if upstream version changed</option>
+                        <option value="update">Update: always overwrite</option>
+                        <option value="all">All: reinstall everything</option>
                     </select>
+                    <small>Modes default and update will never overwrite local changes</small>
                 </label>
             </fieldset>
             <fieldset class="buttons">
@@ -74,7 +81,7 @@
         </section>
         <section id="mergedConfig">
             <h3>Merged Configuration</h3>
-            <pre></pre>
+            <pb-code-highlight language="json" theme="tomorrow"></pb-code-highlight>
         </section>
         <section id="output">
             <h3>Processing output</h3>

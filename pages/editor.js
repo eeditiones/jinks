@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
 
     const editor = document.getElementById('appConfig');
-    const mergedView = document.querySelector('#mergedConfig pre');
+    const mergedView = document.querySelector('#mergedConfig pb-code-highlight');
     const form = document.getElementById('config');
     const output = document.querySelector('.output');
     const errors = document.querySelector('.error');
@@ -216,13 +216,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function updateConfig() {
         getConfig(appConfig).then((mergedConfig) => {
-            mergedView.innerText = JSON.stringify(mergedConfig, null, 2);
+            mergedView.code = JSON.stringify(mergedConfig, null, 2);
         });
         editor.value = JSON.stringify(appConfig, null, 2);
     }
 
     function update() {
         const formData = new FormData(form);
+        if (formData.get('abbrev') !== '' && formData.get('label') === '') {
+            form.querySelector('[name="label"]').value = formData.get('abbrev');
+        }
         formData.forEach((value, key) => {
             if (key !== 'base' && key !== 'feature' && key !== 'abbrev') {
                 appConfig[key] = value;

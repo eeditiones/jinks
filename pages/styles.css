@@ -107,7 +107,7 @@ header nav svg {
 .editor form {
     padding-top: 1rem;
     display: grid;
-    grid-template-columns: 30% 30% 1fr;
+    grid-template-columns: minmax(auto,24rem) minmax(auto,24rem) 1fr;
     grid-template-areas:
         "form form form"
         "merged merged output";
