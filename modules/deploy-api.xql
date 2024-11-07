@@ -33,7 +33,7 @@ declare function dep:deploy($request as map(*)) {
                 $errors:NOT_FOUND,
                 "The profile " ||
                     $profile ||
-                    " is not prepared yet. Call the /api/generator/{profile} endpoint first.")
+                    " is not prepared yet. Call the /api/generator endpoint first.")
         else
             cpy:deploy($profile-temp-location)
 };

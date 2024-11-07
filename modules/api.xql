@@ -36,11 +36,10 @@ declare function api:resolver($relPath as xs:string) as map(*)? {
 
 declare function api:generator($request as map(*)) {
     let $config := if ($request?body instance of array(*)) then $request?body?1 else $request?body
-    let $profile := $request?parameters?profile
     let $overwrite := $request?parameters?overwrite
     let $dryRun := $request?parameters?dry
     return
-        generator:process($profile, map { "overwrite": $overwrite, "dry": $dryRun }, $config)
+        generator:process(map { "overwrite": $overwrite, "dry": $dryRun }, $config)
 };
 
 declare function api:expand-template($request as map(*)) {
@@ -94,13 +93,29 @@ declare function api:configurations($request as map(*)) {
         array { $installed, $profiles }
 };
 
+declare function api:expand-config($request as map(*)) {
+    let $userConfig := $request?body
+    return
+        generator:extends($userConfig)
+};
+
+declare function api:profiles() {
+    for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
+    return
+        map:merge((
+            generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {}),
+            map { "path": $collection }
+        ))
+};
+
 declare function api:page($request as map(*)) {
     let $path := $config:app-root || "/pages/" || $request?parameters?page
     let $doc := api:resolver("pages/" || $request?parameters?page)?content
     return
         if (exists($doc)) then
             let $context := map {
-                "title": "jinks"
+                "title": "jinks",
+                "profiles": api:profiles()
             }
             let $output := tmpl:process($doc, $context, map {
                 "plainText": false(), 

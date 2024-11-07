@@ -49,7 +49,7 @@ declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
 };
 
 declare function vapi:load-config-json($request as map(*)?) {
-    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
     return
         map:merge((
             $context,

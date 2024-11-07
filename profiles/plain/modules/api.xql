@@ -15,7 +15,7 @@ declare function api:html($request as map(*)) {
             doc($path)
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
-    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+    let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
     let $model := map:merge((
         $context,
         map {

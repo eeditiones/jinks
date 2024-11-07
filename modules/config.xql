@@ -4,7 +4,7 @@ module namespace config="https://tei-publisher.com/generator/xquery/config";
 
 declare variable $config:app-root :=
     let $rawPath := system:get-module-load-path()
-    let $modulePath := replace($rawPath, "^(?:xmldb:exist://(?:embedded-eXist-server|null)?)?(.*)$", "$1")
+    let $modulePath := replace($rawPath, "^(?:xmldb:exist://(?:embedded-eXist-server|null)?)?(.+)$", "$1")
     return
         substring-before($modulePath, "/modules")
         

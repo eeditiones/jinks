@@ -1,6 +1,9 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const nav = document.querySelector('.profiles');
-    const editor = document.querySelector('jinn-codemirror');
+    let appConfig = {};
+
+    const editor = document.getElementById('appConfig');
+    const mergedView = document.querySelector('#mergedConfig pre');
+    const form = document.getElementById('config');
     const output = document.querySelector('.output');
     const errors = document.querySelector('.error');
 
@@ -18,22 +21,43 @@ window.addEventListener('DOMContentLoaded', () => {
         </a>`;
     }
 
-    async function loadConfigs() {
+    function getConfig(appConfig) {
+        return fetch('api/expand', {
+            method: 'post',
+            body: JSON.stringify(appConfig),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((response) => {
+            if (!response.ok) {
+                return Promise.reject(response.status);
+            }
+    
+            return response.json();
+        });
+    }
+
+    async function loadApps() {
         try {
             const response = await fetch('api/configurations');
             if (!response.ok) {
                 throw new Error(response.status);
             }
             const apps = await response.json();
+            const nav = document.querySelector('.installed');
 			nav.innerHTML = '';
             apps.forEach((app) => {
+                if (app.type !== 'installed') {
+                    return;
+                }
                 const a = document.createElement('a');
                 a.innerHTML = `
                     <div>
-                        <nav class="actions"></nav>
-                        <img class="${app.type}" src="pages/app.svg" width="64px">
+                        <img src="pages/app.svg" width="64px">
                         <h3>${app.title}</h3>
                     </div>
+                    <nav class="actions"></nav>
                 `;
                 const actions = a.querySelector('.actions');
                 if (app.type === 'installed') {
@@ -46,7 +70,18 @@ window.addEventListener('DOMContentLoaded', () => {
                 nav.appendChild(a);
 
                 a.addEventListener('click', () => {
+                    appConfig = app.config;
                     editor.value = JSON.stringify(app.config, null, 4);
+                    form.querySelector('[name="id"]').value = appConfig.id;
+                    form.querySelector('[name="label"]').value = appConfig.label;
+                    form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
+                    form.querySelectorAll('[name="base"]').forEach((input) => {
+                        input.checked = appConfig.extends.includes(input.value);
+                    });
+                    form.querySelectorAll('[name="feature"]').forEach((input) => {
+                        input.checked = appConfig.extends.includes(input.value);
+                    });
+                    update();
                 });
             });
         } catch (error) {
@@ -105,6 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
 
                 output.innerHTML = `Package is deployed. Visit it here ${createOpenButtonHtml(abbrev)}`;
+                loadApps();
             } catch (error) {
                 console.log(error);
             }
@@ -123,8 +159,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
                         const overwrite = document.querySelector('[name=overwrite]').value;
                         const config = JSON.parse(editor.value);
-                        const profile = config.profiles[config.profiles.length - 1];
-                        const url = new URL(`api/generator/${profile}`, window.location);
+                        // const profile = appConfig.pkg.abbrev;
+                        const url = new URL(`api/generator`, window.location);
                         url.searchParams.set('overwrite', overwrite);
                         if (dryRun) {
                             url.searchParams.set('dry', 'true');
@@ -175,18 +211,37 @@ window.addEventListener('DOMContentLoaded', () => {
             ) {
                 await doDeploy(result.config.pkg.abbrev);
             }
-            loadConfigs();
         });
     }
 
-    applyConfigButton.addEventListener('click', () => process(false));
+    function updateConfig() {
+        getConfig(appConfig).then((mergedConfig) => {
+            mergedView.innerText = JSON.stringify(mergedConfig, null, 2);
+        });
+        editor.value = JSON.stringify(appConfig, null, 2);
+    }
 
-    dryRunButton.addEventListener('click', () => process(true));
-    loadConfigs();
+    function update() {
+        const formData = new FormData(form);
+        formData.forEach((value, key) => {
+            if (key !== 'base' && key !== 'feature' && key !== 'abbrev') {
+                appConfig[key] = value;
+            }
+        });
+        appConfig.pkg = {
+            abbrev: formData.get('abbrev')
+        };
+        appConfig.extends = formData.getAll('base').concat(formData.getAll('feature'));
 
-    pbEvents.subscribe('pb-login', null, function (ev) {
-        if (ev.detail.userChanged) {
-            loadConfigs();
-        }
+        updateConfig();
+    }
+
+    applyConfigButton.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        process(false)
     });
+
+    form.addEventListener('change', () => update());
+
+    loadApps();
 });

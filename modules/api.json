@@ -7,7 +7,7 @@
     "servers": [
         {
             "description": "Endpoint for testing on localhost",
-            "url": "/exist/apps/tei-publisher-jinks"
+            "url": "/exist/apps/jinks"
         }
     ],
     "components": {
@@ -75,21 +75,39 @@
                 }
             }
         },
-        "/api/generator/{profile}": {
+        "/api/expand": {
+            "post": {
+                "description": "Retrieve the expanded configuration",
+                "operationId": "api:expand-config",
+                "requestBody": {
+                    "required": true,
+					"content": {
+                        "application/json": {
+							"schema": {
+								"type": "object"
+							}
+						}
+					}
+                },
+                "responses": {
+                    "200": {
+                        "description": "Expanded configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/generator": {
             "post": {
                 "description": "Update a profile or generate a new one. For a new app, please call the '/api/generator/{profile}/deploy' endpoint afterwards to deploy it on the db",
                 "operationId": "api:generator",
                 "parameters": [
-                    {
-                        "name": "profile",
-                        "in": "path",
-                        "schema": {
-                            "type": "string",
-                            "example": "base"
-                        },
-                        "required": true,
-                        "description": "The name of the profile to use"
-                    },
                     {
                         "name": "overwrite",
                         "in": "query",

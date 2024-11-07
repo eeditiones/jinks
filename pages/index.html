@@ -1,4 +1,4 @@
-<main class="grid editor">
+<main class="editor">
     ---json
     {
         "scripts": ["pages/editor.js"],
@@ -7,27 +7,79 @@
         }
     }
     ---
-    <aside>
-        <nav class="profiles"></nav>
-    </aside>
-    <div>
-        <p>Installed, configurable apps and available profiles (grey icons) are shown to the left. Click on an icon to edit the merged configuration properties in the editor below.</p>
-        <jinn-codemirror mode="json" theme="material-dark" placeholder="Merged configuration properties"></jinn-codemirror>
-        <label>Overwrite mode:
-            <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
-                <option value="default">Default</option>
-                <option value="update">Update</option>
-                <option value="all">All</option>
-            </select>
-        </label>
-        <fieldset class="buttons">
-            <button id="dry-run" class="secondary">Dry Run</button>
-            <button id="apply-config">Apply</button>
-            <span id="spinner" aria-busy="true">Applying configuration...</span>
-        </fieldset>
-        <div>
+    <header>
+        <nav class="installed"></nav>
+    </header>
+    <form id="config">
+        <section>
+            <fieldset>
+                <h3>Application Configuration</h3>
+                <label>
+                    Label
+                    <input type="text" name="label" placeholder="Short title"/>
+                </label>
+                <label>
+                    Unique identifier
+                    <input type="text" name="id" placeholder="URI" value="https://e-editiones.org/apps/"/>
+                </label>
+                <label>
+                    Abbreviation
+                    <input type="text" name="abbrev" placeholder="Abbreviation"/>
+                </label>
+            </fieldset>
+        </section>
+        <section>
+            <fieldset>
+                <legend>Base Profile</legend>
+                [% for $profile in filter($context?profiles, function($p) { $p?type = "base"}) %]
+                <label data-tooltip="[[ $profile?description ]]"
+                    data-placement="right">
+                    <input type="radio" name="base" value="[[ $profile?path ]]"/>
+                    [[ $profile?label ]]
+                </label>
+                [% endfor %]
+            </fieldset>
+
+            <fieldset>
+                <legend>Features</legend>
+                [% for $profile in filter($context?profiles, function($p) { $p?type = "feature"}) %]
+                <label data-tooltip="[[ $profile?description ]]"
+                    data-placement="right">
+                    <input type="checkbox" name="feature" value="[[ $profile?path ]]"/>
+                    [[ $profile?label ]]
+                </label>
+                [% endfor %]
+            </fieldset>
+        </section>
+        <section>
+            <fieldset>
+                <h3>Configuration</h3>
+                <jinn-codemirror id="appConfig" mode="json" theme="material-dark"></jinn-codemirror>
+            </fieldset>
+            <fieldset>
+                <label>
+                    Overwrite mode
+                    <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
+                        <option value="default">Default</option>
+                        <option value="update">Update</option>
+                        <option value="all">All</option>
+                    </select>
+                </label>
+            </fieldset>
+            <fieldset class="buttons">
+                <button id="dry-run" class="secondary">Dry Run</button>
+                <button id="apply-config">Apply</button>
+                <span id="spinner" aria-busy="true">Applying configuration...</span>
+            </fieldset>
+        </section>
+        <section id="mergedConfig">
+            <h3>Merged Configuration</h3>
+            <pre></pre>
+        </section>
+        <section id="output">
+            <h3>Processing output</h3>
             <ul class="output"></ul>
             <div class="error"></div>
-        </div>
-    </div>
+        </section>
+    </form>
 </main>

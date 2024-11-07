@@ -59,7 +59,7 @@ declare function cpy:resource-as-string($context as map(*), $relPath as xs:strin
         }
 };
 
-declare function cpy:expand-template($template as xs:string, $context as map(*)) {
+declare function cpy:expand-template($source as xs:string, $template as xs:string, $context as map(*)) {
     try {
         tmpl:process($template, $context, map {
             "plainText": true(), 
@@ -67,13 +67,15 @@ declare function cpy:expand-template($template as xs:string, $context as map(*))
             "ignoreImports": true()
         })
     } catch * {
-        error($cpy:ERROR_TEMPLATE, $err:description)
+        error($cpy:ERROR_TEMPLATE, $err:description, map {
+            "source": $source
+        })
     }
 };
 
 declare function cpy:copy-template($context as map(*), $source as xs:string, $target as xs:string) {
     let $template := cpy:resource-as-string($context, $source)
-    let $expanded := cpy:expand-template($template?content, $context)
+    let $expanded := cpy:expand-template($source, $template?content, $context)
     let $path := path:resolve-path($context?target, $target)
     let $relPath := substring-after($path, $context?target || "/")
     return 
@@ -114,7 +116,7 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
         return
             if (matches($resource, $context?template-suffix)) then
                 let $template := cpy:resource-as-string($context, $absSource || "/" || $resource)
-                let $expanded := cpy:expand-template($template?content, $context)
+                let $expanded := cpy:expand-template($resource, $template?content, $context)
                 let $targetName := replace($resource, $context?template-suffix, "")
                 let $collection := path:resolve-path($context?target, $target)
                 let $relPath := substring-after($collection || "/" || $targetName, $context?target || "/")

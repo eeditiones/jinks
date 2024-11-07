@@ -88,7 +88,7 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
     )
 };
 
-let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/config.json")))
+let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
 let $baseUri := 
     request:get-scheme() || "://" || request:get-server-name() || ":" || 
     request:get-server-port() ||

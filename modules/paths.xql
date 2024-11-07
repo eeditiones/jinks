@@ -32,7 +32,7 @@ declare function path:mkcol($context as map(*), $path as xs:string) {
             $context?pkg?permissions
         )
     return
-        $absPath
+        ()
 };
 
 declare %private function path:mkcol-recursive($collection, $components, $userData as xs:string*, $permissions as xs:string?) {
