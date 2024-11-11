@@ -94,6 +94,15 @@
 						"schema": {
 							"type": "string"
 						}
+					},
+					{
+						"name": "lang",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"default": "[[ head(($defaults?language, 'en')) ]]"
+						}
 					}
 				],
 				"responses": {
@@ -436,6 +445,14 @@
 						}
 					},
 					{
+						"name": "language",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "en"
+						}
+					},
+					{
 						"name": "query",
 						"in": "query",
 						"schema": {
@@ -509,6 +526,14 @@
 						"in": "query",
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"name": "language",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "en"
 						}
 					}
 				],
