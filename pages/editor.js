@@ -214,11 +214,13 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateConfig() {
+    function updateConfig(updateEditor = true) {
         getConfig(appConfig).then((mergedConfig) => {
             mergedView.code = JSON.stringify(mergedConfig, null, 2);
         });
-        editor.value = JSON.stringify(appConfig, null, 2);
+        if (updateEditor) {
+            editor.value = JSON.stringify(appConfig, null, 2);
+        }
     }
 
     function update() {
@@ -241,10 +243,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     applyConfigButton.addEventListener('click', (ev) => {
         ev.preventDefault();
-        process(false)
+        process(false);
     });
 
     form.addEventListener('change', () => update());
+
+    editor.addEventListener('update', () => {
+        try {
+            appConfig = JSON.parse(editor.value);
+            updateConfig(false);
+        } catch (error) {
+            console.log(error);
+        }
+    });
 
     loadApps();
 });
