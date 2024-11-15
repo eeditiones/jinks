@@ -62,18 +62,80 @@ body {
     }
 }
 
+pb-page {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+}
+
 .page-header {
+    position: sticky;
+    top: 0;
+    grid-column-start: 1;
+    grid-row-start: 1;
     width: 100vw;
-    margin-bottom: 2rem;
+    background-image: var(--tp-header-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+/* This element contains the background covering both, page header and hero */
+.banner-spacer {
+    height: 100vh;
+    /* Span from the first to the last grid column line */
+    /* (Negative numbers count from the end of the grid) */
+    grid-column: 1 / -1;
+    /* Start at the first grid row line, and take up 2 rows */
+    grid-row: 1 / span 2;
     background-image: var(--tp-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.page-header > div {
+.banner-spacer div {
+    background-color: var(--tp-header-background-color);
+    height: 100%;
+}
+
+.banner-spacer ~ .page-header {
+    background-image: none;
+}
+
+/* As soon as the hero moves out of the viewport, the page header gets a fixed background */
+.banner-spacer.not-visible ~ .page-header {
+    background-image: var(--tp-header-background-image);
+}
+
+.banner-spacer.not-visible ~ .page-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
     height: 100%;
     width: 100%;
     background-color: var(--tp-header-background-color);
+    z-index: -1;
+}
+
+.hero, .menubar, main, footer {
+    max-width: var(--tp-content-max-width);
+    margin: 0 auto;
+    padding: 0 var(--pico-spacing);
+}
+
+main {
+    margin-top: 2rem;
+}
+
+/* hero covers 100% of the viewport height */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    margin-bottom: 1rem;
+    height: 100%;
 }
 
 .logo {
@@ -87,17 +149,6 @@ body {
 .menubar a:link, .menubar a:visited {
     color: var(--tp-color-grey-1);
     text-decoration: none;
-}
-
-.hero, .menubar, main, footer {
-    max-width: var(--tp-content-max-width);
-    margin: 0 auto;
-    padding: 0 var(--pico-spacing);
-}
-
-.hero {
-    margin-top: 10rem;
-    height: 37.5rem;
 }
 
 .hero h1 {
@@ -118,7 +169,7 @@ footer {
     display: flex;
     justify-content: flex-end;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 4rem;
     padding-bottom: 2rem;
 }
 footer a {

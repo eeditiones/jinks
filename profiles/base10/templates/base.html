@@ -47,6 +47,12 @@
             locales="resources/i18n/{{ns}}/{{lng}}.json" 
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved">
+            [% if $context?hero?enable %]
+            <div class="banner-spacer">
+                <!-- Contains the banner image spanning header and hero -->
+                <div></div>
+            </div>
+            [% endif %]
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -63,6 +69,7 @@
                 </div>
                 <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
             </header>
+            [% block hero %][% endblock %]
             [[ if ($context?templating?strip-root) then $content/node() else $content ]]
             [% if $features?toc %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">

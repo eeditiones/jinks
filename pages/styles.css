@@ -1,5 +1,6 @@
 :root {
-
+    --text-light: #333333;
+    --text-dark: white;
     --color-highlight: #F6A623;
     --color-menu-bg: #35424b;
     --color-submenu: #FADCA1;
@@ -61,9 +62,9 @@ pb-page {
 header {
     --pico-block-spacing-vertical: 0;
     --pico-nav-element-spacing-vertical: 0;
-    --pico-primary: white;
-    --pico-primary-hover: white;
-    --pb-login-link-color: white;
+    --pico-primary: var(--text-dark);
+    --pico-primary-hover: var(--text-dark);
+    --pb-login-link-color: var(--text-dark);
 }
 
 nav details {
@@ -226,6 +227,7 @@ jinn-codemirror {
     font-size: 1rem;
     text-align: center;
     margin-bottom: 0;
+    color: var(--text-light);
 }
 
 .installed img, .installed a > label {

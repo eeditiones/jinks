@@ -37,17 +37,23 @@
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
             locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app" 
             unresolved="unresolved">
+            [% if $context?features?hero %]
+            <div class="banner-spacer">
+                <!-- Contains the banner image spanning header and hero -->
+                <div></div>
+            </div>
+            [% endif %]
             <header class="page-header">
-                <div>
-                    [% include "templates/menu.html" %]
-                    [% include "templates/menu-mobile.html" %]
-                    
-                    [% block header %][% endblock %]
-                </div>
+                [% include "templates/menu.html" %]
+                [% include "templates/menu-mobile.html" %]
+                
+                [% block header %][% endblock %]
             </header>
+            [% block hero %][% endblock %]
             [[ $content ]]
         </pb-page>
         <div class="splash"/>
+        <script src="[[ $context-path ]]/resources/scripts/header.js"></script>
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
         <script src="[[ $context-path ]]/resources/scripts/language.js"></script>
     </body>
