@@ -47,7 +47,7 @@
             locales="resources/i18n/{{ns}}/{{lng}}.json" 
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved">
-            [% if $context?hero?enable %]
+            [% if $context?features?hero %]
             <div class="banner-spacer">
                 <!-- Contains the banner image spanning header and hero -->
                 <div></div>

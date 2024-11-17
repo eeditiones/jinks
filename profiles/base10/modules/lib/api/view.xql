@@ -3,7 +3,7 @@ xquery version "3.1";
 module namespace vapi="http://teipublisher.com/api/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xql";

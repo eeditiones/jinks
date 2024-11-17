@@ -174,11 +174,79 @@ a[role="button"] svg, .theme-toggle svg {
     display: none;
 }
 
+pb-page {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+}
+
+.page-header {
+    position: sticky;
+    top: 0;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    width: 100vw;
+    background-image: var(--tp-header-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+/*  For the landing page, this element contains the background covering both, 
+    page header and hero */
+.banner-spacer {
+    height: 100vh;
+    /* Span from the first to the last grid column line */
+    /* (Negative numbers count from the end of the grid) */
+    grid-column: 1 / -1;
+    /* Start at the first grid row line, and take up 2 rows */
+    grid-row: 1 / span 2;
+    background-image: var(--tp-header-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.banner-spacer div {
+    background-color: var(--tp-header-background-color);
+    height: 100%;
+}
+
+.banner-spacer ~ .page-header {
+    background-image: none;
+}
+
+/* As soon as the hero moves out of the viewport, the page header gets a fixed background */
+.banner-spacer.not-visible ~ .page-header {
+    background-image: var(--tp-header-background-image);
+}
+
+.banner-spacer.not-visible ~ .page-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--tp-header-background-color);
+    z-index: -1;
+}
+
 .page-header {
     padding-block-start: 0;
 }
 
-@media (min-width: 1024px) {
+/* hero covers 100% of the viewport height */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    margin-bottom: 1rem;
+    margin-left: 8rem;
+    height: 100%;
+}
+
+/* @media (min-width: 1024px) {
     .page-header {    
         z-index: 2;
         position: sticky;
@@ -188,7 +256,7 @@ a[role="button"] svg, .theme-toggle svg {
             border-top-color 0.4s ease-in-out,
             box-shadow 0.4s ease-in-out;
     }
-}
+} */
 
 @media (max-width: 1023px) {
     .hidden-mobile {
@@ -486,4 +554,15 @@ a ~ .document-info {
 
 main > section {
     margin-top: var(--pico-block-spacing-vertical);
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-bottom: 2rem;
+}
+footer a {
+    width: 128px;
 }

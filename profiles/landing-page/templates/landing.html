@@ -3,19 +3,28 @@
     {
         "templating": {
             "extends": "templates/base.html"
+        },
+        "features": {
+            "toolbar": false,
+            "hero": true
         }
     }
     ---
 
     [% block hero %]
-    <div class="hero container-fluid">
+    <div class="hero">
         <h1><pb-i18n key="hero.jdp"/></h1>
         <p><pb-i18n key="hero.sub"/></p>
         <a href="#editions"><pb-i18n key="hero.see"/></a>
     </div>
     [% endblock %]
 
-    <main class="container-fluid">
+    [% block scripts %]
+    <script src="[[ $context-path ]]/resources/scripts/language.js"></script>
+    <script src="[[ $context-path ]]/resources/scripts/header.js"></script>
+    [% endblock %]
+
+    <main class="container">
         <section id="editions">
             <header>
                 <h1><pb-i18n key="menu.collections"/></h1>

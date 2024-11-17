@@ -36,20 +36,21 @@
 }
 
 .hero {
-    height: calc(100vh - 10rem);
+    --pico-color: var(--pb-color-inverse);
 }
 
 .hero a {
     display: inline-block;
     padding: 0.8125rem 1.875rem;
     border-radius: 0.25rem;
-    border: 1px solid var(--tp-color-grey-2, #4F4F4F);
+    border: 1px solid var(--pb-color-inverse, #4F4F4F);
     background-color: transparent;
-    color: var(--pico-color);
+    color: var(--pb-color-inverse);
     font-weight: 600;
     line-height: 110%; /* 0.9625rem */
     text-transform: uppercase;
     text-decoration: none;
+    align-self: flex-start;
 }
 
 .hero h1 {
@@ -61,7 +62,7 @@
 }
 
 h1 {
-    color: var(--tp-color-grey-1, #333);
+    color: var(--pb-color-lighter, #333);
     font-size: 3.375rem;
     font-weight: 600;
     line-height: 110%; /* 3.7125rem */
