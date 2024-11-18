@@ -2,8 +2,17 @@
 html {
     width: 100%;
     border: 0;
+    --pico-form-element-spacing-vertical:0.5rem;
+    --pico-form-element-spacing-horizontal:0.5rem;
+
 }
 
+form#edit-form{
+    padding: var(--pico-spacing);
+}
+form#edit-form input{
+    padding:var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
+}
 #authority-editor{
     height:auto;
 }
@@ -28,6 +37,9 @@ fx-fore .actions{
 fx-fore button{
     padding:0.5rem 1rem;
 
+}
+fx-group[role=group]{
+    display: block;
 }
 fx-fore fx-group{
     padding:1rem 0.5rem;
@@ -55,7 +67,9 @@ aside > fx-fore > fx-group{
     right: 0;
     left: auto;
 }
-
+#annotation{
+    min-height: 22rem;
+}
 .annotation-editor iron-form {
     padding: 0 8px;
 }
@@ -64,6 +78,7 @@ aside > fx-fore > fx-group{
     font-size: .9rem;
     max-height: 25vh;
     overflow: auto;
+    transition: height 0.4s ease-in;
 }
 
 #authority-editor{
@@ -94,10 +109,13 @@ aside > fx-fore > fx-group{
 }
 #authority-editor fx-fore > header {
     position: absolute;
-    width: calc(100% - 1rem);
+    width: 100%;
     z-index: 10;
     background: #efefef;
-    padding-left:0.5rem;
+    padding:0 0.5rem;
+}
+#authority-editor header h1{
+    font-size:1rem;
 }
 
 fx-group#general{
@@ -243,6 +261,9 @@ fx-fore textarea {
 
 fx-group[ref="authority"]{
     overflow: hidden;
+}
+fx-group[ref="authority"] > header {
+    display: block;
 }
 fx-fore #markupPanel pb-tabs,
 fx-fore #markupPanel .preview-toolbar {
