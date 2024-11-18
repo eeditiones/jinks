@@ -1,0 +1,77 @@
+<span class="header-toolbar toolbar">
+    <span class="icon-group">
+        <a id="toolbar-parent" href="[[ $context-path ]]/index.html?collection=[[ $request?parameters?collection ]]" data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
+            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+        </a>
+        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+    </span>
+    <span class="icon-group">
+        <button class="annotation-action authority" data-i18n="[title]annotations.person"
+                data-shortcut="⌘+⇧+p,ctrl+⇧+p" data-type="person" disabled="disabled" title="Person"><iron-icon
+                icon="social:person"></iron-icon></button>
+        <button class="annotation-action authority" data-i18n="[title]annotations.organisation"
+                data-shortcut="⌘+⇧+o,ctrl+⇧+o" data-type="organization" disabled="disabled"
+                title="organization"><iron-icon icon="social:people"></iron-icon></button>
+        <button class="annotation-action authority" data-i18n="[title]annotations.place"
+                data-shortcut="⌘+⇧+q,ctrl+⇧+q" data-type="place" disabled="disabled" title="Place"><iron-icon
+                icon="maps:place"></iron-icon></button>
+        <button class="annotation-action authority" data-i18n="[title]annotations.term"
+                data-shortcut="⌘+⇧+t,ctrl+⇧+t" data-type="term" disabled="disabled" title="Term"><iron-icon
+                icon="icons:bookmark"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.date" data-shortcut="⌘+⇧+d,ctrl+⇧+d"
+                data-type="date" disabled="disabled" title="Date"><iron-icon icon="icons:today"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.ref" data-shortcut="⌘+⇧+l,ctrl+⇧+l"
+                data-type="link" disabled="disabled" title="Reference"><iron-icon
+                icon="icons:link"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.abbreviation" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+                data-type="abbreviation" disabled="disabled" title="Abbreviation"><iron-icon
+                icon="icons:translate"></iron-icon></button>
+        <button class="annotation-action" data-shortcut="⌘+⇧+e,ctrl+⇧+e" data-type="sic" disabled="disabled"
+                title="Sic"><iron-icon icon="editor:strikethrough-s"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.reg" data-shortcut="⌘+⇧+g,ctrl+⇧+g"
+                data-type="reg" disabled="disabled" title="Regularization"><iron-icon
+                icon="editor:wrap-text"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.app" data-shortcut="⌘+⇧+v,ctrl+⇧+v"
+                data-type="app" disabled="disabled" title="Apparatus"><iron-icon
+                icon="icons:visibility"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.hi" data-shortcut="⌘+⇧+h,ctrl+⇧+h"
+                data-type="hi" disabled="disabled" title="Highlight"><iron-icon
+                icon="editor:format-bold"></iron-icon></button>
+        <button class="annotation-action before" data-i18n="[title]annotations.pb" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+                data-type="pb" disabled="disabled" title="Page break"><iron-icon
+                icon="editor:format-textdirection-r-to-l"></iron-icon></button>
+        <button class="annotation-action after" data-i18n="[title]annotations.note" data-shortcut="⌘+⇧+f,ctrl+⇧+f"
+                data-type="note" disabled="disabled" title="Note"><iron-icon
+                icon="icons:speaker-notes"></iron-icon></button>
+        <button class="annotation-action" data-i18n="[title]annotations.modify" data-shortcut="⌘+⇧+m,ctrl+⇧+m"
+                data-type="edit" disabled="disabled" title="Edit"><iron-icon
+                icon="editor:mode-edit"></iron-icon></button>
+        <button data-i18n="[title]annotations.ner.title" id="ner-action"><iron-icon
+                icon="social:group-add"></iron-icon></button>
+    </span>
+
+    <!-- todo: wasn't sure about this so i left it within comment.
+            <span class="icon-group">
+              <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page">
+                <button data-i18n="[title]annotations.next-page" data-shortcut="left" title="Next"><iron-icon icon="icons:chevron-left"/></button>
+              </pb-navigation>
+              <pb-navigation emit="transcription" subscribe="transcription" unit="page">
+                <button data-i18n="[title]annotations.previous-page" data-shortcut="left" title="Previous"><iron-icon icon="icons:chevron-right"/></button>
+              </pb-navigation>
+            </span>
+    -->
+
+    <span class="icon-group">
+        <button data-i18n="[title]annotations.reload" id="reload-all"><iron-icon
+                icon="icons:restore"></iron-icon></button>
+        <button data-i18n="[title]annotations.save" data-shortcut="⌘+⇧+s,ctrl+⇧+s" id="document-save"><iron-icon
+                icon="icons:save"></iron-icon></button>
+        <button data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"
+                id="document-download"><iron-icon icon="icons:cloud-download"></iron-icon></button>
+        <button data-i18n="[title]annotations.undo" id="undo-history"><iron-icon
+                icon="icons:undo"></iron-icon></button>
+        <button data-i18n="[title]annotations.toggle" id="toggle-markup"><iron-icon
+                icon="icons:visibility-off"></iron-icon></button>
+    </span>
+</span>
