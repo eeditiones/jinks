@@ -22,6 +22,7 @@
         --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
         --pb-splash-image: var(--pb-splash-image-dark);
+        --pb-header-background-color: var(--pb-header-background-color-dark);
     }
 }
 
@@ -32,6 +33,7 @@
     --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
     --pb-splash-image: var(--pb-splash-image-dark);
+    --pb-header-background-color: var(--pb-header-background-color-dark);
 }
 
 html {
@@ -185,7 +187,11 @@ pb-page {
     grid-column-start: 1;
     grid-row-start: 1;
     width: 100vw;
-    background-image: var(--tp-header-background-image);
+    background-color: transparent;
+}
+
+.page-header > div {
+    background-image: var(--pb-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -200,34 +206,34 @@ pb-page {
     grid-column: 1 / -1;
     /* Start at the first grid row line, and take up 2 rows */
     grid-row: 1 / span 2;
-    background-image: var(--tp-header-background-image);
+    background-image: var(--pb-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .banner-spacer div {
-    background-color: var(--tp-header-background-color);
+    background-color: var(--pb-header-background-color);
     height: 100%;
 }
 
-.banner-spacer ~ .page-header {
+.banner-spacer ~ .page-header > div {
     background-image: none;
 }
 
 /* As soon as the hero moves out of the viewport, the page header gets a fixed background */
-.banner-spacer.not-visible ~ .page-header {
-    background-image: var(--tp-header-background-image);
+.banner-spacer.not-visible ~ .page-header > div {
+    background-image: var(--pb-header-background-image);
 }
 
-.banner-spacer.not-visible ~ .page-header::after {
-    content: "";
+.banner-spacer.not-visible ~ .page-header > div::after {
     position: absolute;
-    left: 0;
+    content: "";
     top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--tp-header-background-color);
-    z-index: -1;
+    background-color: var(--pb-header-background-color);
+    z-index: 0;
 }
 
 .page-header {

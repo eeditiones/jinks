@@ -12,42 +12,42 @@ html {
 }
 
 :root {
-    --pico-font-family-sans-serif: var(--tp-font-family-sans-serif);
-    --pico-font-size: var(--tp-font-size, var(--pico-font-size));
-    --pico-line-height: var(--tp-line-height);
+    --pico-font-family-sans-serif: var(--pb-font-family-sans-serif);
+    --pico-font-size: var(--pb-font-size, var(--pico-font-size));
+    --pico-line-height: var(--pb-line-height);
 
-    --tp-color: var(--tp-color-light, var(--pico-color));
-    --tp-logo: var(--tp-logo-light);
-    --tp-header-background-color: var(--tp-header-background-color-light);
+    --pb-color: var(--pb-color-light, var(--pico-color));
+    --pb-logo: var(--pb-logo-light);
+    --pb-header-background-color: var(--pb-header-background-color-light);
 
-    --tp-color-grey-1: var(--tp-light-grey-1);
-    --tp-color-grey-2: var(--tp-light-grey-2);
-    --tp-color-grey-3: var(--tp-light-grey-3);
+    --pb-color-grey-1: var(--pb-light-grey-1);
+    --pb-color-grey-2: var(--pb-light-grey-2);
+    --pb-color-grey-3: var(--pb-light-grey-3);
 }
 
 @media only screen and (prefers-color-scheme: dark) {
     body:not([data-theme]) {
-        --tp-color: var(--tp-color-dark, var(--pico-color));
-        --tp-color-grey-1: var(--tp-dark-grey-1);
-        --tp-color-grey-2: var(--tp-dark-grey-2);
-        --tp-color-grey-3: var(--tp-dark-grey-3);
-        --tp-logo: var(--tp-logo-dark);
-        --tp-header-background-color: var(--tp-header-background-color-dark);
+        --pb-color: var(--pb-color-dark, var(--pico-color));
+        --pb-color-grey-1: var(--pb-dark-grey-1);
+        --pb-color-grey-2: var(--pb-dark-grey-2);
+        --pb-color-grey-3: var(--pb-dark-grey-3);
+        --pb-logo: var(--pb-logo-dark);
+        --pb-header-background-color: var(--pb-header-background-color-dark);
     }
 }
 
 [data-theme="dark"] {
-    --tp-color: var(--tp-color-dark, var(--pico-color));
-    --tp-color-grey-1: var(--tp-dark-grey-1);
-    --tp-color-grey-2: var(--tp-dark-grey-2);
-    --tp-color-grey-3: var(--tp-dark-grey-3);
-    --tp-logo: var(--tp-logo-dark);
-    --tp-header-background-color: var(--tp-header-background-color-dark);
+    --pb-color: var(--pb-color-dark, var(--pico-color));
+    --pb-color-grey-1: var(--pb-dark-grey-1);
+    --pb-color-grey-2: var(--pb-dark-grey-2);
+    --pb-color-grey-3: var(--pb-dark-grey-3);
+    --pb-logo: var(--pb-logo-dark);
+    --pb-header-background-color: var(--pb-header-background-color-dark);
 }
 
 body {
-    --pb-lang-input-color: var(--tp-color);
-    --pb-lang-label-color: var(--tp-color);
+    --pb-lang-input-color: var(--pb-color);
+    --pb-lang-label-color: var(--pb-color);
     background-color: var(--pico-background-color);
 }
 
@@ -73,7 +73,7 @@ pb-page {
     grid-column-start: 1;
     grid-row-start: 1;
     width: 100vw;
-    background-image: var(--tp-header-background-image);
+    background-image: var(--pb-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -87,13 +87,13 @@ pb-page {
     grid-column: 1 / -1;
     /* Start at the first grid row line, and take up 2 rows */
     grid-row: 1 / span 2;
-    background-image: var(--tp-header-background-image);
+    background-image: var(--pb-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .banner-spacer div {
-    background-color: var(--tp-header-background-color);
+    background-color: var(--pb-header-background-color);
     height: 100%;
 }
 
@@ -103,7 +103,7 @@ pb-page {
 
 /* As soon as the hero moves out of the viewport, the page header gets a fixed background */
 .banner-spacer.not-visible ~ .page-header {
-    background-image: var(--tp-header-background-image);
+    background-image: var(--pb-header-background-image);
 }
 
 .banner-spacer.not-visible ~ .page-header::after {
@@ -113,12 +113,12 @@ pb-page {
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--tp-header-background-color);
+    background-color: var(--pb-header-background-color);
     z-index: -1;
 }
 
-.hero, .menubar, main, footer {
-    max-width: var(--tp-content-max-width);
+.hero, main, footer {
+    max-width: var(--pb-content-max-width);
     margin: 0 auto;
     padding: 0 var(--pico-spacing);
 }
@@ -141,13 +141,19 @@ main {
 .logo {
     width: 180px;
     height: 64px;
-    background-image: var(--tp-logo);
+    background-image: var(--pb-logo);
     background-size: 100% auto;
     margin-right: 1rem;
 }
 
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+}
+
 .menubar a:link, .menubar a:visited {
-    color: var(--tp-color-grey-1);
+    color: var(--pb-color-grey-1);
     text-decoration: none;
 }
 

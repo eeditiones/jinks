@@ -1,6 +1,6 @@
 :root {
     --pico-font-size: 16px;
-    --tp-header-background-image: url("../images/mael_tsang.jpg");
+    --pb-header-background-image: url("../images/mael_tsang.jpg");
 }
 
 .logo {
@@ -106,7 +106,7 @@ section {
 }
 .bg-transparent > *, .slides h2 > * {
     display: block;
-    background-color: var(--tp-header-background-color);
+    background-color: var(--pb-header-background-color);
     height: 100%;
 }
 .bg-transparent:hover > *, .slides article:hover h2 > * {
@@ -213,7 +213,7 @@ footer {
 }
 
 .bottom a {
-    color: var(--tp-color-grey-3);
+    color: var(--pb-color-grey-3);
     text-decoration: none;
     width: auto;
 }
@@ -260,7 +260,7 @@ footer img {
 }
 .team h3 {
     flex: 3;
-    color: var(--tp-color-grey-3, #828282);
+    color: var(--pb-color-grey-3, #828282);
     font-size: 0.73956rem;
     font-style: normal;
     font-weight: 300;
@@ -269,7 +269,7 @@ footer img {
 }
 .team h2 {
     margin-top: 2rem;
-    color: var(--tp-color-grey-2, #333);
+    color: var(--pb-color-grey-2, #333);
     font-size: 1.0565rem;
     font-style: normal;
     font-weight: 500;
@@ -278,7 +278,7 @@ footer img {
     text-transform: none;
 }
 .team p {
-    color: var(--tp-color-grey-1, #828282);
+    color: var(--pb-color-grey-1, #828282);
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
