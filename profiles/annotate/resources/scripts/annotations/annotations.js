@@ -76,8 +76,36 @@ async function verifyPermission(fileHandle, withWrite) {
 	return false;
 }
 
+function updateAuthorityInfo(input, type, currentEntityInfo, findOther) {
+	const ref = input.value;
+	const parent = input.closest('.annotation-form');
+	const authorityInfo = parent.querySelector('.authority-info');
+
+	if (ref && ref.length > 0) {
+		authorityInfo.innerHTML = `Loading ${ref}...`;
+		document
+			.querySelector("pb-authority-lookup")
+			.lookup(type, input.value, authorityInfo)
+			.then(info => {
+				document.getElementById('edit-entity').style.display = info.editable ? 'block' : 'none';
+
+				currentEntityInfo = info;
+				findOther(info);
+			})
+			.catch((msg) => {
+				authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
+			});
+	} else {
+		authorityInfo.innerHTML = "";
+	}
+	return currentEntityInfo;
+}
+
 document.addEventListener("pb-page-loaded", () => {
 	const form = document.getElementById("edit-form");
+	form.addEventListener('submit',(ev) => {
+		ev.preventDefault();
+	});
 	let selection = null;
 	let activeSpan = null;
 	const view = document.getElementById("view1");
@@ -170,6 +198,11 @@ document.addEventListener("pb-page-loaded", () => {
 				}
 			});
 			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
+			// this updates just the first 'form-ref' section - can there really be more???
+			// form.querySelector('.form-ref').dispatchEvent(new Event('focus', { bubbles: true }));
+			document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthorityInfo'));
+
+
 		} else if (type === 'edit') {
 			form.querySelector('.annotation-form.edit [name=content]').value = selection;
 		}
@@ -284,7 +317,8 @@ document.addEventListener("pb-page-loaded", () => {
 	 */
 	function save() {
 		view.saveHistory();
-		const data = form.serializeForm();
+		const formData = new FormData(form);
+		const data = Object.fromEntries(formData.entries());
 		form.querySelectorAll(`.annotation-form.${type} jinn-xml-editor`).forEach((editor) => {
 			const value = editor.content;
 			if (value) {
@@ -426,7 +460,15 @@ document.addEventListener("pb-page-loaded", () => {
 					query: selection
 				});
 			}
-			window.pbEvents.emit("show-annotation", "transcription", {});
+			window.pbEvents.emit("show-annotation", "transcription", {type:type});
+			//todo: check if this custom event is even necessary
+			const event = new CustomEvent("show-annotation", {
+				composed: false,
+				bubbles: true,
+				detail:{type:type}
+			});
+			document.dispatchEvent(event);
+
 			showForm(type);
 			text = selection;
 			activeSpan = null;
@@ -765,26 +807,12 @@ document.addEventListener("pb-page-loaded", () => {
 	 * Reference changed: update authority information and search for other occurrences
 	 */
 	refInput.forEach(input => {
-		input.addEventListener("value-changed", () => {
-			const ref = input.value;
-			const authorityInfo = input.parentElement.querySelector('.authority-info');
-			if (ref && ref.length > 0) {
-				authorityInfo.innerHTML = `Loading ${ref}...`;
-				document
-					.querySelector("pb-authority-lookup")
-					.lookup(type, input.value, authorityInfo)
-					.then(info => {
-						document.getElementById('edit-entity').style.display = info.editable ? 'block' : 'none';
-
-						currentEntityInfo = info;
-						findOther(info);
-					})
-					.catch((msg) => {
-						authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
-					});
-			} else {
-				authorityInfo.innerHTML = "";
-			}
+		input.addEventListener("input", () => {
+			currentEntityInfo = updateAuthorityInfo(input, type, currentEntityInfo, findOther);
+		});
+		input.addEventListener('updateAuthorityInfo',(ev)=>{
+			console.log('############>>>>>> updating authority')
+			currentEntityInfo = updateAuthorityInfo(ev.target, type, currentEntityInfo, findOther);
 		});
 	});
 
@@ -846,11 +874,18 @@ document.addEventListener("pb-page-loaded", () => {
 	window.pbEvents.subscribe('pb-login', null, (ev) => {
 		currentUser = ev.detail.user;
 	});
-	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
-		authoritySelected(ev.detail.properties.ref)
-	);
-	document.addEventListener("authority-created", (ev) =>
-		authoritySelected(ev.detail.ref)
+	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => {
+		authoritySelected(ev.detail.properties.ref);
+		// document.querySelector('.form-ref').focus();
+		document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthorityInfo'));
+
+	});
+	document.addEventListener("authority-created", (ev) => {
+			authoritySelected(ev.detail.ref)
+			// document.querySelector('.form-ref').focus();
+			document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthorityInfo'));
+
+		}
 	);
 
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
