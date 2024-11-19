@@ -8,10 +8,14 @@
         <div class="authority-info">
             <pb-i18n key="dialogs.loading">Loading ...</pb-i18n>
         </div>
-        <pb-restricted group="tei">
+        <pb-restricted group="tei" class="icon-group">
             <button data-i18n="[title]annotations.edit-entity" id="edit-entity">
                 <iron-icon
                         icon="editor:mode-edit"></iron-icon>
+            </button>
+
+            <button id="delete-entity">
+                <iron-icon icon="icons:delete"></iron-icon>
             </button>
         </pb-restricted>
     </div>

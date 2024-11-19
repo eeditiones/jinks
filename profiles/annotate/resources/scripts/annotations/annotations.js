@@ -810,8 +810,7 @@ document.addEventListener("pb-page-loaded", () => {
 		input.addEventListener("input", () => {
 			currentEntityInfo = updateAuthorityInfo(input, type, currentEntityInfo, findOther);
 		});
-		input.addEventListener('updateAuthorityInfo',(ev)=>{
-			console.log('############>>>>>> updating authority')
+		input.addEventListener('updateAuthority',(ev)=>{
 			currentEntityInfo = updateAuthorityInfo(ev.target, type, currentEntityInfo, findOther);
 		});
 	});
@@ -821,6 +820,21 @@ document.addEventListener("pb-page-loaded", () => {
 		const ref = editEntity.parentNode.parentNode.querySelector('.form-ref');
 		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value, type }}));
 	});
+
+	const deleteEntity = document.getElementById('delete-entity');
+	deleteEntity.addEventListener('click',()=>{
+		if(window.lastSelection){
+			view.saveHistory();
+			view.deleteAnnotation(window.lastSelection);
+			window.lastSelection = null;
+
+			document.dispatchEvent(new CustomEvent('reset-panels', { detail: {id: ref.value, type }}));
+
+		}
+
+	});
+
+
 
 	const authEditor = document.getElementById('authority-editor');
 	authEditor.addEventListener('geolocation', (ev) => {
@@ -877,13 +891,13 @@ document.addEventListener("pb-page-loaded", () => {
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) => {
 		authoritySelected(ev.detail.properties.ref);
 		// document.querySelector('.form-ref').focus();
-		document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthorityInfo'));
+		document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthority',{ref:ev.detail.properties.ref}));
 
 	});
 	document.addEventListener("authority-created", (ev) => {
 			authoritySelected(ev.detail.ref)
 			// document.querySelector('.form-ref').focus();
-			document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthorityInfo'));
+			document.querySelector('.form-ref').dispatchEvent(new CustomEvent('updateAuthority',{ref:ev.detail.ref}));
 
 		}
 	);
@@ -913,6 +927,7 @@ document.addEventListener("pb-page-loaded", () => {
 	
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
+		window.lastSelection = activeSpan;
 		text = activeSpan.textContent.replace(/\s+/g, " ");
 		type = ev.detail.type;
 		autoSave = false;
