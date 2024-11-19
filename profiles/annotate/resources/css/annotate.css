@@ -70,8 +70,14 @@ aside > fx-fore > fx-group{
 #annotation{
     min-height: 22rem;
 }
+fx-group#annotation[nonrelevant]{
+    display: none;
+}
 .annotation-editor iron-form {
     padding: 0 8px;
+}
+.annotation-form pb-restricted{
+    display: flex;
 }
 
 #authority-info {
@@ -106,6 +112,7 @@ aside > fx-fore > fx-group{
     padding:0.5rem;
     overflow: auto;
     background: white;
+    width: calc(100% - 1rem);
 }
 #authority-editor fx-fore > header {
     position: absolute;
@@ -390,6 +397,10 @@ pb-view, pb-view-annotate{
     padding-right: 1rem;
     padding-bottom: 25vh;
 }
+#view1::part(content) .info{
+    display: none;
+}
+
 
 #form-save {
     float: right;
@@ -503,7 +514,11 @@ fx-fore .four-col fx-repeatitem{
 fx-fore .two-col fx-repeatitem{
     display:grid;
     grid-template-columns:auto 2rem;
-    align-items:center;
+    align-items:end;
+}
+#r-occupation fx-repeatitem{
+    width: calc(100% - 2rem);
+    align-items: end;
 }
 
 @keyframes grow {
