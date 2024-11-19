@@ -299,7 +299,7 @@
 <!--                <fx-message>show annotation {event('ref')}</fx-message>-->
                 <fx-message>show annotation type {type}</fx-message>
                 <!-- ### show annotation details panel -->
-                <fx-setvalue ref="annotation">true</fx-setvalue>
+                <fx-setvalue ref="annotation" if="type='date'">true</fx-setvalue>
             </fx-action>
 
 
