@@ -83,3 +83,13 @@ declare %private function teip:install-odd($context as map(*)) {
         else
             ()
 };
+
+declare 
+    %generator:after-write
+function teip:change-landing($context as map(*), $target as xs:string) {
+    (: rename the landing page to index.html :)
+    if (map:contains($context?defaults, "landing")) then
+        xmldb:copy-resource($target || "/templates", $context?defaults?landing, $target || "/templates", "index.html")
+    else
+        ()
+};
