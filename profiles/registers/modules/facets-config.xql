@@ -24,31 +24,41 @@ declare variable $facets-config:facets := [
         "dimension": "place",
         "heading": "serafin.facets.place",
         "max": 3,
-        "hierarchical": false()
+        "hierarchical": false(),
+        "source": "api/search/facets/place"
     },
     map {
         "dimension": "author",
         "heading": "serafin.facets.author",
-        "max": 5,
-        "hierarchical": false()
+        "max": 3,
+        "hierarchical": false(),
+        "source": "api/search/facets/author"
     },
     map {
         "dimension": "year",
         "heading": "serafin.facets.date",
-        "max": 20,
-        "hierarchical": false()
+        "max": 3,
+        "hierarchical": false(),
+        "source": "api/search/facets/year"
     },
     map {
         "dimension": "language",
         "heading": "facets.language",
         "max": 5,
         "hierarchical": false(),
-        "output": function($label) {
-            switch($label)
+        "output": function($label, $language) {
+            if (matches($language, "^pl-?")) then
+                switch($label)
                 case "it" return "włoski"
                 case "cz" return "czeski"
                 case "la" return "łaciński"
                 default return $label
+            else
+                switch($label)
+                    case "it" return "Italian"
+                    case "cz" return "Czech"
+                    case "la" return "Latin"
+                    default return $label
         }
     }
 ];

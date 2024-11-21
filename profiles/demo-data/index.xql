@@ -50,6 +50,8 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "language" return
                 head((
                     $header//tei:langUsage/tei:language/@ident,
+                    (: rule for Serafin letters :)
+                    $root//tei:text[@type="source"]/@xml:lang,
                     $root/@xml:lang,
                     $header/@xml:lang,
                     root($root)/*/@xml:lang
