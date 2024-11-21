@@ -93,8 +93,8 @@ function _reviewNext() {
         total: reviewDocs.length,
         count: currentReview + 1
     };
-    reviewDialog.querySelector('h3 [key="annotations.doc-count"]').options = counts;
-    const count = reviewDialog.querySelector('h3 .count');
+    reviewDialog.querySelector('header [key="annotations.doc-count"]').options = counts;
+    const count = reviewDialog.querySelector('header .count');
     const matches = reviewOffsets[doc];
     count.innerHTML = matches.length;
     reviewDocLink.innerHTML = doc;
