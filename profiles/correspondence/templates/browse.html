@@ -10,6 +10,7 @@
         "script": {
             "custom": [
                 "resources/scripts/facets.js",
+                "resources/scripts/browse.js",
                 "resources/scripts/correspondence.js"
             ]
         }
@@ -53,7 +54,4 @@
         </div>
         [% include "templates/footer.html" %]
     </section>
-    [% for $src in $context?script?custom?* %]
-    <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
-    [% endfor %]
 </main>
