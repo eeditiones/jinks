@@ -257,7 +257,7 @@ declare function static:split($context as map(*), $input as item()*, $batchSize 
         util:log("INFO", ("<static> Writing to ", $targetPath)),
         path:mkcol($context, $targetPath),
         xmldb:store(
-            $targetPath, 
+            $targetPath,
             "index.html",
             $output,
             "text/html"
@@ -265,22 +265,25 @@ declare function static:split($context as map(*), $input as item()*, $batchSize 
     )
 };
 
-declare function static:index($context as map(*), $input as item()*) {
+declare function static:index($context as map(*), $input as item()*, $view as xs:string) {
+		let $current-contents := parse-json(util:binary-to-string(util:binary-doc($context?target || '/index.json')))
     let $lines := array {
         for $doc in $input
-        let $request := 
-            <http:request method="GET" href="{$context?base-uri}/api/static/{encode-for-uri($doc?path)}"/>
+        let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $view
+        let $request :=
+            <http:request method="GET" href="{$href}"/>
         let $response := http:send-request($request)
         return
             if ($response[1]/@status = 200) then
                 let $data := util:binary-to-string(xs:base64Binary($response[2]))
                 return
-                    parse-json($data)
+                    array:flatten(parse-json($data))
             else
                 error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
-    } => serialize(map{ "method": "json", "indent": true() })
+    }
+		let $serialized-lines := array:join(($current-contents, $lines)) => serialize(map{ "method": "json", "indent": true() })
     return
-        xmldb:store($context?target, "index.json", $lines, "application/json")
+        xmldb:store($context?target, "index.json", $serialized-lines, "application/json")
 };
 
 (:~
