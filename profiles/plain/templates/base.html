@@ -56,5 +56,8 @@
         <script src="[[ $context-path ]]/resources/scripts/header.js"></script>
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
         [% block scripts %][% endblock %]
+        [% for $src in $context?script?custom?* %]
+        <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
+        [% endfor %]
     </body>
 </html>

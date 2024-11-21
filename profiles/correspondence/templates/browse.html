@@ -6,6 +6,12 @@
         },
         "templating": {
             "extends": "templates/base.html"
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/facets.js",
+                "resources/scripts/correspondence.js"
+            ]
         }
     }
     ---
@@ -47,8 +53,7 @@
         </div>
         [% include "templates/footer.html" %]
     </section>
-    [% block scripts %]
-    <script src="[[ $context-path ]]/resources/scripts/facets.js"></script>
-    <script src="[[ $context-path ]]/resources/scripts/correspondence.js"></script>
-    [% endblock %]
+    [% for $src in $context?script?custom?* %]
+    <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
+    [% endfor %]
 </main>

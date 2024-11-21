@@ -96,5 +96,8 @@
                 </paper-button>
             </div>
         </paper-dialog>
+        [% for $src in $context?script?custom?* %]
+        <script src="[[ $context-path ]]/[[ $src ]]"></script>
+        [% endfor %]
     </body>
 </html>

@@ -6,6 +6,11 @@
         },
         "features": {
             "toc": false
+        },
+        "script": {
+            "extra-components": [
+                "pb-leaflet-map"
+            ]
         }
     }
     ---
@@ -18,14 +23,6 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
-    [% block scripts %]
-        [% if $script?webcomponents = 'dev' %]
-        <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
-        [% elif $script?webcomponents = '' %]
-        [% else %]
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-leaflet-map.js"></script>
-        [% endif %]
     [% endblock %]
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:data-root ]]"/>

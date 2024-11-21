@@ -10,19 +10,17 @@
         ],
         "script": {
             "fore": "1.9.0",
-            "extra-components": [ "pb-code-editor" ]
+            "extra-components": [ "pb-code-editor" ],
+            "custom": [
+                "resources/scripts/annotations/review-dialog.js",
+                "resources/scripts/annotations/annotations.js"
+            ]
         },
         "features": {
             "toolbar": false
         }
     }
     ---
-
-    [% block scripts %]
-    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/annotations/review-dialog.js"></script>
-    <script type="text/javascript" src="[[ $context-path ]]/resources/scripts/annotations/annotations.js"></script>
-    [% endblock %]
-
     [% block header %]
     <span class="header-toolbar toolbar">
         <span class="icon-group">

@@ -55,5 +55,8 @@
             [[ $content ]]
         </pb-page>
         <div class="splash"/>
+        [% for $src in $context?script?custom?* %]
+        <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
+        [% endfor %]
     </body>
 </html>

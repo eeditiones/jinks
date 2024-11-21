@@ -6,12 +6,14 @@
         },
         "toolbar": {
             "zoom": false
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/registers.js"
+            ]
         }
     }
     ---
-    [% block scripts %]
-    <script src="[[ $context-path ]]/resources/scripts/registers.js"></script>
-    [% endblock %]
     [% block breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">

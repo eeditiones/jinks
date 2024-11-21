@@ -3,17 +3,14 @@
     {
         "templating": {
             "extends": "static/templates/base.html"
+        },
+        "script": {
+            "extra-components": [
+                "pb-leaflet-map"
+            ]
         }
     }
     ---
-    [% block scripts %]
-        [% if $script?webcomponents = 'dev' %]
-        <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
-        [% elif $script?webcomponents = '' %]
-        [% else %]
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-leaflet-map.js"></script>
-        [% endif %]
-    [% endblock %]
     [% block breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">

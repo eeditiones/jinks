@@ -7,6 +7,12 @@
         "features": {
             "toolbar": false,
             "hero": true
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/language.js",
+                "resources/scripts/header.js"
+            ]
         }
     }
     ---
@@ -17,11 +23,6 @@
         <p><pb-i18n key="hero.sub"/></p>
         <a href="#editions"><pb-i18n key="hero.see"/></a>
     </div>
-    [% endblock %]
-
-    [% block scripts %]
-    <script src="[[ $context-path ]]/resources/scripts/language.js"></script>
-    <script src="[[ $context-path ]]/resources/scripts/header.js"></script>
     [% endblock %]
 
     <main class="container">
