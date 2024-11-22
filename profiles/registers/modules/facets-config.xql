@@ -25,14 +25,20 @@ declare variable $facets-config:facets := [
         "heading": "serafin.facets.place",
         "max": 3,
         "hierarchical": false(),
-        "source": "api/search/facets/place"
+        "source": "api/search/facets/place",
+        "output": function($label) {
+            collection($config:register-root)/id($label)/tei:placeName[@type = "main"]/string()
+        }
     },
     map {
-        "dimension": "author",
+        "dimension": "person",
         "heading": "serafin.facets.author",
         "max": 3,
         "hierarchical": false(),
-        "source": "api/search/facets/author"
+        "source": "api/search/facets/person",
+        "output": function($label) {
+            collection($config:register-root)/id($label)/tei:persName[@type = "main"]/string()
+        }
     },
     map {
         "dimension": "year",

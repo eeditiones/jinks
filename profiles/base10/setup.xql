@@ -40,7 +40,6 @@ function teip:setup($context as map(*)) {
     cpy:copy-collection($context),
     cpy:copy-collection($context, $context?publisher || "/data/registers", "data/registers"),
     path:mkcol($context, "resources/scripts"),
-    cpy:copy-resource($context, $context?publisher || "/resources/scripts/browse.js", "resources/scripts/browse.js"),
     cpy:copy-resource($context, $context?publisher || "/data/taxonomy.xml", "data/taxonomy.xml"),
     for $lib in (
         "map.xql", "facets.xql", "registers.xql", 

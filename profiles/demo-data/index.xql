@@ -29,14 +29,24 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
     let $header := $root/tei:teiHeader
     return
         switch ($field)
-            case "author" return
+            case "persName" return
                 for $p in $header//tei:correspDesc/tei:correspAction/tei:persName/@ref
                 return 
                     idx:resolve-person($p)
+            case "person" return
+                for $persName in (
+                    $header//tei:correspDesc/tei:correspAction/tei:persName/@ref,
+                    $root//tei:text[@type="source"]//tei:persName/@ref
+                )
+                return
+                    substring($persName, 2)
             case "place" return
-                for $p in $header//tei:correspDesc/tei:correspAction/tei:placeName/@ref
+                for $placeName in (
+                    $header//tei:correspDesc/tei:correspAction/tei:placeName/@ref,
+                    $root//tei:text[@type="source"]//tei:placeName/@ref
+                )
                 return 
-                    idx:resolve-place($p)
+                    substring($placeName, 2)
             case "year" return 
                 substring($header//tei:correspDesc/tei:correspAction/tei:date/@when, 1, 4)
             case "title" return

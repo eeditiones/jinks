@@ -5,7 +5,7 @@
             <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
             <text match="/tei:TEI/tei:text">
                 <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
-                <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
+                <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'persName')"/>
                 <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')" type="xs:date"/>
                 <field name="file" expression="util:document-name(.)"/>
@@ -18,7 +18,7 @@
                 <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
 
                 <facet dimension="year" expression="nav:get-metadata(ancestor::tei:TEI, 'year')"/>
-                <facet dimension="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
+                <facet dimension="person" expression="nav:get-metadata(ancestor::tei:TEI, 'person')"/>
                 <facet dimension="place" expression="nav:get-metadata(ancestor::tei:TEI, 'place')"/>
             </text>
             [% if $defaults?search = "tei:div" %]
