@@ -7,6 +7,12 @@
     "pkg": {
         "abbrev": "static-demo"
     },
+    "extends": [
+        "base10",
+        "demo-data",
+        "registers",
+        "monograph"
+    ],
     "static": {
         "target": "static-output",
         "styles": [

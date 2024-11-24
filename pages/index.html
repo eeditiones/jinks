@@ -24,8 +24,11 @@
                 </label>
                 <label>
                     Unique identifier
-                    <input type="text" name="id" placeholder="URI" value="https://e-editiones.org/apps/"/>
+                    <input type="text" name="id" placeholder="URI"/>
                 </label>
+            </fieldset>
+            <fieldset class="buttons">
+                <button id="reset" type="reset">New Configuration</button>
             </fieldset>
         </section>
         <section>
@@ -51,7 +54,8 @@
                 [% for $profile in filter($context?profiles, function($p) { $p?type = "feature"}) %]
                 <label data-tooltip="[[ $profile?description ]]"
                     data-placement="right">
-                    <input type="checkbox" name="feature" value="[[ $profile?path ]]"/>
+                    <input type="checkbox" name="feature" value="[[ $profile?path ]]"
+                        data-extends="[[ serialize($profile?extends, map { 'method': 'json'}) ]]"/>
                     [[ $profile?label ]]
                 </label>
                 [% endfor %]

@@ -1,13 +1,15 @@
 {
     "type": "feature",
     "id": "https://e-editiones.org/app/tei-publisher/annotations",
-    "extends": "base10",
     "version": "1.0.0",
     "label": "TEI Publisher: Annotation Editor Profile",
     "description": "Creates an application for annotating TEI documents.",
     "pkg": {
         "abbrev": "tei-publisher-annotations"
     },
+    "extends": [
+        "base10"
+    ],
     "defaults": {
         "odd": "annotations.odd",
         "template": "annotate.html"

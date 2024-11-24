@@ -225,10 +225,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function update() {
         const formData = new FormData(form);
-        if (formData.get('abbrev') !== '' && formData.get('label') === '') {
-            form.querySelector('[name="label"]').value = formData.get('abbrev');
+        if (formData.get('abbrev') !== '') {
+            if (formData.get('label') === '') {
+                form.querySelector('[name="label"]').value = formData.get('abbrev');
+            }
+            if (formData.get('id') === '') {
+                form.querySelector('[name="id"]').value = `https://e-editiones.org/apps/${formData.get('abbrev')}`;
+            }
         }
-        formData.forEach((value, key) => {
+        new FormData(form).forEach((value, key) => {
             if (key !== 'base' && key !== 'feature' && key !== 'abbrev') {
                 appConfig[key] = value;
             }
@@ -241,12 +246,29 @@ window.addEventListener('DOMContentLoaded', () => {
         updateConfig();
     }
 
+    function toggleFeature(ev) {
+        const configExtends = JSON.parse(ev.target.dataset.extends);
+        if (configExtends) {
+            configExtends.forEach((profile) => {
+                const input = form.querySelector(`[value="${profile}"]`);
+                if (!ev.target.checked && input.name === 'base') {
+                    return;
+                }
+                input.checked = ev.target.checked;
+            });
+        }
+        update();
+    }
+
     applyConfigButton.addEventListener('click', (ev) => {
         ev.preventDefault();
         process(false);
     });
 
-    form.addEventListener('change', () => update());
+    // form.addEventListener('change', () => update());
+
+    form.querySelectorAll('input[type="text"]').forEach((control) => control.addEventListener('change', update));
+    form.querySelectorAll('input[type="checkbox"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     editor.addEventListener('update', () => {
         try {
@@ -255,6 +277,11 @@ window.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.log(error);
         }
+    });
+
+    document.getElementById('reset').addEventListener('click', (ev) => {
+        appConfig = {};
+        updateConfig(true);
     });
 
     loadApps();
