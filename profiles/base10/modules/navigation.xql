@@ -114,3 +114,22 @@ declare function nav:output-footnotes($footnotes as element()*) {
     }
     </div>
 };
+
+declare function nav:toc-entry($context as map(*), $content as node()?) {
+    if ($context?hasDivs) then
+        <details>
+            <summary>
+            {
+                if ($context?xmlId) then
+                    <pb-link xml-id="{$context?xmlId}" node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+                else
+                    <pb-link node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+            }
+            </summary>
+            { $content }
+        </details>
+    else if ($context?xmlId) then
+        <pb-link xml-id="{$context?xmlId}" node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+    else
+        <pb-link node-id="{$context?nodeId}" emit="{$context?target}" subscribe="{$context?target}">{$context?label}</pb-link>
+};

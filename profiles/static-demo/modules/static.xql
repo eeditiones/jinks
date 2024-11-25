@@ -66,9 +66,16 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
             "monograph/" || $page
         }),
         for $doc in $monographs?*
+        let $toc := static:load($baseUri || "/api/document/" || encode-for-uri($doc?path) || "/contents")
+        let $docContext := map:merge((
+            $context,
+            map {
+                "table-of-contents": $toc
+            }
+        ))
         return
             static:paginate(
-                $context,
+                $docContext,
                 [
                     map {
                         "path": $doc?path,

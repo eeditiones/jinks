@@ -337,6 +337,18 @@ declare %private function static:fix-links($nodes as node()*, $links as map(*)) 
                         $node/@*,
                         static:fix-links($node/node(), $links)
                     }
+            case element(pb-link) | element(xhtml:pb-link) return
+                let $target := 
+                    if ($node/@node-id) then
+                        $links("exist-" || $node/@node-id)
+                    else if ($node/@xml-id) then
+                        $links($node/@xml-id)
+                    else
+                        ()
+                return
+                    <a href="{$target}">
+                    { $node/node() }
+                    </a>
             case element() return
                 element { node-name($node) } {
                     $node/@*,

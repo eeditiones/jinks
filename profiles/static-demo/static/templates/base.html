@@ -53,6 +53,22 @@
                 </div>
             </header>
             [[ $content ]]
+            [% if $features?toc %]
+            <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
+                <div class="drawer-content">
+                    <h3>
+                        <pb-i18n key="document.contents">Contents</pb-i18n>
+                    </h3>
+                    [[ 
+                        replace(
+                            serialize($context?table-of-contents, map { "method": "xml" }),
+                            "&lt;!DOCTYPE[^&gt;]+&gt;", 
+                            ""
+                        )
+                    ]]
+                </div>
+            </pb-drawer>
+            [% endif %]
         </pb-page>
         <div class="splash"/>
         [% for $src in $context?script?custom?* %]
