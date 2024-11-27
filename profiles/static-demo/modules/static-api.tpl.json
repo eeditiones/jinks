@@ -45,11 +45,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of all places",
+                        "description": "A single index entry for the document",
                         "content": {
                             "application/json": {
                                 "schema":{
-                                    "type": "array"
+                                    "type": "object"
                                 }
                             }
                         }
@@ -57,10 +57,10 @@
                 }
             }
         },
-        "/api/static/{id}/div": {
+        "/api/static/{id}/parts": {
             "get": {
-                "summary": "Retrieve the index entries for the document given by id, split up per div",
-                "description": "Retrieve the index entry for the document given by id, split up per div",
+                "summary": "Retrieve the index entries for the document given by id, split up per page",
+                "description": "Split up the index entries into parts, i.e. in the same way as users would browse through the document page by page",
                 "tags": ["view"],
                 "operationId": "idx:entry-part",
                 "parameters": [
@@ -76,7 +76,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of all places",
+                        "description": "An array of index definitions, one for each part",
                         "content": {
                             "application/json": {
                                 "schema":{

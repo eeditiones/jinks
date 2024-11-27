@@ -60,7 +60,7 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
     let $monographs := static:load($baseUri || "/api/documents/monograph?link=" || $context?context-path || "/documents")
     return (
         (: Create search index :)
-        static:index($context, $monographs?*, 'div'),
+        static:index($context, $monographs?*, 'parts'),
 
         static:split($context, $monographs?*, 10, "static/templates/index.html", function($context as map(*), $page as xs:int) {
             "monograph/" || $page
