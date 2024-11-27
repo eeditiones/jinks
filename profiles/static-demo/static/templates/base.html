@@ -32,8 +32,6 @@
         [% endfor %]
         [% endif %]
 
-        <script src="https://rawcdn.githack.com/nextapps-de/flexsearch/0.7.31/dist/flexsearch.bundle.js"></script>
-        <script src="[[ $context-path ]]/resources/scripts/search.js"></script>
         [% block scripts %][% endblock %]
     </head>
     <body>
@@ -72,7 +70,7 @@
         </pb-page>
         <div class="splash"/>
         [% for $src in $context?script?custom?* %]
-        <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
+        <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]
     </body>
 </html>
