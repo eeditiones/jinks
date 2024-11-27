@@ -94,7 +94,7 @@ function search(index, fields, query, facets) {
         }
         results.appendChild(info);
 
-        const tokens = [query, ...query.split(/\W+/)];
+        const tokens = [query, ...query.split(/[\p{P}\s]+/u)];
         const regex = new RegExp(tokens.join('|'), 'gi');
         for (const data of result) {
             const div = document.createElement('div');
@@ -191,8 +191,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         loading = true;
         const index = new FlexSearch.Document({
-            tokenize: "strict",
-            context: true,
+            tokenize: "forward",
+            encode: false,
             document: {
                 id: "id",
                 index: indexedFields,
