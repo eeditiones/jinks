@@ -80,7 +80,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
     let $relPath := substring-after($path, $context?target || "/")
     return 
         cpy:overwrite($context, $relPath, $source, function() { $expanded }, function() {(
-            xmldb:store($context?target, $target, $expanded),
+            xmldb:store(path:parent($path), path:basename($path), $expanded),
             sm:chown(xs:anyURI($path), $context?pkg?user?name),
             sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
             sm:chmod(xs:anyURI($path), $context?pkg?permissions)

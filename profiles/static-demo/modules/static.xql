@@ -128,7 +128,7 @@ return (
     cpy:copy-template($context, "static/templates/search.html", "search.html"),
     cpy:copy-resource($context, "static/controller.xql", "controller.xql"),
     cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
-    cpy:copy-resource($context, "static/search.js", "resources/scripts/search.js"),
+    cpy:copy-template($context, "static/search.js", "resources/scripts/search.js"),
     cpy:copy-collection($context, "resources/css", "resources/css"),
     cpy:copy-resource($context, "static/templates/static.css", "resources/css/static.css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),

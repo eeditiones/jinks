@@ -1,3 +1,7 @@
+const facetNames = [[ serialize($static?facets, map { "method": "json" })]];
+const indexedFields = [[ serialize($static?fields?index, map { "method": "json" })]];
+const storedFields = [[ serialize($static?fields?store, map { "method": "json" })]];
+
 function kwicText(str, start, end, words = 5) {
     let p0 = start - 1;
     let count = 0;
@@ -30,16 +34,30 @@ function kwicText(str, start, end, words = 5) {
     return `... ${str.substring(p0, start)}<mark>${str.substring(start, end)}</mark>${str.substring(end, p1 + 1)} ...`;
 }
 
-function search(index, fields, query, facetPlace) {
+/**
+ * 
+ * @param {*} index 
+ * @param {string[]} fields 
+ * @param {string} query 
+ * @param {[{facet: string, value: string[]}]} facets 
+ */
+function search(index, fields, query, facets) {
     const results = document.getElementById('results');
-    const placesDiv = document.getElementById('places');
+    // clear facet outputs
+    facetNames.forEach((facet) => {
+        const output = document.querySelector(`.facet.${facet} div`);
+        if (output) {
+            output.innerHTML = '';
+        }
+    });
+
     results.innerHTML = '';
-    placesDiv.innerHTML = '';
 
     const queryOptions = {
         suggest: false,
         enrich: true,
-        limit: 100
+        limit: 100,
+        charset: 'utf-8'
     };
     if (fields && fields.length > 0 && fields !== 'all') {
         if (!Array.isArray(fields)) {
@@ -47,7 +65,7 @@ function search(index, fields, query, facetPlace) {
         }
         queryOptions.field = fields;
     }
-    places = [];
+    let facetValues = {};
     index.searchAsync(query, 100, queryOptions).then((resultsByField) => {
         let result = [];
         resultsByField.forEach(byField => {
@@ -60,14 +78,14 @@ function search(index, fields, query, facetPlace) {
         });
 
         result = result.filter((entry) => {
-            if (!facetPlace || facetPlace.length === 0) {
-                return true;
-            }
-            if (!entry.doc.places) {
-                return false;
-            }
-            return entry.doc.places.some((place) => facetPlace.indexOf(place) > -1);
+            return facets.every(({dimension, value}) => {
+                if (!entry.doc[dimension]) {
+                    return false;
+                }
+                return entry.doc[dimension].some((facet) => value.indexOf(facet) > -1);
+            });
         });
+        
         const info = document.createElement('h4');
         if (result.length === 100) {
             info.innerHTML = `Showing first 100 matches.`;
@@ -88,9 +106,15 @@ function search(index, fields, query, facetPlace) {
             head.innerHTML = `<a href="${data.doc.link}">${data.doc.title}</a>`;
             header.appendChild(head);
 
-            if (data.doc.places) {
-                data.doc.places.forEach(place => places.push(place));
-            }
+            facetNames.forEach((dimension) => {
+                if (data.doc[dimension]) {
+                    if (facetValues[dimension]) {
+                        facetValues[dimension].push(...data.doc[dimension]);
+                    } else {
+                        facetValues[dimension] = data.doc[dimension];
+                    }
+                }
+            });
 
             if (data.doc.tag) {
                 const tags = document.createElement('ul');
@@ -124,25 +148,34 @@ function search(index, fields, query, facetPlace) {
 
             results.appendChild(div);
         }
-        outputPlaces(places, facetPlace || []);
+
+        const queryFacets = {};
+        facets.forEach(({dimension, value}) => {
+            queryFacets[dimension] = value;
+        });
+        Object.entries(facetValues).forEach(([dimension, values]) => {
+            outputFacet(dimension, values, queryFacets);
+        });
     });
 }
 
-function outputPlaces(places, facetPlace) {
-    places = [...new Set(places)].sort();
-    const div = document.getElementById('places');
-    places.forEach(place => {
+function outputFacet(dimension, values, queryFacets) {
+    values = [...new Set(values)].sort();
+    const div = document.querySelector(`.facet.${dimension} div`);
+    values.forEach(value => {
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'checkbox';
-        input.name = 'place';
-        input.value = place;
-        input.checked = facetPlace.indexOf(place) > -1;
+        input.name = dimension;
+        input.value = value;
+        if (queryFacets[dimension]) {
+            input.checked = queryFacets[dimension].indexOf(value) > -1;
+        }
         input.addEventListener('change', function(ev) {
             pbEvents.emit('pb-search-resubmit', 'search');
         });
         label.appendChild(input);
-        const text = document.createTextNode(place.substring(1));
+        const text = document.createTextNode(value.substring(1));
         label.appendChild(text);
         div.appendChild(label);
     });
@@ -162,8 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
             context: true,
             document: {
                 id: "id",
-                index: ["content", "translation", "commentary"],
-                store: ["content", "translation", "commentary", "title", "link", "tag", "places"]
+                index: indexedFields,
+                store: storedFields
             }
         });
 
@@ -185,19 +218,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         pbEvents.subscribe('pb-load', null, (ev) => {
             const query = ev.detail.params.query;
-            search(index, ev.detail.params.field, query, ev.detail.params.place);
+            const facets = [];
+            facetNames.forEach((facet) => {
+                if (ev.detail.params[facet]) {
+                    facets.push({
+                        dimension: facet,
+                        value: ev.detail.params[facet] || []
+                    });
+                }
+            });
+            search(index, ev.detail.params.field, query, facets);
         });
 
         pbEvents.emit('pb-start-update', 'transcription');
-        fetch(`${page.endpoint}/index.json`)
+        fetch(`${page.endpoint}/index.jsonl`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not OK');
             }
-            return response.json();
+            return response.text();
         })
         .then((text) => {
-            text.forEach((doc, idx) => {
+            const lines = text.split('\n');
+            lines.forEach((line, idx) => {
+                const doc = JSON.parse(line);
                 try {
                     const indexParams = {
                         id: idx,
@@ -213,7 +257,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (query) {
-                search(index, params.getAll('field'), params.get('query'), params.getAll('place'));
+                const facets = [];
+                facetNames.forEach((facet) => {
+                    if (params.has[facet]) {
+                        facets.push({
+                            dimension: facet,
+                            value: params.getAll(facet) || []
+                        });
+                    }
+                });
+                search(index, params.getAll('field'), params.get('query'), facets);
             }
             pbEvents.emit('pb-end-update', 'transcription');
         })

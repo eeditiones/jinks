@@ -266,8 +266,7 @@ declare function static:split($context as map(*), $input as item()*, $batchSize 
 };
 
 declare function static:index($context as map(*), $input as item()*, $view as xs:string) {
-		let $current-contents := parse-json(util:binary-to-string(util:binary-doc($context?target || '/index.json')))
-    let $lines := array {
+    let $lines :=
         for $doc in $input
         let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $view
         let $request :=
@@ -277,13 +276,13 @@ declare function static:index($context as map(*), $input as item()*, $view as xs
             if ($response[1]/@status = 200) then
                 let $data := util:binary-to-string(xs:base64Binary($response[2]))
                 return
-                    array:flatten(parse-json($data))
+                    array:flatten(parse-json($data)) => serialize(map { "method": "json", "indent": false() })
             else
                 error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
-    }
-		let $serialized-lines := array:join(($current-contents, $lines)) => serialize(map{ "method": "json", "indent": true() })
+    let $current-contents := util:binary-to-string(util:binary-doc($context?target || '/index.jsonl'))
+    let $new-contents := string-join(($current-contents, $lines), "&#10;")
     return
-        xmldb:store($context?target, "index.json", $serialized-lines, "application/json")
+        xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")
 };
 
 (:~
