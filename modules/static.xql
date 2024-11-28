@@ -276,10 +276,15 @@ declare function static:index($context as map(*), $input as item()*, $view as xs
             if ($response[1]/@status = 200) then
                 let $data := util:binary-to-string(xs:base64Binary($response[2]))
                 return
-                    array:flatten(parse-json($data)) => serialize(map { "method": "json", "indent": false() })
+                    parse-json($data)?* ! serialize(., map { "method": "json", "indent": false() })
             else
                 error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
-    let $current-contents := util:binary-to-string(util:binary-doc($context?target || '/index.jsonl'))
+    let $jsonPath := path:resolve-path($context?target, '/index.jsonl')
+    let $current-contents := 
+        if (util:binary-doc-available($jsonPath)) then
+            unparsed-text-lines($jsonPath)
+        else
+            ()
     let $new-contents := string-join(($current-contents, $lines), "&#10;")
     return
         xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")
@@ -373,4 +378,32 @@ declare function static:fix-links($context as map(*)) {
     let $modified := static:fix-links($doc, $targets)
     return
         xmldb:store(util:collection-name($doc), util:document-name($doc), $modified)
+};
+
+declare function static:prepare($jsonConfig as map(*)) {
+    let $pkgTarget := path:get-package-target($jsonConfig?id)
+    let $baseUri := 
+        request:get-scheme() || "://" || request:get-server-name() || ":" || 
+        request:get-server-port() ||
+        request:get-context-path() || "/apps/" ||
+        substring-after($pkgTarget, repo:get-root())
+    let $context :=
+        map:merge((
+            $jsonConfig,
+            map {
+                "isStatic": true(),
+                "source": $pkgTarget,
+                "base-uri": $baseUri,
+                "force-overwrite": true(),
+                "context-path": request:get-context-path() || "/apps/" || $jsonConfig?static?target,
+                "target": repo:get-root() || "/" || $jsonConfig?static?target,
+                "languages": json-doc($pkgTarget || "/resources/i18n/languages.json")
+            }
+        ))
+    let $_ := (
+        if (xmldb:collection-available($context?target)) then path:rmcol($context, $context?target) else (),
+        path:mkcol($context, $context?target)
+    )
+    return
+        $context
 };

@@ -198,7 +198,7 @@ declare %private function generator:config($settings as map(*)?, $userConfig as 
                 "_update": exists($installedPkg) and $settings?overwrite != "all",
                 "_overwrite": $settings?overwrite,
                 "_dry": $settings?dry,
-                "template-suffix": ".tpl"
+                "template-suffix": "\.tpl"
             })
         )
     return

@@ -12,7 +12,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare function idx:entry($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($path)/tei:TEI
-    return
+    return [
         map {
             "content": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'la'], true()) => string-join(),
             "translation": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'pl'], true()) => string-join(),
@@ -21,6 +21,7 @@ declare function idx:entry($request as map(*)) {
             "link": "documents/" || config:get-relpath($doc) || "/1/index.html",
             "places": idx:places($doc)
         }
+    ]
 };
 
 declare %private function idx:get-next-page ($config, $div) {

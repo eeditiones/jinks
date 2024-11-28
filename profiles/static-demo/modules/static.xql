@@ -101,36 +101,13 @@ declare function local:monographs($context as map(*), $baseUri as xs:string) {
 };
 
 let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
-let $baseUri := 
-    request:get-scheme() || "://" || request:get-server-name() || ":" || 
-    request:get-server-port() ||
-    request:get-context-path() || "/apps/" ||
-    substring-after(path:get-package-target($jsonConfig?id), repo:get-root())
-let $context := map:merge((
-    $jsonConfig,
-    map {
-        "isStatic": true(),
-        "source": $config:app-root,
-        "base-uri": $baseUri,
-        "force-overwrite": true(),
-        "context-path": request:get-context-path() || "/apps/" || $jsonConfig?static?target,
-        "target": repo:get-root() || "/" || $jsonConfig?static?target,
-        "languages": json-doc($config:app-root || "/resources/i18n/languages.json")
-    }
-))
+let $context := static:prepare($jsonConfig)
 return (
-    if (xmldb:collection-available($context?target)) then path:rmcol($context, $context?target) else (),
-    path:mkcol($context, $context?target),
-    local:monographs($context, $baseUri),
-    local:letters($context, $baseUri),
-    cpy:copy-template($context, "static/templates/start.html", "index.html"),
-    cpy:copy-template($context, "static/templates/about.html", "about.html"),
-    cpy:copy-template($context, "static/templates/search.html", "search.html"),
-    cpy:copy-resource($context, "static/controller.xql", "controller.xql"),
+    local:monographs($context, $context?base-uri),
+    local:letters($context, $context?base-uri),
+    cpy:copy-collection(map:merge(($context, map:entry("template-suffix", "\.tps"))), "static", ""),
     cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
-    cpy:copy-template($context, "static/search.js", "resources/scripts/search.js"),
     cpy:copy-collection($context, "resources/css", "resources/css"),
-    cpy:copy-resource($context, "static/templates/static.css", "resources/css/static.css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
     cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
     cpy:copy-collection($context, "resources/i18n", "resources/i18n"),
