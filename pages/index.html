@@ -55,7 +55,7 @@
                 <label data-tooltip="[[ $profile?description ]]"
                     data-placement="right">
                     <input type="checkbox" name="feature" value="[[ $profile?path ]]"
-                        data-extends="[[ serialize($profile?extends, map { 'method': 'json'}) ]]"/>
+                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                     [[ $profile?label ]]
                 </label>
                 [% endfor %]

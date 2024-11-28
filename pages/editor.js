@@ -76,10 +76,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     form.querySelector('[name="label"]').value = appConfig.label;
                     form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
                     form.querySelectorAll('[name="base"]').forEach((input) => {
-                        input.checked = appConfig.extends.includes(input.value);
+                        input.checked = appConfig.depends.includes(input.value);
                     });
                     form.querySelectorAll('[name="feature"]').forEach((input) => {
-                        input.checked = appConfig.extends.includes(input.value);
+                        input.checked = appConfig.depends.includes(input.value);
                     });
                     update();
                 });
@@ -247,7 +247,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleFeature(ev) {
-        const configExtends = JSON.parse(ev.target.dataset.extends);
+        const configExtends = JSON.parse(ev.target.dataset.depends);
         if (configExtends) {
             configExtends.forEach((profile) => {
                 const input = form.querySelector(`[value="${profile}"]`);
