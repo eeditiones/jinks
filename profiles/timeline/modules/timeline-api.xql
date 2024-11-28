@@ -1,10 +1,10 @@
 xquery version "3.1";
 
-module namespace corresp="http://teipublisher.com/api/correspondence";
+module namespace timeline="http://teipublisher.com/api/timeline";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function corresp:timeline($request as map(*)) {
+declare function timeline:timeline($request as map(*)) {
     let $entries := session:get-attribute($config:session-prefix || '.hits')
     let $datedEntries := filter($entries, function($entry) {
             try {

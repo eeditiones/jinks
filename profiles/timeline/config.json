@@ -1,0 +1,22 @@
+{
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/correspondence",
+    "label": "Timeline",
+    "description": "Adds a timeline component to the browsing page ...",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "pkg": {
+        "abbrev": "tei-publisher-timeline"
+    },
+    "data-default": "letters",
+    "api": [
+        {
+            "spec": "timeline-api.json",
+            "prefix": "timeline",
+            "path": "timeline-api.xql",
+            "id": "http://teipublisher.com/api/timeline"
+        }
+    ]
+}
