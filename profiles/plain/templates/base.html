@@ -57,7 +57,7 @@
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
         [% block scripts %][% endblock %]
         [% for $src in $context?script?custom?* %]
-        <script src="[[ $context-path ]]/[[ $src ]]" defer="defer"></script>
+        <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]
     </body>
 </html>

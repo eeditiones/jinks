@@ -97,7 +97,7 @@
             </div>
         </paper-dialog>
         [% for $src in $context?script?custom?* %]
-        <script src="[[ $context-path ]]/[[ $src ]]"></script>
+        <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]
     </body>
 </html>
