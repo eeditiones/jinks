@@ -76,10 +76,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     form.querySelector('[name="label"]').value = appConfig.label;
                     form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
                     form.querySelectorAll('[name="base"]').forEach((input) => {
-                        input.checked = appConfig.depends.includes(input.value);
+                        input.checked = appConfig.extends.includes(input.value);
                     });
                     form.querySelectorAll('[name="feature"]').forEach((input) => {
-                        input.checked = appConfig.depends.includes(input.value);
+                        input.checked = appConfig.extends.includes(input.value);
                     });
                     update();
                 });
