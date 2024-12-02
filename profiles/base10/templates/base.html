@@ -27,6 +27,10 @@
         <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
         [% endfor %]
         [% elif $script?webcomponents = '' %]
+        [% elif $script?webcomponents = 'local' %]
+        <script type="module" src="resources/scripts/pb-components-bundle.js"/>    
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="resources/scripts/[[ $component ]].js"></script>    
         [% else %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
