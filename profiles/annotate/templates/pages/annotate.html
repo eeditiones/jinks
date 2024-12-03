@@ -40,7 +40,7 @@
     </main>
 
     <aside class="preview edit-panel">
-        <fx-fore ignore-expressions="pb-authority">
+        <fx-fore id="fore-annotation" ignore-expressions="pb-authority">
             <fx-model>
                 <fx-instance id="i-default">
                     <data>
@@ -113,22 +113,18 @@
                 </fx-function>
 -->
 
-                <fx-var name="default" value="instance('i-default')"></fx-var>
+<!--                <fx-var name="default" value="instance('i-default')"></fx-var>-->
             </fx-model>
-            {instance()/type}
 
             <fx-group ref="annotation" id="annotation">
                 <section>
-                    <header>Annotation Details {instance()/type}</header>
+                    <header>Annotation Details for {instance()/type}</header>
                         [% include "templates/pages/annotation/annotation-form.html" %]
                 </section>
             </fx-group>
 
             <fx-group ref="authority">
-                <header>
-                    <label><pb-i18n key="annotations.edit-reference"></pb-i18n></label>
-                    <div></div>
-                </header>
+                <header><pb-i18n key="annotations.edit-reference"></pb-i18n></header>
                 <div id="authority-editor"></div>
 
                 <pb-authority-lookup subscribe="transcription" emit="transcription">
@@ -147,8 +143,9 @@
             </fx-group>
 
             <fx-group ref="commit" id="commit" track-history="">
+                <header>Revision Description</header>
                 <section>
-                    <header>Revision Description</header>
+                    <fx-group class="noUI">
                     <fx-control ref="instance('i-commit')/@user">
                         <label>User</label>
                     </fx-control>
@@ -174,6 +171,7 @@
                         </fx-dispatch>
                         <fx-setvalue ref="commit">false</fx-setvalue>
                     </fx-trigger>
+                    </fx-group>
                 </section>
             </fx-group>
 
@@ -277,12 +275,10 @@
                 <fx-setvalue ref="authority">true</fx-setvalue>
                 <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
                 <fx-message>Remember to close/save editor before continuing</fx-message>
-<!--
                 <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
                 <fx-load url="[[ $context-path ]]/pages/annotation/{event('type')}-editor.html"
                     attach-to="#authority-editor"></fx-load>
                 <fx-dispatch name="pb-disable" targetid="view1"></fx-dispatch>
--->
             </fx-action>
 
             <fx-action event="pb-authority-error" target="#document">
