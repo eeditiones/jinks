@@ -21,21 +21,24 @@
         [% if $menu?dark-mode %]
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
         [% endif %]
+
         [% if $script?webcomponents = 'dev' %]
-        <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+        <script type="module" src="http://localhost:8090/index.js"></script>
         [% for $component in $script?extra-components?* %]
         <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
         [% endfor %]
         [% elif $script?webcomponents = '' %]
         [% else %]
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+        <script type="module" src="http://localhost:8000/src/pb-components.js"></script>
         [% for $component in $script?extra-components?* %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
         [% endfor %]
         [% endif %]
 
         [% if $script?fore %]
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+<!--        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>-->
+<!--        <script type="module" src="[[ $context-path ]]/resources/scripts/fore-dev.js"></script>-->
+                <script type="module" src="http://localhost:8090/index.js"></script>
         [% endif %]
 
         [% block scripts %][% endblock %]
