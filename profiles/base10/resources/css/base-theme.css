@@ -533,6 +533,31 @@ li.document svg {
     width: 24px;
 }
 
+li.document .thumbnail {
+    width: 8em;
+    height: 8em;
+    width:8em;
+    box-shadow:2px 2px 4px rgba(33,33,33,0.5);
+    position:relative;
+}
+li.document .thumbnail img {
+    border-radius:35px;
+    border-color: #19232d;
+    border-style: groove;
+    box-shadow: 1px 1px 1px 1px  #19232d;
+}
+
+li.document .attribution {
+    position: absolute;
+    bottom: 1rem;
+    font-size: 0.6em;
+    left: 0;
+    color: blue;
+    background: rgba(255,255,255,0.6);
+    padding: 0 0.375em;
+    border-top-left-radius: 0.25em;
+}
+
 .documents .document-select {
     flex: 0 0;
     margin-right: 20px;
