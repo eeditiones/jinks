@@ -407,3 +407,64 @@ declare function static:prepare($jsonConfig as map(*)) {
     return
         $context
 };
+
+declare %private function static:generate-collections-from-config($context as map(*)) {
+    map:for-each($context?static?collections, function($collection, $config) {
+        let $docs := static:load($context?base-uri || "/api/documents/" || $collection || "?link=" || $context?context-path || "/documents")
+        let $_ := util:log("INFO", ("<static> Processing " || count($docs?*) || " documents in collection ", $collection))
+        return (
+            (: Create search index :)
+            static:index($context, $docs?*, $config?index),
+
+            static:split($context, $docs?*, 10, $config?template, function($context as map(*), $page as xs:int) {
+                $collection || "/" || $page
+            }),
+            for $doc in $docs?*
+            let $toc := 
+                if ($config?paginate?toc) then
+                    static:load($context?base-uri || "/api/document/" || encode-for-uri($doc?path) || "/contents")
+                else
+                    ()
+            let $docContext := map:merge((
+                $context,
+                map {
+                    "table-of-contents": $toc
+                }
+            ))
+            return
+                static:paginate(
+                    $docContext,
+                    array {
+                        for $part in $config?paginate?parts?*
+                        return
+                            map:merge(($part, map:entry("path", $doc?path)))
+                    },
+                    $config?paginate?template,
+                    function($context as map(*), $n as xs:int) {
+                        "documents/" || $doc?path || "/" || $n
+                    }
+                ),
+                ()
+        )
+    })
+};
+
+(:~
+ : Generate a static version using information from the `static` section of `config.json`.
+ :)
+declare function static:generate-from-config($context as map(*)) {
+    static:generate-collections-from-config($context),
+    cpy:copy-collection(map:merge(($context, map:entry("template-suffix", "\.tps"))), "static", ""),
+    cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
+    cpy:copy-collection($context, "resources/css", "resources/css"),
+    cpy:copy-collection($context, "resources/images", "resources/images"),
+    cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
+    cpy:copy-collection($context, "resources/i18n", "resources/i18n"),
+    path:mkcol($context, "transform"),
+    for $odd in $context?odds?*
+    let $css := "transform/" || replace($odd, "\.odd$", "") || ".css"
+    where exists(util:binary-doc-available(path:resolve-path($context?source, $css)))
+    return
+        cpy:copy-resource($context, $css, $css),
+    static:fix-links($context)
+};

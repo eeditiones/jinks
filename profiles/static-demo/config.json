@@ -15,6 +15,60 @@
     ],
     "static": {
         "target": "static-output",
+        "collections": {
+            "letters": {
+                "index": "single",
+                "template": "static/templates/index.html",
+                "paginate": {
+                    "template": "static/templates/registers.html",
+                    "toc": false,
+                    "parts": [
+                        {
+                            "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+                            "odd": "serafin.odd"
+                        },
+                        {
+                            "id": "translation",
+                            "odd": "serafin.odd",
+                            "xpath": "//text[@xml:lang='pl']/body"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "odd": "serafin.odd",
+                            "xpath": "//titleStmt",
+                            "view": "single",
+                            "user.mode": "breadcrumb"
+                        },
+                        {
+                            "id": "register",
+                            "odd": "serafin.odd",
+                            "user.mode": "register"
+                        }
+                    ]
+                }
+            },
+            "monograph": {
+                "index": "parts",
+                "template": "static/templates/index.html",
+                "paginate": {
+                    "template": "static/templates/monograph.html",
+                    "toc": true,
+                    "parts": [
+                        {
+                            "odd": "dta.odd",
+                            "view": "div"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "odd": "dta.odd",
+                            "xpath": "//teiHeader/fileDesc/titleStmt/title[@type='main']",
+                            "view": "single",
+                            "user.mode": "breadcrumb"
+                        }
+                    ]
+                }
+            }
+        },
         "styles": [
             "resources/css/static.css",
             "transform/serafin.css"
