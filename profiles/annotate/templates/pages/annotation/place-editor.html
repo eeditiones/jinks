@@ -24,16 +24,16 @@
         <fx-submission id="load" method="GET" replace="instance">
             <fx-action event="submit-done">
                 <!-- setting selection we got from user as default -->
-                <fx-action if="instance()/@xml:id = 'place-NEW'">
-                    <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"/>
+                <fx-action if="instance('default')/@xml:id = 'place-NEW'">
+                    <fx-setvalue ref="instance('default')/*[1][@type='main']" value="query()"/>
                 </fx-action>
             </fx-action>
         </fx-submission>
         <fx-submission id="save" method="PUT" replace="instance">
                 <fx-action event="submit-done">
-                <fx-message>Place saved with ID {instance()/@xml:id/string()}</fx-message>
+                <fx-message>Place saved with ID {instance('default')/@xml:id/string()}</fx-message>
                     <fx-dispatch name="authority-created">
-                    <fx-property name="ref" expr="instance()/@xml:id/string()"/>
+                    <fx-property name="ref" expr="instance('default')/@xml:id/string()"/>
                     </fx-dispatch>
                 </fx-action>
             <fx-action event="submit-error">
@@ -74,7 +74,7 @@
     <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()" class="col-2">
+        <fx-group id="general" ref="instance('default')" class="col-2 noUI">
             <h2>Place ID:
                 <fx-output ref="@xml:id"/>
             </h2>
@@ -96,7 +96,7 @@
             </fx-control>
         </fx-group>
 
-        <fx-group id="note" ref="instance()" class="col-2">
+        <fx-group id="note" ref="instance('default')" class="col-2">
             <h2>Note</h2>
             <fx-control ref="note" as="node" update-event="blur">
                 <jinn-xml-editor unwrap="unwrap" class="widget" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/annotations/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
@@ -159,11 +159,11 @@
                 <pb-map-layer show="" base="" label="Mapbox" url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://osm.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt; contributors"/>
             </pb-leaflet-map>
         </fx-group>
+        <fx-trigger>
+            <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
+            <fx-call action="saveAction"/>
+        </fx-trigger>
     </main>
-    <fx-trigger>
-        <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
-        <fx-call action="saveAction"/>
-    </fx-trigger>
 
     <fx-action event="ready" if="string-length(getRef()) = 0">
         <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/place-NEW"/>
@@ -183,9 +183,9 @@
 
     <fx-action event="pb-geocode">
         <fx-message value="event('name')"/>
-        <fx-setvalue ref="instance()//location/geo" value="event('coordinates')?latitude || ' ' || event('coordinates')?longitude"/>
-        <fx-setvalue ref="instance()//country" value="event('properties')?address?country"/>
-        <fx-setvalue ref="instance()//region" value="event('properties')?address?state"/>
+        <fx-setvalue ref="instance('default')//location/geo" value="event('coordinates')?latitude || ' ' || event('coordinates')?longitude"/>
+        <fx-setvalue ref="instance('default')//country" value="event('properties')?address?country"/>
+        <fx-setvalue ref="instance('default')//region" value="event('properties')?address?state"/>
     </fx-action>
 </fx-fore>
 
