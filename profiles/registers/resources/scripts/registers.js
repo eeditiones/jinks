@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     page.addEventListener('pb-page-ready', function(ev) {
         if (document.querySelector('pb-split-list')) {
-            const endpoint = ev.detail.data.endpoint;
+            const endpoint = ev.detail.endpoint;
             
             map.addEventListener('pb-ready', function(ev) {
                 const url = `${endpoint}/api/places/all`;

@@ -39,5 +39,40 @@ return (
                 "people/" || $person?id
             }
         ),
-    static:redirect($context, "people", "a/index.html")
+    static:redirect($context, "people", "A/index.html"),
+    let $grouped :=
+        for $place in $places?*
+        group by $letter := substring($place?label, 1, 1) => upper-case()
+        order by $letter collation "?lang=pl"
+        return map {
+            "page": $letter,
+            "data": array { $place }
+        }
+    return
+        static:split(
+            map:merge(($context, map:entry("geodata", $places))), 
+            $grouped, 
+            "static/templates/places.html", 
+            function($context as map(*), $page) {
+                "places/" || encode-for-uri($page)
+            }
+        ),
+    for $place in $places?*
+    let $log := util:log("INFO", ("Processing place: ", $place?id))
+    return
+        static:paginate(
+            map:merge(($context, map:entry("place", $place))),
+            [
+                map {
+                    "odd": "serafin.odd",
+                    "path": "registers/places.xml",
+                    "xpath": "/id('" || $place?id || "')",
+                    "view": "single"
+                }
+            ],
+            "static/templates/place.html",
+            function($context as map(*), $n as xs:int) {
+                "places/" || $place?id
+            }
+        )
 )

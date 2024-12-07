@@ -194,7 +194,7 @@ declare function rview:output-place($list, $category as xs:string, $search as xs
 };
 
 declare function rview:places-all($request as map(*)) {
-    let $places := collection($config:register-root)//tei:place
+    let $places := collection($config:register-root)/id("pb-places")//tei:place
     return 
         array { 
             for $place in $places[tei:location/tei:geo/text()]
@@ -204,7 +204,8 @@ declare function rview:places-all($request as map(*)) {
                     map {
                         "latitude":$coords[1],
                         "longitude":$coords[2],
-                        "label":($place/tei:placeName)[1]/string()
+                        "label":($place/tei:placeName)[1]/string(),
+                        "id": $place/@xml:id/string()
                     }
             }        
 };
