@@ -1,0 +1,28 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/base.html"
+        },
+        "toolbar": {
+            "zoom": false
+        },
+        "styles": [
+            "transform/serafin.css"
+        ]
+    }
+    ---
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]"><pb-i18n key="menu.people"/></a></li>
+                <li>[[ $person?name ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endblock %]
+    <section class="person">
+        [[ $parts?default?content ]]
+    </section>
+</main>

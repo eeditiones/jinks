@@ -123,7 +123,7 @@
                 "summary": "List people",
                 "description": "Retrieve list of people in format required by pb-split-list",
 				"tags": ["view"],
-                "operationId": "rview:people-all",
+                "operationId": "rview:people-categories",
                 "parameters": [
 					{
 						"name": "category",
@@ -162,37 +162,25 @@
                 }
             }
         },
-        "/api/person/{id}": {
-			"get": {
-				"summary": "Get information about a specific person",
-				"description": "Get information about a specific person",
+		"/api/people/all": {
+            "get": {
+                "summary": "List all people",
+                "description": "Retrieve list of all people",
 				"tags": ["view"],
-				"operationId": "rview:person",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"description": "ID of the person",
-						"required": true,						
-						"schema":{
-							"type": "string",
-							"default": "all"
-						}
-					}
-				],
+                "operationId": "rview:people-all",
 				"responses": {
-					"200": {
-						"description": "HTML of the page",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
+                    "200": {
+                        "description": "List of all people as JSON array",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
 				}
-			}
+			}			
 		},
 		"/places": {
             "get": {

@@ -18,7 +18,9 @@
 
         <title>[[ $label ]]</title>
         
+        [% if $menu?dark-mode %]
         <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+        [% endif %]
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
@@ -32,14 +34,24 @@
         [% endfor %]
         [% endif %]
 
+        [% if $script?fore %]
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+        [% endif %]
+
         [% block scripts %][% endblock %]
     </head>
     <body>
         <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
-            locales="resources/i18n/{{ns}}/{{lng}}.json" 
+            locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json" 
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved">
+            [% if $context?features?hero %]
+            <div class="banner-spacer">
+                <!-- Contains the banner image spanning header and hero -->
+                <div></div>
+            </div>
+            [% endif %]
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -48,9 +60,12 @@
                     [% if $features?toolbar %]
                     [% include "static/templates/toolbar.html" %]
                     [% endif %]
+
+                    [% block header %][% endblock %]
                 </div>
             </header>
-            [[ $content ]]
+            [% block hero %][% endblock %]
+            [[ if ($context?templating?strip-root) then $content/node() else $content ]]
             [% if $features?toc %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                 <div class="drawer-content">

@@ -21,24 +21,43 @@ declare function rview:sort($people as array(*)*, $dir as xs:string) {
             reverse($sorted)
 };
 
-declare function rview:people-all($request as map(*)){
+declare function rview:people-all($request as map(*)) {
+    let $people := collection($config:register-root)//tei:person
+    let $byKey := for-each($people, function($person as element()) {
+        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
+        return
+            [lower-case($label), $person]
+    })
+    let $sorted := rview:sort($byKey, "asc")
+    return array { 
+        for $person in $sorted
+        where $person?1
+        return
+            map {
+                "id": $person?2/@xml:id/string(),
+                "name": $person?2/tei:persName[@type="main"]/string()
+            }
+     }
+};
+
+declare function rview:people-categories($request as map(*)){
     let $search := normalize-space($request?parameters?search)
     let $letterParam := $request?parameters?category
     let $sortDir := ($request?parameters?dir, 'asc')[1]
-    let $limit := $request?parameters?limit
+    let $limit := head(($request?parameters?limit, -1))
     let $people :=
             if ($search and $search != '') then
                 collection($config:register-root)//tei:person[ft:query(., 'name:(' || $search || '*)')]
             else
                 collection($config:register-root)//tei:person
     let $byKey := for-each($people, function($person as element()) {
-        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName)[1]
+        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
         return
             [lower-case($label), $label, $person]
     })
     let $sorted := rview:sort($byKey, $sortDir)
     let $letter := 
-        if (count($people) < $limit) then 
+        if ($limit < 0 or count($people) < $limit) then 
             "all"
         else if ($letterParam = '') then
             substring($sorted[1]?1, 1, 1) => upper-case()
@@ -103,20 +122,6 @@ declare function rview:person-html($request as map(*)) {
     }
     return
         vapi:html($request, $extConfig)
-};
-
-declare function rview:person($request as map(*)) {
-    let $id := xmldb:decode-uri($request?parameters?id)
-    let $pers := collection($config:register-root)/id($id)
-    let $params := 
-        map {
-            "root": $pers,
-            "view": "single",
-            "odd": $config:default-odd,
-            "entity": "yes"
-        }
-    return
-        $pm-config:web-transform($pers, $params, $config:default-odd)
 };
 
 declare function rview:places($request as map(*)){

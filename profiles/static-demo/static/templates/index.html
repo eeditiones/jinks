@@ -11,11 +11,11 @@
     ---
     <main>
         <div role="group">
-            [% for $i in 1 to $pagination?total %]
-                [% if $pagination?page = $i %]
-                <a role="button" href="../[[ $i ]]/index.html" aria-current="page">[[ $i ]]</a>
+            [% for $i in $pagination?all %]
+                [% if $pagination?page = $i?page %]
+                <a role="button" href="../[[ $i?page ]]/index.html" aria-current="page">[[ $i?page ]]</a>
                 [% else %]
-                <a role="button" href="../[[ $i ]]/index.html">[[ $i ]]</a>
+                <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
                 [% endif %]
             [% endfor %]
         </div>

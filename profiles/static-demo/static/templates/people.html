@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/base.html"
+        },
+        "toolbar": {
+            "zoom": false
+        }
+    }
+    ---
+    [% block breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]"><pb-i18n key="menu.people"/></a></li>
+                <li>[[ $pagination?page ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endblock %]
+    <main class="grid nav">
+        <aside>
+            <nav>
+                <ul>
+                [% for $i in $pagination?all %]
+                    <li>
+                        [% if $pagination?page = $i?page %]
+                        <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
+                        [% else %]
+                        <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
+                        [% endif %]
+                    </li>
+                [% endfor %]
+                </ul>
+            </nav>
+        </aside>
+        <ul>
+        [% for $doc in $content %]
+            <li>
+                <a href="../[[$doc?id]]">[[$doc?name]]</a>
+            </li>
+        [% endfor %]
+        </ul>
+    </main>
+</div>

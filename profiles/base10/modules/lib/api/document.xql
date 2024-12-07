@@ -473,7 +473,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                         pages:process-content($content, $xml?data, $xml?config, $userParams)
                     default return
                         $content
-            let $transformed := dapi:extract-footnotes($html[1], $xml?data)
+            let $transformed := dapi:extract-footnotes($html[1], $xml?data[1])
             let $path := replace($path, "^.*/([^/]+)$", "$1")
             return
                 if ($request?parameters?format = "html") then

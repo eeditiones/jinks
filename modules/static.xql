@@ -228,12 +228,19 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
  :)
 declare function static:split($context as map(*), $input as item()*, $batchSize as xs:int, 
     $template as xs:string, $targetPathGen as function(*)) {
-    let $templateContent := cpy:resource-as-string($context, $template)?content
     let $chunks :=
-        for $p in 0 to count($input) idiv $batchSize
-        return
-            array { subsequence($input, $p * $batchSize + 1, $batchSize) }
-    for $chunk at $page in $chunks
+        for $p at $page in 0 to count($input) idiv $batchSize
+        return map {
+            "page": $page,
+            "data": array { subsequence($input, $p * $batchSize + 1, $batchSize) }
+        }
+    return
+        static:split($context, $chunks, $template, $targetPathGen)
+};
+
+declare function static:split($context as map(*), $chunks as map(*)*, $template as xs:string, $targetPathGen as function(*)) {
+    let $templateContent := cpy:resource-as-string($context, $template)?content
+    for $chunk in $chunks
     let $output :=
         tmpl:process(
             $templateContent, 
@@ -241,10 +248,10 @@ declare function static:split($context as map(*), $input as item()*, $batchSize 
                 $context,
                 map {
                     "pagination": map {
-                        "page": $page,
-                        "total": count($chunks)
+                        "page": $chunk?page,
+                        "all": $chunks
                     },
-                    "content": $chunk?*
+                    "content": $chunk?data?*
                 }
             )),
             map {
@@ -252,7 +259,7 @@ declare function static:split($context as map(*), $input as item()*, $batchSize 
                 "resolver": cpy:resource-as-string($context, ?)
             }
         )
-    let $targetPath := path:resolve-path($context?target, $targetPathGen($context, $page))
+    let $targetPath := path:resolve-path($context?target, $targetPathGen($context, $chunk?page))
     return (
         util:log("INFO", ("<static> Writing to ", $targetPath)),
         path:mkcol($context, $targetPath),
