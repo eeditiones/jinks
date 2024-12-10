@@ -82,6 +82,26 @@ declare function dapi:print($request as map(*)) {
     dapi:generate-html($request, "print")
 };
 
+declare function dapi:wp($request as map(*)) {
+    let $doc := xmldb:decode($request?parameters?id)
+    return
+        if ($doc) then
+            let $xml := config:get-document($doc)
+            return
+                if (exists($xml)) then
+                    let $config := tpu:parse-pi(root($xml), (), $request?parameters?odd)
+                    let $out := $pm-config:wp-transform($xml, map { "root": $xml, "webcomponents": false() }, $config?odd)
+                    let $html := ($out[2], $out[1])[1]
+                    return
+                        <w-document odd="{$config?odd}">
+                        { $html/node() }
+                        </w-document>
+                else
+                    error($errors:NOT_FOUND, "Document " || $doc || " not found")
+        else
+            error($errors:BAD_REQUEST, "No document specified")
+};
+
 declare %private function dapi:generate-html($request as map(*), $outputMode as xs:string) {
     let $doc := xmldb:decode($request?parameters?id)
     let $addStyles :=
@@ -101,6 +121,8 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
                     let $out := 
                         if ($outputMode = 'print') then
                             $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                        else if ($outputMode = 'wp') then
+                            $pm-config:wp-transform($xml, map { "root": $xml, "webcomponents": false() }, $config?odd)
                         else
                             $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                     let $styles := (

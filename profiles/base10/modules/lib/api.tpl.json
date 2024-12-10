@@ -284,6 +284,75 @@
 				}
 			}
 		},
+		"/docx/{docid}": {
+			"get": {
+				"summary": "Generate a print preview using Paged Media CSS",
+				"tags": ["view"],
+				"operationId": "vapi:view",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "docid",
+						"in": "path",
+						"description": "Relative path to the document",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/orlik_to_serafin.xml"
+						},
+						"allowReserved": true
+					},
+					{
+						"name": "template",
+						"in": "query",
+						"description": "Name of the template to be used. Overwrites any default template setting.",
+						"schema": {
+							"type": "string",
+							"default": "docx-preview.html"
+						}
+					},
+					{
+						"name": "odd",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML view for the document",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "An error occurred",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/{docid}.md": {
 			"get": {
 				"summary": "Retrieve the HTML template for a markdown file and render it",
@@ -1250,6 +1319,63 @@
 								"schema": {
 									"type": "string",
 									"format": "binary"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Document not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/document/{id}/wp": {
+			"get": {
+				"summary": "Retrieve document content as EPub",
+				"description": "Retrieve whole document as EPub transformed via ODD",
+				"tags": ["documents"],
+				"operationId": "dapi:wp",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "test/F-rom.xml"
+						}
+					},
+					{
+						"name": "odd",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "shakespeare.odd"
+						}
+					},
+					{
+						"name": "base",
+						"description": "Base URI to use for resolving links and images",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Returns an ePUB",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
 								}
 							}
 						}

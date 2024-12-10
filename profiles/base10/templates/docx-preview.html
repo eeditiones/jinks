@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    ---json
+    {
+        "features": {
+            "toolbar": false,
+            "menubar": false
+        },
+        "templating": {
+            "extends": "templates/base.html"
+        },
+        "script": {
+            "custom": [
+                "https://unpkg.com/docx@7.1.0/build/index.js",
+                "https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js",
+                "resources/scripts/docx.js"
+            ]
+        }
+    }
+    ---
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+        root-path="[[ $config:app-root ]]"/>
+    <main>
+        <div id="content">Loading ...</div>
+    </main>
+</div>

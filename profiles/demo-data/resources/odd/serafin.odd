@@ -137,19 +137,25 @@
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model behaviour="note">
-            <param name="content" value="let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target]"/>
-        </model>
+                        <param name="content" value="let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target]/node()"/>
+                        <param name="label" value="let $target := '#' || @xml:id return root(.)//div[@type='notes']/note[@target=$target]/@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model output="latex" behaviour="inline">
-            <param name="id" value="substring-after(@ref, '#')"/>
-            <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
-        </model>
+                        <param name="id" value="substring-after(@ref, '#')"/>
+                        <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
+                    </model>
                     <model output="print" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: #1565c0;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        color: #1565c0;
+                        </outputRendition>
+                    </model>
+                    <model output="wp" behaviour="inline" cssClass="persName">
+                        <outputRendition xml:space="preserve">
+                        color: #1565c0;
+                        </outputRendition>
+                    </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <param name="content" value="."/>
             <param name="alternate" value="parent::person/note"/>
@@ -209,7 +215,7 @@
             content: ': ';
             </outputRendition>
         </model>
-                    <model predicate="@target" behaviour="inline"/>
+                    <model predicate="ancestor::back" behaviour="omit"/>
                     <model behaviour="note"/>
                 </elementSpec>
         <elementSpec ident="placeName" mode="add">
