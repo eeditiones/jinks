@@ -14,7 +14,8 @@
                   
                  
                   
-                 <desc>15th c. manuscript correspondence with parallel translation</desc>
+                 
+                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -222,28 +223,6 @@
             color: #ef6c00;
             </outputRendition>
         </model>
-                    <modelSequence predicate="$parameters?mode='map'">
-            <model behaviour="webcomponent">
-                <param name="name" value="'pb-geolocation'"/>
-                <param name="longitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/location/geo, ' ')[1]"/>
-                <param name="label" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName"/>
-                <param name="key" value="substring-after(@ref, '#')"/>
-                <param name="emit" value="'map'"/>
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/placeName/string()"/>
-                <outputRendition xml:space="preserve">
-                
-                
-                color: #1565c0;
-    cursor: pointer;
-                
-                
-                </outputRendition>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))/note"/>
-            </model>
-        </modelSequence>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="alternate">
             <param name="default" value="."/>
@@ -252,14 +231,7 @@
             color: #ef6c00;
             </outputRendition>
         </model>
-                    <model predicate="parent::place" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="after">
-            content: ': ';
-            </outputRendition>
-            <outputRendition xml:space="preserve">
-            font-weight: bold;
-            </outputRendition>
-        </model>
+                    <model predicate="parent::place" behaviour="inline"/>
                     <model behaviour="alternate">
             <param name="default" value="."/>
             <param name="alternate" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))"/>
@@ -438,9 +410,6 @@
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="place" mode="add">
-                    <model predicate="$parameters?mode='map'" behaviour="block">
-            <param name="content" value="(placeName/string(), ' ', note)"/>
-        </model>
                     <model output="latex" behaviour="glossary">
             <param name="name" value="placeName/text()"/>
             <param name="note" value="note"/>
@@ -450,11 +419,24 @@
             <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
             <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
             <param name="label" value="placeName[@type='main']/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map">[[content]]</pb-geolocation></pb:template>
+            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" zoom="11">[[content]]</pb-geolocation></pb:template>
         </model>
-                    <model behaviour="inline">
-            <param name="content" value="(placeName[@type='main'], note)"/>
-        </model>
+                    <modelSequence>
+            <model behaviour="heading">
+                <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+                <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                <param name="label" value="placeName[@type='main']/node()"/>
+                <param name="content" value="placeName[@type='main']"/>
+                <param name="location" value="(country, region)"/>
+                <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="note"/>
+            </model>
+            <model behaviour="list" cssClass="links">
+                <param name="content" value="ptr"/>
+            </model>
+        </modelSequence>
                 </elementSpec>
             
             <elementSpec ident="div" mode="change">
@@ -486,6 +468,27 @@
                 </elementSpec>
                 <elementSpec ident="death" mode="add">
                     <model behaviour="inline" cssClass="death"/>
+                </elementSpec>
+            <elementSpec ident="geo" mode="add"/>
+                <elementSpec ident="region" mode="add">
+                    <model behaviour="inline" cssClass="region"/>
+                </elementSpec>
+            <elementSpec ident="country" mode="add">
+                    <model behaviour="inline" cssClass="country"/>
+                </elementSpec>
+                <elementSpec ident="ptr" mode="change">
+                    <model predicate="parent::notatedMusic" behaviour="pass-through">
+            <desc>Load and display external MEI</desc>
+            <param name="url" value="@target"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
+                              <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+                              </pb-mei></pb:template>
+        </model>
+                    <model predicate="parent::place" behaviour="listItem">
+            <param name="target" value="@target"/>
+            <param name="type" value="@type"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[target]]">[[type]]</a></pb:template>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

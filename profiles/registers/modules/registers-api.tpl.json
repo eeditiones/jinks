@@ -72,7 +72,7 @@
 				"summary": "Landing page for people",
 				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
 				"tags": ["view"],
-				"operationId": "rview:person-html",
+				"operationId": "rview:detail-html",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
                     {
@@ -228,7 +228,7 @@
 				"summary": "HTML page for place details",
 				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
 				"tags": ["view"],
-				"operationId": "rview:person-html",
+				"operationId": "rview:detail-html",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
                     {

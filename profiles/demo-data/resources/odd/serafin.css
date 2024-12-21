@@ -51,3 +51,24 @@ pb-popover {
 .person div {
     margin-top: 1rem;
 }
+
+pb-geolocation small {
+    font-size: var(--pb-footnote-font-size);
+    color: var(--pb-color-lighter);
+}
+
+pb-geolocation small:has(*)::before {
+    content: " (";
+}
+
+pb-geolocation small:has(*)::after {
+    content: ")";
+}
+
+.country + .region::before {
+    content: ", ";
+}
+
+.place .links {
+    margin-top: 1rem;
+}

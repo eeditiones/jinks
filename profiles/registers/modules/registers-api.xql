@@ -106,15 +106,19 @@ declare function rview:output-person-all($list, $letter as xs:string,  $search a
     }
 };
 
-declare function rview:person-html($request as map(*)) {
+declare function rview:detail-html($request as map(*)) {
     let $id := xmldb:decode-uri($request?parameters?id)
-    let $pers := collection($config:register-root)/id($id)
-    let $config := tpu:parse-pi(root($pers), $request?parameters?view, $request?parameters?odd)
-    let $letters := collection($config:data-root || "/letters")//tei:persName[@ref = '#' || $id]/ancestor::tei:TEI
+    let $persOrPlace := collection($config:register-root)/id($id)
+    let $config := tpu:parse-pi(root($persOrPlace), $request?parameters?view, $request?parameters?odd)
+    let $letters := 
+        if ($persOrPlace instance of element(tei:person)) then
+            collection($config:data-root || "/letters")//tei:persName[@ref = '#' || $id]/ancestor::tei:TEI
+        else
+            collection($config:data-root || "/letters")//tei:placeName[@ref = '#' || $id]/ancestor::tei:TEI
     let $extConfig := map {
         "data": map {
             "id": $id,
-            "root": $pers,
+            "root": $persOrPlace,
             "letters": $letters,
             "transform": $pm-config:web-transform(?, ?, $config?odd),
             "transform-with": $pm-config:web-transform
