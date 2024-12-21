@@ -388,6 +388,11 @@ declare function static:fix-links($context as map(*)) {
 };
 
 declare function static:prepare($jsonConfig as map(*)) {
+    let $staticTarget := 
+        if ($jsonConfig?static?target) then
+            $jsonConfig?static?target
+        else
+            $jsonConfig?pkg?abbrev || "-static"
     let $pkgTarget := path:get-package-target($jsonConfig?id)
     let $baseUri := 
         request:get-scheme() || "://" || request:get-server-name() || ":" || 
@@ -402,8 +407,8 @@ declare function static:prepare($jsonConfig as map(*)) {
                 "source": $pkgTarget,
                 "base-uri": $baseUri,
                 "force-overwrite": true(),
-                "context-path": request:get-context-path() || "/apps/" || $jsonConfig?static?target,
-                "target": repo:get-root() || "/" || $jsonConfig?static?target,
+                "context-path": request:get-context-path() || "/apps/" || $staticTarget,
+                "target": repo:get-root() || "/" || $staticTarget,
                 "languages": json-doc($pkgTarget || "/resources/i18n/languages.json")
             }
         ))
