@@ -23,13 +23,6 @@
     </li>
     [% endblock %]
     <section class="person">
-        [[ $data?transform($data?root, ()) ]]
-
-        <h4>Letters</h4>
-        <ul>
-            [% for $letter in $data?letters %]
-            <li>[[ browse:header($context, $letter) ]]</li>
-            [% endfor %]
-        </ul>
+        [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
     </section>
 </main>

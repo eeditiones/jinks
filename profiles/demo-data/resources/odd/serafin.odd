@@ -202,6 +202,14 @@
             <model behaviour="block">
                 <param name="content" value="note"/>
             </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>List of letters (in register details only)</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@ref = '#' || $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+  <h2>Letters</h2>
+  [[content]]
+</div></pb:template>
+            </model>
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
@@ -263,7 +271,11 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="heading">
+                    <model predicate="$parameters?mode='register-details'" behaviour="link">
+            <param name="content" value="string()"/>
+            <param name="uri" value="$global:context-path || substring-after(document-uri(root(.)), $global:data-root)"/>
+        </model>
+                    <model predicate="parent::titleStmt and $parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
                     <modelSequence predicate="parent::titleStmt/parent::fileDesc">
@@ -324,6 +336,10 @@
             <param name="content" value="."/>
         </model>
                     <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+            <desc>List of letters in register detail view</desc>
+            <param name="content" value="title[not(@type)]"/>
+        </model>
                     <model predicate="$parameters?mode='title'" behaviour="heading">
             <param name="content" value="title[not(@type)]"/>
             <param name="level" value="5"/>
@@ -383,10 +399,6 @@
         </model>
                     <model output="fo" behaviour="omit"/>
                     <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
-                    <model output="web" predicate="$parameters?header='letter'" behaviour="heading">
-            <param name="content" value="fileDesc/titleStmt/title[not(@type)]"/>
-            <param name="level" value="2"/>
-        </model>
                     <model output="web" behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="correspAction" mode="add">
@@ -430,11 +442,19 @@
                 <param name="location" value="(country, region)"/>
                 <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
             </model>
-            <model behaviour="block">
+            <model behaviour="paragraph">
                 <param name="content" value="note"/>
             </model>
             <model behaviour="list" cssClass="links">
                 <param name="content" value="ptr"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>List of letters (in register details only)</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@ref = '#' || $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+  <h2>Letters</h2>
+  [[content]]
+</div></pb:template>
             </model>
         </modelSequence>
                 </elementSpec>
@@ -490,6 +510,26 @@
             <pb:template xmlns="" xml:space="preserve"><a href="[[target]]">[[type]]</a></pb:template>
         </model>
                 </elementSpec>
+            <elementSpec ident="fileDesc" mode="change">
+        <modelSequence predicate="$parameters?header='short'">
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="titleStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="editionStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="publicationStmt"/>
+            </model>
+            <model behaviour="block" cssClass="sample-description">
+                <desc>Output abstract containing demo description</desc>
+                <param name="content" value="../profileDesc/abstract"/>
+            </model>
+        </modelSequence>
+        <model behaviour="title">
+            <param name="content" value="titleStmt"/>
+        </model>
+    </elementSpec>
             </schemaSpec>
         </body>
     </text>

@@ -33,13 +33,6 @@
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
     <section class="place">
-        [[ $data?transform($data?root, ()) ]]
-
-        <h4>Letters</h4>
-        <ul>
-            [% for $letter in $data?letters %]
-            <li>[[ browse:header($context, $letter) ]]</li>
-            [% endfor %]
-        </ul>
+        [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
     </section>
 </main>
