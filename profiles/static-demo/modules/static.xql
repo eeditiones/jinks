@@ -28,7 +28,10 @@ declare function local:people($context as map(*)) {
                         "odd": "serafin.odd",
                         "path": "registers/persons.xml",
                         "xpath": "/id('" || $person?id || "')",
-                        "view": "single"
+                        "view": "single",
+                        "user.context-path": $context?context-path,
+                        "user.static": true(),
+                        "user.mode": "register-details"
                     }
                 ],
                 "static/templates/person.html",
@@ -70,7 +73,10 @@ declare function local:places($context as map(*)) {
                         "odd": "serafin.odd",
                         "path": "registers/places.xml",
                         "xpath": "/id('" || $place?id || "')",
-                        "view": "single"
+                        "view": "single",
+                        "user.context-path": $context?context-path,
+                        "user.static": true(),
+                        "user.mode": "register-details"
                     }
                 ],
                 "static/templates/place.html",

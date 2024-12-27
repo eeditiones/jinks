@@ -15,7 +15,8 @@
                  
                   
                  
-                  <desc>15th c. manuscript correspondence with parallel translation</desc>
+                  
+                 <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -271,6 +272,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
+            <param name="uri" value="$parameters?context-path || &#34;/documents/&#34; || substring-after(document-uri(root(.)), $global:data-root) || '/1/index.html'"/>
+            <param name="content" value="string()"/>
+        </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
             <param name="content" value="string()"/>
             <param name="uri" value="$global:context-path || substring-after(document-uri(root(.)), $global:data-root)"/>
@@ -511,7 +516,7 @@
         </model>
                 </elementSpec>
             <elementSpec ident="fileDesc" mode="change">
-        <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?header='short'">
             <model behaviour="block" cssClass="header-short">
                 <param name="content" value="titleStmt"/>
             </model>
@@ -526,10 +531,10 @@
                 <param name="content" value="../profileDesc/abstract"/>
             </model>
         </modelSequence>
-        <model behaviour="title">
+                    <model behaviour="title">
             <param name="content" value="titleStmt"/>
         </model>
-    </elementSpec>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

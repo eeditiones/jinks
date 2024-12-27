@@ -1,4 +1,4 @@
-<main>
+<main class="place-details">
     ---json
     {
         "templating": {
@@ -6,6 +6,9 @@
         },
         "toolbar": {
             "zoom": false
+        },
+        "features": {
+            "toc": false
         },
         "styles": [
             "transform/serafin.css"
@@ -17,16 +20,17 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'places']?url ]]"><pb-i18n key="menu.places"/></a></li>
-                <li>[[ $place?name ]]</li>
+                <li>[[ $place?label ]]</li>
             </ul>
         </nav>
     </li>
     [% endblock %]
-    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
+    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude ]]">
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
     <section class="place">
-        <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]" emit="map" auto="auto"></pb-geolocation>
+        <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]" 
+            emit="map" auto="auto" wait-for="#map"></pb-geolocation>
         [[ $parts?default?content ]]
     </section>
 </main>

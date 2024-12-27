@@ -136,6 +136,7 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
             map:entry($param, $params($param))
     ))
     let $urlParams := static:params-to-query($mergedParams)
+    let $_ := util:log("INFO", ("<static> load part: ", $urlParams))
     let $request := 
         <http:request method="GET" 
             href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?{$urlParams}"/>
