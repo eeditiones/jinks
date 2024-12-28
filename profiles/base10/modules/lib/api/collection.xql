@@ -5,7 +5,6 @@ module namespace capi="http://teipublisher.com/api/collection";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace vapi="http://teipublisher.com/api/view" at "view.xql";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
