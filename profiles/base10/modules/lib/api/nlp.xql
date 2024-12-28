@@ -126,7 +126,6 @@ declare function nlp:matches-to-annotations($request as map(*)) {
     let $json := $request?body
     for $docPath in map:keys($json)
     let $doc := doc($config:data-root || "/" || $docPath)/tei:TEI/tei:text
-    let $_ := util:log("INFO", ("DOC: ", $config:data-root || "/" || $docPath))
     let $matches := $json($docPath)
     return
         if (array:size($matches) > 0 and $doc) then

@@ -7,7 +7,6 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace lib="http://exist-db.org/xquery/html-templating/lib" at "../templates-lib.xql";
-import module namespace browse="http://www.tei-c.org/tei-simple/templates" at "../browse.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
