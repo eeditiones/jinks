@@ -455,6 +455,11 @@ paper-icon-button[data-type="edit"] {
 #d-review {
     /* Lower the default z-index from pico (9999) to 99 so the paper-dialogs can overlap it */
     z-index: 99;
+    --pico-border-radius: 0;
+}
+
+#d-review article {
+    max-width: 85vw;
 }
 
 #d-review ul {
@@ -467,6 +472,7 @@ paper-icon-button[data-type="edit"] {
 
 #d-review footer {
     font-size: var(--pb-footnote-font-size);
+    text-align: left;
 }
 
 /* ### authority editor */
