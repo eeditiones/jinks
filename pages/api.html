@@ -7,12 +7,20 @@
     </head>
     <body>
         <div id="swagger"></div>
-        <div id="custom"></div>
+        <div id="deploy"></div>
         <script>
             window.onload = function() {
                 SwaggerUIBundle({
                     url: "modules/api.json",
                     dom_id: '#swagger',
+                    displayOperationId: true,
+                    displayRequestDuration: true,
+                    showExtensions: true,
+                    withCredentials: true
+                });
+                SwaggerUIBundle({
+                    url: "modules/deploy-api.json",
+                    dom_id: '#deploy',
                     displayOperationId: true,
                     displayRequestDuration: true,
                     showExtensions: true,

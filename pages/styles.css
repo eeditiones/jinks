@@ -202,13 +202,13 @@ jinn-codemirror {
     justify-content: flex-start;
 }
 
-.installed a {
+.installed li {
     display: flex;
     column-gap: .5rem;
     color: #000;
 }
 
-.installed a > div {
+.installed li > div {
     padding-top: .5rem;
 }
 
@@ -230,7 +230,7 @@ jinn-codemirror {
     color: var(--text-light);
 }
 
-.installed img, .installed a > label {
+.installed img, .installed li > label {
     display: block;
     margin: 0 auto;
 }

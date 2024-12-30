@@ -38,6 +38,17 @@ declare function dep:deploy($request as map(*)) {
             cpy:deploy($profile-temp-location)
 };
 
+declare function dep:run-action($request as map(*)) {
+    let $target := path:get-package-target($request?parameters?id)
+    return
+        if (empty($target)) then
+            error(
+                $errors:NOT_FOUND,
+                "Package with URI " || $request?parameters?id || " not found"
+            )
+        else
+            generator:run-action($target, $request?parameters?action)
+};
 
 let $lookup := function($name as xs:string) {
     try {

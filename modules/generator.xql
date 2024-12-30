@@ -245,7 +245,7 @@ declare %private function generator:extends($config as map(*), $profile as xs:st
         ))
 };
 
-declare function generator:load-json($path as xs:string, $default as map(*)) {
+declare function generator:load-json($path as xs:string, $default as map(*)?) {
     if (util:binary-doc-available($path)) then
         json-doc($path)
     else
@@ -295,4 +295,39 @@ declare %private function generator:update-collection-config($context as map(*),
     where $update?type="update" and $update?path = "collection.xconf"
     return
         xmldb:copy-resource($context?target, "collection.xconf", "/db/system/config/" || $context?target, "collection.xconf")
+};
+
+declare function generator:list-actions($context as map(*)) as array(*) {
+    array {
+        let $mcontext := generator:extends($context)
+        let $actions :=
+            for $profile in $mcontext?profiles?*
+            return
+                generator:find-callback($generator:PROFILES_ROOT || "/" || $profile, "action")
+        for $action in $actions
+        group by $name := function-name($action?2) => local-name-from-QName()
+        return
+            map {
+                "name": $name,
+                "description": $action[1]?1/value/string()
+            }
+    }
+};
+
+declare function generator:run-action($collection as xs:string, $actionName as xs:string) {
+    util:log("INFO", "<jinks> Running action " || $actionName),
+    let $configPath := path:resolve-path($collection, "config.json")
+    let $config := generator:load-json($configPath, ())
+    let $context := generator:extends($config)
+    let $actions :=
+        for $profile in $context?profiles?*
+        let $callback := generator:find-callback($generator:PROFILES_ROOT || "/" || $profile, "action")
+        return
+            if (exists($callback) and local-name-from-QName(function-name($callback?2)) = $actionName) then
+                $callback
+            else
+                ()
+    for $action in $actions
+    return
+        $action?2($context)
 };

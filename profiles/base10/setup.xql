@@ -4,6 +4,7 @@ module namespace teip="https://teipublisher.com/generator/setup";
 
 import module namespace generator="http://tei-publisher.com/library/generator" at "../../modules/generator.xql";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "../../modules/cpy.xql";
+import module namespace path="http://tei-publisher.com/jinks/path" at "../../paths.xql";
 
 declare 
     %generator:write
@@ -21,4 +22,13 @@ function teip:change-landing($context as map(*), $target as xs:string) {
         xmldb:copy-resource($target || "/templates", $context?defaults?landing, $target || "/templates", "index.html")
     else
         ()
+};
+
+declare 
+    %generator:action("Reindex the data")
+function teip:reindex($context as map(*)) {
+     let $target := path:get-package-target($context?id)
+     let $_ := util:log("INFO", ("Reindexing " || $target))
+     return
+        xmldb:reindex($target)
 };

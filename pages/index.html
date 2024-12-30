@@ -8,7 +8,9 @@
     }
     ---
     <header>
-        <nav class="installed"></nav>
+        <nav>
+            <ul class="installed"></ul>
+        </nav>
     </header>
     <form id="config">
         <section>
@@ -16,15 +18,18 @@
                 <h3>Application Configuration</h3>
                 <label>
                     Abbreviation
-                    <input type="text" name="abbrev" placeholder="Abbreviation"/>
+                    <input type="text" name="abbrev" placeholder="Abbreviation" required="" pattern="[\w\-_]+"/>
+                    <small>Unique name to identify the app. Only characters and -, _</small>
                 </label>
                 <label>
                     Label
-                    <input type="text" name="label" placeholder="Short title"/>
+                    <input type="text" name="label" placeholder="Short title" required=""/>
+                    <small>Descriptive title</small>
                 </label>
                 <label>
                     Unique identifier
-                    <input type="text" name="id" placeholder="URI"/>
+                    <input type="url" name="id" placeholder="URI" required=""/>
+                    <small>Unique URL to identify the app</small>
                 </label>
             </fieldset>
             <fieldset class="buttons">
@@ -81,6 +86,8 @@
                 <button id="dry-run" class="secondary">Dry Run</button>
                 <button id="apply-config">Apply</button>
                 <span id="spinner" aria-busy="true">Applying configuration...</span>
+            </fieldset>
+            <fieldset id="actions" class="buttons">
             </fieldset>
         </section>
         <section id="mergedConfig">

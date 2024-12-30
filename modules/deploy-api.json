@@ -47,12 +47,48 @@
                     }
                 }
             }
+        },
+        "/api/generator/action/{action}": {
+            "get": {
+                "description": "Run an action",
+                "operationId": "dep:run-action",
+                "parameters": [
+                    {
+                        "name": "action",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "servers": [
         {
             "description": "Endpoint for testing on localhost",
-            "url": "localhost:8080/exist/apps/tei-publisher-jinks"
+            "url": "/exist/apps/jinks"
         }
     ],
     "security": [

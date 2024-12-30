@@ -26,7 +26,7 @@ else if (matches($exist:path, "\.(json|js|md|png|svg)$", "s")) then
 
 (: all other requests are passed on the Open API router :)
 else
-let $file := if (matches($exist:path, "/deploy")) then 'deploy-api.xql' else 'api.xql'
+let $file := if (matches($exist:path, "^/api/generator/([^/]+/deploy|action/[^/]+)")) then 'deploy-api.xql' else 'api.xql'
 
 return <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/modules/{$file}">

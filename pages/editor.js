@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function loadApps() {
+    async function loadApps(id) {
         try {
             const response = await fetch('api/configurations');
             if (!response.ok) {
@@ -51,42 +51,69 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (app.type !== 'installed') {
                     return;
                 }
-                const a = document.createElement('a');
-                a.innerHTML = `
+                const li = document.createElement('li');
+                li.innerHTML = `
                     <div>
                         <img src="pages/app.svg" width="64px">
                         <h3>${app.title}</h3>
                     </div>
                     <nav class="actions"></nav>
                 `;
-                const actions = a.querySelector('.actions');
+                const actions = li.querySelector('.actions');
                 if (app.type === 'installed') {
                     actions.innerHTML = createOpenButtonHtml(app.config.pkg.abbrev);
                 }
                 if (app.description) {
-                    a.dataset.tooltip = app.description;
-                    a.dataset.placement = 'right';
+                    li.dataset.tooltip = app.description;
+                    li.dataset.placement = 'right';
                 }
-                nav.appendChild(a);
+                nav.appendChild(li);
 
-                a.addEventListener('click', () => {
-                    appConfig = app.config;
-                    editor.value = JSON.stringify(app.config, null, 4);
-                    form.querySelector('[name="id"]').value = appConfig.id;
-                    form.querySelector('[name="label"]').value = appConfig.label;
-                    form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
-                    form.querySelectorAll('[name="base"]').forEach((input) => {
-                        input.checked = appConfig.extends.includes(input.value);
-                    });
-                    form.querySelectorAll('[name="feature"]').forEach((input) => {
-                        input.checked = appConfig.extends.includes(input.value);
-                    });
-                    update();
+                const clickable = li.querySelector('div');
+                clickable.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    loadApp(app);
                 });
+                if (id === app.config.id) {
+                    loadApp(app);
+                }
             });
+
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function loadApp(app) {
+        appConfig = app.config;
+        editor.value = JSON.stringify(app.config, null, 4);
+        form.querySelector('[name="id"]').value = appConfig.id;
+        form.querySelector('[name="label"]').value = appConfig.label;
+        form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
+        form.querySelectorAll('[name="base"]').forEach((input) => {
+            input.checked = appConfig.extends.includes(input.value);
+        });
+        form.querySelectorAll('[name="feature"]').forEach((input) => {
+            input.checked = appConfig.extends.includes(input.value);
+        });
+
+        document.getElementById('actions').innerHTML = '';
+        if (app.actions) {
+            app.actions.forEach((action) => {
+                const btn = document.createElement('button');
+                btn.dataset.action = action.name;
+                btn.dataset.tooltip = action.description;
+                btn.innerHTML = action.name;
+                document.getElementById('actions').appendChild(btn);
+
+                btn.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    runAction(appConfig.id, action.name);
+                });
+            });
+        }
+
+        update();
     }
 
     async function displaySpinnerDuringCallback(text, callback) {
@@ -116,7 +143,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function doDeploy(abbrev) {
+    async function doDeploy(abbrev, id) {
         return displaySpinnerDuringCallback(`Deploying app ${abbrev}…`, async () => {
             errors.innerHTML = '';
 
@@ -128,7 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         body: {},
                         headers: {
                             'Content-Type': 'application/json',
-                        },
+                        }
                     },
                 );
 
@@ -140,7 +167,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
 
                 output.innerHTML = `Package is deployed. Visit it here ${createOpenButtonHtml(abbrev)}`;
-                loadApps();
+                loadApps(id);
             } catch (error) {
                 console.log(error);
             }
@@ -209,11 +236,30 @@ window.addEventListener('DOMContentLoaded', () => {
                 result.nextStep.action === 'DEPLOY' ||
                 result.config._update === false
             ) {
-                await doDeploy(result.config.pkg.abbrev);
+                await doDeploy(result.config.pkg.abbrev, result.config.id);
             }
         });
     }
 
+    async function runAction(appId, actionName) {
+        await blockUiDuringCallback(async () => {
+            const result = await displaySpinnerDuringCallback(
+                'Running action',
+                async () => {
+                    const url = new URL(`api/generator/action/${actionName}`, window.location);
+                    url.searchParams.set('id', appId);
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        const text = await response.text();
+                        errors.innerHTML = text;
+
+                        throw new Error(response.status);
+                    }
+                    const result = await response.json();
+                }
+            );
+        });
+    }
     function updateConfig(updateEditor = true) {
         getConfig(appConfig).then((mergedConfig) => {
             mergedView.code = JSON.stringify(mergedConfig, null, 2);
@@ -221,6 +267,15 @@ window.addEventListener('DOMContentLoaded', () => {
         if (updateEditor) {
             editor.value = JSON.stringify(appConfig, null, 2);
         }
+    }
+
+    function validateForm() {
+        form.querySelectorAll(':invalid').forEach((element) => {
+            element.setAttribute('aria-invalid', 'true');
+        });
+        form.querySelectorAll(':valid').forEach((element) => {
+            element.setAttribute('aria-invalid', 'false');
+        });
     }
 
     function update() {
@@ -242,7 +297,8 @@ window.addEventListener('DOMContentLoaded', () => {
             abbrev: formData.get('abbrev')
         };
         appConfig.extends = formData.getAll('base').concat(formData.getAll('feature'));
-
+        
+        validateForm();
         updateConfig();
     }
 
@@ -262,6 +318,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     applyConfigButton.addEventListener('click', (ev) => {
         ev.preventDefault();
+        validateForm();
+        if (!form.checkValidity()) {
+            return;
+        }
         process(false);
     });
 
@@ -281,6 +341,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};
+        document.getElementById('actions').innerHTML = '';
         updateConfig(true);
     });
 
