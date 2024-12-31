@@ -278,7 +278,7 @@
         </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
             <param name="content" value="string()"/>
-            <param name="uri" value="$global:context-path || substring-after(document-uri(root(.)), $global:data-root)"/>
+            <param name="uri" value="'..' || substring-after(document-uri(root(.)), $global:data-root)"/>
         </model>
                     <model predicate="parent::titleStmt and $parameters?header='short'" behaviour="heading">
             <param name="level" value="5"/>
