@@ -87,7 +87,26 @@
                     }
                 }
             }
-        }
+        },
+        "/api/actions/static": {
+			"post": {
+				"description": "Generate static files",
+				"operationId": "sg:generate-static",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array"
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		}
     },
     "security": [
         {

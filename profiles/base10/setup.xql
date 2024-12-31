@@ -23,12 +23,3 @@ function teip:change-landing($context as map(*), $target as xs:string) {
     else
         ()
 };
-
-declare 
-    %generator:action("Reindex the data")
-function teip:reindex($context as map(*)) {
-     let $target := path:get-package-target($context?id)
-     let $_ := util:log("INFO", ("Reindexing " || $target))
-     return
-        xmldb:reindex($target)
-};

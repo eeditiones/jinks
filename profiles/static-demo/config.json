@@ -13,13 +13,19 @@
         "registers",
         "monograph"
     ],
+    "actions": [
+        {
+            "name": "static",
+            "description": "Generate static files"
+        }
+    ],
     "static": {
         "collections": {
             "letters": {
                 "index": "single",
-                "template": "static/templates/index.html",
+                "template": "templates/static/templates/index.html",
                 "paginate": {
-                    "template": "static/templates/registers.html",
+                    "template": "templates/static/templates/registers.html",
                     "toc": false,
                     "parts": [
                         {
@@ -48,9 +54,9 @@
             },
             "monograph": {
                 "index": "parts",
-                "template": "static/templates/index.html",
+                "template": "templates/static/templates/index.html",
                 "paginate": {
-                    "template": "static/templates/monograph.html",
+                    "template": "templates/static/templates/monograph.html",
                     "toc": true,
                     "parts": [
                         {
@@ -85,6 +91,11 @@
             "prefix": "idx",
             "path": "static-index.xql",
             "id": "http://tei-publisher.com/jinks/static/index"
+        },
+        {
+            "id": "http://tei-publisher.com/static/generate",
+            "path": "generate-static.xql",
+            "prefix": "sg"
         }
     ],
     "collection-config": {

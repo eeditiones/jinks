@@ -3305,6 +3305,18 @@
 					}
 				}
 			}
+		},
+		"/api/actions/reindex": {
+			"post": {
+				"description": "Reindex the data collection",
+				"operationId": "action:reindex",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
 		}
     },
 	"security": [

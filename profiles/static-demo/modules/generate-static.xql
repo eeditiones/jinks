@@ -1,9 +1,23 @@
 xquery version "3.1";
 
+module namespace sg="http://tei-publisher.com/static/generate";
+
 import module namespace static="http://tei-publisher.com/jinks/static" at "xmldb:exist:///db/apps/jinks/modules/static.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function local:people($context as map(*)) {
+declare function sg:generate-static($request as map(*)) {
+    array {
+        let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
+        let $context := static:prepare($jsonConfig)
+        return (
+            static:generate-from-config($context),
+            sg:people($context),
+            sg:places($context)
+        )
+    }
+};
+
+declare %private function sg:people($context as map(*)) {
     let $people := static:load($context?base-uri || "/api/people/all")
     return (
         let $grouped :=
@@ -15,7 +29,7 @@ declare function local:people($context as map(*)) {
                 "data": array { $person }
             }
         return
-            static:split($context, $grouped, "static/templates/people.html", function($context as map(*), $page) {
+            static:split($context, $grouped, "templates/static/templates/people.html", function($context as map(*), $page) {
                 "people/" || encode-for-uri($page)
             }),
         for $person in $people?*
@@ -34,7 +48,7 @@ declare function local:people($context as map(*)) {
                         "user.mode": "register-details"
                     }
                 ],
-                "static/templates/person.html",
+                "templates/static/templates/person.html",
                 function($context as map(*), $n as xs:int) {
                     "people/" || $person?id
                 }
@@ -43,7 +57,7 @@ declare function local:people($context as map(*)) {
     )
 };
 
-declare function local:places($context as map(*)) {
+declare %private function sg:places($context as map(*)) {
     let $places := static:load($context?base-uri || "/api/places/all")
     return (
         let $grouped :=
@@ -58,7 +72,7 @@ declare function local:places($context as map(*)) {
             static:split(
                 map:merge(($context, map:entry("geodata", $places))), 
                 $grouped, 
-                "static/templates/places.html", 
+                "templates/static/templates/places.html", 
                 function($context as map(*), $page) {
                     "places/" || encode-for-uri($page)
                 }
@@ -79,7 +93,7 @@ declare function local:places($context as map(*)) {
                         "user.mode": "register-details"
                     }
                 ],
-                "static/templates/place.html",
+                "templates/static/templates/place.html",
                 function($context as map(*), $n as xs:int) {
                     "places/" || $place?id
                 }
@@ -87,11 +101,3 @@ declare function local:places($context as map(*)) {
         static:redirect($context, "places", "A/index.html")
     )
 };
-
-let $jsonConfig := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
-let $context := static:prepare($jsonConfig)
-return (
-    static:generate-from-config($context),
-    local:people($context),
-    local:places($context)
-)

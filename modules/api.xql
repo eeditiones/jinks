@@ -67,7 +67,7 @@ declare function api:configurations($request as map(*)) {
         return
             if (util:binary-doc-available($configPath)) then
                 let $config := json-doc($configPath)
-                let $actions := generator:list-actions($config)
+                let $extConfig := generator:extends($config)
                 return
                     map {
                         "type": "installed",
@@ -75,7 +75,7 @@ declare function api:configurations($request as map(*)) {
                         "title": head(($config?label, $config?pkg?title)),
                         "description": $config?description,
                         "config": $config,
-                        "actions": $actions
+                        "actions": $extConfig?actions
                     }
             else
                 ()

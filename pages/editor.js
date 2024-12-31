@@ -108,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 btn.addEventListener('click', (ev) => {
                     ev.preventDefault();
-                    runAction(appConfig.id, action.name);
+                    runAction(appConfig.pkg.abbrev, action.name);
                 });
             });
         }
@@ -241,14 +241,21 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function runAction(appId, actionName) {
+    async function runAction(pkgAbbrev, actionName) {
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 'Running action',
                 async () => {
-                    const url = new URL(`api/generator/action/${actionName}`, window.location);
-                    url.searchParams.set('id', appId);
-                    const response = await fetch(url);
+                    output.innerHTML = '';
+                    errors.innerHTML = '';
+                    const url = new URL(`../${pkgAbbrev}/api/actions/${actionName}`, window.location);
+                    const response = await fetch(url, {
+                        method: "POST",
+                        body: {},
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
                     if (!response.ok) {
                         const text = await response.text();
                         errors.innerHTML = text;
@@ -256,6 +263,14 @@ window.addEventListener('DOMContentLoaded', () => {
                         throw new Error(response.status);
                     }
                     const result = await response.json();
+                    result.forEach((message) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <span class='badge'>${message.type}</span> 
+                            ${message.message}
+                        `;
+                        output.append(li);
+                    });
                 }
             );
         });

@@ -50,7 +50,7 @@ declare function static:save-index($path as xs:string, $entries as map(*)*) {
             path:basename($path), 
             serialize($newMap, map { "method": "json", "indent": true() }), 
             "application/json"
-        )
+        )[2]
 };
 
 (:~
@@ -108,7 +108,6 @@ declare %private function static:next-page($context as map(*), $parts as array(m
         )
     let $targetPath := path:resolve-path($context?target, $targetPathGen($context, $count))
     let $nil := (
-        util:log("INFO", ("<static> Writing to ", $targetPath)),
         path:mkcol($context, $targetPath),
         xmldb:store(
             $targetPath, 
@@ -117,11 +116,16 @@ declare %private function static:next-page($context as map(*), $parts as array(m
             "text/html"
         )
     )
-    return
+    return (
+        map {
+            "type": "static:paginate",
+            "message": "Template " || $template || "; target: " || $targetPath
+        },
         if ($json?default?next) then
             static:next-page($context, $parts, $json?default?next, $template, $count + 1, $targetPathGen)
         else 
             ()
+    )
 };
 
 declare %private function static:load-part($context as map(*), $path as xs:string, $params as map(*)) {
@@ -195,15 +199,19 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
         <http:request method="GET" href="{$url}"/>
     let $response := http:send-request($request)
     return
-        if ($response[1]/@status = 200) then
+        if ($response[1]/@status = 200) then (
             let $contentType := $response[1]/http:header[@name="content-type"]/@value
             return
-                if ($target) then
+                if ($target) then (
+                    map {
+                        "type": "static:load",
+                        "message": $url
+                    },
                     let $targetPath := 
                         if (exists($context)) then path:resolve-path($context?target, $target) else $target
                     return
                         xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
-                else
+                ) else
                     switch ($contentType)
                         case "application/json" return
                             let $data := util:binary-to-string(xs:base64Binary($response[2]))
@@ -213,7 +221,7 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
                             $response[2]//*:body/node()
                         default return
                             $response[2]
-        else
+        ) else
             error($static:ERROR_LOAD_FAILED, "URI: " || $url || ": " || $response[1]/@status)
 };
 
@@ -262,14 +270,17 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
         )
     let $targetPath := path:resolve-path($context?target, $targetPathGen($context, $chunk?page))
     return (
-        util:log("INFO", ("<static> Writing to ", $targetPath)),
+        map {
+            "type": "static:split",
+            "message": "Writing "|| $targetPath
+        },
         path:mkcol($context, $targetPath),
         xmldb:store(
             $targetPath,
             "index.html",
             $output,
             "text/html"
-        )
+        )[2]
     )
 };
 
@@ -295,7 +306,7 @@ declare function static:index($context as map(*), $input as item()*, $view as xs
             ()
     let $new-contents := string-join(($current-contents, $lines), "&#10;")
     return
-        xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")
+        xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")[2]
 };
 
 (:~
@@ -320,7 +331,7 @@ declare function static:redirect($context as map(*), $target as xs:string, $redi
             </body>
         </html>
     return
-        xmldb:store($targetPath, "index.html", $html, "text/html")
+        xmldb:store($targetPath, "index.html", $html, "text/html")[2]
 };
 
 (:~
@@ -385,7 +396,7 @@ declare function static:fix-links($context as map(*)) {
     for $doc in collection($context?target)
     let $modified := static:fix-links($doc, $targets)
     return
-        xmldb:store(util:collection-name($doc), util:document-name($doc), $modified)
+        xmldb:store(util:collection-name($doc), util:document-name($doc), $modified)[2]
 };
 
 declare function static:prepare($jsonConfig as map(*)) {
@@ -393,7 +404,7 @@ declare function static:prepare($jsonConfig as map(*)) {
         if ($jsonConfig?static?target) then
             $jsonConfig?static?target
         else
-            $jsonConfig?pkg?abbrev || "-static"
+            path:resolve-path($jsonConfig?pkg?abbrev, "static")
     let $pkgTarget := path:get-package-target($jsonConfig?id)
     let $baseUri := 
         request:get-scheme() || "://" || request:get-server-name() || ":" || 
@@ -467,7 +478,7 @@ declare %private function static:generate-collections-from-config($context as ma
  :)
 declare function static:generate-from-config($context as map(*)) {
     static:generate-collections-from-config($context),
-    cpy:copy-collection(map:merge(($context, map:entry("template-suffix", "\.tps"))), "static", ""),
+    cpy:copy-collection(map:merge(($context, map:entry("template-suffix", "\.tps"))), "templates/static", ""),
     cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
     cpy:copy-collection($context, "resources/css", "resources/css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
