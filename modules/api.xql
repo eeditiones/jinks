@@ -81,16 +81,15 @@ declare function api:configurations($request as map(*)) {
                 ()
     let $profiles :=
         for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
+        let $config := generator:profile($collection)
         return
-            let $config := generator:profile($collection)
-            return
-                map {
-                    "type": "profile",
-                    "profile": $collection,
-                    "title": head(($config?label, $config?pkg?title)),
-                    "description": $config?description,
-                    "config": $config
-                }
+            map {
+                "type": "profile",
+                "profile": $collection,
+                "title": head(($config?label, $config?pkg?title)),
+                "description": $config?description,
+                "config": $config
+            }
     return
         array { $installed, $profiles }
 };
@@ -103,9 +102,11 @@ declare function api:expand-config($request as map(*)) {
 
 declare function api:profiles() {
     for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
+    let $config := generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {})
+    order by if (map:contains($config, "order")) then number($config?order) else 1000
     return
         map:merge((
-            generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {}),
+            $config,
             map { "path": $collection }
         ))
 };
