@@ -152,11 +152,11 @@
             color: #1565c0;
             </outputRendition>
         </model>
-                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+        <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <param name="content" value="."/>
             <param name="alternate" value="parent::person/note"/>
-            <param name="id" value="parent::person/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="../people/[[id]]">
+            <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]">
   <pb-popover>
     <span slot="default">[[content]]</span>
     <template slot="alternate">[[alternate]]</template>
@@ -273,7 +273,7 @@
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
-            <param name="uri" value="$parameters?context-path || &#34;/documents/&#34; || substring-after(document-uri(root(.)), $global:data-root) || '/1/index.html'"/>
+            <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
             <param name="content" value="string()"/>
         </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
@@ -352,7 +352,7 @@
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <model predicate="$parameters?static" behaviour="link">
                 <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?context-path || '/' || $parameters?doc || '/1/index.html'"/>
+                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
             </model>
             <model predicate="not($parameters?static)" behaviour="link">
                 <param name="content" value="title[1]"/>

@@ -7,12 +7,22 @@
     "pkg": {
         "abbrev": "tei-publisher-demo"
     },
-    "data": "data",
     "odds": [
         "serafin.odd",
         "dta.odd"
     ],
     "defaults": {
         "odd": "serafin.odd"
+    },
+    "collection-config": {
+        "letters": {
+            "odd": "serafin.odd",
+            "template": "registers.html",
+            "view": "single"
+        },
+        "monograph": {
+            "odd": "dta.odd",
+            "template": "monograph.html"
+        }
     }
 }

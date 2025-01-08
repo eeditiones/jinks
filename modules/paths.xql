@@ -4,12 +4,12 @@ module namespace path="http://tei-publisher.com/jinks/path";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
-declare function path:resolve-path($parent as xs:string?, $relPath as xs:string) as xs:string {
+declare function path:resolve-path($parents as xs:string*, $relPath as xs:string) as xs:string {
     replace(
         if (starts-with($relPath, "/db")) then
             $relPath
         else
-            replace($parent || "/" || $relPath, "/{2,}", "/"),
+            replace(string-join(($parents, $relPath), "/"), "/{2,}", "/"),
         "/+$", 
         ""
     )

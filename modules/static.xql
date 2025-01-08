@@ -83,7 +83,13 @@ declare %private function static:next-page($context as map(*), $parts as array(m
         let $data := static:load-part(
             $context, 
             $part?path, 
-            map:merge((map { "root": $root }, $part))
+            map:merge((
+                map {
+                    "root": $root,
+                    "user.context-path": $context?context-path
+                },
+                $part
+            ))
         )
         return
             map:entry(head(($part?id, "default")), $data)
@@ -434,14 +440,20 @@ declare function static:prepare($jsonConfig as map(*)) {
 
 declare %private function static:generate-collections-from-config($context as map(*)) {
     map:for-each($context?static?collections, function($collection, $config) {
-        let $docs := static:load($context?base-uri || "/api/documents/" || $collection || "?link=" || $context?context-path || "/documents")
+        let $pathPrefix := head(($config?path-prefix, "documents"))
+        let $link := path:resolve-path($context?context-path, $pathPrefix)
+        let $docs := 
+            if ($collection = "") then
+                static:load($context?base-uri || "/api/documents?link=" || $link)
+            else
+                static:load($context?base-uri || "/api/documents/" || $collection || "?link=" || $link)
         let $_ := util:log("INFO", ("<static> Processing " || count($docs?*) || " documents in collection ", $collection))
         return (
             (: Create search index :)
             static:index($context, $docs?*, $config?index),
 
             static:split($context, $docs?*, 10, $config?template, function($context as map(*), $page as xs:int) {
-                $collection || "/" || $page
+                path:resolve-path($collection, $page)
             }),
             for $doc in $docs?*
             let $toc := 
@@ -455,6 +467,7 @@ declare %private function static:generate-collections-from-config($context as ma
                     "table-of-contents": $toc
                 }
             ))
+            let $docName := path:basename($doc?path)
             return
                 static:paginate(
                     $docContext,
@@ -465,7 +478,7 @@ declare %private function static:generate-collections-from-config($context as ma
                     },
                     $config?paginate?template,
                     function($context as map(*), $n as xs:int) {
-                        "documents/" || $doc?path || "/" || $n
+                        path:resolve-path(($pathPrefix, $collection, $docName), $n)
                     }
                 ),
                 ()
@@ -490,5 +503,11 @@ declare function static:generate-from-config($context as map(*)) {
     where exists(util:binary-doc-available(path:resolve-path($context?source, $css)))
     return
         cpy:copy-resource($context, $css, $css),
-    static:fix-links($context)
+    static:fix-links($context),
+    if (map:contains($context?static, "redirect")) then
+        map:for-each($context?static?redirect, function($source, $target) {
+            static:redirect($context, $source, $target)
+        })
+    else
+        ()
 };

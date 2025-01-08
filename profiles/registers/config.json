@@ -44,5 +44,53 @@
     ],
     "i18n": [
         "registers"
-    ]
+    ],
+    "static": {
+        "collections": {
+            "": {
+                "path-prefix": "letters",
+                "index": "single",
+                "template": "templates/static/templates/index.html",
+                "paginate": {
+                    "template": "templates/static/templates/registers.html",
+                    "toc": false,
+                    "parts": [
+                        {
+                            "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+                            "odd": "serafin.odd"
+                        },
+                        {
+                            "id": "translation",
+                            "odd": "serafin.odd",
+                            "xpath": "//text[@xml:lang='pl']/body"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "odd": "serafin.odd",
+                            "xpath": "//titleStmt",
+                            "view": "single",
+                            "user.mode": "breadcrumb"
+                        },
+                        {
+                            "id": "register",
+                            "odd": "serafin.odd",
+                            "user.mode": "register"
+                        }
+                    ]
+                }
+            }
+        },
+        "redirect": {
+            "": "1/index.html"
+        },
+        "styles": [
+            "resources/css/static.css",
+            "transform/serafin.css"
+        ],
+        "fields": {
+            "index": ["content", "translation", "commentary"],
+            "store": ["content", "translation", "commentary", "title", "link", "tag", "places"]
+        },
+        "facets": ["places"]
+    }
 }

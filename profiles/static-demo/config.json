@@ -1,17 +1,15 @@
 {
     "type": "feature",
     "id": "https://e-editiones.org/app/static-app",
-    "label": "Demo for a static application",
-    "description": "A purely static application based on the registers profile",
+    "label": "Static generator",
+    "order": 1,
+    "description": "Adds support for generating a static site",
     "version": "1.0.0",
     "pkg": {
-        "abbrev": "static-demo"
+        "abbrev": "static"
     },
     "depends": [
-        "base10",
-        "demo-data",
-        "registers",
-        "monograph"
+        "base10"
     ],
     "actions": [
         {
@@ -19,72 +17,6 @@
             "description": "Generate static files"
         }
     ],
-    "static": {
-        "collections": {
-            "letters": {
-                "index": "single",
-                "template": "templates/static/templates/index.html",
-                "paginate": {
-                    "template": "templates/static/templates/registers.html",
-                    "toc": false,
-                    "parts": [
-                        {
-                            "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
-                            "odd": "serafin.odd"
-                        },
-                        {
-                            "id": "translation",
-                            "odd": "serafin.odd",
-                            "xpath": "//text[@xml:lang='pl']/body"
-                        },
-                        {
-                            "id": "breadcrumb",
-                            "odd": "serafin.odd",
-                            "xpath": "//titleStmt",
-                            "view": "single",
-                            "user.mode": "breadcrumb"
-                        },
-                        {
-                            "id": "register",
-                            "odd": "serafin.odd",
-                            "user.mode": "register"
-                        }
-                    ]
-                }
-            },
-            "monograph": {
-                "index": "parts",
-                "template": "templates/static/templates/index.html",
-                "paginate": {
-                    "template": "templates/static/templates/monograph.html",
-                    "toc": true,
-                    "parts": [
-                        {
-                            "odd": "dta.odd",
-                            "view": "div"
-                        },
-                        {
-                            "id": "breadcrumb",
-                            "odd": "dta.odd",
-                            "xpath": "//teiHeader/fileDesc/titleStmt/title[@type='main']",
-                            "view": "single",
-                            "user.mode": "breadcrumb"
-                        }
-                    ]
-                }
-            }
-        },
-        "styles": [
-            "resources/css/static.css",
-            "transform/serafin.css"
-        ],
-        "fields": {
-            "index": ["content", "translation", "commentary"],
-            "store": ["content", "translation", "commentary", "title", "link", "tag", "places"]
-        },
-        "facets": ["places"]
-    },
-    "data-default": false,
     "api": [
         {
             "spec": "static-api.json",
@@ -97,19 +29,5 @@
             "path": "generate-static.xql",
             "prefix": "sg"
         }
-    ],
-    "collection-config": {
-        "letters": {
-            "odd": "serafin.odd",
-            "template": "registers.html",
-            "view": "single"
-        },
-        "monograph": {
-            "odd": "dta.odd",
-            "template": "monograph.html"
-        }
-    },
-    "i18n": [
-        "static-demo"
     ]
 }
