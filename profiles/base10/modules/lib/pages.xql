@@ -78,7 +78,8 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
     let $params := map:merge((
             map {
                 "root": $root,
-                "view": $config?view
+                "view": $config?view,
+                "context-path": $config:context-path
             },
             $userParams))
 	let $html := $pm-config:web-transform($xml, $params, $config?odd)
