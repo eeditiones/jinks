@@ -1,13 +1,8 @@
-<main class="three-column">
+<main class="two-column">
     ---json
     {
         "templating": {
             "extends": "templates/static/templates/base.html"
-        },
-        "script": {
-            "extra-components": [
-                "pb-leaflet-map"
-            ]
         },
         "features": {
             "toc": false
@@ -31,12 +26,5 @@
     <div class="col2">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
-    </div>
-    <div class="col3">
-        [[ $parts?register?content ]]
-
-        <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
-            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-        </pb-leaflet-map>
     </div>
 </main>
