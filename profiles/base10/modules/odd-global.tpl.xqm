@@ -23,11 +23,11 @@ declare variable $config:app-root :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
- [% if map:contains($context, "data") %]
-    [% if starts-with($context?data, "/") %]
-    declare variable $config:data-root := "[[$context?data]]";
+ [% if map:contains($defaults, "data") %]
+    [% if starts-with($defaults?data, "/") %]
+    declare variable $config:data-root := "[[$defaults?data]]";
     [% else %]
-    declare variable $config:data-root := $config:app-root || "/[[$context?data]]";
+    declare variable $config:data-root := $config:app-root || "/[[$defaults?data]]";
     [% endif %]
 [% else %]
     declare variable $config:data-root := $config:app-root || "/data";

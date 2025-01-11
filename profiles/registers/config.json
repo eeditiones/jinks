@@ -5,7 +5,6 @@
     "label": "Profile with Entity Registers",
     "description": "Adds pages to browse entities, i.e. people, places",
     "version": "1.0.0",
-    "data-default": "letters",
     "depends": [
         "base10"
     ],
@@ -13,6 +12,7 @@
         "abbrev": "tei-publisher-registers"
     },
     "defaults": {
+        "data-default": "letters",
         "template": "registers.html"
     },
     "menu": {
