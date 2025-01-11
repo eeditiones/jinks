@@ -1,0 +1,547 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://tei-publisher.org/jinks/config/schema",
+    "type": "object",
+    "description": "Schema for jinks configuration files",
+    "properties": {
+        "id": {
+            "type": "string",
+            "format": "url",
+            "description": "Unique URI used to identify the application or profile"
+        },
+        "type": {
+            "type": "string",
+            "enum": ["base", "feature", "module"],
+            "description": "Type of the profile"
+        },
+        "label": {
+            "type": "string",
+            "description": "A short title describing the application or profile"
+        },
+        "description": {
+            "type": "string",
+            "description": "Longer description of the application or profile"
+        },
+        "version": {
+            "type": "string",
+            "description": "Version of this profile. Use to keep track of different upstream profile versions.",
+            "default": "1.0.0"
+        },
+        "extends": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "order": {
+            "type": "integer",
+            "description": "Defines the position of this profile in the list of extended profiles. To import a profile right on top of base, i.e. before any other profile, use 1.",
+            "default": 1000
+        },
+        "depends": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Lists other profiles this profile depends on to work properly."
+        },
+        "ignore": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "actions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "description",
+                    "name"
+                ]
+            }
+        },
+        "profiles": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "odds": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "defaults": {
+            "type": "object",
+            "properties": {
+                "search": {
+                    "type": "string"
+                },
+                "landing": {
+                    "type": "string",
+                    "description": "The HTML page to use as landing page. Will be renamed to index.html. Path is relative to the `templates` subdirectory."
+                },
+                "view": {
+                    "type": "string",
+                    "enum": ["div", "page", "single"]
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of output media types supported for display",
+                    "examples": [
+                        "web",
+                        "print",
+                        "fo",
+                        "latex",
+                        "epub"
+                    ]
+                },
+                "template": {
+                    "type": "string",
+                    "description": "The HTML template to use for rendering content pages. Should reside in `templates/pages`"
+                },
+                "odd": {
+                    "type": "string",
+                    "description": "The ODD to use if no other is selected"
+                },
+                "data": {
+                    "type": "string",
+                    "description": "Absolute or relative path to the root collection containing all data used by the app."
+                },
+                "data-default": {
+                    "type": "string",
+                    "description": "Absolute or relative path to the collection used for locating XML documents which can be displayed to users. If not specified, defaults to the collection given in `defaults.data`. A relative path will be interpreted relative to `defaults.data`. Use this if documents exposed to users reside in a subcollection below `defaults.data`, but users should not the the subcollection path."
+                },
+                "pagination": {
+                    "type": "object",
+                    "properties": {
+                        "fill": {
+                            "type": "integer"
+                        },
+                        "depth": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "address-by-id": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "collection-config": {
+            "type": "object",
+            "patternProperties": {
+                "^[^\\s]+$": {
+                    "type": "object",
+                    "properties": {
+                        "odd": {
+                            "type": "string"
+                        },
+                        "template": {
+                            "type": "string"
+                        },
+                        "view": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            }
+        },
+        "menu": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "type": "boolean"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "dark-mode": {
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "url": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "url"
+                        ]
+                    }
+                },
+                "login": {
+                    "type": "boolean"
+                },
+                "download": {
+                    "type": "boolean"
+                },
+                "search": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "features": {
+            "type": "object",
+            "properties": {
+                "menubar": {
+                    "type": "boolean"
+                },
+                "toolbar": {
+                    "type": "boolean"
+                },
+                "hero": {
+                    "type": "boolean"
+                },
+                "toc": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "theme": {
+            "type": "object",
+            "properties": {
+                "logo": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "string"
+                        },
+                        "height": {
+                            "type": "string"
+                        },
+                        "dark": {
+                            "type": "string"
+                        },
+                        "splash": {
+                            "type": "object",
+                            "properties": {
+                                "dark": {
+                                    "type": "string"
+                                },
+                                "light": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "light": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "colors": {
+                    "type": "object",
+                    "properties": {
+                        "menubar": {
+                            "type": "object",
+                            "properties": {
+                                "background": {
+                                    "type": "string"
+                                },
+                                "color": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "toolbar": {
+                            "type": "object",
+                            "properties": {
+                                "background": {
+                                    "type": "string"
+                                },
+                                "color": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "fonts": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string"
+                        },
+                        "base": {
+                            "type": "string"
+                        },
+                        "heading": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "toolbar": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "overwrite": {
+            "type": "string"
+        },
+        "pkg": {
+            "type": "object",
+            "description": "For installable applications: defines the properties required by eXist's package manager to handle installation",
+            "properties": {
+                "website": {
+                    "type": "string"
+                },
+                "abbrev": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "password": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "group": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "group",
+                        "name",
+                        "password"
+                    ]
+                }
+            }
+        },
+        "templating": {
+            "type": "object",
+            "properties": {
+                "modules": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^https?://.*": {
+                            "type": "object",
+                            "properties": {
+                                "at": {
+                                    "type": "string"
+                                },
+                                "prefix": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "at",
+                                "prefix"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "script": {
+            "type": "object",
+            "properties": {
+                "custom": {
+                    "type": "array"
+                },
+                "webcomponents": {
+                    "type": "string"
+                },
+                "extra-components": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cdn": {
+                    "type": "string"
+                }
+            }
+        },
+        "styles": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "i18n": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "api": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "spec": {
+                        "type": "string"
+                    },
+                    "prefix": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "path": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "path",
+                    "prefix"
+                ]
+            }
+        },
+        "static": {
+            "type": "object",
+            "properties": {
+                "fields": {
+                    "type": "object",
+                    "properties": {
+                        "index": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "store": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "redirect": {
+                    "type": "object",
+                    "properties": {
+                        "": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "styles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "facets": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "collections": {
+                    "type": "object",
+                    "properties": {
+                        "": {
+                            "type": "object",
+                            "properties": {
+                                "index": {
+                                    "type": "string"
+                                },
+                                "path-prefix": {
+                                    "type": "string"
+                                },
+                                "paginate": {
+                                    "type": "object",
+                                    "properties": {
+                                        "toc": {
+                                            "type": "boolean"
+                                        },
+                                        "parts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "xpath": {
+                                                        "type": "string"
+                                                    },
+                                                    "odd": {
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "user.mode": {
+                                                        "type": "string"
+                                                    },
+                                                    "view": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "odd"
+                                                ]
+                                            }
+                                        },
+                                        "template": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "parts",
+                                        "template",
+                                        "toc"
+                                    ]
+                                },
+                                "template": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "index",
+                                "paginate",
+                                "path-prefix",
+                                "template"
+                            ]
+                        }
+                    },
+                    "required": [
+                        ""
+                    ]
+                }
+            }
+        },
+        "toolbar": {
+            "type": "object",
+            "properties": {
+                "zoom": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "required": [
+        "id",
+        "label",
+        "type"
+    ]
+}

@@ -14,21 +14,21 @@ declare variable $config:default-template := "[[$defaults?template]]";
 declare variable $config:default-media := ([[string-join($defaults?media?* ! ('"' || . || '"'), ", ")]]);
 declare variable $config:search-default := "[[$defaults?search]]";
 
-[% if map:contains($context, "data") %]
-    [% if starts-with($context?data, "/") %]
-    declare variable $config:data-root := "[[$context?data]]";
+[% if map:contains($defaults, "data") %]
+    [% if starts-with($defaults?data, "/") %]
+    declare variable $config:data-root := "[[$defaults?data]]";
     [% else %]
-    declare variable $config:data-root := $config:app-root || "/[[$context?data]]";
+    declare variable $config:data-root := $config:app-root || "/[[$defaults?data]]";
     [% endif %]
 [% else %]
     declare variable $config:data-root := $config:app-root || "/data";
 [% endif %]
 
-[% if $context?data-default %]
-    [% if starts-with($context?data-default, "/") %]
-    declare variable $config:data-default := "[[$context?data-default]]";
+[% if $defaults?data-default %]
+    [% if starts-with($defaults?data-default, "/") %]
+    declare variable $config:data-default := "[[$defaults?data-default]]";
     [% else %]
-    declare variable $config:data-default := $config:data-root || "/[[$context?data-default]]";
+    declare variable $config:data-default := $config:data-root || "/[[$defaults?data-default]]";
     [% endif %]
 [% else %]
     declare variable $config:data-default := $config:data-root;
@@ -59,7 +59,7 @@ declare variable $config:pagination-depth := [[ $defaults?pagination?depth ]];
 
 declare variable $config:pagination-fill := [[ $defaults?pagination?fill ]];
 
-declare variable $config:address-by-id as xs:boolean := [%if $context?address-by-id %] true() [% else %] false() [% endif %];
+declare variable $config:address-by-id as xs:boolean := [%if $defaults?address-by-id %] true() [% else %] false() [% endif %];
 
 declare variable $config:default-language as xs:string := "[[ $context?defaults?language ]]";
 
