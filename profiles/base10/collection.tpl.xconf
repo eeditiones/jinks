@@ -4,10 +4,12 @@
         <lucene>
             <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
             <text match="/tei:TEI/tei:text">
+                <!--ignore qname="tei:div"/-->
                 <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
                 <field name="author" expression="nav:get-metadata(ancestor::tei:TEI, 'author')"/>
                 <field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
+                <field name="category" expression="nav:get-metadata(ancestor::tei:TEI, 'category')"/>
                 <field name="file" expression="util:document-name(.)"/>
                 <field name="text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
@@ -15,12 +17,14 @@
                 <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>
                 <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
                 <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
+                <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
             </text>
             [% if $defaults?search = "tei:div" %]
                 <text qname="[[$defaults?search]]">
-                    <ignore qname="[[$defaults?search]]"/>
+                    <ignore qname="tei:div"/>
                     <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                     <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+                    <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
                 </text>
             [% endif %]
             <text qname="tei:head"/>
@@ -30,11 +34,14 @@
             <text match="//tei:listPerson/tei:person/tei:persName"/>
             <text match="//tei:listOrg/tei:org/tei:orgName"/>
             <text match="//tei:taxonomy/tei:category/tei:catDesc"/>
+            <text qname="tei:entry" index="no">
+                <field name="lemma" expression="tei:form/tei:term"/>
+            </text>
             <text qname="dbk:article">
-                <field name="title" expression="nav:get-metadata(., 'title')"/>
-                <field name="author" expression="nav:get-metadata(., 'author')"/>
-                <field name="file" expression="util:document-name(.)"/>
-                <field name="text" expression="."/>
+                <field name="dbk.title" expression="nav:get-metadata(., 'title')"/>
+                <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
+                <field name="dbk.file" expression="util:document-name(.)"/>
+                <field name="dbk.text" expression="."/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>
@@ -46,12 +53,22 @@
             <text qname="dbk:title"/>
             <!-- JATS -->
             <text qname="body">
-                <ignore qname="sect"/>
-                <field name="file" expression="util:document-name(.)"/>
-                <field name="title" expression="nav:get-metadata(ancestor::article, 'title')"/>
-                <field name="author" expression="nav:get-metadata(ancestor::article, 'author')"/>
-                <field name="text" expression="."/>
+                <!-- <ignore qname="sect"/> -->
+                <field name="jats.file" expression="util:document-name(.)"/>
+                <field name="jats.title" expression="nav:get-metadata(., 'title')"/>
+                <field name="jats.author" expression="nav:get-metadata(., 'author')"/>
+                <field name="jats.text" expression="nav:get-metadata(., 'content')"/>
+                <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((./@xml:lang, 'en'))"/>
+            </text>
+            <text qname="sec">
+                <ignore qname="sec"/>
+                <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
+                <facet dimension="language" expression="head((root(.)/@xml:lang, 'en'))"/>
             </text>
         </lucene>
+        <range>
+            <create qname="tei:term" type="xs:string"/>
+        </range>
     </index>
 </collection>
