@@ -1,0 +1,19 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/jats",
+    "label": "JATS support",
+    "description": "Support for the Journal Article Tag Suite standard",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "pkg": {
+        "abbrev": "tei-publisher-jats"
+    },
+    "defaults": {
+        "data-default": "jats",
+        "odd": "jats.odd"
+    },
+    "odds": [ "jats.odd" ]
+}
