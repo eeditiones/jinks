@@ -1,0 +1,19 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/docbook",
+    "label": "Docbook support",
+    "description": "Adds support for Docbook",
+    "version": "1.0.0",
+    "order": 2,
+    "depends": [
+        "base10"
+    ],
+    "pkg": {
+        "abbrev": "tei-publisher-docbook"
+    },
+    "defaults": {
+        "odd": "docbook.odd"
+    },
+    "odds": [ "docbook.odd" ]
+}
