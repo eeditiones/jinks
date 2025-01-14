@@ -68,7 +68,6 @@
 
                     [% block header %][% endblock %]
                 </div>
-                <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
             </header>
             [% block hero %][% endblock %]
             [[ if ($context?templating?strip-root) then $content/node() else $content ]]

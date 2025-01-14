@@ -534,7 +534,23 @@
             "type": "object",
             "properties": {
                 "zoom": {
-                    "type": "string"
+                    "type": "boolean"
+                },
+                "navigation": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "urls": {
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "description": "Pattern to use for URLs as required by pb-page/@url-template"
+                },
+                "ignore": {
+                    "type": "string",
+                    "description": "Comma-separated list of parameters to ignore in URLs as required by pb-page/@url-ignore"
                 }
             }
         }

@@ -165,11 +165,20 @@ a[role="button"] svg, .theme-toggle svg {
 }
 
 .toolbar {
+    position: relative;
     background-color: var(--pb-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
     --paper-checkbox-label-color: var(--pb-toolbar-color);
     --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
+}
+
+.page-header pb-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--pb-toolbar-background-color);
 }
 
 [disabled] {
@@ -179,6 +188,10 @@ a[role="button"] svg, .theme-toggle svg {
 pb-page {
     display: grid;
     grid-template-rows: min-content 1fr;
+}
+
+pb-document {
+    display: none;
 }
 
 .page-header {

@@ -38,6 +38,7 @@
         </li>
 		[% endif %]
         [% block toolbar %][% endblock %]
+        [% if $toolbar?navigation %]
         <li>
             <pb-navigation emit="transcription" keyboard="left"
                 subscribe="transcription" direction="backward" unit="page">
@@ -50,5 +51,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
             </pb-navigation>
         </li>
+        [% endif %]
     </ul>
+    <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
 </nav>
