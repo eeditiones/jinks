@@ -30,23 +30,23 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
     return
         switch ($field)
             case "persName" return
-                for $p in $header//tei:correspDesc/tei:correspAction/tei:persName/@ref
+                for $p in $header//tei:correspDesc/tei:correspAction/tei:persName/@key
                 return 
                     idx:resolve-person($p)
             case "person" return
                 for $persName in (
-                    $header//tei:correspDesc/tei:correspAction/tei:persName/@ref,
-                    $root//tei:text[@type="source"]//tei:persName/@ref
+                    $header//tei:correspDesc/tei:correspAction/tei:persName/@key,
+                    $root//tei:text[@type="source"]//tei:persName/@key
                 )
                 return
-                    substring($persName, 2)
+                    $persName
             case "place" return
                 for $placeName in (
-                    $header//tei:correspDesc/tei:correspAction/tei:placeName/@ref,
-                    $root//tei:text[@type="source"]//tei:placeName/@ref
+                    $header//tei:correspDesc/tei:correspAction/tei:placeName/@key,
+                    $root//tei:text[@type="source"]//tei:placeName/@key
                 )
                 return 
-                    substring($placeName, 2)
+                    $placeName
             case "year" return 
                 substring($header//tei:correspDesc/tei:correspAction/tei:date/@when, 1, 4)
             case "title" return
@@ -67,7 +67,7 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                     root($root)/*/@xml:lang
                 ))
             case "date" return
-                $header//tei:correspDesc/tei:correspAction/tei:date/@when
+                idx:get-date($header//tei:correspDesc/tei:correspAction/tei:date)
             case "genre" return (
                 "letter"
             )
@@ -94,11 +94,11 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
 };
 
 declare function idx:resolve-person($key) {
-    $idx:registers/id(substring-after($key, '#'))/tei:persName
+    $idx:registers/id($key)/tei:persName
 };
 
 declare function idx:resolve-place($key) {
-    $idx:registers/id(substring-after($key, '#'))/tei:placeName
+    $idx:registers/id($key)/tei:placeName
 };
 
 declare function idx:get-genre($header as element()?) {
@@ -113,4 +113,24 @@ declare function idx:get-classification($header as element()?, $scheme as xs:str
     let $category := id(substring($target, 2), doc($idx:app-root || "/data/taxonomy.xml"))
     return
         $category/ancestor-or-self::tei:category[parent::tei:category]/tei:catDesc
+};
+
+declare function idx:get-date($date)  {
+    if($date/@when)
+        then xs:date(idx:normalize-date($date/@when/string()))
+    else if($date/@notBefore)
+        then xs:date(idx:normalize-date($date/@notBefore/string()))
+    else if($date/@notAfter)
+        then xs:date(idx:normalize-date($date/@notAfter/string()))
+    else (
+    )
+};
+
+declare function idx:normalize-date($date as xs:string) {
+    if (matches($date, "^\d{4}-\d{2}$")) then
+        $date || "-01"
+    else if (matches($date, "^\d{4}$")) then
+        $date || "-01-01"
+    else
+        $date
 };

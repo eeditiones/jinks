@@ -52,7 +52,7 @@ declare function idx:entry-part($request as map(*)) {
 declare function idx:places($doc as element(tei:TEI)) {
     array {
         for $place in $doc//tei:text//tei:placeName
-        group by $id := $place/@ref/string()
+        group by $id := $place/@key/string()
         return
             $id
     }

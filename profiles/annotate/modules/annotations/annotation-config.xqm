@@ -115,13 +115,13 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     switch ($type)
         case "person" return
-            collection($config:data-default)//tei:persName[@ref = $key]
+            collection($config:data-default)//tei:persName[@key = $key]
         case "place" return
-            collection($config:data-default)//tei:placeName[@ref = $key]
+            collection($config:data-default)//tei:placeName[@key = $key]
         case "term" return
-            collection($config:data-default)//tei:term[@ref = $key]
+            collection($config:data-default)//tei:term[@key = $key]
         case "organization" return
-            collection($config:data-default)//tei:orgName[@ref = $key]
+            collection($config:data-default)//tei:orgName[@key = $key]
          default return ()
 };
 

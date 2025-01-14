@@ -144,7 +144,7 @@
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model output="latex" behaviour="inline">
-            <param name="id" value="substring-after(@ref, '#')"/>
+            <param name="id" value="@key"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
                     <model output="print" behaviour="inline">
@@ -177,7 +177,7 @@
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="id(substring-after(@ref, '#'), collection($global:register-root)/id('pb-persons'))"/>
+            <param name="alternate" value="id(@key, collection($global:register-root)/id('pb-persons'))"/>
             <outputRendition xml:space="preserve">
             color: #1565c0;
             </outputRendition>
@@ -205,7 +205,7 @@
             </model>
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of letters (in register details only)</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@ref = '#' || $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Letters</h2>
   [[content]]
@@ -224,7 +224,7 @@
                 </elementSpec>
         <elementSpec ident="placeName" mode="add">
                     <model output="latex" behaviour="inline">
-            <param name="id" value="substring-after(@ref, '#')"/>
+            <param name="id" value="@key"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
         </model>
                     <model output="print" behaviour="inline">
@@ -243,7 +243,7 @@
                     <model predicate="parent::place" behaviour="inline"/>
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="id(substring-after(@ref, '#'), doc($global:register-root || '/places.xml'))"/>
+            <param name="alternate" value="id(@key, doc($global:register-root || '/places.xml'))"/>
             <outputRendition xml:space="preserve">
             color: #ef6c00;
             </outputRendition>
@@ -265,7 +265,7 @@
         </model>
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="id(substring-after(@ref, '#'), root(.))"/>
+            <param name="alternate" value="id(@key, root(.))"/>
             <outputRendition xml:space="preserve">
             color: #2e7d32;
             </outputRendition>
@@ -377,7 +377,7 @@
                 <param name="level" value="2"/>
             </model>
             <model behaviour="block">
-                <param name="content" value="for $n in root(.)//placeName group by $ref := $n/@ref order by $ref return $n[1]"/>
+                <param name="content" value="for $n in root(.)//placeName group by $key := $n/@key order by $key return $n[1]"/>
             </model>
         </modelSequence>
                     <model predicate="$parameters?mode='footer-prev'" behaviour="block" cssClass="footer">
@@ -455,7 +455,7 @@
             </model>
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of letters (in register details only)</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@ref = '#' || $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Letters</h2>
   [[content]]
@@ -466,8 +466,8 @@
             
             <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-            <param name="people" value="for $ref in distinct-values(root(.)//persName/@ref) let $person := collection($global:register-root)/id(substring-after($ref, '#')) return   $person"/>
-            <param name="places" value="for $ref in distinct-values(root(.)//placeName/@ref) let $place := collection($global:register-root)/id(substring-after($ref, '#')) return   $place"/>
+            <param name="people" value="for $key in distinct-values(root(.)//persName/@key) let $person := collection($global:register-root)/id($key) return   $person"/>
+            <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) let $place := collection($global:register-root)/id($key) return   $place"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
   <h3>People</h3>
   <ul>

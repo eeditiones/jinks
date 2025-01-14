@@ -112,9 +112,9 @@ declare function rview:detail-html($request as map(*)) {
     let $config := tpu:parse-pi(root($persOrPlace), $request?parameters?view, $request?parameters?odd)
     let $letters := 
         if ($persOrPlace instance of element(tei:person)) then
-            collection($config:data-root || "/letters")//tei:persName[@ref = '#' || $id]/ancestor::tei:TEI
+            collection($config:data-root || "/letters")//tei:persName[@key = $id]/ancestor::tei:TEI
         else
-            collection($config:data-root || "/letters")//tei:placeName[@ref = '#' || $id]/ancestor::tei:TEI
+            collection($config:data-root || "/letters")//tei:placeName[@key = $id]/ancestor::tei:TEI
     let $extConfig := map {
         "data": map {
             "id": $id,
