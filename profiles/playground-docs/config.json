@@ -1,0 +1,27 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/tei-publisher-app",
+    "label": "Documentation + Playground",
+    "description": "TEI Publisher documentation and playground",
+    "version": "1.0.0",
+    "order": 2,
+    "depends": [
+        "base10",
+        "docbook",
+        "demo-data"
+    ],
+    "pkg": {
+        "abbrev": "tei-publisher"
+    },
+    "collection-config": {
+        "doc": {
+            "odd": "docbook.odd",
+            "template": "documentation.html"
+        }
+    },
+    "urls": {
+        "template": "documentation/:id?",
+        "ignore": "odd,view,path"
+    }
+}
