@@ -59,12 +59,8 @@ pb-navigation svg {
     background-color: var(--pb-drawer-background-color);
 }
 
-.toc [slot="collapse-trigger"] pb-link {
-    display: block;
-}
-
 .toc li pb-link {
-    display: block;
+    display: inline-block;
     font-family: var(--pb-base-font-family);
     --pb-link-font-family: var(--pb-base-font-family);
     margin-left: 0;

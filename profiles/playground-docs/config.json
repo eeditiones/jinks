@@ -6,9 +6,15 @@
     "description": "TEI Publisher documentation and playground",
     "version": "1.0.0",
     "order": 2,
+    "defaults": {
+        "data-default": ""
+    },
     "depends": [
         "base10",
         "docbook",
+        "monograph",
+        "registers",
+        "jats",
         "demo-data"
     ],
     "pkg": {
@@ -18,6 +24,19 @@
         "doc": {
             "odd": "docbook.odd",
             "template": "documentation.html"
+        },
+        "letters": {
+            "odd": "serafin.odd",
+            "view": "single",
+            "template": "registers.html"
+        },
+        "monograph": {
+            "odd": "dta.odd",
+            "template": "monograph.html"
+        },
+        "jats": {
+            "odd": "jats.odd",
+            "template": "jats.html"
         }
     },
     "urls": {
