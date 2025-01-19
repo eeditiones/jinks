@@ -26,6 +26,11 @@
     [% endblock %]
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:data-root ]]"/>
+    [% if ($metadata = "true") %]
+    <pb-view src="document1" subscribe="transcription" emit="transcription">
+        <pb-param name="mode" value="metadata"/>
+    </pb-view>
+    [% endif %]
     <div class="three-column">
         <pb-view class="col1" src="document1" xpath="! (.//text[@xml:lang = 'la']/body | .//text/body)[1]" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
         <pb-view class="col2" src="document1" xpath="//text[@xml:lang='pl']/body" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>

@@ -465,6 +465,35 @@
                 </elementSpec>
             
             <elementSpec ident="div" mode="change">
+                    <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
+            <param name="has-previous-by-date" value="if(root(.)//correspContext/ref/@type = &#34;previous&#34;) then () else (&#34;invisible&#34;)"/>
+            <param name="has-next-by-date" value="if(root(.)//correspContext/ref/@type = &#34;next&#34;) then () else (&#34;invisible&#34;)"/>
+            <param name="has-previous-by-date-and-sender" value="if(root(.)//correspContext/ref/@type = &#34;previous-in-correspondence&#34;) then () else (&#34;invisible&#34;)"/>
+            <param name="has-next-by-date-and-sender" value="if(root(.)//correspContext/ref/@type = &#34;next-in-correspondence&#34;) then () else (&#34;invisible&#34;)"/>
+            <param name="previous-by-date" value="root(.)//correspContext/ref[@type = &#34;previous&#34;]/@target/string()"/>
+            <param name="next-by-date" value="root(.)//correspContext/ref[@type = &#34;next&#34;]/@target/string()"/>
+            <param name="previous-by-date-and-sender" value="root(.)//correspContext/ref[@type = &#34;previous-in-correspondence&#34;]/@target/string()"/>
+            <param name="next-by-date-and-sender" value="root(.)//correspContext/ref[@type = &#34;next-in-correspondence&#34;]/@target/string()"/>
+            <pb:template xmlns="" xml:space="preserve"><section class="metadata">    
+  <label>Metadata</label>  
+  <section class="correspContext">
+    Chronology:
+    <span class="next [[has-previous-by-date]]">
+      <a href="[[previous-by-date]]">Previous</a>
+    </span>     
+    <span class="previous [[has-next-by-date]]">
+      <a href="[[next-by-date]]">Next</a>
+    </span>     
+    <span class="previous-same-sender [[has-previous-by-date-and-sender]]">
+      <a href="[[previous-by-date-and-sender]]">Previous with same sender</a>
+    </span>    
+    <span class="next-same-sender [[has-next-by-date-and-sender]]">
+      <a href="[[next-by-date-and-sender]]">Next with same sender</a>
+    </span>  
+  </section>
+  <hr/>
+</section></pb:template>
+        </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
             <param name="people" value="for $key in distinct-values(root(.)//persName/@key) let $person := collection($global:register-root)/id($key) return   $person"/>
             <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) let $place := collection($global:register-root)/id($key) return   $place"/>
