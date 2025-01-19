@@ -290,9 +290,6 @@
                             "type": "string"
                         }
                     }
-                },
-                "toolbar": {
-                    "type": "boolean"
                 }
             }
         },
@@ -460,73 +457,67 @@
                 },
                 "collections": {
                     "type": "object",
-                    "properties": {
-                        "": {
-                            "type": "object",
-                            "properties": {
-                                "index": {
-                                    "type": "string"
-                                },
-                                "path-prefix": {
-                                    "type": "string"
-                                },
-                                "paginate": {
-                                    "type": "object",
-                                    "properties": {
-                                        "toc": {
-                                            "type": "boolean"
-                                        },
-                                        "parts": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "xpath": {
-                                                        "type": "string"
-                                                    },
-                                                    "odd": {
-                                                        "type": "string"
-                                                    },
-                                                    "id": {
-                                                        "type": "string"
-                                                    },
-                                                    "user.mode": {
-                                                        "type": "string"
-                                                    },
-                                                    "view": {
-                                                        "type": "string"
-                                                    }
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "index": {
+                                "type": "string"
+                            },
+                            "path-prefix": {
+                                "type": "string"
+                            },
+                            "paginate": {
+                                "type": "object",
+                                "properties": {
+                                    "toc": {
+                                        "type": "boolean"
+                                    },
+                                    "parts": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "xpath": {
+                                                    "type": "string"
                                                 },
-                                                "required": [
-                                                    "odd"
-                                                ]
-                                            }
-                                        },
-                                        "template": {
-                                            "type": "string"
+                                                "odd": {
+                                                    "type": "string"
+                                                },
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "user.mode": {
+                                                    "type": "string"
+                                                },
+                                                "view": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "odd"
+                                            ]
                                         }
                                     },
-                                    "required": [
-                                        "parts",
-                                        "template",
-                                        "toc"
-                                    ]
+                                    "template": {
+                                        "type": "string"
+                                    }
                                 },
-                                "template": {
-                                    "type": "string"
-                                }
+                                "required": [
+                                    "parts",
+                                    "template",
+                                    "toc"
+                                ]
                             },
-                            "required": [
-                                "index",
-                                "paginate",
-                                "path-prefix",
-                                "template"
-                            ]
-                        }
-                    },
-                    "required": [
-                        ""
-                    ]
+                            "template": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "index",
+                            "paginate",
+                            "template"
+                        ]
+                    }
                 }
             }
         },

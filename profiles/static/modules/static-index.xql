@@ -11,6 +11,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function idx:entry($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
+    let $pathPrefix := $request?parameters?prefix
     let $doc := config:get-document($path)/tei:TEI
     return [
         map {
@@ -18,7 +19,7 @@ declare function idx:entry($request as map(*)) {
             "translation": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'pl'], true()) => string-join(),
             "commentary": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'la']//tei:note, false()) => string-join(),
             "title": $pm-config:web-transform($doc//tei:titleStmt, map { "mode": "breadcrumb" }, $config:default-odd),
-            "link": "documents/" || config:get-relpath($doc) || "/1/index.html",
+            "link": $pathPrefix || "/" || config:get-relpath($doc) || "/1/index.html",
             "places": idx:places($doc)
         }
     ]
@@ -38,13 +39,14 @@ declare function idx:entry-part($request as map(*)) {
         let $path := xmldb:decode($request?parameters?id)
         let $doc := config:get-document($path)/tei:TEI
         let $config := tpu:parse-pi(root($doc), ())
+        let $pathPrefix := $request?parameters?prefix
 
         for $div at $i in idx:get-all-parts($config, $doc)
         return
             map {
                 "content": nlp:extract-plain-text($div, true()) => string-join(),
                 "title": $pm-config:web-transform($div/tei:head, map { "mode": "breadcrumb" }, $config:default-odd),
-                "link": "documents/" || config:get-relpath($doc) || "/" || $i || "/index.html"
+                "link": $pathPrefix || "/" || config:get-relpath($doc) || "/" || $i || "/index.html"
             }
     }
 };

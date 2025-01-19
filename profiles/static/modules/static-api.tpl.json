@@ -41,6 +41,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "prefix",
+                        "in": "query",
+                        "description": "The path prefix under which documents are stored",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {

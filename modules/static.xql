@@ -290,10 +290,11 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
     )
 };
 
-declare function static:index($context as map(*), $input as item()*, $view as xs:string) {
+declare function static:index($context as map(*), $input as item()*, $collectionConfig as map(*)) {
     let $lines :=
         for $doc in $input
-        let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $view
+        let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $collectionConfig?index ||
+            "?prefix=" || $collectionConfig?path-prefix
         let $request :=
             <http:request method="GET" href="{$href}"/>
         let $response := http:send-request($request)
@@ -450,7 +451,7 @@ declare %private function static:generate-collections-from-config($context as ma
         let $_ := util:log("INFO", ("<static> Processing " || count($docs?*) || " documents in collection ", $collection))
         return (
             (: Create search index :)
-            static:index($context, $docs?*, $config?index),
+            static:index($context, $docs?*, $config),
 
             static:split($context, $docs?*, 10, $config?template, function($context as map(*), $page as xs:int) {
                 path:resolve-path($collection, $page)
