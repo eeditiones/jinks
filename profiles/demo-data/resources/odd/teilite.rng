@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2025-01-19T17:26:39Z. . 
+Schema generated from ODD source 2025-01-19T18:34:56Z. . 
 TEI Edition: P5 Version 4.7.0. Last updated on 16th November 2023, revision e5dd73ed0 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.7.0/ 
   
@@ -2536,17 +2536,20 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
       <choice>
          <ref name="ptr"/>
          <ref name="ref"/>
+         <ref name="listRef"/>
       </choice>
    </define>
    <define name="model.ptrLike_alternation">
       <choice>
          <ref name="ptr"/>
          <ref name="ref"/>
+         <ref name="listRef"/>
       </choice>
    </define>
    <define name="model.ptrLike_sequence">
       <ref name="ptr"/>
       <ref name="ref"/>
+      <ref name="listRef"/>
    </define>
    <define name="model.ptrLike_sequenceOptional">
       <optional>
@@ -2554,6 +2557,9 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
       </optional>
       <optional>
          <ref name="ref"/>
+      </optional>
+      <optional>
+         <ref name="listRef"/>
       </optional>
    </define>
    <define name="model.ptrLike_sequenceOptionalRepeatable">
@@ -2563,6 +2569,9 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
       <zeroOrMore>
          <ref name="ref"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listRef"/>
+      </zeroOrMore>
    </define>
    <define name="model.ptrLike_sequenceRepeatable">
       <oneOrMore>
@@ -2570,6 +2579,9 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
       </oneOrMore>
       <oneOrMore>
          <ref name="ref"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listRef"/>
       </oneOrMore>
    </define>
    <define name="model.lPart">
@@ -3495,21 +3507,6 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
          <ref name="listPlace"/>
       </choice>
    </define>
-   <define name="model.publicationStmtPart.agency">
-      <choice>
-         <ref name="publisher"/>
-         <ref name="authority"/>
-      </choice>
-   </define>
-   <define name="model.publicationStmtPart.detail">
-      <choice>
-         <ref name="model.ptrLike"/>
-         <ref name="date"/>
-         <ref name="pubPlace"/>
-         <ref name="idno"/>
-         <ref name="availability"/>
-      </choice>
-   </define>
    <define name="model.availabilityPart">
       <choice>
          <ref name="licence"/>
@@ -3663,7 +3660,7 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
       <choice>
          <ref name="publisher"/>
          <ref name="biblScope"/>
-         <ref name="pubPlace"/>
+         <ref name="distributor"/>
       </choice>
    </define>
    <define name="model.catDescPart">
@@ -3841,6 +3838,7 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
          <ref name="bibl"/>
          <ref name="relatedItem"/>
          <ref name="textLang"/>
+         <ref name="edition"/>
          <ref name="extent"/>
          <ref name="availability"/>
          <ref name="msIdentifier"/>
@@ -3993,6 +3991,7 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
    </define>
    <define name="model.encodingDescPart">
       <choice>
+         <ref name="schemaRef"/>
          <ref name="projectDesc"/>
          <ref name="editorialDecl"/>
          <ref name="tagsDecl"/>
@@ -4928,6 +4927,7 @@ Sample values include: 1] suspension (suspension); 2] contraction (contraction);
             <rule context="tei:ptr">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:svg="http://www.w3.org/2000/svg"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
                        test="@target and @cRef">Only one of the
@@ -4952,6 +4952,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             <rule context="tei:ref">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:svg="http://www.w3.org/2000/svg"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
                        test="@target and @cRef">Only one of the
@@ -5319,12 +5320,17 @@ Elements]</a:documentation>
                <ref name="model.noteLike"/>
             </zeroOrMore>
             <zeroOrMore>
-               <choice>
-                  <ref name="idno"/>
-                  <ref name="model.ptrLike"/>
-                  <ref name="editor"/>
-                  <ref name="respStmt"/>
-               </choice>
+               <group>
+                  <ref name="edition"/>
+                  <zeroOrMore>
+                     <choice>
+                        <ref name="idno"/>
+                        <ref name="model.ptrLike"/>
+                        <ref name="editor"/>
+                        <ref name="respStmt"/>
+                     </choice>
+                  </zeroOrMore>
+               </group>
             </zeroOrMore>
             <ref name="imprint"/>
             <zeroOrMore>
@@ -5569,6 +5575,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <group>
             <zeroOrMore>
                <choice>
+                  <ref name="classCode"/>
                   <ref name="catRef"/>
                </choice>
             </zeroOrMore>
@@ -5616,15 +5623,6 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <ref name="att.global.attributes"/>
          <ref name="att.pointing.attributes"/>
          <ref name="att.citing.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="pubPlace">
-      <element name="pubPlace">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(publication place) contains the name of the place where a bibliographic item was published. [3.12.2.4. Imprint, Size of a Document, and Reprint Information]</a:documentation>
-         <ref name="macro.phraseSeq"/>
-         <ref name="att.global.attributes"/>
-         <ref name="att.naming.attributes"/>
          <empty/>
       </element>
    </define>
@@ -6036,6 +6034,9 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
             <group>
                <ref name="titleStmt"/>
                <optional>
+                  <ref name="editionStmt"/>
+               </optional>
+               <optional>
                   <ref name="extent"/>
                </optional>
                <ref name="publicationStmt"/>
@@ -6069,6 +6070,32 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
          <empty/>
       </element>
    </define>
+   <define name="editionStmt">
+      <element name="editionStmt">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(edition statement) groups information relating to one edition of a text. [2.2.2. The Edition Statement 2.2. The File Description]</a:documentation>
+         <choice>
+            <oneOrMore>
+               <ref name="model.pLike"/>
+            </oneOrMore>
+            <group>
+               <ref name="edition"/>
+               <zeroOrMore>
+                  <ref name="model.respLike"/>
+               </zeroOrMore>
+            </group>
+         </choice>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="edition">
+      <element name="edition">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(edition) describes the particularities of one edition of a text. [2.2.2. The Edition Statement]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="extent">
       <element name="extent">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(extent) describes the approximate size of a text stored on some carrier medium or of some other object, digital or non-digital, specified in any convenient units. [2.2.3. Type and Extent of File 2.2. The File Description 3.12.2.4. Imprint, Size of a Document, and Reprint Information 10.7.1. Object Description]</a:documentation>
@@ -6080,20 +6107,92 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
    <define name="publicationStmt">
       <element name="publicationStmt">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(publication statement) groups information concerning the publication or distribution of an electronic or other text. [2.2.4. Publication, Distribution, Licensing, etc. 2.2. The File Description]</a:documentation>
-         <choice>
-            <oneOrMore>
-               <group>
-                  <ref name="model.publicationStmtPart.agency"/>
-                  <zeroOrMore>
-                     <ref name="model.publicationStmtPart.detail"/>
-                  </zeroOrMore>
-               </group>
-            </oneOrMore>
-            <oneOrMore>
-               <ref name="model.pLike"/>
-            </oneOrMore>
-         </choice>
+         <oneOrMore>
+            <group>
+               <choice>
+                  <oneOrMore>
+                     <ref name="placeName"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="publisher"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="authority"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="distributor"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="name"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="date"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="p"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="ref"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="availability"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="idno"/>
+                  </oneOrMore>
+                  <oneOrMore>
+                     <ref name="listRef"/>
+                  </oneOrMore>
+               </choice>
+               <zeroOrMore>
+                  <choice>
+                     <oneOrMore>
+                        <ref name="placeName"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="publisher"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="authority"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="distributor"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="name"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="date"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="p"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="ref"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="availability"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="idno"/>
+                     </oneOrMore>
+                     <oneOrMore>
+                        <ref name="listRef"/>
+                     </oneOrMore>
+                  </choice>
+               </zeroOrMore>
+            </group>
+         </oneOrMore>
          <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="distributor">
+      <element name="distributor">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(distributor) supplies the name of a person or other agency responsible for the distribution of a text. [2.2.4. Publication, Distribution, Licensing, etc.]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.canonical.attributes"/>
          <empty/>
       </element>
    </define>
@@ -6313,6 +6412,24 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
             </choice>
          </oneOrMore>
          <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="schemaRef">
+      <element name="schemaRef">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(schema reference) describes or points to a related customization or schema file [2.3.10. The Schema Specification]</a:documentation>
+         <optional>
+            <ref name="model.descLike"/>
+         </optional>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <ref name="att.resourced.attributes"/>
+         <optional>
+            <attribute name="key">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">the identifier used for the customization or schema</a:documentation>
+               <data type="NCName"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -6713,6 +6830,7 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text classification) groups information which describes the nature or topic of a text in terms of a standard classification scheme, thesaurus, etc. [2.4.3. The Text Classification]</a:documentation>
          <zeroOrMore>
             <choice>
+               <ref name="classCode"/>
                <ref name="catRef"/>
                <ref name="keywords"/>
             </choice>
@@ -6740,6 +6858,20 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
                </data>
             </attribute>
          </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="classCode">
+      <element name="classCode">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(classification code) contains the classification code used for this text in some standard classification system. [2.4.3. The Text Classification]</a:documentation>
+         <ref name="macro.phraseSeq.limited"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="scheme">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the classification system in use, as defined by, e.g. a <code xmlns="http://www.w3.org/1999/xhtml">&lt;taxonomy&gt;</code> element, or some other resource.</a:documentation>
+            <data type="anyURI">
+               <param name="pattern">\S+</param>
+            </data>
+         </attribute>
          <empty/>
       </element>
    </define>
@@ -7040,7 +7172,7 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
    </define>
    <define name="text">
       <element name="text">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text) This element must have a <code xmlns="http://www.w3.org/1999/xhtml">&lt;text&gt;</code> element or a sequence of <code xmlns="http://www.w3.org/1999/xhtml">&lt;div&gt;</code> elements. [4. Default Text Structure 15.1. Varieties of Composite Text]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text) This element must have one or more <code xmlns="http://www.w3.org/1999/xhtml">&lt;text&gt;</code> elements or one or more <code xmlns="http://www.w3.org/1999/xhtml">&lt;div&gt;</code> elements. [4. Default Text Structure 15.1. Varieties of Composite Text]</a:documentation>
          <choice>
             <oneOrMore>
                <ref name="text"/>
@@ -7433,36 +7565,34 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
    <define name="msIdentifier">
       <element name="msIdentifier">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(manuscript identifier) contains the information required to identify the manuscript or similar object being described. [10.4. The Manuscript Identifier]</a:documentation>
-         <group>
+         <oneOrMore>
             <group>
-               <optional>
+               <choice>
+                  <ref name="msName"/>
                   <ref name="placeName"/>
-               </optional>
-               <optional>
-                  <ref name="country"/>
-               </optional>
-               <optional>
-                  <ref name="region"/>
-               </optional>
-               <optional>
                   <ref name="repository"/>
-               </optional>
+                  <oneOrMore>
+                     <ref name="idno"/>
+                  </oneOrMore>
+               </choice>
                <zeroOrMore>
-                  <ref name="idno"/>
+                  <choice>
+                     <ref name="msName"/>
+                     <ref name="placeName"/>
+                     <ref name="repository"/>
+                     <oneOrMore>
+                        <ref name="idno"/>
+                     </oneOrMore>
+                  </choice>
                </zeroOrMore>
             </group>
-            <zeroOrMore>
-               <choice>
-                  <ref name="objectName"/>
-                  <ref name="altIdentifier"/>
-               </choice>
-            </zeroOrMore>
-         </group>
+         </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="newLite-msIdentifier-msId_minimal-constraint-report-17">
             <rule context="tei:msIdentifier">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:svg="http://www.w3.org/2000/svg"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
                        test="not(parent::tei:msPart) and (local-name(*[1])='idno' or local-name(*[1])='altIdentifier' or normalize-space(.)='')">An msIdentifier must contain either a repository or location.</report>
@@ -7481,56 +7611,19 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
          <empty/>
       </element>
    </define>
-   <define name="altIdentifier">
-      <element name="altIdentifier">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(alternative identifier) contains an alternative or former structured identifier used for a manuscript or other object, such as a former catalogue number. [10.4. The Manuscript Identifier]</a:documentation>
-         <group>
-            <optional>
-               <ref name="placeName"/>
-            </optional>
-            <optional>
-               <ref name="country"/>
-            </optional>
-            <optional>
-               <ref name="region"/>
-            </optional>
-            <optional>
-               <ref name="repository"/>
-            </optional>
-            <ref name="idno"/>
-            <optional>
-               <ref name="note"/>
-            </optional>
-         </group>
+   <define name="msName">
+      <element name="msName">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(alternative name) contains any form of unstructured alternative name used for a manuscript or other object, such as an ocellus nominum, or nickname. [10.4. The Manuscript Identifier]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.gLike"/>
+               <ref name="rs"/>
+               <ref name="name"/>
+            </choice>
+         </zeroOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
-         <ref name="att.datable.attributes"/>
-         <optional>
-            <attribute name="calendar">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates one or more systems or calendars to which the date represented by the content of this element belongs.</a:documentation>
-               <list>
-                  <oneOrMore>
-                     <data type="anyURI">
-                        <param name="pattern">\S+</param>
-                     </data>
-                  </oneOrMore>
-               </list>
-            </attribute>
-         </optional>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-altIdentifier-calendar-calendar-check-altIdentifier-constraint-rule-25">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:math="http://www.w3.org/1998/Math/MathML"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:svg="http://www.w3.org/2000/svg"
-                      xmlns:xi="http://www.w3.org/2001/XInclude"
-                      context="tei:*[@calendar]">
-               <sch:assert test="string-length( normalize-space(.) ) gt 0"> @calendar indicates one or more
-                        systems or calendars to which the date represented by the content of this element belongs,
-                        but this <sch:name/> element has no textual content.</sch:assert>
-            </sch:rule>
-         </pattern>
          <empty/>
       </element>
    </define>
@@ -7886,6 +7979,7 @@ Suggested values include: 1] label; 2] data</a:documentation>
             <rule context="tei:s">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:svg="http://www.w3.org/2000/svg"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
                        test="tei:s">You may not nest one s element within
@@ -9394,6 +9488,19 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
                </choice>
             </zeroOrMore>
          </choice>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="newLite-person-no-sex-constraint-rule-41">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="tei:person">
+               <sch:report test="tei:sex">Element &lt;sex&gt; is not allowed </sch:report>
+               <sch:report test="@sex">Attribute &lt;sex&gt; is not allowed </sch:report>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.editLike.attributes"/>
          <ref name="att.sortable.attributes"/>
@@ -9575,7 +9682,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-relation-activemutual-constraint-report-20">
+                  id="newLite-relation-activemutual-constraint-report-22">
             <rule context="tei:relation">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9586,7 +9693,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-relation-activepassive-constraint-report-21">
+                  id="newLite-relation-activepassive-constraint-report-23">
             <rule context="tei:relation">
                <report xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9615,7 +9722,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-relation-calendar-calendar-check-relation-constraint-rule-41">
+                  id="newLite-relation-calendar-calendar-check-relation-constraint-rule-42">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9698,7 +9805,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-sex-calendar-calendar-check-sex-constraint-rule-42">
+                  id="newLite-sex-calendar-calendar-check-sex-constraint-rule-43">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9776,7 +9883,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-state-calendar-calendar-check-state-constraint-rule-43">
+                  id="newLite-state-calendar-calendar-check-state-constraint-rule-44">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9814,7 +9921,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-objectName-calendar-calendar-check-objectName-constraint-rule-44">
+                  id="newLite-objectName-calendar-calendar-check-objectName-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -10457,7 +10564,7 @@ Sample values include: 1] homeoteleuton; 2] homeoarchy; 3] paleographicConfusion
             </oneOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="newLite-facsimile-no_facsimile_text_nodes-constraint-rule-45">
+                  id="newLite-facsimile-no_facsimile_text_nodes-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -10790,6 +10897,7 @@ Sample values include: 1] header; 2] footer; 3] pageNum (page number); 4] lineNu
             <rule context="tei:subst">
                <assert xmlns:math="http://www.w3.org/1998/Math/MathML"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:svg="http://www.w3.org/2000/svg"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
                        test="child::tei:add and (child::tei:del or child::tei:surplus)">
@@ -11352,6 +11460,46 @@ Sample values include: 1] no; 2] yes; 3] weak; 4] strong</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(example) contains any kind of illustrative example. [22.5. Element Specifications 22.5.3. Attribute List Specification]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="listRef">
+      <element name="listRef">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of references) supplies a list of significant references in the current document or elsewhere.</a:documentation>
+         <group>
+            <zeroOrMore>
+               <ref name="desc"/>
+            </zeroOrMore>
+            <oneOrMore>
+               <ref name="model.ptrLike"/>
+            </oneOrMore>
+         </group>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="newLite-listRef-TagDocsNestinglistRef-constraint-rule-47">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="( tei:classSpec | tei:dataSpec | tei:elementSpec | tei:macroSpec | tei:moduleSpec | tei:schemaSpec | tei:specGrp )/tei:listRef">
+               <sch:report test="tei:listRef">In the context of tagset documentation, the listRef element must not self-nest.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="newLite-listRef-TagDocslistRefChildren-constraint-rule-48">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="( tei:classSpec | tei:dataSpec | tei:elementSpec | tei:macroSpec | tei:moduleSpec | tei:schemaSpec | tei:specGrp )/tei:listRef/tei:ptr | ( tei:classSpec | tei:dataSpec | tei:elementSpec | tei:macroSpec | tei:moduleSpec | tei:schemaSpec | tei:specGrp )/tei:listRef/tei:ref">
+               <sch:assert test="@target and not( matches( @target,'\s') )">In the context of tagset documentation, each ptr or ref element inside a listRef must have a target attribute with only 1 pointer as its value.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
          <empty/>
       </element>
    </define>
