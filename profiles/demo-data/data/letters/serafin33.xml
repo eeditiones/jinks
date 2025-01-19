@@ -5,20 +5,20 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Stanisław Barwałdzki do Mikołaja Serafina, <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>, <date when="1452-11-14" instant="false">14 listopada 1452</date>
+                <title>Stanisław Barwałdzki do Mikołaja Serafina, <placeName key="geo-755889" full="yes">Wieliczka</placeName>, <date when="1452-11-14">14 listopada 1452</date>
                 </title>
-                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                <title level="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
                 <editor>Anna Skolimowska</editor>
                 <editor>Waldemar Bukowski</editor>
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Anna Krzysik</persName>
+                    <persName>Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Magdalena Turska</persName>
+                    <persName>Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -28,18 +28,18 @@
                     <licence target="https://creativecommons.org/licenses/by/4.0/"/>
                 </availability>
             </publicationStmt>
-            <sourceDesc default="false">
+            <sourceDesc>
                 <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
                         <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 152 (196)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p part="N">recto: tekst listu; verso: ciąg dalszy tekstu (do góry
+                        <p>recto: tekst listu; verso: ciąg dalszy tekstu (do góry
                             nogami), podpis, adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p part="N">217 × 305 mm; karta pognieciona, w dolnej
+                        <p>217 × 305 mm; karta pognieciona, w dolnej
                             części ślady zawilgocenia i duża dziura po lewej stronie, w górnej części rozdarcie
                             pionowe, sięgające ósmej linijki tekstu, podklejone papierem w taki sposób, że zasłonięte
                             zostały niektóre litery</p>
@@ -47,27 +47,27 @@
                 </msDesc>
                 <bibl type="printed-edition">
                     <publisher>Societas Vistulana</publisher>
-                    <pubPlace>Kraków</pubPlace>
+                    <placeName>Kraków</placeName>
                     <date>2006</date>
                 </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc default="false">
+            <correspDesc>
                 <correspAction type="sent">
-                    <persName key="serafin-0114" instant="false" full="yes"/>
-                    <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>
-                    <date when="1452-11-14" instant="false">14 listopada 1452</date>
+                    <persName key="serafin-0114"/>
+                    <placeName key="geo-755889" full="yes">Wieliczka</placeName>
+                    <date when="1452-11-14">14 listopada 1452</date>
                 </correspAction>
                 <correspAction type="received">
                     <persName ref="gnd-139138560">Mikołaj Serafin</persName>
                 </correspAction>
                 <correspContext>
-                    <ref type="previous" target="serafin32.xml">Previous letter of  to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1452-11-02" when-custom="1452" instant="false">2 listopada [1452]</date>
+                    <ref type="previous" target="serafin32.xml">Previous letter of  to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1452-11-02" when-custom="1452">2 listopada [1452]</date>
                     </ref>
-                    <ref type="next" target="serafin34.xml">Next letter of <persName key="serafin-0114" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1452-11-17" instant="false">17 listopada 1452</date>
+                    <ref type="next" target="serafin34.xml">Next letter of <persName key="serafin-0114"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1452-11-17">17 listopada 1452</date>
                     </ref>
-                    <ref type="next-in-correspondence" target="serafin34.xml">Next letter of <persName key="serafin-0114" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1452-11-17" instant="false">17 listopada 1452</date>
+                    <ref type="next-in-correspondence" target="serafin34.xml">Next letter of <persName key="serafin-0114"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1452-11-17">17 listopada 1452</date>
                     </ref>
                 </correspContext>
             </correspDesc>
@@ -86,217 +86,217 @@
     </teiHeader>
     <text>
         <text type="source" xml:lang="la">
-            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+            <div xml:id="s.1">
                 <opener xml:id="s.1.1">
-                    <seg part="N" xml:id="s.1.1.1">
-                        <lb/>Magnifico domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao Sera<lb/>phin</persName> gladiffero Cracouiensi nec non <lb/> salis
+                    <seg xml:id="s.1.1.1">
+                        <lb/>Magnifico domino <persName key="gnd-139138560">Nicolao Sera<lb/>phin</persName> gladiffero Cracouiensi nec non <lb/> salis
                                 utriusque zuppario, domino meo <lb/> gracioso.</seg>
                 </opener>
-                <p xml:id="s.1.2" part="N">
-                    <seg part="N" xml:id="s.1.2.1">
-                        <lb/>Magnifice ac gener<supplied instant="false">o</supplied>se domineque semper graciose<anchor xml:id="aa"/>.</seg>
-                    <seg part="N" xml:id="s.1.2.2">Ex litera Vestre Magnificencie
-                                <lb/> michi nuperime per <persName key="serafin-0106" instant="false" full="yes">Miczek</persName> exhibita sane intellexi, quomodo <expan instant="false">M<ex instant="false">agnificencia</ex>
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
+                        <lb/>Magnifice ac gener<supplied>o</supplied>se domineque semper graciose<anchor xml:id="aa"/>.</seg>
+                    <seg xml:id="s.1.2.2">Ex litera Vestre Magnificencie
+                                <lb/> michi nuperime per <persName key="serafin-0106">Miczek</persName> exhibita sane intellexi, quomodo <expan>M<ex>agnificencia</ex>
                         </expan>
                                 Vestra miratur <lb/> ex eo, quod nuccium ad vos sine mora licet cum
                                 incertis nouitatibus non expedimus, <lb/> existens incertus de voluntate vestra.</seg>
-                    <seg part="N" xml:id="s.1.2.3">Sciat
-                                ergo Vestra Magnificencia de nouitatibus ad presens ocurrenti<supplied instant="false">b</supplied>us, quomodo
-                                heri hora quasi noctis tercia, me cum domino <persName key="serafin-0010" instant="false" full="yes">Iacobo</persName>
+                    <seg xml:id="s.1.2.3">Sciat
+                                ergo Vestra Magnificencia de nouitatibus ad presens ocurrenti<supplied>b</supplied>us, quomodo
+                                heri hora quasi noctis tercia, me cum domino <persName key="serafin-0010">Iacobo</persName>
                         <anchor xml:id="ab"/> germano vestro ad camenum
-                                circa ignem seden<supplied instant="false">te</supplied>, litera ex parte cuiusdam certi amici michi venit.</seg>
-                    <seg part="N" xml:id="s.1.2.4">Idem amicus michi refferens, qualiter isti maledicti predones de ciuitate <placeName key="geo-3089658" instant="false" full="yes">Osswacimiensi</placeName>
+                                circa ignem seden<supplied>te</supplied>, litera ex parte cuiusdam certi amici michi venit.</seg>
+                    <seg xml:id="s.1.2.4">Idem amicus michi refferens, qualiter isti maledicti predones de ciuitate <placeName key="geo-3089658" full="yes">Osswacimiensi</placeName>
                                 iter arripuerunt cum scalis, fistulis, pixidibus et cum aliis armis bellicis
-                                ordinati, famam inter se dicti emuli clamdestine mittentes de claustro <placeName key="geo-764500" instant="false" full="yes">Mogila</placeName>
+                                ordinati, famam inter se dicti emuli clamdestine mittentes de claustro <placeName key="geo-764500" full="yes">Mogila</placeName>
                         <sic>devestando</sic>
                     </seg>
-                    <seg part="N" xml:id="s.1.2.5">Hodie tamen et hac nocte, Domino auxiliante, nobis et claustro
-                                Mogila dampnum nullum intulerunt, sed hodie iam indigescenti<anchor xml:id="ac"/> ante <placeName key="geo-3085807" instant="false" full="yes">Skauina</placeName>
-                                ad villam <placeName key="geo-3087415" instant="false" full="yes">Radzechow</placeName> et ad alias prope<anchor xml:id="ad"/> eandem sitas descendentes hostilliter
+                    <seg xml:id="s.1.2.5">Hodie tamen et hac nocte, Domino auxiliante, nobis et claustro
+                                Mogila dampnum nullum intulerunt, sed hodie iam indigescenti<anchor xml:id="ac"/> ante <placeName key="geo-3085807" full="yes">Skauina</placeName>
+                                ad villam <placeName key="geo-3087415" full="yes">Radzechow</placeName> et ad alias prope<anchor xml:id="ad"/> eandem sitas descendentes hostilliter
                                 devastarunt.</seg>
-                    <seg part="N" xml:id="s.1.2.6">Aput enim consules Wyelicienses pro illa litera consulum Cracouiensium
+                    <seg xml:id="s.1.2.6">Aput enim consules Wyelicienses pro illa litera consulum Cracouiensium
                                 instabam, ut fuisset michi per eos data.</seg>
-                    <seg part="N" xml:id="s.1.2.7">Nullomodo opptinere potui
+                    <seg xml:id="s.1.2.7">Nullomodo opptinere potui
                                 propter repugnanciam dominorum hodie in consulatu residencium.</seg>
-                    <seg part="N" xml:id="s.1.2.8">De zuppa et
+                    <seg xml:id="s.1.2.8">De zuppa et
                                 montibus, iuxta <sic>uestram</sic>, cum omnibus officialibus totaque familia satis grauem
                                 omni nocte gerimus custodiam.</seg>
-                    <seg part="N" xml:id="s.1.2.9">Credimus tamen, Domino auxiliante, in casu, quem Deus auferat, de illo sibo Pisarka<anchor xml:id="a1"/> nullum per ignem fieri nocumentum,
+                    <seg xml:id="s.1.2.9">Credimus tamen, Domino auxiliante, in casu, quem Deus auferat, de illo sibo Pisarka<anchor xml:id="a1"/> nullum per ignem fieri nocumentum,
                                 quia omni die aqua illo porrigitur.</seg>
-                    <seg part="N" xml:id="s.1.2.10">Alii duo, videlicet Swathoslawsky<anchor xml:id="a2"/> et
+                    <seg xml:id="s.1.2.10">Alii duo, videlicet Swathoslawsky<anchor xml:id="a2"/> et
                                 Surowiczni<anchor xml:id="a3"/> de zuppis, adiutorio nostri Saluatoris nobis suffragante, bene per nos
                                 <sic>poterint</sic> defendi, sed si quid <sic>graui</sic> senserimus, illos claudi non obmittemus
                                 sine mora.</seg>
-                    <seg part="N" xml:id="s.1.2.11">Sectoribus et tragariis solucionem, Domino disponente, ordinauimus
+                    <seg xml:id="s.1.2.11">Sectoribus et tragariis solucionem, Domino disponente, ordinauimus
                                 heri summo mane, ita quod vtique labor in montibus exercetur continue, licet
-                                popullus ciuitatis valde agrauat<supplied instant="false">ur</supplied> vna nobiscum custodia.</seg>
-                    <seg part="N" xml:id="s.1.2.12">Magistro <persName key="wikidata-Q99519984" instant="false" full="yes">Paulo</persName>
+                                popullus ciuitatis valde agrauat<supplied>ur</supplied> vna nobiscum custodia.</seg>
+                    <seg xml:id="s.1.2.12">Magistro <persName key="wikidata-Q99519984">Paulo</persName>
                                 procuratori capituli Cracouiensis dominico proxime preterito xxiiii florenos et
-                                mansionariis<anchor xml:id="a4"/> x marcas, dominoque <persName key="wikidata-Q11044024" instant="false" full="yes">succamerario</persName> xii florenos minus fertonem
+                                mansionariis<anchor xml:id="a4"/> x marcas, dominoque <persName key="wikidata-Q11044024">succamerario</persName> xii florenos minus fertonem
                                 persoluimus super ipsorum solaria.</seg>
-                    <seg part="N" xml:id="s.1.2.13">Sciat eciam <expan instant="false">V<ex instant="false">estra</ex>
+                    <seg xml:id="s.1.2.13">Sciat eciam <expan>V<ex>estra</ex>
                         </expan>
-                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        <expan>M<ex>agnificencia</ex>
                         </expan>,
-                                quod amoneor omni quasi die ex parte officialium domini <persName key="gnd-1114283509" instant="false" full="yes">Cracouiensis</persName> pro
-                                centum banc<supplied instant="false">os</supplied> aut centum flor<supplied instant="false">enos</supplied> qualibet septimana ipsis <sic>dandos</sic>,
+                                quod amoneor omni quasi die ex parte officialium domini <persName key="gnd-1114283509">Cracouiensis</persName> pro
+                                centum banc<supplied>os</supplied> aut centum flor<supplied>enos</supplied> qualibet septimana ipsis <sic>dandos</sic>,
                                 iuxta comissa ipsis per dominum Cracouiensem facta.</seg>
-                    <seg part="N" xml:id="s.1.2.14">Sed eos evado de die in
+                    <seg xml:id="s.1.2.14">Sed eos evado de die in
                                 diem informacionem super hiis a Magnificencia Vestra exspectando.</seg>
-                    <seg part="N" xml:id="s.1.2.15">Quare me
+                    <seg xml:id="s.1.2.15">Quare me
                                 velitis informare quantocius<anchor xml:id="ae"/>, quomodo eos evadere deberem.</seg>
-                    <seg part="N" xml:id="s.1.2.16">Peccunias eciam
+                    <seg xml:id="s.1.2.16">Peccunias eciam
                                 expensales dominico expediui cum ceteris, sed de retentis eciam ammoneor per
                                 eosdem.</seg>
-                    <seg part="N" xml:id="s.1.2.17">A magistro <persName key="serafin-0111" instant="false" full="yes">moncium</persName> propter ipsius absenciam literam habere non
+                    <seg xml:id="s.1.2.17">A magistro <persName key="serafin-0111">moncium</persName> propter ipsius absenciam literam habere non
                                 potuimus.</seg>
-                    <seg part="N" xml:id="s.1.2.18">Aura Cracouie et aput nos variatur, iam bene, iam male, iam cessat,
+                    <seg xml:id="s.1.2.18">Aura Cracouie et aput nos variatur, iam bene, iam male, iam cessat,
                                 iam invalescit.</seg>
-                    <seg part="N" xml:id="s.1.2.19">De domino <persName key="serafin-0104" instant="false" full="yes">Cuncza</persName> sciatis, quod bene habet, solum quod filius
-                                suus vnus est mortuus, sed de <persName key="serafin-0112" instant="false" full="yes">Bartholomeo</persName> penitus nichil scio, quomodo
+                    <seg xml:id="s.1.2.19">De domino <persName key="serafin-0104">Cuncza</persName> sciatis, quod bene habet, solum quod filius
+                                suus vnus est mortuus, sed de <persName key="serafin-0112">Bartholomeo</persName> penitus nichil scio, quomodo
                                 habet, si viuit aut mortuus sit.</seg>
-                    <seg part="N" xml:id="s.1.2.20">Verum est, quod aliqui venientes in Cracouiam
+                    <seg xml:id="s.1.2.20">Verum est, quod aliqui venientes in Cracouiam
                                 mortui sunt, sed Deus solus scit, quid facit cum illis<anchor xml:id="af"/>.</seg>
-                    <seg part="N" xml:id="s.1.2.21">An aura tali infecti sunt,
+                    <seg xml:id="s.1.2.21">An aura tali infecti sunt,
                                 illa ignoramus.</seg>
-                    <seg part="N" xml:id="s.1.2.22">De negocio isto michi oretenus per <persName key="serafin-0072" instant="false" full="yes">Masik</persName> explicato michi
+                    <seg xml:id="s.1.2.22">De negocio isto michi oretenus per <persName key="serafin-0072">Masik</persName> explicato michi
                                 penitus non constat.</seg>
-                    <seg part="N" xml:id="s.1.2.23">Silwa pro gassis et pro zuppis caremus usquemodo<anchor xml:id="ag"/> sic,
+                    <seg xml:id="s.1.2.23">Silwa pro gassis et pro zuppis caremus usquemodo<anchor xml:id="ag"/> sic,
                                 quod omnes terrigene absentantur propter istos predones.</seg>
-                    <seg part="N" xml:id="s.1.2.24">Et dominus <persName key="serafin-0113" instant="false" full="yes">Clemens
-                                Nawoywsky</persName> pro illa sillwa in <placeName key="geo-775938" instant="false" full="yes">Byeszanow</placeName> non audet exire de Cracouia, quod nobiscum forum fecisset, disserens, quod exspectaremus, quousque g w a r r e iste
+                    <seg xml:id="s.1.2.24">Et dominus <persName key="serafin-0113">Clemens
+                                Nawoywsky</persName> pro illa sillwa in <placeName key="geo-775938" full="yes">Byeszanow</placeName> non audet exire de Cracouia, quod nobiscum forum fecisset, disserens, quod exspectaremus, quousque g w a r r e iste
                                 cessarent.</seg>
-                    <seg part="N" xml:id="s.1.2.25">Et nos tam in gasis, quam in ciuitate lignis caremus et pro tempore
+                    <seg xml:id="s.1.2.25">Et nos tam in gasis, quam in ciuitate lignis caremus et pro tempore
                                 ygemali vectoribus ipsa comparanda.</seg>
-                    <seg part="N" xml:id="s.1.2.26">Inscii sumus, vbi fieri deberet.</seg>
-                    <seg part="N" xml:id="s.1.2.27">Gase tres
+                    <seg xml:id="s.1.2.26">Inscii sumus, vbi fieri deberet.</seg>
+                    <seg xml:id="s.1.2.27">Gase tres
                                 iam stant extincte propter carenciam lignorum.</seg>
-                    <seg part="N" xml:id="s.1.2.28">Vectores non habemus, nec super
+                    <seg xml:id="s.1.2.28">Vectores non habemus, nec super
                                 sal bancatum, nec super minutum, quia magna spolia in vigys<anchor xml:id="ah"/> super ipsis
                                 modo comittuntur, ita quod nullus ad nos iam audet pro sale venire.</seg>
-                    <seg part="N" xml:id="s.1.2.29">Sic, quod
+                    <seg xml:id="s.1.2.29">Sic, quod
                                 nec heri, nec hodie nulli homini bancum aliquomodo vendere potuimus.</seg>
-                    <seg part="N" xml:id="s.1.2.30">Nisi
+                    <seg xml:id="s.1.2.30">Nisi
                                 Deus sit nobiscum, pro tempore ygemali quomodo stabimus, Deus scit.</seg>
-                    <seg part="N" xml:id="s.1.2.31">Alia
+                    <seg xml:id="s.1.2.31">Alia
                                 scribenda modo non ocurrunt Vestre Magnificencie, solum quod gauderemus
                                 de sanitate et prosperitate vestra.</seg>
-                    <seg part="N" xml:id="s.1.2.32">Datum in <placeName key="geo-755889" instant="false" full="yes">Wyeliczka</placeName>, <date when="1452-11-14" instant="false">feria tercia post sancti
+                    <seg xml:id="s.1.2.32">Datum in <placeName key="geo-755889" full="yes">Wyeliczka</placeName>, <date when="1452-11-14">feria tercia post sancti
                                 Briccii, anno Domini etc. lii</date>.</seg>
                 </p>
                 <signed xml:id="s.1.3">
-                    <seg part="N" xml:id="s.1.3.1">
+                    <seg xml:id="s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0114" instant="false" full="yes">Stanislaus Berwaldsky</persName>
+                        <persName key="serafin-0114">Stanislaus Berwaldsky</persName>
                         <lb/> vester vicezupparius in Wyeliczka <lb/> et seruitor</seg>
                 </signed>
                 <postscript xml:id="s.1.4">
-                    <p xml:id="s.1.4.1" part="N">
+                    <p xml:id="s.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
             </div>
         </text>
         <text type="translation" xml:lang="pl">
-            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+            <div xml:id="t.1">
                 <opener xml:id="t.1.1">
-                    <seg part="N" corresp="#s.1.1.1">
-                        <lb/>Wielmożnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu
                                 i żupnikowi obojga salin, memu łaskawemu panu.</seg>
                 </opener>
-                <p xml:id="t.1.2" part="N">
-                    <seg part="N" corresp="#s.1.2.1">
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
                         <lb/>Wielmożny i szlachetny, zawsze łaskawy panie.</seg>
-                    <seg part="N" corresp="#s.1.2.2">Z doręczonego mi przed
-                                chwilą przez <persName key="serafin-0106" instant="false" full="yes">Miczka</persName>Miczka listu Waszej Wielmożności zrozumiałem dokładnie, że
+                    <seg corresp="#s.1.2.2">Z doręczonego mi przed
+                                chwilą przez <persName key="serafin-0106">Miczka</persName>Miczka listu Waszej Wielmożności zrozumiałem dokładnie, że
                                 Wasza Wielmożność dziwi się temu, iż pozostając w niepewności co do waszej
                                 woli, nie wysłałem do was niezwłocznie posłańca, choćby z niepewnymi
                                 wiadomościami.</seg>
-                    <seg part="N" corresp="#s.1.2.3">Niech więc wie Wasza Wielmożność, że jeśli chodzi o bieżące
+                    <seg corresp="#s.1.2.3">Niech więc wie Wasza Wielmożność, że jeśli chodzi o bieżące
                                 wiadomości, wczoraj około trzeciej godziny nocy, kiedy wraz z waszym bratem
-                                <persName key="serafin-0010" instant="false" full="yes">Jakubem</persName> siedzieliśmy przy rozpalonym kominku, przyszedł do mnie list od
+                                <persName key="serafin-0010">Jakubem</persName> siedzieliśmy przy rozpalonym kominku, przyszedł do mnie list od
                                 pewnego zaufanego przyjaciela.</seg>
-                    <seg part="N" corresp="#s.1.2.4">Donosi mi ów przyjaciel, że ci przeklęci zbójcy
-                                z <placeName key="geo-3089658" instant="false" full="yes">Oświęcimia</placeName>, zawiadamiając się potajemnie o zamiarze splądrowania klasztoru
-                                w <placeName key="geo-764500" instant="false" full="yes">Mogile</placeName>, uformowali oddział i wyruszyli w drogę, uzbrojeni w drabiny, piszczałki,
+                    <seg corresp="#s.1.2.4">Donosi mi ów przyjaciel, że ci przeklęci zbójcy
+                                z <placeName key="geo-3089658" full="yes">Oświęcimia</placeName>, zawiadamiając się potajemnie o zamiarze splądrowania klasztoru
+                                w <placeName key="geo-764500" full="yes">Mogile</placeName>, uformowali oddział i wyruszyli w drogę, uzbrojeni w drabiny, piszczałki,
                                 puszki i inną broń.</seg>
-                    <seg part="N" corresp="#s.1.2.5">Ani dzisiaj jednak, ani ubiegłej nocy dzięki Bogu
+                    <seg corresp="#s.1.2.5">Ani dzisiaj jednak, ani ubiegłej nocy dzięki Bogu
                                 nie zrobili nic złego nam ani klasztorowi w Mogile. Dotarłszy jednak dzisiaj
-                                o świcie do wioski <placeName key="geo-3087415" instant="false" full="yes">Radziszów</placeName> koło <placeName key="geo-3085807" instant="false" full="yes">Skawiny</placeName> i do innych niedaleko położonych
+                                o świcie do wioski <placeName key="geo-3087415" full="yes">Radziszów</placeName> koło <placeName key="geo-3085807" full="yes">Skawiny</placeName> i do innych niedaleko położonych
                                 wsi, spustoszyli je jak najeźdźcy.</seg>
-                    <seg part="N" corresp="#s.1.2.6">Zwracałem się do rajców wielickich, aby mi
+                    <seg corresp="#s.1.2.6">Zwracałem się do rajców wielickich, aby mi
                                 dali ów list rajców krakowskich.</seg>
-                    <seg part="N" corresp="#s.1.2.7">Nie mogłem go jednak w żaden sposób uzyskać
+                    <seg corresp="#s.1.2.7">Nie mogłem go jednak w żaden sposób uzyskać
                                 z powodu odmowy panów, zasiadających dziś w radzie.</seg>
-                    <seg part="N" corresp="#s.1.2.8">Zgodnie z waszą
+                    <seg corresp="#s.1.2.8">Zgodnie z waszą
                                 wolą wraz ze wszystkimi urzędnikami i całą służbą każdej nocy pełnimy uciążliwą
                                 straż w żupie i w szybach.</seg>
-                    <seg part="N" corresp="#s.1.2.9">Wierzymy jednak, że, z Bożą pomocą, w razie wypadku, od którego niech Bóg strzeże, szyb Pisarka nie dozna żadnej szkody
+                    <seg corresp="#s.1.2.9">Wierzymy jednak, że, z Bożą pomocą, w razie wypadku, od którego niech Bóg strzeże, szyb Pisarka nie dozna żadnej szkody
                                 od ognia, bowiem każdego dnia jest polewany wodą.</seg>
-                    <seg part="N" corresp="#s.1.2.10">Pozostałe dwa, mianowicie
+                    <seg corresp="#s.1.2.10">Pozostałe dwa, mianowicie
                                 Świętosławski i Surowiczy w żupach, z pomocą wspierającego nas naszego
                                 Zbawiciela zdołamy odpowiednio obronić, jeżeli jednak dostrzeżemy coś poważnego,
                                 nie omieszkamy ich bezzwłocznie zamknąć.</seg>
-                    <seg part="N" corresp="#s.1.2.11">Zrządzeniem Pańskim
+                    <seg corresp="#s.1.2.11">Zrządzeniem Pańskim
                                 wczoraj wczesnym rankiem dokonaliśmy wypłaty dla kopaczy i tragarzy, tak
                                 że prace w szybach prowadzone są bez przerw, mimo że ludność miasta bardzo
                                 jest wraz z nami obciążona stróżowaniem.</seg>
-                    <seg part="N" corresp="#s.1.2.12">W ubiegłą niedzielę wypłaciliśmy
-                                należności: prokuratorowi kapituły krakowskiej mistrzowi <persName key="wikidata-Q11044024" instant="false" full="yes">Pawłowi</persName> 24 floreny,
+                    <seg corresp="#s.1.2.12">W ubiegłą niedzielę wypłaciliśmy
+                                należności: prokuratorowi kapituły krakowskiej mistrzowi <persName key="wikidata-Q11044024">Pawłowi</persName> 24 floreny,
                                 mansjonarzom 10 grzywien, zaś panu podkomorzemu 12 florenów bez jednego
                                 wiardunku.</seg>
-                    <seg part="N" corresp="#s.1.2.13">Niech wie również Wasza Wielmożność, że prawie codziennie
-                                jestem nagabywany przez urzędników pana <persName key="gnd-1114283509" instant="false" full="yes">kasztelana</persName> krakowskiego z tytułu
+                    <seg corresp="#s.1.2.13">Niech wie również Wasza Wielmożność, że prawie codziennie
+                                jestem nagabywany przez urzędników pana <persName key="gnd-1114283509">kasztelana</persName> krakowskiego z tytułu
                                 100 bałwanów lub 100 florenów, które mieli odbierać co tydzień według zaleceń,
                                 danych im przez pana kasztelana krakowskiego.</seg>
-                    <seg part="N" corresp="#s.1.2.14">Wymykam się im jednak
+                    <seg corresp="#s.1.2.14">Wymykam się im jednak
                                 z dnia na dzień, oczekując informacji na ten temat od Waszej Wielmożności.</seg>
-                    <seg part="N" corresp="#s.1.2.15">Dlatego zechciejcie mnie jak najszybciej poinformować, w jaki sposób mam się
+                    <seg corresp="#s.1.2.15">Dlatego zechciejcie mnie jak najszybciej poinformować, w jaki sposób mam się
                                 od nich uwolnić.</seg>
-                    <seg part="N" corresp="#s.1.2.16">Wypłaciłem im również w niedzielę razem z innymi wypłatami
+                    <seg corresp="#s.1.2.16">Wypłaciłem im również w niedzielę razem z innymi wypłatami
                                 pieniądze na bieżące wydatki, lecz jestem przez nich nagabywany także
                                 o zaległości.</seg>
-                    <seg part="N" corresp="#s.1.2.17">Nie mogliśmy otrzymać listu od <persName key="serafin-0111" instant="false" full="yes">bachmistrza</persName> z powodu jego nieobecności.</seg>
-                    <seg part="N" corresp="#s.1.2.18">Powietrze jest zmienne zarówno w Krakowie, jak i u nas — raz jest
+                    <seg corresp="#s.1.2.17">Nie mogliśmy otrzymać listu od <persName key="serafin-0111">bachmistrza</persName> z powodu jego nieobecności.</seg>
+                    <seg corresp="#s.1.2.18">Powietrze jest zmienne zarówno w Krakowie, jak i u nas — raz jest
                                 dobrze, raz źle, już to ustępuje, już to przybiera na sile.</seg>
-                    <seg part="N" corresp="#s.1.2.19">O panu <persName key="serafin-0104" instant="false" full="yes">Kunczy</persName> wiedzcie,
-                                że ma się dobrze, tyle że zmarł jeden jego syn, o <persName key="serafin-0112" instant="false" full="yes">Bartłomieju</persName> jednak zupełnie
+                    <seg corresp="#s.1.2.19">O panu <persName key="serafin-0104">Kunczy</persName> wiedzcie,
+                                że ma się dobrze, tyle że zmarł jeden jego syn, o <persName key="serafin-0112">Bartłomieju</persName> jednak zupełnie
                                 nie wiem, jak się czuje, żyje, czy może umarł.</seg>
-                    <seg part="N" corresp="#s.1.2.20">To prawda, że zmarli niektórzy
+                    <seg corresp="#s.1.2.20">To prawda, że zmarli niektórzy
                                 przybywający do Krakowa, lecz tylko Bóg wie, co z nimi czyni.</seg>
-                    <seg part="N" corresp="#s.1.2.21">Czy zostali
+                    <seg corresp="#s.1.2.21">Czy zostali
                                 zarażeni tym powietrzem, nie wiemy.</seg>
-                    <seg part="N" corresp="#s.1.2.22">O sprawie, przekazanej mi ustnie przez
-                                <persName key="serafin-0072" instant="false" full="yes">Mężyka</persName>, nic mi dokładniej nie wiadomo.</seg>
-                    <seg part="N" corresp="#s.1.2.23">Nie mamy lasu na potrzeby warzelni
+                    <seg corresp="#s.1.2.22">O sprawie, przekazanej mi ustnie przez
+                                <persName key="serafin-0072">Mężyka</persName>, nic mi dokładniej nie wiadomo.</seg>
+                    <seg corresp="#s.1.2.23">Nie mamy lasu na potrzeby warzelni
                                 i żup, a to dlatego, że wszyscy ziemianie są nieobecni z powodu zbójców.</seg>
-                    <seg part="N" corresp="#s.1.2.24">Także
-                                pan <persName key="serafin-0113" instant="false" full="yes">Klemens Nawojowski</persName> nie ośmiela się wyjechać z Krakowa, aby dobić z nami targu w sprawie owego lasu w <placeName key="geo-775938" instant="false" full="yes">Bieżanowie</placeName>. Mówi, abyśmy poczekali, aż ustaną
+                    <seg corresp="#s.1.2.24">Także
+                                pan <persName key="serafin-0113">Klemens Nawojowski</persName> nie ośmiela się wyjechać z Krakowa, aby dobić z nami targu w sprawie owego lasu w <placeName key="geo-775938" full="yes">Bieżanowie</placeName>. Mówi, abyśmy poczekali, aż ustaną
                                 niepokoje.</seg>
-                    <seg part="N" corresp="#s.1.2.25">Nam zaś brakuje drewna tak w warzelniach, jak i w mieście, a także
+                    <seg corresp="#s.1.2.25">Nam zaś brakuje drewna tak w warzelniach, jak i w mieście, a także
                                 woźniców, którzy by je zwieźli na zimę.</seg>
-                    <seg part="N" corresp="#s.1.2.26">Nie wiemy, gdzie ich znaleźć.</seg>
-                    <seg part="N" corresp="#s.1.2.27">Trzy warzelnie
+                    <seg corresp="#s.1.2.26">Nie wiemy, gdzie ich znaleźć.</seg>
+                    <seg corresp="#s.1.2.27">Trzy warzelnie
                                 stoją już wygaszone z powodu braku drew.</seg>
-                    <seg part="N" corresp="#s.1.2.28">Nie mamy woźniców ani do
+                    <seg corresp="#s.1.2.28">Nie mamy woźniców ani do
                                 soli w bałwanach, ani do drobnej, ponieważ na drogach popełniane są na nich
                                 teraz rabunki, tak że nikt już nie ośmiela się przyjeżdżać do nas po sól.</seg>
-                    <seg part="N" corresp="#s.1.2.29">Tak to
+                    <seg corresp="#s.1.2.29">Tak to
                                 ani wczoraj, ani dzisiaj nie zdołaliśmy żadnym sposobem nikomu sprzedać nawet
                                 jednego bałwana.</seg>
-                    <seg part="N" corresp="#s.1.2.30">Bóg wie, jak przetrwamy okres zimy. Tylko On może nam
+                    <seg corresp="#s.1.2.30">Bóg wie, jak przetrwamy okres zimy. Tylko On może nam
                                 pomóc.</seg>
-                    <seg part="N" corresp="#s.1.2.31">Nic innego godnego napisania do Waszej Wielmożności nie przychodzi
+                    <seg corresp="#s.1.2.31">Nic innego godnego napisania do Waszej Wielmożności nie przychodzi
                                 mi na myśl, prócz tego, że cieszylibyśmy się z waszego zdrowia i pomyślności.</seg>
-                    <seg part="N" corresp="#s.1.2.32">Dan w <placeName key="geo-755889" instant="false" full="yes">Wieliczce</placeName>, <date when="1452-11-14" instant="false">we wtorek po św. Brykcjuszu, roku Pańskiego etc. 52</date>.</seg>
+                    <seg corresp="#s.1.2.32">Dan w <placeName key="geo-755889" full="yes">Wieliczce</placeName>, <date when="1452-11-14">we wtorek po św. Brykcjuszu, roku Pańskiego etc. 52</date>.</seg>
                 </p>
                 <signed xml:id="t.1.3">
-                    <seg part="N" corresp="#s.1.3.1">
+                    <seg corresp="#s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0114" instant="false" full="yes">Stanisław Barwałdzki</persName>, wasz podżupek w Wieliczce i sługa</seg>
+                        <persName key="serafin-0114">Stanisław Barwałdzki</persName>, wasz podżupek w Wieliczce i sługa</seg>
                 </signed>
                 <postscript xml:id="t.1.4">
-                    <p xml:id="t.1.4.1" part="N">
+                    <p xml:id="t.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
@@ -305,23 +305,23 @@
     </text>
     <standOff>
         <listAnnotation>
-            <note n="a" type="transcription" target="#aa" anchored="true">graciose nadpisane.</note>
-            <note n="b" type="transcription" target="#ab" anchored="true">po Iacobo skreślone g.</note>
-            <note n="c" type="transcription" target="#ac" anchored="true">indigescenti czytaj: indiescenti.</note>
-            <note n="d" type="transcription" target="#ad" anchored="true">prope
+            <note n="a" type="transcription" target="#aa">graciose nadpisane.</note>
+            <note n="b" type="transcription" target="#ab">po Iacobo skreślone g.</note>
+            <note n="c" type="transcription" target="#ac">indigescenti czytaj: indiescenti.</note>
+            <note n="d" type="transcription" target="#ad">prope
                             skreślone an.</note>
-            <note n="e" type="transcription" target="#ae" anchored="true">po quantocius skreślone quos.</note>
-            <note n="f" type="transcription" target="#af" anchored="true">po illis skreślone agit.</note>
-            <note n="g" type="transcription" target="#ag" anchored="true">po usquemodo skreślone plus cadere.</note>
-            <note n="h" type="transcription" target="#ah" anchored="true">1</note>
-            <note n="i" type="transcription" target="#ai" anchored="true">1</note>
-            <note n="j" type="transcription" target="#aj" anchored="true">1</note>
-            <note n="k" type="transcription" target="#ak" anchored="true">1</note>
-            <note n="l" type="transcription" target="#al" anchored="true">1</note>
-            <note n="m" type="transcription" target="#am" anchored="true">1</note>
-            <note n="n" type="transcription" target="#an" anchored="true">1</note>
-            <note n="o" type="transcription" target="#ao" anchored="true">1</note>
-            <note n="1" target="#a1" anchored="true">Szyb Scriptoris, czyli Pisarka, wspomniany jeszcze
+            <note n="e" type="transcription" target="#ae">po quantocius skreślone quos.</note>
+            <note n="f" type="transcription" target="#af">po illis skreślone agit.</note>
+            <note n="g" type="transcription" target="#ag">po usquemodo skreślone plus cadere.</note>
+            <note n="h" type="transcription" target="#ah">1</note>
+            <note n="i" type="transcription" target="#ai">1</note>
+            <note n="j" type="transcription" target="#aj">1</note>
+            <note n="k" type="transcription" target="#ak">1</note>
+            <note n="l" type="transcription" target="#al">1</note>
+            <note n="m" type="transcription" target="#am">1</note>
+            <note n="n" type="transcription" target="#an">1</note>
+            <note n="o" type="transcription" target="#ao">1</note>
+            <note n="1" target="#a1">Szyb Scriptoris, czyli Pisarka, wspomniany jeszcze
                             raz w 1452 r. w liście nr 33, nie jest notowany w innych źródłach, nie
                             wymienia go również <title>Opis żup 1518</title>. Najpewniej jeszcze w
                             XV w. został wyłączony z eksploatacji. W 1510 r. ważnik wielicki Maciej
@@ -331,7 +331,7 @@
                             zwanej Nadolna de Pissarca aut lacubus. Możliwe, że chodzi o zalany wodą
                             szyb Pisarka (<hi rend="i">MS</hi> IV/2, nr 9612; <hi rend="i">Opis żup
                                 1518</hi>, s. 45).</note>
-            <note n="2" target="#a2" anchored="true">Szyb Świętosławski, lokalizowany w zespole najstarszych szybów kopalni wielickiej zwanym
+            <note n="2" target="#a2">Szyb Świętosławski, lokalizowany w zespole najstarszych szybów kopalni wielickiej zwanym
                             Starymi Górami (Regis, Wodna Góra, czyli Surowiczy), eksploatujących sól w pn. części złoża,
                             w pobliżu głównych budowli miasta: fary i zamku żupnego. Nie został wspomniany z nazwy
                             w źródłach średniowiecznych. Jego zgłębienie łączy się w literaturze z okresem żupnictwa Świętosława
@@ -339,12 +339,12 @@
                             wyczerpał się w 1440 r., a wówczas Serafin rozpoczął głębienie nowego szybu na pd.-wsch. od
                             szybu Regis, zwanego potem szybem Serafin, tworząc tym samym nowe pole eksploatacyjne zwane
                             Nowymi Górami (Wyrozumski, <title>Państwowa</title>, s. 97; <title>Dzieje żup</title>, s. 124; Długosz, <title>Roboty</title>, s. 136).</note>
-            <note n="3" target="#a3" anchored="true">Szyb Surowiczy, nazwany też Surowicą, a potem Wodną Górą, w sąsiedztwie szybów Świętosławskiego
+            <note n="3" target="#a3">Szyb Surowiczy, nazwany też Surowicą, a potem Wodną Górą, w sąsiedztwie szybów Świętosławskiego
                             i Regis, oddalony był od Świętosławskiego o ok. 45 m. Został zgłębiony w 1378 r.,
                             jego istnienie poświadcza też akt z 1381 r. Był to szyb wodny, z którego czerpano solankę do
                             produkcji warzonki. Został zasypany w 1902 r. (Długosz, <title>Roboty</title>, s. 136; Wyrozumski, <title>Państwowa</title>,
                             s. 97; <title>Dzieje żup</title>, s. 124).</note>
-            <note n="4" target="#a4" anchored="true">Kolegium mansjonarzy w kaplicy Narodzenia NMP w katedrze krak. za wielkim ołtarzem. Stanowili oni założone przez biskupa krak. Zawiszę z
+            <note n="4" target="#a4">Kolegium mansjonarzy w kaplicy Narodzenia NMP w katedrze krak. za wielkim ołtarzem. Stanowili oni założone przez biskupa krak. Zawiszę z
                             Kurozwęk (1381–1382) kolegium kapłańskie w kaplicy Narodzenia NMP w
                             katedrze krak. za wielkim ołtarzem. Mansjonarzy było ośmiu (precentor, 6
                             mansjonarzy, kleryk), a ich obowiązkiem było codzienne śpiewanie o

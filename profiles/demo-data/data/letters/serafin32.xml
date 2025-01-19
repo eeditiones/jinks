@@ -5,21 +5,21 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>NN do Mikołaja Serafina, b.m., <date when="1452-11-02" when-custom="1452" instant="false">2
+                <title>NN do Mikołaja Serafina, b.m., <date when="1452-11-02" when-custom="1452">2
                         listopada [1452]</date>
                 </title>
-                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                <title level="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
                 <editor>Anna Skolimowska</editor>
                 <editor>Waldemar Bukowski</editor>
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Anna Krzysik</persName>
+                    <persName>Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Magdalena Turska</persName>
+                    <persName>Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -29,39 +29,39 @@
                     <licence target="https://creativecommons.org/licenses/by/4.0/"/>
                 </availability>
             </publicationStmt>
-            <sourceDesc default="false">
+            <sourceDesc>
                 <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
                         <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 172 (216)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p part="N">recto: tekst listu; verso: adres, ślady po pieczęci.</p>
+                        <p>recto: tekst listu; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p part="N">211 × 295 mm; dolna część karty zbutwiała — 11 wierszy nieczytelnych</p>
+                        <p>211 × 295 mm; dolna część karty zbutwiała — 11 wierszy nieczytelnych</p>
                     </physDesc>
                 </msDesc>
                 <bibl type="printed-edition">
                     <publisher>Societas Vistulana</publisher>
-                    <pubPlace>Kraków</pubPlace>
+                    <placeName>Kraków</placeName>
                     <date>2006</date>
                 </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc default="false">
+            <correspDesc>
                 <correspAction type="sent">
-                    <date when="1452-11-02" when-custom="1452" instant="false">2 listopada [1452]</date>
+                    <date when="1452-11-02" when-custom="1452">2 listopada [1452]</date>
                 </correspAction>
                 <correspAction type="received">
                     <persName ref="gnd-139138560">Mikołaj Serafin</persName>
                 </correspAction>
                 <correspContext>
-                    <ref type="previous" target="serafin31.xml">Previous letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName>
-                        <persName key="wikidata-Q101002566" instant="false" full="yes">Piotr Cikowski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1452-10-31" instant="false">31 października 1452</date>
+                    <ref type="previous" target="serafin31.xml">Previous letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName>
+                        <persName key="wikidata-Q101002566">Piotr Cikowski</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1452-10-31">31 października 1452</date>
                     </ref>
-                    <ref type="next" target="serafin33.xml">Next letter of <persName key="serafin-0114" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1452-11-14" instant="false">14 listopada 1452</date>
+                    <ref type="next" target="serafin33.xml">Next letter of <persName key="serafin-0114"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1452-11-14">14 listopada 1452</date>
                     </ref>
                 </correspContext>
             </correspDesc>
@@ -80,20 +80,20 @@
     </teiHeader>
     <text>
         <text type="source" xml:lang="la">
-            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+            <div xml:id="s.1">
                 <opener xml:id="s.1.1">
-                    <seg part="N" xml:id="s.1.1.1">
-                        <lb/>Strennuo viro, domino <persName key="gnd-139138560" instant="false" full="yes">
-                            <expan instant="false">N<ex instant="false">icolao</ex>
+                    <seg xml:id="s.1.1.1">
+                        <lb/>Strennuo viro, domino <persName key="gnd-139138560">
+                            <expan>N<ex>icolao</ex>
                             </expan> Seraphin</persName>
                         <lb/> zupario salis utriusque, fautori suo <lb/> dandum.</seg>
                 </opener>
-                <p xml:id="s.1.2" part="N">
-                    <seg part="N" xml:id="s.1.2.1">
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
                         <lb/>Amicabili salutacione premissa omni cum
                                 promptitudine famulandi.</seg>
-                    <seg part="N" xml:id="s.1.2.2">Amice ac fautor carissime.</seg>
-                    <seg part="N" xml:id="s.1.2.3">De litera <expan instant="false">v<ex instant="false">estra</ex>
+                    <seg xml:id="s.1.2.2">Amice ac fautor carissime.</seg>
+                    <seg xml:id="s.1.2.3">De litera <expan>v<ex>estra</ex>
                         </expan>
                         <lb/> michi directa cum litera vicezuparii graui animo perlegi, quia
                                 non erat commissio mea <lb/> plus de sale vendere, quam duo s c h i
@@ -102,258 +102,258 @@
                                 grauissimo animo et ira illum, qui vendidit tres s c h i c h t a s
                                 cum quatuor bancis, habuit respondere, quia male intellexisset
                                 me.</seg>
-                    <seg part="N" xml:id="s.1.2.4">Tunc oculatim produxi sibi testes, quod aliter non
+                    <seg xml:id="s.1.2.4">Tunc oculatim produxi sibi testes, quod aliter non
                                 commisi et sic idem venditur.</seg>
-                    <seg part="N" xml:id="s.1.2.5">Dolebit in futuro et diebus vite sue non vendet —
+                    <seg xml:id="s.1.2.5">Dolebit in futuro et diebus vite sue non vendet —
                                 fiat vindicatum.</seg>
-                    <seg part="N" xml:id="s.1.2.6">Et veraciter sciatis, quod sub iuramento meo non
-                                mandaui tantum vendere, exquo tunc culpa<supplied instant="false">m</supplied>
+                    <seg xml:id="s.1.2.6">Et veraciter sciatis, quod sub iuramento meo non
+                                mandaui tantum vendere, exquo tunc culpa<supplied>m</supplied>
                                 seruitoris peto vos michi non imputare.</seg>
-                    <seg part="N" xml:id="s.1.2.7">Et vos prevaletis me<anchor xml:id="aa"/> ultra s
+                    <seg xml:id="s.1.2.7">Et vos prevaletis me<anchor xml:id="aa"/> ultra s
                                 c h i c h t a m, sic et spero de vobis, quod et vos pro tali<anchor xml:id="ab"/> excessu non commouetis vos erga me.</seg>
-                    <seg part="N" xml:id="s.1.2.8">Si solus personaliter poteram facta mea providere,
+                    <seg xml:id="s.1.2.8">Si solus personaliter poteram facta mea providere,
                                 talia non contingerent.</seg>
-                    <seg part="N" xml:id="s.1.2.9">Dirigo vobis, ut desiderastis, literam zupario
+                    <seg xml:id="s.1.2.9">Dirigo vobis, ut desiderastis, literam zupario
                                 directam.</seg>
-                    <seg part="N" xml:id="s.1.2.10">Vellet Deus, quod quilibet in vestrum melius
+                    <seg xml:id="s.1.2.10">Vellet Deus, quod quilibet in vestrum melius
                                 tenderet, sicud et ego — nullum haberetis dampnum.</seg>
-                    <seg part="N" xml:id="s.1.2.11">Direxi vobis nuper octo vlnas panni a m s t e r d
-                                a m s k y cum procuratori <persName key="wikidata-Q96574990" instant="false" full="yes">Penasco</persName>, de quo non scribitis, utrum
+                    <seg xml:id="s.1.2.11">Direxi vobis nuper octo vlnas panni a m s t e r d
+                                a m s k y cum procuratori <persName key="wikidata-Q96574990">Penasco</persName>, de quo non scribitis, utrum
                                 percepistis.</seg>
-                    <seg part="N" xml:id="s.1.2.12">Item audiui, quod indigetis de bonis equis, et
-                                    int<supplied instant="false">i</supplied>maui vobis per literas meas, ut haberem
-                                quatuor equos valentes, qui sunt portati michi de <placeName key="geo-3054667" instant="false" full="yes">Buda</placeName>.</seg>
-                    <seg part="N" xml:id="s.1.2.13">Duos direxi Cracouiam et adhuc habeo unum
+                    <seg xml:id="s.1.2.12">Item audiui, quod indigetis de bonis equis, et
+                                    int<supplied>i</supplied>maui vobis per literas meas, ut haberem
+                                quatuor equos valentes, qui sunt portati michi de <placeName key="geo-3054667" full="yes">Buda</placeName>.</seg>
+                    <seg xml:id="s.1.2.13">Duos direxi Cracouiam et adhuc habeo unum
                                 valentem pro xl florenis, alium pro xx florenis.</seg>
-                    <seg part="N" xml:id="s.1.2.14">Possetis <persName key="serafin-0069" instant="false" full="yes">Clyngisor</persName> dir<supplied instant="false">i</supplied>gere ad
+                    <seg xml:id="s.1.2.14">Possetis <persName key="serafin-0069">Clyngisor</persName> dir<supplied>i</supplied>gere ad
                                 conspiciendum.</seg>
-                    <seg part="N" xml:id="s.1.2.15">Item noueritis, quod pestis circa nos augmentatur
+                    <seg xml:id="s.1.2.15">Item noueritis, quod pestis circa nos augmentatur
                                 de die in diem, ita quod sum valde perplexus melancholia<anchor xml:id="ac"/>.</seg>
-                    <seg part="N" xml:id="s.1.2.16">Invitus moueo<anchor xml:id="ad"/> me et muto
+                    <seg xml:id="s.1.2.16">Invitus moueo<anchor xml:id="ad"/> me et muto
                                 aerem.</seg>
-                    <seg part="N" xml:id="s.1.2.17">Habeo intentum in curia domini <persName key="gnd-102564140" instant="false" full="yes">cardinalis</persName> stare per breue
+                    <seg xml:id="s.1.2.17">Habeo intentum in curia domini <persName key="gnd-102564140">cardinalis</persName> stare per breue
                                     tempus<anchor xml:id="ae"/>, ibi bonus aer et in parte ab
                                     hominibus<anchor xml:id="af"/>, ob spem, quod hec pestis
                                 declinabitur.</seg>
-                    <seg part="N" xml:id="s.1.2.18">Item noueritis, quod malas habeo nouitates, que
+                    <seg xml:id="s.1.2.18">Item noueritis, quod malas habeo nouitates, que
                                 inportant michi magnam turbacionem et grauedinem animi mei, quia
-                                Hedwigis, uxor <persName key="serafin-0108" instant="false" full="yes">Pelcze</persName> pie memorie,
+                                Hedwigis, uxor <persName key="serafin-0108">Pelcze</persName> pie memorie,
                                 filia mea est valde infirma.</seg>
-                    <seg part="N" xml:id="s.1.2.19">Timeo valde de ea.</seg>
-                    <seg part="N" xml:id="s.1.2.20">Sicud Domino placet, ita fiet de nobis
+                    <seg xml:id="s.1.2.19">Timeo valde de ea.</seg>
+                    <seg xml:id="s.1.2.20">Sicud Domino placet, ita fiet de nobis
                                 omnibus.</seg>
-                    <seg part="N" xml:id="s.1.2.21">Spero in Dominum Deum, ut conseruet eam propter
+                    <seg xml:id="s.1.2.21">Spero in Dominum Deum, ut conseruet eam propter
                                 iuuenculos pueros suos, quos habet.</seg>
-                    <seg part="N" xml:id="s.1.2.22">V sunt in numero, et inter illos qui<anchor xml:id="ag"/> magis senex est vi annorum.</seg>
-                    <seg part="N" xml:id="s.1.2.23">Opto vobis et omnibus vestris sanitatem et
+                    <seg xml:id="s.1.2.22">V sunt in numero, et inter illos qui<anchor xml:id="ag"/> magis senex est vi annorum.</seg>
+                    <seg xml:id="s.1.2.23">Opto vobis et omnibus vestris sanitatem et
                                 prosperitatem.</seg>
-                    <seg part="N" xml:id="s.1.2.24">Vix pre lacrimis potui hanc literam<anchor xml:id="ah"/> complere.</seg>
-                    <seg part="N" xml:id="s.1.2.25">Valete in Christo.</seg>
-                    <seg part="N" xml:id="s.1.2.26">Datum <date when="1452-11-02" instant="false">feria 5 post Omnium
+                    <seg xml:id="s.1.2.24">Vix pre lacrimis potui hanc literam<anchor xml:id="ah"/> complere.</seg>
+                    <seg xml:id="s.1.2.25">Valete in Christo.</seg>
+                    <seg xml:id="s.1.2.26">Datum <date when="1452-11-02">feria 5 post Omnium
                                     Sanctorum</date>.</seg>
                 </p>
-                <p part="N">
-                    <seg part="N" xml:id="s.1.2.27">
+                <p>
+                    <seg xml:id="s.1.2.27">
                         <lb/>Noueritis<anchor xml:id="ai"/>, quod
-                                libentissime vellem in <placeName key="geo-767939" instant="false" full="yes">Casschoviam</placeName>, si possetis michi iuuare cum consilio
+                                libentissime vellem in <placeName key="geo-767939" full="yes">Casschoviam</placeName>, si possetis michi iuuare cum consilio
                                 domini procuratoris, ut possem<anchor xml:id="aj"/> habere saluum
-                                conductum per <persName key="wikidata-Q165921" instant="false" full="yes">Examit</persName>, ut
-                                secure poteram pervenire in <placeName key="geo-725168" instant="false" full="yes">Bardeof</placeName>.</seg>
-                    <seg part="N" xml:id="s.1.2.28">Provideatis michi, si possibile esset
-                                    s<supplied instant="false">ibi</supplied> credere, sed lupo non est credendum;
+                                conductum per <persName key="wikidata-Q165921">Examit</persName>, ut
+                                secure poteram pervenire in <placeName key="geo-725168" full="yes">Bardeof</placeName>.</seg>
+                    <seg xml:id="s.1.2.28">Provideatis michi, si possibile esset
+                                    s<supplied>ibi</supplied> credere, sed lupo non est credendum;
                                 dum esurit, et patrem devoraret.</seg>
-                    <seg part="N" xml:id="s.1.2.29">Nec possum confidere de aliis, ut intelligitis,
+                    <seg xml:id="s.1.2.29">Nec possum confidere de aliis, ut intelligitis,
                                 qui prius conduxerunt et in saluo conducto homines defraudarunt, ut
                                 scribitur, sed ignoro veritatem.</seg>
-                    <seg part="N" xml:id="s.1.2.30">Scribit michi <expan instant="false">n<ex instant="false">obilis</ex>
+                    <seg xml:id="s.1.2.30">Scribit michi <expan>n<ex>obilis</ex>
                         </expan>
-                        <persName key="serafin-0109" instant="false" full="yes">Marcus</persName> literam talem<anchor xml:id="ak"/>, conquerens super dominum
-                                    Io<supplied instant="false">hannem</supplied>
-                        <persName key="serafin-0110" instant="false" full="yes">Wowodsicz</persName> capetaneum
-                                    <placeName key="geo-12058010" instant="false" full="yes">Lobauense<supplied instant="false">m</supplied>
+                        <persName key="serafin-0109">Marcus</persName> literam talem<anchor xml:id="ak"/>, conquerens super dominum
+                                    Io<supplied>hannem</supplied>
+                        <persName key="serafin-0110">Wowodsicz</persName> capetaneum
+                                    <placeName key="geo-12058010" full="yes">Lobauense<supplied>m</supplied>
                         </placeName>, qualiter recepit
                                 eum et bona sua in conductum suum et promisit sibi pro Examit et
                                 aliis capetaneis malis, et dum venisset in sua tenuta, tunc dominus
                                 Io(hannes) capetaneus tres dies eum protraxit in Loblaw non volens
                                 eum dimittere, usque familia venirent sibi ad conducendum eum et
                                 bona sua.</seg>
-                    <seg part="N" xml:id="s.1.2.31">Tercia die de sero venit idem Examit non cum
+                    <seg xml:id="s.1.2.31">Tercia die de sero venit idem Examit non cum
                                 multis et recepit tantum currus suos cum equis ad hos spectantes. Et
-                                nichil domino Io<supplied instant="false">hanni</supplied> capetaneo receptum.</seg>
-                    <seg part="N" xml:id="s.1.2.32">Et illi fuerunt cum Examit, qui
-                                        <expan instant="false">n<ex instant="false">obilem</ex>
+                                nichil domino Io<supplied>hanni</supplied> capetaneo receptum.</seg>
+                    <seg xml:id="s.1.2.32">Et illi fuerunt cum Examit, qui
+                                        <expan>n<ex>obilem</ex>
                         </expan> Marcum<anchor xml:id="al"/>
                                 et bona sua conduxerunt usque in Loblaw.</seg>
-                    <seg part="N" xml:id="s.1.2.33">Ita quod inculpat dominum Iohannem, ita quod
+                    <seg xml:id="s.1.2.33">Ita quod inculpat dominum Iohannem, ita quod
                                 forsan subordinasset, quod tamen non possum credere, quia de
                                     <sic>bono</sic> progenie.</seg>
-                    <seg part="N" xml:id="s.1.2.34">Si faceret facere, hoc ex consilio unius mali,
+                    <seg xml:id="s.1.2.34">Si faceret facere, hoc ex consilio unius mali,
                                 quem noscitis, prout famatur<anchor xml:id="am"/> de eo iam regnum
                                 Ungarie et quasi omnes mercatores Polonie in metis et sui
                                 suspicantur de domino Iohanni.</seg>
-                    <seg part="N" xml:id="s.1.2.35">Maliciam istam libenter scriberem domino
+                    <seg xml:id="s.1.2.35">Maliciam istam libenter scriberem domino
                                 cardinali sed timeo michi et aliis devenire in peyus, quia scio,
                                 quod non credunt nec talia scandala libenter audiunt.</seg>
-                    <seg part="N" xml:id="s.1.2.36">Condoleo, condoleo, condoleo.
-                                    <unclear instant="false">Nescimus</unclear> iam, de quo confidere, perlecta
+                    <seg xml:id="s.1.2.36">Condoleo, condoleo, condoleo.
+                                    <unclear>Nescimus</unclear> iam, de quo confidere, perlecta
                                 litera.</seg>
-                    <seg part="N" xml:id="s.1.2.37">Clamatur similiter vobis,
-                                    scr<supplied instant="false">iberet</supplied>is domino cardinali, quod
-                                re<gap instant="false"/>eum et <unclear instant="false">magistrum</unclear> suum de hac
-                                    <unclear instant="false">tenuta</unclear>, alias plura permittuntur scandala,
+                    <seg xml:id="s.1.2.37">Clamatur similiter vobis,
+                                    scr<supplied>iberet</supplied>is domino cardinali, quod
+                                re<gap/>eum et <unclear>magistrum</unclear> suum de hac
+                                    <unclear>tenuta</unclear>, alias plura permittuntur scandala,
                                 timeo, et mala fama.</seg>
-                    <seg part="N" xml:id="s.1.2.38">Volo<gap instant="false"/>
+                    <seg xml:id="s.1.2.38">Volo<gap/>
                         <anchor xml:id="an"/>
-                        <date when="1452-11-02" instant="false">feria 5 post Omnium Sanctorum</date>.</seg>
-                    <seg part="N" xml:id="s.1.2.39">Item scribitur mihi<gap instant="false"/>
+                        <date when="1452-11-02">feria 5 post Omnium Sanctorum</date>.</seg>
+                    <seg xml:id="s.1.2.39">Item scribitur mihi<gap/>
                         <anchor xml:id="ao"/>
-                                    ut<gap instant="false"/>
+                                    ut<gap/>
                         <anchor xml:id="ap"/> vestra, quia multi essent, qui
-                                habuerunt respectum super me et<gap instant="false"/>
+                                habuerunt respectum super me et<gap/>
                         <anchor xml:id="aq"/>
-                                scripsistis michi, ut <unclear instant="false">sim</unclear>
-                                    Crac(<supplied instant="false">ouie</supplied>), ut non plus<gap instant="false"/>
+                                scripsistis michi, ut <unclear>sim</unclear>
+                                    Crac(<supplied>ouie</supplied>), ut non plus<gap/>
                         <anchor xml:id="ar"/> commisi<anchor xml:id="as"/> antea quam
-                                    <unclear instant="false">secundum</unclear>
-                        <gap instant="false"/>
+                                    <unclear>secundum</unclear>
+                        <gap/>
                         <anchor xml:id="at"/> inputetis.</seg>
-                    <seg part="N" xml:id="s.1.2.40">Teste Deo non sum in culpa<gap instant="false"/>
+                    <seg xml:id="s.1.2.40">Teste Deo non sum in culpa<gap/>
                         <anchor xml:id="au"/>
-                        <expan instant="false">n<ex instant="false">obilis</ex>
-                        </expan> Marcy<gap instant="false"/>
+                        <expan>n<ex>obilis</ex>
+                        </expan> Marcy<gap/>
                         <anchor xml:id="av"/>
-                        <unclear instant="false">Meclays</unclear>
-                        <gap instant="false"/>
+                        <unclear>Meclays</unclear>
+                        <gap/>
                         <anchor xml:id="aw"/> quod
-                                    statim<gap instant="false"/>
+                                    statim<gap/>
                         <anchor xml:id="ax"/>
                     </seg>
                 </p>
                 <signed xml:id="s.1.3">
-                    <seg part="N" xml:id="s.1.3.1">
+                    <seg xml:id="s.1.3.1">
                         <lb/>
                     </seg>
                 </signed>
                 <postscript xml:id="s.1.4">
-                    <p xml:id="s.1.4.1" part="N">
+                    <p xml:id="s.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
             </div>
         </text>
         <text type="translation" xml:lang="pl">
-            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+            <div xml:id="t.1">
                 <opener xml:id="t.1.1">
-                    <seg part="N" corresp="#s.1.1.1">
-                        <lb/>Do oddania mężnemu panu, panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> żupnikowi obojga
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Do oddania mężnemu panu, panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> żupnikowi obojga
                                 salin, mojemu dobrodziejowi.</seg>
                 </opener>
-                <p xml:id="t.1.2" part="N">
-                    <seg part="N" corresp="#s.1.2.1">
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
                         <lb/>Zasyłam przyjacielskie pozdrowienie wraz z gotowością do wszelkich posług.</seg>
-                    <seg part="N" corresp="#s.1.2.2">Najdroższy przyjacielu i dobrodzieju.</seg>
-                    <seg part="N" corresp="#s.1.2.3">List wasz przysłany mi wraz z listem podżupka
+                    <seg corresp="#s.1.2.2">Najdroższy przyjacielu i dobrodzieju.</seg>
+                    <seg corresp="#s.1.2.3">List wasz przysłany mi wraz z listem podżupka
                                 przeczytałem z ciężkim sercem, ponieważ nie poleciłem sprzedać więcej
                                 soli niż 2 szychty i 4 bałwany, które były nadwyżką ponad 300 bałwanów.
                                 I z całą świadomością nie poleciłem więcej sprzedawać, a gdy z ciężkim sercem
                                 i w gniewie upomniałem tego, który sprzedał 3 szychty i 4 bałwany, miał za
                                 odpowiedź, że źle mnie zrozumiał.</seg>
-                    <seg part="N" corresp="#s.1.2.4">Wtedy przyprowadziłem mu przed oczy
+                    <seg corresp="#s.1.2.4">Wtedy przyprowadziłem mu przed oczy
                                 świadków, że nie inaczej poleciłem i że kazałem sprzedawać właśnie tak.</seg>
-                    <seg part="N" corresp="#s.1.2.5">Pożałuje
+                    <seg corresp="#s.1.2.5">Pożałuje
                                 na przyszłość, już nigdy w życiu nie będzie sprzedawał — niech to zostanie
                                 ukarane.</seg>
-                    <seg part="N" corresp="#s.1.2.6">Doprawdy wiedzcie, przysięgam, że nie poleciłem tyle sprzedać, proszę
+                    <seg corresp="#s.1.2.6">Doprawdy wiedzcie, przysięgam, że nie poleciłem tyle sprzedać, proszę
                                 przeto, abyście nie przypisywali mi winy sługi.</seg>
-                    <seg part="N" corresp="#s.1.2.7">Mam nadzieję, że przedkładacie
+                    <seg corresp="#s.1.2.7">Mam nadzieję, że przedkładacie
                                 mnie nad jedną szychtę i że nie będziecie żywili wobec mnie gniewu za takie
                                 wykroczenie.</seg>
-                    <seg part="N" corresp="#s.1.2.8">Gdybym mógł sam osobiście doglądać spraw, takie rzeczy nie zdarzałyby
+                    <seg corresp="#s.1.2.8">Gdybym mógł sam osobiście doglądać spraw, takie rzeczy nie zdarzałyby
                                 się.</seg>
-                    <seg part="N" corresp="#s.1.2.9">Przesyłam wam, tak jak tego sobie życzyliście, list adresowany „do
+                    <seg corresp="#s.1.2.9">Przesyłam wam, tak jak tego sobie życzyliście, list adresowany „do
                                 żupnika”.</seg>
-                    <seg part="N" corresp="#s.1.2.10">Dałby Bóg, by każdy tak dążył do waszego dobra, jak ja — nie mielibyście
+                    <seg corresp="#s.1.2.10">Dałby Bóg, by każdy tak dążył do waszego dobra, jak ja — nie mielibyście
                                 żadnych strat.</seg>
-                    <seg part="N" corresp="#s.1.2.11">Wysłałem wam niedawno przez wielkorządcę <persName key="wikidata-Q96574990" instant="false" full="yes">Pieniążka</persName>
+                    <seg corresp="#s.1.2.11">Wysłałem wam niedawno przez wielkorządcę <persName key="wikidata-Q96574990">Pieniążka</persName>
                                 8 łokci sukna amsterdamskiego; nie piszecie, czy je otrzymaliście.</seg>
-                    <seg part="N" corresp="#s.1.2.12">Słyszałem
+                    <seg corresp="#s.1.2.12">Słyszałem
                                 też, że brakuje wam dobrych koni, a pisałem wam w liście, że mam cztery silne
-                                konie, które dostarczono mi z <placeName key="geo-3054667" instant="false" full="yes">Budy</placeName>.</seg>
-                    <seg part="N" corresp="#s.1.2.13">Dwa skierowałem do Krakowa i wciąż
+                                konie, które dostarczono mi z <placeName key="geo-3054667" full="yes">Budy</placeName>.</seg>
+                    <seg corresp="#s.1.2.13">Dwa skierowałem do Krakowa i wciąż
                                 mam jednego silnego, wartego 40 florenów, a drugiego wartego 20.</seg>
-                    <seg part="N" corresp="#s.1.2.14">Moglibyście
-                                przysłać <persName key="serafin-0069" instant="false" full="yes">Klingisora</persName>, aby je obejrzał.</seg>
-                    <seg part="N" corresp="#s.1.2.15">Wiedzcie ponadto, że zaraza z dnia na
+                    <seg corresp="#s.1.2.14">Moglibyście
+                                przysłać <persName key="serafin-0069">Klingisora</persName>, aby je obejrzał.</seg>
+                    <seg corresp="#s.1.2.15">Wiedzcie ponadto, że zaraza z dnia na
                                 dzień przybiera u nas na sile i jestem w związku z tym niezwykle przygnębiony.</seg>
-                    <seg part="N" corresp="#s.1.2.16">Niechętnie się ruszam i zmieniam powietrze.</seg>
-                    <seg part="N" corresp="#s.1.2.17">Mam zamiar przez krótki czas pobyć na dworze pana <persName key="gnd-102564140" instant="false" full="yes">kardynała</persName> — jest tam dobre powietrze, a częściowo
+                    <seg corresp="#s.1.2.16">Niechętnie się ruszam i zmieniam powietrze.</seg>
+                    <seg corresp="#s.1.2.17">Mam zamiar przez krótki czas pobyć na dworze pana <persName key="gnd-102564140">kardynała</persName> — jest tam dobre powietrze, a częściowo
                                 też ze względu na ludzi — z nadzieją, że zaraza ustąpi.</seg>
-                    <seg part="N" corresp="#s.1.2.18">Wiedzcie ponadto, że
+                    <seg corresp="#s.1.2.18">Wiedzcie ponadto, że
                                 mam złe nowiny, które powodują zamęt i ucisk w mym sercu, ponieważ moja
-                                córka Jadwiga, żona świętej pamięci <persName key="serafin-0108" instant="false" full="yes">Pełki</persName>, jest bardzo chora.</seg>
-                    <seg part="N" corresp="#s.1.2.19">Bardzo boję się
+                                córka Jadwiga, żona świętej pamięci <persName key="serafin-0108">Pełki</persName>, jest bardzo chora.</seg>
+                    <seg corresp="#s.1.2.19">Bardzo boję się
                                 o nią.</seg>
-                    <seg part="N" corresp="#s.1.2.20">Tak będzie z nami wszystkimi, jak się spodoba Panu.</seg>
-                    <seg part="N" corresp="#s.1.2.21">Pokładam nadzieję
+                    <seg corresp="#s.1.2.20">Tak będzie z nami wszystkimi, jak się spodoba Panu.</seg>
+                    <seg corresp="#s.1.2.21">Pokładam nadzieję
                                 w Panu Bogu, że zachowa ją ze względu na jej malutkie dzieci.</seg>
-                    <seg part="N" corresp="#s.1.2.22">Jest ich pięcioro,
+                    <seg corresp="#s.1.2.22">Jest ich pięcioro,
                                 a najstarsze ma 6 lat.</seg>
-                    <seg part="N" corresp="#s.1.2.23">Życzę wam i wszystkim waszym zdrowia i pomyślności.</seg>
-                    <seg part="N" corresp="#s.1.2.24">Z powodu łez ledwie mogłem dokończyć ten list.</seg>
-                    <seg part="N" corresp="#s.1.2.25">Ostańcie w Chrystusie.</seg>
-                    <seg part="N" corresp="#s.1.2.26">Dan
-                                <date when="1452-11-02" instant="false">w czwartek po Wszystkich Świętych</date>.</seg>
+                    <seg corresp="#s.1.2.23">Życzę wam i wszystkim waszym zdrowia i pomyślności.</seg>
+                    <seg corresp="#s.1.2.24">Z powodu łez ledwie mogłem dokończyć ten list.</seg>
+                    <seg corresp="#s.1.2.25">Ostańcie w Chrystusie.</seg>
+                    <seg corresp="#s.1.2.26">Dan
+                                <date when="1452-11-02">w czwartek po Wszystkich Świętych</date>.</seg>
                 </p>
-                <p part="N">
-                    <seg part="N" corresp="#s.1.2.27">Wiedzcie, że chętnie udałbym się do <placeName key="geo-767939" instant="false" full="yes">Koszyc</placeName>, gdybyście, poradziwszy się
+                <p>
+                    <seg corresp="#s.1.2.27">Wiedzcie, że chętnie udałbym się do <placeName key="geo-767939" full="yes">Koszyc</placeName>, gdybyście, poradziwszy się
                             pana wielkorządcy, mogli mi pomóc w uzyskaniu glejtu, abym mógł przejechać
-                            przez <supplied instant="false">ziemie kontrolowane przez</supplied>
-                        <persName key="wikidata-Q165921" instant="false" full="yes">Aksamita</persName>, tak jak bezpiecznie mogłem dotrzeć
-                            do <placeName key="geo-725168" instant="false" full="yes">Bardiowa</placeName>.</seg>
-                    <seg part="N" corresp="#s.1.2.28">Poradźcie mi, czy można mu wierzyć, bo przecież nie należy
+                            przez <supplied>ziemie kontrolowane przez</supplied>
+                        <persName key="wikidata-Q165921">Aksamita</persName>, tak jak bezpiecznie mogłem dotrzeć
+                            do <placeName key="geo-725168" full="yes">Bardiowa</placeName>.</seg>
+                    <seg corresp="#s.1.2.28">Poradźcie mi, czy można mu wierzyć, bo przecież nie należy
                                 wierzyć wilkowi — gdy głodny, pożre nawet ojca.</seg>
-                    <seg part="N" corresp="#s.1.2.29">Nie mogę też, jak rozumiecie,
+                    <seg corresp="#s.1.2.29">Nie mogę też, jak rozumiecie,
                                 wierzyć innym, którzy wcześniej przeprowadzali ludzi i obrabowali ich mimo
                                 glejtów. Tak mi donoszą, lecz prawdy nie znam.</seg>
-                    <seg part="N" corresp="#s.1.2.30">Pisze mi szlachetny <persName key="serafin-0109" instant="false" full="yes">Marek</persName>
-                                w swoim liście, żaląc się na pana <persName key="serafin-0110" instant="false" full="yes">Jana Wojewodzica</persName> starostę lubowelskiego, że
+                    <seg corresp="#s.1.2.30">Pisze mi szlachetny <persName key="serafin-0109">Marek</persName>
+                                w swoim liście, żaląc się na pana <persName key="serafin-0110">Jana Wojewodzica</persName> starostę lubowelskiego, że
                                 ów włączył go i jego rzeczy do swego orszaku i obiecał mu w imieniu Aksamita
-                                i innych niegodziwych starostów <supplied instant="false">bezpieczny przejazd</supplied>. Lecz gdy przybyli
-                                do jego tenuty, wtedy pan starosta Jan przetrzymał go 3 dni w <placeName key="geo-12058010" instant="false" full="yes">Lubowli</placeName>, nie
+                                i innych niegodziwych starostów <supplied>bezpieczny przejazd</supplied>. Lecz gdy przybyli
+                                do jego tenuty, wtedy pan starosta Jan przetrzymał go 3 dni w <placeName key="geo-12058010" full="yes">Lubowli</placeName>, nie
                                 chcąc go wypuścić, aż przybędzie służba, aby jego i jego ładunek przeprowadzić.</seg>
-                    <seg part="N" corresp="#s.1.2.31">Trzeciego dnia wieczorem przybył Aksamit z małym oddziałem i zabrał jedynie
+                    <seg corresp="#s.1.2.31">Trzeciego dnia wieczorem przybył Aksamit z małym oddziałem i zabrał jedynie
                                 wozy i konie szlachetnego Marka, a panu staroście Janowi nie zabrał niczego.</seg>
-                    <seg part="N" corresp="#s.1.2.32">A z Aksamitem byli ci, którzy szlachetnego Marka i jego ładunek doprowadzili
+                    <seg corresp="#s.1.2.32">A z Aksamitem byli ci, którzy szlachetnego Marka i jego ładunek doprowadzili
                                 do Lubowli.</seg>
-                    <seg part="N" corresp="#s.1.2.33">Wini przeto pana Jana, że prawdopodobnie to uknuł. Nie mogę
+                    <seg corresp="#s.1.2.33">Wini przeto pana Jana, że prawdopodobnie to uknuł. Nie mogę
                                 w to uwierzyć, wszak pochodzi on z dobrej rodziny.</seg>
-                    <seg part="N" corresp="#s.1.2.34">Gdyby nakazał to zrobić,
+                    <seg corresp="#s.1.2.34">Gdyby nakazał to zrobić,
                                 to za podszeptem pewnego złego człowieka, którego znacie, bo mówi o nim już
                                 całe Królestwo Węgierskie i prawie wszyscy kupcy w granicach Polski, i nawet
                                 swoi podejrzewają już pana Jana.</seg>
-                    <seg part="N" corresp="#s.1.2.35">Chętnie napisałbym o tej nieprawości panu
+                    <seg corresp="#s.1.2.35">Chętnie napisałbym o tej nieprawości panu
                                 kardynałowi, lecz obawiam się, że mogłoby to mnie i innym wyjść na niekorzyść,
                                 ponieważ wiem, że ludzie nie dają wiary i niechętnie dowiadują się o takich skandalach.</seg>
-                    <seg part="N" corresp="#s.1.2.36">Po trzykroć współczuję. Nie wiemy już, komu ufać, po przeczytaniu listu.</seg>
-                    <seg part="N" corresp="#s.1.2.37">Domagają się podobnie od was, abyście napisali do pana kardynała, że <gap instant="false"/> i jego
-                                <unclear instant="false">mistrza</unclear> z tej <unclear instant="false">tenuty</unclear>, inaczej, obawiam się, będzie więcej skandali i niesława.</seg>
-                    <seg part="N" corresp="#s.1.2.38">Chcę <gap instant="false"/> w <date when="1452-11-02" instant="false">czwartek po Wszystkich Świętych</date>.</seg>
-                    <seg part="N" corresp="#s.1.2.39">Donoszą mi także <gap instant="false"/>, że
-                                <gap instant="false"/> wasz, ponieważ było wielu, którzy mieli na mnie wzgląd i <gap instant="false"/> napisaliście
-                                mi, abym <unclear instant="false">był</unclear> w Krakowie, aby nic więcej <gap instant="false"/> poleciłem wcześniej niż wedle
-                                <gap instant="false"/> oskarżacie.</seg>
-                    <seg part="N" corresp="#s.1.2.40">Bóg świadkiem, nie jestem winny <gap instant="false"/> szlachetnego Marka <gap instant="false"/>
-                        <unclear instant="false">Meclays</unclear>
-                        <gap instant="false"/> że natychmiast <gap instant="false"/>
+                    <seg corresp="#s.1.2.36">Po trzykroć współczuję. Nie wiemy już, komu ufać, po przeczytaniu listu.</seg>
+                    <seg corresp="#s.1.2.37">Domagają się podobnie od was, abyście napisali do pana kardynała, że <gap/> i jego
+                                <unclear>mistrza</unclear> z tej <unclear>tenuty</unclear>, inaczej, obawiam się, będzie więcej skandali i niesława.</seg>
+                    <seg corresp="#s.1.2.38">Chcę <gap/> w <date when="1452-11-02">czwartek po Wszystkich Świętych</date>.</seg>
+                    <seg corresp="#s.1.2.39">Donoszą mi także <gap/>, że
+                                <gap/> wasz, ponieważ było wielu, którzy mieli na mnie wzgląd i <gap/> napisaliście
+                                mi, abym <unclear>był</unclear> w Krakowie, aby nic więcej <gap/> poleciłem wcześniej niż wedle
+                                <gap/> oskarżacie.</seg>
+                    <seg corresp="#s.1.2.40">Bóg świadkiem, nie jestem winny <gap/> szlachetnego Marka <gap/>
+                        <unclear>Meclays</unclear>
+                        <gap/> że natychmiast <gap/>
                     </seg>
                 </p>
                 <signed xml:id="t.1.3">
-                    <seg part="N" corresp="#s.1.3.1">
+                    <seg corresp="#s.1.3.1">
                         <lb/>
                     </seg>
                 </signed>
                 <postscript xml:id="t.1.4">
-                    <p xml:id="t.1.4.1" part="N">
+                    <p xml:id="t.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
@@ -362,49 +362,49 @@
     </text>
     <standOff>
         <listAnnotation>
-            <note n="a" type="transcription" target="#aa" anchored="true">po me skreślone in s.</note>
-            <note n="b" type="transcription" target="#ab" anchored="true">po tali skreślone
+            <note n="a" type="transcription" target="#aa">po me skreślone in s.</note>
+            <note n="b" type="transcription" target="#ab">po tali skreślone
                             exquo.</note>
-            <note n="c" type="transcription" target="#ac" anchored="true">po melancholia skreślone trzy
+            <note n="c" type="transcription" target="#ac">po melancholia skreślone trzy
                             litery.</note>
-            <note n="d" type="transcription" target="#ad" anchored="true">po moueo skreślona jedna
+            <note n="d" type="transcription" target="#ad">po moueo skreślona jedna
                             litera.</note>
-            <note n="e" type="transcription" target="#ae" anchored="true">po tempus skreślone dwie
+            <note n="e" type="transcription" target="#ae">po tempus skreślone dwie
                             litery.</note>
-            <note n="f" type="transcription" target="#af" anchored="true">po hominibus skreślone trzy
+            <note n="f" type="transcription" target="#af">po hominibus skreślone trzy
                             litery</note>
-            <note n="g" type="transcription" target="#ag" anchored="true">qui rkps: quod.</note>
-            <note n="h" type="transcription" target="#ah" anchored="true">po literam skreślone
+            <note n="g" type="transcription" target="#ag">qui rkps: quod.</note>
+            <note n="h" type="transcription" target="#ah">po literam skreślone
                             inplere.</note>
-            <note n="i" type="transcription" target="#ai" anchored="true">przed Noueritis skreślone
+            <note n="i" type="transcription" target="#ai">przed Noueritis skreślone
                             li􀇺?􀇻.</note>
-            <note n="j" type="transcription" target="#aj" anchored="true">po possem skreślone
+            <note n="j" type="transcription" target="#aj">po possem skreślone
                             (con).</note>
-            <note n="k" type="transcription" target="#ak" anchored="true">po talem skreślone
+            <note n="k" type="transcription" target="#ak">po talem skreślone
                             (con)ques.</note>
-            <note n="l" type="transcription" target="#al" anchored="true">Marcum rkps: Marc(us).</note>
-            <note n="m" type="transcription" target="#am" anchored="true">po famatur skreślone
+            <note n="l" type="transcription" target="#al">Marcum rkps: Marc(us).</note>
+            <note n="m" type="transcription" target="#am">po famatur skreślone
                             deo.</note>
-            <note n="n" type="transcription" target="#an" anchored="true">ok. pięciu słów
+            <note n="n" type="transcription" target="#an">ok. pięciu słów
                             nieczytelnych.</note>
-            <note n="o" type="transcription" target="#ao" anchored="true">ok. dwóch słów
+            <note n="o" type="transcription" target="#ao">ok. dwóch słów
                             nieczytelnych.</note>
-            <note n="p" type="transcription" target="#ap" anchored="true">ok. czterech słów
+            <note n="p" type="transcription" target="#ap">ok. czterech słów
                             nieczytelnych.</note>
-            <note n="q" type="transcription" target="#aq" anchored="true">ok. ośmiu słów
+            <note n="q" type="transcription" target="#aq">ok. ośmiu słów
                             nieczytelnych.</note>
-            <note n="r" type="transcription" target="#ar" anchored="true">ok. ośmiu słów
+            <note n="r" type="transcription" target="#ar">ok. ośmiu słów
                             nieczytelnych.</note>
-            <note n="s" type="transcription" target="#as" anchored="true">commisi lub quasi.</note>
-            <note n="t" type="transcription" target="#at" anchored="true">trzy czwarte linijki
+            <note n="s" type="transcription" target="#as">commisi lub quasi.</note>
+            <note n="t" type="transcription" target="#at">trzy czwarte linijki
                             nieczytelne.</note>
-            <note n="u" type="transcription" target="#au" anchored="true">pół linijki
+            <note n="u" type="transcription" target="#au">pół linijki
                             nieczytelne.</note>
-            <note n="v" type="transcription" target="#av" anchored="true">do końca linijki
+            <note n="v" type="transcription" target="#av">do końca linijki
                             nieczytelne.</note>
-            <note n="w" type="transcription" target="#aw" anchored="true">do końca linijki
+            <note n="w" type="transcription" target="#aw">do końca linijki
                             nieczytelne.</note>
-            <note n="x" type="transcription" target="#ax" anchored="true">do końca linijki
+            <note n="x" type="transcription" target="#ax">do końca linijki
                             nieczytelne.</note>
         </listAnnotation>
     </standOff>

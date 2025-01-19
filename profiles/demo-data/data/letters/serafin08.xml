@@ -5,19 +5,19 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Piotr Szczerba do Mikołaja Serafina, <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>, <date when="1442-08-30" when-custom="1442" instant="false">30 sierpnia [1442]</date>
+                <title>Piotr Szczerba do Mikołaja Serafina, <placeName key="geo-775758" full="yes">Bochnia</placeName>, <date when="1442-08-30" when-custom="1442">30 sierpnia [1442]</date>
                 </title>
-                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
+                <title level="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
                 <editor>Anna Skolimowska</editor>
                 <editor>Waldemar Bukowski</editor>
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Anna Krzysik</persName>
+                    <persName>Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Magdalena Turska</persName>
+                    <persName>Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -27,43 +27,42 @@
                     <licence target="https://creativecommons.org/licenses/by/4.0/"/>
                 </availability>
             </publicationStmt>
-            <sourceDesc default="false">
+            <sourceDesc>
                 <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
                         <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 148 (192)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p part="N">recto: tekst listu; verso: ciąg dalszy tekstu, podpis, adres, ślady po pieczęci.</p>
+                        <p>recto: tekst listu; verso: ciąg dalszy tekstu, podpis, adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p part="N">215 × 287 mm; ślady zawilgocenia w dolnej części karty</p>
+                        <p>215 × 287 mm; ślady zawilgocenia w dolnej części karty</p>
                     </physDesc>
                 </msDesc>
                 <bibl type="printed-edition">
                     <publisher>Societas Vistulana</publisher>
-                    <pubPlace>Kraków</pubPlace>
+                    <placeName>Kraków</placeName>
                     <date>2006</date>
                 </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc default="false">
+            <correspDesc>
                 <correspAction type="sent">
-                    <persName key="serafin-0031" instant="false" full="yes">Piotr Szczerba</persName>
-                    <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>
-                    <date when="1442-08-30" when-custom="1442" instant="false">30 sierpnia [1442]</date>
+                    <persName key="serafin-0031">Piotr Szczerba</persName>
+                    <placeName key="geo-775758" full="yes">Bochnia</placeName>
+                    <date when="1442-08-30" when-custom="1442">30 sierpnia [1442]</date>
                 </correspAction>
                 <correspAction type="received">
                     <persName ref="gnd-139138560">Mikołaj Serafin</persName>
                 </correspAction>
                 <correspContext>
-                    <ref type="previous" target="serafin07.xml">Previous letter of <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1441-12-05" when-custom="1441" instant="false">5 grudnia [1441]</date>
+                    <ref type="previous" target="serafin07.xml">Previous letter of <persName key="serafin-0025">Mikołaj Zyszno</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1441-12-05" when-custom="1441">5 grudnia [1441]</date>
                     </ref>
-                    <ref type="next" target="serafin11.xml">Next letter of <persName key="serafin-0038" instant="false" full="yes">Mikołaj Suchorabski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when-custom="1443-1445"
+                    <ref type="next" target="serafin11.xml">Next letter of <persName key="serafin-0038">Mikołaj Suchorabski</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when-custom="1443-1445"
                               notBefore="1443"
-                              notAfter="1445"
-                              instant="false">[1443-1445]</date>
+                              notAfter="1445">[1443-1445]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
@@ -82,111 +81,111 @@
     </teiHeader>
     <text>
         <text type="source" xml:lang="la">
-            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+            <div xml:id="s.1">
                 <opener xml:id="s.1.1">
-                    <seg part="N" xml:id="s.1.1.1">
-                        <lb/>Generoso ac strennuo domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao <lb/> Seraphin</persName> de Berwald gladifero <lb/>Cracouiensi, salis utriusque et Russye zuppario, <lb/>domino meo gracioso.</seg>
+                    <seg xml:id="s.1.1.1">
+                        <lb/>Generoso ac strennuo domino <persName key="gnd-139138560">Nicolao <lb/> Seraphin</persName> de Berwald gladifero <lb/>Cracouiensi, salis utriusque et Russye zuppario, <lb/>domino meo gracioso.</seg>
                 </opener>
-                <p xml:id="s.1.2" part="N">
-                    <seg part="N" xml:id="s.1.2.1">
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
                         <lb/>Se ipsum ad queuis genera mandatorum.</seg>
-                    <seg part="N" xml:id="s.1.2.2">Generose ac strennue domine <lb/> michi <sic>gracioso</sic>. Audita litera Vestre Dominacionis, in qua michi <expan instant="false">V<ex instant="false">estra</ex>
+                    <seg xml:id="s.1.2.2">Generose ac strennue domine <lb/> michi <sic>gracioso</sic>. Audita litera Vestre Dominacionis, in qua michi <expan>V<ex>estra</ex>
                         </expan>
-                        <expan instant="false">S<ex instant="false">trennuitas</ex>
+                        <expan>S<ex>trennuitas</ex>
                         </expan>
-                        <lb/> scribit condolendo de infirmitate mea, graciarum acciones <expan instant="false">V<ex instant="false">estre</ex>
+                        <lb/> scribit condolendo de infirmitate mea, graciarum acciones <expan>V<ex>estre</ex>
                         </expan> Dominacioni <lb/> refero <sic>perimenses</sic>, sed dante Domino Deo iam restituo pristine sanitati et ea, que sunt disponenda, non dubitetis.</seg>
-                    <seg part="N" xml:id="s.1.2.3"> De isto enim <persName key="serafin-0035" instant="false" full="yes">Skawinski</persName> non habeatis aliquam spem, quia proponit se ad<anchor xml:id="aa"/> anuale forum in <placeName key="geo-3102459" instant="false" full="yes">Bregam</placeName> transeundum, et hanc habet excusacionem et venire non wlt.</seg>
-                    <seg part="N" xml:id="s.1.2.4">Ceterum Vestra Dominacio<anchor xml:id="ab"/> comisit cum <persName key="serafin-0034" instant="false" full="yes">Paulo Ierandi</persName> facere racionem pro suis omnibus debitis, quibus inuoluti sunt antecessores mei.</seg>
-                    <seg part="N" xml:id="s.1.2.5">Sciatis, quia pro eo misi, quem habere non potui, sed dum presens affuerit, bene faciam cum eo racionem.</seg>
-                    <seg part="N" xml:id="s.1.2.6">Insuper Dominacio Vestra michi intimauit, ut centum quinquaginta florenos pro necessitate vestra per <persName key="serafin-0033" instant="false" full="yes">Marczinek</persName> mittere deberem.</seg>
-                    <seg part="N" xml:id="s.1.2.7">Scire dignetur Dominacio Vestra, quod nullibi potui acquirere, tantum viginti concessy, quos die crastina instituere promissi, ita quod in inicio mitto Vestre Dominacioni octuaginta florenos, videlicet sexaginta de ista septimana cessis et viginti concessi, <add instant="false" status="unremarkable">ex eo, quia feria secunda nullus florenus cessit</add>.</seg>
-                    <seg part="N" xml:id="s.1.2.8">Eciam Dominacio Vestra de ferro scribit.</seg>
-                    <seg part="N" xml:id="s.1.2.9">Sciat <expan instant="false">V<ex instant="false">estra</ex>
+                    <seg xml:id="s.1.2.3"> De isto enim <persName key="serafin-0035">Skawinski</persName> non habeatis aliquam spem, quia proponit se ad<anchor xml:id="aa"/> anuale forum in <placeName key="geo-3102459" full="yes">Bregam</placeName> transeundum, et hanc habet excusacionem et venire non wlt.</seg>
+                    <seg xml:id="s.1.2.4">Ceterum Vestra Dominacio<anchor xml:id="ab"/> comisit cum <persName key="serafin-0034">Paulo Ierandi</persName> facere racionem pro suis omnibus debitis, quibus inuoluti sunt antecessores mei.</seg>
+                    <seg xml:id="s.1.2.5">Sciatis, quia pro eo misi, quem habere non potui, sed dum presens affuerit, bene faciam cum eo racionem.</seg>
+                    <seg xml:id="s.1.2.6">Insuper Dominacio Vestra michi intimauit, ut centum quinquaginta florenos pro necessitate vestra per <persName key="serafin-0033">Marczinek</persName> mittere deberem.</seg>
+                    <seg xml:id="s.1.2.7">Scire dignetur Dominacio Vestra, quod nullibi potui acquirere, tantum viginti concessy, quos die crastina instituere promissi, ita quod in inicio mitto Vestre Dominacioni octuaginta florenos, videlicet sexaginta de ista septimana cessis et viginti concessi, <add status="unremarkable">ex eo, quia feria secunda nullus florenus cessit</add>.</seg>
+                    <seg xml:id="s.1.2.8">Eciam Dominacio Vestra de ferro scribit.</seg>
+                    <seg xml:id="s.1.2.9">Sciat <expan>V<ex>estra</ex>
                         </expan>
-                        <expan instant="false">S<ex instant="false">trennuitas</ex>
-                        </expan>, quia hodie date presencium mitto cusera alias s c hy ny in <placeName key="geo-762203" instant="false" full="yes">Pylszno</placeName> per vectorem et die crastina <persName key="serafin-0032" instant="false" full="yes">Micwlowski</persName> ad conspiciendum.</seg>
-                    <seg part="N" xml:id="s.1.2.10">Item in litera priori scripsit michi Dominacio Vestra, quomodo robora pro construccione c a s t y in <placeName key="geo-763902" instant="false" full="yes">Borra Regaly</placeName> absque voluntate et<anchor xml:id="ac"/> consensu capitanei exscinderem.</seg>
-                    <seg part="N" xml:id="s.1.2.11">Sciatis, quia oblitus est sui. Consensit enim et ea, que de victualibus postulauit, senper dedi, et sue familie, que demonstrauit carpentariis, vbi scindere deberem.</seg>
-                    <seg part="N" xml:id="s.1.2.12">Ecciam scripsit michi <expan instant="false">V<ex instant="false">estra</ex>
+                        <expan>S<ex>trennuitas</ex>
+                        </expan>, quia hodie date presencium mitto cusera alias s c hy ny in <placeName key="geo-762203" full="yes">Pylszno</placeName> per vectorem et die crastina <persName key="serafin-0032">Micwlowski</persName> ad conspiciendum.</seg>
+                    <seg xml:id="s.1.2.10">Item in litera priori scripsit michi Dominacio Vestra, quomodo robora pro construccione c a s t y in <placeName key="geo-763902" full="yes">Borra Regaly</placeName> absque voluntate et<anchor xml:id="ac"/> consensu capitanei exscinderem.</seg>
+                    <seg xml:id="s.1.2.11">Sciatis, quia oblitus est sui. Consensit enim et ea, que de victualibus postulauit, senper dedi, et sue familie, que demonstrauit carpentariis, vbi scindere deberem.</seg>
+                    <seg xml:id="s.1.2.12">Ecciam scripsit michi <expan>V<ex>estra</ex>
                         </expan>
-                        <expan instant="false">S<ex instant="false">trennuitas</ex>
-                        </expan>, quomodo nollem exsoluere decem marcas eidem <persName key="serafin-0011" instant="false" full="yes">capitaneo</persName> de <placeName key="geo-763903" instant="false" full="yes">Nyepolomicze</placeName> ad mandatum vestrum.</seg>
-                    <seg part="N" xml:id="s.1.2.13">Non ita composui cum nunccio suo, quod nollem, sed ita fuit, quod sibi insimul decem marcas dare non potui, cui submisi me dare vna septimana tres marcas, alia tres et tercia residuum.</seg>
-                    <seg part="N" xml:id="s.1.2.14">In quo fuit nuccius contentus et iam diuertit coram vobis.</seg>
-                    <seg part="N" xml:id="s.1.2.15">Similiter cum domino Nicolao disposui, quod sibi successiue debeo soluere.</seg>
-                    <seg part="N" xml:id="s.1.2.16">Libenter enim vollem〈!〉, sed non possum tantum habere, ut possem laboratoribus soluere, et ista septimana non est, quod non intrarem debita.</seg>
-                    <seg part="N" xml:id="s.1.2.17">De labore enim sectorum salis michi intimatis.</seg>
-                    <seg part="N" xml:id="s.1.2.18">Doceatis enim me, vbi ipsos recipere debeo, quia de die in diem moriuntur, et alii divagunt per villas.</seg>
-                    <seg part="N" xml:id="s.1.2.19">In rotis enim paucas habeo. Vix feria secunda duas rothas congregaui et ecciam iste<anchor xml:id="ad"/> s c hy b in monte Thargowski<anchor xml:id="ae"/>
+                        <expan>S<ex>trennuitas</ex>
+                        </expan>, quomodo nollem exsoluere decem marcas eidem <persName key="serafin-0011">capitaneo</persName> de <placeName key="geo-763903" full="yes">Nyepolomicze</placeName> ad mandatum vestrum.</seg>
+                    <seg xml:id="s.1.2.13">Non ita composui cum nunccio suo, quod nollem, sed ita fuit, quod sibi insimul decem marcas dare non potui, cui submisi me dare vna septimana tres marcas, alia tres et tercia residuum.</seg>
+                    <seg xml:id="s.1.2.14">In quo fuit nuccius contentus et iam diuertit coram vobis.</seg>
+                    <seg xml:id="s.1.2.15">Similiter cum domino Nicolao disposui, quod sibi successiue debeo soluere.</seg>
+                    <seg xml:id="s.1.2.16">Libenter enim vollem〈!〉, sed non possum tantum habere, ut possem laboratoribus soluere, et ista septimana non est, quod non intrarem debita.</seg>
+                    <seg xml:id="s.1.2.17">De labore enim sectorum salis michi intimatis.</seg>
+                    <seg xml:id="s.1.2.18">Doceatis enim me, vbi ipsos recipere debeo, quia de die in diem moriuntur, et alii divagunt per villas.</seg>
+                    <seg xml:id="s.1.2.19">In rotis enim paucas habeo. Vix feria secunda duas rothas congregaui et ecciam iste<anchor xml:id="ad"/> s c hy b in monte Thargowski<anchor xml:id="ae"/>
                         <anchor xml:id="a1"/> nondum est reformatus.</seg>
-                    <seg part="N" xml:id="s.1.2.20">Estimaui enim, quod cum paucis roboribus reformare deberem, et iam <unclear instant="false">certe</unclear> ducenta robora inposui et adhuc ista septimana non reformabitur.</seg>
-                    <seg part="N" xml:id="s.1.2.21">Nichilominus volo diligenciam meam adhibere meliori modo, quo potero, ut in breui laborabunt.</seg>
-                    <seg part="N" xml:id="s.1.2.22">Intimauit eciam michi Dominacio Vestra, ut ceruisiam bonam vobis mittere deberem.</seg>
-                    <seg part="N" xml:id="s.1.2.23"> Sciatis, quia nullam aliam habeo, preter de <placeName key="geo-756299" instant="false" full="yes">Vscze</placeName>, de qua <expan instant="false">V<ex instant="false">estre</ex>
+                    <seg xml:id="s.1.2.20">Estimaui enim, quod cum paucis roboribus reformare deberem, et iam <unclear>certe</unclear> ducenta robora inposui et adhuc ista septimana non reformabitur.</seg>
+                    <seg xml:id="s.1.2.21">Nichilominus volo diligenciam meam adhibere meliori modo, quo potero, ut in breui laborabunt.</seg>
+                    <seg xml:id="s.1.2.22">Intimauit eciam michi Dominacio Vestra, ut ceruisiam bonam vobis mittere deberem.</seg>
+                    <seg xml:id="s.1.2.23"> Sciatis, quia nullam aliam habeo, preter de <placeName key="geo-756299" full="yes">Vscze</placeName>, de qua <expan>V<ex>estre</ex>
                         </expan>
-                        <expan instant="false">S<ex instant="false">trennuitati</ex>
-                        </expan> dirigo tria octualia, et si apportabitur michi de <placeName key="geo-755593" instant="false" full="yes">
+                        <expan>S<ex>trennuitati</ex>
+                        </expan> dirigo tria octualia, et si apportabitur michi de <placeName key="geo-755593" full="yes">
                             <sic>Vslicicia</sic>
                         </placeName>, dirigere non <sic>obmittem</sic>.</seg>
-                    <seg part="N" xml:id="s.1.2.24">Tres<anchor xml:id="af"/> lepores de ferinis mitto, item septem<anchor xml:id="ag"/> p a rdw y et decem perdices dirigo per Marczinek, et dum plures habebo, libenter dirigam.</seg>
-                    <seg part="N" xml:id="s.1.2.25"> Datum in <placeName key="geo-775758" instant="false" full="yes">Bochna</placeName>, <date when="1442-08-30" instant="false">feria quinta post festum Decollacionis sancti Iohannis Baptiste</date>.</seg>
+                    <seg xml:id="s.1.2.24">Tres<anchor xml:id="af"/> lepores de ferinis mitto, item septem<anchor xml:id="ag"/> p a rdw y et decem perdices dirigo per Marczinek, et dum plures habebo, libenter dirigam.</seg>
+                    <seg xml:id="s.1.2.25"> Datum in <placeName key="geo-775758" full="yes">Bochna</placeName>, <date when="1442-08-30">feria quinta post festum Decollacionis sancti Iohannis Baptiste</date>.</seg>
                 </p>
                 <signed xml:id="s.1.3">
-                    <seg part="N" xml:id="s.1.3.1">
+                    <seg xml:id="s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0031" instant="false" full="yes">Petrus Sc<supplied instant="false">e</supplied>rba</persName> vice<lb/>zupparius Bochnensis vester</seg>
+                        <persName key="serafin-0031">Petrus Sc<supplied>e</supplied>rba</persName> vice<lb/>zupparius Bochnensis vester</seg>
                 </signed>
                 <postscript xml:id="s.1.4">
-                    <p xml:id="s.1.4.1" part="N">
-                        <seg part="N" xml:id="s.1.4.1.1"/>
+                    <p xml:id="s.1.4.1">
+                        <seg xml:id="s.1.4.1.1"/>
                     </p>
                 </postscript>
             </div>
         </text>
         <text type="translation" xml:lang="pl">
-            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+            <div xml:id="t.1">
                 <opener xml:id="t.1.1">
-                    <seg part="N" corresp="#s.1.1.1">
-                        <lb/>Szlachetnemu i mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> z Barwałdu miecznikowi krakowskiemu, żupnikowi obojga salin i Rusi, memu łaskawemu panu.</seg>
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Szlachetnemu i mężnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> z Barwałdu miecznikowi krakowskiemu, żupnikowi obojga salin i Rusi, memu łaskawemu panu.</seg>
                 </opener>
-                <p xml:id="t.1.2" part="N">
-                    <seg part="N" corresp="#s.1.2.1">
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
                         <lb/>
-                        <supplied instant="false">Polecam</supplied> się na wszelkiego rodzaju rozkazy.</seg>
-                    <seg part="N" corresp="#s.1.2.2"> Szlachetny i mężny panie mój łaskawy. Wysłuchawszy listu Waszej Dostojności, w którym pisze mi Wasza Mężność, że współczuje mi w chorobie, przesyłam Waszej Dostojności niekończące się podziękowania. Dzięki Bogu powracam już do dawnego zdrowia, nie wahajcie się więc rozkazywać, co potrzeba.</seg>
-                    <seg part="N" corresp="#s.1.2.3">Nie spodziewajcie się niczego po <persName key="serafin-0035" instant="false" full="yes">Skawińskim</persName>, bowiem zapowiada, że wyjeżdża na doroczny jarmark do <placeName key="geo-3102459" instant="false" full="yes">Brzegu</placeName>, i mając taką wymówkę, nie chce przybyć.</seg>
-                    <seg part="N" corresp="#s.1.2.4">Poza tym polecił Wasza Dostojność rozliczyć się z <persName key="serafin-0034" instant="false" full="yes">Pawłem Jerandem</persName> z wszystkich długów, w które uwikłani byli moi poprzednicy.</seg>
-                    <seg part="N" corresp="#s.1.2.5">Wiedzcie, że posłałem po niego, lecz spotkanie nie było możliwe. Gdy tylko będzie obecny, dokładnie się z nim rozliczę.</seg>
-                    <seg part="N" corresp="#s.1.2.6"> Prócz tego zawiadomił mnie Wasza Dostojność, że mam posłać na wasze potrzeby przez <persName key="serafin-0033" instant="false" full="yes">Marcinka</persName> 150 florenów.</seg>
-                    <seg part="N" corresp="#s.1.2.7">Zechce wiedzieć Wasza Dostojność, że nie miałem ich skąd wziąć, mam tylko 20 pożyczonych, które obiecałem jutro oddać, tak że na początek posyłam Waszej Dostojności 80 florenów: 60 z wpływów z zeszłego tygodnia i 20 pożyczonych, ponieważ w poniedziałek nie wpłynął ani jeden floren.</seg>
-                    <seg part="N" corresp="#s.1.2.8">Pisze również Wasza Dostojność o żelazie.</seg>
-                    <seg part="N" corresp="#s.1.2.9"> Niech wie Wasza Mężność, że w dniu dzisiejszym posyłam przez woźnicę szyny do <placeName key="geo-762203" instant="false" full="yes">Pilzna</placeName>, jutro zaś <persName key="serafin-0032" instant="false" full="yes">Mikułowskiego</persName>, aby je obejrzał.</seg>
-                    <seg part="N" corresp="#s.1.2.10">Wreszcie, w poprzednim liście pisał mi Wasza Dostojność, jakobym wycinał drzewa w <placeName key="geo-763902" instant="false" full="yes">Borze Królewskim</placeName> na budowę kaszty bez zgody starosty.</seg>
-                    <seg part="N" corresp="#s.1.2.11">Wiedzcie, że zapomniał o swojej zgodzie. Zgodził się bowiem, a ja zawsze dawałem to, o co prosił z żywności, także jego ludziom, którzy pokazywali drwalom, gdzie mam prowadzić wyrąb.</seg>
-                    <seg part="N" corresp="#s.1.2.12">Pisze mi również Wasza Mężność, jakobym nie chciał wypłacić na wasze zlecenie 10 grzywien temuż <persName key="serafin-0011" instant="false" full="yes">staroście</persName> z <placeName key="geo-763903" instant="false" full="yes">Niepołomic</placeName>.</seg>
-                    <seg part="N" corresp="#s.1.2.13">Nie ustaliłem z jego posłańcem, że nie chcę, lecz, ponieważ nie mogłem wypłacić na raz 10 grzywien, zobowiązałem się dać 3 grzywny w jednym tygodniu, 3 w następnym, a w trzecim tygodniu resztę.</seg>
-                    <seg part="N" corresp="#s.1.2.14">Posłaniec był z tego zadowolony, ale już wobec was zmienia zdanie.</seg>
-                    <seg part="N" corresp="#s.1.2.15">Podobnie z panem Mikołajem rozłożyłem płatności tak, że mam mu spłacać stopniowo.</seg>
-                    <seg part="N" corresp="#s.1.2.16">Mimo najlepszych chęci nie zdołam mieć tyle, muszę wszak zapłacić robotnikom, a i w tym tygodniu nie uda mi się nie popaść w długi.</seg>
-                    <seg part="N" corresp="#s.1.2.17">Piszecie w sprawie pracy kopaczy soli.</seg>
-                    <seg part="N" corresp="#s.1.2.18">Wyjaśnijcie mi, skąd mam ich wziąć, bo z dnia na dzień umierają, a inni rozchodzą się po wsiach.</seg>
-                    <seg part="N" corresp="#s.1.2.19"> Mam doprawdy mało wozów, w poniedziałek zdobyłem z trudem dwa. Poza tym szyb w górze Targowski jeszcze nie został odnowiony.</seg>
-                    <seg part="N" corresp="#s.1.2.20">Sądziłem, że do jego odnowienia wystarczy mi niewiele kłód, a już zużyłem pewnie ze dwieście i jeszcze w tym tygodniu nie będzie odnowiony.</seg>
-                    <seg part="N" corresp="#s.1.2.21">Niemniej pragnę przykładać się najpilniej jak potrafię, aby już wkrótce tam pracowali.</seg>
-                    <seg part="N" corresp="#s.1.2.22">Polecił mi również Wasza Dostojność, abym wam przysłał dobre piwo.</seg>
-                    <seg part="N" corresp="#s.1.2.23">Wiedzcie, że nie mam żadnego innego, prócz tego z Uścia, którego 3 achtele posyłam Waszej Mężności, a jeżeli przywiozą mi z Wiślicy, również nie omieszkam posłać.</seg>
-                    <seg part="N" corresp="#s.1.2.24">Z dziczyzny posyłam przez Marcinka 3 zające, 7 pardw i 10 kuropatw. Jak tylko będę miał więcej, chętnie poślę.</seg>
-                    <seg part="N" corresp="#s.1.2.25">Dan w <placeName key="geo-775758" instant="false" full="yes">Bochni</placeName>, w <date when="1442-08-30" instant="false">czwartek po Ścięciu św. Jana Chrzciciela</date>.</seg>
+                        <supplied>Polecam</supplied> się na wszelkiego rodzaju rozkazy.</seg>
+                    <seg corresp="#s.1.2.2"> Szlachetny i mężny panie mój łaskawy. Wysłuchawszy listu Waszej Dostojności, w którym pisze mi Wasza Mężność, że współczuje mi w chorobie, przesyłam Waszej Dostojności niekończące się podziękowania. Dzięki Bogu powracam już do dawnego zdrowia, nie wahajcie się więc rozkazywać, co potrzeba.</seg>
+                    <seg corresp="#s.1.2.3">Nie spodziewajcie się niczego po <persName key="serafin-0035">Skawińskim</persName>, bowiem zapowiada, że wyjeżdża na doroczny jarmark do <placeName key="geo-3102459" full="yes">Brzegu</placeName>, i mając taką wymówkę, nie chce przybyć.</seg>
+                    <seg corresp="#s.1.2.4">Poza tym polecił Wasza Dostojność rozliczyć się z <persName key="serafin-0034">Pawłem Jerandem</persName> z wszystkich długów, w które uwikłani byli moi poprzednicy.</seg>
+                    <seg corresp="#s.1.2.5">Wiedzcie, że posłałem po niego, lecz spotkanie nie było możliwe. Gdy tylko będzie obecny, dokładnie się z nim rozliczę.</seg>
+                    <seg corresp="#s.1.2.6"> Prócz tego zawiadomił mnie Wasza Dostojność, że mam posłać na wasze potrzeby przez <persName key="serafin-0033">Marcinka</persName> 150 florenów.</seg>
+                    <seg corresp="#s.1.2.7">Zechce wiedzieć Wasza Dostojność, że nie miałem ich skąd wziąć, mam tylko 20 pożyczonych, które obiecałem jutro oddać, tak że na początek posyłam Waszej Dostojności 80 florenów: 60 z wpływów z zeszłego tygodnia i 20 pożyczonych, ponieważ w poniedziałek nie wpłynął ani jeden floren.</seg>
+                    <seg corresp="#s.1.2.8">Pisze również Wasza Dostojność o żelazie.</seg>
+                    <seg corresp="#s.1.2.9"> Niech wie Wasza Mężność, że w dniu dzisiejszym posyłam przez woźnicę szyny do <placeName key="geo-762203" full="yes">Pilzna</placeName>, jutro zaś <persName key="serafin-0032">Mikułowskiego</persName>, aby je obejrzał.</seg>
+                    <seg corresp="#s.1.2.10">Wreszcie, w poprzednim liście pisał mi Wasza Dostojność, jakobym wycinał drzewa w <placeName key="geo-763902" full="yes">Borze Królewskim</placeName> na budowę kaszty bez zgody starosty.</seg>
+                    <seg corresp="#s.1.2.11">Wiedzcie, że zapomniał o swojej zgodzie. Zgodził się bowiem, a ja zawsze dawałem to, o co prosił z żywności, także jego ludziom, którzy pokazywali drwalom, gdzie mam prowadzić wyrąb.</seg>
+                    <seg corresp="#s.1.2.12">Pisze mi również Wasza Mężność, jakobym nie chciał wypłacić na wasze zlecenie 10 grzywien temuż <persName key="serafin-0011">staroście</persName> z <placeName key="geo-763903" full="yes">Niepołomic</placeName>.</seg>
+                    <seg corresp="#s.1.2.13">Nie ustaliłem z jego posłańcem, że nie chcę, lecz, ponieważ nie mogłem wypłacić na raz 10 grzywien, zobowiązałem się dać 3 grzywny w jednym tygodniu, 3 w następnym, a w trzecim tygodniu resztę.</seg>
+                    <seg corresp="#s.1.2.14">Posłaniec był z tego zadowolony, ale już wobec was zmienia zdanie.</seg>
+                    <seg corresp="#s.1.2.15">Podobnie z panem Mikołajem rozłożyłem płatności tak, że mam mu spłacać stopniowo.</seg>
+                    <seg corresp="#s.1.2.16">Mimo najlepszych chęci nie zdołam mieć tyle, muszę wszak zapłacić robotnikom, a i w tym tygodniu nie uda mi się nie popaść w długi.</seg>
+                    <seg corresp="#s.1.2.17">Piszecie w sprawie pracy kopaczy soli.</seg>
+                    <seg corresp="#s.1.2.18">Wyjaśnijcie mi, skąd mam ich wziąć, bo z dnia na dzień umierają, a inni rozchodzą się po wsiach.</seg>
+                    <seg corresp="#s.1.2.19"> Mam doprawdy mało wozów, w poniedziałek zdobyłem z trudem dwa. Poza tym szyb w górze Targowski jeszcze nie został odnowiony.</seg>
+                    <seg corresp="#s.1.2.20">Sądziłem, że do jego odnowienia wystarczy mi niewiele kłód, a już zużyłem pewnie ze dwieście i jeszcze w tym tygodniu nie będzie odnowiony.</seg>
+                    <seg corresp="#s.1.2.21">Niemniej pragnę przykładać się najpilniej jak potrafię, aby już wkrótce tam pracowali.</seg>
+                    <seg corresp="#s.1.2.22">Polecił mi również Wasza Dostojność, abym wam przysłał dobre piwo.</seg>
+                    <seg corresp="#s.1.2.23">Wiedzcie, że nie mam żadnego innego, prócz tego z Uścia, którego 3 achtele posyłam Waszej Mężności, a jeżeli przywiozą mi z Wiślicy, również nie omieszkam posłać.</seg>
+                    <seg corresp="#s.1.2.24">Z dziczyzny posyłam przez Marcinka 3 zające, 7 pardw i 10 kuropatw. Jak tylko będę miał więcej, chętnie poślę.</seg>
+                    <seg corresp="#s.1.2.25">Dan w <placeName key="geo-775758" full="yes">Bochni</placeName>, w <date when="1442-08-30">czwartek po Ścięciu św. Jana Chrzciciela</date>.</seg>
                 </p>
                 <signed xml:id="t.1.3">
-                    <seg part="N" corresp="#s.1.3.1">
+                    <seg corresp="#s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0031" instant="false" full="yes">Piotr Szczerba</persName> wasz podżupek bocheński</seg>
+                        <persName key="serafin-0031">Piotr Szczerba</persName> wasz podżupek bocheński</seg>
                 </signed>
                 <postscript xml:id="t.1.4">
-                    <p xml:id="t.1.4.1" part="N">
-                        <seg part="N" corresp="#s.1.4.1.1">1</seg>
+                    <p xml:id="t.1.4.1">
+                        <seg corresp="#s.1.4.1.1">1</seg>
                     </p>
                 </postscript>
             </div>
@@ -194,14 +193,14 @@
     </text>
     <standOff>
         <listAnnotation>
-            <note n="a" type="transcription" target="#aa" anchored="true">po ad skreślone anu.</note>
-            <note n="b" type="transcription" target="#ab" anchored="true">Dominacio rkps: Dominaciom, m skreślone.</note>
-            <note n="c" type="transcription" target="#ac" anchored="true">et poprawione z cum.</note>
-            <note n="d" type="transcription" target="#ad" anchored="true">po iste skreślone syby.</note>
-            <note n="e" type="transcription" target="#ae" anchored="true">po Thargowski skreślone dum.</note>
-            <note n="f" type="transcription" target="#af" anchored="true">po Tres skreślone labo.</note>
-            <note n="g" type="transcription" target="#ag" anchored="true">po septem skreślone pard.</note>
-            <note n="1" target="#a1" anchored="true">Szyb Targ, usytuowany w pn.-zach. narożu Rynku w Bochni, zgłębiony jeszcze przed końcem XIV w., a może nawet w pierwszej połowie tego stulecia, na placu targu solą. Po raz pierwszy wzmiankowany w 1420 r. (<title>Rach. boch.</title>, s. 200; zob. też T. Wojciechowski, <title>Zarys rozwoju przestrzennego kopalni bocheńskiej do 1772 r.</title>, SMDŻ 10, 1981, s. 54; <title>Dzieje żup</title>, s. 148).</note>
+            <note n="a" type="transcription" target="#aa">po ad skreślone anu.</note>
+            <note n="b" type="transcription" target="#ab">Dominacio rkps: Dominaciom, m skreślone.</note>
+            <note n="c" type="transcription" target="#ac">et poprawione z cum.</note>
+            <note n="d" type="transcription" target="#ad">po iste skreślone syby.</note>
+            <note n="e" type="transcription" target="#ae">po Thargowski skreślone dum.</note>
+            <note n="f" type="transcription" target="#af">po Tres skreślone labo.</note>
+            <note n="g" type="transcription" target="#ag">po septem skreślone pard.</note>
+            <note n="1" target="#a1">Szyb Targ, usytuowany w pn.-zach. narożu Rynku w Bochni, zgłębiony jeszcze przed końcem XIV w., a może nawet w pierwszej połowie tego stulecia, na placu targu solą. Po raz pierwszy wzmiankowany w 1420 r. (<title>Rach. boch.</title>, s. 200; zob. też T. Wojciechowski, <title>Zarys rozwoju przestrzennego kopalni bocheńskiej do 1772 r.</title>, SMDŻ 10, 1981, s. 54; <title>Dzieje żup</title>, s. 148).</note>
         </listAnnotation>
     </standOff>
 </TEI>

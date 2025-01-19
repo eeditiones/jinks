@@ -5,21 +5,21 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-3094802" instant="false" full="yes">Kraków</placeName>, <date when="1441-04-07" when-custom="7 kwietnia 1441" instant="false">[7 kwietnia
+                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-3094802" full="yes">Kraków</placeName>, <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
                     1441]</date>
                 </title>
-                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                <title level="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
                 <editor>Anna Skolimowska</editor>
                 <editor>Waldemar Bukowski</editor>
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Anna Krzysik</persName>
+                    <persName>Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Magdalena Turska</persName>
+                    <persName>Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -29,47 +29,46 @@
                     <licence target="https://creativecommons.org/licenses/by/4.0/"/>
                 </availability>
             </publicationStmt>
-            <sourceDesc default="false">
+            <sourceDesc>
                 <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
                         <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 165 (209)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci</p>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci</p>
                     </msContents>
                     <physDesc>
-                        <p part="N">213 × 291 mm; ubytki papieru, w dolnej części karty ślady
+                        <p>213 × 291 mm; ubytki papieru, w dolnej części karty ślady
                             zawilgocenia</p>
                     </physDesc>
                 </msDesc>
                 <bibl type="printed-edition">
                     <publisher>Societas Vistulana</publisher>
-                    <pubPlace>Kraków</pubPlace>
+                    <placeName>Kraków</placeName>
                     <date>2006</date>
                 </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc default="false">
+            <correspDesc>
                 <correspAction type="sent">
-                    <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName>
-                    <placeName key="geo-3094802" instant="false" full="yes">Kraków</placeName>
-                    <date when="1441-04-07" when-custom="7 kwietnia 1441" instant="false">[7 kwietnia
+                    <persName key="serafin-0010">Jakub z Dąbrówki</persName>
+                    <placeName key="geo-3094802" full="yes">Kraków</placeName>
+                    <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
                         1441]</date>
                 </correspAction>
                 <correspAction type="received">
                     <persName ref="gnd-139138560">Mikołaj Serafin</persName>
                 </correspAction>
                 <correspContext>
-                    <ref type="previous" target="serafin03.xml">Previous letter of <persName key="gnd-107898543X" instant="false" full="yes">Jan Gruszczyński</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1441-01-12" when-custom="12 stycznia 1441" instant="false">12 stycznia [1441]</date>
+                    <ref type="previous" target="serafin03.xml">Previous letter of <persName key="gnd-107898543X">Jan Gruszczyński</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1441-01-12" when-custom="12 stycznia 1441">12 stycznia [1441]</date>
                     </ref>
-                    <ref type="next" target="serafin05.xml">Next letter of <persName key="serafin-0022" instant="false" full="yes">Piotr Grazer</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1441-07-16" instant="false">16 lipca 1441</date>
+                    <ref type="next" target="serafin05.xml">Next letter of <persName key="serafin-0022">Piotr Grazer</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1441-07-16">16 lipca 1441</date>
                     </ref>
-                    <ref type="next-in-correspondence" target="serafin09.xml">Next letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName>
-                        <persName key="Bochnia" instant="false" full="yes">Bochnia</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1443-11-06"
-                              when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]"
-                              instant="false">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
+                    <ref type="next-in-correspondence" target="serafin09.xml">Next letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName>
+                        <persName key="Bochnia">Bochnia</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1443-11-06"
+                              when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
@@ -88,180 +87,180 @@
     </teiHeader>
     <text>
         <text type="source" xml:lang="la">
-            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+            <div xml:id="s.1">
                 <opener xml:id="s.1.1">
-                    <seg part="N" xml:id="s.1.1.1">
-                        <lb/> Strennuo domino <persName key="MikołajSerafin" instant="false" full="yes">Nicolao
+                    <seg xml:id="s.1.1.1">
+                        <lb/> Strennuo domino <persName key="MikołajSerafin">Nicolao
                                     Seraphin</persName>
                         <lb/> gladifero Cracouiensi, salis utriusque <lb/> zuppario, domino
                                 et fratri carissimo.</seg>
                 </opener>
-                <p xml:id="s.1.2" part="N">
-                    <seg part="N" xml:id="s.1.2.1">
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
                         <lb/>Strennue domine ac frater carissime.</seg>
-                    <seg part="N" xml:id="s.1.2.2">Scire dignetur Dominacio Vestra, quia iuxta <lb/>
-                                comissa cum domino <persName key="wikidata-Q101002566" instant="false" full="yes">Czycowski</persName> ita disposuimus, quod iam <persName key="serafin-0011" instant="false" full="yes">Dybacz</persName> habet possessionem <lb/>
-                                in villam <placeName key="geo-3087373" instant="false" full="yes">Racowicze</placeName>, sed cum
-                                dificultate ex eo, quia ille <persName key="serafin-0012" instant="false" full="yes">Szlosthski</persName>
+                    <seg xml:id="s.1.2.2">Scire dignetur Dominacio Vestra, quia iuxta <lb/>
+                                comissa cum domino <persName key="wikidata-Q101002566">Czycowski</persName> ita disposuimus, quod iam <persName key="serafin-0011">Dybacz</persName> habet possessionem <lb/>
+                                in villam <placeName key="geo-3087373" full="yes">Racowicze</placeName>, sed cum
+                                dificultate ex eo, quia ille <persName key="serafin-0012">Szlosthski</persName>
                         <lb/> fuit retractus et noluit fideiubere<anchor xml:id="aa"/>,
                                     nisi<anchor xml:id="ab"/> dominus Czycowski sibi
                                 fideiussit.</seg>
-                    <seg part="N" xml:id="s.1.2.3">Ecciam Dominacio Vestra michi comisit, ut deberem
-                                debita soluere, videlicet domino <persName key="wikidata-Q96210147" instant="false" full="yes">Rokosch</persName> vicecapitaneo Cracouiensi et <persName key="serafin-0014" instant="false" full="yes">Passek</persName>
-                        <anchor xml:id="a1"/>, quibus <persName key="gnd-139138560" instant="false" full="yes">solucionem</persName> nequeo habere, qui me
+                    <seg xml:id="s.1.2.3">Ecciam Dominacio Vestra michi comisit, ut deberem
+                                debita soluere, videlicet domino <persName key="wikidata-Q96210147">Rokosch</persName> vicecapitaneo Cracouiensi et <persName key="serafin-0014">Passek</persName>
+                        <anchor xml:id="a1"/>, quibus <persName key="gnd-139138560">solucionem</persName> nequeo habere, qui me
                                 multum <sic>gravent</sic> et amonent, et Deus est michi testis, quod
-                                nullomodo possum acquire<unclear instant="false">re</unclear> pecunias inter
+                                nullomodo possum acquire<unclear>re</unclear> pecunias inter
                                 mercatores.</seg>
-                    <seg part="N" xml:id="s.1.2.4">Ceterum scire velit
-                                    <expan instant="false">S<ex instant="false">trennuita</ex>
+                    <seg xml:id="s.1.2.4">Ceterum scire velit
+                                    <expan>S<ex>trennuita</ex>
                         </expan>s
-                                    <expan instant="false">V<ex instant="false">estra</ex>
+                                    <expan>V<ex>estra</ex>
                         </expan>, quia isti psalteriste<anchor xml:id="a2"/> noluerunt recipere viginti marcas, sed me
                                 monuerunt et vos.</seg>
-                    <seg part="N" xml:id="s.1.2.5">Et feria secunda proxima <date when="1441-04-10" instant="false">10 IV</date> monicio exspirabit, et ex eo debita illa non
+                    <seg xml:id="s.1.2.5">Et feria secunda proxima <date when="1441-04-10">10 IV</date> monicio exspirabit, et ex eo debita illa non
                                 possum exsoluere, quia id, quod ement in sale mercatores de
                                 Cracouia, hoc defalcant super antiqua debita.</seg>
-                    <seg part="N" xml:id="s.1.2.6">Item sciatis, quia illa septimana preterita
+                    <seg xml:id="s.1.2.6">Item sciatis, quia illa septimana preterita
                                 solucio fuit laboratoribus in zuppis centum triginta marcarum, ita
                                 vero, uix quod ducentis marcis laboratores possemus exspedire.</seg>
-                    <seg part="N" xml:id="s.1.2.7">Eciam iuxta comissa vestra dominus Czycowski de
+                    <seg xml:id="s.1.2.7">Eciam iuxta comissa vestra dominus Czycowski de
                                 zuppa Bochnensi tantum michi de illa septimana misit quinquaginta
-                                florenos, quos dedi <persName key="serafin-0015" instant="false" full="yes">Cuncza</persName>,
-                                domine autem <persName key="serafin-0016" instant="false" full="yes">castellanisse</persName>
+                                florenos, quos dedi <persName key="serafin-0015">Cuncza</persName>,
+                                domine autem <persName key="serafin-0016">castellanisse</persName>
                                 nichil, de Vyeliczka enim cesserunt centum et
-                                    qu<supplied instant="false">atu</supplied>ordecim floreni, de quibus dedi domino
-                                    <persName key="serafin-0017" instant="false" full="yes">Theschner</persName> triginta,
-                                    <persName key="serafin-0018" instant="false" full="yes">Swidnicer</persName> XXX,
-                                    <persName key="serafin-0019" instant="false" full="yes">Koczybyal</persName> XXX, et
-                                    <persName key="wikidata-Q101002566" instant="false" full="yes">Petrus</persName> de eisdem dedit
-                                viginti quat<supplied instant="false">u</supplied>or domino <persName key="serafin-0020" instant="false" full="yes">Zindram</persName>.</seg>
-                    <seg part="N" xml:id="s.1.2.8">Iste enim Swidnicer multum irascebatur, quia
+                                    qu<supplied>atu</supplied>ordecim floreni, de quibus dedi domino
+                                    <persName key="serafin-0017">Theschner</persName> triginta,
+                                    <persName key="serafin-0018">Swidnicer</persName> XXX,
+                                    <persName key="serafin-0019">Koczybyal</persName> XXX, et
+                                    <persName key="wikidata-Q101002566">Petrus</persName> de eisdem dedit
+                                viginti quat<supplied>u</supplied>or domino <persName key="serafin-0020">Zindram</persName>.</seg>
+                    <seg xml:id="s.1.2.8">Iste enim Swidnicer multum irascebatur, quia
                                 tantum XXX sibi dedi, quia dixit, quomodo sibi Dominacio Vestra
                                 illos omnes dare promisit, qui debuerunt cedi de zuppis.</seg>
-                    <seg part="N" xml:id="s.1.2.9">Ergo provideatis, ne haberetis cum ipso
+                    <seg xml:id="s.1.2.9">Ergo provideatis, ne haberetis cum ipso
                                 displicenciam.</seg>
-                    <seg part="N" xml:id="s.1.2.10">Insuper scire velitis de isto Koczbyal, quia,
-                                prout conu<supplied instant="false">eni</supplied>t,
-                                        promisit<expan instant="false">flor<ex instant="false">enos</ex>
+                    <seg xml:id="s.1.2.10">Insuper scire velitis de isto Koczbyal, quia,
+                                prout conu<supplied>eni</supplied>t,
+                                        promisit<expan>flor<ex>enos</ex>
                         </expan> habere pro domino
-                                    <persName key="serafin-0021" instant="false" full="yes">Gethka</persName>, et nunc
+                                    <persName key="serafin-0021">Gethka</persName>, et nunc
                                     promittit<anchor xml:id="ac"/>, nisi posset habere.</seg>
-                    <seg part="N" xml:id="s.1.2.11">Ista enim <add instant="false" status="unremarkable">septimana</add> hic Cracouie fuit
-                                dux <persName key="gnd-1283595192" instant="false" full="yes">Rathiboriensis</persName> et voluit
-                                sibi obligare <placeName key="geo-767939" instant="false" full="yes">Koschicze</placeName> et
-                                    <placeName key="geo-768597" instant="false" full="yes">Kwchari</placeName>, sed ipse non
+                    <seg xml:id="s.1.2.11">Ista enim <add status="unremarkable">septimana</add> hic Cracouie fuit
+                                dux <persName key="gnd-1283595192">Rathiboriensis</persName> et voluit
+                                sibi obligare <placeName key="geo-767939" full="yes">Koschicze</placeName> et
+                                    <placeName key="geo-768597" full="yes">Kwchari</placeName>, sed ipse non
                                 aduertit, quia mallet Dominacionem Vestram conseruare.</seg>
-                    <seg part="N" xml:id="s.1.2.12">Iam enim apud ipsum Koczbyal reposuit quingentos
+                    <seg xml:id="s.1.2.12">Iam enim apud ipsum Koczbyal reposuit quingentos
                                 et quinquaginta florenos sub sigillo suo, sed adhuce sibi ipsos non
-                                exdedit et feria <date when="1441-04-17" when-custom="17 IV" instant="false">secunda
+                                exdedit et feria <date when="1441-04-17" when-custom="17 IV">secunda
                                     dierum Paschatis</date> deberent sibi ipsos exdare siue manibus
                                 tradere.</seg>
-                    <seg part="N" xml:id="s.1.2.13">Insuper sciatis, quia apud istum Nicolaum uniter
+                    <seg xml:id="s.1.2.13">Insuper sciatis, quia apud istum Nicolaum uniter
                                 cum domino Orienth recepimus tricentas marcas super florenos,
                                 computando florenum pro tres fertones.</seg>
-                    <seg part="N" xml:id="s.1.2.14">Cui solucionem promisimus ad festum <date when="1442-02-02" when-custom="2 II 1442" instant="false">Purificacionis Beate
+                    <seg xml:id="s.1.2.14">Cui solucionem promisimus ad festum <date when="1442-02-02" when-custom="2 II 1442">Purificacionis Beate
                                     Marie</date> proximum, et cum istis debita soluemus et non
-                                admittemus <expan instant="false">V<ex instant="false">estram</ex>
+                                admittemus <expan>V<ex>estram</ex>
                         </expan>
-                        <expan instant="false">S<ex instant="false">trennuitatem</ex>
+                        <expan>S<ex>trennuitatem</ex>
                         </expan> excomunicare, quod negocium
                                 primo hodie terminamus.</seg>
-                    <seg part="N" xml:id="s.1.2.15">Item scire Vestram Dominacionem cupio, non
-                                latere, quia dominus <persName key="wikidata-Q11044024" instant="false" full="yes">Schaffranecz</persName> viam universe carnis ingressus
+                    <seg xml:id="s.1.2.15">Item scire Vestram Dominacionem cupio, non
+                                latere, quia dominus <persName key="wikidata-Q11044024">Schaffranecz</persName> viam universe carnis ingressus
                                 est.</seg>
-                    <seg part="N" xml:id="s.1.2.16">Datum <placeName key="geo-3094802" instant="false" full="yes">Cracouie</placeName>, <date when="1441-04-07" instant="false">feria sexta
-                                    <supplied instant="false">ante</supplied> dominicam Ramispalmarum.</date>
+                    <seg xml:id="s.1.2.16">Datum <placeName key="geo-3094802" full="yes">Cracouie</placeName>, <date when="1441-04-07">feria sexta
+                                    <supplied>ante</supplied> dominicam Ramispalmarum.</date>
                     </seg>
                 </p>
                 <signed xml:id="s.1.3">
-                    <seg part="N" xml:id="s.1.3.1">
+                    <seg xml:id="s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0010" instant="false" full="yes">Iacobus</persName>
-                                    v<supplied instant="false">ice</supplied>zupparius Bochnensis, <lb/>
-                                    am<supplied instant="false">icus vester</supplied>
+                        <persName key="serafin-0010">Iacobus</persName>
+                                    v<supplied>ice</supplied>zupparius Bochnensis, <lb/>
+                                    am<supplied>icus vester</supplied>
                     </seg>
                 </signed>
                 <postscript xml:id="s.1.4">
-                    <p xml:id="s.1.4.1" part="N">
-                        <seg part="N" xml:id="s.1.4.1.1"/>
+                    <p xml:id="s.1.4.1">
+                        <seg xml:id="s.1.4.1.1"/>
                     </p>
                 </postscript>
             </div>
         </text>
         <text type="translation" xml:lang="pl">
-            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+            <div xml:id="t.1">
                 <opener xml:id="t.1.1">
-                    <seg part="N" corresp="#s.1.1.1">
-                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi
                                     Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
                                 salin, panu i bratu najdroższemu.</seg>
                 </opener>
-                <p xml:id="t.1.2" part="N">
-                    <seg part="N" corresp="#s.1.2.1">
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
                         <lb/>Mężny panie i bracie najdroższy.</seg>
-                    <seg part="N" corresp="#s.1.2.2">Zechce wiedzieć Wasza Dostojność, że według
-                                poleceń tak z panem <persName key="wikidata-Q101002566" instant="false" full="yes">Cikowskim</persName> rozporządziliśmy, że <persName key="serafin-0011" instant="false" full="yes">Dybacz</persName> ma już osiadłość we wsi
-                                    <placeName key="geo-3087373" instant="false" full="yes">Rakowice</placeName>, lecz z trudem,
-                                ponieważ ów <persName key="serafin-0012" instant="false" full="yes">Złocki</persName> został
+                    <seg corresp="#s.1.2.2">Zechce wiedzieć Wasza Dostojność, że według
+                                poleceń tak z panem <persName key="wikidata-Q101002566">Cikowskim</persName> rozporządziliśmy, że <persName key="serafin-0011">Dybacz</persName> ma już osiadłość we wsi
+                                    <placeName key="geo-3087373" full="yes">Rakowice</placeName>, lecz z trudem,
+                                ponieważ ów <persName key="serafin-0012">Złocki</persName> został
                                 odsunięty i nie chciał poręczyć, jeśli mu pan Cikowski nie
                                 poręczy.</seg>
-                    <seg part="N" corresp="#s.1.2.3">Przykazał mi także Wasza Dostojność, że mam
-                                spłacić długi, mianowicie panu <persName key="wikidata-Q96210147" instant="false" full="yes">Rokoszowi</persName> podstarościemu krakowskiemu i <persName key="serafin-0014" instant="false" full="yes">Paszkowi</persName>. Nie mam jak im zapłacić, a oni
+                    <seg corresp="#s.1.2.3">Przykazał mi także Wasza Dostojność, że mam
+                                spłacić długi, mianowicie panu <persName key="wikidata-Q96210147">Rokoszowi</persName> podstarościemu krakowskiemu i <persName key="serafin-0014">Paszkowi</persName>. Nie mam jak im zapłacić, a oni
                                 wielce mnie prześladują i ponaglają. Bóg mi świadkiem, że w żaden
                                 sposób nie mogę zdobyć pieniędzy u kupców.</seg>
-                    <seg part="N" corresp="#s.1.2.4">Ponadto zechce wiedzieć Wasza Mężność, że
+                    <seg corresp="#s.1.2.4">Ponadto zechce wiedzieć Wasza Mężność, że
                                 psałterzyści nie chcieli wziąć 20 grzywien, lecz upomnieli mnie i
                                 was.</seg>
-                    <seg part="N" corresp="#s.1.2.5">W najbliższy poniedziałek <date when="1441-04-10" instant="false">10 IV</date> upływa termin zwrotu, a ja dlatego nie mam jak
+                    <seg corresp="#s.1.2.5">W najbliższy poniedziałek <date when="1441-04-10">10 IV</date> upływa termin zwrotu, a ja dlatego nie mam jak
                                 spłacić tych długów, że należność za sól, którą nabywają kupcy z
                                 Krakowa, potrącają sobie oni w imię dawnych długów.</seg>
-                    <seg part="N" corresp="#s.1.2.6">Wiedzcie ponadto, że w zeszłym tygodniu wypłacono
+                    <seg corresp="#s.1.2.6">Wiedzcie ponadto, że w zeszłym tygodniu wypłacono
                                 robotnikom w żupach 130 grzywien, jednak pod takim warunkiem —
                                 niełatwym — że będę mógł im wypłacić 200 grzywien.</seg>
-                    <seg part="N" corresp="#s.1.2.7">Ponadto, stosownie do waszych poleceń, pan
+                    <seg corresp="#s.1.2.7">Ponadto, stosownie do waszych poleceń, pan
                                 Cikowski przysłał mi z żupy bocheńskiej z tegotygodnia jedynie 50
-                                florenów, które dałem <persName key="serafin-0015" instant="false" full="yes">Kunczy</persName>. Pani <persName key="serafin-0016" instant="false" full="yes">kasztelanowej</persName> zaś nic nie dałem, bowiem z Wieliczki
-                                zeszło 114 florenów, z których dałem panu <persName key="serafin-0017" instant="false" full="yes">Tesznerowi</persName> 30, <persName key="serafin-0018" instant="false" full="yes">Świdniczarowi</persName> 30, <persName key="serafin-0019" instant="false" full="yes">Koźbiałowi</persName> 30, a <persName key="wikidata-Q101002566" instant="false" full="yes">Piotr</persName> dał z tej sumy 24 panu
-                                    <persName key="serafin-0020" instant="false" full="yes">Zyndramowi</persName>.</seg>
-                    <seg part="N" corresp="#s.1.2.8">Świdniczar bardzo się gniewał, że dałem mu tylko
+                                florenów, które dałem <persName key="serafin-0015">Kunczy</persName>. Pani <persName key="serafin-0016">kasztelanowej</persName> zaś nic nie dałem, bowiem z Wieliczki
+                                zeszło 114 florenów, z których dałem panu <persName key="serafin-0017">Tesznerowi</persName> 30, <persName key="serafin-0018">Świdniczarowi</persName> 30, <persName key="serafin-0019">Koźbiałowi</persName> 30, a <persName key="wikidata-Q101002566">Piotr</persName> dał z tej sumy 24 panu
+                                    <persName key="serafin-0020">Zyndramowi</persName>.</seg>
+                    <seg corresp="#s.1.2.8">Świdniczar bardzo się gniewał, że dałem mu tylko
                                 30, ponieważ powiedział, że Wasza Dostojność przyrzekł mu dać
                                 wszystko, co miało zejść z żup.</seg>
-                    <seg part="N" corresp="#s.1.2.9">Baczcie przeto, abyście nie mieli z nim
+                    <seg corresp="#s.1.2.9">Baczcie przeto, abyście nie mieli z nim
                                 zatargu.</seg>
-                    <seg part="N" corresp="#s.1.2.10">Ponadto zechciejcie wiedzieć o Koźbiale, że wedle
-                                tego, co uzgodnił, przyrzekł mieć floreny dla pana <persName key="serafin-0021" instant="false" full="yes">Giedki</persName>, i nadal przyrzeka — o
+                    <seg corresp="#s.1.2.10">Ponadto zechciejcie wiedzieć o Koźbiale, że wedle
+                                tego, co uzgodnił, przyrzekł mieć floreny dla pana <persName key="serafin-0021">Giedki</persName>, i nadal przyrzeka — o
                                 ile będzie je miał.</seg>
-                    <seg part="N" corresp="#s.1.2.11">W tym tygodniu był tu w Krakowie <persName key="gnd-1283595192" instant="false" full="yes">książę raciborski</persName> i chciał, by mu
-                                zastawić <placeName key="geo-767939" instant="false" full="yes">Koszyce</placeName> i <placeName key="geo-768597" instant="false" full="yes">Kuchary</placeName>, lecz ów
-                                    <supplied instant="false">Koźbiał</supplied> nie zezwolił, ponieważ wolał, aby
+                    <seg corresp="#s.1.2.11">W tym tygodniu był tu w Krakowie <persName key="gnd-1283595192">książę raciborski</persName> i chciał, by mu
+                                zastawić <placeName key="geo-767939" full="yes">Koszyce</placeName> i <placeName key="geo-768597" full="yes">Kuchary</placeName>, lecz ów
+                                    <supplied>Koźbiał</supplied> nie zezwolił, ponieważ wolał, aby
                                 Wasza Dostojność je zachował.</seg>
-                    <seg part="N" corresp="#s.1.2.12">Złożył już u Koźbiała 550 florenów pod swoją
+                    <seg corresp="#s.1.2.12">Złożył już u Koźbiała 550 florenów pod swoją
                                 pieczęcią, lecz dotąd mu ich nie wydał. Powinni mu je wydać, czyli
-                                przekazać do rąk, w <date when="1441-04-17" when-custom="17 IV" instant="false">poniedziałek wielkanocny</date>.</seg>
-                    <seg part="N" corresp="#s.1.2.13">Ponadto wiedzcie, że u Mikołaja otrzymaliśmy
+                                przekazać do rąk, w <date when="1441-04-17" when-custom="17 IV">poniedziałek wielkanocny</date>.</seg>
+                    <seg corresp="#s.1.2.13">Ponadto wiedzcie, że u Mikołaja otrzymaliśmy
                                 razem z panem Orientem 300 grzywien za floreny, licząc florena za 3
                                 wiardunki.</seg>
-                    <seg part="N" corresp="#s.1.2.14">Przyrzekliśmy mu zwrot do najbliższego święta
-                                    <date when="1442-02-02" when-custom="2 II 1442" instant="false">Oczyszczenia
+                    <seg corresp="#s.1.2.14">Przyrzekliśmy mu zwrot do najbliższego święta
+                                    <date when="1442-02-02" when-custom="2 II 1442">Oczyszczenia
                                     Panny Marii</date>. Tymi pieniędzmi spłacimy długi i nie
                                 pozwolimy, aby ekskomunikowano Waszą Mężność. Dopiero dziś kończymy
                                 tę sprawę.</seg>
-                    <seg part="N" corresp="#s.1.2.15">Ponadto pragnę, aby Wasza Dostojność wiedział
-                                raczej, niż nie wiedział, że pan <persName key="wikidata-Q11044024" instant="false" full="yes">Szafraniec</persName> wkroczył na ostatnią drogę wszelkiego
+                    <seg corresp="#s.1.2.15">Ponadto pragnę, aby Wasza Dostojność wiedział
+                                raczej, niż nie wiedział, że pan <persName key="wikidata-Q11044024">Szafraniec</persName> wkroczył na ostatnią drogę wszelkiego
                                 stworzenia.</seg>
-                    <seg part="N" corresp="#s.1.2.16">Dan w <placeName key="geo-3094802" instant="false" full="yes">Krakowie</placeName>, w <date when="1441-04-07" instant="false">piątek przed Niedzielą
+                    <seg corresp="#s.1.2.16">Dan w <placeName key="geo-3094802" full="yes">Krakowie</placeName>, w <date when="1441-04-07">piątek przed Niedzielą
                                 Palmową.</date>
                     </seg>
                 </p>
                 <signed xml:id="t.1.3">
-                    <seg part="N" corresp="#s.1.3.1">
+                    <seg corresp="#s.1.3.1">
                         <lb/>
-                        <persName key="serafin-0010" instant="false" full="yes">Jakub</persName> podżupek
+                        <persName key="serafin-0010">Jakub</persName> podżupek
                                 bocheński, wasz przyjaciel</seg>
                 </signed>
                 <postscript xml:id="t.1.4">
-                    <p xml:id="t.1.4.1" part="N">
-                        <seg part="N" corresp="#s.1.4.1.1"/>
+                    <p xml:id="t.1.4.1">
+                        <seg corresp="#s.1.4.1.1"/>
                     </p>
                 </postscript>
             </div>
@@ -269,17 +268,17 @@
     </text>
     <standOff>
         <listAnnotation>
-            <note n="a" type="transcription" target="#aa" anchored="true">po fideiubere skreślone iuxta
+            <note n="a" type="transcription" target="#aa">po fideiubere skreślone iuxta
                             quo.</note>
-            <note n="b" type="transcription" target="#ab" anchored="true">nisi nadpisane.</note>
-            <note n="c" type="transcription" target="#ac" anchored="true">po promittit skreślone
+            <note n="b" type="transcription" target="#ab">nisi nadpisane.</note>
+            <note n="c" type="transcription" target="#ac">po promittit skreślone
                             si.</note>
-            <note n="d" type="transcription" target="#ad" anchored="true">adhuc przerobione z
-                                <unclear instant="false">adhunc</unclear>.</note>
-            <note n="1" target="#a1" anchored="true">Może tożsamy z <persName key="serafin-0014" instant="false" full="yes">Paszkiem
+            <note n="d" type="transcription" target="#ad">adhuc przerobione z
+                                <unclear>adhunc</unclear>.</note>
+            <note n="1" target="#a1">Może tożsamy z <persName key="serafin-0014">Paszkiem
                                 (Pawłem)</persName> ważnikiem wielickim występującym w latach
                             1430–1459, zm. przed 1470.</note>
-            <note n="2" target="#a2" anchored="true">Kolegium Psałterzystów w katedrze krak. zostało
+            <note n="2" target="#a2">Kolegium Psałterzystów w katedrze krak. zostało
                             ustanowione przez królową Jadwigę w 1393 r., co potwierdził osobnym
                             dokumentem Władysław Jagiełło. Obowiązkiem szesnastu psałterzystów było
                             śpiewanie psałterza przez całą dobę, z wyjątkiem czasu, gdy odprawiane

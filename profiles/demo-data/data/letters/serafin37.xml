@@ -5,21 +5,21 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Piotr ze Szczekocin do Mikołaja Serafina, <placeName key="geo-3098218" instant="false" full="yes">Grudziądz</placeName>, <date when="1454-07-18" instant="false">18
+                <title>Piotr ze Szczekocin do Mikołaja Serafina, <placeName key="geo-3098218" full="yes">Grudziądz</placeName>, <date when="1454-07-18">18
                     lipca 1454</date>
                 </title>
-                <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
+                <title level="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
                 <editor>Anna Skolimowska</editor>
                 <editor>Waldemar Bukowski</editor>
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Anna Krzysik</persName>
+                    <persName>Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName instant="false" full="yes">Magdalena Turska</persName>
+                    <persName>Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -29,41 +29,41 @@
                     <licence target="https://creativecommons.org/licenses/by/4.0/"/>
                 </availability>
             </publicationStmt>
-            <sourceDesc default="false">
+            <sourceDesc>
                 <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
                         <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 160 (204)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p part="N">212 × 234 mm; drobne ubytki papieru
+                        <p>212 × 234 mm; drobne ubytki papieru
                             i ślady zawilgocenia</p>
                     </physDesc>
                 </msDesc>
                 <bibl type="printed-edition">
                     <publisher>Societas Vistulana</publisher>
-                    <pubPlace>Kraków</pubPlace>
+                    <placeName>Kraków</placeName>
                     <date>2006</date>
                 </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc default="false">
+            <correspDesc>
                 <correspAction type="sent">
-                    <persName key="wikidata-Q98213438" instant="false" full="yes"/>
-                    <placeName key="geo-3098218" instant="false" full="yes">Grudziądz</placeName>
-                    <date when="1454-07-18" instant="false">18 lipca 1454</date>
+                    <persName key="wikidata-Q98213438"/>
+                    <placeName key="geo-3098218" full="yes">Grudziądz</placeName>
+                    <date when="1454-07-18">18 lipca 1454</date>
                 </correspAction>
                 <correspAction type="received">
                     <persName ref="gnd-139138560">Mikołaj Serafin</persName>
                 </correspAction>
                 <correspContext>
-                    <ref type="previous" target="serafin36.xml">Previous letter of <persName key="serafin-0010" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1453-07-16" instant="false">16 lipca 1453</date>
+                    <ref type="previous" target="serafin36.xml">Previous letter of <persName key="serafin-0010"/> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1453-07-16">16 lipca 1453</date>
                     </ref>
-                    <ref type="next" target="serafin38.xml">Next letter of <persName key="serafin-0087" instant="false" full="yes">Antoni</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1455-08-21" instant="false">21 sierpnia 1455</date>
+                    <ref type="next" target="serafin38.xml">Next letter of <persName key="serafin-0087">Antoni</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1455-08-21">21 sierpnia 1455</date>
                     </ref>
                 </correspContext>
             </correspDesc>
@@ -82,116 +82,116 @@
     </teiHeader>
     <text>
         <text type="source" xml:lang="la">
-            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+            <div xml:id="s.1">
                 <opener xml:id="s.1.1">
-                    <seg part="N" xml:id="s.1.1.1">
-                        <lb/>Strenuo domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName> gladiff<supplied instant="false">ero</supplied>
+                    <seg xml:id="s.1.1.1">
+                        <lb/>Strenuo domino <persName key="gnd-139138560">Nicolao Seraphin</persName> gladiff<supplied>ero</supplied>
                         <lb/> Cracouiensi et zuppario
                                 vtriusque salis, <lb/> amico nostro speciali dilecto.</seg>
                 </opener>
-                <p xml:id="s.1.2" part="N">
-                    <seg part="N" xml:id="s.1.2.1">
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
                         <lb/>Strennue domine, amice noster specialis dilecte.</seg>
-                    <seg part="N" xml:id="s.1.2.2">Scire placeat, quod in hoc
+                    <seg xml:id="s.1.2.2">Scire placeat, quod in hoc
                                 loco omnibus <lb/> terrigenis et ciuitatensibus harum terrarum modo convencionaliter
                                 congregatis <lb/> multis cum domino rege obruimur tribulacionibus occasione
                                 stipendariorum<anchor xml:id="a1"/>, cum <lb/> quibus nondum finis factus est, hodie tamen, Deo iuuante,
                                 debet haberi.</seg>
-                    <seg part="N" xml:id="s.1.2.3">A m b a z i a t o r e s<anchor xml:id="a2"/> illi ad dominum regem iter agentes, quibus
-                                in obvium dominus rex dominum <persName key="wikidata-Q52063163" instant="false" full="yes">Wanthrobkam</persName>
-                        <surplus instant="false">in obvium</surplus> transmisit,
-                                vt ex scriptis domini palatini <persName key="serafin-0119" instant="false" full="yes">Poznaniensis</persName> percepimus, licet illis salws conductus
+                    <seg xml:id="s.1.2.3">A m b a z i a t o r e s<anchor xml:id="a2"/> illi ad dominum regem iter agentes, quibus
+                                in obvium dominus rex dominum <persName key="wikidata-Q52063163">Wanthrobkam</persName>
+                        <surplus>in obvium</surplus> transmisit,
+                                vt ex scriptis domini palatini <persName key="serafin-0119">Poznaniensis</persName> percepimus, licet illis salws conductus
                                 missus est, nondum intrauerunt terras Regni, quos dominus rex ex consilio
                                 dominorum consiliariorum vellet in terris Prussie prestolari et<anchor xml:id="aa"/> eis dare ibidem
                                 audienciam.</seg>
-                    <seg part="N" xml:id="s.1.2.4">Quid postea sequetur, alias vobis significabimus.</seg>
-                    <seg part="N" xml:id="s.1.2.5">Ecce<anchor xml:id="ab"/> dominus
-                                rex domino <persName key="wikidata-Q126064073" instant="false" full="yes">Dobeslao</persName> nostro germano ad vos in quittacionem triginta marcas
+                    <seg xml:id="s.1.2.4">Quid postea sequetur, alias vobis significabimus.</seg>
+                    <seg xml:id="s.1.2.5">Ecce<anchor xml:id="ab"/> dominus
+                                rex domino <persName key="wikidata-Q126064073">Dobeslao</persName> nostro germano ad vos in quittacionem triginta marcas
                                 donauit.</seg>
-                    <seg part="N" xml:id="s.1.2.6">Petimus igitur, velitis eum pro ipsis in panno suis filiabus expedire,
+                    <seg xml:id="s.1.2.6">Petimus igitur, velitis eum pro ipsis in panno suis filiabus expedire,
                                 que, et<anchor xml:id="ac"/> quod<anchor xml:id="ad"/> pudoris est nostri, nude sunt, vt igitur vestiantur.</seg>
-                    <seg part="N" xml:id="s.1.2.7">Expediatis ipsum
+                    <seg xml:id="s.1.2.7">Expediatis ipsum
                                 taliter, prout scribimus.</seg>
-                    <seg part="N" xml:id="s.1.2.8">Volumus eciam Vestram <expan instant="false">A<ex instant="false">miciciam</ex>
+                    <seg xml:id="s.1.2.8">Volumus eciam Vestram <expan>A<ex>miciciam</ex>
                         </expan> non latere,
                                 quomodo quidam hostes dominum regem diffidarunt.</seg>
-                    <seg part="N" xml:id="s.1.2.9">Prouidemus ergo, quod
-                                castrum nostrum <placeName key="geo-3090104" instant="false" full="yes">Olsthin</placeName> in debita<anchor xml:id="ae"/> seruetur custodia, et illuc germanum noa strum dominum Dobeslaum propterea transmittimus.</seg>
-                    <seg part="N" xml:id="s.1.2.10">Si ergo aliquid pro ipso
+                    <seg xml:id="s.1.2.9">Prouidemus ergo, quod
+                                castrum nostrum <placeName key="geo-3090104" full="yes">Olsthin</placeName> in debita<anchor xml:id="ae"/> seruetur custodia, et illuc germanum noa strum dominum Dobeslaum propterea transmittimus.</seg>
+                    <seg xml:id="s.1.2.10">Si ergo aliquid pro ipso
                                 exposcerint releuaminis victualium, velitis eos, in quibus potestis, supportare.</seg>
-                    <seg part="N" xml:id="s.1.2.11">Preterea petimus, prout dixistis, nos hic stantes in expensis supportare.</seg>
-                    <seg part="N" xml:id="s.1.2.12">Rogamus,
+                    <seg xml:id="s.1.2.11">Preterea petimus, prout dixistis, nos hic stantes in expensis supportare.</seg>
+                    <seg xml:id="s.1.2.12">Rogamus,
                                 vt<anchor xml:id="af"/> id faciatis tanquam amicus noster, nobis per nunccium transmittentes.</seg>
-                    <seg part="N" xml:id="s.1.2.13">Valete.</seg>
-                    <seg part="N" xml:id="s.1.2.14">Datum in <placeName key="geo-3098218" instant="false" full="yes">Grudzancz</placeName>
-                        <date when="1454-07-18" instant="false">feria vta post Allexii, anno etc. liiiito</date>.</seg>
+                    <seg xml:id="s.1.2.13">Valete.</seg>
+                    <seg xml:id="s.1.2.14">Datum in <placeName key="geo-3098218" full="yes">Grudzancz</placeName>
+                        <date when="1454-07-18">feria vta post Allexii, anno etc. liiiito</date>.</seg>
                 </p>
                 <signed xml:id="s.1.3">
-                    <seg part="N" xml:id="s.1.3.1">
+                    <seg xml:id="s.1.3.1">
                         <lb/>
-                        <persName key="wikidata-Q98213438" instant="false" full="yes">Petrus de Sczekocziny</persName>
+                        <persName key="wikidata-Q98213438">Petrus de Sczekocziny</persName>
                         <lb/>
-                        <expan instant="false">R<ex instant="false">egni</ex>
+                        <expan>R<ex>egni</ex>
                         </expan>
-                        <expan instant="false">P<ex instant="false">olonie</ex>
+                        <expan>P<ex>olonie</ex>
                         </expan> vicecancellarius</seg>
                 </signed>
                 <postscript xml:id="s.1.4">
-                    <p xml:id="s.1.4.1" part="N">
+                    <p xml:id="s.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
             </div>
         </text>
         <text type="translation" xml:lang="pl">
-            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+            <div xml:id="t.1">
                 <opener xml:id="t.1.1">
-                    <seg part="N" corresp="#s.1.1.1">
-                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu i żupnikowi
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu i żupnikowi
                                 obojga salin, naszemu szczególnie umiłowanemu przyjacielowi.</seg>
                 </opener>
-                <p xml:id="t.1.2" part="N">
-                    <seg part="N" corresp="#s.1.2.1">
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
                         <lb/>Mężny panie, nasz szczególnie umiłowany przyjacielu.</seg>
-                    <seg part="N" corresp="#s.1.2.2">Zechciejcie wiedzieć,
+                    <seg corresp="#s.1.2.2">Zechciejcie wiedzieć,
                                 że kiedy ostatnio zebrała się tutaj na sejmiku cała szlachta i mieszczanie tych
                                 ziem, mieliśmy razem z panem królem wiele utrapień z powodu zaciężnych.
                                 Jeszcze nie położono im kresu, dzisiaj jednak z Bożą pomocą powinno się to
                                 stać.</seg>
-                    <seg part="N" corresp="#s.1.2.3">Owi ambasadorowie jadący do króla, naprzeciw którym, jak dowiedzieliśmy
-                                się z listu pana <persName key="serafin-0119" instant="false" full="yes">wojewody poznańskiego</persName>, pan król wysłał pana <persName key="wikidata-Q52063163" instant="false" full="yes">Wątróbkę</persName>,
+                    <seg corresp="#s.1.2.3">Owi ambasadorowie jadący do króla, naprzeciw którym, jak dowiedzieliśmy
+                                się z listu pana <persName key="serafin-0119">wojewody poznańskiego</persName>, pan król wysłał pana <persName key="wikidata-Q52063163">Wątróbkę</persName>,
                                 jakkolwiek otrzymali glejt, jeszcze nie wjechali w granice Królestwa. Pan król,
                                 idąc za głosem panów rady, chciał ich oczekiwać na ziemiach pruskich i tam
                                 im udzielić audiencji.</seg>
-                    <seg part="N" corresp="#s.1.2.4">Co się dalej stanie, damy wam znać następnym razem.</seg>
-                    <seg part="N" corresp="#s.1.2.5">Oto pan król dał naszemu bratu <persName key="wikidata-Q126064073" instant="false" full="yes">Dobiesławowi</persName> kwit na 30 grzywien płatnych
+                    <seg corresp="#s.1.2.4">Co się dalej stanie, damy wam znać następnym razem.</seg>
+                    <seg corresp="#s.1.2.5">Oto pan król dał naszemu bratu <persName key="wikidata-Q126064073">Dobiesławowi</persName> kwit na 30 grzywien płatnych
                                 u was.</seg>
-                    <seg part="N" corresp="#s.1.2.6">Prosimy zatem, abyście zechcieli wyposażyć go na to konto w sukno dla
+                    <seg corresp="#s.1.2.6">Prosimy zatem, abyście zechcieli wyposażyć go na to konto w sukno dla
                                 jego córek. Są one — o wstydzie — gołe, niechże się więc ubiorą.</seg>
-                    <seg part="N" corresp="#s.1.2.7">Wyposażcie
+                    <seg corresp="#s.1.2.7">Wyposażcie
                                 go tak, jak piszemy.</seg>
-                    <seg part="N" corresp="#s.1.2.8">Nie chcemy również ukrywać przed Waszą Życzliwością,
+                    <seg corresp="#s.1.2.8">Nie chcemy również ukrywać przed Waszą Życzliwością,
                                 że pewni wrogowie nie dotrzymali wierności królowi.</seg>
-                    <seg part="N" corresp="#s.1.2.9">Dbamy więc, aby na
-                                naszym zamku w <placeName key="geo-3090104" instant="false" full="yes">Olsztynie</placeName> były trzymane odpowiednie straże, dlatego też
+                    <seg corresp="#s.1.2.9">Dbamy więc, aby na
+                                naszym zamku w <placeName key="geo-3090104" full="yes">Olsztynie</placeName> były trzymane odpowiednie straże, dlatego też
                                 posyłamy tam naszego brata Dobiesława.</seg>
-                    <seg part="N" corresp="#s.1.2.10">Jeśliby przeto poprosili o jakąś pomoc w żywności, zechciejcie ich zaopatrzyć, w co możecie.</seg>
-                    <seg part="N" corresp="#s.1.2.11">Prócz tego prosimy,
+                    <seg corresp="#s.1.2.10">Jeśliby przeto poprosili o jakąś pomoc w żywności, zechciejcie ich zaopatrzyć, w co możecie.</seg>
+                    <seg corresp="#s.1.2.11">Prócz tego prosimy,
                                 abyście, zgodnie z tym, coście powiedzieli, zaopatrzyli nas w pieniądze na pobyt
                                 tutaj.</seg>
-                    <seg part="N" corresp="#s.1.2.12">Prosimy, abyście to uczynili jako nasz przyjaciel, przekazując nam je przez
+                    <seg corresp="#s.1.2.12">Prosimy, abyście to uczynili jako nasz przyjaciel, przekazując nam je przez
                                 posłańca.</seg>
-                    <seg part="N" corresp="#s.1.2.13">Bądźcie zdrowi.</seg>
-                    <seg part="N" corresp="#s.1.2.14">Dan w <placeName key="geo-3098218" instant="false" full="yes">Grudziądzu</placeName>, w <date when="1454-07-18" instant="false">czwartek po św. Aleksym,
+                    <seg corresp="#s.1.2.13">Bądźcie zdrowi.</seg>
+                    <seg corresp="#s.1.2.14">Dan w <placeName key="geo-3098218" full="yes">Grudziądzu</placeName>, w <date when="1454-07-18">czwartek po św. Aleksym,
                                 roku etc. 54</date>.</seg>
                 </p>
                 <signed xml:id="t.1.3">
-                    <seg part="N" corresp="#s.1.3.1">
+                    <seg corresp="#s.1.3.1">
                         <lb/>
-                        <persName key="wikidata-Q98213438" instant="false" full="yes">Piotr ze Szczekocin</persName> podkanclerzy Królestwa Polskiego</seg>
+                        <persName key="wikidata-Q98213438">Piotr ze Szczekocin</persName> podkanclerzy Królestwa Polskiego</seg>
                 </signed>
                 <postscript xml:id="t.1.4">
-                    <p xml:id="t.1.4.1" part="N">
+                    <p xml:id="t.1.4.1">
                         <lb/>
                     </p>
                 </postscript>
@@ -200,21 +200,21 @@
     </text>
     <standOff>
         <listAnnotation>
-            <note n="a" type="transcription" target="#aa" anchored="true">po et skreślone huc.</note>
-            <note n="b" type="transcription" target="#ab" anchored="true">Ecce rkps: Et ce.</note>
-            <note n="c" type="transcription" target="#ac" anchored="true">et nadpisane.</note>
-            <note n="d" type="transcription" target="#ad" anchored="true">po quod skreślone trzy litery.</note>
-            <note n="e" type="transcription" target="#ae" anchored="true">debita
+            <note n="a" type="transcription" target="#aa">po et skreślone huc.</note>
+            <note n="b" type="transcription" target="#ab">Ecce rkps: Et ce.</note>
+            <note n="c" type="transcription" target="#ac">et nadpisane.</note>
+            <note n="d" type="transcription" target="#ad">po quod skreślone trzy litery.</note>
+            <note n="e" type="transcription" target="#ae">debita
                             rkps: debite.</note>
-            <note n="f" type="transcription" target="#af" anchored="true">po vt skreślone dwie litery.</note>
-            <note n="1" target="#a1" anchored="true">Zjazd stanów pruskich zwołany został na 13 lipca 1454 r. do Grudziądza, dokąd król przybył
+            <note n="f" type="transcription" target="#af">po vt skreślone dwie litery.</note>
+            <note n="1" target="#a1">Zjazd stanów pruskich zwołany został na 13 lipca 1454 r. do Grudziądza, dokąd król przybył
                             osobiście. Miał on rozpatrzyć żądania zaciężnych czeskich dotyczące wypłaty zaległego żołdu;
                             w przeciwnym razie zagrozili oni odejściem od króla polskiego i zajęciem warownej katedry
                             w Kwidzyniu lub zniszczonego zamku w Dzierzgoniu. Po długich rokowaniach Stany odrzuciły
                             królewską propozycję zastawienia zaciężnym niektórych zamków pruskich, żądając od
                             nich przedłużenia terminu spłaty. Czesi zgodzili się poczekać na zapłatę do 18 sierpnia (<hi rend="i">DHn.</hi>,
                             lib. XII, s. 206–207; Biskup, <title>Trzynastoletnia</title>, s. 200–201).</note>
-            <note n="2" target="#a2" anchored="true">Mowa o poselstwie sejmu ratyzbońskiego, które w imieniu papieża, cesarza i książąt niemieckich
+            <note n="2" target="#a2">Mowa o poselstwie sejmu ratyzbońskiego, które w imieniu papieża, cesarza i książąt niemieckich
                             miało prosić króla Kazimierza Jagiellończyka o zwrócenie Krzyżakom ziem pruskich,
                             niepopieranie Związku Pruskiego i o pomoc Polski w krucjacie antytureckiej. Poselstwo to
                             w składzie pięciu osób: Bawarczyk Jan z Wolroth, Burgundczyk Piotr Vasquez, Bawarczyk
