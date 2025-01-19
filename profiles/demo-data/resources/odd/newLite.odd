@@ -35,7 +35,7 @@
           explicit locus msContents"/>
         <moduleRef key="figures"/>
         <moduleRef key="analysis" include="s w pc"/>
-        <moduleRef key="linking" include="ab anchor seg standOff"/>
+        <moduleRef key="linking" include="ab anchor seg standOff listAnnotation"/>
         <moduleRef key="namesdates"
           except="age bloc climate district faith forename surname addName nameLink genName
           geogName langKnowledge langKnown nationality objectIdentifier offset persona persPronouns population 
@@ -63,7 +63,7 @@
             elements.</desc>
           <content>
             <alternate>
-              <elementRef key="text" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="text" minOccurs="1" maxOccurs="unbounded"/>
               <elementRef key="div" minOccurs="1" maxOccurs="unbounded"/>
             </alternate>
           </content>
