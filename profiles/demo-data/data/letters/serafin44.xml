@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS44">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Mikołaj Zyszno i Stanisław do Mikołaja Serafina, <placeName key="geo-755889">Wieliczka</placeName>, <date when="1459-02-20">20 lutego
+                <title>Mikołaj Zyszno i Stanisław do Mikołaja Serafina, <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>, <date when="1459-02-20" instant="false">20 lutego
                     1459</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
@@ -15,406 +15,416 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 174 (218)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu; verso: ciąg dalszy tekstu, podpis, adres, ślady po
+                        <p part="N">recto: tekst listu; verso: ciąg dalszy tekstu, podpis, adres, ślady po
                             pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>215 × 305 mm; dolna część karty zbutwiała, ubytki papieru</p>
+                        <p part="N">215 × 305 mm; dolna część karty zbutwiała, ubytki papieru</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0025">Mikołaj Zyszno</persName>
-                    <persName key="serafin-0154">Stanisław</persName>
-                    <placeName key="geo-755889">Wieliczka</placeName>
-                    <date when="1459-02-20">20 lutego 1459</date>
+                    <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName>
+                    <persName key="serafin-0154" instant="false" full="yes">Stanisław</persName>
+                    <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>
+                    <date when="1459-02-20" instant="false">20 lutego 1459</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin43.xml">Previous letter of <persName key="serafin-0083">Maciej</persName>
-                        <persName key="serafin-0126">Mikołaj Ziema</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1458-09-06">6 września 1458</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin43.xml">Previous letter of <persName key="serafin-0083" instant="false" full="yes">Maciej</persName>
+                        <persName key="serafin-0126" instant="false" full="yes">Mikołaj Ziema</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1458-09-06" instant="false">6 września 1458</date>
                     </ref>
-                    <ref type="next" target="serafin45.xml">Next letter of <persName key="serafin-0161"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1459-08-05">15 sierpnia 1459</date>
+                    <ref type="next" target="serafin45.xml">Next letter of <persName key="serafin-0161" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1459-08-05" instant="false">15 sierpnia 1459</date>
                     </ref>
-                    <ref type="previous-in-correspondence" target="serafin07.xml">Previous letter of <persName key="serafin-0025">Mikołaj Zyszno</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1441-12-05" when-custom="1441">5 grudnia [1441]</date>
+                    <ref type="previous-in-correspondence" target="serafin07.xml">Previous letter of <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1441-12-05" when-custom="1441" instant="false">5 grudnia [1441]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico domino <persName key="gnd-139138560">Nicolao
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Magnifico domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao
                                     Seraphin</persName>
-                                <lb/> gladiffero Cracouiensi, vtriusque salis et <lb/> Russie
+                        <lb/> gladiffero Cracouiensi, vtriusque salis et <lb/> Russie
                                 zuppario, domino graciosso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Magnifice domine graciose.</seg>
-                            <seg xml:id="s.1.2.2">Scire <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> velit, quomodo hodie dominus
-                                    <persName key="serafin-0094">Osszolinsky</persName> venit
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Magnifice domine graciose.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Scire <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> velit, quomodo hodie dominus
+                                    <persName key="serafin-0094" instant="false" full="yes">Osszolinsky</persName> venit
                                 <lb/> in Vyeliczkam, cui dedimus florenos 66; cum dificultate
                                 recepit, usque promisimus ei | ad diem dominicum soluere florenos
                                 34, quia debuit habere centum florenos iuxta | comissa
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan>.</seg>
-                            <seg xml:id="s.1.2.3">Expediuissemus hodie, sed nullus ex Vngariis fuit
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan>.</seg>
+                    <seg part="N" xml:id="s.1.2.3">Expediuissemus hodie, sed nullus ex Vngariis fuit
                                 nec est, et sic, domine graciose, non habuimus ipsum quo
                                 expedire.</seg>
-                            <seg xml:id="s.1.2.4">Ecciam dominus <persName key="serafin-0148">vicecapitaneus</persName>
-                                <anchor xml:id="aa"/>, 2 venerat hic
+                    <seg part="N" xml:id="s.1.2.4">Ecciam dominus <persName key="serafin-0148" instant="false" full="yes">vicecapitaneus</persName>
+                        <anchor xml:id="aa"/>, 2 venerat hic
                                 amonens nos pro centum quinquaginta florenis et pro quinquaginta
-                                marcis pecunie minute, quia terminus ad soluendum advenit<anchor xml:id="ab"/>, prout <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> domino <persName key="wikidata-Q96574990">capitaneo</persName>
-                                <anchor xml:id="a1"/> se soluendum submisit, et dixit: „Causa istius dominus <persName key="wikidata-Q126009442">Sanczignyewsky</persName> hic manet
+                                marcis pecunie minute, quia terminus ad soluendum advenit<anchor xml:id="ab"/>, prout <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> domino <persName key="wikidata-Q96574990" instant="false" full="yes">capitaneo</persName>
+                        <anchor xml:id="a1"/> se soluendum submisit, et dixit: „Causa istius dominus <persName key="wikidata-Q126009442" instant="false" full="yes">Sanczignyewsky</persName> hic manet
                                     <sic>expetans</sic>
-                                <anchor xml:id="ac"/> pecuniam istam et
+                        <anchor xml:id="ac"/> pecuniam istam et
                                 expedicionem”.</seg>
-                            <seg xml:id="s.1.2.5">Sibi respondimus <sic>dicens</sic> quia „Nulli
+                    <seg part="N" xml:id="s.1.2.5">Sibi respondimus <sic>dicens</sic> quia „Nulli
                                 alteri pecuniam ab Vngaris et salicidis acceptam dare debemus, nisi
                                 vobis, et sic aliquid vendentes dare ad manus non
-                                    negle<supplied>ge</supplied>mus, quia ita in commisso a domino
+                                    negle<supplied instant="false">ge</supplied>mus, quia ita in commisso a domino
                                 nostro habemus”.</seg>
-                            <seg xml:id="s.1.2.6">Insuper ecciam <persName key="serafin-0155">Iacubowsky</persName> fuit hic, qui ecciam multa
+                    <seg part="N" xml:id="s.1.2.6">Insuper ecciam <persName key="serafin-0155" instant="false" full="yes">Iacubowsky</persName> fuit hic, qui ecciam multa
                                 loquebatur.</seg>
-                            <seg xml:id="s.1.2.7">Familiaris domini Rytersky<anchor xml:id="a2"/>
+                    <seg part="N" xml:id="s.1.2.7">Familiaris domini Rytersky<anchor xml:id="a2"/>
                                 ecciam fuit hic, qui in presencia domini vicecapitanei ecciam multa
-                                dixit difidendo <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> omnibus modis nocendi, equos et res
+                                dixit difidendo <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> omnibus modis nocendi, equos et res
                                 alias capere et pro se vsurpare, et sic
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> timendum est, ne nobis equos, currum
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> timendum est, ne nobis equos, currum
                                 Cracouiam <sic>aquitando</sic> non acciperet, qui sal pro
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> Cracouiam ducunt et econuerso robora
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> Cracouiam ducunt et econuerso robora
                                 in Vyeliczkam pro sustentacione moncium.</seg>
-                            <seg xml:id="s.1.2.8">Ergo petimus a
-                                    <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> de hiis informary et presertim de
-                                isto domino <persName key="wikidata-Q96574990">succamerario</persName>, quod absit, si Vngari non
-                                    esse<supplied>n</supplied>t uel si ecciam salicidis tam multum
+                    <seg part="N" xml:id="s.1.2.8">Ergo petimus a
+                                    <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> de hiis informary et presertim de
+                                isto domino <persName key="wikidata-Q96574990" instant="false" full="yes">succamerario</persName>, quod absit, si Vngari non
+                                    esse<supplied instant="false">n</supplied>t uel si ecciam salicidis tam multum
                                 vendere non potuissemus, quo ipsum debemus expedire, quia, prout
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> intelligit, est homo mirabilis.</seg>
-                            <seg xml:id="s.1.2.9">Hodie <expan>Crac<ex>ouiam</ex>
-                                </expan> non plus
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> intelligit, est homo mirabilis.</seg>
+                    <seg part="N" xml:id="s.1.2.9">Hodie <expan instant="false">Crac<ex instant="false">ouiam</ex>
+                        </expan> non plus
                                 vendidimus, solum pro marcis 9, et istam pecuniam pro neccessariis
-                                    comp<supplied>ar</supplied>andis
-                                    <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> pro via dedimus ad manus <persName key="serafin-0025">Zyszno</persName>, qui Cracouiam pro
-                                    comp<supplied>ar</supplied>andis<anchor xml:id="ad"/> recepto
+                                    comp<supplied instant="false">ar</supplied>andis
+                                    <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> pro via dedimus ad manus <persName key="serafin-0025" instant="false" full="yes">Zyszno</persName>, qui Cracouiam pro
+                                    comp<supplied instant="false">ar</supplied>andis<anchor xml:id="ad"/> recepto
                                 registro secum <sic>aquitau</sic>.</seg>
-                            <seg xml:id="s.1.2.10">Dominus <persName key="serafin-0156">Suchdo<supplied>l</supplied>szky</persName> heri recessit
+                    <seg part="N" xml:id="s.1.2.10">Dominus <persName key="serafin-0156" instant="false" full="yes">Suchdo<supplied instant="false">l</supplied>szky</persName> heri recessit
                                 remanens claues cura vicecarbarium<anchor xml:id="ae"/>
                                     antiqum<anchor xml:id="af"/> et grossum quartum de carbaria
                                 recepit, prout ante carbarii antiqui recipiebant, licet multa
                                 minabatur et loquebatur.</seg>
-                            <seg xml:id="s.1.2.11">Insuper idem dominus vicecapitaneus pro b u r g r
+                    <seg part="N" xml:id="s.1.2.11">Insuper idem dominus vicecapitaneus pro b u r g r
                                 a b i o r u m solariis multa loquebatur, licet
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> nobis committit, ut eis daremus per
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> nobis committit, ut eis daremus per
                                 tres aut quatuor marcas.</seg>
-                            <seg xml:id="s.1.2.12">Animo libenti faciemus, si vnde accipere
+                    <seg part="N" xml:id="s.1.2.12">Animo libenti faciemus, si vnde accipere
                                 debebimus.</seg>
-                            <seg xml:id="s.1.2.13">Ecciam <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> nobis scribit, ut pro via marcas
+                    <seg part="N" xml:id="s.1.2.13">Ecciam <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> nobis scribit, ut pro via marcas
                                 quindecem comparare et mittere deberemus.</seg>
-                            <seg xml:id="s.1.2.14">Sciat <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan>, quia nunc habere non possumus, quia
-                                nullus a <placeName key="geo-3080590">Zator</placeName> et dicariorum
+                    <seg part="N" xml:id="s.1.2.14">Sciat <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>, quia nunc habere non possumus, quia
+                                nullus a <placeName key="geo-3080590" instant="false" full="yes">Zator</placeName> et dicariorum
                                 apparet, qui aliquid emere vellet, licet heri bancos sex dicariis
                                 vendidimus et aliis hic hodie.</seg>
-                            <seg xml:id="s.1.2.15">Tragariis soluimus, antequam
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> intimauit, quibus dedimus pro feria
-                                sexta septimane <sic>pret<supplied>er</supplied>ita</sic> marcas
+                    <seg part="N" xml:id="s.1.2.15">Tragariis soluimus, antequam
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> intimauit, quibus dedimus pro feria
+                                sexta septimane <sic>pret<supplied instant="false">er</supplied>ita</sic> marcas
                                 viginti tres.</seg>
-                            <seg xml:id="s.1.2.16">Sciat <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan>, quia hodie dedimus domino <persName key="wikidata-Q4759675">Odrowasz</persName> bancos quinquaginta
+                    <seg part="N" xml:id="s.1.2.16">Sciat <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>, quia hodie dedimus domino <persName key="wikidata-Q4759675" instant="false" full="yes">Odrowasz</persName> bancos quinquaginta
                                 pro marcis 61, grossis 12.</seg>
-                            <seg xml:id="s.1.2.17">Verum est, domine graciose, quia sal est valde
+                    <seg part="N" xml:id="s.1.2.17">Verum est, domine graciose, quia sal est valde
                                 parwm.</seg>
-                            <seg xml:id="s.1.2.18">Fuit nobiscum <persName key="serafin-0099">Bankyel</persName> et <persName key="serafin-0157">Byenyassek</persName> et alii, qui fecerunt forum.</seg>
-                            <seg xml:id="s.1.2.19">Clamat, quia parv<supplied>u</supplied>m sal sibi
+                    <seg part="N" xml:id="s.1.2.18">Fuit nobiscum <persName key="serafin-0099" instant="false" full="yes">Bankyel</persName> et <persName key="serafin-0157" instant="false" full="yes">Byenyassek</persName> et alii, qui fecerunt forum.</seg>
+                    <seg part="N" xml:id="s.1.2.19">Clamat, quia parv<supplied instant="false">u</supplied>m sal sibi
                                 datur.</seg>
-                            <seg xml:id="s.1.2.20">Ecciam <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> scribit de excomunicacionibus, ut de
+                    <seg part="N" xml:id="s.1.2.20">Ecciam <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> scribit de excomunicacionibus, ut de
                                 ipsis liberemur; grato animo illa, si potuerimus, cum diligencia
                                 faciemus.</seg>
-                            <seg xml:id="s.1.2.21">Familie s i c h t a est vendita et in centenariis
-                                sunt expediti, sed <persName key="serafin-0158">Stanis<supplied>l</supplied>aus subagazo</persName> non
+                    <seg part="N" xml:id="s.1.2.21">Familie s i c h t a est vendita et in centenariis
+                                sunt expediti, sed <persName key="serafin-0158" instant="false" full="yes">Stanis<supplied instant="false">l</supplied>aus subagazo</persName> non
                                 potest <sic>aquitare</sic>, cui ecciam nichil dedimus.</seg>
-                            <seg xml:id="s.1.2.22">Pro pellicea p<supplied>ro</supplied>
-                                <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> direximus Zyszno ad <persName key="serafin-0159">Volbram</persName>, petentes ipsum, ut pro
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> dirigat pelliceam bonam, cui in
-                                duabus septimanis promisimus om<supplied>n</supplied>ino
+                    <seg part="N" xml:id="s.1.2.22">Pro pellicea p<supplied instant="false">ro</supplied>
+                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> direximus Zyszno ad <persName key="serafin-0159" instant="false" full="yes">Volbram</persName>, petentes ipsum, ut pro
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> dirigat pelliceam bonam, cui in
+                                duabus septimanis promisimus om<supplied instant="false">n</supplied>ino
                                 soluere.</seg>
-                            <seg xml:id="s.1.2.23">Selle et alie omnes res Cracouie disponentur et
-                                    dirigent<supplied>ur</supplied> per <persName key="serafin-0088">Roszkowsky</persName>.</seg>
-                            <seg xml:id="s.1.2.24">Registrum salis Cracouie <persName key="serafin-0083">Mathias notarius</persName> habet, cui
-                                    intima<supplied>ui</supplied>mus, ut
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan>
-                                <sic>diriget</sic> et cartam racionis salis domini
-                                        Odrowas<expan>M<ex>agnificeneia</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> di<supplied>ri</supplied>gimus.</seg>
-                            <seg xml:id="s.1.2.25">Sal ad <date when="1459-05-24" when-custom="24 V">Corpus Christi [24 V ]</date> di<supplied>ri</supplied>gere non
-                                negligemus iuxta commissa <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan>; <sic>muutuo</sic> accipientes
+                    <seg part="N" xml:id="s.1.2.23">Selle et alie omnes res Cracouie disponentur et
+                                    dirigent<supplied instant="false">ur</supplied> per <persName key="serafin-0088" instant="false" full="yes">Roszkowsky</persName>.</seg>
+                    <seg part="N" xml:id="s.1.2.24">Registrum salis Cracouie <persName key="serafin-0083" instant="false" full="yes">Mathias notarius</persName> habet, cui
+                                    intima<supplied instant="false">ui</supplied>mus, ut
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan>
+                        <sic>diriget</sic> et cartam racionis salis domini
+                                        Odrowas<expan instant="false">M<ex instant="false">agnificeneia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> di<supplied instant="false">ri</supplied>gimus.</seg>
+                    <seg part="N" xml:id="s.1.2.25">Sal ad <date when="1459-05-24" when-custom="24 V" instant="false">Corpus Christi [24 V ]</date> di<supplied instant="false">ri</supplied>gere non
+                                negligemus iuxta commissa <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan>; <sic>muutuo</sic> accipientes
                                     florenos<anchor xml:id="ag"/> sedecem
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> dirigemus nunccium per
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> dirigemus nunccium per
                                 presentem.</seg>
-                            <seg xml:id="s.1.2.26">Satis dolemus, quod non videmus personaliter cum
-                                        <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan> in recessu.</seg>
-                            <seg xml:id="s.1.2.27">In omnibus diligenciam, dante Domino,
+                    <seg part="N" xml:id="s.1.2.26">Satis dolemus, quod non videmus personaliter cum
+                                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan> in recessu.</seg>
+                    <seg part="N" xml:id="s.1.2.27">In omnibus diligenciam, dante Domino,
                                 faciemus.</seg>
-                            <seg xml:id="s.1.2.28">Alia, si que ocurrent,
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> nota faciemus.</seg>
-                            <seg xml:id="s.1.2.29">Datum in <placeName key="geo-755889">Vyeliczka</placeName>, <date when="1459-02-20">feria tercia
+                    <seg part="N" xml:id="s.1.2.28">Alia, si que ocurrent,
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> nota faciemus.</seg>
+                    <seg part="N" xml:id="s.1.2.29">Datum in <placeName key="geo-755889" instant="false" full="yes">Vyeliczka</placeName>, <date when="1459-02-20" instant="false">feria tercia
                                     post Reminiscere, anno Domini M etc. lviiii</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0025">Nicolaus
-                                    Zyszno</persName>, <persName key="serafin-0154">Stanislaus</persName>, <lb/>
-                                <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> seruitores</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po vicecapitaneus skreślone
-                            eciam.</note>
-                        <note n="b" type="transcription" target="#ab">po advenit skreślone pro
-                            M.</note>
-                        <note n="c" type="transcription" target="#ac">expetans błędnie zamiast
-                            expectans lub expetens.</note>
-                        <note n="d" type="transcription" target="#ad">po
-                            comp<supplied>ar</supplied>andis skreślone
-                                <expan>Crac<ex>ouiam</ex>
-                            </expan>.</note>
-                        <note n="e" type="transcription" target="#ae">vicecarbarium: b poprawione z
-                            p.</note>
-                        <note n="f" type="transcription" target="#af">vicecarbarium antiqum czytaj:
-                            vicecarbarii antiqui; po antiqum skreślone remansit.</note>
-                        <note n="g" type="transcription" target="#ag">po florenos skreślone
-                            q(ua)tuorde(cim).</note>
-                        <note n="1" target="#a1">W 1458 r. Serafin zobowiązał się zwrócić mu 300 fl.
-                            i 100 grz. pod rygorem wwiązania w sól w Bochni i Wieliczce (GK 14, s.
-                            15).</note>
-                        <note n="2" target="#a2">Mowa o jednym z synów Piotra z Pisar i Rytra
-                            zwanego Chorążycem h. Topór, ochmistrza dworu królewiczów i burgrabiego
-                            krak., zmarłego w 1458: Rafale dworzaninie król. i burgrabim krak.
-                            1470–1477; Żegocie burgrabim krak. 1462–1489; Piotrze, występującym w
-                            źródłach w latach 1460–1491 (<hi rend="i">PSB</hi> XXVI, s. 416–417;
-                            XXX, s. 436–437; <hi rend="i">U</hi> IV/1; <hi rend="i">U</hi>
-                            IV/5).</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0025" instant="false" full="yes">Nicolaus
+                                    Zyszno</persName>, <persName key="serafin-0154" instant="false" full="yes">Stanislaus</persName>, <lb/>
+                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> seruitores</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
                                 żupnikowi obojga salin i Rusi, łaskawemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Wielmożny i łaskawy panie.</seg>
-                            <seg xml:id="t.1.2.2">Zechce wiedzieć Wasza Wielmożność, że dzisiaj
-                                przybył do Wieliczki pan <persName key="serafin-0094">Ossoliński</persName>. Daliśmy mu 66 florenów, które przyjął
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Wielmożny i łaskawy panie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Zechce wiedzieć Wasza Wielmożność, że dzisiaj
+                                przybył do Wieliczki pan <persName key="serafin-0094" instant="false" full="yes">Ossoliński</persName>. Daliśmy mu 66 florenów, które przyjął
                                 niechętnie, dopiero wtedy, gdy obiecaliśmy zapłacić do niedzieli
                                 jeszcze 34, ponieważ należało mu się według zleceń Waszej
                                 Wielmożności 100 florenów.</seg>
-                            <seg xml:id="t.1.2.3">Bylibyśmy zapłacili dzisiaj, lecz nie było i nie
+                    <seg part="N" corresp="#s.1.2.3">Bylibyśmy zapłacili dzisiaj, lecz nie było i nie
                                 ma żadnego z Węgrów, tak więc, łaskawy panie, nie mieliśmy mu z
                                 czego zapłacić.</seg>
-                            <seg xml:id="t.1.2.4">Przybył tu również pan <persName key="serafin-0148">podstarości</persName>, przypominając nam o
+                    <seg part="N" corresp="#s.1.2.4">Przybył tu również pan <persName key="serafin-0148" instant="false" full="yes">podstarości</persName>, przypominając nam o
                                 150 florenach i o 50 grzywnach w drobnej monecie, ponieważ nadchodzi
                                 termin, w którym Wasza Wielmożność zobowiązał się zapłacić panu
-                                    <persName key="wikidata-Q96574990">staroście</persName>.
-                                Powiedział on: „Czeka tu w tej sprawie pan <persName key="wikidata-Q126009442">Sancygniewski</persName>, wyglądając
+                                    <persName key="wikidata-Q96574990" instant="false" full="yes">staroście</persName>.
+                                Powiedział on: „Czeka tu w tej sprawie pan <persName key="wikidata-Q126009442" instant="false" full="yes">Sancygniewski</persName>, wyglądając
                                 wypłaty tych pieniędzy”.</seg>
-                            <seg xml:id="t.1.2.5">Odpowiedzieliśmy mu: „Mamy nie dawać pieniędzy
+                    <seg part="N" corresp="#s.1.2.5">Odpowiedzieliśmy mu: „Mamy nie dawać pieniędzy
                                 otrzymanych od Węgrów i od solarzy nikomu innemu, tylko wam, tak
                                 więc, sprzedawszy cokolwiek, nie zaniedbamy wam ich oddać, ponieważ
                                 tak nam polecił nasz pan”.</seg>
-                            <seg xml:id="t.1.2.6">Był tu także <persName key="serafin-0155">Jakubowski</persName> i też wiele mówił.</seg>
-                            <seg xml:id="t.1.2.7">Był tu również sługa pana Ryterskiego; i on mówił
+                    <seg part="N" corresp="#s.1.2.6">Był tu także <persName key="serafin-0155" instant="false" full="yes">Jakubowski</persName> i też wiele mówił.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Był tu również sługa pana Ryterskiego; i on mówił
                                 wiele, w obecności pana podstarościego, odgrażając się, że będzie
                                 szkodził Waszej Wielmożności na wszelkie sposoby, że zabierze i
                                 przywłaszczy sobie konie i inne rzeczy. Tak więc Wasza Wielmożność
                                 powinien się obawiać, aby jadąc do Krakowa nie zabrał nam on wozu i
                                 koni, które wożą do Krakowa sól dla Waszej Wielmożności, a z
                                 powrotem do Wieliczki drewno na umocnienie szybów.</seg>
-                            <seg xml:id="t.1.2.8">Prosimy więc, aby nas Wasza Wielmożność w tych
-                                sprawach pouczył, przede wszystkim zaś w sprawie pana <persName key="wikidata-Q96574990">podkomorzego</persName>, mianowicie z
+                    <seg part="N" corresp="#s.1.2.8">Prosimy więc, aby nas Wasza Wielmożność w tych
+                                sprawach pouczył, przede wszystkim zaś w sprawie pana <persName key="wikidata-Q96574990" instant="false" full="yes">podkomorzego</persName>, mianowicie z
                                 czego mamy mu zapłacić, gdyby — co oby się nie stało — nie przybyli
                                 Węgrzy albo gdybyśmy nie zdołali tak dużo sprzedać solarzom. A — jak
                                 Wasza Wielmożność wie — jest to człowiek osobliwy.</seg>
-                            <seg xml:id="t.1.2.9">Dzisiaj nie sprzedaliśmy do Krakowa za więcej niż
-                                9 grzywien i wręczyliśmy te pieniądze <persName key="serafin-0025">Zysznie</persName>, aby kupił rzeczy potrzebne Waszej
+                    <seg part="N" corresp="#s.1.2.9">Dzisiaj nie sprzedaliśmy do Krakowa za więcej niż
+                                9 grzywien i wręczyliśmy te pieniądze <persName key="serafin-0025" instant="false" full="yes">Zysznie</persName>, aby kupił rzeczy potrzebne Waszej
                                 Wielmożności na drogę. Wziął on ze sobą rejestr i pojechał do
                                 Krakowa na zakupy.</seg>
-                            <seg xml:id="t.1.2.10">Wczoraj odjechał pan <persName key="serafin-0156">Suchodolski</persName>, pozostawiając
+                    <seg part="N" corresp="#s.1.2.10">Wczoraj odjechał pan <persName key="serafin-0156" instant="false" full="yes">Suchodolski</persName>, pozostawiając
                                 klucze pod opieką dawnego wicekarbarza, i otrzymał co czwarty grosz
                                 z warzelni, jak przedtem otrzymywali dawni karbarze, chociaż bardzo
                                 się odgrażał.</seg>
-                            <seg xml:id="t.1.2.11">Ponadto tenże pan podstarości wiele mówił o
+                    <seg part="N" corresp="#s.1.2.11">Ponadto tenże pan podstarości wiele mówił o
                                 wypłatach dla burgrabiów, chociaż Wasza Wielmożność nakazuje, abyśmy
                                 im dawali po 3 lub 4 grzywny.</seg>
-                            <seg xml:id="t.1.2.12">Uczynimy to z ochotą, jeżeli będziemy mieli skąd
+                    <seg part="N" corresp="#s.1.2.12">Uczynimy to z ochotą, jeżeli będziemy mieli skąd
                                 wziąć.</seg>
-                            <seg xml:id="t.1.2.13">Pisze nam również Wasza Wielmożność, że
+                    <seg part="N" corresp="#s.1.2.13">Pisze nam również Wasza Wielmożność, że
                                 powinniśmy przygotować i posłać 15 grzywien na podróż.</seg>
-                            <seg xml:id="t.1.2.14">Niech Wasza Wielmożność wie, że nie zdołamy ich
-                                teraz mieć, ponieważ nie pokazuje się nikt z <placeName key="geo-3080590">Zatora</placeName> ani spośród solarzy z zagranicy, kto by
+                    <seg part="N" corresp="#s.1.2.14">Niech Wasza Wielmożność wie, że nie zdołamy ich
+                                teraz mieć, ponieważ nie pokazuje się nikt z <placeName key="geo-3080590" instant="false" full="yes">Zatora</placeName> ani spośród solarzy z zagranicy, kto by
                                 chciał coś kupić. Chociaż wczoraj sprzedaliśmy 6 bałwanów solarzom z
                                 zagranicy, a dziś innym tutaj.</seg>
-                            <seg xml:id="t.1.2.15">Zapłaciliśmy również, zanim Wasza Wielmożność dał
+                    <seg part="N" corresp="#s.1.2.15">Zapłaciliśmy również, zanim Wasza Wielmożność dał
                                 znać, tragarzom, którym daliśmy za piątek zeszłego tygodnia 23
                                 grzywny.</seg>
-                            <seg xml:id="t.1.2.16">Niech wie Wasza Wielmożność, że dzisiaj daliśmy
-                                panu <persName key="wikidata-Q4759675">Odrowążowi</persName> 50
+                    <seg part="N" corresp="#s.1.2.16">Niech wie Wasza Wielmożność, że dzisiaj daliśmy
+                                panu <persName key="wikidata-Q4759675" instant="false" full="yes">Odrowążowi</persName> 50
                                 bałwanów za 61 grzywien i 12 groszy.</seg>
-                            <seg xml:id="t.1.2.17">Jest prawdą, łaskawy panie, że sól <supplied>tj.
+                    <seg part="N" corresp="#s.1.2.17">Jest prawdą, łaskawy panie, że sól <supplied instant="false">tj.
                                     bałwany</supplied> jest bardzo mała.</seg>
-                            <seg xml:id="t.1.2.18">Byli z nami <persName key="serafin-0099">Bankiel</persName>, <persName key="serafin-0157">Bieniaszek</persName> i inni, którzy prowadzili handel.</seg>
-                            <seg xml:id="t.1.2.19">Krzyczy, że daje mu się małą sól.</seg>
-                            <seg xml:id="t.1.2.20">Pisze również Wasza Wielmożność o ekskomunikach,
+                    <seg part="N" corresp="#s.1.2.18">Byli z nami <persName key="serafin-0099" instant="false" full="yes">Bankiel</persName>, <persName key="serafin-0157" instant="false" full="yes">Bieniaszek</persName> i inni, którzy prowadzili handel.</seg>
+                    <seg part="N" corresp="#s.1.2.19">Krzyczy, że daje mu się małą sól.</seg>
+                    <seg part="N" corresp="#s.1.2.20">Pisze również Wasza Wielmożność o ekskomunikach,
                                 abyśmy się od nich uwolnili.</seg>
-                            <seg xml:id="t.1.2.21">Z miłą chęcią pilnie to uczynimy, o ile zdołamy.
+                    <seg part="N" corresp="#s.1.2.21">Z miłą chęcią pilnie to uczynimy, o ile zdołamy.
                                 Służbie sprzedana została szychta i wydano im cetnary, lecz
-                                    <persName key="serafin-0158">podkoni Stanisław</persName>
+                                    <persName key="serafin-0158" instant="false" full="yes">podkoni Stanisław</persName>
                                 nie może jeździć, toteż nic mu nie daliśmy.</seg>
-                            <seg xml:id="t.1.2.22">Posłaliśmy Zysznę po futro dla Waszej
-                                Wielmożności do <persName key="serafin-0159">Wolframa</persName>,
+                    <seg part="N" corresp="#s.1.2.22">Posłaliśmy Zysznę po futro dla Waszej
+                                Wielmożności do <persName key="serafin-0159" instant="false" full="yes">Wolframa</persName>,
                                 prosząc go, aby posłał dla Waszej Wielmożności dobre futro, i
                                 obiecaliśmy mu zapłacić w ciągu dwóch tygodni.</seg>
-                            <seg xml:id="t.1.2.23">Siodła i inne rzeczy zostaną przygotowane w
-                                Krakowie i wysłane przez <persName key="serafin-0088">Roszkowskiego</persName>.</seg>
-                            <seg xml:id="t.1.2.24">Rejestr soli ma w Krakowie <persName key="serafin-0083">notariusz Maciej</persName>. Daliśmy mu znać, aby
+                    <seg part="N" corresp="#s.1.2.23">Siodła i inne rzeczy zostaną przygotowane w
+                                Krakowie i wysłane przez <persName key="serafin-0088" instant="false" full="yes">Roszkowskiego</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.24">Rejestr soli ma w Krakowie <persName key="serafin-0083" instant="false" full="yes">notariusz Maciej</persName>. Daliśmy mu znać, aby
                                 przesłał go Waszej Wielmożności. Posyłamy również Waszej
                                 Wielmożności rozliczenie soli pana Odrowąża.</seg>
-                            <seg xml:id="t.1.2.25">Nie zaniedbamy posłać soli na <date when="1459-05-24" when-custom="24 V">Boże Ciało [24 V ]</date>,
+                    <seg part="N" corresp="#s.1.2.25">Nie zaniedbamy posłać soli na <date when="1459-05-24" when-custom="24 V" instant="false">Boże Ciało [24 V ]</date>,
                                 zgodnie z rozkazami Waszej Wielmożności. Pożyczywszy 17 florenów,
                                 posyłamy je Waszej Wielmożności przez tego posłańca.</seg>
-                            <seg xml:id="t.1.2.26">Niemało ubolewamy, że nie zobaczymy się osobiście z Waszą Wielmożnością
+                    <seg part="N" corresp="#s.1.2.26">Niemało ubolewamy, że nie zobaczymy się osobiście z Waszą Wielmożnością
                                 przy odjeździe.</seg>
-                            <seg xml:id="t.1.2.27">We wszystkim — z Bożą pomocą — wykażemy staranie.</seg>
-                            <seg xml:id="t.1.2.28">Jeśli
+                    <seg part="N" corresp="#s.1.2.27">We wszystkim — z Bożą pomocą — wykażemy staranie.</seg>
+                    <seg part="N" corresp="#s.1.2.28">Jeśli
                                 wydarzy się coś nowego, damy znać Waszej Wielmożności.</seg>
-                            <seg xml:id="t.1.2.29">Dan w <placeName key="geo-755889">Wieliczce</placeName>,
-                                we <date when="1459-02-20">wtorek po Reminiscere, roku Pańskiego 1459</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0025">Mikołaj Zyszno</persName>, <persName key="serafin-0154">Stanisław</persName>, słudzy Waszej Wielmożności</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                    <seg part="N" corresp="#s.1.2.29">Dan w <placeName key="geo-755889" instant="false" full="yes">Wieliczce</placeName>,
+                                we <date when="1459-02-20" instant="false">wtorek po Reminiscere, roku Pańskiego 1459</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName>, <persName key="serafin-0154" instant="false" full="yes">Stanisław</persName>, słudzy Waszej Wielmożności</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po vicecapitaneus skreślone
+                            eciam.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">po advenit skreślone pro
+                            M.</note>
+            <note n="c" type="transcription" target="#ac" anchored="true">expetans błędnie zamiast
+                            expectans lub expetens.</note>
+            <note n="d" type="transcription" target="#ad" anchored="true">po
+                            comp<supplied instant="false">ar</supplied>andis skreślone
+                                <expan instant="false">Crac<ex instant="false">ouiam</ex>
+                </expan>.</note>
+            <note n="e" type="transcription" target="#ae" anchored="true">vicecarbarium: b poprawione z
+                            p.</note>
+            <note n="f" type="transcription" target="#af" anchored="true">vicecarbarium antiqum czytaj:
+                            vicecarbarii antiqui; po antiqum skreślone remansit.</note>
+            <note n="g" type="transcription" target="#ag" anchored="true">po florenos skreślone
+                            q(ua)tuorde(cim).</note>
+            <note n="1" target="#a1" anchored="true">W 1458 r. Serafin zobowiązał się zwrócić mu 300 fl.
+                            i 100 grz. pod rygorem wwiązania w sól w Bochni i Wieliczce (GK 14, s.
+                            15).</note>
+            <note n="2" target="#a2" anchored="true">Mowa o jednym z synów Piotra z Pisar i Rytra
+                            zwanego Chorążycem h. Topór, ochmistrza dworu królewiczów i burgrabiego
+                            krak., zmarłego w 1458: Rafale dworzaninie król. i burgrabim krak.
+                            1470–1477; Żegocie burgrabim krak. 1462–1489; Piotrze, występującym w
+                            źródłach w latach 1460–1491 (<hi rend="i">PSB</hi> XXVI, s. 416–417;
+                            XXX, s. 436–437; <hi rend="i">U</hi> IV/1; <hi rend="i">U</hi>
+                            IV/5).</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

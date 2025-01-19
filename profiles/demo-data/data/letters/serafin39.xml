@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS39">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Maciej do Mikołaja Serafina, <placeName key="geo-3094802">Kraków</placeName>, <date when="1455-08-24">24 sierpnia 1455</date>
+                <title>Maciej do Mikołaja Serafina, <placeName key="geo-3094802" instant="false" full="yes">Kraków</placeName>, <date when="1455-08-24" instant="false">24 sierpnia 1455</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,216 +14,368 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 145 (–)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu; verso: ciąg dalszy tekstu, podpis,
+                        <p part="N">recto: tekst listu; verso: ciąg dalszy tekstu, podpis,
                             adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>210 × 230 mm; ślady zawilgocenia i ubytek
+                        <p part="N">210 × 230 mm; ślady zawilgocenia i ubytek
                             papieru w dolnej części karty</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <placeName key="geo-3094802">Kraków</placeName>
-                    <date when="1455-08-24">24 sierpnia 1455</date>
+                    <placeName key="geo-3094802" instant="false" full="yes">Kraków</placeName>
+                    <date when="1455-08-24" instant="false">24 sierpnia 1455</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin38.xml">Previous letter of <persName key="serafin-0087">Antoni</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1455-08-21">21 sierpnia 1455</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin38.xml">Previous letter of <persName key="serafin-0087" instant="false" full="yes">Antoni</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1455-08-21" instant="false">21 sierpnia 1455</date>
                     </ref>
-                    <ref type="next" target="serafin40.xml">Next letter of  to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1455-09-22">22 września 1455</date>
+                    <ref type="next" target="serafin40.xml">Next letter of  to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1455-09-22" instant="false">22 września 1455</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico domino <persName key="gnd-139138560">Nicolao Se<lb/>raphin</persName> gladifero Cracouiensi ac <lb/> zuppario,
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Magnifico domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao Se<lb/>raphin</persName> gladifero Cracouiensi ac <lb/> zuppario,
                                 domino graciosissimo.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Magnifice domine, benefactor graciosissime.</seg>
-                            <seg xml:id="s.1.2.2">Heri, postquam <persName key="serafin-0121">Micula</persName> hic
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Magnifice domine, benefactor graciosissime.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Heri, postquam <persName key="serafin-0121" instant="false" full="yes">Micula</persName> hic
                                 in Cracouiam pervenit circa pulsum <lb/> ad Salue, domina consors vestra statim
-                                direxit petens, vt dominus <persName key="serafin-0070">
-                                    <expan>Nikol<ex>aus</ex>
-                                    </expan>
-                                </persName> ad eam veniret.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.3">Qui cum advenit iam in
+                                direxit petens, vt dominus <persName key="serafin-0070" instant="false" full="yes">
+                            <expan instant="false">Nikol<ex instant="false">aus</ex>
+                            </expan>
+                        </persName> ad eam veniret.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.3">Qui cum advenit iam in
                                 sero, respondit dicens, quia „Cras — scilicet vt hodie die dominico — de mane
-                                nullibi <lb/> me potero mouere, quia domina mea <persName key="serafin-0122">domina castellana Cracouiensis</persName>
+                                nullibi <lb/> me potero mouere, quia domina mea <persName key="serafin-0122" instant="false" full="yes">domina castellana Cracouiensis</persName>
                                 habebit plurimos hospites pro prandio, sed post prandium equitabo<anchor xml:id="aa"/> solum cum
-                                <persName key="serafin-0123">Smye</persName> nulli reuelando, vbicumque dominus zupparius mandauerit, sed non
+                                <persName key="serafin-0123" instant="false" full="yes">Smye</persName> nulli reuelando, vbicumque dominus zupparius mandauerit, sed non
                                 equitabo, quovsque dominus zupparius iterum intimabit pro prandio uel post
                                 prandium statim, vbi debeam equitare secrete directe” et dixit<anchor xml:id="ab"/>: „Sed noueritis,
                                 quod hodie fui in Wyeliczka, non preveni ibi dominum vicezupparium, tamen
                                 direxi Smyel ad ipsum, qui nullatenus voluit mecum videri potens videri, dicens,
                                 quia ‘nichil habeo ad dominum vicecapitaneum’ ” et alia quamplurima ibi dixit.</seg>
-                            <seg xml:id="s.1.2.4">Fecit itaque ipse dominus vicecapitaneus intimare, quod nullum wlt bancum
+                    <seg part="N" xml:id="s.1.2.4">Fecit itaque ipse dominus vicecapitaneus intimare, quod nullum wlt bancum
                                 salis dimittere, quovsque sibi totalis solucio erit de omnibus retentis septimanis,
                                 quas, d(ici)t, esse octo et nunc nonam etc.</seg>
-                            <seg xml:id="s.1.2.5">Quantum tamen ad <expan>M<ex>agnificenciam</ex>
-                                </expan>
-                                <expan>V<ex>estram</ex>
-                                </expan>, stabilit se pulcre pro omni complacencia vestra, sed contra
-                                dominum <persName key="serafin-0124">Kynth</persName> fremit.</seg>
-                            <seg xml:id="s.1.2.6">Paratus est ergo equitare statim post prandium, dum
+                    <seg part="N" xml:id="s.1.2.5">Quantum tamen ad <expan instant="false">M<ex instant="false">agnificenciam</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estram</ex>
+                        </expan>, stabilit se pulcre pro omni complacencia vestra, sed contra
+                                dominum <persName key="serafin-0124" instant="false" full="yes">Kynth</persName> fremit.</seg>
+                    <seg part="N" xml:id="s.1.2.6">Paratus est ergo equitare statim post prandium, dum
                                 intimabitis, vbicumque commiseritis.</seg>
-                            <seg xml:id="s.1.2.7">Equitassem ego solus no<supplied>to</supplied>r<supplied>ius</supplied> seruitor
-                                Magnificencie Vestre, sed heri tempore Salue direxit pro me dominus <persName key="wikidata-Q56255128">Nicolaus
-                                    de Kalisz</persName>, vbi fuit ecciam dominus <persName key="serafin-0125">Luthek</persName> in eius hospicio, ambo vestri sinceri amici.</seg>
-                            <seg xml:id="s.1.2.8">Dixit idem dominus Nicolaus, vt de necesariis pro hodie providere
-                                deberem domine <persName key="gnd-123396980">regine</persName>.</seg>
-                            <seg xml:id="s.1.2.9">Et sperans, quod aliquid adduci deberet de zuppis,
-                                quia intimavi ad <persName key="serafin-0126">Zyemmam</persName>, quod sic ammoneor, dixi: „Quantum potero providere,
+                    <seg part="N" xml:id="s.1.2.7">Equitassem ego solus no<supplied instant="false">to</supplied>r<supplied instant="false">ius</supplied> seruitor
+                                Magnificencie Vestre, sed heri tempore Salue direxit pro me dominus <persName key="wikidata-Q56255128" instant="false" full="yes">Nicolaus
+                                    de Kalisz</persName>, vbi fuit ecciam dominus <persName key="serafin-0125" instant="false" full="yes">Luthek</persName> in eius hospicio, ambo vestri sinceri amici.</seg>
+                    <seg part="N" xml:id="s.1.2.8">Dixit idem dominus Nicolaus, vt de necesariis pro hodie providere
+                                deberem domine <persName key="gnd-123396980" instant="false" full="yes">regine</persName>.</seg>
+                    <seg part="N" xml:id="s.1.2.9">Et sperans, quod aliquid adduci deberet de zuppis,
+                                quia intimavi ad <persName key="serafin-0126" instant="false" full="yes">Zyemmam</persName>, quod sic ammoneor, dixi: „Quantum potero providere,
                                 libenter providebitur” et veni in domum vestram.</seg>
-                            <seg xml:id="s.1.2.10">Inveni Miculam cum
+                    <seg part="N" xml:id="s.1.2.10">Inveni Miculam cum
                                 litera vestra, ex qua cognovi, quod deberent appelli pecora.</seg>
-                            <seg xml:id="s.1.2.11">Gavisus fui, sed ecce
+                    <seg part="N" xml:id="s.1.2.11">Gavisus fui, sed ecce
                                 et primo hac horum scribens presencia direxi ad predium sciscitans, si aliquid
                                 esset appulsum, et nichil hucvsque est appulsum; ergo emere opportet, quantum
                                 poterimus.</seg>
-                            <seg xml:id="s.1.2.12">Et omnibus indigent: tam carnibus, quam piso, mileo et lardo.</seg>
-                            <seg xml:id="s.1.2.13">Heri venit hic <persName key="serafin-0127">Lorek</persName> auriga cum curru et telis de Bochna directe ante prandia
+                    <seg part="N" xml:id="s.1.2.12">Et omnibus indigent: tam carnibus, quam piso, mileo et lardo.</seg>
+                    <seg part="N" xml:id="s.1.2.13">Heri venit hic <persName key="serafin-0127" instant="false" full="yes">Lorek</persName> auriga cum curru et telis de Bochna directe ante prandia
                                 et apportauit michi literas vestras nondum Zyemme exhibitas, quas relegens
                                 statim post prandium direxi per eundem Lorek in Wyeliczkam ad Zyemmam
                                 scribens, vt adveniret iuxta scripta vestra.</seg>
-                            <seg xml:id="s.1.2.14">Et nullus hucvsque advenit nec aliquid
+                    <seg part="N" xml:id="s.1.2.14">Et nullus hucvsque advenit nec aliquid
                                 de pecuniis pro neccesariis comparandis domine regine direxerunt.</seg>
-                            <seg xml:id="s.1.2.15">Ergo sum in
+                    <seg part="N" xml:id="s.1.2.15">Ergo sum in
                                 tedio, ne negleccio fieret in eisdem neccesariis, tamen nichilominus intendam
                                 pro meliori, sicut potero etc.</seg>
-                            <seg xml:id="s.1.2.16">Apud salicidas heri de mane fui alloquens eos cum
-                                domino <persName key="serafin-0128">Koczwara</persName>, quem petiui in subsidium, qui, prout intellexi, magis se
-                                distrahunt in eo, quod scripsistis, quia in manus Zyemme et <persName key="serafin-0099">Bankel</persName> pecunias
+                    <seg part="N" xml:id="s.1.2.16">Apud salicidas heri de mane fui alloquens eos cum
+                                domino <persName key="serafin-0128" instant="false" full="yes">Koczwara</persName>, quem petiui in subsidium, qui, prout intellexi, magis se
+                                distrahunt in eo, quod scripsistis, quia in manus Zyemme et <persName key="serafin-0099" instant="false" full="yes">Bankel</persName> pecunias
                                 dare deberent, et quod idem ipsis sal dare deberent pro eisdem pecuniis, et ex
                                 isto intelligunt, quod vicezupparius ad id nichil habere deberet, et ex eo distrahuntur.</seg>
-                            <seg xml:id="s.1.2.17">Sed ego, quia „Istud seruit vestro meliori, nam isti non indebitati in
+                    <seg part="N" xml:id="s.1.2.17">Sed ego, quia „Istud seruit vestro meliori, nam isti non indebitati in
                                 aliquo alicui; est ergo cercius, quod isti debent vos expedire, quam vicezupparius”.</seg>
-                            <seg xml:id="s.1.2.18">Nichilominus ipsi dubitant, et presertim, quod isti Zyemma et Bankel non
+                    <seg part="N" xml:id="s.1.2.18">Nichilominus ipsi dubitant, et presertim, quod isti Zyemma et Bankel non
                                 advenerunt, sed, vt intelligo, nulla est spes in ipsis, nam non sunt vnanimes et
                                 multa locuntur, quia ecciam de isto labore, qui posterius est laboratus, pecunias
                                 dum similiter<anchor xml:id="ac"/> dederunt, non sunt ipsis persolute.</seg>
-                            <seg xml:id="s.1.2.19">Tum<anchor xml:id="ad"/> ecciam dicunt, sicut
+                    <seg part="N" xml:id="s.1.2.19">Tum<anchor xml:id="ad"/> ecciam dicunt, sicut
                                 prius, de vendicione salis, notabiliter in prediis.</seg>
-                            <seg xml:id="s.1.2.20">Si advenient Zyemma cum Bankel,
+                    <seg part="N" xml:id="s.1.2.20">Si advenient Zyemma cum Bankel,
                                 hodie adibimus eos simul; forte ipsi erunt fortunaciores in isto, prout taliter
-                                fieri deberet, exquo ipsi sunt in isto, sed tamen vtique <expan>M<ex>agnificencia</ex>
-                                </expan> Vestra
+                                fieri deberet, exquo ipsi sunt in isto, sed tamen vtique <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan> Vestra
                                 ab aliunde de solucione cogitet, quia istud est hic<anchor xml:id="ae"/> retardatum, prout intelligo.</seg>
-                            <seg xml:id="s.1.2.21">Insuper noueritis, quia pridie fui apud <persName key="serafin-0129">Zywczakowa</persName>, scilicet feria sexta, || que
+                    <seg part="N" xml:id="s.1.2.21">Insuper noueritis, quia pridie fui apud <persName key="serafin-0129" instant="false" full="yes">Zywczakowa</persName>, scilicet feria sexta, || que
                                 tunc dixit michi, quod robora sua sibi sunt transmissa, et quia solus fui et in
                                 roboribus non intelligo, non forisaui cum ea, sed intimavi ad Zyemmam per
                                 ipsius iuuennem scribens, vt veniret cum siluano et conspicerent eadem robora
                                 et conforisarent cum ea, quia ipsi melius de talibus intelligunt, et nullum super
                                 eo habeo responsum.</seg>
-                            <seg xml:id="s.1.2.22">Forte, vt michi est relatum, ipsa Zywczakowa ibi heri fuit in Wyeliczka.</seg>
-                            <seg xml:id="s.1.2.23">
-                                <persName key="serafin-0130">Soltissek</persName> dicit, quod bonum esset, quod eadem robora due
+                    <seg part="N" xml:id="s.1.2.22">Forte, vt michi est relatum, ipsa Zywczakowa ibi heri fuit in Wyeliczka.</seg>
+                    <seg part="N" xml:id="s.1.2.23">
+                        <persName key="serafin-0130" instant="false" full="yes">Soltissek</persName> dicit, quod bonum esset, quod eadem robora due
                                 sexagene emerentur cum hiis lignis, que sunt super eisdem roboribus, que bene
                                 valerent hic<anchor xml:id="af"/> in domum vestram pro calefaccionibus et pro coquina. Nam, vt
                                 dicit, magna est hic in domo penuria lignorum.</seg>
-                            <seg xml:id="s.1.2.24">Ergo intimetis ad eos, vt simul
+                    <seg part="N" xml:id="s.1.2.24">Ergo intimetis ad eos, vt simul
                                 forisarent, si committetis etc.</seg>
-                            <seg xml:id="s.1.2.25">De telis feria sexta et<anchor xml:id="ag"/> heri elaboratis sunt sexagene
+                    <seg part="N" xml:id="s.1.2.25">De telis feria sexta et<anchor xml:id="ag"/> heri elaboratis sunt sexagene
                                 xxx et imponemus cras ad vasa cum istis, que sunt parata adducta de Bochna
                                 et ecciam, quia ecciam cras laborabuntur aliquot sexagene et simul imponetur
-                                totum, imposicio non negliget<supplied>ur</supplied>.</seg>
-                            <seg xml:id="s.1.2.26">Vectorem taliter retinui, quia iam a die
+                                totum, imposicio non negliget<supplied instant="false">ur</supplied>.</seg>
+                    <seg part="N" xml:id="s.1.2.26">Vectorem taliter retinui, quia iam a die
                                 hodierna computat sibi dies suas septimanales, aliter ipsum retinere non potui;
                                 volebat a die hesterna<anchor xml:id="ah"/> et convenimus ipsum a quolibet equo septimanatim per
                                 vnum fertonem cum expensis et cum babatis, si accidet in via; omnes dicunt,
                                 quod talis est modus.</seg>
-                            <seg xml:id="s.1.2.27">Ecciam sibi compromittere me opportuit, vt si ipsum contingeret
+                    <seg part="N" xml:id="s.1.2.27">Ecciam sibi compromittere me opportuit, vt si ipsum contingeret
                                 ibi equitare circa bellum vlterius, quod non libenter faceret, vt vtique
                                 nos sibi soluere deberemus septimanatim, sicut et nunc, cum expensis.</seg>
-                            <seg xml:id="s.1.2.28">Facere
+                    <seg part="N" xml:id="s.1.2.28">Facere
                                 me opportuit de consilio domini Luthkonis et aliorum, quia nullus alius vector
-                                voluit se in illam partem mouere, nisi iste <persName key="serafin-0131">Slowik</persName>, qui ecciam distrahebat
+                                voluit se in illam partem mouere, nisi iste <persName key="serafin-0131" instant="false" full="yes">Slowik</persName>, qui ecciam distrahebat
                                 se, sed iam ipsum stabiliui et dedi ei mediam marcam alias z a d a l a m.</seg>
-                            <seg xml:id="s.1.2.29">Nullos
-                                dominos hic video, dominum tamen <persName key="wikidata-Q11780821">marschalcum</persName> dicunt adhuc non remote
+                    <seg part="N" xml:id="s.1.2.29">Nullos
+                                dominos hic video, dominum tamen <persName key="wikidata-Q11780821" instant="false" full="yes">marschalcum</persName> dicunt adhuc non remote
                                 in villis super decimis.</seg>
-                            <seg xml:id="s.1.2.30">Fui ceterum cum domino <persName key="wikidata-Q9342939">Roy</persName> apud psalteristas<anchor xml:id="a1"/>, circa
-                                quos ecciam fueram prius cum <persName key="serafin-0083">
-                                    <expan>bacc<ex>alario</ex>
-                                    </expan>
-                                </persName>.</seg>
-                            <seg xml:id="s.1.2.31">Ad peticionem domini Roy dant
+                    <seg part="N" xml:id="s.1.2.30">Fui ceterum cum domino <persName key="wikidata-Q9342939" instant="false" full="yes">Roy</persName> apud psalteristas<anchor xml:id="a1"/>, circa
+                                quos ecciam fueram prius cum <persName key="serafin-0083" instant="false" full="yes">
+                            <expan instant="false">bacc<ex instant="false">alario</ex>
+                            </expan>
+                        </persName>.</seg>
+                    <seg part="N" xml:id="s.1.2.31">Ad peticionem domini Roy dant
                                 vnam septimanam relaxacionem ab interdicto pro adventu vestro, vt ipsos aliquo
                                 consolaremini.</seg>
-                            <seg xml:id="s.1.2.32">Dominus Roy libenter vobiscum vellet videri cras aut finaliter
-                                feria tercia; de hinc equitat ad dominam <persName key="gnd-105405214X">antiquam reginam</persName> in <placeName key="geo-763534">Sandecz</placeName>.</seg>
-                            <seg xml:id="s.1.2.33">Offeram gratissime offertum hodie pro salute et prospero successu Magnificencie
+                    <seg part="N" xml:id="s.1.2.32">Dominus Roy libenter vobiscum vellet videri cras aut finaliter
+                                feria tercia; de hinc equitat ad dominam <persName key="gnd-105405214X" instant="false" full="yes">antiquam reginam</persName> in <placeName key="geo-763534" instant="false" full="yes">Sandecz</placeName>.</seg>
+                    <seg part="N" xml:id="s.1.2.33">Offeram gratissime offertum hodie pro salute et prospero successu Magnificencie
                                 Vestre et pauperibus erogabo pro posse.</seg>
-                            <seg xml:id="s.1.2.34">Et domino baccalario post hanc
+                    <seg part="N" xml:id="s.1.2.34">Et domino baccalario post hanc
                                 horam, nunccio expedito, missam ministrabo, sed forte extra ciuitatem si continget
                                 me ministrare, prout ipsum pecii primo de isto, vere sibi bonum offeram
                                 offertum, quod sibi facere fideliter promisi, vt dominum deum <sic>exorerent</sic>
                                 pro vobis, quod facere promisit.</seg>
-                            <seg xml:id="s.1.2.35">Sed vtinam etc.</seg>
-                            <seg xml:id="s.1.2.36">Ex <placeName key="geo-3094802">Cracouia</placeName>, <date when="1455-08-24">dominico sancti
-                                Bartho<supplied>lomei</supplied>, hora xiiii, 1455</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>Per Vestre <expan>M<ex>agnificencie</ex>
-                                </expan> seruitorem <lb/> Math<supplied>iam</supplied>
-                                <anchor xml:id="a2"/>
-                            </seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po equitabo skreślone vbicumque.</note>
-                        <note n="b" type="transcription" target="#ab">et dixit nadpisane.</note>
-                        <note n="c" type="transcription" target="#ac">similiter nadpisane.</note>
-                        <note n="d" type="transcription" target="#ad">Tum skreślone, po czym nadpisane.</note>
-                        <note n="e" type="transcription" target="#ae">hic nadpisane.</note>
-                        <note n="f" type="transcription" target="#af">hic: h poprawione z I.</note>
-                        <note n="g" type="transcription" target="#ag">po et skreślone S.</note>
-                        <note n="h" type="transcription" target="#ah">hesterna: s poprawione z d.</note>
-                        <note n="1" target="#a1">Kolegium Psałterzystów w katedrze krak. zostało
+                    <seg part="N" xml:id="s.1.2.35">Sed vtinam etc.</seg>
+                    <seg part="N" xml:id="s.1.2.36">Ex <placeName key="geo-3094802" instant="false" full="yes">Cracouia</placeName>, <date when="1455-08-24" instant="false">dominico sancti
+                                Bartho<supplied instant="false">lomei</supplied>, hora xiiii, 1455</date>.</seg>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>Per Vestre <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan> seruitorem <lb/> Math<supplied instant="false">iam</supplied>
+                        <anchor xml:id="a2"/>
+                    </seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName>, miecznikowi krakowskiemu
+                                i żupnikowi, wielce łaskawemu panu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Wielmożny panie, wielce łaskawy dobrodzieju.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Wczoraj, gdy w porze dzwonów
+                                na Salve przybył tu do Krakowa <persName key="serafin-0121" instant="false" full="yes">Mikuła</persName>, pani wasza małżonka natychmiast
+                                posłała z prośbą, aby przyszedł do niej pan <persName key="serafin-0070" instant="false" full="yes">Mikołaj</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Gdy się wreszcie pojawił,
+                                rzekł: „Jutro — to jest dziś, w niedzielę — rano nigdzie nie mogę się ruszyć,
+                                ponieważ moja pani, <persName key="serafin-0122" instant="false" full="yes">pani kasztelanowa krakowska</persName> ma licznych gości na śniadaniu.
+                                Lecz po śniadaniu pojadę konno — dokądkolwiek poleci pan żupnik
+                                — z samym <persName key="serafin-0123" instant="false" full="yes">Śmielem</persName>, nikomu nic nie mówiąc. Nie wyjadę jednak, zanim pan
+                                żupnik powtórnie mnie nie zawiadomi przed lub zaraz po śniadaniu, dokąd
+                                to mam się potajemnie skierować”. Powiedział też: „Wiedzcie, że dzisiaj byłem
+                                w Wieliczce, lecz nie spotkałem tam pana podżupka. Wysłałem do niego
+                                Śmiela, on zaś, mimo że mógł to zrobić, w żadnym razie nie chciał się ze mną
+                                spotkać, mówiąc: ‘nic nie mam do pana podstarościego’”. Mówił też wiele innych
+                                rzeczy.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Kazał więc pan podstarości zawiadomić, że nie chce zostawić ani
+                                jednego bałwana soli, póki nie otrzyma zapłaty za wszystkie zaległe tygodnie,
+                                których, jak mówi, jest osiem i właśnie mija dziewiąty etc.</seg>
+                    <seg part="N" corresp="#s.1.2.5">W stosunku do Waszej
+                                Wielmożności zachowuje się jednak ładnie i według waszych oczekiwań,
+                                lecz skarży się na pana <persName key="serafin-0124" instant="false" full="yes">Kyntha</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Gotów jest zatem pojechać natychmiast po
+                                śniadaniu, dokądkolwiek nakażecie, o ile tylko go zawiadomicie.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Ja sam bym
+                                pojechał, jako sługa Waszej Wielmożności, lecz wczoraj, w porze Salve przysłał
+                                po mnie pan <persName key="wikidata-Q56255128" instant="false" full="yes">Mikołaj z Kalisza</persName>. W jego gospodzie był także pan <persName key="serafin-0125" instant="false" full="yes">Lutek</persName>, obaj
+                                zaś są waszymi szczerymi przyjaciółmi.</seg>
+                    <seg part="N" corresp="#s.1.2.8">Tenże pan Mikołaj powiedział, że powinienem zadbać o dzisiejsze zaopatrzenie pani <persName key="gnd-123396980" instant="false" full="yes">królowej</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Spodziewając się, że
+                                coś przywiozą z żup — zawiadamiałem bowiem <persName key="serafin-0126" instant="false" full="yes">Ziemę</persName>, że dostaję takie zlecenia
+                                — powiedziałem: „Na ile zdołam zaopatrzyć, chętnie zaopatrzę” i poszedłem
+                                do waszego domu.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Zastałem Mikułę z waszym listem, z którego dowiedziałem
+                                się, że ma być przygnane stado.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Ucieszyłem się, lecz oto zaraz, pisząc w ich
+                                obecności, posłałem do folwarku, aby się dowiedzieć, czy coś przygnano, lecz
+                                do tej pory nie przygnano niczego. Trzeba więc kupić, ile zdołamy.</seg>
+                    <seg part="N" corresp="#s.1.2.12">Potrzebują
+                                zaś wszystkiego: zarówno mięsa, jak i grochu, prosa oraz słoniny.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Wczoraj tuż
+                                przed śniadaniem przyjechał tu z Bochni woźnica <persName key="serafin-0127" instant="false" full="yes">Lorek</persName> z wozem i strzałami
+                                i przywiózł mi wasz list, którego Ziema jeszcze nie widział. Przeczytawszy go,
+                                posłałem zaraz po śniadaniu przez Lorka list do Wieliczki, pisząc do Ziemy, aby
+                                przybył, wedle tego, co napisaliście.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Nikt jednak do tej pory nie przybył i nie
+                                przysłano też żadnych pieniędzy na zaopatrzenie królowej.</seg>
+                    <seg part="N" corresp="#s.1.2.15">Martwię się więc,
+                                że sprawa ta zostanie zaniedbana, będę się jednak starał, jak najlepiej potrafię.</seg>
+                    <seg part="N" corresp="#s.1.2.16">Wczoraj z rana razem z panem <persName key="serafin-0128" instant="false" full="yes">Koczwarą</persName>, którego poprosiłem do pomocy, byłem
+                                na rozmowie u solarzy. Oni, o ile zrozumiałem, coraz bardziej się niepokoją
+                                tym, co napisaliście — że mają oddawać pieniądze do rąk Ziemy i <persName key="serafin-0099" instant="false" full="yes">Bankiela</persName>,
+                                ci zaś za te pieniądze mają im dawać sól. Wobec czego domyślają się, że pan
+                                podżupek nie ma nic do tego, dlatego też się niepokoją.</seg>
+                    <seg part="N" corresp="#s.1.2.17">Lecz ja na to: „Służy
+                                to waszemu dobru, oni bowiem nie są u nikogo zadłużeni, pewniej więc wam
+                                zapłacą niż podżupek”.</seg>
+                    <seg part="N" corresp="#s.1.2.18">Niemniej jednak mają wątpliwości, zwłaszcza że Ziema
+                                i Bankiel nie przybyli. I, jak widzę, nie ma się czego po nich spodziewać, bo nie
+                                są zgodni i wiele mówią o tym, że kiedy podobnie dali pieniądze, również na
+                                poczet przyszłych prac, nie wywiązano się wobec nich z zobowiązań.</seg>
+                    <seg part="N" corresp="#s.1.2.19">Mówią
+                                też, tak jak przedtem, o sprzedaży soli, zwłaszcza w folwarkach.</seg>
+                    <seg part="N" corresp="#s.1.2.20">Jeżeli przybędą
+                                Ziema i Bankiel, pójdziemy dziś do nich razem. Może im się w tej sprawie
+                                lepiej powiedzie; tak powinno być, skoro oni się tym zajmują. Niech jednak
+                                Wasza Wielmożność pomyśli o wypłacie z innego źródła, bo, o ile wiem, jest
+                                opóźnienie.</seg>
+                    <seg part="N" corresp="#s.1.2.21">Ponadto wiedzcie, że dzień wcześniej, to znaczy w piątek, byłem
+                                u <persName key="serafin-0129" instant="false" full="yes">Żywczakowej</persName>, która powiedziała mi, że przysłano jej kłody. Ale, ponieważ
+                                byłem sam i nie znam się na kłodach, nie dobiłem z nią targu, lecz zawiadomiłem
+                                Ziemę za pośrednictwem jego chłopaka, aby przybył z leśnym obejrzeć
+                                te kłody i dobić z nią targu, ponieważ oni lepiej się na tym znają, nie dostałem
+                                jednak żadnej odpowiedzi.</seg>
+                    <seg part="N" corresp="#s.1.2.22">Być może, jak mi doniesiono, Żywczakowa była wczoraj w Wieliczce.</seg>
+                    <seg part="N" corresp="#s.1.2.23">
+                        <persName key="serafin-0130" instant="false" full="yes">Sołtysek</persName> mówi, że byłoby dobrze kupić dwie kopy tych
+                                kłód razem z gałęziami, które na nich są. Gałęzie bowiem przydałyby się do
+                                ogrzewania waszego domu i do kuchni, gdyż, jak twierdzi, w domu jest bardzo
+                                mało drewna.</seg>
+                    <seg part="N" corresp="#s.1.2.24">Zawiadomcie ich więc, o ile sobie życzycie, aby od razu dobili
+                                targu.</seg>
+                    <seg part="N" corresp="#s.1.2.25">Wczoraj i w piątek przygotowano 30 kop strzał. Jutro włożymy je do
+                                beczek razem z tymi, które przywieziono z Bochni, i ponieważ również jutro
+                                zostanie zrobionych kilka kop, wszystko zapakuje się razem. Nie zostanie to
+                                zaniedbane.</seg>
+                    <seg part="N" corresp="#s.1.2.26">Woźnicę zatrzymałem na takich warunkach, że już od dzisiaj liczy
+                                sobie swoje dni tygodniowe, inaczej nie zdołałem go zatrzymać. Chciał liczyć
+                                od wczoraj i zgodziliśmy go za jeden wiardunek tygodniowo od każdego konia
+                                wraz z utrzymaniem i podkowami, o ile przytrafi się w drodze. Wszyscy mówią,
+                                że taka jest praktyka.</seg>
+                    <seg part="N" corresp="#s.1.2.27">Musiałem mu również obiecać, że jeżeli mu się zdarzy
+                                jechać w okolice, gdzie toczy się wojna, czemu byłby niechętny, mamy mu płacić
+                                jak teraz, co tydzień, i wraz z utrzymaniem.</seg>
+                    <seg part="N" corresp="#s.1.2.28">Musiałem tak uczynić, idąc za
+                                radą pana Lutka i innych, ponieważ żaden inny woźnica nie chciał ruszyć się
+                                w tamte strony oprócz <persName key="serafin-0131" instant="false" full="yes">Słowika</persName>, który też się wahał. Lecz już go przyjąłem na
+                                stałe i dałem mu pół grzywny zadatku.</seg>
+                    <seg part="N" corresp="#s.1.2.29">Nie widzę tu żadnych panów, mówią
+                                jednak, że pan <persName key="wikidata-Q11780821" instant="false" full="yes">marszałek</persName> dotąd przebywa w okolicy zajęty po wsiach dziesięcinami.</seg>
+                    <seg part="N" corresp="#s.1.2.30">Prócz tego byłem z panem <persName key="wikidata-Q9342939" instant="false" full="yes">Rojem</persName> u psałterzystów, u których przedtem
+                                byłem z <persName key="serafin-0083" instant="false" full="yes">bakałarzem</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.31">Na prośbę pana Roja dają oni na wasz przyjazd tydzień
+                                dyspensy od interdyktu, abyście mogli ich czymś ułagodzić.</seg>
+                    <seg part="N" corresp="#s.1.2.32">Pan Roj chętnie
+                                by się z wami zobaczył jutro albo najpóźniej we wtorek — jedzie stąd do <persName key="gnd-105405214X" instant="false" full="yes">starej
+                                    pani królowej</persName> do <placeName key="geo-763534" instant="false" full="yes">Sącza</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.33">Jak najchętniej złożę dziś ofiarę w intencji pomyślności
+                                i zdrowia Waszej Wielmożności. Dam też ubogim, ile będę mógł.</seg>
+                    <seg part="N" corresp="#s.1.2.34">Za godzinę,
+                                wyprawiwszy posłańca, będę służył do mszy panu bakałarzowi, lecz być może
+                                wypadnie mi służyć poza miastem, tak jak przedtem go o to prosiłem, i naprawdę
+                                dam mu godną ofiarę. Obiecałem mu to solennie, aby modlił się za was,
+                                co obiecał uczynić.</seg>
+                    <seg part="N" corresp="#s.1.2.35">Oby tak było etc.</seg>
+                    <seg part="N" corresp="#s.1.2.36">Z <placeName key="geo-3094802" instant="false" full="yes">Krakowa</placeName>, w <date when="1455-08-24" instant="false">niedzielę św. Bartłomieja
+                                1455, o godzinie 14</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>Przez sługę Waszej Wielmożności Macieja</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po equitabo skreślone vbicumque.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">et dixit nadpisane.</note>
+            <note n="c" type="transcription" target="#ac" anchored="true">similiter nadpisane.</note>
+            <note n="d" type="transcription" target="#ad" anchored="true">Tum skreślone, po czym nadpisane.</note>
+            <note n="e" type="transcription" target="#ae" anchored="true">hic nadpisane.</note>
+            <note n="f" type="transcription" target="#af" anchored="true">hic: h poprawione z I.</note>
+            <note n="g" type="transcription" target="#ag" anchored="true">po et skreślone S.</note>
+            <note n="h" type="transcription" target="#ah" anchored="true">hesterna: s poprawione z d.</note>
+            <note n="1" target="#a1" anchored="true">Kolegium Psałterzystów w katedrze krak. zostało
                             ustanowione przez królową Jadwigę w 1393 r., co potwierdził osobnym
                             dokumentem Władysław Jagiełło. Obowiązkiem szesnastu psałterzystów było
                             śpiewanie psałterza przez całą dobę, z wyjątkiem czasu, gdy odprawiane
@@ -244,149 +396,7 @@
                                 Suppl. 1451–1460</title>, s. 45–46; Kumor, <title>Dzieje diec.
                                     krak.</title>, s. 381–385; <title>Wypisy</title> 1440–1500, s.
                             43).</note>
-                        <note n="2" target="#a2">najpewniej Maciej sztygar.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName>, miecznikowi krakowskiemu
-                                i żupnikowi, wielce łaskawemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Wielmożny panie, wielce łaskawy dobrodzieju.</seg>
-                            <seg xml:id="t.1.2.2">Wczoraj, gdy w porze dzwonów
-                                na Salve przybył tu do Krakowa <persName key="serafin-0121">Mikuła</persName>, pani wasza małżonka natychmiast
-                                posłała z prośbą, aby przyszedł do niej pan <persName key="serafin-0070">Mikołaj</persName>.</seg>
-                            <seg xml:id="t.1.2.3">Gdy się wreszcie pojawił,
-                                rzekł: „Jutro — to jest dziś, w niedzielę — rano nigdzie nie mogę się ruszyć,
-                                ponieważ moja pani, <persName key="serafin-0122">pani kasztelanowa krakowska</persName> ma licznych gości na śniadaniu.
-                                Lecz po śniadaniu pojadę konno — dokądkolwiek poleci pan żupnik
-                                — z samym <persName key="serafin-0123">Śmielem</persName>, nikomu nic nie mówiąc. Nie wyjadę jednak, zanim pan
-                                żupnik powtórnie mnie nie zawiadomi przed lub zaraz po śniadaniu, dokąd
-                                to mam się potajemnie skierować”. Powiedział też: „Wiedzcie, że dzisiaj byłem
-                                w Wieliczce, lecz nie spotkałem tam pana podżupka. Wysłałem do niego
-                                Śmiela, on zaś, mimo że mógł to zrobić, w żadnym razie nie chciał się ze mną
-                                spotkać, mówiąc: ‘nic nie mam do pana podstarościego’”. Mówił też wiele innych
-                                rzeczy.</seg>
-                            <seg xml:id="t.1.2.4">Kazał więc pan podstarości zawiadomić, że nie chce zostawić ani
-                                jednego bałwana soli, póki nie otrzyma zapłaty za wszystkie zaległe tygodnie,
-                                których, jak mówi, jest osiem i właśnie mija dziewiąty etc.</seg>
-                            <seg xml:id="t.1.2.5">W stosunku do Waszej
-                                Wielmożności zachowuje się jednak ładnie i według waszych oczekiwań,
-                                lecz skarży się na pana <persName key="serafin-0124">Kyntha</persName>.</seg>
-                            <seg xml:id="t.1.2.6">Gotów jest zatem pojechać natychmiast po
-                                śniadaniu, dokądkolwiek nakażecie, o ile tylko go zawiadomicie.</seg>
-                            <seg xml:id="t.1.2.7">Ja sam bym
-                                pojechał, jako sługa Waszej Wielmożności, lecz wczoraj, w porze Salve przysłał
-                                po mnie pan <persName key="wikidata-Q56255128">Mikołaj z Kalisza</persName>. W jego gospodzie był także pan <persName key="serafin-0125">Lutek</persName>, obaj
-                                zaś są waszymi szczerymi przyjaciółmi.</seg>
-                            <seg xml:id="t.1.2.8">Tenże pan Mikołaj powiedział, że powinienem zadbać o dzisiejsze zaopatrzenie pani <persName key="gnd-123396980">królowej</persName>.</seg>
-                            <seg xml:id="t.1.2.9">Spodziewając się, że
-                                coś przywiozą z żup — zawiadamiałem bowiem <persName key="serafin-0126">Ziemę</persName>, że dostaję takie zlecenia
-                                — powiedziałem: „Na ile zdołam zaopatrzyć, chętnie zaopatrzę” i poszedłem
-                                do waszego domu.</seg>
-                            <seg xml:id="t.1.2.10">Zastałem Mikułę z waszym listem, z którego dowiedziałem
-                                się, że ma być przygnane stado.</seg>
-                            <seg xml:id="t.1.2.11">Ucieszyłem się, lecz oto zaraz, pisząc w ich
-                                obecności, posłałem do folwarku, aby się dowiedzieć, czy coś przygnano, lecz
-                                do tej pory nie przygnano niczego. Trzeba więc kupić, ile zdołamy.</seg>
-                            <seg xml:id="t.1.2.12">Potrzebują
-                                zaś wszystkiego: zarówno mięsa, jak i grochu, prosa oraz słoniny.</seg>
-                            <seg xml:id="t.1.2.13">Wczoraj tuż
-                                przed śniadaniem przyjechał tu z Bochni woźnica <persName key="serafin-0127">Lorek</persName> z wozem i strzałami
-                                i przywiózł mi wasz list, którego Ziema jeszcze nie widział. Przeczytawszy go,
-                                posłałem zaraz po śniadaniu przez Lorka list do Wieliczki, pisząc do Ziemy, aby
-                                przybył, wedle tego, co napisaliście.</seg>
-                            <seg xml:id="t.1.2.14">Nikt jednak do tej pory nie przybył i nie
-                                przysłano też żadnych pieniędzy na zaopatrzenie królowej.</seg>
-                            <seg xml:id="t.1.2.15">Martwię się więc,
-                                że sprawa ta zostanie zaniedbana, będę się jednak starał, jak najlepiej potrafię.</seg>
-                            <seg xml:id="t.1.2.16">Wczoraj z rana razem z panem <persName key="serafin-0128">Koczwarą</persName>, którego poprosiłem do pomocy, byłem
-                                na rozmowie u solarzy. Oni, o ile zrozumiałem, coraz bardziej się niepokoją
-                                tym, co napisaliście — że mają oddawać pieniądze do rąk Ziemy i <persName key="serafin-0099">Bankiela</persName>,
-                                ci zaś za te pieniądze mają im dawać sól. Wobec czego domyślają się, że pan
-                                podżupek nie ma nic do tego, dlatego też się niepokoją.</seg>
-                            <seg xml:id="t.1.2.17">Lecz ja na to: „Służy
-                                to waszemu dobru, oni bowiem nie są u nikogo zadłużeni, pewniej więc wam
-                                zapłacą niż podżupek”.</seg>
-                            <seg xml:id="t.1.2.18">Niemniej jednak mają wątpliwości, zwłaszcza że Ziema
-                                i Bankiel nie przybyli. I, jak widzę, nie ma się czego po nich spodziewać, bo nie
-                                są zgodni i wiele mówią o tym, że kiedy podobnie dali pieniądze, również na
-                                poczet przyszłych prac, nie wywiązano się wobec nich z zobowiązań.</seg>
-                            <seg xml:id="t.1.2.19">Mówią
-                                też, tak jak przedtem, o sprzedaży soli, zwłaszcza w folwarkach.</seg>
-                            <seg xml:id="t.1.2.20">Jeżeli przybędą
-                                Ziema i Bankiel, pójdziemy dziś do nich razem. Może im się w tej sprawie
-                                lepiej powiedzie; tak powinno być, skoro oni się tym zajmują. Niech jednak
-                                Wasza Wielmożność pomyśli o wypłacie z innego źródła, bo, o ile wiem, jest
-                                opóźnienie.</seg>
-                            <seg xml:id="t.1.2.21">Ponadto wiedzcie, że dzień wcześniej, to znaczy w piątek, byłem
-                                u <persName key="serafin-0129">Żywczakowej</persName>, która powiedziała mi, że przysłano jej kłody. Ale, ponieważ
-                                byłem sam i nie znam się na kłodach, nie dobiłem z nią targu, lecz zawiadomiłem
-                                Ziemę za pośrednictwem jego chłopaka, aby przybył z leśnym obejrzeć
-                                te kłody i dobić z nią targu, ponieważ oni lepiej się na tym znają, nie dostałem
-                                jednak żadnej odpowiedzi.</seg>
-                            <seg xml:id="t.1.2.22">Być może, jak mi doniesiono, Żywczakowa była wczoraj w Wieliczce.</seg>
-                            <seg xml:id="t.1.2.23">
-                                <persName key="serafin-0130">Sołtysek</persName> mówi, że byłoby dobrze kupić dwie kopy tych
-                                kłód razem z gałęziami, które na nich są. Gałęzie bowiem przydałyby się do
-                                ogrzewania waszego domu i do kuchni, gdyż, jak twierdzi, w domu jest bardzo
-                                mało drewna.</seg>
-                            <seg xml:id="t.1.2.24">Zawiadomcie ich więc, o ile sobie życzycie, aby od razu dobili
-                                targu.</seg>
-                            <seg xml:id="t.1.2.25">Wczoraj i w piątek przygotowano 30 kop strzał. Jutro włożymy je do
-                                beczek razem z tymi, które przywieziono z Bochni, i ponieważ również jutro
-                                zostanie zrobionych kilka kop, wszystko zapakuje się razem. Nie zostanie to
-                                zaniedbane.</seg>
-                            <seg xml:id="t.1.2.26">Woźnicę zatrzymałem na takich warunkach, że już od dzisiaj liczy
-                                sobie swoje dni tygodniowe, inaczej nie zdołałem go zatrzymać. Chciał liczyć
-                                od wczoraj i zgodziliśmy go za jeden wiardunek tygodniowo od każdego konia
-                                wraz z utrzymaniem i podkowami, o ile przytrafi się w drodze. Wszyscy mówią,
-                                że taka jest praktyka.</seg>
-                            <seg xml:id="t.1.2.27">Musiałem mu również obiecać, że jeżeli mu się zdarzy
-                                jechać w okolice, gdzie toczy się wojna, czemu byłby niechętny, mamy mu płacić
-                                jak teraz, co tydzień, i wraz z utrzymaniem.</seg>
-                            <seg xml:id="t.1.2.28">Musiałem tak uczynić, idąc za
-                                radą pana Lutka i innych, ponieważ żaden inny woźnica nie chciał ruszyć się
-                                w tamte strony oprócz <persName key="serafin-0131">Słowika</persName>, który też się wahał. Lecz już go przyjąłem na
-                                stałe i dałem mu pół grzywny zadatku.</seg>
-                            <seg xml:id="t.1.2.29">Nie widzę tu żadnych panów, mówią
-                                jednak, że pan <persName key="wikidata-Q11780821">marszałek</persName> dotąd przebywa w okolicy zajęty po wsiach dziesięcinami.</seg>
-                            <seg xml:id="t.1.2.30">Prócz tego byłem z panem <persName key="wikidata-Q9342939">Rojem</persName> u psałterzystów, u których przedtem
-                                byłem z <persName key="serafin-0083">bakałarzem</persName>.</seg>
-                            <seg xml:id="t.1.2.31">Na prośbę pana Roja dają oni na wasz przyjazd tydzień
-                                dyspensy od interdyktu, abyście mogli ich czymś ułagodzić.</seg>
-                            <seg xml:id="t.1.2.32">Pan Roj chętnie
-                                by się z wami zobaczył jutro albo najpóźniej we wtorek — jedzie stąd do <persName key="gnd-105405214X">starej
-                                    pani królowej</persName> do <placeName key="geo-763534">Sącza</placeName>.</seg>
-                            <seg xml:id="t.1.2.33">Jak najchętniej złożę dziś ofiarę w intencji pomyślności
-                                i zdrowia Waszej Wielmożności. Dam też ubogim, ile będę mógł.</seg>
-                            <seg xml:id="t.1.2.34">Za godzinę,
-                                wyprawiwszy posłańca, będę służył do mszy panu bakałarzowi, lecz być może
-                                wypadnie mi służyć poza miastem, tak jak przedtem go o to prosiłem, i naprawdę
-                                dam mu godną ofiarę. Obiecałem mu to solennie, aby modlił się za was,
-                                co obiecał uczynić.</seg>
-                            <seg xml:id="t.1.2.35">Oby tak było etc.</seg>
-                            <seg xml:id="t.1.2.36">Z <placeName key="geo-3094802">Krakowa</placeName>, w <date when="1455-08-24">niedzielę św. Bartłomieja
-                                1455, o godzinie 14</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>Przez sługę Waszej Wielmożności Macieja</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+            <note n="2" target="#a2" anchored="true">najpewniej Maciej sztygar.</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS9">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-775758">Bochnia</placeName>, <date when="1443-11-06" when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
+                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>, <date when="1443-11-06"
+                          when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]"
+                          instant="false">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
                 <editor>Anna Skolimowska</editor>
@@ -13,173 +15,198 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 139 (183)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, dopisek, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, dopisek, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>215 × 156 mm;  ślady zawilgocenia i ubytki papieru w dolnej części karty.</p>
+                        <p part="N">215 × 156 mm;  ślady zawilgocenia i ubytki papieru w dolnej części karty.</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0010">Jakub z Dąbrówki</persName>
-                    <persName key="Bochnia">Bochnia</persName>
-                    <date when="1443-11-06" when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
+                    <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName>
+                    <persName key="Bochnia" instant="false" full="yes">Bochnia</persName>
+                    <date when="1443-11-06"
+                          when-custom="[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]"
+                          instant="false">[6-10] listopada [1443 lub 1444-1446, 1448-1451, 1454-1456]</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin11.xml">Previous letter of <persName key="serafin-0038">Mikołaj Suchorabski</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when-custom="1443-1445" notBefore="1443" notAfter="1445">[1443-1445]</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin11.xml">Previous letter of <persName key="serafin-0038" instant="false" full="yes">Mikołaj Suchorabski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when-custom="1443-1445"
+                              notBefore="1443"
+                              notAfter="1445"
+                              instant="false">[1443-1445]</date>
                     </ref>
-                    <ref type="next" target="serafin10.xml">Next letter of <persName key="wikidata-Q101002566">Piotr Cikowski</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1443-11-20" when-custom="20 listopada 1443 lub 1448">20 listopada
+                    <ref type="next" target="serafin10.xml">Next letter of <persName key="wikidata-Q101002566" instant="false" full="yes">Piotr Cikowski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1443-11-20"
+                              when-custom="20 listopada 1443 lub 1448"
+                              instant="false">20 listopada
                         [1443 lub 1448]</date>
                     </ref>
-                    <ref type="previous-in-correspondence" target="serafin04.xml">Previous letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
+                    <ref type="previous-in-correspondence" target="serafin04.xml">Previous letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1441-04-07" when-custom="7 kwietnia 1441" instant="false">[7 kwietnia
                         1441]</date>
                     </ref>
-                    <ref type="next-in-correspondence" target="serafin13.xml">Next letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1444-06-04">4 czerwca 1444</date>
+                    <ref type="next-in-correspondence" target="serafin13.xml">Next letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1444-06-04" instant="false">4 czerwca 1444</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico domino <persName key="gnd-139138560">Nicolao Seraphin</persName> <lb/> gladifero <supplied>Cracouiensi</supplied>, zuppario vtriusque <lb/> salis, domino <supplied>gracioso</supplied>
-                                <anchor xml:id="aa"/>.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Magnifice domine.</seg>
-                            <seg xml:id="s.1.2.2">Scripsit michi <expan>V<ex>estra</ex>
-                                </expan> <expan>M<ex>agnificencia</ex>
-                                </expan>, quod de banccato sale aliquid de peccuniis dirrigerem.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.3">Scire velit Dominacio <expan>V<ex>estra</ex>
-                                </expan>, quod nequiui habere quidquam de peccunia banctati salis, solum quod <lb/> habeo inter mercatores pro laboratoribus marcas viginti, et s<supplied>e</supplied>ctores pro solucione habere |<lb/> debent marcas triginta septem, tragarii vero viginti quinque, et <persName key="serafin-0036">Andree</persName> notario<lb/> regio super mandatum <expan>V<ex>estre</ex>
-                                </expan> <expan>M<ex>agnificencie</ex>
-                                </expan> dedi marcas quinque, et sic re uera nichil plus habeo<lb/> pro solucionibus laborum<anchor xml:id="ab"/>, nisi marcas viginti inter <sic>marcatores</sic>, et si non facitis<anchor xml:id="ac"/>
-                                <lb/> facere laboratoribus solucionem, extunc M(agnificencie) V(estre) easdem viginti marcas dirrigam.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.4">Et eciam de ceruisia Vislicensi <expan>V<ex>estra</ex>
-                                </expan> <expan>M<ex>agnificencia</ex>
-                                </expan> scribit; vere pro nu<supplied>n</supplied>c nullum haustum habeo, sed <lb/>si et in quantum ita citto de <placeName key="geo-755593">Wislicia</placeName> adducetur, extunc <expan>M<ex>agnificencie</ex>
-                                </expan> <expan>V<ex>estre</ex>
-                                </expan> ruppta<anchor xml:id="ad"/> mora <lb/>eandem dirrigam.</seg>
-                            <seg xml:id="s.1.2.5">Dirrigo <expan>M<ex>agnificencie</ex>
-                                </expan> <expan>V<ex>estre</ex>
-                                </expan> Cracouiam duo quartalia carnis bouine <lb/>et vnum porcum, et de panibus decem sexagenas albis<anchor xml:id="ae"/>.</seg>
-                            <seg xml:id="s.1.2.6">Et eciam scribit <expan>M<ex>agnificencia</ex>
-                                </expan> <expan>V<ex>estra</ex>
-                                </expan>
-                                <lb/>, quod dirrigerem de ferrinis <supplied>e</supplied>t de auibus.</seg> 
-                            <seg xml:id="s.1.2.7">Nichil p<supplied>ossum h</supplied>abere, et eciam iam hiis <lb/>temporibus aues non sunt.</seg>
-                            <seg xml:id="s.1.2.8">
-                                <gap/>e<anchor xml:id="af"/> transe<supplied>u</supplied>nte iam<anchor xml:id="ag"/> curru c<supplied>ontigi</supplied>t michi laicus cum duobus <add>leporibus</add>
-                                <lb/>, quos <expan>M<ex>agnificencie</ex>
-                                </expan> <expan>V<ex>estre</ex>
-                                </expan> dirrigo, <gap/> vere aliquid pulcri dirrigere non habui.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.9">Valete in <unclear>
-                                    <expan>Ih<ex>es</ex>u</expan>
-                                </unclear>.</seg>
-                            <seg xml:id="s.1.2.10">Datum in <persName key="Bochnia">Boch<supplied>na d<ex>omi</ex>
-                                    </supplied>
-                                </persName> nico die ante Martini.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0010">Iacobus</persName> vicezupparius</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <seg xml:id="s.1.4.1.1">
-                                    <lb/>
-                                    <add>Isti aurige <persName key="serafin-0037">Voytek</persName>
-                                        <lb/> sua solaria exolui, <lb/> similiter illi, qui fugam <lb/> dedit, eciam exolui.</add>
-                                </seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">
-                            <supplied>gracioso</supplied> zaklejone kalką techniczną.</note>
-                        <note n="b" type="transcription" target="#ab">laborum poprawione z laboris.</note>
-                        <note n="c" type="transcription" target="#ac">facitis rkps: fecitis.</note>
-                        <note n="d" type="transcription" target="#ad">ruppta: r poprawione z d.</note>
-                        <note n="e" type="transcription" target="#ae">albis rkps: ablis.</note>
-                        <note n="f" type="transcription" target="#af">e nadpisane.</note>
-                        <note n="g" type="transcription" target="#ag">iam nadpisane.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, łaskawemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Wielmożny panie.</seg>
-                            <seg xml:id="t.1.2.2">Napisał mi Wasza Wielmożność, abym wysłał trochę pieniędzy otrzymanych za sól w bałwanach.</seg>
-                            <seg xml:id="t.1.2.3">Zechce wiedzieć Wasza Dostojność, że nie mogłem uzyskać żadnych pieniędzy za sól w bałwanach, mam jedynie 20 grzywien u kupców na zapłatę robotnikom, a tymczasem kopacze powinni otrzymać 37 grzywien, tragarze 25, zaś <persName key="serafin-0036">Andrzejowi</persName> pisarzowi królewskiemu dałem na polecenie Waszej Wielmożności 5 grzywien. Tak w rzeczy samej nie mam już nic więcej na zapłaty, oprócz 20 grzywien u kupców. Jeśli nie rozkażecie zapłacić robotnikom, wyślę owe 20 grzywien Waszej Wielmożności.</seg>
-                            <seg xml:id="t.1.2.4">Pisze także Wasza Wielmożność o piwie wiślickim; naprawdę nie mam w tej chwili ani łyka, lecz jeśli tylko zostanie szybko dowiezione z <placeName key="geo-755593">Wiślicy</placeName>, bez zwłoki wyślę wszystko Waszej Wielmożności.</seg>
-                            <seg xml:id="t.1.2.5">Wysyłam Waszej Wielmożności do Krakowa dwie ćwiartki wołowiny, jednego wieprzka i 10 kop białych chlebów</seg>
-                            <seg xml:id="t.1.2.6">Pisze także Wasza Wielmożność, abym wysłał coś z dziczyzny i z ptactwa.</seg>
-                            <seg xml:id="t.1.2.7">Nie mam nic, a poza tym o tej porze ptaki się nie pojawiają.</seg>
-                            <seg xml:id="t.1.2.8">
-                                <gap/> gdy odjeżdżał już wóz, trafił mi się jakiś człowiek z dwoma zającami, które przesyłam Waszej Wielmożności, <gap/> naprawdę nie miałem nic lepszego do wysłania.</seg>
-                            <seg xml:id="t.1.2.9">Ostańcie z Bogiem.</seg>
-                            <seg xml:id="t.1.2.10">Dan w <persName key="Bochnia">Bochni</persName>, w niedzielę przed św. Marcinem.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0010">Jakub</persName> podżupek</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <seg xml:id="t.1.4.1.1">
-                                    <lb/>Woźnicy <persName key="serafin-0037">Wojtkowi</persName> wypłaciłem jego należność, podobnie temu, który uciekł, także wypłaciłem.</seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Magnifico domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>
+                        <lb/> gladifero <supplied instant="false">Cracouiensi</supplied>, zuppario vtriusque <lb/> salis, domino <supplied instant="false">gracioso</supplied>
+                        <anchor xml:id="aa"/>.</seg>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Magnifice domine.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Scripsit michi <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>
+                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>, quod de banccato sale aliquid de peccuniis dirrigerem.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.3">Scire velit Dominacio <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>, quod nequiui habere quidquam de peccunia banctati salis, solum quod <lb/> habeo inter mercatores pro laboratoribus marcas viginti, et s<supplied instant="false">e</supplied>ctores pro solucione habere |<lb/> debent marcas triginta septem, tragarii vero viginti quinque, et <persName key="serafin-0036" instant="false" full="yes">Andree</persName> notario<lb/> regio super mandatum <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan>
+                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan> dedi marcas quinque, et sic re uera nichil plus habeo<lb/> pro solucionibus laborum<anchor xml:id="ab"/>, nisi marcas viginti inter <sic>marcatores</sic>, et si non facitis<anchor xml:id="ac"/>
+                        <lb/> facere laboratoribus solucionem, extunc M(agnificencie) V(estre) easdem viginti marcas dirrigam.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.4">Et eciam de ceruisia Vislicensi <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>
+                        <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan> scribit; vere pro nu<supplied instant="false">n</supplied>c nullum haustum habeo, sed <lb/>si et in quantum ita citto de <placeName key="geo-755593" instant="false" full="yes">Wislicia</placeName> adducetur, extunc <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> ruppta<anchor xml:id="ad"/> mora <lb/>eandem dirrigam.</seg>
+                    <seg part="N" xml:id="s.1.2.5">Dirrigo <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> Cracouiam duo quartalia carnis bouine <lb/>et vnum porcum, et de panibus decem sexagenas albis<anchor xml:id="ae"/>.</seg>
+                    <seg part="N" xml:id="s.1.2.6">Et eciam scribit <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>
+                        <lb/>, quod dirrigerem de ferrinis <supplied instant="false">e</supplied>t de auibus.</seg>
+                    <seg part="N" xml:id="s.1.2.7">Nichil p<supplied instant="false">ossum h</supplied>abere, et eciam iam hiis <lb/>temporibus aues non sunt.</seg>
+                    <seg part="N" xml:id="s.1.2.8">
+                        <gap instant="false"/>e<anchor xml:id="af"/> transe<supplied instant="false">u</supplied>nte iam<anchor xml:id="ag"/> curru c<supplied instant="false">ontigi</supplied>t michi laicus cum duobus <add instant="false" status="unremarkable">leporibus</add>
+                        <lb/>, quos <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> dirrigo, <gap instant="false"/> vere aliquid pulcri dirrigere non habui.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.9">Valete in <unclear instant="false">
+                            <expan instant="false">Ih<ex instant="false">es</ex>u</expan>
+                        </unclear>.</seg>
+                    <seg part="N" xml:id="s.1.2.10">Datum in <persName key="Bochnia" instant="false" full="yes">Boch<supplied instant="false">na d<ex instant="false">omi</ex>
+                            </supplied>
+                        </persName> nico die ante Martini.</seg>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0010" instant="false" full="yes">Iacobus</persName> vicezupparius</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <seg part="N" xml:id="s.1.4.1.1">
+                            <lb/>
+                            <add instant="false" status="unremarkable">Isti aurige <persName key="serafin-0037" instant="false" full="yes">Voytek</persName>
+                                <lb/> sua solaria exolui, <lb/> similiter illi, qui fugam <lb/> dedit, eciam exolui.</add>
+                        </seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, łaskawemu panu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Wielmożny panie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Napisał mi Wasza Wielmożność, abym wysłał trochę pieniędzy otrzymanych za sól w bałwanach.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Zechce wiedzieć Wasza Dostojność, że nie mogłem uzyskać żadnych pieniędzy za sól w bałwanach, mam jedynie 20 grzywien u kupców na zapłatę robotnikom, a tymczasem kopacze powinni otrzymać 37 grzywien, tragarze 25, zaś <persName key="serafin-0036" instant="false" full="yes">Andrzejowi</persName> pisarzowi królewskiemu dałem na polecenie Waszej Wielmożności 5 grzywien. Tak w rzeczy samej nie mam już nic więcej na zapłaty, oprócz 20 grzywien u kupców. Jeśli nie rozkażecie zapłacić robotnikom, wyślę owe 20 grzywien Waszej Wielmożności.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Pisze także Wasza Wielmożność o piwie wiślickim; naprawdę nie mam w tej chwili ani łyka, lecz jeśli tylko zostanie szybko dowiezione z <placeName key="geo-755593" instant="false" full="yes">Wiślicy</placeName>, bez zwłoki wyślę wszystko Waszej Wielmożności.</seg>
+                    <seg part="N" corresp="#s.1.2.5">Wysyłam Waszej Wielmożności do Krakowa dwie ćwiartki wołowiny, jednego wieprzka i 10 kop białych chlebów</seg>
+                    <seg part="N" corresp="#s.1.2.6">Pisze także Wasza Wielmożność, abym wysłał coś z dziczyzny i z ptactwa.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Nie mam nic, a poza tym o tej porze ptaki się nie pojawiają.</seg>
+                    <seg part="N" corresp="#s.1.2.8">
+                        <gap instant="false"/> gdy odjeżdżał już wóz, trafił mi się jakiś człowiek z dwoma zającami, które przesyłam Waszej Wielmożności, <gap instant="false"/> naprawdę nie miałem nic lepszego do wysłania.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Ostańcie z Bogiem.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Dan w <persName key="Bochnia" instant="false" full="yes">Bochni</persName>, w niedzielę przed św. Marcinem.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0010" instant="false" full="yes">Jakub</persName> podżupek</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <seg part="N" corresp="#s.1.4.1.1">
+                            <lb/>Woźnicy <persName key="serafin-0037" instant="false" full="yes">Wojtkowi</persName> wypłaciłem jego należność, podobnie temu, który uciekł, także wypłaciłem.</seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">
+                <supplied instant="false">gracioso</supplied> zaklejone kalką techniczną.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">laborum poprawione z laboris.</note>
+            <note n="c" type="transcription" target="#ac" anchored="true">facitis rkps: fecitis.</note>
+            <note n="d" type="transcription" target="#ad" anchored="true">ruppta: r poprawione z d.</note>
+            <note n="e" type="transcription" target="#ae" anchored="true">albis rkps: ablis.</note>
+            <note n="f" type="transcription" target="#af" anchored="true">e nadpisane.</note>
+            <note n="g" type="transcription" target="#ag" anchored="true">iam nadpisane.</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

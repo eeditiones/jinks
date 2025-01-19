@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS41">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Piotr Szafraniec do Mikołaja z Trzebienic i Przybysława z Poręby, <placeName key="geo-3093906">Obóz wojskowy pod Łasinem</placeName>, <date when="1455-10-09">9 października 1455</date>
+                <title>Piotr Szafraniec do Mikołaja z Trzebienic i Przybysława z Poręby, <placeName key="geo-3093906" instant="false" full="yes">Obóz wojskowy pod Łasinem</placeName>, <date when="1455-10-09" instant="false">9 października 1455</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,190 +14,197 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 166 (210)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>210 × 229 mm; stan zachowania bardzo dobry</p>
+                        <p part="N">210 × 229 mm; stan zachowania bardzo dobry</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="wikidata-Q11044024">Piotr Szafraniec</persName>
-                    <placeName key="geo-3093906">Obóz wojskowy pod Łasinem</placeName>
-                    <date when="1455-10-09">9 października 1455</date>
+                    <persName key="wikidata-Q11044024" instant="false" full="yes">Piotr Szafraniec</persName>
+                    <placeName key="geo-3093906" instant="false" full="yes">Obóz wojskowy pod Łasinem</placeName>
+                    <date when="1455-10-09" instant="false">9 października 1455</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin40.xml">Previous letter of  to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1455-09-22">22 września 1455</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin40.xml">Previous letter of  to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1455-09-22" instant="false">22 września 1455</date>
                     </ref>
-                    <ref type="next" target="serafin42.xml">Next letter of <persName key="wikidata-Q4759675"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1457-08-22">22 sierpnia 1457</date>
+                    <ref type="next" target="serafin42.xml">Next letter of <persName key="wikidata-Q4759675" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1457-08-22" instant="false">22 sierpnia 1457</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Nobilibus dominis <persName key="serafin-0144">Nicolao de Trzebyenicze</persName>
-                                necnon <persName key="serafin-0143">Przibislao <lb/> de
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Nobilibus dominis <persName key="serafin-0144" instant="false" full="yes">Nicolao de Trzebyenicze</persName>
+                                necnon <persName key="serafin-0143" instant="false" full="yes">Przibislao <lb/> de
                                     Poramba</persName> amicis nostris dilectis dandum.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Nobiles domini, amici nostri dilecti.</seg>
-                            <seg xml:id="s.1.2.2">Damus vobis cognoscere, quomodo sere<lb/>nissimus
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Nobiles domini, amici nostri dilecti.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Damus vobis cognoscere, quomodo sere<lb/>nissimus
                                 dominus rex iam oretenus, tum etiam per certas literas nobis
                                 specialibus <lb/> dedit in mandatis comittendo, vt nulli domino
                                 dignitario neque alicui <lb/> terrigene, nec cuiquam alteri in
                                 zuppis labores exercere admitteremus, solum ipso domino zuppario,
                                 duntaxat de eius peccuniis per eum pro ipsomet aquisitis.</seg>
-                            <seg xml:id="s.1.2.3">Et pro tanto scribimus literis nostris specialibus
+                    <seg part="N" xml:id="s.1.2.3">Et pro tanto scribimus literis nostris specialibus
                                 ad seniores sectorum, comittentes ipsis, sub quo et vos petimus, vt
                                 specialiter ad unamquamque zuppam descendentes eis districte et
                                 seriose ex parte nostri comittatis et demandetis, vt nullomodo
                                 cuiquam domino dignitario neque alicui alteri persone labores
                                 exerceant nec laborent, nisi tantum domino zuppario pro eiusdem
                                 pecuniis per eum pro ipsomet aquisitis, et ut
-                                    al<supplied>i</supplied>ter facere non audeant sub amissione
+                                    al<supplied instant="false">i</supplied>ter facere non audeant sub amissione
                                 laborum et officiorum suorum, in quibus contrauenientes priuetis
                                 audacter.</seg>
-                            <seg xml:id="s.1.2.4">Et comittimus, vt, dum domino zuppario laborabunt,
+                    <seg part="N" xml:id="s.1.2.4">Et comittimus, vt, dum domino zuppario laborabunt,
                                 quod bonos et magnos pro suo placito cum diligencia perficiant
                                 labores in nullo sue voluntati resistentes, quoniam volumus cum eo
                                 in sincera persistere amicicia.</seg>
-                            <seg xml:id="s.1.2.5">Ceterum dominus zupparius suis scriptis hic coram
+                    <seg part="N" xml:id="s.1.2.5">Ceterum dominus zupparius suis scriptis hic coram
                                 nobis deducit in querela, quomodo isti laboratores, presertim in
                                 Bochna, semper sibi sunt contrarii et quod illas septimanas sibi per
                                 dominum regem admissas laborare non currant.</seg>
-                            <seg xml:id="s.1.2.6">Petimus quocirca vos et his scriptis comittimus,
+                    <seg part="N" xml:id="s.1.2.6">Petimus quocirca vos et his scriptis comittimus,
                                 vt descendentes personaliter cum domino zuppario presertim in
                                 Bochnam, et si opus erit, et in Wyeliczkam, districcius et
                                 serio􀇺si􀇻ssime ex parte nostri eisdem laboratoribus demandetis, vt
                                 in nullo sint contrarii domini Zupparii voluntati, et quod labores
                                 cum diligencia, vt prescripssimus, bonos et magnos pro placito
                                 domini zupparii perficiant.</seg>
-                            <seg xml:id="s.1.2.7">Et rebelles vos nomine nostro, in quo vobis damus
+                    <seg part="N" xml:id="s.1.2.7">Et rebelles vos nomine nostro, in quo vobis damus
                                 presentibus potestatem, castigetis tam intruncacione, quam etiam
                                 laborum et officiorum priuacione, cum domino zuppario super talibus
                                 condictantes.</seg>
-                            <seg xml:id="s.1.2.8">Rogamus, vt semper amicanter apponatis eodem
+                    <seg part="N" xml:id="s.1.2.8">Rogamus, vt semper amicanter apponatis eodem
                                 domino zuppario, facientes tamquam amici nostri pro complacencia
                                 nostra speciali.</seg>
-                            <seg xml:id="s.1.2.9">Datum in loco campestri exercituum circa
-                                    <placeName key="geo-3093906">Laszin</placeName>, <date when="1455-10-09">feria v ipsoque die sancti Dionisii, anno
-                                    Domini mo <supplied>ccccmo</supplied> lmo v</date>to.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="wikidata-Q11044024">Petrus
+                    <seg part="N" xml:id="s.1.2.9">Datum in loco campestri exercituum circa
+                                    <placeName key="geo-3093906" instant="false" full="yes">Laszin</placeName>, <date when="1455-10-09" instant="false">feria v ipsoque die sancti Dionisii, anno
+                                    Domini mo <supplied instant="false">ccccmo</supplied> lmo v</date>to.</seg>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="wikidata-Q11044024" instant="false" full="yes">Petrus
                                     Schaffranyecz</persName> succamerarius Cracouiensis</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes"> </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Do oddania szlachetnym panom <persName key="serafin-0144">Mikołajowi z Trzebienic</persName> i
-                                    <persName key="serafin-0143">Przybysławowi z
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Do oddania szlachetnym panom <persName key="serafin-0144" instant="false" full="yes">Mikołajowi z Trzebienic</persName> i
+                                    <persName key="serafin-0143" instant="false" full="yes">Przybysławowi z
                                     Poręby</persName>, naszym umiłowanym przyjaciołom.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Szlachetni panowie, nasi umiłowani przyjaciele.</seg>
-                            <seg xml:id="t.1.2.2">Przekazujemy wam wiadomość,
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Szlachetni panowie, nasi umiłowani przyjaciele.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Przekazujemy wam wiadomość,
                                 że najjaśniejszy pan król zarówno ustnie, jak i za pośrednictwem pewnych
                                 listów dał nam specjalne polecenie, aby nie zezwalać na prowadzenie prac
                                 w żupach żadnemu panu dostojnikowi, żadnemu ziemianinowi ani nikomu
                                 innemu, jedynie panu żupnikowi, mianowicie za jego pieniądze, przez niego
                                 dla siebie samego pozyskane.</seg>
-                            <seg xml:id="t.1.2.3">Dlatego też piszemy w naszym specjalnym liście
+                    <seg part="N" corresp="#s.1.2.3">Dlatego też piszemy w naszym specjalnym liście
                                 do starszyzny kopaczy, nakazując im, o co i was prosimy, abyście, schodząc specjalnie
                                 do każdej żupy, ostro i surowo nakazali im i polecili w naszym imieniu,
                                 żeby w żadnym wypadku nie prowadzili prac ani nie pracowali dla jakiegokolwiek
                                 pana dostojnika, ani dla żadnej innej osoby, jedynie dla pana żupnika, za
                                 jego pieniądze, przez niego dla siebie samego pozyskane, i żeby nie ośmielali
                                 się czynić inaczej pod groźbą utraty pracy i urzędów.</seg>
-                            <seg xml:id="t.1.2.4">Tych, którzy się sprzeciwią,
+                    <seg part="N" corresp="#s.1.2.4">Tych, którzy się sprzeciwią,
                                 śmiało ich pozbawiajcie. Nakazujemy też, aby, kiedy będą pracowali dla
                                 pana żupnika, z pilnością według jego upodobania dobrze wykonywali ważne
                                 prace, nie opierając się w niczym jego woli. Pragniemy bowiem pozostawać
                                 z nim w szczerej przyjaźni.</seg>
-                            <seg xml:id="t.1.2.5">Tych, którzy się sprzeciwią,
+                    <seg part="N" corresp="#s.1.2.5">Tych, którzy się sprzeciwią,
                                 śmiało ich pozbawiajcie. Nakazujemy też, aby, kiedy będą pracowali dla
                                 pana żupnika, z pilnością według jego upodobania dobrze wykonywali ważne
                                 prace, nie opierając się w niczym jego woli. Pragniemy bowiem pozostawać
                                 z nim w szczerej przyjaźni.</seg>
-                            <seg xml:id="t.1.2.6">Dlatego
+                    <seg part="N" corresp="#s.1.2.6">Dlatego
                                 prosimy was i nakazujemy tym pismem, abyście, schodząc osobiście pod ziemię
                                 razem z panem żupnikiem, przede wszystkim w Bochni, a jeśli trzeba będzie,
                                 to i w Wieliczce, ostro i bardzo surowo polecili w naszym imieniu robotnikom,
                                 aby w niczym nie sprzeciwiali się woli pana żupnika i aby z pilnością, tak jak
                                 napisaliśmy powyżej, dobrze wykonywali ważne prace według upodobania
                                 pana żupnika.</seg>
-                            <seg xml:id="t.1.2.7">Buntowników zaś, uzgadniając to z panem żupnikiem, ukażcie
+                    <seg part="N" corresp="#s.1.2.7">Buntowników zaś, uzgadniając to z panem żupnikiem, ukażcie
                                 w naszym imieniu tak zakuciem w dyby, jak i pozbawieniem pracy oraz stanowisk, na co dajemy wam władzę tym pismem.</seg>
-                            <seg xml:id="t.1.2.8">Prosimy, abyście zawsze odnosili
+                    <seg part="N" corresp="#s.1.2.8">Prosimy, abyście zawsze odnosili
                                 się przyjaźnie do pana żupnika, czyniąc to jako nasi przyjaciele, ku naszemu
                                 szczególnemu zadowoleniu.</seg>
-                            <seg xml:id="t.1.2.9">Dan w obozie koło <placeName key="geo-3093906">Łasina</placeName>, w <date when="1455-10-09">czwartek w dniu
+                    <seg part="N" corresp="#s.1.2.9">Dan w obozie koło <placeName key="geo-3093906" instant="false" full="yes">Łasina</placeName>, w <date when="1455-10-09" instant="false">czwartek w dniu
                                 św. Dionizego, roku Pańskiego 1455</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="wikidata-Q11044024">Piotr Szafraniec</persName>, podkomorzy krakowski</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="wikidata-Q11044024" instant="false" full="yes">Piotr Szafraniec</persName>, podkomorzy krakowski</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
 </TEI>

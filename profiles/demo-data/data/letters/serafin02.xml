@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS2">
     <teiHeader>
         <fileDesc>
@@ -20,14 +22,16 @@
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
             <sourceDesc>
                 <msDesc type="fair-copy">
                     <msIdentifier>
-                        <institution>B. Ossol. </institution>
+                        <repository>B. Ossol. </repository>
                         <idno>rkps 165, k. 184</idno>
                     </msIdentifier>
                     <msContents>
@@ -39,6 +43,11 @@
                             liczne ubytki papieru</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
@@ -48,47 +57,48 @@
                     <placeName key="geo-708313">Gródek</placeName>
                     <date when="1438-01-13">13 stycznia [1438]</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin01.xml">Previous letter of <persName key="serafin-0001">Jan Parawicini</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1437-04-16">16 kwietnia 1437</date>
-                    </ref>
-                    <ref type="next" target="serafin46.xml">Next letter of <persName key="serafin-0087">Antoni</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when-custom="1440-1444" notBefore="1440" notAfter="1444">1440-1444</date>
-                    </ref>
-                </correspContext>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico domino Nicolao Seraphin <lb/>vtriusque salis zuppario
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1">
+                <opener xml:id="s.1.1">
+                    <seg xml:id="s.1.1.1">
+                        <lb/>Magnifico domino Nicolao Seraphin <lb/>vtriusque salis zuppario
                                 Cracouiensi et <lb/>Rusie, domino michi fauoroso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Fidelium seruiciorum pronitate continua cum obediencia
+                </opener>
+                <p xml:id="s.1.2">
+                    <seg xml:id="s.1.2.1">
+                        <lb/>Fidelium seruiciorum pronitate continua cum obediencia
                                 premissa.</seg>
-                            <seg xml:id="s.1.2.2"> Magnifice domine.</seg>
-                            <seg xml:id="s.1.2.3">Precepit michi Vestra Gracia scriptotenus,
+                    <seg xml:id="s.1.2.2"> Magnifice domine.</seg>
+                    <seg xml:id="s.1.2.3">Precepit michi Vestra Gracia scriptotenus,
                                     <supplied>quod</supplied>
-                                <lb/> ducem <persName key="wikidata-Q2133975">Kazimirum</persName> in
+                        <lb/> ducem <persName key="wikidata-Q2133975">Kazimirum</persName> in
                                 trecentis cum quinquaginta marcis deberem expedire.</seg>
-                            <seg xml:id="s.1.2.4">Quod mandatum ducerem
+                    <seg xml:id="s.1.2.4">Quod mandatum ducerem
                                 lib<supplied>enter</supplied>, <lb/>sed deficit causa nam <hi rend="space">gwerrarum</hi> continua propter disturbia<anchor xml:id="a1"/> pauci mercatores, tam salis, qu<supplied>am</supplied>
-                                <gap/>
-                                <lb/> videntur pertransire et, per consequens, pauca pecunia datur
+                        <gap/>
+                        <lb/> videntur pertransire et, per consequens, pauca pecunia datur
                                 theoloneorum, ob quem defectum et n<supplied>ostros</supplied>
-                                <expan>tutor<ex>es</ex>
-                                </expan> non habeo vnde expedire ipsorum annuis in salariis.</seg>
-                            <seg xml:id="s.1.2.5">Vestra tamen exequens mandata in
+                        <expan>tutor<ex>es</ex>
+                        </expan> non habeo vnde expedire ipsorum annuis in salariis.</seg>
+                    <seg xml:id="s.1.2.5">Vestra tamen exequens mandata in
                                     cras<supplied>tino</supplied>, presentium literarum vestrarum
                                 post presentacionem, ducem prefatum auisaui sibi sexaginta marcas
                                 offerendo pro <gap/> pecuniis, solucionis terminos petens prorogari,
@@ -96,26 +106,26 @@
                                     semiambulato<supplied>rem</supplied> promissum, qui si dabitur,
                                 protinus Vestre Gracie destinabo eundem describens, quomodo michi
                                 succedet in <gap/>.</seg>
-                            <seg xml:id="s.1.2.6">Parwum vadit theoloneum, tamen reuerendos dominos
+                    <seg xml:id="s.1.2.6">Parwum vadit theoloneum, tamen reuerendos dominos
                                     <persName key="wikidata-Q11718555">archiepiscopum</persName> et
                                 canonicos Leopolienses necnon episcopum <gap/> in
                                 duplicibus Quatuortemporibus<anchor xml:id="a2"/> totaliter
                                 expediui, fulgidumque <persName key="serafin-0004">ducem
                                     Andruschkonem</persName> in quatuor
                                 <gap/>.</seg>
-                            <seg xml:id="s.1.2.7">Et pro nunc me dominus <persName key="wikidata-Q96241274">capitaneus ammonet Leopoliensis</persName>
+                    <seg xml:id="s.1.2.7">Et pro nunc me dominus <persName key="wikidata-Q96241274">capitaneus ammonet Leopoliensis</persName>
                                 pro centum cum viginti marcis, dicens <gap/> de theoloneo, si non
                                 soluerem sibi pecuniam eandem.</seg>
-                            <seg xml:id="s.1.2.8">Ceterum Vestra michi precepit Gracia, quod domino
+                    <seg xml:id="s.1.2.8">Ceterum Vestra michi precepit Gracia, quod domino
                                 An<gap/> quinquaginta marcas saluere deberem, et adhuc alia debita
                                 super salari<supplied>i</supplied>s annuis soluere singula non habeo
                                 vnde recipere, soluissem tamen ea, si solariis domini ducis Kazimiri
                                     <gap/> litera vestra mediante.</seg>
-                            <seg xml:id="s.1.2.9">Semper tamen, prout magis potero, in exoluendis
+                    <seg xml:id="s.1.2.9">Semper tamen, prout magis potero, in exoluendis
                                 eisdem debitis solicitam curam applicabo, petoque Vestram Graciam,
                                 dignemini mei curam gerere vestri serui, velut dominus meus
                                     grac<supplied>iosus</supplied>.</seg>
-                            <seg xml:id="s.1.2.10">Scire dignemini quia magnificus et strenui domini
+                    <seg xml:id="s.1.2.10">Scire dignemini quia magnificus et strenui domini
                                     <persName key="gnd-1061106853">Michael de Buczacz</persName>
                                 palatinus Podoliensis etc. cum <orgName key="BraciaMichałaZBuczacza">fratribus</orgName> crebris me
                                 auisant literis, ut res mobiles et mercancias diuersas eorum a
@@ -123,20 +133,83 @@
                                 figentes spem Vestram in Graciam, pro quo peto informari, quid sit
                                     facie<supplied>ndum</supplied>, ne postea videar rancorem
                                 aliquem inter Graciam Vestram et ipsos ordinare.</seg>
-                            <seg xml:id="s.1.2.11">Datum in <placeName key="geo-708313">Grodek</placeName>, de sero, <date when="1438-01-13">infra octauas Epifanie
+                    <seg xml:id="s.1.2.11">Datum in <placeName key="geo-708313">Grodek</placeName>, de sero, <date when="1438-01-13">infra octauas Epifanie
                                 Domini</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0003">Nicolaus Orlyk</persName>
-                            </seg>
-                        </signed>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="1" target="#a1">Mowa o tzw. powstaniu Świdrygiełły brata Władysława
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0003">Nicolaus Orlyk</persName>
+                    </seg>
+                </signed>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1">
+                <opener xml:id="t.1.1">
+                    <seg corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu Panu Mikołajowi Serafinowi
+                                żupnikowi obojga salin krakowskiemu i Rusi, Panu mi
+                                przychylnemu.</seg>
+                </opener>
+                <p xml:id="t.1.2">
+                    <seg corresp="#s.1.2.1">
+                        <lb/>Z niezmiennym posłuszeństwem przesyłam
+                                gotowość do wiernej służby.</seg>
+                    <seg corresp="#s.1.2.2">Wielmożny Panie.</seg>
+                    <seg corresp="#s.1.2.3">Polecił mi na piśmie Wasza Łaskawość, abym
+                                wypłacił księciu <persName key="wikidata-Q2133975">Kazimierzowi</persName>
+                                350 grzywien.</seg>
+                    <seg corresp="#s.1.2.4">Chętnie wypełniłbym to polecenie, lecz nie mam
+                                jak, albowiem z powodu ciągłego zamieszania <hi rend="space">wojennego</hi> niewielu kupców przyjeżdża, tak po sól, jak
+                                <gap/>, a co za tym idzie, mało pieniędzy wpływa z cła i z tego
+                                powodu nie mam skąd wziąć na coroczne wypłaty dla naszych
+                                opiekunów.</seg>
+                    <seg corresp="#s.1.2.5">Pozostawiając na jutro wypełnienie waszych
+                                poleceń, po przedstawieniu ostatniego waszego listu zawiadomiłem
+                                rzeczonego księcia, dając mu 60 grzywien za <gap/> pieniądze i
+                                prosząc o odroczenie terminu zapłaty i o to, aby Jego Książęca
+                                Wysokość dał przyrzeczonego podjezdka. Jeśli zostanie on dany, od
+                                razu wyślę go do Waszej Łaskawości, pisząc, jak mi poszło w
+                                <gap/>.</seg>
+                    <seg corresp="#s.1.2.6">Cła mało schodzi, wypłaciłem jednak wielebnym
+                                panom <persName key="wikidata-Q11718555">arcybiskupowi</persName> i
+                                kanonikom lwowskim oraz biskupowi <gap/> podwójne Suche Dni, zaś
+                                jaśnie <persName key="serafin-0004">księciu
+                                    Andruszce</persName> cztery <gap/>.</seg>
+                    <seg corresp="#s.1.2.7">Tymczasem upomina mnie pan <persName key="wikidata-Q96241274">starosta lwowski</persName> w sprawie 120
+                                grzywien, mówi <gap/> o cle, gdybym miał mu tych pieniędzy nie
+                                zapłacić.</seg>
+                    <seg corresp="#s.1.2.8">Ponadto polecił mi Wasza Łaskawość, abym wypłacił
+                                panu An<gap/> 50 grzywien, a ja dotąd nie mam skąd wziąć, by spłacić
+                                poszczególne inne długi związane z zapłatami rocznymi, zapłaciłbym
+                                je, gdybym za wstawiennictwem waszego listu <gap/> od zapłaty panu
+                                księciu Kazimierzowi.</seg>
+                    <seg corresp="#s.1.2.9">Zawsze jednak będę się troszczyć należycie i z
+                                całych sił, aby spłacić te długi; proszę Waszą Łaskawość,
+                                zechciejcie troszczyć się o mnie, waszego sługę, jako łaskawy mój
+                                pan.</seg>
+                    <seg corresp="#s.1.2.10">Zechciejcie wiedzieć, że wielmożny pan <persName key="gnd-1061106853">Michał z Buczacza</persName> wojewoda
+                                podolski etc. i mężni panowie <orgName key="BraciaMichałaZBuczacza">jego bracia</orgName>, pokładając nadzieję w Waszej Łaskawości,
+                                nawiedzają mnie stale listami, abym wysłał ruchomości i różne ich
+                                towary zwolnione od opłaty cła. Przeto proszę, by mi powiedziano, co
+                                mam czynić, aby nie wydawało się potem, że wzbudziłem jakąś
+                                nienawiść między Waszą Łaskawością a nimi.</seg>
+                    <seg corresp="#s.1.2.11">Dan w <placeName key="geo-708313">Gródku</placeName>, wieczorem, w <date when="1438-01-13">oktawie Objawienia
+                                Pańskiego</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0003">Mikołaj Orlik</persName>
+                    </seg>
+                </signed>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="1" target="#a1">Mowa o tzw. powstaniu Świdrygiełły brata Władysława
                             Jagiełły, wielkiego księcia litewskiego (1430-1432), dążącego do
                             rozerwania związków Litwy z Królestwem Polskim. Został on strącony z
                             tronu przez popieranego przez Polskę Zygmunta Kiejstutowicza
@@ -151,7 +224,7 @@
                             Świdrygiełło zastał w 1438 r. wyparty z Rusi i zmuszony do ucieczki do
                             Mołdawii (A. Lewicki, Powstanie Świdrygiełły. Ustęp z dziejów unii Litwy
                             z Koroną, Kraków 1892, s. 403-409).</note>
-                        <note n="2" target="#a2">Quatuor Tempora, tzw. Suche dni postne (środa,
+            <note n="2" target="#a2">Quatuor Tempora, tzw. Suche dni postne (środa,
                             piątek i sobota) przypadające cztery razy w roku. W pierwszym kwartale
                             zwały się Cinerum (po Popielcu), w drugim Spiritus (po Zielonych
                             Świętach), w trzecim Crucis (po święcie Podwyższenia Krzyża 14
@@ -163,73 +236,6 @@
                             stosowano jako podstawę roku obrachunkowego, przy czym duchowieństwo
                             pobierało należne sobie z różnego tytułu pieniądze (np. z zapisów na
                             żupach) według terminów suchedniowych.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu Panu Mikołajowi Serafinowi
-                                żupnikowi obojga salin krakowskiemu i Rusi, Panu mi
-                                przychylnemu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Z niezmiennym posłuszeństwem przesyłam
-                                gotowość do wiernej służby.</seg>
-                            <seg xml:id="t.1.2.2">Wielmożny Panie.</seg>
-                            <seg xml:id="t.1.2.3">Polecił mi na piśmie Wasza Łaskawość, abym
-                                wypłacił księciu <persName key="wikidata-Q2133975">Kazimierzowi</persName>
-                                350 grzywien.</seg>
-                            <seg xml:id="t.1.2.4">Chętnie wypełniłbym to polecenie, lecz nie mam
-                                jak, albowiem z powodu ciągłego zamieszania <hi rend="space">wojennego</hi> niewielu kupców przyjeżdża, tak po sól, jak
-                                <gap/>, a co za tym idzie, mało pieniędzy wpływa z cła i z tego
-                                powodu nie mam skąd wziąć na coroczne wypłaty dla naszych
-                                opiekunów.</seg>
-                            <seg xml:id="t.1.2.5">Pozostawiając na jutro wypełnienie waszych
-                                poleceń, po przedstawieniu ostatniego waszego listu zawiadomiłem
-                                rzeczonego księcia, dając mu 60 grzywien za <gap/> pieniądze i
-                                prosząc o odroczenie terminu zapłaty i o to, aby Jego Książęca
-                                Wysokość dał przyrzeczonego podjezdka. Jeśli zostanie on dany, od
-                                razu wyślę go do Waszej Łaskawości, pisząc, jak mi poszło w
-                                <gap/>.</seg>
-                            <seg xml:id="t.1.2.6">Cła mało schodzi, wypłaciłem jednak wielebnym
-                                panom <persName key="wikidata-Q11718555">arcybiskupowi</persName> i
-                                kanonikom lwowskim oraz biskupowi <gap/> podwójne Suche Dni, zaś
-                                jaśnie <persName key="serafin-0004">księciu
-                                    Andruszce</persName> cztery <gap/>.</seg>
-                            <seg xml:id="t.1.2.7">Tymczasem upomina mnie pan <persName key="wikidata-Q96241274">starosta lwowski</persName> w sprawie 120
-                                grzywien, mówi <gap/> o cle, gdybym miał mu tych pieniędzy nie
-                                zapłacić.</seg>
-                            <seg xml:id="t.1.2.8">Ponadto polecił mi Wasza Łaskawość, abym wypłacił
-                                panu An<gap/> 50 grzywien, a ja dotąd nie mam skąd wziąć, by spłacić
-                                poszczególne inne długi związane z zapłatami rocznymi, zapłaciłbym
-                                je, gdybym za wstawiennictwem waszego listu <gap/> od zapłaty panu
-                                księciu Kazimierzowi.</seg>
-                            <seg xml:id="t.1.2.9">Zawsze jednak będę się troszczyć należycie i z
-                                całych sił, aby spłacić te długi; proszę Waszą Łaskawość,
-                                zechciejcie troszczyć się o mnie, waszego sługę, jako łaskawy mój
-                                pan.</seg>
-                            <seg xml:id="t.1.2.10">Zechciejcie wiedzieć, że wielmożny pan <persName key="gnd-1061106853">Michał z Buczacza</persName> wojewoda
-                                podolski etc. i mężni panowie <orgName key="BraciaMichałaZBuczacza">jego bracia</orgName>, pokładając nadzieję w Waszej Łaskawości,
-                                nawiedzają mnie stale listami, abym wysłał ruchomości i różne ich
-                                towary zwolnione od opłaty cła. Przeto proszę, by mi powiedziano, co
-                                mam czynić, aby nie wydawało się potem, że wzbudziłem jakąś
-                                nienawiść między Waszą Łaskawością a nimi.</seg>
-                            <seg xml:id="t.1.2.11">Dan w <placeName key="geo-708313">Gródku</placeName>, wieczorem, w <date when="1438-01-13">oktawie Objawienia
-                                Pańskiego</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0003">Mikołaj Orlik</persName>
-                            </seg>
-                        </signed>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+        </listAnnotation>
+    </standOff>
 </TEI>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS34">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Stanisław Barwałdzki do Mikołaja Serafina, <placeName key="geo-755889">Wieliczka</placeName>, <date when="1452-11-17">17 listopada 1452</date>
+                <title>Stanisław Barwałdzki do Mikołaja Serafina, <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>, <date when="1452-11-17" instant="false">17 listopada 1452</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,150 +14,158 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 147 (191)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>217 × 305 mm; znak wodny: głowa wołu
+                        <p part="N">217 × 305 mm; znak wodny: głowa wołu
                             z pojedynczym prętem i kwiatem sześciopłatkowym; ślady zawilgocenia i ubytki
                             papieru w dolnej części karty</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0114"/>
-                    <placeName key="geo-755889">Wieliczka</placeName>
-                    <date when="1452-11-17">17 listopada 1452</date>
+                    <persName key="serafin-0114" instant="false" full="yes"/>
+                    <placeName key="geo-755889" instant="false" full="yes">Wieliczka</placeName>
+                    <date when="1452-11-17" instant="false">17 listopada 1452</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin33.xml">Previous letter of <persName key="serafin-0114"/> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1452-11-14">14 listopada 1452</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin33.xml">Previous letter of <persName key="serafin-0114" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1452-11-14" instant="false">14 listopada 1452</date>
                     </ref>
-                    <ref type="next" target="serafin35.xml">Next letter of <persName key="serafin-0102"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1453-07-15" when-custom="1453">15 lipca [1453]</date>
+                    <ref type="next" target="serafin35.xml">Next letter of <persName key="serafin-0102" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1453-07-15" when-custom="1453" instant="false">15 lipca [1453]</date>
                     </ref>
-                    <ref type="previous-in-correspondence" target="serafin33.xml">Previous letter of <persName key="serafin-0114"/> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1452-11-14">14 listopada 1452</date>
+                    <ref type="previous-in-correspondence" target="serafin33.xml">Previous letter of <persName key="serafin-0114" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1452-11-14" instant="false">14 listopada 1452</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico ac strennuo domino <lb/> <persName key="gnd-139138560">Nicolao Seraphin</persName> gladiffero <lb/> Cracouiensi
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Magnifico ac strennuo domino <lb/>
+                        <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName> gladiffero <lb/> Cracouiensi
                                 nec non salis utriusque <lb/> zuppario, domino meo gracioso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Magnifice ac generose domine.</seg>
-                            <seg xml:id="s.1.2.2">Memoror habere in mandatis vestris de <lb/>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Magnifice ac generose domine.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Memoror habere in mandatis vestris de <lb/>
                                 omnibus occurentibus Magnificencie significandis.</seg>
-                            <seg xml:id="s.1.2.3">Sciat ergo Vestra Magnificencia,
-                                <lb/> quomodo hodie date presencium venit<anchor xml:id="aa"/> nobilis <persName key="serafin-0115">Pelca de Vchonin</persName>,
-                                iusticionarius <lb/> domini <persName key="gnd-1114283509">Cracouiensis</persName>; asserens se habere in mandatis domini
+                    <seg part="N" xml:id="s.1.2.3">Sciat ergo Vestra Magnificencia,
+                                <lb/> quomodo hodie date presencium venit<anchor xml:id="aa"/> nobilis <persName key="serafin-0115" instant="false" full="yes">Pelca de Vchonin</persName>,
+                                iusticionarius <lb/> domini <persName key="gnd-1114283509" instant="false" full="yes">Cracouiensis</persName>; asserens se habere in mandatis domini
                                 Cracouiensis specialibus, in ciuitate Wyeliciensi ministerialem in circulo alta
                                 voce proclamare fecit: „Audiatis omnes ciues et salicide mandatum domini
                                 Cracouiensis, ut nullus vestrum aput zupparium aut vicezupparium seu ipsius
                                 officiales quoslibet sal emat, quod si secus facere ausi fueritis, aut mandatis
                                 domini Cracouiensis controueneritis, extunc omnibus sal aput dictum zupparium
-                                aut vicezupparium seu ipsius <unclear>quo<supplied>s</supplied>uis</unclear> officiales ementibus, tam hic
+                                aut vicezupparium seu ipsius <unclear instant="false">quo<supplied instant="false">s</supplied>uis</unclear> officiales ementibus, tam hic
                                 in ciuitate, quam eciam in viis et villis ac in locis quibusuis, sal per vos omnes
                                 sic aput eos emptum et comparatum leuabimus et recipiemus pro domino Cracouiensi
                                 et ipsius officialibus”.</seg>
-                            <seg xml:id="s.1.2.4">Quibus ita dici michi et narrari auditis, omnibus
+                    <seg part="N" xml:id="s.1.2.4">Quibus ita dici michi et narrari auditis, omnibus
                                 officialibus zuppe conuocatis, pro consulibus Wyeliciensibus et pro ipso Pelka
                                 ad hospicium misi et ipsis ita conuenientibus ab ipso Pelka modum, formam,
                                 potestatem quesiui.</seg>
-                            <seg xml:id="s.1.2.5">Qui coram omnibus ibi astantibus publice dixit et fassus
+                    <seg part="N" xml:id="s.1.2.5">Qui coram omnibus ibi astantibus publice dixit et fassus
                                 est, quod „Ea quecumque<anchor xml:id="ab"/> proclamare hic in ciuitate feci mandato domini
                                 Cracouiensis, et non solum hic in loco, sed et Cracouie proclamare faciam”.</seg>
-                            <seg xml:id="s.1.2.6">Ex qua proclamacione salicide tam Cracouienses, quam Vyelicienses stuppefacti
+                    <seg part="N" xml:id="s.1.2.6">Ex qua proclamacione salicide tam Cracouienses, quam Vyelicienses stuppefacti
                                 et territi sal emere penitus cessauerunt, ymmo qui de Cracouia pro sale
                                 comparando venerant, absque eo disceserunt ad ipsorum domicilia, et nedum
                                 Cracouienses seu Vyelicienses salicide, sed omnes alii, qui, licet satis pauci, hiis
                                 g w a r r o s i s temporibus veniebant, per dictam formidabilem proclamacionem
                                 sunt ab empcione salis repulsi.</seg>
-                            <seg xml:id="s.1.2.7">Ita quod iam nec pro sectorum et tragariorum solucione
+                    <seg part="N" xml:id="s.1.2.7">Ita quod iam nec pro sectorum et tragariorum solucione
                                 grossum vnicum habere poterimus, nec eciam pro ceteris, qui proventus de zuppis habent, sicut spirituales, qui huc contra nos, persona vestra obmissa,
                                 processus agrauacionis premiserunt.</seg>
-                            <seg xml:id="s.1.2.8">Quo soluere ipsis sciamus, cum ceteris Regni
+                    <seg part="N" xml:id="s.1.2.8">Quo soluere ipsis sciamus, cum ceteris Regni
                                 prelatis vere ignoramus.</seg>
-                            <seg xml:id="s.1.2.9">Quare Magnificencia super talibus velit vigillare in
+                    <seg part="N" xml:id="s.1.2.9">Quare Magnificencia super talibus velit vigillare in
                                 tempore, quomodo talibus deberetis obuiare, et me eciam informare, quomodo
                                 zuppam tenere et regere debeam, magis hiis temporibus g w a r r o s i s, quibus
                                 opremimur grauissime, iam custodiis nocturnalibus et dyey non parcentes.</seg>
-                            <seg xml:id="s.1.2.10">Alya
+                    <seg part="N" xml:id="s.1.2.10">Alya
                                 scribere obmisimus propter celerem huius nuccii et negocii ad Magnificenciam
                                 expedicionem.</seg>
-                            <seg xml:id="s.1.2.11">Datum in <placeName key="geo-755889">Wyeliczka</placeName>, <date when="1452-11-17">feria sexta ante sancte Elizabeth proxima,
+                    <seg part="N" xml:id="s.1.2.11">Datum in <placeName key="geo-755889" instant="false" full="yes">Wyeliczka</placeName>, <date when="1452-11-17" instant="false">feria sexta ante sancte Elizabeth proxima,
                                 anno Domini etc. lii</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0114">Stanislaus Berualdsky</persName> <lb/> vester vicezupparius et <lb/> seruitor</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">venit rkps: venis.</note>
-                        <note n="b" type="transcription" target="#ab">quecumque poprawione z quecums.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu i mężnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0114" instant="false" full="yes">Stanislaus Berualdsky</persName>
+                        <lb/> vester vicezupparius et <lb/> seruitor</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu i mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu
                                 i żupnikowi obojga salin, memu łaskawemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Wielmożny i szlachetny panie.</seg>
-                            <seg xml:id="t.1.2.2">Pamiętam, że mam polecenie informować
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Wielmożny i szlachetny panie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Pamiętam, że mam polecenie informować
                                 Waszą Wielmożność o wszystkich bieżących wydarzeniach.</seg>
-                            <seg xml:id="t.1.2.3">Niech więc wie
-                                Wasza Wielmożność, że dzisiaj przybył szlachetny <persName key="serafin-0115">Pełka z Ochonina</persName>, justycjariusz
+                    <seg part="N" corresp="#s.1.2.3">Niech więc wie
+                                Wasza Wielmożność, że dzisiaj przybył szlachetny <persName key="serafin-0115" instant="false" full="yes">Pełka z Ochonina</persName>, justycjariusz
                                 pana kasztelana krakowskiego; utrzymując, że ma specjalne polecenie
                                 pana kasztelana krakowskiego, kazał woźnemu ogłosić w mieście Wieliczce:
-                                „Wysłuchajcie wszyscy obywatele i solarze rozkazu pana <persName key="gnd-1114283509">kasztelana krakowskiego</persName>,
+                                „Wysłuchajcie wszyscy obywatele i solarze rozkazu pana <persName key="gnd-1114283509" instant="false" full="yes">kasztelana krakowskiego</persName>,
                                 by nikt z was nie kupował soli u żupnika, podżupka lub jakichkolwiek
                                 jego urzędników, a gdybyście ośmielili się postąpić inaczej i sprzeciwili
                                 się rozkazom pana kasztelana krakowskiego, wtedy wszystkim kupującym sól
@@ -165,49 +173,53 @@
                                 tu w mieście, jak na drogach, po wsiach i w jakimkolwiek miejscu, sól
                                 tę, przez was wszystkich u nich kupioną i otrzymaną, będziemy konfiskować
                                 i zabierać dla pana kasztelana krakowskiego i jego urzędników”.</seg>
-                            <seg xml:id="t.1.2.4">Usłyszawszy
+                    <seg part="N" corresp="#s.1.2.4">Usłyszawszy
                                 o tych rzeczach, które tak mi opowiedziano, zwołałem wszystkich urzędników
                                 żupnych i posłałem po rajców wielickich oraz po samego Pełkę do gospody.
                                 Gdy się zebrali, zapytałem Pełkę o tryb i formę jego uprawnień.</seg>
-                            <seg xml:id="t.1.2.5">On zaś wobec
+                    <seg part="N" corresp="#s.1.2.5">On zaś wobec
                                 wszystkich tam obecnych publicznie oświadczył: „Wszystko to kazałem ogłosić
                                 tu w mieście na rozkaz pana kasztelana krakowskiego i każę ogłosić nie tylko
                                 tu, lecz także w Krakowie”.</seg>
-                            <seg xml:id="t.1.2.6">Zdziwieni i przerażeni tym oświadczeniem solarze,
+                    <seg part="N" corresp="#s.1.2.6">Zdziwieni i przerażeni tym oświadczeniem solarze,
                                 zarówno krakowscy, jak i wieliccy, przestali w ogóle kupować sól, a nawet ci,
                                 którzy przybyli z Krakowa po sól, rozjechali się bez niej do swoich domów. I nie
                                 tylko solarze krakowscy i wieliccy, lecz także wszyscy inni, którzy przybywali,
                                 wprawdzie nielicznie w tych niespokojnych czasach, zostali przez to odstraszające
                                 obwieszczenie zniechęceni do kupowania soli.</seg>
-                            <seg xml:id="t.1.2.7">Tak więc nie mamy już ani
+                    <seg part="N" corresp="#s.1.2.7">Tak więc nie mamy już ani
                                 grosza na wypłatę dla kopaczy oraz tragarzy i dla innych, którzy mają dochody
                                 z żup, jak na przykład duchowni, którzy, pominąwszy waszą osobę, wszczęli przeciwko nam postępowanie o obłożenie karą ekskomuniki większej.</seg>
-                            <seg xml:id="t.1.2.8">Tym
+                    <seg part="N" corresp="#s.1.2.8">Tym
                                 jeszcze wiemy, z czego zapłacić, ale innym prałatom Królestwa — doprawdy
                                 nie wiemy.</seg>
-                            <seg xml:id="t.1.2.9">Dlatego zechce Wasza Wielmożność w porę zatroszczyć się o tego
+                    <seg part="N" corresp="#s.1.2.9">Dlatego zechce Wasza Wielmożność w porę zatroszczyć się o tego
                                 rodzaju sprawy i o to, jak się im przeciwstawić, a także zawiadomić mnie, jak
                                 mam zarządzać i utrzymywać żupy, zwłaszcza w tych niespokojnych czasach,
                                 kiedy to jesteśmy tak poważnie zagrożeni, że nie zaniedbujemy już nocnych ani
                                 dziennych straży.</seg>
-                            <seg xml:id="t.1.2.10">Pomijam inne sprawy, aby nie opóźniać wysłania do Waszej
+                    <seg part="N" corresp="#s.1.2.10">Pomijam inne sprawy, aby nie opóźniać wysłania do Waszej
                                 Wielmożności posłańca z tą wiadomością.</seg>
-                            <seg xml:id="t.1.2.11">Dan w <placeName key="geo-755889">Wieliczce</placeName>, w <date when="1452-11-17">piątek przed
+                    <seg part="N" corresp="#s.1.2.11">Dan w <placeName key="geo-755889" instant="false" full="yes">Wieliczce</placeName>, w <date when="1452-11-17" instant="false">piątek przed
                                 św. Elżbietą, roku Pańskiego etc. 52</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0114">Stanisław Barwałdzki</persName>, wasz podżupek i sługa</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0114" instant="false" full="yes">Stanisław Barwałdzki</persName>, wasz podżupek i sługa</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">venit rkps: venis.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">quecumque poprawione z quecums.</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

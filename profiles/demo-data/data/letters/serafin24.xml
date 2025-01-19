@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS24">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Krzesław z Kurozwęk do Mikołaja Serafina, <placeName key="geo-2765637">Schottwien</placeName>, <date when="1450-04-07">7 kwietnia
+                <title>Krzesław z Kurozwęk do Mikołaja Serafina, <placeName key="geo-2765637" instant="false" full="yes">Schottwien</placeName>, <date when="1450-04-07" instant="false">7 kwietnia
                     1450</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
@@ -15,126 +15,199 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 158 (202)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>207 × 222 mm; ślady zawilgocenia w dolnej części karty.</p>
+                        <p part="N">207 × 222 mm; ślady zawilgocenia w dolnej części karty.</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0081">Krzesław z Kurozwęk</persName>
-                    <placeName key="geo-2765637">Schottwien</placeName>
-                    <date when="1450-04-07">7 kwietnia 1450</date>
+                    <persName key="serafin-0081" instant="false" full="yes">Krzesław z Kurozwęk</persName>
+                    <placeName key="geo-2765637" instant="false" full="yes">Schottwien</placeName>
+                    <date when="1450-04-07" instant="false">7 kwietnia 1450</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin23.xml">Previous letter of <persName key="serafin-0079">Paweł Gładysz</persName>
-                        <persName key="serafin-0078">sztygar Mikołaj</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1450-04-03">3 kwietnia 1450</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin23.xml">Previous letter of <persName key="serafin-0079" instant="false" full="yes">Paweł Gładysz</persName>
+                        <persName key="serafin-0078" instant="false" full="yes">sztygar Mikołaj</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1450-04-03" instant="false">3 kwietnia 1450</date>
                     </ref>
-                    <ref type="next" target="serafin25.xml">Next letter of <persName key="gnd-139138560">Mikołaj Serafin</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1450-09-19">19 września 1450 lub 18 września 1451</date>
+                    <ref type="next" target="serafin25.xml">Next letter of <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1450-09-19" instant="false">19 września 1450 lub 18 września 1451</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Strennuo domino <persName key="gnd-139138560">Nicolao
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Strennuo domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao
                                     Seraphin</persName>
-                                <lb/> salis utriusque zuppario, amico nostro singulari.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Strennue domine, amice singularissime.</seg>
-                            <seg xml:id="s.1.2.2">Auido animo opinantes <lb/> vos nostri gressus
+                        <lb/> salis utriusque zuppario, amico nostro singulari.</seg>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Strennue domine, amice singularissime.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Auido animo opinantes <lb/> vos nostri gressus
                                 successum scire et audire, censuimus ipsum breuiter <lb/>
                                 perstringere.</seg>
-                            <seg xml:id="s.1.2.3">Dominus primum <persName key="serafin-0080">Byerczal</persName> de <placeName key="geo-724503">Kyesmarg</placeName> nos in <placeName key="geo-724443">Coschicze</placeName>
-                                <lb/> conduxit.</seg>
-                            <seg xml:id="s.1.2.4">Ipsi non placuit, ut per <placeName key="geo-3053163">Ostrzegom</placeName>
-                                    transe<supplied>a</supplied>mus, eo quod nullum nobis potuisset
+                    <seg part="N" xml:id="s.1.2.3">Dominus primum <persName key="serafin-0080" instant="false" full="yes">Byerczal</persName> de <placeName key="geo-724503" instant="false" full="yes">Kyesmarg</placeName> nos in <placeName key="geo-724443" instant="false" full="yes">Coschicze</placeName>
+                        <lb/> conduxit.</seg>
+                    <seg part="N" xml:id="s.1.2.4">Ipsi non placuit, ut per <placeName key="geo-3053163" instant="false" full="yes">Ostrzegom</placeName>
+                                    transe<supplied instant="false">a</supplied>mus, eo quod nullum nobis potuisset
                                 dare auxilium, cum Hungari oderint Bohemos.</seg>
-                            <seg xml:id="s.1.2.5">Ipse nos honorifice tractauit, et venimus in
-                                    <placeName key="geo-717652">Kyewyesch</placeName>.</seg>
-                            <seg xml:id="s.1.2.6">Ipse dominus <persName key="gnd-136659446">Hyskra</persName> cum domino <persName key="gnd-118708171">Hunjed Ianusch</persName> habuit conuencionem et composicionem
+                    <seg part="N" xml:id="s.1.2.5">Ipse nos honorifice tractauit, et venimus in
+                                    <placeName key="geo-717652" instant="false" full="yes">Kyewyesch</placeName>.</seg>
+                    <seg part="N" xml:id="s.1.2.6">Ipse dominus <persName key="gnd-136659446" instant="false" full="yes">Hyskra</persName> cum domino <persName key="gnd-118708171" instant="false" full="yes">Hunjed Ianusch</persName> habuit conuencionem et composicionem
                                 amicabilem, quam tunc terminarunt<anchor xml:id="a1"/>.</seg>
-                            <seg xml:id="s.1.2.7">Et ipse dominus Hyskra adiunxit suum familiarem
-                                vsque in <placeName key="geo-2761353">Nowam Ciuitatem
-                                    Austrie</placeName> ad presenciam domini <persName key="gnd-1325001708">regis Romanorum</persName>, vt
+                    <seg part="N" xml:id="s.1.2.7">Et ipse dominus Hyskra adiunxit suum familiarem
+                                vsque in <placeName key="geo-2761353" instant="false" full="yes">Nowam Ciuitatem
+                                    Austrie</placeName> ad presenciam domini <persName key="gnd-1325001708" instant="false" full="yes">regis Romanorum</persName>, vt
                                 haberet scienciam de nostra ibi translacione.</seg>
-                            <seg xml:id="s.1.2.8">Et <supplied>i</supplied>nterim de <placeName key="geo-3054667">Buda</placeName> usque <persName key="wikidata-Q12730753">Rosgoni Ianusch</persName> sumus conducti,
-                                de ibi vsque ad comittem de <placeName key="geo-3047896">Altemburg</placeName> et episcopum <placeName key="geo-3052009">Iauriensem</placeName>
-                            </seg>
-                            <seg xml:id="s.1.2.9">Per hos eciam sumus conducti vsque Nouam
+                    <seg part="N" xml:id="s.1.2.8">Et <supplied instant="false">i</supplied>nterim de <placeName key="geo-3054667" instant="false" full="yes">Buda</placeName> usque <persName key="wikidata-Q12730753" instant="false" full="yes">Rosgoni Ianusch</persName> sumus conducti,
+                                de ibi vsque ad comittem de <placeName key="geo-3047896" instant="false" full="yes">Altemburg</placeName> et episcopum <placeName key="geo-3052009" instant="false" full="yes">Iauriensem</placeName>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.9">Per hos eciam sumus conducti vsque Nouam
                                 Ciuitatem.</seg>
-                            <seg xml:id="s.1.2.10">Et ipse dominus Romanorum rex honorifice nos
+                    <seg part="N" xml:id="s.1.2.10">Et ipse dominus Romanorum rex honorifice nos
                                 excepit et votiwe expediuit.</seg>
-                            <seg xml:id="s.1.2.11">Iamque transiuimus viam metui congruam et dea
+                    <seg part="N" xml:id="s.1.2.11">Iamque transiuimus viam metui congruam et dea
                                 securitate suspectam, sed amplius non opportet timore indui, sed
                                 sublimes montes et scrupulosi animum nostrum, qui adhuc transire
                                 restant, lacerant.</seg>
-                            <seg xml:id="s.1.2.12">Et hodie in <placeName key="geo-2765637">Schadwyn</placeName> facimus noctem.</seg>
-                            <seg xml:id="s.1.2.13">Interim pettimus pro natis nostris, ne aliquem in
+                    <seg part="N" xml:id="s.1.2.12">Et hodie in <placeName key="geo-2765637" instant="false" full="yes">Schadwyn</placeName> facimus noctem.</seg>
+                    <seg part="N" xml:id="s.1.2.13">Interim pettimus pro natis nostris, ne aliquem in
                                 pecunis <sic>daturis</sic> per vos paciantur defectum, nam caro
                                 nostra est, et ipsorum defectum opporteret nos merito vlcisci ad
                                 extremum.</seg>
-                            <seg xml:id="s.1.2.14">Nec maior nobis oriretur displicencia, nam, per
+                    <seg part="N" xml:id="s.1.2.14">Nec maior nobis oriretur displicencia, nam, per
                                 vos assecurati, ipsos sine pecunis reliquimus.</seg>
-                            <seg xml:id="s.1.2.15">Rogamus igitur, ut prouideatis, qualiter nobis
+                    <seg part="N" xml:id="s.1.2.15">Rogamus igitur, ut prouideatis, qualiter nobis
                                 ostendatis complacenciam.</seg>
-                            <seg xml:id="s.1.2.16">Datum in <placeName key="geo-2765637">Schadwyn</placeName>, <date when="1450-04-07">feria tercia festi Pasche 14
+                    <seg part="N" xml:id="s.1.2.16">Datum in <placeName key="geo-2765637" instant="false" full="yes">Schadwyn</placeName>, <date when="1450-04-07" instant="false">feria tercia festi Pasche 14
                                 lmo</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0081">Creslaus
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0081" instant="false" full="yes">Creslaus
                                     de Curozwanki</persName>
-                                <lb/> castellanus Lublinensis</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po de skreślone se</note>
-                        <note n="1" target="#a1">Mowa o wieczystym pokoju, jaki za pośrednictwem
+                        <lb/> castellanus Lublinensis</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi
+                                    Serafinowi</persName> żupnikowi obojga salin, przyjacielowi
+                                naszemu wybornemu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Mężny panie, przyjacielu przewyborny.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Sądząc, że chętnie dowiecie się i usłyszycie o
+                                postępach naszej podróży, postanowiliśmy ją w skrócie
+                                przedstawić.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Najpierw pan <persName key="serafin-0080" instant="false" full="yes">Brcál</persName> z <placeName key="geo-724503" instant="false" full="yes">Kieżmarku</placeName> zawiódł nas do <placeName key="geo-724443" instant="false" full="yes">Koszyc</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Nie chciał, abyśmy jechali przez <placeName key="geo-3053163" instant="false" full="yes">Ostrzyhom</placeName>, ponieważ nie mógłby
+                                udzielić nam żadnej pomocy, jako że Węgrzy nienawidzą Czechów.</seg>
+                    <seg part="N" corresp="#s.1.2.5">Sam nas zaszczytnie potraktował, po czym
+                                przybyliśmy do <placeName key="geo-717652" instant="false" full="yes">Kövesd</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Pan <persName key="gnd-136659446" instant="false" full="yes">Jiskra</persName> z
+                                panem <persName key="gnd-118708171" instant="false" full="yes">Jánosem Hunyadim</persName> miał
+                                spotkanie i przyjacielskie układy, które właśnie zakończyli.</seg>
+                    <seg part="N" corresp="#s.1.2.7">I pan Jiskra dołączył do nas swego sługę,
+                                    <supplied instant="false">żeby towarzyszył nam</supplied> aż do Wiener Neustadt,
+                                do pana <persName key="gnd-1325001708" instant="false" full="yes">króla
+                                    rzymskiego</persName>, aby mieć wiadomości o naszej
+                                podróży.</seg>
+                    <seg part="N" corresp="#s.1.2.8">A tymczasem z <placeName key="geo-3054667" instant="false" full="yes">Budy</placeName> poprowadzono nas do <persName key="wikidata-Q12730753" instant="false" full="yes">Jánosa Rozgonyi</persName>, stamtąd do
+                                żupana <placeName key="geo-3047896" instant="false" full="yes">Altenburga</placeName> i biskupa <placeName key="geo-3052009" instant="false" full="yes">Győr</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Przez nich zostaliśmy zaprowadzeni aż do Wiener Neustadt.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Pan król rzymski zaszczytnie nas przyjął i szczodrze wyposażył.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Drogę, której
+                                towarzyszył strach i niebezpieczeństwa, już mamy za sobą, więcej nie musimy
+                                się obawiać, lecz wysokie i strome góry, które jeszcze zostały do przebycia, niepokoją nas.</seg>
+                    <seg part="N" corresp="#s.1.2.12">Dzisiaj nocujemy w <placeName key="geo-2765637" instant="false" full="yes">Schottwien</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Tymczasem prosimy, aby nasze
+                                dzieci nie cierpiały przez was niedostatku. Z naszego są bowiem ciała i ich
+                                szkodę słusznie musielibyśmy surowo pomścić.</seg>
+                    <seg part="N" corresp="#s.1.2.14">I oby nie zrodziła się między
+                                nami większa niechęć, albowiem, przez was zabezpieczani, pozostawiliśmy je
+                                bez pieniędzy.</seg>
+                    <seg part="N" corresp="#s.1.2.15">Prosimy przeto, abyście starali się pokazać nam wasze dobre
+                                chęci.</seg>
+                    <seg part="N" corresp="#s.1.2.16">Dan w <placeName key="geo-2765637" instant="false" full="yes">Schottwien</placeName>, <date when="1450-04-07" instant="false">we wtorek wielkanocny 1450</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0081" instant="false" full="yes">Krzesław z Kurozwęk</persName> kasztelan lubelski
+                            </seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po de skreślone se</note>
+            <note n="1" target="#a1" anchored="true">Mowa o wieczystym pokoju, jaki za pośrednictwem
                             kardynała Zbigniewa Oleśnickiego i królowej zawarli w Mezőkövesd 28
                             marca 1450 r. Jan Jiskra starosta spiski i János Hunyadi regent
                             Królestwa Węgier. Pokój ten miał zakończyć krwawe walki wewnętrzne o
@@ -150,69 +223,6 @@
                             Ten wieczysty pokój przetrwał tylko rok (Kwiatkowski, <title>Jan
                                 Jiskra</title>, s. 24–25; <title>Dejiny Slovenska</title>, t. 1,
                             Bratislava 1986, s. 405; Żabiński, Bratczykowie, s. 53–54).</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi
-                                    Serafinowi</persName> żupnikowi obojga salin, przyjacielowi
-                                naszemu wybornemu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Mężny panie, przyjacielu przewyborny.</seg>
-                            <seg xml:id="t.1.2.2">Sądząc, że chętnie dowiecie się i usłyszycie o
-                                postępach naszej podróży, postanowiliśmy ją w skrócie
-                                przedstawić.</seg>
-                            <seg xml:id="t.1.2.3">Najpierw pan <persName key="serafin-0080">Brcál</persName> z <placeName key="geo-724503">Kieżmarku</placeName> zawiódł nas do <placeName key="geo-724443">Koszyc</placeName>.</seg>
-                            <seg xml:id="t.1.2.4">Nie chciał, abyśmy jechali przez <placeName key="geo-3053163">Ostrzyhom</placeName>, ponieważ nie mógłby
-                                udzielić nam żadnej pomocy, jako że Węgrzy nienawidzą Czechów.</seg>
-                            <seg xml:id="t.1.2.5">Sam nas zaszczytnie potraktował, po czym
-                                przybyliśmy do <placeName key="geo-717652">Kövesd</placeName>.</seg>
-                            <seg xml:id="t.1.2.6">Pan <persName key="gnd-136659446">Jiskra</persName> z
-                                panem <persName key="gnd-118708171">Jánosem Hunyadim</persName> miał
-                                spotkanie i przyjacielskie układy, które właśnie zakończyli.</seg>
-                            <seg xml:id="t.1.2.7">I pan Jiskra dołączył do nas swego sługę,
-                                    <supplied>żeby towarzyszył nam</supplied> aż do Wiener Neustadt,
-                                do pana <persName key="gnd-1325001708">króla
-                                    rzymskiego</persName>, aby mieć wiadomości o naszej
-                                podróży.</seg>
-                            <seg xml:id="t.1.2.8">A tymczasem z <placeName key="geo-3054667">Budy</placeName> poprowadzono nas do <persName key="wikidata-Q12730753">Jánosa Rozgonyi</persName>, stamtąd do
-                                żupana <placeName key="geo-3047896">Altenburga</placeName> i biskupa <placeName key="geo-3052009">Győr</placeName>.</seg>
-                            <seg xml:id="t.1.2.9">Przez nich zostaliśmy zaprowadzeni aż do Wiener Neustadt.</seg>
-                            <seg xml:id="t.1.2.10">Pan król rzymski zaszczytnie nas przyjął i szczodrze wyposażył.</seg>
-                            <seg xml:id="t.1.2.11">Drogę, której
-                                towarzyszył strach i niebezpieczeństwa, już mamy za sobą, więcej nie musimy
-                                się obawiać, lecz wysokie i strome góry, które jeszcze zostały do przebycia, niepokoją nas.</seg>
-                            <seg xml:id="t.1.2.12">Dzisiaj nocujemy w <placeName key="geo-2765637">Schottwien</placeName>.</seg>
-                            <seg xml:id="t.1.2.13">Tymczasem prosimy, aby nasze
-                                dzieci nie cierpiały przez was niedostatku. Z naszego są bowiem ciała i ich
-                                szkodę słusznie musielibyśmy surowo pomścić.</seg>
-                            <seg xml:id="t.1.2.14">I oby nie zrodziła się między
-                                nami większa niechęć, albowiem, przez was zabezpieczani, pozostawiliśmy je
-                                bez pieniędzy.</seg>
-                            <seg xml:id="t.1.2.15">Prosimy przeto, abyście starali się pokazać nam wasze dobre
-                                chęci.</seg>
-                            <seg xml:id="t.1.2.16">Dan w <placeName key="geo-2765637">Schottwien</placeName>, <date when="1450-04-07">we wtorek wielkanocny 1450</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0081">Krzesław z Kurozwęk</persName> kasztelan lubelski
-                            </seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+        </listAnnotation>
+    </standOff>
 </TEI>

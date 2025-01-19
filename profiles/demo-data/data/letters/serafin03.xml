@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS3">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jan Gruszczyński do Mikołaja Serafina, <placeName key="geo-3054667">Buda</placeName>, <date when="1441-01-12" when-custom="12 stycznia 1441">12 stycznia [1441]</date>
+                <title>Jan Gruszczyński do Mikołaja Serafina, <placeName key="geo-3054667" instant="false" full="yes">Buda</placeName>, <date when="1441-01-12" when-custom="12 stycznia 1441" instant="false">12 stycznia [1441]</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,235 +14,358 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 177 (221)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, dopisek; verso: ciąg dalszy tekstu, podpis, adres,
+                        <p part="N">recto: tekst listu, dopisek; verso: ciąg dalszy tekstu, podpis, adres,
                             ślady po pieczęci</p>
                     </msContents>
                     <physDesc>
-                        <p>222 × 279 mm; karta pognieciona, dolna część zbutwiała, liczne ubytki
+                        <p part="N">222 × 279 mm; karta pognieciona, dolna część zbutwiała, liczne ubytki
                             papieru, górny brzeg karty obcięty</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="gnd-107898543X">Jan Gruszczyński</persName>
-                    <placeName key="geo-3054667">Buda</placeName>
-                    <date when="1441-01-12" when-custom="12 stycznia 1441">12 stycznia [1441]</date>
+                    <persName key="gnd-107898543X" instant="false" full="yes">Jan Gruszczyński</persName>
+                    <placeName key="geo-3054667" instant="false" full="yes">Buda</placeName>
+                    <date when="1441-01-12" when-custom="12 stycznia 1441" instant="false">12 stycznia [1441]</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin46.xml">Previous letter of <persName key="serafin-0087">Antoni</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when-custom="1440-1444" notBefore="1440" notAfter="1444">1440-1444</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin46.xml">Previous letter of <persName key="serafin-0087" instant="false" full="yes">Antoni</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when-custom="1440-1444"
+                              notBefore="1440"
+                              notAfter="1444"
+                              instant="false">1440-1444</date>
                     </ref>
-                    <ref type="next" target="serafin04.xml">Next letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1441-04-07" when-custom="7 kwietnia 1441">[7 kwietnia
+                    <ref type="next" target="serafin04.xml">Next letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1441-04-07" when-custom="7 kwietnia 1441" instant="false">[7 kwietnia
                         1441]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Strennuo domino <persName key="MikołajSerafin">Nicolao</persName> gladifero <lb/> terre Cracouiensis ac salis
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Strennuo domino <persName key="MikołajSerafin" instant="false" full="yes">Nicolao</persName> gladifero <lb/> terre Cracouiensis ac salis
                                 vtriusque <lb/> zuppario, amico suo et fautori.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Strenue domine, amice carisssime.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.2">Ad peticiones Amicicie Vestre, que michi semper in
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Strenue domine, amice carisssime.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.2">Ad peticiones Amicicie Vestre, que michi semper in
                                 principio <lb/> sunt, hic currencia negocia ipsi Amicicie Vestre
                                 describere curaui.</seg>
-                            <seg xml:id="s.1.2.3">Et primo dominus noster graciosissimus <lb/>
-                                <persName key="gnd-119195798">rex</persName> sanus est
+                    <seg part="N" xml:id="s.1.2.3">Et primo dominus noster graciosissimus <lb/>
+                        <persName key="gnd-119195798" instant="false" full="yes">rex</persName> sanus est
                                 virque eciam in aduersis rebus, que, eciam ut aliis multis,
-                                        <expan>A<ex>micicie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> descripsi literis.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.4">Est semper et robustus Sueque Celsitudinis negocia
-                                in bonis punctis sunt et per triumphum, quem <persName key="gnd-1048593010">Fristaczsky</persName> alias <persName key="gnd-1048593010">Nicolaus</persName> banus in comittiua
-                                quinque milium in <persName key="wikidata-Q744123">Ladislao</persName>
+                                        <expan instant="false">A<ex instant="false">micicie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> descripsi literis.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.4">Est semper et robustus Sueque Celsitudinis negocia
+                                in bonis punctis sunt et per triumphum, quem <persName key="gnd-1048593010" instant="false" full="yes">Fristaczsky</persName> alias <persName key="gnd-1048593010" instant="false" full="yes">Nicolaus</persName> banus in comittiua
+                                quinque milium in <persName key="wikidata-Q744123" instant="false" full="yes">Ladislao</persName>
                                 bano habente plus quam sex milia hominum ac aliis infidelibus<anchor xml:id="a1"/> diuinna clemencia excepit, ac quia domini Poloni
-                                in <date when="1441-01-05" when-custom="5 I">vigilia
+                                in <date when="1441-01-05" when-custom="5 I" instant="false">vigilia
                                     Epiffanie</date> ad hanc vrbem insignem aduenerunt<anchor xml:id="a2"/>, sunt instaurata.</seg>
-                            <seg xml:id="s.1.2.5">Iamque dominus noster rex graciosissimus in
+                    <seg part="N" xml:id="s.1.2.5">Iamque dominus noster rex graciosissimus in
                                 virtute Dextre Excelsi procedere voluit hodie contra hostes suos
-                                proprio corpore in campum, sed <persName key="gnd-136846505">regina</persName> Hungarie, que ab aliquot septimanis moratur
-                                in <placeName key="geo-3053163">Stryegomo</placeName> castro
-                                archiepiscopi, a <placeName key="geo-3054667">Buda</placeName> quinque
+                                proprio corpore in campum, sed <persName key="gnd-136846505" instant="false" full="yes">regina</persName> Hungarie, que ab aliquot septimanis moratur
+                                in <placeName key="geo-3053163" instant="false" full="yes">Stryegomo</placeName> castro
+                                archiepiscopi, a <placeName key="geo-3054667" instant="false" full="yes">Buda</placeName> quinque
                                 miliaribus distanti<anchor xml:id="aa"/>, direxit petentes certos
                                 dominos Hungarie, nunc ad latus regium existentes, vt interponerent
                                 se pro concordia, vnione ac pace.</seg>
-                            <seg xml:id="s.1.2.6">Apparet enim ex multis signis, quia iam wlt,
+                    <seg part="N" xml:id="s.1.2.6">Apparet enim ex multis signis, quia iam wlt,
                                     quia<anchor xml:id="ab"/> opportet ad omnem deuenire
                                 equalitatem.</seg>
-                            <seg xml:id="s.1.2.7">Hominesque et stipendarii ab ea recedunt,
+                    <seg part="N" xml:id="s.1.2.7">Hominesque et stipendarii ab ea recedunt,
                                 nostrorum presertim audito aduentu, dietenusque domino nostro
                                 potencia accrescit.</seg>
-                            <seg xml:id="s.1.2.8">Hodie enim miles notabilis ipsius Nicolai bani in
+                    <seg part="N" xml:id="s.1.2.8">Hodie enim miles notabilis ipsius Nicolai bani in
                                 vim credencie domino regi orauit, quomodo ipse<anchor xml:id="ac"/>
                                 Nicolaus, receptis aliquot castris per vim Ladislay bani
-                                subiugataque ciuitate <placeName key="geo-3046526">Quinque
+                                subiugataque ciuitate <placeName key="geo-3046526" instant="false" full="yes">Quinque
                                     Ecclesyarum</placeName>, in magnitudine ciuitati Cracouiensi
-                                equali, cum decem milibus et <persName key="serafin-0005">Matko</persName> fere cum omnibus<anchor xml:id="ad"/>
-                                <add>fere</add>
-                                <add>
-                                    <placeName key="geo-3190590">Sklauis</placeName>
-                                </add>
+                                equali, cum decem milibus et <persName key="serafin-0005" instant="false" full="yes">Matko</persName> fere cum omnibus<anchor xml:id="ad"/>
+                        <add instant="false" status="unremarkable">fere</add>
+                        <add instant="false" status="unremarkable">
+                            <placeName key="geo-3190590" instant="false" full="yes">Sklauis</placeName>
+                        </add>
                                 habentibus, vt dicitur de certo, viginti milia hominum ad dominum
                                 regem {et} proficiscuntur; et in viginti miliaribus talis miles ab
                                 eis recessit.</seg>
-                            <seg xml:id="s.1.2.9">Intelligitur enim, quod regina concordari vellet,
-                                vna enim septimana ante <date when="1440-12-30" when-custom="30 XII">Epiffaniam</date> missus fuit dominus <persName key="wikidata-Q11814540">Paulus Woynyczsk</persName> ad comitemg
-                                    <placeName key="geo-3202781">Cilie</placeName> cum ipsa regina tunc
-                                    cons〈ti〉tuto<anchor xml:id="af"/> et nunc existenti<anchor xml:id="ag"/>, vt ipsum monuisset, quod super festum <date when="1440-12-30" when-custom="30 XII">Epiffanie</date> nunc
+                    <seg part="N" xml:id="s.1.2.9">Intelligitur enim, quod regina concordari vellet,
+                                vna enim septimana ante <date when="1440-12-30" when-custom="30 XII" instant="false">Epiffaniam</date> missus fuit dominus <persName key="wikidata-Q11814540" instant="false" full="yes">Paulus Woynyczsk</persName> ad comitemg
+                                    <placeName key="geo-3202781" instant="false" full="yes">Cilie</placeName> cum ipsa regina tunc
+                                    cons〈ti〉tuto<anchor xml:id="af"/> et nunc existenti<anchor xml:id="ag"/>, vt ipsum monuisset, quod super festum <date when="1440-12-30" when-custom="30 XII" instant="false">Epiffanie</date> nunc
                                 afuturum, prout fuit obligatus tam grauibus<anchor xml:id="ah"/>
                                 manu propria scriptis inscripcionibus, iuramentis, tum eciam
                                 dominorum Hungarorum et Polonorum caucionibus, domino regi se
                                 representasset, ipseque Celsky per ipsum dominum Paulum voce viua et
                                 per haroldum per exibicionem litere monitus respondit: „Ego libenter
                                 me statuerem, sed sum per dominam reginam captus<anchor xml:id="ai"/>, sed dominus rex proroget michi terminum husque ad dominicam
-                                    <date when="1441-03-26" when-custom="26 III">Leta<supplied>re</supplied>
-                                </date> et interim interponam me
+                                    <date when="1441-03-26" when-custom="26 III" instant="false">Leta<supplied instant="false">re</supplied>
+                        </date> et interim interponam me
                                 pro bono domini regis”.</seg>
-                            <seg xml:id="s.1.2.10">Regina vero dixit ad dominum Paulum: „Domine
+                    <seg part="N" xml:id="s.1.2.10">Regina vero dixit ad dominum Paulum: „Domine
                                     Paule<anchor xml:id="aj"/>, petas dominum tuum regem, vt det
-                                awnculo meo terminum, et eg<supplied>o</supplied> vnionem faciam,
+                                awnculo meo terminum, et eg<supplied instant="false">o</supplied> vnionem faciam,
                                 ea, que numquam facere volui prius”.</seg>
-                            <seg xml:id="s.1.2.11">Celsky vero dixit recipiens dominum Paulum ad
-                                partem: „Ecce domina regina vellet dare domino regi <persName key="gnd-123396980">filiam minorem</persName>, sed si sibi
+                    <seg part="N" xml:id="s.1.2.11">Celsky vero dixit recipiens dominum Paulum ad
+                                partem: „Ecce domina regina vellet dare domino regi <persName key="gnd-123396980" instant="false" full="yes">filiam minorem</persName>, sed si sibi
                                 iuuennis esset, dabit sibi illam, que fuit Mysznensi
                                     assignata<anchor xml:id="a3"/> etc.”</seg>
-                            <seg xml:id="s.1.2.12">Ex hac igitur<anchor xml:id="ak"/> posicione
+                    <seg part="N" xml:id="s.1.2.12">Ex hac igitur<anchor xml:id="ak"/> posicione
                                 felicem ac celerem<anchor xml:id="al"/> negociorum domini regis,
                                 dante Domino<anchor xml:id="am"/>, finem<anchor xml:id="an"/>
-                                cognoscere poterit <expan>A<ex>micicia</ex>
-                                </expan>
-                                <expan>V<ex>estra</ex>
-                                </expan>, quam Deus conseruare dignetur sanum
+                                cognoscere poterit <expan instant="false">A<ex instant="false">micicia</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estra</ex>
+                        </expan>, quam Deus conseruare dignetur sanum
                                 et prosperum per tempora longewa pro mea, amici vestri fidelis,
                                 consolacione sp(iritu)ali, et dum sic fuerit<anchor xml:id="a4"/>,
                                 ex speciali confidencia, aliqualem<anchor xml:id="ao"/> a Amicicia
                                 Vestra prestolor consolacionem.</seg>
-                            <seg xml:id="s.1.2.13">Et quia secundum supplicacionem meam in sale ||
-                                ex<gap/>tis liberalitates s<gap/> michi id em<gap/>
-                                <persName key="serafin-0006">Zewdzid</persName>, quia adhuc
+                    <seg part="N" xml:id="s.1.2.13">Et quia secundum supplicacionem meam in sale ||
+                                ex<gap instant="false"/>tis liberalitates s<gap instant="false"/> michi id em<gap instant="false"/>
+                        <persName key="serafin-0006" instant="false" full="yes">Zewdzid</persName>, quia adhuc
                                 ipsum in quitacione non expediuistis, igitur
-                                        V<supplied>
-                                    <ex>estram</ex>
-                                    <expan>A<ex>miciciam</ex>
-                                    </expan>
-                                </supplied> instantissime, sed
+                                        V<supplied instant="false">
+                            <ex instant="false">estram</ex>
+                            <expan instant="false">A<ex instant="false">miciciam</ex>
+                            </expan>
+                        </supplied> instantissime, sed
                                 et humiliter peto<anchor xml:id="ap"/>, dignemini ipsum in dicta
-                                    qu<supplied>itacione</supplied> expedire, ut pallicium michi
-                                dirigat et residuos florenos pro expensis, quia domino <persName key="serafin-0007">Nicol<supplied>ao</supplied>
-                                </persName>plebano in Proszouice
+                                    qu<supplied instant="false">itacione</supplied> expedire, ut pallicium michi
+                                dirigat et residuos florenos pro expensis, quia domino <persName key="serafin-0007" instant="false" full="yes">Nicol<supplied instant="false">ao</supplied>
+                        </persName>plebano in Proszouice
                                 tunicam meam nigram et illud palium, quod a vobis habeo,
-                                    v<supplied>no</supplied> Vngaro dominus rex dedit et ita non
+                                    v<supplied instant="false">no</supplied> Vngaro dominus rex dedit et ita non
                                 habeo in quo ambulare.</seg>
-                            <seg xml:id="s.1.2.14">Faciatis igitur in me pyum opus et, si poteritis,
-                                a dominis <persName key="serafin-0008">Schworcz</persName> et
-                                    <persName key="serafin-0009">Petro Sartore</persName> pannum
+                    <seg part="N" xml:id="s.1.2.14">Faciatis igitur in me pyum opus et, si poteritis,
+                                a dominis <persName key="serafin-0008" instant="false" full="yes">Schworcz</persName> et
+                                    <persName key="serafin-0009" instant="false" full="yes">Petro Sartore</persName> pannum
                                 michi expediatis, sicut promisistis.</seg>
-                            <seg xml:id="s.1.2.15">Graciosissimo domino regi legi literas vestras
+                    <seg part="N" xml:id="s.1.2.15">Graciosissimo domino regi legi literas vestras
                                     <sic>ad quorum</sic>, sicut videbitis, inuenietis
                                 responsionem.</seg>
-                            <seg xml:id="s.1.2.16">Pro libertate vestrorum familiarium captorum dixi
+                    <seg part="N" xml:id="s.1.2.16">Pro libertate vestrorum familiarium captorum dixi
                                 iam aliquociens domino regi et instabo, quantum potero, ut saltim,
                                 sicut dominus rex promisit, aliquo capto domini regis
                                 redimantur.</seg>
-                            <seg xml:id="s.1.2.17">Habetis me fidelem amicum, ut vos, prout confido,
+                    <seg part="N" xml:id="s.1.2.17">Habetis me fidelem amicum, ut vos, prout confido,
                                 diligatis me, et dum tempus habueritis, domine regine me commendate,
                                 instantissime peto.</seg>
-                            <seg xml:id="s.1.2.18">Datum <placeName key="geo-3054667">Bude</placeName>, <date when="1441-01-12">feria quinta infra octauas
+                    <seg part="N" xml:id="s.1.2.18">Datum <placeName key="geo-3054667" instant="false" full="yes">Bude</placeName>, <date when="1441-01-12" instant="false">feria quinta infra octauas
                                 Epiffaniarum Domini</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>Totus Vestre <expan>A<ex>micicie</ex>
-                                </expan>
-                                <persName key="gnd-107898543X">Iohannes Gruschczinsky</persName>
-                                <lb/> archidiaconus et canonicus Agriensis</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <seg xml:id="s.1.4.1.1">
-                                    <lb/>Item dominus <persName key="wikidata-Q9340770">Spitek Iaroslawski</persName>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>Totus Vestre <expan instant="false">A<ex instant="false">micicie</ex>
+                        </expan>
+                        <persName key="gnd-107898543X" instant="false" full="yes">Iohannes Gruschczinsky</persName>
+                        <lb/> archidiaconus et canonicus Agriensis</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <seg part="N" xml:id="s.1.4.1.1">
+                            <lb/>Item dominus <persName key="wikidata-Q9340770" instant="false" full="yes">Spitek Iaroslawski</persName>
                                     dicit, quia contra voluntatem suam sal vobis est receptum <lb/>
                                     et ideo seriose scribere wlt, vt vobis restituatur
-                                        <supplied>e</supplied>t p<supplied>
-                                        <ex>ro</ex>
-                                    </supplied>
+                                        <supplied instant="false">e</supplied>t p<supplied instant="false">
+                                <ex instant="false">ro</ex>
+                            </supplied>
                                     deinceps non recipiatur.</seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">districti skreślone, distanti
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi</persName> miecznikowi ziemi krakowskiej i żupnikowi
+                                obojga salin, przyjacielowi swemu i sprzymierzeńcowi.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Mężny panie, przyjacielu najdroższy</seg>
+                    <seg part="N" corresp="#s.1.2.2">Wobec próśb Waszej Życzliwości, które są dla mnie
+                                zawsze na pierwszym miejscu, postarałem się opisać Waszej
+                                Życzliwości bieżące tu wydarzenia.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Więc po pierwsze, nasz najłaskawszy pan <persName key="gnd-119195798" instant="false" full="yes">król</persName> zdrów jest i
+                                zawsze mężny wobec przeciwności losu, które, jak i wielu innym,
+                                opisałem również w liście do Waszej Życzliwości.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Jest też zawsze potężny, a sprawy Jego Wysokości
+                                są w dobrym położeniu i stoją pewnie dzięki zwycięstwu, które z
+                                Boskiej łaskawości odniósł <persName key="gnd-1048593010" instant="false" full="yes">Frysztacki</persName> czyli ban <persName key="gnd-1048593010" instant="false" full="yes">Mikołaj</persName>, w sile pięciu tysięcy, nad banem <persName key="wikidata-Q744123" instant="false" full="yes">Ładysławem</persName>, mającym ponad sześć
+                                tysięcy ludzi, i nad innymi niewiernymi, a także dlatego, że w <date when="1441-01-05" when-custom="5 I" instant="false">wigilię Objawienia
+                                    Pańskiego</date> przybyli do tego znakomitego miasta panowie
+                                polscy.</seg>
+                    <seg part="N" corresp="#s.1.2.5">I już nasz pan król najłaskawszy, z mocą Prawicy
+                                Najwyższego, chciał dzisiaj osobiście wyruszyć w pole przeciw
+                                wrogom, lecz <persName key="gnd-136846505" instant="false" full="yes">królowa</persName> Węgier,
+                                która od kilku tygodni przebywa w odległym o pięć mil od <placeName key="geo-3054667" instant="false" full="yes">Budy</placeName> zamku arcybiskupim w <placeName key="geo-3053163" instant="false" full="yes">Ostrzyhomiu</placeName>, posłała pewnych panów
+                                węgierskich, obecnie pozostających u boku króla, aby wstawiali się
+                                za zgodą, pojednaniem i pokojem.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Wynika bowiem z wielu znaków, że pragnie już tego,
+                                ponieważ trzeba, by doszło do zupełnej jedności.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Odchodzą też od niej ludzie, również zaciężni,
+                                zwłaszcza usłyszawszy o przybyciu naszych, i codziennie przybywa
+                                mocy naszemu panu.</seg>
+                    <seg part="N" corresp="#s.1.2.8">Dzisiaj bowiem znany rycerz samego bana Mikołaja
+                                na mocy listów wierzytelnych przekazał panu królowi, że sam Mikołaj,
+                                zająwszy siłą kilka zamków bana Ładysława i ujarzmiwszy miasto
+                                    <placeName key="geo-3046526" instant="false" full="yes">Pięciokościoły</placeName>, równe
+                                wielkością Krakowowi, zdąża do pana króla z dziesięcioma tysiącami,
+                                a <persName key="serafin-0005" instant="false" full="yes">Matko</persName> — prawie ze
+                                wszystkimi <placeName key="geo-3190590" instant="false" full="yes">Slawończykami</placeName>,
+                                których jest, jak mówią, z pewnością dwadzieścia tysięcy. Rycerz ten
+                                〈mówił, że〉 pozostawił ich 20 mil stąd.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Wiadomo bowiem, że królowa chciałaby zgody, gdyż
+                                na tydzień przed <date when="1440-12-30" when-custom="30 XII" instant="false">Objawieniem Pańskim</date> pan <persName key="wikidata-Q11814540" instant="false" full="yes">Paweł Wojnicki</persName> został posłany do stojącego wówczas,
+                                a i teraz przebywającego przy królowej, hrabiego <placeName key="geo-3202781" instant="false" full="yes">Cylii</placeName> z napomnieniem, aby na najbliższe
+                                święto Objawienia Pańskiego stawił się u pana króla, zgodnie z tym,
+                                jak był zobowiązany zarówno poważnymi własnoręcznymi pismami i
+                                przysięgami, jak też poręczeniami panów węgierskich i polskich.
+                                Tenże zaś Celski, i ustnie przez pana Pawła, i okazując list przez
+                                herolda, odpowiedział na upomnienia: „Chętnie bym się stawił, lecz
+                                jestem zatrzymywany przez panią królową, niech jednak pan król
+                                przedłuży mi termin do niedzieli <date when="1441-03-26" when-custom="26 III" instant="false">Letare</date>, a tymczasem będę się starał
+                                o korzyści dla pana króla”.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Królowa zaś powiedziała do pana Pawła: „Panie
+                                Pawle, poproś twego pana króla, aby wyznaczył 〈nowy〉 termin mojemu
+                                wujowi, ja zaś doprowadzę do pojednania, czego nigdy wcześniej nie
+                                chciałam uczynić”.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Celski zaś, biorąc pana Pawła na stronę,
+                                powiedział: „Oto pani królowa chciałaby dać panu królowi <persName key="gnd-123396980" instant="false" full="yes">młodszą córkę</persName>, lecz jeśli
+                                byłaby dla niego za młoda, da mu tę, która była przeznaczona dla
+                                Miśnieńczyka etc.”.</seg>
+                    <seg part="N" corresp="#s.1.2.12">Z tej sytuacji Wasza Życzliwość, którą niech Bóg
+                                raczy zachować na długie lata w zdrowiu i pomyślności ku mojej, jako
+                                wiernego waszego przyjaciela, pociesze duchowej, może rozpoznać
+                                pomyślny i prędki z daru Pana koniec trudów pana króla. I póki tak
+                                będzie, oczekuję jakiejś pociechy ze strony Waszej Życzliwości z
+                                tytułu szczególnego zaufania.</seg>
+                    <seg part="N" corresp="#s.1.2.13">A ponieważ w wyniku mojej prośby co do soli
+                                <gap instant="false"/> zwolnienia <gap instant="false"/> mnie ten <gap instant="false"/>
+                        <persName key="serafin-0006" instant="false" full="yes">Zewrzyd</persName>, ponieważ do tej
+                                pory nie spłaciliście go stosownie do kwitu, przeto Waszą Życzliwość
+                                najusilniej, lecz i pokornie proszę, abyście zechcieli mu zapłacić
+                                według tego kwitu, aby mi posłał futro i pozostałe floreny na
+                                wydatki, ponieważ pan król dał moją czarną tunikę panu <persName key="serafin-0007" instant="false" full="yes">Mikołajowi</persName> plebanowi w
+                                Proszowicach, a ten płaszcz, który mam od was, jednemu Węgrowi, i
+                                tak nie mam w czym chodzić.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Dokonajcie więc wobec mnie pobożnego uczynku i,
+                                jeżeli możecie, wyślijcie mi sukno od panów <persName key="serafin-0008" instant="false" full="yes">Szworca</persName> i <persName key="serafin-0009" instant="false" full="yes">Piotra Krawca</persName>, tak jak
+                                obiecaliście.</seg>
+                    <seg part="N" corresp="#s.1.2.15">Przeczytałem najłaskawszemu panu królowi wasz
+                                list, na który, jak zobaczycie, otrzymacie odpowiedź.</seg>
+                    <seg part="N" corresp="#s.1.2.16">Już kilka razy przemawiałem do króla w sprawie
+                                wyzwolenia z niewoli waszych sług i będę naciskał, na ile zdołam,
+                                aby wreszcie, jak obiecał, zostali wykupieni za jakiegoś jeńca pana
+                                króla.</seg>
+                    <seg part="N" corresp="#s.1.2.17">Macie we mnie wiernego przyjaciela, tak jak i wy,
+                                jak wierzę, kochacie mnie. Proszę więc najusilniej, polećcie mnie
+                                pani królowej, kiedy będziecie mieli czas.</seg>
+                    <seg part="N" corresp="#s.1.2.18">Dan w <placeName key="geo-3054667" instant="false" full="yes">Budzie</placeName>, w <date when="1441-01-12" instant="false">czwartek w oktawie Objawienia
+                                Pańskiego</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>Wszystek Waszej Życzliwości <persName key="gnd-107898543X" instant="false" full="yes">Jan Gruszczyński</persName> archidiakon i kanonik egerski</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <seg part="N" corresp="#s.1.4.1.1">
+                            <lb/>Także pan <persName key="wikidata-Q9340770" instant="false" full="yes">Spytek Jarosławski</persName> mówi,
+                                    że zabrano wam sól wbrew jego woli, i dlatego chce surowo
+                                    polecić na piśmie, aby wam oddano i więcej nie zabierano.</seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">districti skreślone, distanti
                             na marginesie</note>
-                        <note n="b" type="transcription" target="#ab">po quia skreślone
+            <note n="b" type="transcription" target="#ab" anchored="true">po quia skreślone
                             eam〈?〉.</note>
-                        <note n="c" type="transcription" target="#ac">po ipse skreślone
+            <note n="c" type="transcription" target="#ac" anchored="true">po ipse skreślone
                             quo〈?〉.</note>
-                        <note n="d" type="transcription" target="#ad">po omnibus wytarte słowo
+            <note n="d" type="transcription" target="#ad" anchored="true">po omnibus wytarte słowo
                             zaczynające się na s, po czym skreślone sallinis, po czym skreślone
                             Salinis.</note>
-                        <note n="e" type="transcription" target="#ae">comittem skreślone, comitem
+            <note n="e" type="transcription" target="#ae" anchored="true">comittem skreślone, comitem
                             nadpisane.</note>
-                        <note n="f" type="transcription" target="#af">cons〈ti〉tuto czytaj:
+            <note n="f" type="transcription" target="#af" anchored="true">cons〈ti〉tuto czytaj:
                             constitutum.</note>
-                        <note n="g" type="transcription" target="#ag">existenti czytaj:
+            <note n="g" type="transcription" target="#ag" anchored="true">existenti czytaj:
                             existentem.</note>
-                        <note n="h" type="transcription" target="#ah">po grauibus skreślone
+            <note n="h" type="transcription" target="#ah" anchored="true">po grauibus skreślone
                             rem.</note>
-                        <note n="i" type="transcription" target="#ai">receptus skreślone, captus
+            <note n="i" type="transcription" target="#ai" anchored="true">receptus skreślone, captus
                             nadpisane.</note>
-                        <note n="j" type="transcription" target="#aj">Paule nadpisane.</note>
-                        <note n="k" type="transcription" target="#ak">igitur poprawione z
+            <note n="j" type="transcription" target="#aj" anchored="true">Paule nadpisane.</note>
+            <note n="k" type="transcription" target="#ak" anchored="true">igitur poprawione z
                             agitur.</note>
-                        <note n="l" type="transcription" target="#al">celantem skreślone, celerem
+            <note n="l" type="transcription" target="#al" anchored="true">celantem skreślone, celerem
                             nadpisane.</note>
-                        <note n="m" type="transcription" target="#am">po Domino wytarte dwie litery,
+            <note n="m" type="transcription" target="#am" anchored="true">po Domino wytarte dwie litery,
                             skreślonych pięć.</note>
-                        <note n="n" type="transcription" target="#an">finem nadpisane.</note>
-                        <note n="o" type="transcription" target="#ao">aliqualem poprawione z
+            <note n="n" type="transcription" target="#an" anchored="true">finem nadpisane.</note>
+            <note n="o" type="transcription" target="#ao" anchored="true">aliqualem poprawione z
                             aliquali.</note>
-                        <note n="p" type="transcription" target="#ap">po peto skreślone peto
+            <note n="p" type="transcription" target="#ap" anchored="true">po peto skreślone peto
                             dignemini.</note>
-                        <note n="1" target="#a1">Mowa o bitwie pod <placeName key="geo-3055298">Báttaszék</placeName>, w której przerzucone z frontu tureckiego
+            <note n="1" target="#a1" anchored="true">Mowa o bitwie pod <placeName key="geo-3055298" instant="false" full="yes">Báttaszék</placeName>, w której przerzucone z frontu tureckiego
                             wojska węgierskie pod dowództwem Jánosa Hunyadiego i Mikołaja Újlakiego
                             pod koniec grudnia 1440 r. lub ok. 1 stycznia 1441 r. odniosły
                             zwycięstwo nad wojskami królowej węgierskiej Elżbiety dowodzonymi przez
@@ -253,7 +376,7 @@
                             położenie militarne i polityczne Władysława Warneńczyka w jego
                             konflikcie z królową Elżbietą (Dąbrowski, Władysław I Jagiellończyk, s.
                             54–55).</note>
-                        <note n="2" target="#a2">Przygotowywana w Polsce odsiecz dla znajdującego
+            <note n="2" target="#a2" anchored="true">Przygotowywana w Polsce odsiecz dla znajdującego
                             się w trudnym położeniu króla wyruszyła na Węgry w drugiej połowie
                             października 1440 r. Korpus wojsk polskich składający się z ok. 5000
                             żołnierzy z zaciągu i z chorągwi prywatnych pod dowództwem wojewody
@@ -269,10 +392,10 @@
                             w końcu stycznia t.r. przeciwko najważniejszym stronnikom królowej
                             Elżbiety, bratu prymasa Węgier Tomaszowi Szécsiemu i hrabiom cylejskim.
                             Wyprawa zakończyła się zwycięstwem króla i shołdowaniem hrabiów
-                                <placeName key="geo-3202781">Cylii</placeName> (Dąbrowski, Władysław I
+                                <placeName key="geo-3202781" instant="false" full="yes">Cylii</placeName> (Dąbrowski, Władysław I
                             Jagiellończyk, s. 55–61; Kurtyka, Tęczyńscy, s. 321–322; zob. też
-                                <persName key="gnd-1059894300">Ulryk</persName>).</note>
-                        <note n="3" target="#a3">Annę starszą córkę królowej węgierskiej Elżbiety i
+                                <persName key="gnd-1059894300" instant="false" full="yes">Ulryk</persName>).</note>
+            <note n="3" target="#a3" anchored="true">Annę starszą córkę królowej węgierskiej Elżbiety i
                             Albrechta, jak wynika z przytoczonej w liście relacji Pawła Wojnickiego,
                             planowano wydać za mąż najpewniej za Fryderyka elektora saskiego,
                             nazwanego tutaj Miśnieńczykiem (w 1423 r. Marchia Miśnieńska weszła w
@@ -281,123 +404,13 @@
                             małżeństwo Władysława z Anną. Elżbieta zmarła kilka dni później i Anna
                             ostatecznie poślubiła w 1446 r. landgrafa Turyngii Wilhelma III
                             (Wdowiszewski, Genealogia, s. 55).</note>
-                        <note n="4" target="#a4">dum sic fuerit („I póki tak będzie”) odnosi się do
-                            słów: <expan>A<ex>micicia</ex>
-                            </expan>
-                            <expan>V<ex>estra</ex>
-                            </expan>, quam Deus conseruare dignetur sanum et
+            <note n="4" target="#a4" anchored="true">dum sic fuerit („I póki tak będzie”) odnosi się do
+                            słów: <expan instant="false">A<ex instant="false">micicia</ex>
+                </expan>
+                <expan instant="false">V<ex instant="false">estra</ex>
+                </expan>, quam Deus conseruare dignetur sanum et
                             prosperum per tempora longewa („Wasza Życzliwość, którą niech Bóg aczy
                             zachować na długie lata w zdrowiu i pomyślności”).</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi</persName> miecznikowi ziemi krakowskiej i żupnikowi
-                                obojga salin, przyjacielowi swemu i sprzymierzeńcowi.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Mężny panie, przyjacielu najdroższy</seg>
-                            <seg xml:id="t.1.2.2">Wobec próśb Waszej Życzliwości, które są dla mnie
-                                zawsze na pierwszym miejscu, postarałem się opisać Waszej
-                                Życzliwości bieżące tu wydarzenia.</seg>
-                            <seg xml:id="t.1.2.3">Więc po pierwsze, nasz najłaskawszy pan <persName key="gnd-119195798">król</persName> zdrów jest i
-                                zawsze mężny wobec przeciwności losu, które, jak i wielu innym,
-                                opisałem również w liście do Waszej Życzliwości.</seg>
-                            <seg xml:id="t.1.2.4">Jest też zawsze potężny, a sprawy Jego Wysokości
-                                są w dobrym położeniu i stoją pewnie dzięki zwycięstwu, które z
-                                Boskiej łaskawości odniósł <persName key="gnd-1048593010">Frysztacki</persName> czyli ban <persName key="gnd-1048593010">Mikołaj</persName>, w sile pięciu tysięcy, nad banem <persName key="wikidata-Q744123">Ładysławem</persName>, mającym ponad sześć
-                                tysięcy ludzi, i nad innymi niewiernymi, a także dlatego, że w <date when="1441-01-05" when-custom="5 I">wigilię Objawienia
-                                    Pańskiego</date> przybyli do tego znakomitego miasta panowie
-                                polscy.</seg>
-                            <seg xml:id="t.1.2.5">I już nasz pan król najłaskawszy, z mocą Prawicy
-                                Najwyższego, chciał dzisiaj osobiście wyruszyć w pole przeciw
-                                wrogom, lecz <persName key="gnd-136846505">królowa</persName> Węgier,
-                                która od kilku tygodni przebywa w odległym o pięć mil od <placeName key="geo-3054667">Budy</placeName> zamku arcybiskupim w <placeName key="geo-3053163">Ostrzyhomiu</placeName>, posłała pewnych panów
-                                węgierskich, obecnie pozostających u boku króla, aby wstawiali się
-                                za zgodą, pojednaniem i pokojem.</seg>
-                            <seg xml:id="t.1.2.6">Wynika bowiem z wielu znaków, że pragnie już tego,
-                                ponieważ trzeba, by doszło do zupełnej jedności.</seg>
-                            <seg xml:id="t.1.2.7">Odchodzą też od niej ludzie, również zaciężni,
-                                zwłaszcza usłyszawszy o przybyciu naszych, i codziennie przybywa
-                                mocy naszemu panu.</seg>
-                            <seg xml:id="t.1.2.8">Dzisiaj bowiem znany rycerz samego bana Mikołaja
-                                na mocy listów wierzytelnych przekazał panu królowi, że sam Mikołaj,
-                                zająwszy siłą kilka zamków bana Ładysława i ujarzmiwszy miasto
-                                    <placeName key="geo-3046526">Pięciokościoły</placeName>, równe
-                                wielkością Krakowowi, zdąża do pana króla z dziesięcioma tysiącami,
-                                a <persName key="serafin-0005">Matko</persName> — prawie ze
-                                wszystkimi <placeName key="geo-3190590">Slawończykami</placeName>,
-                                których jest, jak mówią, z pewnością dwadzieścia tysięcy. Rycerz ten
-                                〈mówił, że〉 pozostawił ich 20 mil stąd.</seg>
-                            <seg xml:id="t.1.2.9">Wiadomo bowiem, że królowa chciałaby zgody, gdyż
-                                na tydzień przed <date when="1440-12-30" when-custom="30 XII">Objawieniem Pańskim</date> pan <persName key="wikidata-Q11814540">Paweł Wojnicki</persName> został posłany do stojącego wówczas,
-                                a i teraz przebywającego przy królowej, hrabiego <placeName key="geo-3202781">Cylii</placeName> z napomnieniem, aby na najbliższe
-                                święto Objawienia Pańskiego stawił się u pana króla, zgodnie z tym,
-                                jak był zobowiązany zarówno poważnymi własnoręcznymi pismami i
-                                przysięgami, jak też poręczeniami panów węgierskich i polskich.
-                                Tenże zaś Celski, i ustnie przez pana Pawła, i okazując list przez
-                                herolda, odpowiedział na upomnienia: „Chętnie bym się stawił, lecz
-                                jestem zatrzymywany przez panią królową, niech jednak pan król
-                                przedłuży mi termin do niedzieli <date when="1441-03-26" when-custom="26 III">Letare</date>, a tymczasem będę się starał
-                                o korzyści dla pana króla”.</seg>
-                            <seg xml:id="t.1.2.10">Królowa zaś powiedziała do pana Pawła: „Panie
-                                Pawle, poproś twego pana króla, aby wyznaczył 〈nowy〉 termin mojemu
-                                wujowi, ja zaś doprowadzę do pojednania, czego nigdy wcześniej nie
-                                chciałam uczynić”.</seg>
-                            <seg xml:id="t.1.2.11">Celski zaś, biorąc pana Pawła na stronę,
-                                powiedział: „Oto pani królowa chciałaby dać panu królowi <persName key="gnd-123396980">młodszą córkę</persName>, lecz jeśli
-                                byłaby dla niego za młoda, da mu tę, która była przeznaczona dla
-                                Miśnieńczyka etc.”.</seg>
-                            <seg xml:id="t.1.2.12">Z tej sytuacji Wasza Życzliwość, którą niech Bóg
-                                raczy zachować na długie lata w zdrowiu i pomyślności ku mojej, jako
-                                wiernego waszego przyjaciela, pociesze duchowej, może rozpoznać
-                                pomyślny i prędki z daru Pana koniec trudów pana króla. I póki tak
-                                będzie, oczekuję jakiejś pociechy ze strony Waszej Życzliwości z
-                                tytułu szczególnego zaufania.</seg>
-                            <seg xml:id="t.1.2.13">A ponieważ w wyniku mojej prośby co do soli
-                                <gap/> zwolnienia <gap/> mnie ten <gap/>
-                                <persName key="serafin-0006">Zewrzyd</persName>, ponieważ do tej
-                                pory nie spłaciliście go stosownie do kwitu, przeto Waszą Życzliwość
-                                najusilniej, lecz i pokornie proszę, abyście zechcieli mu zapłacić
-                                według tego kwitu, aby mi posłał futro i pozostałe floreny na
-                                wydatki, ponieważ pan król dał moją czarną tunikę panu <persName key="serafin-0007">Mikołajowi</persName> plebanowi w
-                                Proszowicach, a ten płaszcz, który mam od was, jednemu Węgrowi, i
-                                tak nie mam w czym chodzić.</seg>
-                            <seg xml:id="t.1.2.14">Dokonajcie więc wobec mnie pobożnego uczynku i,
-                                jeżeli możecie, wyślijcie mi sukno od panów <persName key="serafin-0008">Szworca</persName> i <persName key="serafin-0009">Piotra Krawca</persName>, tak jak
-                                obiecaliście.</seg>
-                            <seg xml:id="t.1.2.15">Przeczytałem najłaskawszemu panu królowi wasz
-                                list, na który, jak zobaczycie, otrzymacie odpowiedź.</seg>
-                            <seg xml:id="t.1.2.16">Już kilka razy przemawiałem do króla w sprawie
-                                wyzwolenia z niewoli waszych sług i będę naciskał, na ile zdołam,
-                                aby wreszcie, jak obiecał, zostali wykupieni za jakiegoś jeńca pana
-                                króla.</seg>
-                            <seg xml:id="t.1.2.17">Macie we mnie wiernego przyjaciela, tak jak i wy,
-                                jak wierzę, kochacie mnie. Proszę więc najusilniej, polećcie mnie
-                                pani królowej, kiedy będziecie mieli czas.</seg>
-                            <seg xml:id="t.1.2.18">Dan w <placeName key="geo-3054667">Budzie</placeName>, w <date when="1441-01-12">czwartek w oktawie Objawienia
-                                Pańskiego</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>Wszystek Waszej Życzliwości <persName key="gnd-107898543X">Jan Gruszczyński</persName> archidiakon i kanonik egerski</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <seg xml:id="t.1.4.1.1">
-                                    <lb/>Także pan <persName key="wikidata-Q9340770">Spytek Jarosławski</persName> mówi,
-                                    że zabrano wam sól wbrew jego woli, i dlatego chce surowo
-                                    polecić na piśmie, aby wam oddano i więcej nie zabierano.</seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+        </listAnnotation>
+    </standOff>
 </TEI>

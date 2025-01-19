@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS42">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Andrzej Odrowąż ze Sprowy do Mikołaja Serafina, <placeName key="geo-692702">Sambor</placeName>, <date when="1457-08-22">22 sierpnia 1457</date>
+                <title>Andrzej Odrowąż ze Sprowy do Mikołaja Serafina, <placeName key="geo-692702" instant="false" full="yes">Sambor</placeName>, <date when="1457-08-22" instant="false">22 sierpnia 1457</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,196 +14,207 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 170 (214)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres,
+                        <p part="N">recto: tekst listu, podpis; verso: adres,
                             ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>221 × 234 mm; znak wodny: głowa wołu
+                        <p part="N">221 × 234 mm; znak wodny: głowa wołu
                             z kwiatem siedmiopłatkowym na podwójnym pręcie między rogami; ślady zawilgocenia
                             i ubytki papieru w dolnej części karty</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="wikidata-Q4759675"/>
-                    <placeName key="geo-692702">Sambor</placeName>
-                    <date when="1457-08-22">22 sierpnia 1457</date>
+                    <persName key="wikidata-Q4759675" instant="false" full="yes"/>
+                    <placeName key="geo-692702" instant="false" full="yes">Sambor</placeName>
+                    <date when="1457-08-22" instant="false">22 sierpnia 1457</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin41.xml">Previous letter of <persName key="wikidata-Q11044024">Piotr Szafraniec</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1455-10-09">9 października 1455</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin41.xml">Previous letter of <persName key="wikidata-Q11044024" instant="false" full="yes">Piotr Szafraniec</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1455-10-09" instant="false">9 października 1455</date>
                     </ref>
-                    <ref type="next" target="serafin43.xml">Next letter of <persName key="serafin-0083">Maciej</persName>
-                        <persName key="serafin-0126">Mikołaj Ziema</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1458-09-06">6 września 1458</date>
+                    <ref type="next" target="serafin43.xml">Next letter of <persName key="serafin-0083" instant="false" full="yes">Maciej</persName>
+                        <persName key="serafin-0126" instant="false" full="yes">Mikołaj Ziema</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1458-09-06" instant="false">6 września 1458</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Strenuo domino <persName key="gnd-139138560">Nicolao Seraphin</persName> zuppario sa<supplied>lis</supplied> <lb/> vtriusque et gladiferro
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Strenuo domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName> zuppario sa<supplied instant="false">lis</supplied>
+                        <lb/> vtriusque et gladiferro
                                 Cracouiensi, amico nostro dilecto.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Strenue domine, amice noster dilecte.</seg>
-                            <seg xml:id="s.1.2.2">Scriptis <expan>v<ex>estris</ex>
-                                </expan> bene intelleximus,
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Strenue domine, amice noster dilecte.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Scriptis <expan instant="false">v<ex instant="false">estris</ex>
+                        </expan> bene intelleximus,
                                 quibus <lb/> nobis scribitis, sicut soliti estis semper promittitis et numquam verbum
                                 vestrum adimpletis.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.3">Recolimus enim post decessum nostri <persName key="wikidata-Q4331797">genitoris</persName>
-                                <anchor xml:id="a1"/> amantissimi,
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.3">Recolimus enim post decessum nostri <persName key="wikidata-Q4331797" instant="false" full="yes">genitoris</persName>
+                        <anchor xml:id="a1"/> amantissimi,
                                 ita diu nobis <lb/> debita nostra ista tenemini et vsquemodo ea soluere non
                                 aduertitis.</seg>
-                            <seg xml:id="s.1.2.4">Propter que multa dampna percepimus, quia et nostra bona nos vendere
+                    <seg part="N" xml:id="s.1.2.4">Propter que multa dampna percepimus, quia et nostra bona nos vendere
                                 opportebat, de quibus longe dolebimus, et propter non complecionem verbi
-                                vestri ad dominum <persName key="gnd-1114283509">castellanum Cracouiensem</persName> et ad alios nos induxistis non
-                                complentem, et festum <date when="1457-08-15" when-custom="15 VIII">Assumpcionis Virginis Gloriose [15 VIII]</date> preteriit, vbi
+                                vestri ad dominum <persName key="gnd-1114283509" instant="false" full="yes">castellanum Cracouiensem</persName> et ad alios nos induxistis non
+                                complentem, et festum <date when="1457-08-15" when-custom="15 VIII" instant="false">Assumpcionis Virginis Gloriose [15 VIII]</date> preteriit, vbi
                                 debuistis solucionem impendere, neque quidquam fecistis.</seg>
-                            <seg xml:id="s.1.2.5">Excusatis se bello,
+                    <seg part="N" xml:id="s.1.2.5">Excusatis se bello,
                                 tamen in vestra descripcione continetur, quod neque bellicali expedicione<anchor xml:id="aa"/> subterfugere
                                 nos potestis, quamuis autem ibi bella geruntur, tamen hic adhuc, per
                                 Dei graciam, pax habetur.</seg>
-                            <seg xml:id="s.1.2.6">Idcirco rogamus amicanter, quatenus nostra debita
-                                <add>cum dampnis</add>
-                                <anchor xml:id="ab"/> nobis exsoluere dignemini.</seg>
-                            <seg xml:id="s.1.2.7">Si autem nunc plura non possetis,
+                    <seg part="N" xml:id="s.1.2.6">Idcirco rogamus amicanter, quatenus nostra debita
+                                <add instant="false" status="unremarkable">cum dampnis</add>
+                        <anchor xml:id="ab"/> nobis exsoluere dignemini.</seg>
+                    <seg part="N" xml:id="s.1.2.7">Si autem nunc plura non possetis,
                                 extunc petimus domino castellano Cracouiensi centum et triginta marcas et
                                 sexaginta<anchor xml:id="ac"/> florenos exsoluere velitis.</seg>
-                            <seg xml:id="s.1.2.8">Et quemadmodum honorabilem <persName key="serafin-0145">Iacobum</persName>
+                    <seg part="N" xml:id="s.1.2.8">Et quemadmodum honorabilem <persName key="serafin-0145" instant="false" full="yes">Iacobum</persName>
                                 nostrum capellanum transmisimus, adhuc Cracouie moratur, idcirco rogamus,
                                 velitis arma nostra, que dedimus parare, et balistas, prout idem capellanus refferret,
                                 expedire.</seg>
-                            <seg xml:id="s.1.2.9">Sique hec feceritis, extunc residui debiti longiorem terminum
+                    <seg part="N" xml:id="s.1.2.9">Sique hec feceritis, extunc residui debiti longiorem terminum
                                 vobis concedemus.</seg>
-                            <seg xml:id="s.1.2.10">Si autem nolueritis, extunc inscripcione, qua se nobis inscripsistis,
+                    <seg part="N" xml:id="s.1.2.10">Si autem nolueritis, extunc inscripcione, qua se nobis inscripsistis,
                                 modis omnibus, quibus maioribus poterimus, volumus vti et agere.</seg>
-                            <seg xml:id="s.1.2.11">Et scriptis <expan>v<ex>estris</ex>
-                                </expan> nobis intencionem vestram apperire velitis, si<anchor xml:id="ad"/> soluere nobis
+                    <seg part="N" xml:id="s.1.2.11">Et scriptis <expan instant="false">v<ex instant="false">estris</ex>
+                        </expan> nobis intencionem vestram apperire velitis, si<anchor xml:id="ad"/> soluere nobis
                                 wltis aut non.</seg>
-                            <seg xml:id="s.1.2.12">In promissione tamen nobis non sufficit, quia promittendo ad diem Iudicii nobis sic non exsolueritis.</seg>
-                            <seg xml:id="s.1.2.13">Et hoc nos prestolari nolumus, nisi iam
-                                nostris insc<supplied>ri</supplied>pcionibus vtemur.</seg>
-                            <seg xml:id="s.1.2.14">Datum in <placeName key="geo-692702">Sambor</placeName>, <date when="1457-08-22">feria secunda in octaua
+                    <seg part="N" xml:id="s.1.2.12">In promissione tamen nobis non sufficit, quia promittendo ad diem Iudicii nobis sic non exsolueritis.</seg>
+                    <seg part="N" xml:id="s.1.2.13">Et hoc nos prestolari nolumus, nisi iam
+                                nostris insc<supplied instant="false">ri</supplied>pcionibus vtemur.</seg>
+                    <seg part="N" xml:id="s.1.2.14">Datum in <placeName key="geo-692702" instant="false" full="yes">Sambor</placeName>, <date when="1457-08-22" instant="false">feria secunda in octaua
                                 Assumpcionis Virginis Gloriose, etc. lvii</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="wikidata-Q4759675">Andreas Odrowans de Sprowa</persName> palatinus <lb/> et capitaneus terre Russie generalis</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po expedicione skreślone se.</note>
-                        <note n="b" type="transcription" target="#ab">cum dampnis na marginesie innym atramentem.</note>
-                        <note n="c" type="transcription" target="#ac">sexaginta
-                            skreślone florenos poprawione z flores.</note>
-                        <note n="d" type="transcription" target="#ad">od tego słowa do końca list pisany tym samym atramentem,
-                            co dopisek marginalny cum dampnis.</note>
-                        <note n="1" target="#a1">zm. 8 września 1450</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> żupnikowi obojga salin i miecznikowi
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="wikidata-Q4759675" instant="false" full="yes">Andreas Odrowans de Sprowa</persName> palatinus <lb/> et capitaneus terre Russie generalis</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> żupnikowi obojga salin i miecznikowi
                                 krakowskiemu, naszemu umiłowanemu przyjacielowi.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Mężny panie, nasz umiłowany przyjacielu.</seg>
-                            <seg xml:id="t.1.2.2">Dobrze pojęliśmy, co piszecie
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Mężny panie, nasz umiłowany przyjacielu.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Dobrze pojęliśmy, co piszecie
                                 w waszym liście — zawsze, jak to macie w zwyczaju, obiecujecie i nigdy nie
                                 dotrzymujecie słowa.</seg>
-                            <seg xml:id="t.1.2.3">Przypominamy, że tak długo po śmierci naszego najukochańszego
-                                <persName key="wikidata-Q4331797">rodzica</persName> zatrzymujecie nasze należności i do tej pory nie zatroszczyliście
+                    <seg part="N" corresp="#s.1.2.3">Przypominamy, że tak długo po śmierci naszego najukochańszego
+                                <persName key="wikidata-Q4331797" instant="false" full="yes">rodzica</persName> zatrzymujecie nasze należności i do tej pory nie zatroszczyliście
                                 się o ich spłacenie.</seg>
-                            <seg xml:id="t.1.2.4">Ponieśliśmy przez to duże straty, ponieważ — nad czym
+                    <seg part="N" corresp="#s.1.2.4">Ponieśliśmy przez to duże straty, ponieważ — nad czym
                                 bardzo bolejemy — musieliśmy sprzedać nasze dobra. Nie dotrzymując słowa,
-                                spowodowaliście również, że i my nie dotrzymaliśmy go panu <persName key="gnd-1114283509">kasztelanowi
-                                    krakowskiemu</persName> oraz innym. Minęło już święto <date when="1457-08-15" when-custom="15 VIII">Wniebowzięcia Panny Marii
+                                spowodowaliście również, że i my nie dotrzymaliśmy go panu <persName key="gnd-1114283509" instant="false" full="yes">kasztelanowi
+                                    krakowskiemu</persName> oraz innym. Minęło już święto <date when="1457-08-15" when-custom="15 VIII" instant="false">Wniebowzięcia Panny Marii
                                 [15 VIII]</date>, kiedy to powinniście byli zapłacić, a nic nie uczyniliście.</seg>
-                            <seg xml:id="t.1.2.5">Tłumaczycie
+                    <seg part="N" corresp="#s.1.2.5">Tłumaczycie
                                 się wojną, jednak w waszym piśmie stoi, że nie możecie wymawiać się przed
                                 nami nawet wyprawą wojenną. Zresztą, chociaż tam prowadzona jest wojna,
                                 tutaj jednak, dzięki Bogu, dotychczas panuje pokój.</seg>
-                            <seg xml:id="t.1.2.6">Dlatego życzliwie prosimy,
+                    <seg part="N" corresp="#s.1.2.6">Dlatego życzliwie prosimy,
                                 abyście zechcieli wypłacić nam nasze należności razem z procentem.</seg>
-                            <seg xml:id="t.1.2.7">Jeżeli zaś
+                    <seg part="N" corresp="#s.1.2.7">Jeżeli zaś
                                 teraz nie moglibyście więcej, prosimy, abyście zechcieli zapłacić panu kasztelanowi
                                 krakowskiemu 130 grzywien i 60 florenów.</seg>
-                            <seg xml:id="t.1.2.8">A ponieważ dotąd przebywa
-                                w Krakowie nasz kapelan czcigodny <persName key="serafin-0145">Jakub</persName>, którego tam posłaliśmy, prosimy,
+                    <seg part="N" corresp="#s.1.2.8">A ponieważ dotąd przebywa
+                                w Krakowie nasz kapelan czcigodny <persName key="serafin-0145" instant="false" full="yes">Jakub</persName>, którego tam posłaliśmy, prosimy,
                                 zechciejcie wysłać naszą zbroję, którą kazaliśmy przysposobić, oraz kusze, stosownie
                                 do wskazówek tegoż kapelana.</seg>
-                            <seg xml:id="t.1.2.9">Jeżeli to uczynicie, wtedy damy wam
+                    <seg part="N" corresp="#s.1.2.9">Jeżeli to uczynicie, wtedy damy wam
                                 odleglejszy termin spłaty pozostałych długów.</seg>
-                            <seg xml:id="t.1.2.10">Jeżeli zaś nie zechcecie, wtedy zamierzamy
+                    <seg part="N" corresp="#s.1.2.10">Jeżeli zaś nie zechcecie, wtedy zamierzamy
                                 na wszelkie sposoby, jakie będą nam dostępne, posłużyć się zapisem,
                                 który nam wystawiliście, i wejść na drogę sądową.</seg>
-                            <seg xml:id="t.1.2.11">Zechciejcie więc napisać nam
+                    <seg part="N" corresp="#s.1.2.11">Zechciejcie więc napisać nam
                                 o waszych zamiarach, czy chcecie nam zapłacić, czy nie.</seg>
-                            <seg xml:id="t.1.2.12">Nie wystarczy nam jednak obietnica, ponieważ obiecując, nie zapłacicie nam do Sądnego Dnia.</seg>
-                            <seg xml:id="t.1.2.13">Nie zamierzamy na to czekać, raczej posłużymy się danym nam zapisem.</seg>
-                            <seg xml:id="t.1.2.14">Dan
-                                w <placeName key="geo-692702">Samborze</placeName>, w <date when="1457-08-22">poniedziałek w oktawę Wniebowzięcia Panny Marii, etc. 57</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="wikidata-Q4759675">Andrzej Odrowąż ze Sprowy</persName>, wojewoda i starosta generalny Ziemi Ruskiej</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                    <seg part="N" corresp="#s.1.2.12">Nie wystarczy nam jednak obietnica, ponieważ obiecując, nie zapłacicie nam do Sądnego Dnia.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Nie zamierzamy na to czekać, raczej posłużymy się danym nam zapisem.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Dan
+                                w <placeName key="geo-692702" instant="false" full="yes">Samborze</placeName>, w <date when="1457-08-22" instant="false">poniedziałek w oktawę Wniebowzięcia Panny Marii, etc. 57</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="wikidata-Q4759675" instant="false" full="yes">Andrzej Odrowąż ze Sprowy</persName>, wojewoda i starosta generalny Ziemi Ruskiej</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po expedicione skreślone se.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">cum dampnis na marginesie innym atramentem.</note>
+            <note n="c" type="transcription" target="#ac" anchored="true">sexaginta
+                            skreślone florenos poprawione z flores.</note>
+            <note n="d" type="transcription" target="#ad" anchored="true">od tego słowa do końca list pisany tym samym atramentem,
+                            co dopisek marginalny cum dampnis.</note>
+            <note n="1" target="#a1" anchored="true">zm. 8 września 1450</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

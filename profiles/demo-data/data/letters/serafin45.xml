@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS45">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jerzy Pomorski do Mikołaja Serafina, <placeName key="geo-775758">Bochnia</placeName>, <date when="1459-08-05">15 sierpnia
+                <title>Jerzy Pomorski do Mikołaja Serafina, <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>, <date when="1459-08-05" instant="false">15 sierpnia
                     1459</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
@@ -15,71 +15,85 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 164 (208)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>209 × 182 mm; znak wodny: wieża; stan zachowania bardzo dobry</p>
+                        <p part="N">209 × 182 mm; znak wodny: wieża; stan zachowania bardzo dobry</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0161"/>
-                    <placeName key="geo-775758">Bochnia</placeName>
-                    <date when="1459-08-05">15 sierpnia 1459</date>
+                    <persName key="serafin-0161" instant="false" full="yes"/>
+                    <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>
+                    <date when="1459-08-05" instant="false">15 sierpnia 1459</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin44.xml">Previous letter of <persName key="serafin-0025">Mikołaj Zyszno</persName>
-                        <persName key="serafin-0154">Stanisław</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1459-02-20">20 lutego 1459</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin44.xml">Previous letter of <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName>
+                        <persName key="serafin-0154" instant="false" full="yes">Stanisław</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1459-02-20" instant="false">20 lutego 1459</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Magnifico domino <persName key="gnd-139138560">Nicolao
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Magnifico domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao
                                     Seraphin</persName>
-                                <lb/> gladifferro Cracouiensi, vtriusque salis <lb/> zuppario,
+                        <lb/> gladifferro Cracouiensi, vtriusque salis <lb/> zuppario,
                                 domino meo fauoroso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Magnifice domine graciose.</seg>
-                            <seg xml:id="s.1.2.2">Scire velit <expan>M<ex>agnificencia</ex>
-                                </expan>
-                                Vestra, quomodo dominus <persName key="wikidata-Q5286615">Kmytta</persName> castellanus Becensis hodie tota die <lb/>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Magnifice domine graciose.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Scire velit <expan instant="false">M<ex instant="false">agnificencia</ex>
+                        </expan>
+                                Vestra, quomodo dominus <persName key="wikidata-Q5286615" instant="false" full="yes">Kmytta</persName> castellanus Becensis hodie tota die <lb/>
                                 laborabat cum sectoribus et tragariis cum toto
                                     <sic>desidesirio</sic> et ita ordinauit, quod tragarii hodie ad
                                 noctem <lb/> descendent et sal superius porrigent, quia sectores sal
@@ -88,137 +102,133 @@
                                 vicezuppario et pecunia debet<anchor xml:id="aa"/> reponi ad partem,
                                 et sine consensu dictorum seniorum nulla marca debet alicui
                                 dari.</seg>
-                            <seg xml:id="s.1.2.3">Et dominus Kmytta promisit solucionem facere
+                    <seg part="N" xml:id="s.1.2.3">Et dominus Kmytta promisit solucionem facere
                                 tragariis, videlicet viginti quatuor marcas presenti septimana,
                                 similiter et sectoribus ex eodem sale porrecto quinquaginta
                                 marcas.</seg>
-                            <seg xml:id="s.1.2.4">Sed seniores sectorum<anchor xml:id="ab"/>
+                    <seg part="N" xml:id="s.1.2.4">Sed seniores sectorum<anchor xml:id="ab"/>
                                 septimana ista<anchor xml:id="ac"/> futura denegauerunt laborare
                                 dicentes: „Domine Becensis, faciatis purgare cameras et sal
                                 extrahite, promittimus alia septimana facere bonum laborem, licet
-                                tamen festum erit <date when="1459-08-15" when-custom="15 VIII">Beate Virginis [15 VIII]</date>”.</seg>
-                            <seg xml:id="s.1.2.5">Item, prout ut sepius
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan>
-                                <expan>V<ex>estre</ex>
-                                </expan> scripsi de s c h y b o
+                                tamen festum erit <date when="1459-08-15" when-custom="15 VIII" instant="false">Beate Virginis [15 VIII]</date>”.</seg>
+                    <seg part="N" xml:id="s.1.2.5">Item, prout ut sepius
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan>
+                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan> scripsi de s c h y b o
                                     Bochneris<anchor xml:id="a1"/>, quomodo indiget reformacione, et
                                 robora pro eadem non habemus quo ducere, et si quem vellemus
                                 vectorem ad ducendum convenire, omnes volunt caucionem fideiussorie
                                 habere pro equis, sic nemo audet dicta robora ducere.</seg>
-                            <seg xml:id="s.1.2.6">Ecce hodie venerunt seniores sectorum ad
+                    <seg part="N" xml:id="s.1.2.6">Ecce hodie venerunt seniores sectorum ad
                                 presenciam domini Kmytte protestantes de eodem s c h y b o, quomodo
                                 non reformatur.</seg>
-                            <seg xml:id="s.1.2.7">
-                                <persName key="serafin-0126">Vicezupparius</persName> respondit, quomodo non habet quo
+                    <seg part="N" xml:id="s.1.2.7">
+                        <persName key="serafin-0126" instant="false" full="yes">Vicezupparius</persName> respondit, quomodo non habet quo
                                 robora ducere, exquo equi recepti sunt.</seg>
-                            <seg xml:id="s.1.2.8">Dominus <persName key="serafin-0160">Martinus</persName> hodie direxit nuccium ad dominum suum de
+                    <seg part="N" xml:id="s.1.2.8">Dominus <persName key="serafin-0160" instant="false" full="yes">Martinus</persName> hodie direxit nuccium ad dominum suum de
                                 recepcione equorum.</seg>
-                            <seg xml:id="s.1.2.9">Adhuc non venit dominus <persName key="wikidata-Q96574990">succamerarius</persName>, si veniet,
-                                Vestram <expan>M<ex>agnificenciam</ex>
-                                </expan> accedere scriptis non
+                    <seg part="N" xml:id="s.1.2.9">Adhuc non venit dominus <persName key="wikidata-Q96574990" instant="false" full="yes">succamerarius</persName>, si veniet,
+                                Vestram <expan instant="false">M<ex instant="false">agnificenciam</ex>
+                        </expan> accedere scriptis non
                                 obmittam.</seg>
-                            <seg xml:id="s.1.2.10">Nulla victualia habemus in zuppis, nec ceruisiam,
+                    <seg part="N" xml:id="s.1.2.10">Nulla victualia habemus in zuppis, nec ceruisiam,
                                 nec carnes et parum de auena.</seg>
-                            <seg xml:id="s.1.2.11">Si aliquid adduceretur, Vestre
-                                        <expan>M<ex>agnificencie</ex>
-                                </expan> notificabo, quia non
+                    <seg part="N" xml:id="s.1.2.11">Si aliquid adduceretur, Vestre
+                                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan> notificabo, quia non
                                 habeo in quo dirigere.</seg>
-                            <seg xml:id="s.1.2.12">Datum in <placeName key="geo-775758">Bochna</placeName>, <date when="1459-08-05">dominico die ante
+                    <seg part="N" xml:id="s.1.2.12">Datum in <placeName key="geo-775758" instant="false" full="yes">Bochna</placeName>, <date when="1459-08-05" instant="false">dominico die ante
                                     Laurencii, 1459</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0161">Georgius
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0161" instant="false" full="yes">Georgius
                                     Pomorsky</persName> vicezupparius <lb/> Bochnensis<anchor xml:id="a2"/>,
-                                        <expan>V<ex>estre</ex>
-                                </expan>
-                                <expan>M<ex>agnificencie</ex>
-                                </expan> seruitor</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po debet skreślone
-                            debet.</note>
-                        <note n="b" type="transcription" target="#ab">po sectorum skreślone
-                            presenti.</note>
-                        <note n="c" type="transcription" target="#ac">ista nadpisane.</note>
-                        <note n="1" target="#a1">Szyb Bochner w Bochni, zgłębiany w latach 1399–1405
-                            przez ówczesnego żupnika Mikołaja Bochnera, poddany został modernizacji
-                            pod koniec urzędowania Serafina, dlatego później zwano go również szybem
-                            Serafin (S. Fischer, <title>Dzieje bocheńskiej żupy solnej</title>,
-                            Warszawa 1962, s. 30–31; <title>Dzieje żup</title>, s. 148–150).</note>
-                        <note n="2" target="#a2">Jerzy Pomorski, występuje bez urzędu jeszcze w 1458
-                            r.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Wielmożnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
+                                        <expan instant="false">V<ex instant="false">estre</ex>
+                        </expan>
+                        <expan instant="false">M<ex instant="false">agnificencie</ex>
+                        </expan> seruitor</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Wielmożnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu,
                                 żupnikowi obojga salin, memu życzliwemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Wielmożny i łaskawy panie.</seg>
-                            <seg xml:id="t.1.2.2">Zechce wiedzieć Wasza Wielmożność, że pan
-                                <persName key="wikidata-Q5286615">Kmita</persName> kasztelan biecki dziś przez cały dzień z największą gorliwością pertraktował
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Wielmożny i łaskawy panie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Zechce wiedzieć Wasza Wielmożność, że pan
+                                <persName key="wikidata-Q5286615" instant="false" full="yes">Kmita</persName> kasztelan biecki dziś przez cały dzień z największą gorliwością pertraktował
                                 z kopaczami i tragarzami i tak ustalił, że dziś wieczorem tragarze zejdą
                                 na dół i wydobędą sól na powierzchnię. Kopacze bowiem pozwolili swobodnie
                                 wydobywać i sprzedawać sól pod tym warunkiem, że jeden ze starszyzny ma
                                 być razem z podżupkiem obecny przy sprzedaży, pieniądze zaś mają być odkładane
                                 osobno i bez zgody rzeczonej starszyzny nie wolno wydać nikomu ani
                                 jednej grzywny.</seg>
-                            <seg xml:id="t.1.2.3">Pan Kmita obiecał dokonać wypłaty dla tragarzy, mianowicie
+                    <seg part="N" corresp="#s.1.2.3">Pan Kmita obiecał dokonać wypłaty dla tragarzy, mianowicie
                                 w tym tygodniu 24 grzywny, jak też 50 grzywien dla kopaczy z tejże wydobytej
                                 soli.</seg>
-                            <seg xml:id="t.1.2.4">Jednak starszyzna kopaczy odmówiła pracy w najbliższym tygodniu, mówiąc:
+                    <seg part="N" corresp="#s.1.2.4">Jednak starszyzna kopaczy odmówiła pracy w najbliższym tygodniu, mówiąc:
                                 „Panie biecki, każcie oczyścić komory i wynieście sól, wtedy obiecujemy
-                                dobrą pracę w następnym tygodniu, chociaż będzie <date when="1459-08-15" when-custom="15 VIII">święto Najświętszej Panny
+                                dobrą pracę w następnym tygodniu, chociaż będzie <date when="1459-08-15" when-custom="15 VIII" instant="false">święto Najświętszej Panny
                                 [15 VIII]</date>”.</seg>
-                            <seg xml:id="t.1.2.5">Wreszcie, w sprawie szybu Bochnera, o którym często pisałem Waszej
+                    <seg part="N" corresp="#s.1.2.5">Wreszcie, w sprawie szybu Bochnera, o którym często pisałem Waszej
                                 Wielmożności, że wymaga przebudowy: nie mamy jak sprowadzać kłód
                                 w tym celu, kiedy zaś chcemy zatrudnić jakiegoś woźnicę do transportu, wszyscy
                                 życzą sobie mieć poręczenie za konie, inaczej nikt nie ośmiela się zwozić.</seg>
-                            <seg xml:id="t.1.2.6">Oto
+                    <seg part="N" corresp="#s.1.2.6">Oto
                                 dziś przyszła starszyzna kopaczy, protestując w obecności pana Kmity w sprawie
                                 tego szybu, że nie jest remontowany.</seg>
-                            <seg xml:id="t.1.2.7">
-                                <persName key="serafin-0126">Podżupek</persName> odpowiedział, że nie ma jak
+                    <seg part="N" corresp="#s.1.2.7">
+                        <persName key="serafin-0126" instant="false" full="yes">Podżupek</persName> odpowiedział, że nie ma jak
                                 zwozić kłód, ponieważ zabrano konie.</seg>
-                            <seg xml:id="t.1.2.8">Pan <persName key="serafin-0160">Marcin</persName> wyprawił dzisiaj posłańca
+                    <seg part="N" corresp="#s.1.2.8">Pan <persName key="serafin-0160" instant="false" full="yes">Marcin</persName> wyprawił dzisiaj posłańca
                                 do swojego pana w sprawie zabranych koni.</seg>
-                            <seg xml:id="t.1.2.9">Pan <persName key="wikidata-Q96574990">podkomorzy</persName> do tej pory nie
+                    <seg part="N" corresp="#s.1.2.9">Pan <persName key="wikidata-Q96574990" instant="false" full="yes">podkomorzy</persName> do tej pory nie
                                 przybył, jeżeli przybędzie, nie omieszkam wysłać listu do Waszej Wielmożności.</seg>
-                            <seg xml:id="t.1.2.10">Nie mamy w żupach żadnej żywności, ani piwa, ani mięs i bardzo mało owsa.</seg>
-                            <seg xml:id="t.1.2.11">Jeżeliby coś przywieziono, dam znać Waszej Wielmożności, ponieważ nie mam
+                    <seg part="N" corresp="#s.1.2.10">Nie mamy w żupach żadnej żywności, ani piwa, ani mięs i bardzo mało owsa.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Jeżeliby coś przywieziono, dam znać Waszej Wielmożności, ponieważ nie mam
                                 jak posłać.</seg>
-                            <seg xml:id="t.1.2.12">Dan w <placeName key="geo-775758">Bochni</placeName>, w <date when="1459-08-05">niedzielę przed św. Wawrzyńcem, 1459</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0161">Jerzy Pomorski</persName> podżupek bocheński, sługa Waszej Wielmożności</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                    <seg part="N" corresp="#s.1.2.12">Dan w <placeName key="geo-775758" instant="false" full="yes">Bochni</placeName>, w <date when="1459-08-05" instant="false">niedzielę przed św. Wawrzyńcem, 1459</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0161" instant="false" full="yes">Jerzy Pomorski</persName> podżupek bocheński, sługa Waszej Wielmożności</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po debet skreślone
+                            debet.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">po sectorum skreślone
+                            presenti.</note>
+            <note n="c" type="transcription" target="#ac" anchored="true">ista nadpisane.</note>
+            <note n="1" target="#a1" anchored="true">Szyb Bochner w Bochni, zgłębiany w latach 1399–1405
+                            przez ówczesnego żupnika Mikołaja Bochnera, poddany został modernizacji
+                            pod koniec urzędowania Serafina, dlatego później zwano go również szybem
+                            Serafin (S. Fischer, <title>Dzieje bocheńskiej żupy solnej</title>,
+                            Warszawa 1962, s. 30–31; <title>Dzieje żup</title>, s. 148–150).</note>
+            <note n="2" target="#a2" anchored="true">Jerzy Pomorski, występuje bez urzędu jeszcze w 1458
+                            r.</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

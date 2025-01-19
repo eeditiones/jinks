@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS1">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jan Parawicini do Mikołaja Serafina, <placeName key="geo-761168">Przemyśl</placeName>, <date when="1437-04-16">[16 kwietnia
+                <title>Jan Parawicini do Mikołaja Serafina, <placeName key="geo-761168" instant="false" full="yes">Przemyśl</placeName>, <date when="1437-04-16" instant="false">[16 kwietnia
                     1437]</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
@@ -15,184 +15,296 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 146 (190)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis, dopisek; verso: adres, ślady po pieczęci</p>
+                        <p part="N">recto: tekst listu, podpis, dopisek; verso: adres, ślady po pieczęci</p>
                     </msContents>
                     <physDesc>
-                        <p>209 × 260 mm; ślady zawilgocenia i ubytki papieru w dolnej części
+                        <p part="N">209 × 260 mm; ślady zawilgocenia i ubytki papieru w dolnej części
                             karty</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0001">Jan Parawicini</persName>
-                    <placeName key="geo-761168">Przemyśl</placeName>
-                    <date when="1437-04-16">16 kwietnia 1437</date>
+                    <persName key="serafin-0001" instant="false" full="yes">Jan Parawicini</persName>
+                    <placeName key="geo-761168" instant="false" full="yes">Przemyśl</placeName>
+                    <date when="1437-04-16" instant="false">16 kwietnia 1437</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="next" target="serafin02.xml">Next letter of <persName key="serafin-0003">Mikołaj Orlik</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1438-01-13">13 stycznia [1438]</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="next" target="serafin02.xml">Next letter of <persName key="serafin-0003" instant="false" full="yes">Mikołaj Orlik</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1438-01-13" instant="false">13 stycznia [1438]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Nobili domino <persName key="gnd-139138560">Nicolao
-                                        Serap<supplied>hin</supplied>
-                                </persName>
-                                <lb/>zuppario salis vtriusque, domino meo <gap quantity="4" unit="chars"/>
-                                <lb/>grate dilecto.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Seruicium fidele humillima cum subicione vbilibet premissum.
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Nobili domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao
+                                        Serap<supplied instant="false">hin</supplied>
+                        </persName>
+                        <lb/>zuppario salis vtriusque, domino meo <gap quantity="4" unit="chars" instant="false"/>
+                        <lb/>grate dilecto.</seg>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Seruicium fidele humillima cum subicione vbilibet premissum.
                                 Nobilis domine michi grate dilecte. <lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.2">Scribtis vestris sane intelexi, quomodo, fauente
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.2">Scribtis vestris sane intelexi, quomodo, fauente
                                 Domino, sanus vna cum tota feliciter viceuersa <lb/> reuersus, de
                                 quo ego hic cum familia vestra et mea congratulamur.</seg>
-                            <seg xml:id="s.1.2.3">Eciam scribitis, quomodo <lb/>estimaretis iam sal
-                                non <del>v<unclear quantity="1" unit="chars"/>
-                                </del>
-                                <anchor xml:id="aa"/> 
-                                invenisse circa <placeName key="geo-759603">Sandomiriam</placeName>, sed remocius, et causa istius <lb/>
+                    <seg part="N" xml:id="s.1.2.3">Eciam scribitis, quomodo <lb/>estimaretis iam sal
+                                non <del instant="false" status="unremarkable">v<unclear quantity="1" unit="chars" instant="false"/>
+                        </del>
+                        <anchor xml:id="aa"/> 
+                                invenisse circa <placeName key="geo-759603" instant="false" full="yes">Sandomiriam</placeName>, sed remocius, et causa istius <lb/>
                                 equitastis circa Wislam<anchor xml:id="a1"/>.</seg>
-                            <seg xml:id="s.1.2.4">Sciatis, quia sequenti die ante, dum debui mittere
-                                de <placeName key="geo-761168">Premislia</placeName>, quatuor
+                    <seg part="N" xml:id="s.1.2.4">Sciatis, quia sequenti die ante, dum debui mittere
+                                de <placeName key="geo-761168" instant="false" full="yes">Premislia</placeName>, quatuor
                                 <lb/>robora dederunt casum in fluuium, duo ex vna parte et duo ex
                                 alia, finibus ad se, et sic non potuerunt cum sale pertransire, et
                                 forte sic Dominus Deus voluit.</seg>
-                            <seg xml:id="s.1.2.5">Circa que robora laborauerunt plus quam centum
+                    <seg part="N" xml:id="s.1.2.5">Circa que robora laborauerunt plus quam centum
                                 homines aliquod diebus, que vix expurgauerunt, usque aqua defecit,
-                                et sic stat in vno miliari a <placeName key="geo-761168">Premislia</placeName> in bono loco circa fratrem domini
+                                et sic stat in vno miliari a <placeName key="geo-761168" instant="false" full="yes">Premislia</placeName> in bono loco circa fratrem domini
                                     decani<anchor xml:id="a2"/>, vbi non est timendum de aliquo
                                 dampno.</seg>
-                            <seg xml:id="s.1.2.6">Sed quam nisi Dominus Deus 
-                                <del>
-                                    <unclear quantity="3" unit="chars"/>
-                                </del>
-                                <anchor xml:id="ab"/>
+                    <seg part="N" xml:id="s.1.2.6">Sed quam nisi Dominus Deus 
+                                <del instant="false" status="unremarkable">
+                            <unclear quantity="3" unit="chars" instant="false"/>
+                        </del>
+                        <anchor xml:id="ab"/>
                                 aquam diluuii ordinauerit, infrafluitare non negligam et
-                                eciam <expan>N<ex>obilitatem</ex>
-                                </expan> Vestram auisare non obmittam.</seg>
-                            <seg xml:id="s.1.2.7">Eciam de sale cupitis, ut plus cumularem ad
+                                eciam <expan instant="false">N<ex instant="false">obilitatem</ex>
+                        </expan> Vestram auisare non obmittam.</seg>
+                    <seg part="N" xml:id="s.1.2.7">Eciam de sale cupitis, ut plus cumularem ad
                                 rippam.</seg>
-                            <seg xml:id="s.1.2.8">Sciatis, quia istud sal recens est, non valet
+                    <seg part="N" xml:id="s.1.2.8">Sciatis, quia istud sal recens est, non valet
                                 incutere ad vasa, sed opus, ut stet aliquod temporibus.</seg>
-                            <seg xml:id="s.1.2.9">Sed semper, quanto magis potero, cummulare volo
+                    <seg part="N" xml:id="s.1.2.9">Sed semper, quanto magis potero, cummulare volo
                                 cum summa diliencia et eciam istos laboratores teneo circa me et
-                                misi ipsos spoliare robora in silwam, quia circa dominum <persName key="serafin-0002">Michaelem Warczaba</persName> quam
-                                apreciaui per vnum <unclear>annum</unclear> tria stamina panni
+                                misi ipsos spoliare robora in silwam, quia circa dominum <persName key="serafin-0002" instant="false" full="yes">Michaelem Warczaba</persName> quam
+                                apreciaui per vnum <unclear instant="false">annum</unclear> tria stamina panni
                                 Agliciensis et septem vasa salis minuti et debeo omnia necesaria
                                 scindere, que nisi pertinent tam mansos, quam Clobi uel eciam
-                                Helwiti et prope <placeName key="geo-761168">Premisliam</placeName>
+                                Helwiti et prope <placeName key="geo-761168" instant="false" full="yes">Premisliam</placeName>
                                 nisi 1½<anchor xml:id="ac"/> miliare et sic quolibet anno.</seg>
-                            <seg xml:id="s.1.2.10">De termino sciatis, quia citacionem habuerunt ad
-                                    <date when="1437-04-08" when-custom="8 IX">feriam secundam
+                    <seg part="N" xml:id="s.1.2.10">De termino sciatis, quia citacionem habuerunt ad
+                                    <date when="1437-04-08" when-custom="8 IX" instant="false">feriam secundam
                                     proximam post Conductum Pasche</date> domini
                                     <sic>succamararii</sic>
-                                <persName key="wikidata-Q97159622"/> et sic non fuit, sed
-                                    repos<supplied>uerun</supplied>t per <date when="1437-04-15" when-custom="15 IV">octo dies ad aliam feriam secundam</date>,
-                                in quo eciam idem dominus <persName key="wikidata-Q97159622">Senko</persName> non fuit, sed iterum remisit ad convencionem
-                                ad <date when="1437-04-23" when-custom="23 IV">fesstum
-                                    Georgii</date> in <placeName key="geo-700696">Moscziska</placeName> causa istius cause et aliis, que <subst>
-                                    <del type="overwritten">a</del>
-                                        <add>h</add>
-                                    <anchor xml:id="ad"/>
-                                </subst>ic aguntur.</seg>
-                            <seg xml:id="s.1.2.11">Adhuc retineo Plichtam<anchor xml:id="a3"/>, quia
-                                eciam ciues in Moscz<supplied>i</supplied>ska difamauerunt literam
+                        <persName key="wikidata-Q97159622" instant="false" full="yes"/> et sic non fuit, sed
+                                    repos<supplied instant="false">uerun</supplied>t per <date when="1437-04-15" when-custom="15 IV" instant="false">octo dies ad aliam feriam secundam</date>,
+                                in quo eciam idem dominus <persName key="wikidata-Q97159622" instant="false" full="yes">Senko</persName> non fuit, sed iterum remisit ad convencionem
+                                ad <date when="1437-04-23" when-custom="23 IV" instant="false">fesstum
+                                    Georgii</date> in <placeName key="geo-700696" instant="false" full="yes">Moscziska</placeName> causa istius cause et aliis, que <subst instant="false" status="unremarkable">
+                            <del type="overwritten" instant="false" status="unremarkable">a</del>
+                            <add instant="false" status="unremarkable">h</add>
+                            <anchor xml:id="ad"/>
+                        </subst>ic aguntur.</seg>
+                    <seg part="N" xml:id="s.1.2.11">Adhuc retineo Plichtam<anchor xml:id="a3"/>, quia
+                                eciam ciues in Moscz<supplied instant="false">i</supplied>ska difamauerunt literam
                                 regalem in presencia ministerialis cum cuius testimonio volumus
-                                coram dominis iure procedere <del>in</del> in convencione et cum
+                                coram dominis iure procedere <del instant="false" status="unremarkable">in</del> in convencione et cum
                                 multis militibus.</seg>
-                            <seg xml:id="s.1.2.12">Ideo me <sic>uellitis</sic> informare cum domino
-                                    <persName key="wikidata-Q101002566">Czikowsky</persName>
-                                <del>sic</del>, si plura debet agere idem Plichta, quam est;
-                                    <sic>informatis</sic> cum domino <persName key="wikidata-Q101002566">Czikowsky</persName>; sed se oponit iuxta literam regalem, ut
-                                est terminus asignatus in crastino <date when="1437-05-10" when-custom="10 V">Ascenssionis Domini</date>.</seg>
-                            <seg xml:id="s.1.2.13">Nam si tamen volueritis circa <date when="1437-05-09" when-custom="9 V">festum sancti
-                                    Michaelis</date>, volo ordinare ad minus duo milia <del>
-                                    <expan>S<ex>ed</ex>
-                                    </expan>
-                                </del> ad rypam.</seg>
-                            <seg xml:id="s.1.2.14">Sed si haberemus <placeName key="geo-688389">Iasyeniczam</placeName>, iam ordinaui <sic>carpantarios</sic>
-                                et coctores in <placeName key="serafin-0002">Baschawa</placeName>, quod
+                    <seg part="N" xml:id="s.1.2.12">Ideo me <sic>uellitis</sic> informare cum domino
+                                    <persName key="wikidata-Q101002566" instant="false" full="yes">Czikowsky</persName>
+                        <del instant="false" status="unremarkable">sic</del>, si plura debet agere idem Plichta, quam est;
+                                    <sic>informatis</sic> cum domino <persName key="wikidata-Q101002566" instant="false" full="yes">Czikowsky</persName>; sed se oponit iuxta literam regalem, ut
+                                est terminus asignatus in crastino <date when="1437-05-10" when-custom="10 V" instant="false">Ascenssionis Domini</date>.</seg>
+                    <seg part="N" xml:id="s.1.2.13">Nam si tamen volueritis circa <date when="1437-05-09" when-custom="9 V" instant="false">festum sancti
+                                    Michaelis</date>, volo ordinare ad minus duo milia <del instant="false" status="unremarkable">
+                            <expan instant="false">S<ex instant="false">ed</ex>
+                            </expan>
+                        </del> ad rypam.</seg>
+                    <seg part="N" xml:id="s.1.2.14">Sed si haberemus <placeName key="geo-688389" instant="false" full="yes">Iasyeniczam</placeName>, iam ordinaui <sic>carpantarios</sic>
+                                et coctores in <placeName key="serafin-0002" instant="false" full="yes">Baschawa</placeName>, quod
                                 semper habemus aliquod centa anuatim, in subsidium esset iste zuppe
                                 maxime.</seg>
-                            <seg xml:id="s.1.2.15">Sed, ut <sic>scribisistis</sic> michi dominum
-                                    <persName key="wikidata-Q4331797">Odrowas</persName> auisare
+                    <seg part="N" xml:id="s.1.2.15">Sed, ut <sic>scribisistis</sic> michi dominum
+                                    <persName key="wikidata-Q4331797" instant="false" full="yes">Odrowas</persName> auisare
                                 personaliter, dum nisi venerit, ista statim non negligam.</seg>
-                            <seg xml:id="s.1.2.16">Eciam sciatis, quia pecunia, videlicet nouem
-                                marcarum, quam miserat dominus <persName key="wikidata-Q101002566">Czikowsky</persName> super teoloneum domino Maldrzik<anchor xml:id="a4"/>, istam seruo propter <sic>eundem</sic>
+                    <seg part="N" xml:id="s.1.2.16">Eciam sciatis, quia pecunia, videlicet nouem
+                                marcarum, quam miserat dominus <persName key="wikidata-Q101002566" instant="false" full="yes">Czikowsky</persName> super teoloneum domino Maldrzik<anchor xml:id="a4"/>, istam seruo propter <sic>eundem</sic>
                                 toloneum.</seg>
-                            <seg xml:id="s.1.2.17">Dum nisi Deus aquam ordinauerit m<gap quantity="2" unit="chars"/>i intimetis michi, si uelletis habere
-                                ad festum Michael, ut ego <gap quantity="3" unit="words"/> ad
+                    <seg part="N" xml:id="s.1.2.17">Dum nisi Deus aquam ordinauerit m<gap quantity="2" unit="chars" instant="false"/>i intimetis michi, si uelletis habere
+                                ad festum Michael, ut ego <gap quantity="3" unit="words" instant="false"/> ad
                                 rypam.</seg>
-                            <seg xml:id="s.1.2.18">Datum <placeName key="geo-761168">Premislie</placeName>, <date when="1437-04-16">feria tercia proxima ante
-                                        festu<supplied>m</supplied>
-                                    <supplied>G</supplied>eorgii</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0001">Iohannes de
+                    <seg part="N" xml:id="s.1.2.18">Datum <placeName key="geo-761168" instant="false" full="yes">Premislie</placeName>, <date when="1437-04-16" instant="false">feria tercia proxima ante
+                                        festu<supplied instant="false">m</supplied>
+                            <supplied instant="false">G</supplied>eorgii</date>.</seg>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0001" instant="false" full="yes">Iohannes de
                                     Parawasinis</persName>
-                                <lb/> seruitor vester in omnibus </seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <seg xml:id="s.1.4.1.1">
-                                    <lb/>Eciam sciatis, quia a medio
-                                        Quadr<unclear>ag</unclear>esime <gap/> non habemus <lb/>
-                                    usque et nu<unclear>n</unclear>c, sed <unclear>dicatis</unclear>
-                                    domino de s<gap quantity="2" unit="words"/> habemus nisi <lb/>
+                        <lb/> seruitor vester in omnibus </seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <seg part="N" xml:id="s.1.4.1.1">
+                            <lb/>Eciam sciatis, quia a medio
+                                        Quadr<unclear instant="false">ag</unclear>esime <gap instant="false"/> non habemus <lb/>
+                                    usque et nu<unclear instant="false">n</unclear>c, sed <unclear instant="false">dicatis</unclear>
+                                    domino de s<gap quantity="2" unit="words" instant="false"/> habemus nisi <lb/>
                                     essent hospites.</seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">skreślone v i początek innej
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">Szlachetnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi
+                                    Serafinowi</persName> żupnikowi obojga salin, panu memu łaskawie
+                                umiłowanemu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">Polecam wierną służbę z najpokorniejszym we
+                                wszystkim posłuszeństwem. Szlachetny panie, łaskawie
+                                umiłowany.</seg>
+                    <seg part="N" corresp="#s.1.2.2"> Dowiedziałem się dokładnie z waszego listu, że —
+                                z Bożą pomocą — wraz ze wszystkimi szczęśliwie wróciliście zdrowi,
+                                czego wam tu winszujemy wraz z całą waszą i naszą służbą.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Piszecie również, że sądzicie, iż nie ma już soli
+                                w okolicach <placeName key="geo-759603" instant="false" full="yes">Sandomierza</placeName>,
+                                lecz dalej, i że z tego powodu pojechaliście wzdłuż Wisły.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Wiedzcie, że dzień wcześniej, gdy miałem spławić
+                                sól z <placeName key="geo-761168" instant="false" full="yes">Przemyśla</placeName>, cztery kłody
+                                wpadły do rzeki, dwie z jednej strony i dwie z drugiej, końcami do
+                                siebie, więc nie było można przewieźć na nich soli, i może Pan Bóg
+                                tak chciał.</seg>
+                    <seg part="N" corresp="#s.1.2.5"> Przy kłodach pracowała przez kilka dni ponad
+                                setka ludzi, a ledwo je oczyścili, opadł poziom wody, tak że
+                                    <unclear instant="false">sól</unclear> pozostaje o milę od <placeName key="geo-761168" instant="false" full="yes">Przemyśla</placeName> w dobrym miejscu — u brata
+                                pana dziekana — gdzie nie trzeba się obawiać żadnej szkody.</seg>
+                    <seg part="N" corresp="#s.1.2.6"> Jak tylko Pan Bóg ześle deszcze, nie zaniedbam
+                                spławić <unclear instant="false">tej soli</unclear> i nie omieszkam zawiadomić
+                                Waszej Szlachetności.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Chcecie również, abym zgromadził więcej soli przy
+                                brzegu.</seg>
+                    <seg part="N" corresp="#s.1.2.8">Wiedzcie, że jest to świeża sól i nie nadaje się
+                                do ubijania w beczkach, lecz trzeba, aby postała przez jakiś
+                                czas.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Zawsze jednak, na ile zdołam, chcę ją z najwyższą
+                                pilnością gromadzić. Mam też u siebie robotników, i posłałem ich do
+                                ociosywania kłód w lesie. Kupiłem bowiem prawo wyrębu u pana
+                                    <persName key="serafin-0002" instant="false" full="yes">Michała Warcaby</persName> za
+                                trzy postawy sukna angielskiego i siedem beczek drobnej soli
+                                rocznie. Mam więc stosownie do potrzeb wycinać wszystko, co należy
+                                do łanów, do Kłoby lub Helwiga, i znajduje się bliżej niż półtorej
+                                mili od <placeName key="geo-761168" instant="false" full="yes">Przemyśla</placeName>. I tak
+                                każdego roku.</seg>
+                    <seg part="N" corresp="#s.1.2.10">O rozprawie wiedzcie, że mieli pozew od pana
+                                podkomorzego <supplied instant="false">
+                            <persName key="wikidata-Q97159622" instant="false" full="yes">Sienki</persName>
+                        </supplied> na <date when="1437-04-08" when-custom="8 IV" instant="false">poniedziałek po niedzieli przewodniej</date>, lecz on się nie
+                                stawił, więc odłożyli na kolejny <date when="1437-04-15" when-custom="15 IV" instant="false">poniedziałek za osiem dni</date>, ale znowu
+                                tenże pan <persName key="wikidata-Q97159622" instant="false" full="yes">Sienk</persName>o był
+                                nieobecny, i znów przełożył tę i inne sprawy, które są tu
+                                prowadzone, na najbliższy sejmik na <date when="1437-04-23" when-custom="23 IV" instant="false">św. Jerzego</date> w <placeName key="geo-700696" instant="false" full="yes">Mościskach</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Zatrzymuję do tej pory Plichtę, ponieważ nawet w
+                                    <placeName key="geo-700696" instant="false" full="yes">Mościskach</placeName> mieszkańcy źle
+                                mówili o liście królewskim w obecności woźnego. Z jego świadectwem
+                                chcemy procesować się wobec panów i wielu rycerzy zgromadzonych na
+                                sejmiku</seg>
+                    <seg part="N" corresp="#s.1.2.12">Zechciejcie mnie przeto powiadomić z panem
+                                    <persName key="wikidata-Q101002566" instant="false" full="yes">Cikowskim</persName>, czy tenże
+                                Plichta ma prowadzić więcej spraw, niż jest. Powiadomcie z panem
+                                    <persName key="wikidata-Q101002566" instant="false" full="yes">Cikowskim</persName>. Lecz
+                                wystąpi w <unclear instant="false">naszej</unclear> obronie zgodnie z pozwem
+                                królewskim w wyznaczonym terminie <date when="1437-05-10" when-custom="10 V" instant="false">nazajutrz po Wniebowstąpieniu
+                                Pańskim</date>.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Jeśli tylko chcielibyście, na <date when="1437-05-09" when-custom="9 V" instant="false">św. Michała</date> chcę
+                                ustawić nad brzegiem co najmniej dwa tysiące
+                                    <unclear instant="false">beczek</unclear>.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Gdybyśmy jednak mieli <placeName key="geo-688389" instant="false" full="yes">Jasienicę</placeName>, to już zamówiłem cieśli i warzelników w
+                                    <placeName key="serafin-0002" instant="false" full="yes">Baszawie</placeName>, ponieważ zawsze
+                                mamy <unclear instant="false">tam</unclear> kilkaset <unclear instant="false">beczek</unclear>
+                                rocznie. Byłoby to wielką pomocą dla tej żupy. </seg>
+                    <seg part="N" corresp="#s.1.2.15"> Lecz, jak mi pisaliście, mam osobiście odwiedzić
+                                pana <persName key="wikidata-Q4331797" instant="false" full="yes">Odrowąża</persName>. Gdy tylko
+                                przybędzie, nie zaniedbam tego</seg>
+                    <seg part="N" corresp="#s.1.2.16">Wiedzcie również, że pieniądze, a mianowicie 9
+                                grzywien, które przesłał pan <persName key="wikidata-Q101002566" instant="false" full="yes">Cikowski</persName> na cło panu Małdrzykowi, zachowuję na to
+                                właśnie cło.</seg>
+                    <seg part="N" corresp="#s.1.2.17">Gdy tylko Bóg ześle wodę <gap instant="false"/>, zawiadomcie
+                                mnie, czy chcecie mieć <unclear instant="false">sól</unclear> na św. Michała, żebym
+                                    <supplied instant="false">mógł zgromadzić ją</supplied> na brzegu.</seg>
+                    <seg part="N" corresp="#s.1.2.18">Dan w <placeName key="geo-761168" instant="false" full="yes">Przemyślu</placeName>, we <date when="1437-04-16" instant="false">wtorek przed świętem św.
+                                Jerzego</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <persName key="serafin-0001" instant="false" full="yes">Jan z Parawicinich</persName> wasz
+                                sługa we wszystkim</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <seg part="N" corresp="#s.1.4.1.1">Wiedzcie również, że od połowy Wielkiego
+                                    Postu aż do teraz nie mamy <gap instant="false"/>, i powiedzcie panu <gap instant="false"/>
+                            <supplied instant="false">że</supplied> mamy <gap instant="false"/>, jeżeli nie będzie
+                                    przybyszów.</seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">skreślone v i początek innej
                             litery</note>
-                        <note n="b" type="transcription" target="#ab">po Deus skreślone trzy
+            <note n="b" type="transcription" target="#ab" anchored="true">po Deus skreślone trzy
                             litery</note>
-                        <note n="c" type="transcription" target="#ac">1½: znak
+            <note n="c" type="transcription" target="#ac" anchored="true">1½: znak
                             konwencjonalny.</note>
-                        <note n="d" type="transcription" target="#ab"/>h poprawione z a
-                        <note n="1" target="#a1">W Sandomierzu funkcjonował od co najmniej XIV w.
+            <note n="d" type="transcription" target="#ab" anchored="true"/>
+            <note n="1" target="#a1" anchored="true">W Sandomierzu funkcjonował od co najmniej XIV w.
                             skład soli pochodzącej z żup krakowskich, a potem także z żup ruskich,
                             służącej do zaopatrywania najbliższej okolicy lub ekspediowanej w dół
                             Wisły. Rzeka Wisła i jej dopływy od najwcześniejszego okresu
@@ -207,7 +319,7 @@
                             Wisłą na Mazowsze i na Kujawy, do Płocka, Włocławka, Torunia i
                             Bydgoszczy. Wielką drogą handlową Wisła stała się jednak dopiero od
                             przełomu XV i XVI w.</note>
-                        <note n="2" target="#a2">Mowa o wsi Orzek (dziś Hurko) nad Sanem, 7,5 km na
+            <note n="2" target="#a2" anchored="true">Mowa o wsi Orzek (dziś Hurko) nad Sanem, 7,5 km na
                             pn.-wsch. od Przemyśla. Jej dziedzicem był Henryk z Orzeka, Dunikowic i
                             Kupiatycz h. Świerczek (1427–1458), sędzia ziemski przemyski 1451–1458.
                             Jego braćmi byli: Franciszek pleban kościoła NMP i Św. Piotra w
@@ -222,7 +334,7 @@
                             s. 85; J. Dunikowski, <title>O rodzie Świerczków na Rusi w wieku XV i
                                 początkach rodziny Dunikowskich</title>, Miesięcznik Heraldyczny 10,
                             1931, nr 9, s. 208–218.</note>
-                        <note n="3" target="#a3">Może tożsamy z Mikołajem Plichtą mieszczaninem i
+            <note n="3" target="#a3" anchored="true">Może tożsamy z Mikołajem Plichtą mieszczaninem i
                             rajcą wielickim. W 1433 r. Plichta był jednym z poręczycieli Serafina
                             wobec żupnika Mikołaja z Tarnawy, zaś w 1433 r. pozywał tegoż żupnika o
                             bałwan soli donatywnej i pieniądze (GK 4, s. 903; 5, s. 42). Poza nim
@@ -238,7 +350,7 @@
                             podżupek przemyski Jan Parawicini kupił w 1436 r. wójtostwo
                                 (<title>SHGK</title>r. II/1, s. 341; <title>Księga ławn.
                                 przemyska</title> I, nr 309, 637; SHGSan. III, s. 203, 205).</note>
-                        <note n="4" target="#a4">niezidentyfikowany. Spośród wielu rodzin noszących
+            <note n="4" target="#a4" anchored="true">niezidentyfikowany. Spośród wielu rodzin noszących
                             nazwisko Małdrzyk, m.in. mieszczan wielickich, wymienić należy
                             przedstawicieli tych, które należały do stanu szlacheckiego i mogły
                             dzierżawić od króla cło (w ziemi przemyskiej?); w 1419 r. przy dworze
@@ -250,108 +362,6 @@
                             Janeczek, <title>Osadnictwo pogranicza polsko-ruskiego. Województwo
                                 bełskie od schyłku XIV do początku XVII w.</title>, Warszawa 1993,
                             s. 106–107, 161–162, 340–341).</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">Szlachetnemu panu <persName key="gnd-139138560">Mikołajowi
-                                    Serafinowi</persName> żupnikowi obojga salin, panu memu łaskawie
-                                umiłowanemu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">Polecam wierną służbę z najpokorniejszym we
-                                wszystkim posłuszeństwem. Szlachetny panie, łaskawie
-                                umiłowany.</seg>
-                            <seg xml:id="t.1.2.2"> Dowiedziałem się dokładnie z waszego listu, że —
-                                z Bożą pomocą — wraz ze wszystkimi szczęśliwie wróciliście zdrowi,
-                                czego wam tu winszujemy wraz z całą waszą i naszą służbą.</seg>
-                            <seg xml:id="t.1.2.3">Piszecie również, że sądzicie, iż nie ma już soli
-                                w okolicach <placeName key="geo-759603">Sandomierza</placeName>,
-                                lecz dalej, i że z tego powodu pojechaliście wzdłuż Wisły.</seg>
-                            <seg xml:id="t.1.2.4">Wiedzcie, że dzień wcześniej, gdy miałem spławić
-                                sól z <placeName key="geo-761168">Przemyśla</placeName>, cztery kłody
-                                wpadły do rzeki, dwie z jednej strony i dwie z drugiej, końcami do
-                                siebie, więc nie było można przewieźć na nich soli, i może Pan Bóg
-                                tak chciał.</seg>
-                            <seg xml:id="t.1.2.5"> Przy kłodach pracowała przez kilka dni ponad
-                                setka ludzi, a ledwo je oczyścili, opadł poziom wody, tak że
-                                    <unclear>sól</unclear> pozostaje o milę od <placeName key="geo-761168">Przemyśla</placeName> w dobrym miejscu — u brata
-                                pana dziekana — gdzie nie trzeba się obawiać żadnej szkody.</seg>
-                            <seg xml:id="t.1.2.6"> Jak tylko Pan Bóg ześle deszcze, nie zaniedbam
-                                spławić <unclear>tej soli</unclear> i nie omieszkam zawiadomić
-                                Waszej Szlachetności.</seg>
-                            <seg xml:id="t.1.2.7">Chcecie również, abym zgromadził więcej soli przy
-                                brzegu.</seg>
-                            <seg xml:id="t.1.2.8">Wiedzcie, że jest to świeża sól i nie nadaje się
-                                do ubijania w beczkach, lecz trzeba, aby postała przez jakiś
-                                czas.</seg>
-                            <seg xml:id="t.1.2.9">Zawsze jednak, na ile zdołam, chcę ją z najwyższą
-                                pilnością gromadzić. Mam też u siebie robotników, i posłałem ich do
-                                ociosywania kłód w lesie. Kupiłem bowiem prawo wyrębu u pana
-                                    <persName key="serafin-0002">Michała Warcaby</persName> za
-                                trzy postawy sukna angielskiego i siedem beczek drobnej soli
-                                rocznie. Mam więc stosownie do potrzeb wycinać wszystko, co należy
-                                do łanów, do Kłoby lub Helwiga, i znajduje się bliżej niż półtorej
-                                mili od <placeName key="geo-761168">Przemyśla</placeName>. I tak
-                                każdego roku.</seg>
-                            <seg xml:id="t.1.2.10">O rozprawie wiedzcie, że mieli pozew od pana
-                                podkomorzego <supplied>
-                                    <persName key="wikidata-Q97159622">Sienki</persName>
-                                </supplied> na <date when="1437-04-08" when-custom="8 IV">poniedziałek po niedzieli przewodniej</date>, lecz on się nie
-                                stawił, więc odłożyli na kolejny <date when="1437-04-15" when-custom="15 IV">poniedziałek za osiem dni</date>, ale znowu
-                                tenże pan <persName key="wikidata-Q97159622">Sienk</persName>o był
-                                nieobecny, i znów przełożył tę i inne sprawy, które są tu
-                                prowadzone, na najbliższy sejmik na <date when="1437-04-23" when-custom="23 IV">św. Jerzego</date> w <placeName key="geo-700696">Mościskach</placeName>.</seg>
-                            <seg xml:id="t.1.2.11">Zatrzymuję do tej pory Plichtę, ponieważ nawet w
-                                    <placeName key="geo-700696">Mościskach</placeName> mieszkańcy źle
-                                mówili o liście królewskim w obecności woźnego. Z jego świadectwem
-                                chcemy procesować się wobec panów i wielu rycerzy zgromadzonych na
-                                sejmiku</seg>
-                            <seg xml:id="t.1.2.12">Zechciejcie mnie przeto powiadomić z panem
-                                    <persName key="wikidata-Q101002566">Cikowskim</persName>, czy tenże
-                                Plichta ma prowadzić więcej spraw, niż jest. Powiadomcie z panem
-                                    <persName key="wikidata-Q101002566">Cikowskim</persName>. Lecz
-                                wystąpi w <unclear>naszej</unclear> obronie zgodnie z pozwem
-                                królewskim w wyznaczonym terminie <date when="1437-05-10" when-custom="10 V">nazajutrz po Wniebowstąpieniu
-                                Pańskim</date>.</seg>
-                            <seg xml:id="t.1.2.13">Jeśli tylko chcielibyście, na <date when="1437-05-09" when-custom="9 V">św. Michała</date> chcę
-                                ustawić nad brzegiem co najmniej dwa tysiące
-                                    <unclear>beczek</unclear>.</seg>
-                            <seg xml:id="t.1.2.14">Gdybyśmy jednak mieli <placeName key="geo-688389">Jasienicę</placeName>, to już zamówiłem cieśli i warzelników w
-                                    <placeName key="serafin-0002">Baszawie</placeName>, ponieważ zawsze
-                                mamy <unclear>tam</unclear> kilkaset <unclear>beczek</unclear>
-                                rocznie. Byłoby to wielką pomocą dla tej żupy. </seg>
-                            <seg xml:id="t.1.2.15"> Lecz, jak mi pisaliście, mam osobiście odwiedzić
-                                pana <persName key="wikidata-Q4331797">Odrowąża</persName>. Gdy tylko
-                                przybędzie, nie zaniedbam tego</seg>
-                            <seg xml:id="t.1.2.16">Wiedzcie również, że pieniądze, a mianowicie 9
-                                grzywien, które przesłał pan <persName key="wikidata-Q101002566">Cikowski</persName> na cło panu Małdrzykowi, zachowuję na to
-                                właśnie cło.</seg>
-                            <seg xml:id="t.1.2.17">Gdy tylko Bóg ześle wodę <gap/>, zawiadomcie
-                                mnie, czy chcecie mieć <unclear>sól</unclear> na św. Michała, żebym
-                                    <supplied>mógł zgromadzić ją</supplied> na brzegu.</seg>
-                            <seg xml:id="t.1.2.18">Dan w <placeName key="geo-761168">Przemyślu</placeName>, we <date when="1437-04-16">wtorek przed świętem św.
-                                Jerzego</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <persName key="serafin-0001">Jan z Parawicinich</persName> wasz
-                                sługa we wszystkim</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <seg xml:id="t.1.4.1.1">Wiedzcie również, że od połowy Wielkiego
-                                    Postu aż do teraz nie mamy <gap/>, i powiedzcie panu <gap/>
-                                    <supplied>że</supplied> mamy <gap/>, jeżeli nie będzie
-                                    przybyszów.</seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+        </listAnnotation>
+    </standOff>
 </TEI>

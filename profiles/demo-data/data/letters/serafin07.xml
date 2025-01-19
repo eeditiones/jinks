@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS7">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Mikołaj Zyszno do Mikołaja Serafina, <placeName key="geo-3088825">Płock</placeName>, <date when="1441-12-05" when-custom="1441">5 grudnia [1441]</date>
+                <title>Mikołaj Zyszno do Mikołaja Serafina, <placeName key="geo-3088825" instant="false" full="yes">Płock</placeName>, <date when="1441-12-05" when-custom="1441" instant="false">5 grudnia [1441]</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</title>
                 <editor>Anna Skolimowska</editor>
@@ -13,158 +13,172 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 173 (217)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, ślady po pieczęci</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, ślady po pieczęci</p>
                     </msContents>
                     <physDesc>
-                        <p>209 × 303 mm; znak wodny: głowa wołu z pojedynczym prętem i gwiazdą między rogami; dolna część karty zbutwiała, ubytki papieru, liczne zgniecenia</p>
+                        <p part="N">209 × 303 mm; znak wodny: głowa wołu z pojedynczym prętem i gwiazdą między rogami; dolna część karty zbutwiała, ubytki papieru, liczne zgniecenia</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0025">Mikołaj Zyszno</persName>
-                    <placeName key="geo-3088825">Płock</placeName>
-                    <date when="1441-12-05" when-custom="1441">5 grudnia [1441]</date>
+                    <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName>
+                    <placeName key="geo-3088825" instant="false" full="yes">Płock</placeName>
+                    <date when="1441-12-05" when-custom="1441" instant="false">5 grudnia [1441]</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin06.xml">Previous letter of <persName key="gnd-1283595192">Mikołaj V książę opawski i raciborski</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1441-08-03" when-custom="3 sierpnia 1441 lub                         1447, 1452, lub 5 sierpnia 1451">[3 sierpnia 1441 lub
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin06.xml">Previous letter of <persName key="gnd-1283595192" instant="false" full="yes">Mikołaj V książę opawski i raciborski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1441-08-03"
+                              when-custom="3 sierpnia 1441 lub                         1447, 1452, lub 5 sierpnia 1451"
+                              instant="false">[3 sierpnia 1441 lub
                         1447, 1452, lub 5 sierpnia 1451]</date>
                     </ref>
-                    <ref type="next" target="serafin08.xml">Next letter of <persName key="serafin-0031">Piotr Szczerba</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1442-08-30" when-custom="1442">30 sierpnia [1442]</date>
+                    <ref type="next" target="serafin08.xml">Next letter of <persName key="serafin-0031" instant="false" full="yes">Piotr Szczerba</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1442-08-30" when-custom="1442" instant="false">30 sierpnia [1442]</date>
                     </ref>
-                    <ref type="next-in-correspondence" target="serafin44.xml">Next letter of <persName key="serafin-0025">Mikołaj Zyszno</persName>
-                        <persName key="serafin-0154">Stanisław</persName> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1459-02-20">20 lutego 1459</date>
+                    <ref type="next-in-correspondence" target="serafin44.xml">Next letter of <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName>
+                        <persName key="serafin-0154" instant="false" full="yes">Stanisław</persName> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1459-02-20" instant="false">20 lutego 1459</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Strenuo et nobili domino <persName key="gnd-139138560">Nicolao <lb/> Seraphin</persName> gladifero Cracouiensi, <lb/> salis utriusque zuppario, domino gracioso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Seruicium fidele cum promptitudine famulandi.</seg>
-                            <seg xml:id="s.1.2.2">Strennue domine multum graciose.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.3">Scire velit Vestra <sic>Strennuites</sic>, quomodo familiaris domini <persName key="serafin-0018">Sweydniczer</persName> super nos <lb/> iacuit ultra duabus septimanis <sic>expectens</sic> solucionem ducentorum florenorum, <lb/> prout <sic>Strennuites</sic> Vestra michi comisserit sibi soluere propria in persona, dum vobis quinquaginta florenos in Wyeliczca tempore recessus vestri versus Vngariam dedit.</seg>
-                            <seg xml:id="s.1.2.4">Quem tamen nolentes prius expedire, quousque dominum <persName key="serafin-0030">Wyerzink</persName> in aliqua summa expediremus, ipsum missimus tam diw aput nos manere, sed tamen noluit recedere et sic oportebat me sibi dare centum sexagenas prutenicales super dictos ducentos florenos.</seg>
-                            <seg xml:id="s.1.2.5">Item <persName key="serafin-0029">Herman Gebink</persName> ciuis de Thorun multum <sic>loquequatur</sic> de ipsius debito pro vno t a rl i n k panni Colsister, prout aput ipsum Cracouie ante <date when="1441-02-25" when-custom="25-27 II">Carnispriwium</date> emistis pro centum marcis latorum grossorum minus duabus cum media marcis.</seg>
-                            <seg xml:id="s.1.2.6">Quem tamen nolentes multa loqui permittere eciam in septu<supplied>a</supplied>ginta duabus sexagenis prutenicalium expedimus, cui tamen adhuc restent viginti et quinque cum media sexagene eciam prutenicalium, sed tamen, dante Deo, sibi in breui soluere curabo.</seg> 
-                            <seg xml:id="s.1.2.7">Item pro ducissa Bolconis<anchor xml:id="a1"/> eciam quinquaginta marcas mediorum grossorum soluimus, quas nobis pro familia expedienda mutuauerat, et aliis <sic>marcatoribus</sic> eciam centum marcas mediorum grossorum cum quatuor marcis soluimus, qui eciam nobis tempore necessitatis nostre pro familia <sic>acomodauerent</sic>.</seg>
-                            <seg xml:id="s.1.2.8">Item, domine graciose, sciatis, quia fui aput dominum <persName key="serafin-0028">Warzinowskÿ</persName> pro illis centum marcis mediorum grossorum, quos <supplied>a</supplied> nobis in <placeName key="geo-3090907">Nyeschawa</placeName> recepit, qui tamen nullomodo dare voluit neque wlt, quousque sibi expedietis quittacionem pro <persName key="serafin-0027">filio</persName> suo super octoginta marcis et quindecem tunnis salis.</seg>
-                            <seg xml:id="s.1.2.9">Item, domine graciose, sciatis, quomodo pro duce <persName key="wikidata-Q2133975">Kazimiro</persName> voluerunt super quittacionem centum tunnas violenter recipere, sed tamen cum non modicis laboribus ducem <persName key="wikidata-Q2456100">Wladislaum</persName> super hoc retinuimus, quod non permisit nobis huiusmodi violenciam facere.</seg>
-                            <seg xml:id="s.1.2.10">Sed tamen solus dux <persName key="wikidata-Q2456100">Wladislaus</persName> sibi super suum solarium voluit sal recipere, quem eciam rogauimus, quod non faceret nobis talem iniuriam: „Exquo aliis deffendistis, domine dux, eciam non ostendatis a vobis talem violenciam nobis fecisse”, et sic promisit vnum suum ad vos dirigere, quod racionem vobiscum faceret.</seg>
-                            <seg xml:id="s.1.2.11">Ideo, dum ad Strennuitatem Vestram suus nunccius veniat, ipsum honorate et in residuo solarium suum cum minuta pecunia expediatis.</seg>
-                            <seg xml:id="s.1.2.12">Item sciatis, quantum idem dux Vladislaus <supplied>a</supplied> nobis de sale, dum versus <placeName key="geo-3088825">Ploczko</placeName> venimus, recepit, videlicet ducentas tunnas, quas vendidit pro septuaginta et <sic>duos</sic> <expan>g<ex>rossos</ex>
-                                </expan> in solidis prutenicalibus non <sic>adimplando</sic>, sed ita, ut iacuit.</seg>
-                            <seg xml:id="s.1.2.13">Item, strennue domine, literam Vestre Strennuitatis michi de <placeName key="geo-767470">Croszno</placeName> scriptam intellexi, quomodo <sic>Strennuites</sic> Vestra michi scripsit, quod deberem fideliter facere.</seg>
-                            <seg xml:id="s.1.2.14">Deus est testis, quia temporibus meis, prout vobis et aliis seruire incepi, numquam infideliter seruiui et pocius <sic>vellam</sic> mori, quam vobis et aliis seruire infideliter deberem.</seg>
-                            <seg xml:id="s.1.2.15">Et det Deus, quod vobis in bonis vestris alii sic facerent, sicut ego facio.</seg>
-                            <seg xml:id="s.1.2.16">Verum tamen, domine graciose, quia in isto male feci, quod vobis de duobus equis non narraui, quos in Ploczko emi, videlicet vnum pro octo tunnis salis et alium pro quatuor cum media sexagena. </seg>
-                            <seg xml:id="s.1.2.17">Sed tamen, domine graciose, sciatis, quia habui pro peccunis meis super aliquibus tunnis salis mandata et pro istis dictos equos comparaui, solum de vestris duas tunnas recepi et statim ad <sic>ragistrum</sic> in presencia <persName key="serafin-0026">Nicolai Sczithniczsky˙</persName> scripsi, dum recepi et quantum<anchor xml:id="aa"/>.</seg>
-                            <seg xml:id="s.1.2.18">Item sciatis, quia pro domino Wyerzink adhuc nichil dedimus, sed tamen iam quidcumque Deus dabit, totum pro ipso seruabimus, et nouiter eciam bene incipimus sal emere etc.</seg>
-                            <seg xml:id="s.1.2.19">Et alia dominus Nicolaus Sczithnisczi vobis bene dicet, que nobis ocurrerunt istis temporibus etc.</seg>
-                            <seg xml:id="s.1.2.20">Datum in <placeName key="geo-3088825">Ploczco</placeName>, in <date when="1441-12-05">vigilia sancti Nicolai, anno etc.</date>
-                            </seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0025">Nicola<supplied>us</supplied> Ziszno</persName> <lb/> Vestre <supplied>Strennuitatis</supplied> seruitor</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <seg xml:id="s.1.4.1.1"/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">quantum poprawione z <unclear>etc.</unclear>
-                        </note>
-                        <note n="1" target="#a1">Może księżniczka ruska Barbara żona (przed 1446) Bolesława IV księcia mazowieckiego 1429–1454, późniejszego pretendenta do korony polskiej po śmierci Władysława Warneńczyka, lub Anna (zm. 1458), córka Iwana Olgimuntowicza księcia Holszańskiego, wdowa po Bolesławie III księciu mazowieckim, zmarłym 1428 (Dworzaczek, <title>Genealogia</title>, tabl. 4; <title>PSB II,</title> s. 277, 281).</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Mężnemu i szlachetnemu panu <persName key="gnd-139138560">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, łaskawemu panu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>
-                                <supplied>Zalecam</supplied> wierną służbę i gotowość do posług.</seg>
-                            <seg xml:id="t.1.2.2">Mężny wielce łaskawy panie.</seg>
-                            <seg xml:id="t.1.2.3">Zechce wiedzieć Wasza Mężność, że sługa pana <persName key="serafin-0018">Świdniczara</persName> przebywał u nas ponad dwa tygodnie, oczekując wypłaty 200 florenów, stosownie do osobistego polecenia wydanego mi przez Waszą Mężność w Wieliczce, wówczas gdy przy waszym odjeździe na Węgry dał wam 50 florenów.</seg>
-                            <seg xml:id="t.1.2.4">Pozwoliliśmy mu pozostać u nas tak długo, nie chcąc mu wypłacić, zanim nie wypłacimy pewnej sumy panu <persName key="serafin-0030">Wierzynkowi</persName>. Nie chciał jednak odejść, lecz musiałem mu dać za te 200 florenów 100 kop <supplied>groszy</supplied> pruskich.</seg>
-                            <seg xml:id="t.1.2.5">Z kolei <persName key="serafin-0029">Herman Gebink</persName> mieszczanin z Torunia wciąż mówił o swojej należności za jeden tarlink sukna kolczesterskiego, które kupiliście w Krakowie przed <date when="1441-02-25" when-custom="25-27 II">Zapustami</date> za 100 bez 2 i pół grzywny szerokich groszy.</seg>
-                            <seg xml:id="t.1.2.6">Nie chcąc jednak pozwolić, aby tyle mówił, daliśmy również jemu 72 kopy <supplied>groszy</supplied> pruskich. Pozostało mu wciąż <supplied>do odebrania</supplied> kop <supplied>groszy</supplied> pruskich 25 i pół, wszelako, jak Bóg da, wkrótce zadbam, aby mu zapłacić.</seg>
-                            <seg xml:id="t.1.2.7">Z kolei księżnej Bolkowej wypłaciliśmy 50 grzywien półgroszy, które nam pożyczyła na opłacenie służby. Innym kupcom, którzy także pożyczyli nam, kiedy potrzebowaliśmy dla służby, również zwróciliśmy 104 grzywny półgroszy.</seg>
-                            <seg xml:id="t.1.2.8">Wiedzcie także, łaskawy panie, że byłem u pana <persName key="serafin-0028">Warzymowskiego</persName> w sprawie owych 100 grzywien w półgroszach, które otrzymał od nas w <placeName key="geo-3090907">Nieszawie</placeName>, on jednak w żaden sposób nie chciał i nie chce oddać, dopóki mu nie wyślecie pokwitowania dla jego <persName key="serafin-0027">syna</persName> na 80 grzywien i 15 beczek soli.</seg>
-                            <seg xml:id="t.1.2.9">Wiedzcie także, łaskawy panie, że według pokwitowania chcieli zabrać siłą dla księcia <persName key="wikidata-Q2133975">Kazimierza</persName> 100 beczek, ale jednak, z niemałym trudem, powstrzymaliśmy księcia <persName key="wikidata-Q2456100">Władysława</persName> i nie pozwolił zadać nam takiego gwałtu.</seg>
-                            <seg xml:id="t.1.2.10">Lecz jednak sam książę <persName key="wikidata-Q2456100">Władysław</persName> chciał zabrać sól jako zapłatę. Znowu poprosiliśmy go, aby nie czynił nam takiej krzywdy: „Nie pokazujcie, panie książę, że również sami taki gwałt nam uczyniliście, od jakiego obroniliście nas przed innymi”. Tak więc obiecał, że wyśle do was człowieka, aby się z wami rozliczyć.</seg>
-                            <seg xml:id="t.1.2.11">Przeto, kiedy jego posłaniec przybędzie do Waszej Mężności, przyjmijcie go godnie i wydajcie resztę jego wypłaty co do grosza.</seg>
-                            <seg xml:id="t.1.2.12">Wiedzieć też winniście, ile książę Władysław przyjął od nas soli, kiedy jechaliśmy do <placeName key="geo-3088825">Płocka</placeName>, mianowicie 200 beczek, które sprzedał po 72 grosze w szelągach pruskich, nie dopełniając <unclear>beczek</unclear>, lecz tak jak było.</seg>
-                            <seg xml:id="t.1.2.13">Dalej, mężny panie, zrozumiałem z pisanego do mnie z <placeName key="geo-767470">Krosna</placeName> listu Waszej Mężności, że Wasza Mężność mi pisał, iż powinienem postępować lojalnie.</seg>
-                            <seg xml:id="t.1.2.14">Bóg świadkiem, że odkąd zacząłem służyć wam i innym, nigdy nie służyłem niewiernie i pragnąłbym raczej umrzeć, niżbym miał wam i innym niewiernie służyć.</seg>
-                            <seg xml:id="t.1.2.15">I oby Bóg dał, aby wam inni w waszych dobrach służyli tak, jak ja to czynię.</seg>
-                            <seg xml:id="t.1.2.16">Prawda jednak, łaskawy panie, że źle uczyniłem, nie mówiąc wam o dwóch koniach, które kupiłem w Płocku, mianowicie jednego za 8 beczek soli, a drugiego za 4 i pół kopy <supplied>groszy</supplied>.</seg>
-                            <seg xml:id="t.1.2.17">Lecz jednak, łaskawy panie, wiedzcie, że miałem własne pieniądze zlecone na kilku beczkach i za nie kupiłem te konie, z waszych wziąłem tylko 2 beczki i natychmiast wpisałem do rejestru w obecności <persName key="serafin-0026">Mikołaja Szczytnickiego</persName>, kiedy i ile wziąłem.</seg>
-                            <seg xml:id="t.1.2.18">Wiedzcie także, że do tej pory nie daliśmy nic dla pana Wierzynka, lecz jednak zachowamy dla niego, czegokolwiek tylko Bóg przysporzy. Ostatnio również zaczęliśmy dobrze kupować sól etc.</seg>
-                            <seg xml:id="t.1.2.19">O innych rzeczach, które się nam ostatnio przydarzyły, należycie opowie wam pan Mikołaj Szczytnicki etc.</seg>
-                            <seg xml:id="t.1.2.20">Dan w <placeName key="geo-3088825">Płocku</placeName>, w <date when="1441-12-05">wigilię św. Mikołaja, roku etc.</date>
-                            </seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0025">Mikołaj Zyszno</persName> sługa Waszej Mężności</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <seg xml:id="t.1.4.1.1"/>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Strenuo et nobili domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao <lb/> Seraphin</persName> gladifero Cracouiensi, <lb/> salis utriusque zuppario, domino gracioso.</seg>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Seruicium fidele cum promptitudine famulandi.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Strennue domine multum graciose.<lb/>
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.3">Scire velit Vestra <sic>Strennuites</sic>, quomodo familiaris domini <persName key="serafin-0018" instant="false" full="yes">Sweydniczer</persName> super nos <lb/> iacuit ultra duabus septimanis <sic>expectens</sic> solucionem ducentorum florenorum, <lb/> prout <sic>Strennuites</sic> Vestra michi comisserit sibi soluere propria in persona, dum vobis quinquaginta florenos in Wyeliczca tempore recessus vestri versus Vngariam dedit.</seg>
+                    <seg part="N" xml:id="s.1.2.4">Quem tamen nolentes prius expedire, quousque dominum <persName key="serafin-0030" instant="false" full="yes">Wyerzink</persName> in aliqua summa expediremus, ipsum missimus tam diw aput nos manere, sed tamen noluit recedere et sic oportebat me sibi dare centum sexagenas prutenicales super dictos ducentos florenos.</seg>
+                    <seg part="N" xml:id="s.1.2.5">Item <persName key="serafin-0029" instant="false" full="yes">Herman Gebink</persName> ciuis de Thorun multum <sic>loquequatur</sic> de ipsius debito pro vno t a rl i n k panni Colsister, prout aput ipsum Cracouie ante <date when="1441-02-25" when-custom="25-27 II" instant="false">Carnispriwium</date> emistis pro centum marcis latorum grossorum minus duabus cum media marcis.</seg>
+                    <seg part="N" xml:id="s.1.2.6">Quem tamen nolentes multa loqui permittere eciam in septu<supplied instant="false">a</supplied>ginta duabus sexagenis prutenicalium expedimus, cui tamen adhuc restent viginti et quinque cum media sexagene eciam prutenicalium, sed tamen, dante Deo, sibi in breui soluere curabo.</seg>
+                    <seg part="N" xml:id="s.1.2.7">Item pro ducissa Bolconis<anchor xml:id="a1"/> eciam quinquaginta marcas mediorum grossorum soluimus, quas nobis pro familia expedienda mutuauerat, et aliis <sic>marcatoribus</sic> eciam centum marcas mediorum grossorum cum quatuor marcis soluimus, qui eciam nobis tempore necessitatis nostre pro familia <sic>acomodauerent</sic>.</seg>
+                    <seg part="N" xml:id="s.1.2.8">Item, domine graciose, sciatis, quia fui aput dominum <persName key="serafin-0028" instant="false" full="yes">Warzinowskÿ</persName> pro illis centum marcis mediorum grossorum, quos <supplied instant="false">a</supplied> nobis in <placeName key="geo-3090907" instant="false" full="yes">Nyeschawa</placeName> recepit, qui tamen nullomodo dare voluit neque wlt, quousque sibi expedietis quittacionem pro <persName key="serafin-0027" instant="false" full="yes">filio</persName> suo super octoginta marcis et quindecem tunnis salis.</seg>
+                    <seg part="N" xml:id="s.1.2.9">Item, domine graciose, sciatis, quomodo pro duce <persName key="wikidata-Q2133975" instant="false" full="yes">Kazimiro</persName> voluerunt super quittacionem centum tunnas violenter recipere, sed tamen cum non modicis laboribus ducem <persName key="wikidata-Q2456100" instant="false" full="yes">Wladislaum</persName> super hoc retinuimus, quod non permisit nobis huiusmodi violenciam facere.</seg>
+                    <seg part="N" xml:id="s.1.2.10">Sed tamen solus dux <persName key="wikidata-Q2456100" instant="false" full="yes">Wladislaus</persName> sibi super suum solarium voluit sal recipere, quem eciam rogauimus, quod non faceret nobis talem iniuriam: „Exquo aliis deffendistis, domine dux, eciam non ostendatis a vobis talem violenciam nobis fecisse”, et sic promisit vnum suum ad vos dirigere, quod racionem vobiscum faceret.</seg>
+                    <seg part="N" xml:id="s.1.2.11">Ideo, dum ad Strennuitatem Vestram suus nunccius veniat, ipsum honorate et in residuo solarium suum cum minuta pecunia expediatis.</seg>
+                    <seg part="N" xml:id="s.1.2.12">Item sciatis, quantum idem dux Vladislaus <supplied instant="false">a</supplied> nobis de sale, dum versus <placeName key="geo-3088825" instant="false" full="yes">Ploczko</placeName> venimus, recepit, videlicet ducentas tunnas, quas vendidit pro septuaginta et <sic>duos</sic>
+                        <expan instant="false">g<ex instant="false">rossos</ex>
+                        </expan> in solidis prutenicalibus non <sic>adimplando</sic>, sed ita, ut iacuit.</seg>
+                    <seg part="N" xml:id="s.1.2.13">Item, strennue domine, literam Vestre Strennuitatis michi de <placeName key="geo-767470" instant="false" full="yes">Croszno</placeName> scriptam intellexi, quomodo <sic>Strennuites</sic> Vestra michi scripsit, quod deberem fideliter facere.</seg>
+                    <seg part="N" xml:id="s.1.2.14">Deus est testis, quia temporibus meis, prout vobis et aliis seruire incepi, numquam infideliter seruiui et pocius <sic>vellam</sic> mori, quam vobis et aliis seruire infideliter deberem.</seg>
+                    <seg part="N" xml:id="s.1.2.15">Et det Deus, quod vobis in bonis vestris alii sic facerent, sicut ego facio.</seg>
+                    <seg part="N" xml:id="s.1.2.16">Verum tamen, domine graciose, quia in isto male feci, quod vobis de duobus equis non narraui, quos in Ploczko emi, videlicet vnum pro octo tunnis salis et alium pro quatuor cum media sexagena. </seg>
+                    <seg part="N" xml:id="s.1.2.17">Sed tamen, domine graciose, sciatis, quia habui pro peccunis meis super aliquibus tunnis salis mandata et pro istis dictos equos comparaui, solum de vestris duas tunnas recepi et statim ad <sic>ragistrum</sic> in presencia <persName key="serafin-0026" instant="false" full="yes">Nicolai Sczithniczsky˙</persName> scripsi, dum recepi et quantum<anchor xml:id="aa"/>.</seg>
+                    <seg part="N" xml:id="s.1.2.18">Item sciatis, quia pro domino Wyerzink adhuc nichil dedimus, sed tamen iam quidcumque Deus dabit, totum pro ipso seruabimus, et nouiter eciam bene incipimus sal emere etc.</seg>
+                    <seg part="N" xml:id="s.1.2.19">Et alia dominus Nicolaus Sczithnisczi vobis bene dicet, que nobis ocurrerunt istis temporibus etc.</seg>
+                    <seg part="N" xml:id="s.1.2.20">Datum in <placeName key="geo-3088825" instant="false" full="yes">Ploczco</placeName>, in <date when="1441-12-05" instant="false">vigilia sancti Nicolai, anno etc.</date>
+                    </seg>
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0025" instant="false" full="yes">Nicola<supplied instant="false">us</supplied> Ziszno</persName>
+                        <lb/> Vestre <supplied instant="false">Strennuitatis</supplied> seruitor</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <seg part="N" xml:id="s.1.4.1.1"/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Mężnemu i szlachetnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga salin, łaskawemu panu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>
+                        <supplied instant="false">Zalecam</supplied> wierną służbę i gotowość do posług.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Mężny wielce łaskawy panie.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Zechce wiedzieć Wasza Mężność, że sługa pana <persName key="serafin-0018" instant="false" full="yes">Świdniczara</persName> przebywał u nas ponad dwa tygodnie, oczekując wypłaty 200 florenów, stosownie do osobistego polecenia wydanego mi przez Waszą Mężność w Wieliczce, wówczas gdy przy waszym odjeździe na Węgry dał wam 50 florenów.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Pozwoliliśmy mu pozostać u nas tak długo, nie chcąc mu wypłacić, zanim nie wypłacimy pewnej sumy panu <persName key="serafin-0030" instant="false" full="yes">Wierzynkowi</persName>. Nie chciał jednak odejść, lecz musiałem mu dać za te 200 florenów 100 kop <supplied instant="false">groszy</supplied> pruskich.</seg>
+                    <seg part="N" corresp="#s.1.2.5">Z kolei <persName key="serafin-0029" instant="false" full="yes">Herman Gebink</persName> mieszczanin z Torunia wciąż mówił o swojej należności za jeden tarlink sukna kolczesterskiego, które kupiliście w Krakowie przed <date when="1441-02-25" when-custom="25-27 II" instant="false">Zapustami</date> za 100 bez 2 i pół grzywny szerokich groszy.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Nie chcąc jednak pozwolić, aby tyle mówił, daliśmy również jemu 72 kopy <supplied instant="false">groszy</supplied> pruskich. Pozostało mu wciąż <supplied instant="false">do odebrania</supplied> kop <supplied instant="false">groszy</supplied> pruskich 25 i pół, wszelako, jak Bóg da, wkrótce zadbam, aby mu zapłacić.</seg>
+                    <seg part="N" corresp="#s.1.2.7">Z kolei księżnej Bolkowej wypłaciliśmy 50 grzywien półgroszy, które nam pożyczyła na opłacenie służby. Innym kupcom, którzy także pożyczyli nam, kiedy potrzebowaliśmy dla służby, również zwróciliśmy 104 grzywny półgroszy.</seg>
+                    <seg part="N" corresp="#s.1.2.8">Wiedzcie także, łaskawy panie, że byłem u pana <persName key="serafin-0028" instant="false" full="yes">Warzymowskiego</persName> w sprawie owych 100 grzywien w półgroszach, które otrzymał od nas w <placeName key="geo-3090907" instant="false" full="yes">Nieszawie</placeName>, on jednak w żaden sposób nie chciał i nie chce oddać, dopóki mu nie wyślecie pokwitowania dla jego <persName key="serafin-0027" instant="false" full="yes">syna</persName> na 80 grzywien i 15 beczek soli.</seg>
+                    <seg part="N" corresp="#s.1.2.9">Wiedzcie także, łaskawy panie, że według pokwitowania chcieli zabrać siłą dla księcia <persName key="wikidata-Q2133975" instant="false" full="yes">Kazimierza</persName> 100 beczek, ale jednak, z niemałym trudem, powstrzymaliśmy księcia <persName key="wikidata-Q2456100" instant="false" full="yes">Władysława</persName> i nie pozwolił zadać nam takiego gwałtu.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Lecz jednak sam książę <persName key="wikidata-Q2456100" instant="false" full="yes">Władysław</persName> chciał zabrać sól jako zapłatę. Znowu poprosiliśmy go, aby nie czynił nam takiej krzywdy: „Nie pokazujcie, panie książę, że również sami taki gwałt nam uczyniliście, od jakiego obroniliście nas przed innymi”. Tak więc obiecał, że wyśle do was człowieka, aby się z wami rozliczyć.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Przeto, kiedy jego posłaniec przybędzie do Waszej Mężności, przyjmijcie go godnie i wydajcie resztę jego wypłaty co do grosza.</seg>
+                    <seg part="N" corresp="#s.1.2.12">Wiedzieć też winniście, ile książę Władysław przyjął od nas soli, kiedy jechaliśmy do <placeName key="geo-3088825" instant="false" full="yes">Płocka</placeName>, mianowicie 200 beczek, które sprzedał po 72 grosze w szelągach pruskich, nie dopełniając <unclear instant="false">beczek</unclear>, lecz tak jak było.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Dalej, mężny panie, zrozumiałem z pisanego do mnie z <placeName key="geo-767470" instant="false" full="yes">Krosna</placeName> listu Waszej Mężności, że Wasza Mężność mi pisał, iż powinienem postępować lojalnie.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Bóg świadkiem, że odkąd zacząłem służyć wam i innym, nigdy nie służyłem niewiernie i pragnąłbym raczej umrzeć, niżbym miał wam i innym niewiernie służyć.</seg>
+                    <seg part="N" corresp="#s.1.2.15">I oby Bóg dał, aby wam inni w waszych dobrach służyli tak, jak ja to czynię.</seg>
+                    <seg part="N" corresp="#s.1.2.16">Prawda jednak, łaskawy panie, że źle uczyniłem, nie mówiąc wam o dwóch koniach, które kupiłem w Płocku, mianowicie jednego za 8 beczek soli, a drugiego za 4 i pół kopy <supplied instant="false">groszy</supplied>.</seg>
+                    <seg part="N" corresp="#s.1.2.17">Lecz jednak, łaskawy panie, wiedzcie, że miałem własne pieniądze zlecone na kilku beczkach i za nie kupiłem te konie, z waszych wziąłem tylko 2 beczki i natychmiast wpisałem do rejestru w obecności <persName key="serafin-0026" instant="false" full="yes">Mikołaja Szczytnickiego</persName>, kiedy i ile wziąłem.</seg>
+                    <seg part="N" corresp="#s.1.2.18">Wiedzcie także, że do tej pory nie daliśmy nic dla pana Wierzynka, lecz jednak zachowamy dla niego, czegokolwiek tylko Bóg przysporzy. Ostatnio również zaczęliśmy dobrze kupować sól etc.</seg>
+                    <seg part="N" corresp="#s.1.2.19">O innych rzeczach, które się nam ostatnio przydarzyły, należycie opowie wam pan Mikołaj Szczytnicki etc.</seg>
+                    <seg part="N" corresp="#s.1.2.20">Dan w <placeName key="geo-3088825" instant="false" full="yes">Płocku</placeName>, w <date when="1441-12-05" instant="false">wigilię św. Mikołaja, roku etc.</date>
+                    </seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0025" instant="false" full="yes">Mikołaj Zyszno</persName> sługa Waszej Mężności</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <seg part="N" corresp="#s.1.4.1.1"/>
+                    </p>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">quantum poprawione z <unclear instant="false">etc.</unclear>
+            </note>
+            <note n="1" target="#a1" anchored="true">Może księżniczka ruska Barbara żona (przed 1446) Bolesława IV księcia mazowieckiego 1429–1454, późniejszego pretendenta do korony polskiej po śmierci Władysława Warneńczyka, lub Anna (zm. 1458), córka Iwana Olgimuntowicza księcia Holszańskiego, wdowa po Bolesławie III księciu mazowieckim, zmarłym 1428 (Dworzaczek, <title>Genealogia</title>, tabl. 4; <title>PSB II,</title> s. 277, 281).</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

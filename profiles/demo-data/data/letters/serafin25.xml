@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS25">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Mikołaj Serafin do Piotra i innych oficjalistów żupnych, <placeName key="geo-775758">Bochnia</placeName>, <date when="1450-09-19">19 września 1450
+                <title>Mikołaj Serafin do Piotra i innych oficjalistów żupnych, <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>, <date when="1450-09-19" instant="false">19 września 1450
                         lub 18 września 1451</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
@@ -15,177 +15,187 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 162 (206)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis, dopisek, na górnym marginesie dwa znaki o
+                        <p part="N">recto: tekst listu, podpis, dopisek, na górnym marginesie dwa znaki o
                             niejasnym znaczeniu. </p>
                     </msContents>
                     <physDesc>
-                        <p>215 × 287 mm; ślady zawilgocenia w dolnej części karty214 × 160 mm;
+                        <p part="N">215 × 287 mm; ślady zawilgocenia w dolnej części karty214 × 160 mm;
                             koncept(?); dolna część karty oderwana, być może w związku z tym brak
                             adresu i śladów pieczęci.</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="gnd-139138560">Mikołaj Serafin</persName>
-                    <placeName key="geo-775758">Bochnia</placeName>
-                    <date when="1450-09-19">19 września 1450 lub 18 września 1451</date>
+                    <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>
+                    <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>
+                    <date when="1450-09-19" instant="false">19 września 1450 lub 18 września 1451</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin24.xml">Previous letter of <persName key="serafin-0081">Krzesław z Kurozwęk</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1450-04-07">7 kwietnia 1450</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin24.xml">Previous letter of <persName key="serafin-0081" instant="false" full="yes">Krzesław z Kurozwęk</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1450-04-07" instant="false">7 kwietnia 1450</date>
                     </ref>
-                    <ref type="next" target="serafin26.xml">Next letter of  to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1451-12-24">24 grudnia [1451]</date>
+                    <ref type="next" target="serafin26.xml">Next letter of  to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1451-12-24" instant="false">24 grudnia [1451]</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>
-                            </seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Nobiles dilecti.</seg>
-                            <seg xml:id="s.1.2.2">Exspectaui aduentum <persName key="serafin-0082">Culig</persName> , miror, quod hucusque non <lb/> venit.</seg>
-                            <seg xml:id="s.1.2.3">Nisi veniat, mittatis ipsum ada nos in <placeName key="geo-763903">Nyepolomicze</placeName> , quia <lb/> ibi
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>
+                    </seg>
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Nobiles dilecti.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Exspectaui aduentum <persName key="serafin-0082" instant="false" full="yes">Culig</persName> , miror, quod hucusque non <lb/> venit.</seg>
+                    <seg part="N" xml:id="s.1.2.3">Nisi veniat, mittatis ipsum ada nos in <placeName key="geo-763903" instant="false" full="yes">Nyepolomicze</placeName> , quia <lb/> ibi
                                 faciemus nocturnum, et cras fiemus in Weliczka ad prandium Domino
                                 auxiliante.<lb/>
-                            </seg>
-                            <seg xml:id="s.1.2.4">Ecce non recordabat per <persName key="serafin-0072">Mazik</persName> intimare, quod dominus rex wlt, ut
-                                        <expan>S<ex>ue</ex>
-                                </expan>
-                                <expan>S<ex>erenitati</ex>
-                                </expan> multa expedirem, provt ex ista
+                    </seg>
+                    <seg part="N" xml:id="s.1.2.4">Ecce non recordabat per <persName key="serafin-0072" instant="false" full="yes">Mazik</persName> intimare, quod dominus rex wlt, ut
+                                        <expan instant="false">S<ex instant="false">ue</ex>
+                        </expan>
+                        <expan instant="false">S<ex instant="false">erenitati</ex>
+                        </expan> multa expedirem, provt ex ista
                                 litera videbitis, quam seruate.</seg>
-                            <seg xml:id="s.1.2.5">
-                                <unclear>Ideo</unclear> necesse est, ut fiant
+                    <seg part="N" xml:id="s.1.2.5">
+                        <unclear instant="false">Ideo</unclear> necesse est, ut fiant
                                 peccunie.</seg>
-                            <seg xml:id="s.1.2.6">Petatis igitur ex parte nostri <persName key="serafin-0083">baccalarium</persName> , domine Mag<gap/>-
+                    <seg part="N" xml:id="s.1.2.6">Petatis igitur ex parte nostri <persName key="serafin-0083" instant="false" full="yes">baccalarium</persName> , domine Mag<gap instant="false"/>-
                                     ne<anchor xml:id="a1"/> , qui vobiscum
-                                    re<supplied>cepi</supplied>t florenos, vt pro expediendis istis
-                                rebus r<supplied>e</supplied>maneat nobis ex ista septimana viginti
+                                    re<supplied instant="false">cepi</supplied>t florenos, vt pro expediendis istis
+                                rebus r<supplied instant="false">e</supplied>maneat nobis ex ista septimana viginti
                                     <sic>florenos</sic>, si plus non potest, sed si poterit plus,
                                 bonum esset.</seg>
-                            <seg xml:id="s.1.2.7">Apponatis igitur vos, domine <persName key="serafin-0040">Petre</persName> , in isto diligenciam, ne
-                                recederet <expan>Crac<ex>ouia</ex>
-                                </expan> hodie cum florenis.</seg>
-                            <seg xml:id="s.1.2.8">Mittatis statim ad Mazikonem, vt pellicia, provt
+                    <seg part="N" xml:id="s.1.2.7">Apponatis igitur vos, domine <persName key="serafin-0040" instant="false" full="yes">Petre</persName> , in isto diligenciam, ne
+                                recederet <expan instant="false">Crac<ex instant="false">ouia</ex>
+                        </expan> hodie cum florenis.</seg>
+                    <seg part="N" xml:id="s.1.2.8">Mittatis statim ad Mazikonem, vt pellicia, provt
                                 sic dominus rex scribit, faciat parare in bono modo et l a n k a m
                                 et redas eciam, provt comisi, et quid agitur ibi, per Culig hodie ad
                                 Nyepolomicze intimetis.</seg>
-                            <seg xml:id="s.1.2.9">Dicatis <persName key="serafin-0014">Paulo</persName>
+                    <seg part="N" xml:id="s.1.2.9">Dicatis <persName key="serafin-0014" instant="false" full="yes">Paulo</persName>
                                 pensatori, quod cras propter ipsius factum veniam, provt conclusum
-                                cum <persName key="serafin-0084">Franczkone</persName> .</seg>
-                            <seg xml:id="s.1.2.10">Datum in <placeName key="geo-775758">Bohna</placeName>, <date when="1450-09-19">sabbato
+                                cum <persName key="serafin-0084" instant="false" full="yes">Franczkone</persName> .</seg>
+                    <seg part="N" xml:id="s.1.2.10">Datum in <placeName key="geo-775758" instant="false" full="yes">Bohna</placeName>, <date when="1450-09-19" instant="false">sabbato
                                     post Sancte Crucis</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="gnd-139138560">Zupparius</persName> propria</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p xml:id="s.1.4.1">
-                                <lb/>Intimetis, vtrum dominus castellanus Becensis
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="gnd-139138560" instant="false" full="yes">Zupparius</persName> propria</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p xml:id="s.1.4.1" part="N">
+                        <lb/>Intimetis, vtrum dominus castellanus Becensis
                                 est Cracouie, si scitis.</p>
-                            <p xml:id="s.1.4.2">Videatis pro c r y a kow k y et pro
+                    <p xml:id="s.1.4.2" part="N">Videatis pro c r y a kow k y et pro
                                     <sic>parsicis</sic> et t a r no s ly w y pro domina nostra
                                 consorte ponere ad medonem.</p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po ad skreślone n.</note>
-                        <note n="1" target="#a1">Niezidentyfikowany.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>
-                            </seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Umiłowani szlachetni Panowie.</seg>
-                            <seg xml:id="t.1.2.2">Oczekiwałem przybycia <persName key="serafin-0082">Kuliga</persName>. Dziwię się, że do tej pory nie
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>
+                    </seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Umiłowani szlachetni Panowie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Oczekiwałem przybycia <persName key="serafin-0082" instant="false" full="yes">Kuliga</persName>. Dziwię się, że do tej pory nie
                                 przybył.</seg>
-                            <seg xml:id="t.1.2.3">Gdyby miał nie przybyć, poślijcie go do nas do
-                                    <placeName key="geo-763903">Niepołomic</placeName>, ponieważ
+                    <seg part="N" corresp="#s.1.2.3">Gdyby miał nie przybyć, poślijcie go do nas do
+                                    <placeName key="geo-763903" instant="false" full="yes">Niepołomic</placeName>, ponieważ
                                 tam mamy nocleg, jutro zaś z Bożą pomocą będziemy na obiedzie w
                                 Wieliczce.</seg>
-                            <seg xml:id="t.1.2.4">Oto nie pamiętał, aby zawiadomić przez <persName key="serafin-0072">Mężyka</persName>, iż pan król chce, abym dużo
+                    <seg part="N" corresp="#s.1.2.4">Oto nie pamiętał, aby zawiadomić przez <persName key="serafin-0072" instant="false" full="yes">Mężyka</persName>, iż pan król chce, abym dużo
                                 wypłacił Jego Najjaśniejszej Wysokości. Dowiecie się o tym z listu,
                                 który zachowajcie.</seg>
-                            <seg xml:id="t.1.2.5">Dlatego potrzeba pieniędzy.</seg>
-                            <seg xml:id="t.1.2.6">Poproście więc w naszym imieniu, panie
-                                Mag<gap/>ne, bakałarza, który z wami odebrał floreny, aby pozostało
+                    <seg part="N" corresp="#s.1.2.5">Dlatego potrzeba pieniędzy.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Poproście więc w naszym imieniu, panie
+                                Mag<gap instant="false"/>ne, bakałarza, który z wami odebrał floreny, aby pozostało
                                 nam 20 na opłacenie spraw, jeżeli nie może być więcej. Gdyby jednak
                                 było więcej, byłoby dobrze.</seg>
-                            <seg xml:id="t.1.2.7">Wy zaś, panie <persName key="serafin-0040">Piotrze</persName>, dołóżcie starań, aby
-                                    <supplied>bakałarz</supplied> nie wyjechał dziś z florenami z
+                    <seg part="N" corresp="#s.1.2.7">Wy zaś, panie <persName key="serafin-0040" instant="false" full="yes">Piotrze</persName>, dołóżcie starań, aby
+                                    <supplied instant="false">bakałarz</supplied> nie wyjechał dziś z florenami z
                                 Krakowa.</seg>
-                            <seg xml:id="t.1.2.8">Poślijcie natychmiast do Mężyka, aby, stosownie do
+                    <seg part="N" corresp="#s.1.2.8">Poślijcie natychmiast do Mężyka, aby, stosownie do
                                 tego, co pisze tu pan król, kazał przygotować w odpowiedni sposób
                                 futra i bieliznę, a także wozy, tak jak poleciłem. Dajcie dzisiaj
                                 znać do Niepołomic przez Kuliga, co się tam dzieje.</seg>
-                            <seg xml:id="t.1.2.9">Powiedzcie <persName key="serafin-0014">Pawłowi</persName> ważnikowi, że jutro przybędę w jego sprawie,
-                                tak jak to zostało ustalone z <persName key="serafin-0084">Franczkiem</persName>.</seg>
-                            <seg xml:id="t.1.2.10">Dan w <placeName key="geo-775758">Bochni</placeName>, <date when="1450-09-19">w sobotę po Podwyższeniu Krzyża Świętego</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="gnd-139138560">Żupnik</persName> własnoręcznie
+                    <seg part="N" corresp="#s.1.2.9">Powiedzcie <persName key="serafin-0014" instant="false" full="yes">Pawłowi</persName> ważnikowi, że jutro przybędę w jego sprawie,
+                                tak jak to zostało ustalone z <persName key="serafin-0084" instant="false" full="yes">Franczkiem</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Dan w <placeName key="geo-775758" instant="false" full="yes">Bochni</placeName>, <date when="1450-09-19" instant="false">w sobotę po Podwyższeniu Krzyża Świętego</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="gnd-139138560" instant="false" full="yes">Żupnik</persName> własnoręcznie
                             </seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p xml:id="t.1.4.1">
-                                <lb/>Dajcie znać, czy pan kasztelan biecki jest w Krakowie, o ile wiecie.</p>
-                            <p xml:id="t.1.4.2">
-                                <lb/>Baczcie, by włożyć do miodu krakówki, brzoskwinie i tarnośliwy dla naszej pani
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p xml:id="t.1.4.1" part="N">
+                        <lb/>Dajcie znać, czy pan kasztelan biecki jest w Krakowie, o ile wiecie.</p>
+                    <p xml:id="t.1.4.2" part="N">
+                        <lb/>Baczcie, by włożyć do miodu krakówki, brzoskwinie i tarnośliwy dla naszej pani
                                 małżonki.</p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
+                </postscript>
+            </div>
+        </text>
     </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po ad skreślone n.</note>
+            <note n="1" target="#a1" anchored="true">Niezidentyfikowany.</note>
+        </listAnnotation>
+    </standOff>
 </TEI>

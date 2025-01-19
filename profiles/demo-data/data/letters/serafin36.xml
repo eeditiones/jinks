@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../resources/odd/newLite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MS36">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-775758">Bochnia</placeName>, <date when="1453-07-16">16 lipca 1453</date>
+                <title>Jakub z Dąbrówki do Mikołaja Serafina, <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>, <date when="1453-07-16" instant="false">16 lipca 1453</date>
                 </title>
                 <title type="s">Korespondencja żupnika krakowskiego Mikołaja Serafina z lat
                     1437-1459</title>
@@ -14,156 +14,249 @@
                 <editor>Tomasz Płóciennik</editor>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Anna Krzysik</persName>
+                    <persName instant="false" full="yes">Anna Krzysik</persName>
                 </respStmt>
                 <respStmt>
                     <resp>TEI encoding</resp>
-                    <persName>Magdalena Turska</persName>
+                    <persName instant="false" full="yes">Magdalena Turska</persName>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
-                <publisher>Societas Vistulana</publisher>
-                <pubPlace>Kraków</pubPlace>
-                <date>2006</date>
+                <publisher>e-editiones</publisher>
+                <date>2020</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                </availability>
             </publicationStmt>
-            <sourceDesc>
-                <msDesc type="fair-copy">
+            <sourceDesc default="false">
+                <msDesc type="fair-copy" status="draft">
                     <msIdentifier>
-                        <institution>B. Ossol.</institution>
+                        <repository>B. Ossol.</repository>
                         <idno>rkps 165, k. 144 (188)</idno>
                     </msIdentifier>
                     <msContents>
-                        <p>recto: tekst listu, podpis; verso: adres, dopisek, ślady po pieczęci.</p>
+                        <p part="N">recto: tekst listu, podpis; verso: adres, dopisek, ślady po pieczęci.</p>
                     </msContents>
                     <physDesc>
-                        <p>207 × 224mm; znak wodny: trójwzgórze; stan zachowania dobry</p>
+                        <p part="N">207 × 224mm; znak wodny: trójwzgórze; stan zachowania dobry</p>
                     </physDesc>
                 </msDesc>
+                <bibl type="printed-edition">
+                    <publisher>Societas Vistulana</publisher>
+                    <pubPlace>Kraków</pubPlace>
+                    <date>2006</date>
+                </bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
-            <correspDesc>
+            <correspDesc default="false">
                 <correspAction type="sent">
-                    <persName key="serafin-0010"/>
-                    <placeName key="geo-775758">Bochnia</placeName>
-                    <date when="1453-07-16">16 lipca 1453</date>
+                    <persName key="serafin-0010" instant="false" full="yes"/>
+                    <placeName key="geo-775758" instant="false" full="yes">Bochnia</placeName>
+                    <date when="1453-07-16" instant="false">16 lipca 1453</date>
                 </correspAction>
-            <correspContext>
-                    <ref type="previous" target="serafin35.xml">Previous letter of <persName key="serafin-0102"/> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1453-07-15" when-custom="1453">15 lipca [1453]</date>
+                <correspAction type="received">
+                    <persName ref="gnd-139138560">Mikołaj Serafin</persName>
+                </correspAction>
+                <correspContext>
+                    <ref type="previous" target="serafin35.xml">Previous letter of <persName key="serafin-0102" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1453-07-15" when-custom="1453" instant="false">15 lipca [1453]</date>
                     </ref>
-                    <ref type="next" target="serafin37.xml">Next letter of <persName key="wikidata-Q98213438"/> to <persName key="gnd-139138560">Mikołaj Serafin</persName>: <date when="1454-07-18">18 lipca 1454</date>
+                    <ref type="next" target="serafin37.xml">Next letter of <persName key="wikidata-Q98213438" instant="false" full="yes"/> to <persName key="gnd-139138560" instant="false" full="yes">Mikołaj Serafin</persName>: <date when="1454-07-18" instant="false">18 lipca 1454</date>
                     </ref>
-                    <ref type="previous-in-correspondence" target="serafin31.xml">Previous letter of <persName key="serafin-0010">Jakub z Dąbrówki</persName>
-                        <persName key="wikidata-Q101002566">Piotr Cikowski</persName> to <persName key="gnd-139138560">Nicolao Seraphin</persName>: <date when="1452-10-31">31 października 1452</date>
+                    <ref type="previous-in-correspondence" target="serafin31.xml">Previous letter of <persName key="serafin-0010" instant="false" full="yes">Jakub z Dąbrówki</persName>
+                        <persName key="wikidata-Q101002566" instant="false" full="yes">Piotr Cikowski</persName> to <persName key="gnd-139138560" instant="false" full="yes">Nicolao Seraphin</persName>: <date when="1452-10-31" instant="false">31 października 1452</date>
                     </ref>
                 </correspContext>
             </correspDesc>
         </profileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>All @key attributes are intended to be resolved with the TEI Processing Model
+                                specification</p>
+            </editorialDecl>
+        </encodingDesc>
         <revisionDesc>
             <listChange>
-                <change/>
+                <change when="2025-01-19">Adaptation to TEI Lite</change>
             </listChange>
         </revisionDesc>
     </teiHeader>
     <text>
-        <group>
-            <text type="source" xml:lang="la">
-                <body>
-                    <div xml:id="s.1">
-                        <opener xml:id="s.1.1">
-                            <seg xml:id="s.1.1.1">
-                                <lb/>Strenuo domino <persName key="gnd-139138560">Nicolao
+        <text type="source" xml:lang="la">
+            <div xml:id="s.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="s.1.1">
+                    <seg part="N" xml:id="s.1.1.1">
+                        <lb/>Strenuo domino <persName key="gnd-139138560" instant="false" full="yes">Nicolao
                                     <lb/> Seraphin</persName> gladiffero Cracouiensi, <lb/>
                                 vtriusque salis zuppario, domino et fratri gracioso.</seg>
-                        </opener>
-                        <p xml:id="s.1.2">
-                            <seg xml:id="s.1.2.1">
-                                <lb/>Strenue domine, frater graciose.</seg>
-                            <seg xml:id="s.1.2.2">Prout misistis literam <sic>regelem</sic>, eadem
+                </opener>
+                <p xml:id="s.1.2" part="N">
+                    <seg part="N" xml:id="s.1.2.1">
+                        <lb/>Strenue domine, frater graciose.</seg>
+                    <seg part="N" xml:id="s.1.2.2">Prout misistis literam <sic>regelem</sic>, eadem
                                 hora statim <lb/> ipsam senioribus direxi, qui congregati fuerunt ad
                                 hospicium, sed omnes interesse <lb/> non potuerunt, quia heri de
                                 ista <sic>liitera</sic> nichil sciuerunt.</seg>
-                            <seg xml:id="s.1.2.3">Sed seniores <lb/> non multum recusant de dicto,
+                    <seg part="N" xml:id="s.1.2.3">Sed seniores <lb/> non multum recusant de dicto,
                                 si possent habere totam communitatem, et prius volunt soli seniores
                                 inferius descendere cum stigariis ad videndum, si omnes
                                     possent<anchor xml:id="aa"/> laborare, quia primo ista septimana
                                 ceperunt purgare cameras ob hoc, quia sal fuit in laboribus non
                                 solutum, quod bene tunc purgare non potuerunt.</seg>
-                            <seg xml:id="s.1.2.4">Et eciam dicti seniores volunt habere cuneos et
+                    <seg part="N" xml:id="s.1.2.4">Et eciam dicti seniores volunt habere cuneos et
                                 concessionem, et dictos cuneos nescio vnde habere.</seg>
-                            <seg xml:id="s.1.2.5">Direxeram <persName key="serafin-0116">Thomam</persName>
-                                <date when="1453-07-13" when-custom="13 VII">ad festum Margarethe
-                                    [13 VII]</date> in <placeName key="geo-763534">Sandecz</placeName> pro dictis <sic>cuneos</sic>, si
-                                adducerentur de <placeName key="wikidata-Q205530">Czyps</placeName>.</seg>
-                            <seg xml:id="s.1.2.6">Qui dicit, quod malum forum anuale fuit, et nullus
-                                de partibus illis propter istum pessimum <persName key="wikidata-Q165921">Axamith</persName>, quod non audent venire
+                    <seg part="N" xml:id="s.1.2.5">Direxeram <persName key="serafin-0116" instant="false" full="yes">Thomam</persName>
+                        <date when="1453-07-13" when-custom="13 VII" instant="false">ad festum Margarethe
+                                    [13 VII]</date> in <placeName key="geo-763534" instant="false" full="yes">Sandecz</placeName> pro dictis <sic>cuneos</sic>, si
+                                adducerentur de <placeName key="wikidata-Q205530" instant="false" full="yes">Czyps</placeName>.</seg>
+                    <seg part="N" xml:id="s.1.2.6">Qui dicit, quod malum forum anuale fuit, et nullus
+                                de partibus illis propter istum pessimum <persName key="wikidata-Q165921" instant="false" full="yes">Axamith</persName>, quod non audent venire
                                 hospites.</seg>
-                            <seg xml:id="s.1.2.7">Et dicti sectores dicunt: „Si non dabitis nobis
-                                cuneos, vademus ad dominum <persName key="wikidata-Q11044024">succamerarium</persName> et ad dominum regem nos excusando,
+                    <seg part="N" xml:id="s.1.2.7">Et dicti sectores dicunt: „Si non dabitis nobis
+                                cuneos, vademus ad dominum <persName key="wikidata-Q11044024" instant="false" full="yes">succamerarium</persName> et ad dominum regem nos excusando,
                                 quia parati sumus laborare, sed exquo cuneys caremus nec sal
                                     <sic>reparcutere</sic> habemus quo”.</seg>
-                            <seg xml:id="s.1.2.8">Et teste Deo nescio, quid facere.</seg>
-                            <seg xml:id="s.1.2.9">Et terestres cuneos, prout in Wyeliczka sunt,
+                    <seg part="N" xml:id="s.1.2.8">Et teste Deo nescio, quid facere.</seg>
+                    <seg part="N" xml:id="s.1.2.9">Et terestres cuneos, prout in Wyeliczka sunt,
                                 recipere nolunt.</seg>
-                            <seg xml:id="s.1.2.10">Ceterum heri composui cum tragariis, ut
+                    <seg part="N" xml:id="s.1.2.10">Ceterum heri composui cum tragariis, ut
                                 exspectassent michi solucionem ad hodiernam diem.</seg>
-                            <seg xml:id="s.1.2.11">Et totam spem habui in mercatoribus nostris de
-                                    <placeName key="geo-755593">Wysslicia</placeName>
+                    <seg part="N" xml:id="s.1.2.11">Et totam spem habui in mercatoribus nostris de
+                                    <placeName key="geo-755593" instant="false" full="yes">Wysslicia</placeName>
                                 venientibus.</seg>
-                            <seg xml:id="s.1.2.12">Et cum venerunt, dicunt, quod forum in
-                                    depositorio<anchor xml:id="a1"/> non habuerunt, Iarandus<anchor xml:id="a2"/> et <persName key="serafin-0117">Mirek</persName>
+                    <seg part="N" xml:id="s.1.2.12">Et cum venerunt, dicunt, quod forum in
+                                    depositorio<anchor xml:id="a1"/> non habuerunt, Iarandus<anchor xml:id="a2"/> et <persName key="serafin-0117" instant="false" full="yes">Mirek</persName>
                                 solum duos banccos vendiderunt.</seg>
-                            <seg xml:id="s.1.2.13">Ideo nescio, quid sum
-                                f<supplied>a</supplied>cturus cum dictis tragariis, nec pro
+                    <seg part="N" xml:id="s.1.2.13">Ideo nescio, quid sum
+                                f<supplied instant="false">a</supplied>cturus cum dictis tragariis, nec pro
                                 carpentariis unum grossum habeo.</seg>
-                            <seg xml:id="s.1.2.14">Tho w a r n i c i non veniunt propter
+                    <seg part="N" xml:id="s.1.2.14">Tho w a r n i c i non veniunt propter
                                 invadaciones aquarum, et de auena multum indigemus, et de panibus
                                 nobis graue iacet, et de ceruisia propter molendina.</seg>
-                            <seg xml:id="s.1.2.15">Iste <persName key="serafin-0118">Miclasch</persName> hic iacet, exspectat adventum
+                    <seg part="N" xml:id="s.1.2.15">Iste <persName key="serafin-0118" instant="false" full="yes">Miclasch</persName> hic iacet, exspectat adventum
                                 vestrum.</seg>
-                            <seg xml:id="s.1.2.16">Item consors mea michi scribit, ut venirem
-                                Cracouiam et ego propter <persName key="serafin-0043">Russzkonem</persName> et propter dominum <persName key="wikidata-Q101002566">Czycowsky</persName> venire non
+                    <seg part="N" xml:id="s.1.2.16">Item consors mea michi scribit, ut venirem
+                                Cracouiam et ego propter <persName key="serafin-0043" instant="false" full="yes">Russzkonem</persName> et propter dominum <persName key="wikidata-Q101002566" instant="false" full="yes">Czycowsky</persName> venire non
                                 presumo.</seg>
-                            <seg xml:id="s.1.2.17">Ergo peto, componatis, qualiter potestis, cum
+                    <seg part="N" xml:id="s.1.2.17">Ergo peto, componatis, qualiter potestis, cum
                                 ipsis, ut securum accessum veniendi haberem, et literam vxoris mee
                                 vobis dirigo.</seg>
-                            <seg xml:id="s.1.2.18">Valete.</seg>
-                            <seg xml:id="s.1.2.19">Datum in <placeName key="geo-775758">Bochna</placeName>, <date when="1453-07-16">feria secunda post
+                    <seg part="N" xml:id="s.1.2.18">Valete.</seg>
+                    <seg part="N" xml:id="s.1.2.19">Datum in <placeName key="geo-775758" instant="false" full="yes">Bochna</placeName>, <date when="1453-07-16" instant="false">feria secunda post
                                     Diuisionis Appostolorum, 1453</date>.</seg>
-                        </p>
-                        <signed xml:id="s.1.3">
-                            <seg xml:id="s.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0010">Iacobus</persName> vicezupparius Bochnensis, <lb/>
-                                <expan>f<ex>rater</ex>
-                                </expan> vester ad omnia pronus</seg>
-                        </signed>
-                        <postscript xml:id="s.1.4">
-                            <p>
-                                <seg xml:id="s.1.4.1">
-                                    <lb/>
-                                    <add>Ceterum, domine, scire velitis,
+                </p>
+                <signed xml:id="s.1.3">
+                    <seg part="N" xml:id="s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0010" instant="false" full="yes">Iacobus</persName> vicezupparius Bochnensis, <lb/>
+                        <expan instant="false">f<ex instant="false">rater</ex>
+                        </expan> vester ad omnia pronus</seg>
+                </signed>
+                <postscript xml:id="s.1.4">
+                    <p part="N">
+                        <seg part="N" xml:id="s.1.4.1">
+                            <lb/>
+                            <add instant="false" status="unremarkable">Ceterum, domine, scire velitis,
                                         quomodo hospites <lb/> non sunt pro minuto sale et sal, quod
                                         <lb/> remanet, destruitur per aquam, <lb/> et ligna gratis
                                         comburruntur. Ergo <lb/> informetis, si gaze debent
                                         extingui, <lb/> quia sine voluntate vestra non
                                     faciam.</add>
-                                </seg>
-                                <seg xml:id="s.1.4.2">
-                                    <add>Ergo <lb/> informetis, si gaze debent
+                        </seg>
+                        <seg part="N" xml:id="s.1.4.2">
+                            <add instant="false" status="unremarkable">Ergo <lb/> informetis, si gaze debent
                                         extingui, <lb/> quia sine voluntate vestra non
                                         faciam.</add>
-                                    <anchor xml:id="ab"/>
-                                </seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-                <back>
-                    <div type="notes">
-                        <note n="a" type="transcription" target="#aa">po possent skreślone h.</note>
-                        <note n="b" type="transcription" target="#ab">dopisane przy adresie.</note>
-                        <note n="1" target="#a1">Konstytucja z 1565 r. podaje wiadomości o trzech
+                            <anchor xml:id="ab"/>
+                        </seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+        <text type="translation" xml:lang="pl">
+            <div xml:id="t.1" part="N" org="uniform" sample="complete">
+                <opener xml:id="t.1.1">
+                    <seg part="N" corresp="#s.1.1.1">
+                        <lb/>Mężnemu panu <persName key="gnd-139138560" instant="false" full="yes">Mikołajowi
+                                    Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
+                                salin, panu i łaskawemu bratu.</seg>
+                </opener>
+                <p xml:id="t.1.2" part="N">
+                    <seg part="N" corresp="#s.1.2.1">
+                        <lb/>Mężny panie, łaskawy bracie.</seg>
+                    <seg part="N" corresp="#s.1.2.2">Jak tylko przysłaliście pismo od króla, od razu w
+                                tej samej godzinie przekazałem je starszym, którzy byli zgromadzeni
+                                w gospodzie, lecz nie wszyscy mogli być obecni, ponieważ wczoraj o
+                                piśmie tym nic nie wiedzieli.</seg>
+                    <seg part="N" corresp="#s.1.2.3">Starszyzna nie bardzo sprzeciwia się w rzeczonej
+                                sprawie, o ile mogliby mieć wszystkich górników. Chcą wcześniej sami
+                                zejść ze sztygarami na dół, aby zobaczyć, czy wszyscy mogą pracować.
+                                Zaczęli bowiem czyścić komory dopiero w tym tygodniu, a to z tego
+                                powodu, że nie wypłacono soli za roboty i w związku z tym nie mogli
+                                wtedy dobrze ich oczyścić.</seg>
+                    <seg part="N" corresp="#s.1.2.4">Starszyzna chce mieć także kliny i zezwolenie, a
+                                ja nie wiem, skąd mam te kliny wziąć.</seg>
+                    <seg part="N" corresp="#s.1.2.5">Wysłałem po nie <persName key="serafin-0116" instant="false" full="yes">Tomasza</persName> na <date when="1453-07-13" when-custom="13 VII" instant="false">św. Małgorzatę [13 VII]</date> do
+                                    <placeName key="geo-763534" instant="false" full="yes">Sącza</placeName>, spodziewając się,
+                                że przywiozą je ze <placeName key="wikidata-Q205530" instant="false" full="yes">Spiszu</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.6">Mówi on, że doroczny targ był słaby, że nikt z tamtych
+                                stron <supplied instant="false">nie przybył</supplied> z powodu owego niegodziwego <persName key="wikidata-Q165921" instant="false" full="yes">Aksamita</persName> i że goście boją
+                                się przybywać.</seg>
+                    <seg part="N" corresp="#s.1.2.7">A kopacze mówią: „Jeśli nie dacie nam klinów, pójdziemy do
+                                pana <persName key="wikidata-Q11044024" instant="false" full="yes">podkomorzego</persName> i do pana króla, aby się usprawiedliwić, jesteśmy bowiem
+                                gotowi pracować, lecz ponieważ nie mamy klinów, nie mamy czym wyrąbywać
+                                soli”.</seg>
+                    <seg part="N" corresp="#s.1.2.8">Nie wiem, co robić, Bóg świadkiem.</seg>
+                    <seg part="N" corresp="#s.1.2.9">A klinów do ziemi, które są w Wieliczce,
+                                nie chcą wziąć.</seg>
+                    <seg part="N" corresp="#s.1.2.10">Ponadto wczoraj ustaliłem z tragarzami, aby poczekali
+                                na zapłatę do dnia dzisiejszego.</seg>
+                    <seg part="N" corresp="#s.1.2.11">Całą nadzieję pokładałem w naszych kupcach
+                                z <placeName key="geo-755593" instant="false" full="yes">Wiślicy</placeName>.</seg>
+                    <seg part="N" corresp="#s.1.2.12">A oni, przybywszy, powiedzieli, że nie szedł im handel w składzie, jedynie Jarand i <persName key="serafin-0117" instant="false" full="yes">Mirek</persName> sprzedali dwa bałwany.</seg>
+                    <seg part="N" corresp="#s.1.2.13">Przeto nie wiem, co mam czynić
+                                z tymi tragarzami, nie mam też ani grosza dla cieśli.</seg>
+                    <seg part="N" corresp="#s.1.2.14">Towarnicy nie przybywają
+                                z powodu powodzi i brak nam bardzo owsa, także z chlebem ciężka sprawa
+                                i z piwem, a to z powodu młynów.</seg>
+                    <seg part="N" corresp="#s.1.2.15">Przebywa tu <persName key="serafin-0118" instant="false" full="yes">Miklasz</persName>, oczekując na wasz
+                                powrót.</seg>
+                    <seg part="N" corresp="#s.1.2.16">Ponadto żona moja pisze mi, abym przybył do Krakowa, a ja nie śmiem
+                                przybyć z powodu <persName key="serafin-0043" instant="false" full="yes">Ruska</persName> i pana <persName key="wikidata-Q101002566" instant="false" full="yes">Cikowskiego</persName>.</seg>
+                    <seg part="N" corresp="#s.1.2.17">Proszę więc, ułóżcie się z nimi,
+                                jak możecie, abym miał możliwość bezpiecznego przybycia. Zasyłam wam też
+                                list mojej żony.</seg>
+                    <seg part="N" corresp="#s.1.2.18">Bądźcie zdrowi.</seg>
+                    <seg part="N" corresp="#s.1.2.19">Dan w <placeName key="geo-775758" instant="false" full="yes">Bochni</placeName>, w <date when="1453-07-16" instant="false">poniedziałek po Rozesłaniu
+                                Apostołów, 1453</date>.</seg>
+                </p>
+                <signed xml:id="t.1.3">
+                    <seg part="N" corresp="#s.1.3.1">
+                        <lb/>
+                        <persName key="serafin-0010" instant="false" full="yes">Jakub</persName> podżupek bocheński, wasz brat życzliwy we wszystkim</seg>
+                </signed>
+                <postscript xml:id="t.1.4">
+                    <p part="N">
+                        <seg part="N" corresp="#s.1.4.1">
+                            <add instant="false" status="unremarkable">
+                                <lb/>Ponadto, panie, zechciejcie wiedzieć, że goście nie przybywają po sól miałką
+                                    i ta sól, która pozostaje, jest niszczona przez wodę, więc drewno spala się na
+                                    próżno.</add>
+                        </seg>
+                        <seg part="N" corresp="#s.1.4.2">
+                            <add instant="false" status="unremarkable">Powiadomcie przeto, czy warzelnie powinno się wygasić, ponieważ bez
+                                    waszej woli tego nie uczynię.</add>
+                        </seg>
+                    </p>
+                </postscript>
+            </div>
+        </text>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note n="a" type="transcription" target="#aa" anchored="true">po possent skreślone h.</note>
+            <note n="b" type="transcription" target="#ab" anchored="true">dopisane przy adresie.</note>
+            <note n="1" target="#a1" anchored="true">Konstytucja z 1565 r. podaje wiadomości o trzech
                             przywilejach na skład soli w Wiślicy, wydanych przez Kazimierza
                             Jagiellończyka w latach 1450, 1463 i 1490. Skład soli bocheńskiej w
                             Wiślicy poświadczony jest w 1460 r. W 1509 r. król wydał dekret o
@@ -174,92 +267,9 @@
                             miastach (Volumina legum I, s. 58; Corpus iuris Polonici, t. IV, z. 1,
                             wyd. O. Balzer, Kraków 1910, s. 14; Opis żup 1518, s. 122; MS I, nr 548;
                             IV/3, nr 23135).</note>
-                        <note n="2" target="#a2">Zapewne przedstawiciel rodziny Jarandów (Jerandów)
-                            mieszczan bocheńskich, zob. <persName key="serafin-0034">Paweł
+            <note n="2" target="#a2" anchored="true">Zapewne przedstawiciel rodziny Jarandów (Jerandów)
+                            mieszczan bocheńskich, zob. <persName key="serafin-0034" instant="false" full="yes">Paweł
                                 Jurand</persName>.</note>
-                    </div>
-                </back>
-            </text>
-            <text type="translation" xml:lang="pl">
-                <body>
-                    <div xml:id="t.1">
-                        <opener xml:id="t.1.1">
-                            <seg xml:id="t.1.1.1">
-                                <lb/>Mężnemu panu <persName key="gnd-139138560">Mikołajowi
-                                    Serafinowi</persName> miecznikowi krakowskiemu, żupnikowi obojga
-                                salin, panu i łaskawemu bratu.</seg>
-                        </opener>
-                        <p xml:id="t.1.2">
-                            <seg xml:id="t.1.2.1">
-                                <lb/>Mężny panie, łaskawy bracie.</seg>
-                            <seg xml:id="t.1.2.2">Jak tylko przysłaliście pismo od króla, od razu w
-                                tej samej godzinie przekazałem je starszym, którzy byli zgromadzeni
-                                w gospodzie, lecz nie wszyscy mogli być obecni, ponieważ wczoraj o
-                                piśmie tym nic nie wiedzieli.</seg>
-                            <seg xml:id="t.1.2.3">Starszyzna nie bardzo sprzeciwia się w rzeczonej
-                                sprawie, o ile mogliby mieć wszystkich górników. Chcą wcześniej sami
-                                zejść ze sztygarami na dół, aby zobaczyć, czy wszyscy mogą pracować.
-                                Zaczęli bowiem czyścić komory dopiero w tym tygodniu, a to z tego
-                                powodu, że nie wypłacono soli za roboty i w związku z tym nie mogli
-                                wtedy dobrze ich oczyścić.</seg>
-                            <seg xml:id="t.1.2.4">Starszyzna chce mieć także kliny i zezwolenie, a
-                                ja nie wiem, skąd mam te kliny wziąć.</seg>
-                            <seg xml:id="t.1.2.5">Wysłałem po nie <persName key="serafin-0116">Tomasza</persName> na <date when="1453-07-13" when-custom="13 VII">św. Małgorzatę [13 VII]</date> do
-                                    <placeName key="geo-763534">Sącza</placeName>, spodziewając się,
-                                że przywiozą je ze <placeName key="wikidata-Q205530">Spiszu</placeName>.</seg>
-                            <seg xml:id="t.1.2.6">Mówi on, że doroczny targ był słaby, że nikt z tamtych
-                                stron <supplied>nie przybył</supplied> z powodu owego niegodziwego <persName key="wikidata-Q165921">Aksamita</persName> i że goście boją
-                                się przybywać.</seg>
-                            <seg xml:id="t.1.2.7">A kopacze mówią: „Jeśli nie dacie nam klinów, pójdziemy do
-                                pana <persName key="wikidata-Q11044024">podkomorzego</persName> i do pana króla, aby się usprawiedliwić, jesteśmy bowiem
-                                gotowi pracować, lecz ponieważ nie mamy klinów, nie mamy czym wyrąbywać
-                                soli”.</seg>
-                            <seg xml:id="t.1.2.8">Nie wiem, co robić, Bóg świadkiem.</seg>
-                            <seg xml:id="t.1.2.9">A klinów do ziemi, które są w Wieliczce,
-                                nie chcą wziąć.</seg>
-                            <seg xml:id="t.1.2.10">Ponadto wczoraj ustaliłem z tragarzami, aby poczekali
-                                na zapłatę do dnia dzisiejszego.</seg>
-                            <seg xml:id="t.1.2.11">Całą nadzieję pokładałem w naszych kupcach
-                                z <placeName key="geo-755593">Wiślicy</placeName>.</seg>
-                            <seg xml:id="t.1.2.12">A oni, przybywszy, powiedzieli, że nie szedł im handel w składzie, jedynie Jarand i <persName key="serafin-0117">Mirek</persName> sprzedali dwa bałwany.</seg>
-                            <seg xml:id="t.1.2.13">Przeto nie wiem, co mam czynić
-                                z tymi tragarzami, nie mam też ani grosza dla cieśli.</seg>
-                            <seg xml:id="t.1.2.14">Towarnicy nie przybywają
-                                z powodu powodzi i brak nam bardzo owsa, także z chlebem ciężka sprawa
-                                i z piwem, a to z powodu młynów.</seg>
-                            <seg xml:id="t.1.2.15">Przebywa tu <persName key="serafin-0118">Miklasz</persName>, oczekując na wasz
-                                powrót.</seg>
-                            <seg xml:id="t.1.2.16">Ponadto żona moja pisze mi, abym przybył do Krakowa, a ja nie śmiem
-                                przybyć z powodu <persName key="serafin-0043">Ruska</persName> i pana <persName key="wikidata-Q101002566">Cikowskiego</persName>.</seg>
-                            <seg xml:id="t.1.2.17">Proszę więc, ułóżcie się z nimi,
-                                jak możecie, abym miał możliwość bezpiecznego przybycia. Zasyłam wam też
-                                list mojej żony.</seg>
-                            <seg xml:id="t.1.2.18">Bądźcie zdrowi.</seg>
-                            <seg xml:id="t.1.2.19">Dan w <placeName key="geo-775758">Bochni</placeName>, w <date when="1453-07-16">poniedziałek po Rozesłaniu
-                                Apostołów, 1453</date>.</seg>
-                        </p>
-                        <signed xml:id="t.1.3">
-                            <seg xml:id="t.1.3.1">
-                                <lb/>
-                                <persName key="serafin-0010">Jakub</persName> podżupek bocheński, wasz brat życzliwy we wszystkim</seg>
-                        </signed>
-                        <postscript xml:id="t.1.4">
-                            <p> 
-                                <seg xml:id="t.1.4.1">
-                                    <add>
-                                        <lb/>Ponadto, panie, zechciejcie wiedzieć, że goście nie przybywają po sól miałką
-                                    i ta sól, która pozostaje, jest niszczona przez wodę, więc drewno spala się na
-                                    próżno.</add>
-                                </seg>
-                                <seg xml:id="t.1.4.2">
-                                    <add>Powiadomcie przeto, czy warzelnie powinno się wygasić, ponieważ bez
-                                    waszej woli tego nie uczynię.</add>
-                                </seg>
-                            </p>
-                        </postscript>
-                    </div>
-                </body>
-            </text>
-        </group>
-    </text>
+        </listAnnotation>
+    </standOff>
 </TEI>

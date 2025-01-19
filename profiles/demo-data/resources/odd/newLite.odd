@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Title</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Publication Information</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Information about the source</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <schemaSpec ident="newLite" start="TEI">
+        <moduleRef key="header"
+          except="appInfo application distributor publisher biblFull citeData citeStructure
+          classCode conversion correction cRefPattern edition editionStmt funder geoDecl hyphenation interpretation
+          normalization punctuation quotation segmentation stdVals namespace principal refsDecl refState samplingDecl
+          fsdDecl schemaRef schemaSpec styleDefDecl sponsor tagUsage"/>
+        <moduleRef key="core"
+          except="address addressLine binaryObject divGen email headItem headLabel index 
+          postBox meeting mentioned postCode said soCalled street teiCorpus"/>
+        <!-- corpus module is excluded  -->
+        <moduleRef key="tei"/>
+        <moduleRef key="textstructure"
+          except="argument back body div1 div2 div3 div4 div5 div6 div7 docAuthor docDate docEdition
+          docImprint docTitle front group titlePage titlePart trailer"/>
+        <moduleRef key="msdescription"
+          include="msDesc msIdentifier repository altIdentifier physDesc history incipit
+          explicit locus msContents"/>
+        <moduleRef key="figures"/>
+        <moduleRef key="analysis" include="s w pc"/>
+        <moduleRef key="linking" include="ab anchor seg standOff"/>
+        <moduleRef key="namesdates"
+          except="age bloc climate district faith forename surname addName nameLink genName
+          geogName langKnowledge langKnown nationality objectIdentifier offset persona persPronouns population 
+          settlement residence socecStatus trait terrain"/>
+        <!--        In person we only use gender -->
+        <!--        objectName must be allowed as a direct child of object -->
+        <!-- roleName -->
+        <moduleRef key="textcrit" include="app lem rdg listApp rdgGrp listWit wit witDetail "/>
+        <moduleRef key="transcr"
+          except="damageSpan handShift line listTranspose mod path redo sourceDoc"/>
+        <moduleRef key="cmc"/>
+        <moduleRef key="iso-fs" include="f fs"/>
+        <!--        dictionaries module is excluded -->
+        <moduleRef key="verse" except="metDecl metSym"/>
+        <moduleRef key="drama" except="actor camera caption move performance sound
+          tech view"/>
+        <!--        epilogue and prologue, tech -->
+        <!--        spoken module is excluded -->
+        <!--        nets module is excluded -->
+        <!--        certainty module is excluded -->
+        <moduleRef key="tagdocs" include="code eg"/>
+        <moduleRef key="gaiji" include="g charDecl char glyph"/>
+        <elementSpec ident="text" mode="change">
+          <desc>This element must have a <gi>text</gi> element or a sequence of <gi>div</gi>
+            elements.</desc>
+          <content>
+            <alternate>
+              <elementRef key="text" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="div" minOccurs="1" maxOccurs="unbounded"/>
+            </alternate>
+          </content>
+        </elementSpec>
+      </schemaSpec>
+    </body>
+  </text>
+</TEI>
