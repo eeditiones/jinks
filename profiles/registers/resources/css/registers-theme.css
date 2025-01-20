@@ -16,14 +16,48 @@ pb-leaflet-map {
     z-index: 1;
 }
 
-.three-column {
+.register-grid {
     --pb-content-max-width: 90rem;
     display: grid;
     grid-template-columns: 1fr 1fr minmax(auto, 25rem);
+    grid-template-rows: min-content 1fr;
+    grid-template-areas: "nav nav aside" "column1 column2 aside";
     column-gap: 2rem;
 }
 
 aside pb-leaflet-map {
     width: 100%;
     height: 360px;
+}
+
+.metadata {
+    grid-area: nav;
+}
+
+aside {
+    grid-area: aside;
+}
+
+.column1 {
+    grid-area: column1;
+}
+
+.column2 {
+    grid-area: column2;
+}
+
+.metadata ul {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.metadata .icon {
+    height: 24px;
+    width: 24px;
+}
+
+.metadata a {
+    width: 100%;
+    text-align: center;
 }

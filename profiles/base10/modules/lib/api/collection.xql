@@ -66,9 +66,9 @@ declare
     %private
 function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
     (: session:clear(), :)
-    let $sort := request:get-parameter("sort", "title")
-    let $filter := request:get-parameter("field", ())
-    let $query := request:get-parameter("query", ())
+    let $sort := head(($params?sort, "title"))
+    let $filter := $params?field
+    let $query := $params?query
     let $filtered :=
         if (exists($cached)) then
             $cached

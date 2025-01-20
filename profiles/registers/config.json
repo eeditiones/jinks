@@ -13,7 +13,8 @@
     },
     "defaults": {
         "data-default": "letters",
-        "template": "registers.html"
+        "template": "registers.html",
+        "sort": "date"
     },
     "menu": {
         "items": [
@@ -57,13 +58,18 @@
                     "toc": false,
                     "parts": [
                         {
-                            "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+                            "id": "metadata",
+                            "odd": "serafin.odd",
+                            "user.mode": "metadata"
+                        },
+                        {
+                            "xpath": "//text[@type = 'source']",
                             "odd": "serafin.odd"
                         },
                         {
                             "id": "translation",
                             "odd": "serafin.odd",
-                            "xpath": "//text[@xml:lang='pl']/body"
+                            "xpath": "//text[@type = 'translation']"
                         },
                         {
                             "id": "breadcrumb",

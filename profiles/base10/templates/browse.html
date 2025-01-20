@@ -26,6 +26,7 @@
                 </pb-search>
                 <pb-custom-form class="options">
                     <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+                    <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
                 </pb-custom-form>
                 <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
                 </pb-custom-form>
