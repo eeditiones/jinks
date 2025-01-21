@@ -86,7 +86,8 @@ declare %private function static:next-page($context as map(*), $parts as array(m
             map:merge((
                 map {
                     "root": $root,
-                    "user.context-path": $context?context-path
+                    "user.context-path": $context?context-path,
+                    "user.static": true()
                 },
                 $part
             ))

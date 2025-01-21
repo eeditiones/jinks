@@ -18,7 +18,8 @@
                   
                  
                  
-                 <desc>15th c. manuscript correspondence with parallel translation</desc>
+                 
+                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -67,9 +68,6 @@
                 <elementSpec ident="TEI" mode="change">
                     <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
             <param name="content" value="root(.)//correspContext"/>
-            <pb:template xmlns="" xml:space="preserve"><nav class="metadata">
-  [[content]]
-</nav></pb:template>
         </model>
                     <model output="latex" behaviour="section">
             <param name="header" value="teiHeader"/>
@@ -549,7 +547,7 @@
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-                <model predicate="parent::correspContext and $parameters?static" behaviour="pass-through">
+                <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
@@ -560,7 +558,7 @@
 </a></pb:template>
         </model>
                     <model predicate="parent::correspContext" behaviour="pass-through">
-            <param name="uri" value="$parameters?context-path || '/letters/' || @target || (if ($parameters?static) then '/1/index.html' else ())"/>
+            <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
             <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
