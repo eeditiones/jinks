@@ -470,7 +470,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
             let $html :=
                 typeswitch ($mapped)
                     case element() | document-node() return
-                        pages:process-content($content, $xml?data, $xml?config, $userParams)
+                        pages:process-content($content, $xml?data, $xml?config, $userParams, $request?parameters?wrap)
                     default return
                         $content
             let $transformed := dapi:extract-footnotes($html[1], $xml?data[1])

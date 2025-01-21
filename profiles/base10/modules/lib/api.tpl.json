@@ -1485,6 +1485,15 @@
 						"description": "should HTML content be rendered as HTML5 or XML?"
 					},
 					{
+						"name": "wrap",
+						"in": "query",
+						"schema": {
+							"type": "boolean",
+							"default": false
+						},
+						"description": "should returned HTML be wrapped into a div?"
+					},
+					{
 						"name": "If-Modified-Since",
 						"in": "header",
 						"schema": {

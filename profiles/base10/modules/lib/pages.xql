@@ -70,11 +70,7 @@ declare function pages:load-xml($data as node()*, $view as xs:string?, $root as 
         }
 };
 
-declare function pages:process-content($xml as node()*, $root as node()*, $config as map(*)) {
-    pages:process-content($xml, $root, $config, ())
-};
-
-declare function pages:process-content($xml as node()*, $root as node()*, $config as map(*), $userParams as map(*)?) {
+declare function pages:process-content($xml as node()*, $root as node()*, $config as map(*), $userParams as map(*)?, $wrap as xs:boolean?) {
     let $params := map:merge((
             map {
                 "root": $root,
@@ -92,18 +88,22 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
                 $fn/@*,
                 pages:clean-footnotes($fn/node())
             }
-    return
-        <div class="{$config:css-content-class} {$class}">
-        {
-            $body,
+    let $content := (
+        $body,
             if ($footnotes) then
                 nav:output-footnotes($footnotes)
             else
                 ()
             ,
             $html//paper-tooltip
-        }
-        </div>
+    )
+    return
+        if ($wrap) then
+            <div class="{$config:css-content-class} {$class}">
+            { $content }
+            </div>
+        else
+            $content
 };
 
 declare function pages:clean-footnotes($nodes as node()*) {

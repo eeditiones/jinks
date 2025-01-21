@@ -50,7 +50,13 @@ declare function api:expand-template($request as map(*)) {
             tmpl:process($template, $params, map {
                 "plainText": not($request?body?mode = ('html', 'xml')), 
                 "resolver": api:resolver#1, 
-                "debug": true()
+                "debug": true(),
+                "modules": map {
+                    "https://tei-publisher.com/generator/xquery/config": map {
+                        "prefix": "config",
+                        "at": "modules/config.xql"
+                    }
+                }
             })
         } catch * {
             if (exists($err:value)) then
