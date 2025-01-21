@@ -27,7 +27,11 @@
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:data-root ]]"/>
     [% if ($metadata = "true") %]
-    [[ $doc?transform-with($doc?content, map { "mode": "metadata", "context-path": $context-path }, "serafin.odd") ]]
+    <section class="metadata">
+        <nav>
+        [[ $doc?transform-with($doc?content, map { "mode": "metadata", "context-path": $context-path }, "serafin.odd") ]]
+        </nav>
+    </section>
     [% endif %]
     <pb-view class="col1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
     <pb-view class="col2" src="document1" xpath="//text[@type = 'translation']" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>

@@ -1,4 +1,4 @@
-<main class="three-column">
+<main class="register-grid">
     ---json
     {
         "templating": {
@@ -24,20 +24,24 @@
         </nav>
     </li>
     [% endblock %]
-    <div class="col1">
-    [[ $parts?metadata?content ]]
+    <header class="metadata content">
+        <nav>
+        [[ $parts?metadata?content ]]
+        </nav>
+    </header>
+    <div class="col1 content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
     </div>
-    <div class="col2">
+    <div class="col2 content">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-    <div class="col3">
+    <aside class="col3">
         [[ $parts?register?content ]]
 
         <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
             <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
         </pb-leaflet-map>
-    </div>
+    </aside>
 </main>

@@ -149,7 +149,7 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
     let $_ := util:log("INFO", ("<static> load part: ", $urlParams))
     let $request := 
         <http:request method="GET" 
-            href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?{$urlParams}"/>
+            href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?wrap=false&amp;{$urlParams}"/>
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then

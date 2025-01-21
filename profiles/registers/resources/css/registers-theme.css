@@ -25,39 +25,39 @@ pb-leaflet-map {
     column-gap: 2rem;
 }
 
-aside pb-leaflet-map {
+.register-grid aside pb-leaflet-map {
     width: 100%;
     height: 360px;
 }
 
-.metadata {
+.register-grid .metadata {
     grid-area: nav;
 }
 
-aside {
+.register-grid aside {
     grid-area: aside;
 }
 
-.column1 {
+.register-grid .col1 {
     grid-area: column1;
 }
 
-.column2 {
+.register-grid .col2 {
     grid-area: column2;
 }
 
-.metadata ul {
+.register-grid .metadata ul {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(4, 1fr);
 }
 
-.metadata .icon {
+.register-grid .metadata .icon {
     height: 24px;
     width: 24px;
 }
 
-.metadata a {
+.register-grid .metadata a {
     width: 100%;
     text-align: center;
 }

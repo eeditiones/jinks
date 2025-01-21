@@ -549,12 +549,23 @@
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-                    <model predicate="parent::correspContext" behaviour="pass-through">
-            <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
+                <model predicate="parent::correspContext and $parameters?static" behaviour="pass-through">
+            <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
+            <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
             <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
   <svg class="icon">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="resources/css/icons.svg#[[type]]"/>
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
+  </svg>
+</a></pb:template>
+        </model>
+                    <model predicate="parent::correspContext" behaviour="pass-through">
+            <param name="uri" value="$parameters?context-path || '/letters/' || @target || (if ($parameters?static) then '/1/index.html' else ())"/>
+            <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
+            <param name="type" value="@type"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
+  <svg class="icon">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>
 </a></pb:template>
         </model>
