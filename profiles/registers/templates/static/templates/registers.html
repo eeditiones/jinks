@@ -14,7 +14,7 @@
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -23,7 +23,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <header class="metadata content">
         <nav>
         [[ $parts?metadata?content ]]

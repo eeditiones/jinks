@@ -15,7 +15,7 @@
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -24,7 +24,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <section class="person">
         [[ $parts?default?content ]]
     </section>

@@ -340,6 +340,18 @@
         "templating": {
             "type": "object",
             "properties": {
+                "extends": {
+                    "type": "string"
+                },
+                "use": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ignoreImports": {
+                    "type": "boolean"
+                },
                 "modules": {
                     "type": "object",
                     "patternProperties": {
@@ -357,6 +369,14 @@
                                 "at",
                                 "prefix"
                             ]
+                        }
+                    }
+                },
+                "namespaces": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[\\d-_.]+$": {
+                            "type": "string"
                         }
                     }
                 }

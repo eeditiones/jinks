@@ -18,6 +18,9 @@
             "description": "Generate static files"
         }
     ],
+    "templating": {
+        "use": [ "blocks.html" ]
+    },
     "api": [
         {
             "spec": "static-api.json",

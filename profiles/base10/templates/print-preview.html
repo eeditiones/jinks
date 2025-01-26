@@ -45,7 +45,7 @@
         <pb-print-preview src="document1" styles="[[ $context-path ]]/resources/fonts/font.css,[[ $context-path ]]/resources/css/print.css" emit="preview"></pb-print-preview>
     </main>
 
-    [% block scripts %]
+    [% template scripts %]
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const preview = document.querySelector('pb-print-preview');
@@ -74,5 +74,5 @@
             });
         });
     </script>
-    [% endblock %]
+    [% endtemplate %]
 </div>

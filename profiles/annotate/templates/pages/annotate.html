@@ -21,7 +21,7 @@
         }
     }
     ---
-    [% block header %]
+    [% template header %]
     <span class="header-toolbar toolbar">
         <span class="icon-group">
             <a id="toolbar-parent" href="[[ $context-path ]]/index.html?collection=[[ $request?parameters?collection ]]" data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
@@ -97,7 +97,7 @@
                     icon="icons:visibility-off"></iron-icon></button>
         </span>
     </span>
-    [% endblock %]
+    [% endtemplate %]
 
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]"></pb-document>

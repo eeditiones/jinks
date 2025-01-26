@@ -9,7 +9,7 @@
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -18,7 +18,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <div class="col1">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]

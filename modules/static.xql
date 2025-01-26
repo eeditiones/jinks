@@ -493,7 +493,11 @@ declare %private function static:generate-collections-from-config($context as ma
  :)
 declare function static:generate-from-config($context as map(*)) {
     static:generate-collections-from-config($context),
-    cpy:copy-collection(map:merge(($context, map:entry("template-suffix", "\.tps"))), "templates/static", ""),
+    cpy:copy-collection(
+        map:merge(($context, map { "template-suffix": "\.tps", "ignoreImports": false() })), 
+        "templates/static", 
+        ""
+    ),
     cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
     cpy:copy-collection($context, "resources/css", "resources/css"),
     cpy:copy-collection($context, "resources/images", "resources/images"),
