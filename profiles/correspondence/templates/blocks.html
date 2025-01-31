@@ -1,0 +1,7 @@
+<template>
+    [% template before-content %]
+    <nav class="metadata">
+        [[ $doc?transform-with($doc?content, map { "mode": "metadata", "context-path": $context-path }, "serafin.odd") ]]
+    </nav>
+    [% endtemplate %]
+</template>

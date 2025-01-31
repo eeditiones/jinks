@@ -551,7 +551,7 @@
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]correspondance.[[type]]">
   <svg class="icon">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>
@@ -561,7 +561,7 @@
             <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]correspondance.[[type]]">
   <svg class="icon">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>

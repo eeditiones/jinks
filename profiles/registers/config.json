@@ -6,15 +6,18 @@
     "description": "Adds pages to browse entities, i.e. people, places",
     "version": "1.0.0",
     "depends": [
-        "base10"
+        "base10",
+        "parallel"
     ],
     "pkg": {
         "abbrev": "tei-publisher-registers"
     },
     "defaults": {
         "data-default": "letters",
-        "template": "registers.html",
         "sort": "date"
+    },
+    "templating": {
+        "use": [ "templates/blocks.html" ]
     },
     "menu": {
         "items": [

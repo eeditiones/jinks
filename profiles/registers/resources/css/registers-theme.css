@@ -20,48 +20,37 @@ pb-leaflet-map {
     z-index: 1;
 }
 
-.register-grid {
-    --pb-content-max-width: 90rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr minmax(auto, 25rem);
+.content-grid {
     grid-template-rows: min-content 1fr;
-    grid-template-areas: "nav nav aside" "column1 column2 aside";
-    column-gap: 2rem;
+    grid-auto-columns: 1fr;
 }
 
-.register-grid aside pb-leaflet-map {
-    width: 100%;
-    height: 360px;
+.content-grid .before-content {
+    grid-column: 1 / 2;
 }
 
-.register-grid .metadata {
-    grid-area: nav;
+/* .content-grid {
+    grid-template-columns: 1fr 1fr minmax(auto, 25rem);
+    grid-template-areas: "header header aside" "column1 column2 aside";
 }
 
-.register-grid aside {
+.content-grid .after-content {
     grid-area: aside;
-}
+} */
 
-.register-grid .col1 {
-    grid-area: column1;
-}
-
-.register-grid .col2 {
-    grid-area: column2;
-}
-
-.register-grid .metadata ul {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.register-grid .metadata .icon {
+.metadata .icon {
     height: 24px;
     width: 24px;
 }
 
-.register-grid .metadata a {
+.metadata a {
     width: 100%;
     text-align: center;
+}
+
+.after-content pb-leaflet-map {
+    height: 33vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
