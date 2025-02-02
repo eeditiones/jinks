@@ -9,16 +9,14 @@
         "base10",
         "parallel"
     ],
-    "pkg": {
-        "abbrev": "tei-publisher-registers"
-    },
     "defaults": {
         "data-default": "letters",
         "sort": "date"
     },
     "templating": {
-        "use": [ "templates/blocks.html" ]
+        "use": [ "templates/registers-blocks.html" ]
     },
+    "layout": "content-grid registers",
     "menu": {
         "items": [
             {

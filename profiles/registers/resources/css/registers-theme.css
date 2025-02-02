@@ -13,41 +13,6 @@ aside .register li {
     min-height: 320px;
 }
 
-pb-leaflet-map {
-    height: 33vh;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-}
-
-.content-grid {
-    grid-template-rows: min-content 1fr;
-    grid-auto-columns: 1fr;
-}
-
-.content-grid .before-content {
-    grid-column: 1 / 2;
-}
-
-/* .content-grid {
-    grid-template-columns: 1fr 1fr minmax(auto, 25rem);
-    grid-template-areas: "header header aside" "column1 column2 aside";
-}
-
-.content-grid .after-content {
-    grid-area: aside;
-} */
-
-.metadata .icon {
-    height: 24px;
-    width: 24px;
-}
-
-.metadata a {
-    width: 100%;
-    text-align: center;
-}
-
 .after-content pb-leaflet-map {
     height: 33vh;
     width: 100%;
