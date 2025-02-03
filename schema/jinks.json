@@ -28,10 +28,8 @@
             "default": "1.0.0"
         },
         "extends": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+            "type": "string",
+            "description": "Path to the profile this profile extends, relative to the root of the application."
         },
         "order": {
             "type": "integer",
