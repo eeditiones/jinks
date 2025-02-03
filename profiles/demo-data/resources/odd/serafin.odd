@@ -19,7 +19,8 @@
                  
                  
                  
-                  <desc>15th c. manuscript correspondence with parallel translation</desc>
+                  
+                 <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -377,7 +378,7 @@
             </model>
         </modelSequence>
                     <model output="web" predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="title[not(@type)]"/>
+            <param name="content" value="title[not(@type)][not(@level)]"/>
         </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
@@ -547,7 +548,7 @@
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-                <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
+                    <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
@@ -561,7 +562,8 @@
             <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]correspondence.[[type]]">
+            <param name="content" value="./string()"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="[[content]]" data-placement="bottom">
   <svg class="icon">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>
