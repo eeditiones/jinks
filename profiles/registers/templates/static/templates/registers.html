@@ -24,20 +24,20 @@
         </nav>
     </li>
     [% endtemplate %]
-    <header class="metadata content">
-        <nav>
+    <header class="before-content content">
+        <nav class="correspondence">
         [[ $parts?metadata?content ]]
         </nav>
     </header>
-    <div class="col1 content">
+    <div class="column1 content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
     </div>
-    <div class="col2 content">
+    <div class="column2 content">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-    <aside class="col3">
+    <aside class="after-content">
         [[ $parts?register?content ]]
 
         <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
