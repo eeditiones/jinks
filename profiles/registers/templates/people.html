@@ -2,14 +2,14 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/layouts/base.html"
         },
         "toolbar": {
             "zoom": false
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -17,7 +17,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <div class="list">
         <pb-custom-form id="options" auto-submit="input,button" emit="transcription">
             <fieldset role="search">

@@ -88,7 +88,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 output.code = data.result;
                 html.innerHTML = data.result;
                 xqueryCode.code = data.xquery;
-                ast = data.ast;
+                ast.code = data.ast;
             });
         } catch (error) {
             error.innerText = error.description;

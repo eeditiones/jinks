@@ -2,18 +2,18 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/layouts/base.html"
         }
     }
     ---
-    [% block hero %]
+    [% template hero %]
     [% if $context?features?hero %]
     <div class="hero">
         <h1>[[ $hero?main ]]</h1>
         <p>[[ $hero?short ]]</p>
     </div>
     [% endif %]
-    [% endblock %]
+    [% endtemplate %]
 
     <main>
         <section>

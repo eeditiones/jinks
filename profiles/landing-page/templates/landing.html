@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/layouts/base.html"
         },
         "features": {
             "toolbar": false,
@@ -17,13 +17,13 @@
     }
     ---
 
-    [% block hero %]
+    [% template hero %]
     <div class="hero">
         <h1><pb-i18n key="hero.jdp"/></h1>
         <p><pb-i18n key="hero.sub"/></p>
         <a href="#editions"><pb-i18n key="hero.see"/></a>
     </div>
-    [% endblock %]
+    [% endtemplate %]
 
     <main class="container">
         <section id="editions">

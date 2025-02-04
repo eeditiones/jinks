@@ -2,18 +2,18 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/layouts/content.html"
         }
     }
     ---
-    [% block toolbar %]
+    [% template toolbar %]
     <li>
         <pb-toggle-feature name="p_norm" selector=".lb" emit="transcription" subscribe="transcription">
             <pb-i18n key="document.normalized">Normalized View</pb-i18n>
         </pb-toggle-feature>
     </li>
-    [% endblock %]
-    [% block breadcrumb %]
+    [% endtemplate %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -22,9 +22,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
-        root-path="[[ $config:app-root ]]"/>
+    [% endtemplate %]
     <div class="paginated">
         <pb-navigation class="nav-button left" emit="transcription" keyboard="left"
             subscribe="transcription" direction="backward" unit="page">

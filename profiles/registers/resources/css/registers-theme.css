@@ -2,6 +2,10 @@
     --pb-content-max-width: 90rem;
 }
 
+aside .register li {
+    padding: 0;
+}
+
 .place-details {
     display: grid;
     grid-template-columns: 1fr minmax(320px, 50%);
@@ -14,50 +18,5 @@ pb-leaflet-map {
     width: 100%;
     position: relative;
     z-index: 1;
-}
-
-.register-grid {
-    --pb-content-max-width: 90rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr minmax(auto, 25rem);
-    grid-template-rows: min-content 1fr;
-    grid-template-areas: "nav nav aside" "column1 column2 aside";
-    column-gap: 2rem;
-}
-
-.register-grid aside pb-leaflet-map {
-    width: 100%;
-    height: 360px;
-}
-
-.register-grid .metadata {
-    grid-area: nav;
-}
-
-.register-grid aside {
-    grid-area: aside;
-}
-
-.register-grid .col1 {
-    grid-area: column1;
-}
-
-.register-grid .col2 {
-    grid-area: column2;
-}
-
-.register-grid .metadata ul {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.register-grid .metadata .icon {
-    height: 24px;
-    width: 24px;
-}
-
-.register-grid .metadata a {
-    width: 100%;
-    text-align: center;
+    margin-bottom: 1rem;
 }

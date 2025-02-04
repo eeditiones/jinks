@@ -1,6 +1,9 @@
-.two-column {
-    display: flex;
-    column-gap: 1rem;
+.content-grid {
+    grid-template-rows: min-content 1fr;
+}
+
+.content-grid .before-content {
+    grid-column: 1 / 2;
 }
 
 section > h1 {

@@ -6,9 +6,6 @@
     "order": 1,
     "description": "Adds support for generating a static site",
     "version": "1.0.0",
-    "pkg": {
-        "abbrev": "static"
-    },
     "depends": [
         "base10"
     ],
@@ -18,6 +15,9 @@
             "description": "Generate static files"
         }
     ],
+    "templating": {
+        "use": [ "static-blocks.html" ]
+    },
     "api": [
         {
             "spec": "static-api.json",

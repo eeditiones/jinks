@@ -18,6 +18,7 @@ import module namespace iiif="https://e-editiones.org/api/iiif" at "api/iiif.xql
 import module namespace nlp="http://teipublisher.com/api/nlp" at "api/nlp.xql";
 import module namespace rapi="http://teipublisher.com/api/registers" at "../registers.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../custom-api.xql";
+import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
 
 [% for $module in $context?api?* %]
 import module namespace [[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";

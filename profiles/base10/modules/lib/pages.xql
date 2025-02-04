@@ -98,7 +98,7 @@ declare function pages:process-content($xml as node()*, $root as node()*, $confi
             $html//paper-tooltip
     )
     return
-        if ($wrap) then
+        if ($wrap or count($content) > 1) then
             <div class="{$config:css-content-class} {$class}">
             { $content }
             </div>

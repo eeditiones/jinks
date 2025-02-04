@@ -158,7 +158,7 @@ pb-page[unresolved]~.splash {
     color: var(--pb-toolbar-color) !important;
 }
 .toolbar a svg, .toolbar pb-navigation:not([disabled]), .toolbar pb-ajax:not([disabled]),
-a[role="button"] svg, .theme-toggle svg {
+a[role="button"] svg, .theme-toggle svg, .icon {
     width: 24px;
     height: 24px;
     display: inline-block;
@@ -201,6 +201,7 @@ pb-document {
     grid-row-start: 1;
     width: 100vw;
     background-color: transparent;
+    z-index: 1;
 }
 
 .page-header > div {
@@ -605,4 +606,30 @@ footer {
 }
 footer a {
     width: 128px;
+}
+
+.metadata a {
+    width: 100%;
+    text-align: center;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    grid-template-columns: 1fr;
+    column-gap: 2rem;
+    --pb-content-max-width: 90rem;
+}
+
+.content-grid.registers {
+    grid-template-columns: auto auto minmax(auto, 25rem);
+    grid-template-areas: "header header aside" "column1 column2 aside";
+}
+
+.content-grid.registers .after-content {
+    grid-area: aside;
+}
+
+.content-grid.registers .before-content {
+    grid-area: header;
 }

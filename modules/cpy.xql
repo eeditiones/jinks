@@ -64,7 +64,8 @@ declare function cpy:expand-template($source as xs:string, $template as xs:strin
         tmpl:process($template, $context, map {
             "plainText": true(), 
             "resolver": cpy:resource-as-string($context, ?),
-            "ignoreImports": true()
+            "ignoreImports": head(($context?ignoreImports, true())),
+            "ignoreUse": true()
         })
     } catch * {
         error($cpy:ERROR_TEMPLATE, $err:description, map {

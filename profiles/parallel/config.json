@@ -8,9 +8,6 @@
     "depends": [
         "base10"
     ],
-    "pkg": {
-        "abbrev": "tei-publisher-parallel"
-    },
     "odds": [
         "serafin.odd"
     ],
@@ -42,13 +39,13 @@
                     "toc": false,
                     "parts": [
                         {
-                            "xpath": "! (.//text[@xml:lang = 'la']/body | .//text/body)[1]",
+                            "xpath": "//text[@type = 'source']",
                             "odd": "serafin.odd"
                         },
                         {
+                            "xpath": "//text[@type = 'translation']",
                             "id": "translation",
-                            "odd": "serafin.odd",
-                            "xpath": "//text[@xml:lang='pl']/body"
+                            "odd": "serafin.odd"
                         },
                         {
                             "id": "breadcrumb",

@@ -65,7 +65,7 @@
                 </div>
             </header>
             [% block hero %][% endblock %]
-            [[ if ($context?templating?strip-root) then $content/node() else $content ]]
+            [% block content %][% endblock %]
             [% if $features?toc %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                 <div class="drawer-content">

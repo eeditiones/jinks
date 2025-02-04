@@ -6,7 +6,7 @@
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -15,7 +15,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <div class="nav-button left">
         [% if $context("parts")?default?previous %]
             <a href="[[ '../' || $context('pagination')?page - 1 || '/index.html' ]]"

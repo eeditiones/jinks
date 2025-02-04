@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/base.html"
+            "extends": "templates/layouts/base.html"
         },
         "toolbar": {
             "zoom": false
@@ -12,7 +12,7 @@
         ]
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -21,7 +21,7 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
+    [% endtemplate %]
     <section class="person">
         [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
     </section>

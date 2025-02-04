@@ -18,6 +18,8 @@
                   
                  
                  
+                 
+                  
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -67,9 +69,6 @@
                 <elementSpec ident="TEI" mode="change">
                     <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
             <param name="content" value="root(.)//correspContext"/>
-            <pb:template xmlns="" xml:space="preserve"><nav class="metadata">
-  [[content]]
-</nav></pb:template>
         </model>
                     <model output="latex" behaviour="section">
             <param name="header" value="teiHeader"/>
@@ -379,7 +378,7 @@
             </model>
         </modelSequence>
                     <model output="web" predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="title[not(@type)]"/>
+            <param name="content" value="title[not(@type)][not(@level)]"/>
         </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
@@ -549,21 +548,22 @@
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-                <model predicate="parent::correspContext and $parameters?static" behaviour="pass-through">
+                    <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]correspondence.[[type]]">
   <svg class="icon">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>
 </a></pb:template>
         </model>
                     <model predicate="parent::correspContext" behaviour="pass-through">
-            <param name="uri" value="$parameters?context-path || '/letters/' || @target || (if ($parameters?static) then '/1/index.html' else ())"/>
+            <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]register.[[type]]">
+            <param name="content" value="./string()"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="[[content]]" data-placement="bottom">
   <svg class="icon">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
   </svg>
@@ -585,10 +585,10 @@
             <param name="next" value="ref[@type = 'next']"/>
             <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
             <pb:template xmlns="" xml:space="preserve"><ul>
-  <li>[[previous-in-correspondence]]</li>
   <li>[[previous]]</li>
-  <li>[[next]]</li>
+  <li>[[previous-in-correspondence]]</li>
   <li>[[next-in-correspondence]]</li>
+  <li>[[next]]</li>
 </ul></pb:template>
         </model>
                 </elementSpec>

@@ -1,0 +1,18 @@
+<main class="[[ $context?layout ]]">
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        }
+    }
+    ---
+    <header class="before-content">
+        [% block before-content %][% endblock %]
+    </header>
+    [% block content %][% endblock %]
+    <aside class="after-content">
+        [% block after-content %][% endblock %]
+    </aside>
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+        root-path="[[ $config:data-root ]]"/>
+</main>

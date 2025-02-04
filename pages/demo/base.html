@@ -1,12 +1,16 @@
 <article>
-    <nav>
-        <ul>
-            <li>Menu item 1</li>
-            [% block menu %][% endblock %]
-        </ul>
-    </nav>
-    <div>
-        [[$content]]
-    </div>
-    [% include "pages/demo/footer.html" %]
+    ---json
+    {
+        "templating": {
+            "extends": "pages/demo/page.html"
+        }
+    }
+    ---
+    [% template menu %]
+    <li>base.html</li>
+    [% endtemplate %]
+    <section>
+        [% block content %][% endblock %]
+        <p>This paragraph was imported from the parent template in <code>pages/demo/base.html</code>.</p>
+    </section>
 </article>

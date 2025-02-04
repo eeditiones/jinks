@@ -28,10 +28,8 @@
             "default": "1.0.0"
         },
         "extends": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+            "type": "string",
+            "description": "Path to the profile this profile extends, relative to the root of the application."
         },
         "order": {
             "type": "integer",
@@ -79,7 +77,8 @@
             "type": "array",
             "items": {
                 "type": "string"
-            }
+            },
+            "description": "List of ODDs used by this profile"
         },
         "defaults": {
             "type": "object",
@@ -340,6 +339,24 @@
         "templating": {
             "type": "object",
             "properties": {
+                "extends": {
+                    "type": "string",
+                    "description": "Path to the template to extend"
+                },
+                "use": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of template definitions to consult when expanding blocks"
+                },
+                "ignoreImports": {
+                    "type": "boolean"
+                },
+                "strip-root": {
+                    "type": "boolean",
+                    "description": "If true, the root element of the imported template will be stripped. Use this if the imported template is a complete HTML document."
+                },
                 "modules": {
                     "type": "object",
                     "patternProperties": {
@@ -357,6 +374,14 @@
                                 "at",
                                 "prefix"
                             ]
+                        }
+                    }
+                },
+                "namespaces": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[\\d-_.]+$": {
+                            "type": "string"
                         }
                     }
                 }

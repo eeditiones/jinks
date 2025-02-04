@@ -2,20 +2,21 @@
     "$schema": "../../schema/jinks.json",
     "type": "feature",
     "id": "https://e-editiones.org/app/tei-publisher/registers",
-    "label": "Profile with Entity Registers",
+    "label": "Entity Registers",
     "description": "Adds pages to browse entities, i.e. people, places",
     "version": "1.0.0",
     "depends": [
-        "base10"
+        "base10",
+        "parallel"
     ],
-    "pkg": {
-        "abbrev": "tei-publisher-registers"
-    },
     "defaults": {
         "data-default": "letters",
-        "template": "registers.html",
         "sort": "date"
     },
+    "templating": {
+        "use": [ "templates/registers-blocks.html" ]
+    },
+    "layout": "content-grid registers",
     "menu": {
         "items": [
             {
@@ -62,22 +63,6 @@
                             "view": "single",
                             "odd": "serafin.odd",
                             "user.mode": "metadata"
-                        },
-                        {
-                            "xpath": "//text[@type = 'source']",
-                            "odd": "serafin.odd"
-                        },
-                        {
-                            "id": "translation",
-                            "odd": "serafin.odd",
-                            "xpath": "//text[@type = 'translation']"
-                        },
-                        {
-                            "id": "breadcrumb",
-                            "odd": "serafin.odd",
-                            "xpath": "//titleStmt",
-                            "view": "single",
-                            "user.mode": "breadcrumb"
                         },
                         {
                             "id": "register",

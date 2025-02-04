@@ -1,4 +1,4 @@
-<main class="register-grid">
+<main class="content-grid registers">
     ---json
     {
         "templating": {
@@ -9,12 +9,12 @@
                 "pb-leaflet-map"
             ]
         },
-        "features": {
+            "features": {
             "toc": false
         }
     }
     ---
-    [% block breadcrumb %]
+    [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
@@ -23,21 +23,21 @@
             </ul>
         </nav>
     </li>
-    [% endblock %]
-    <header class="metadata content">
-        <nav>
+    [% endtemplate %]
+    <header class="before-content content">
+        <nav class="correspondence">
         [[ $parts?metadata?content ]]
         </nav>
     </header>
-    <div class="col1 content">
+    <div class="column1 content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
     </div>
-    <div class="col2 content">
+    <div class="column2 content">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-    <aside class="col3">
+    <aside class="after-content">
         [[ $parts?register?content ]]
 
         <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">

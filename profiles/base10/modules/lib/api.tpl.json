@@ -3326,6 +3326,18 @@
 					}
 				}
 			}
+		},
+		"/api/actions/fix-odds": {
+			"post": {
+				"description": "Recompile ODDs",
+				"operationId": "action:fix-odds",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
 		}
     },
 	"security": [

@@ -1,16 +1,13 @@
 {
     "$schema": "../../schema/jinks.json",
     "type": "feature",
-    "id": "https://e-editiones.org/app/tei-publisher/correspondence",
+    "id": "https://e-editiones.org/app/tei-publisher/timeline",
     "label": "Timeline",
     "description": "Adds a timeline component to the browsing page ...",
     "version": "1.0.0",
     "depends": [
         "base10"
     ],
-    "pkg": {
-        "abbrev": "tei-publisher-timeline"
-    },
     "defaults": {
         "data-default": "letters"
     },
@@ -21,5 +18,8 @@
             "path": "timeline-api.xql",
             "id": "http://teipublisher.com/api/timeline"
         }
-    ]
+    ],
+    "templating": {
+        "use": [ "templates/timeline-blocks.html" ]
+    }
 }
