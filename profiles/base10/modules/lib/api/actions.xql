@@ -18,13 +18,13 @@ declare variable $action:repoxml :=
 ;
 
 declare function action:reindex($request as map(*)) {
-    util:log("INFO", ("<action:reindex> Reindexing ", $config:data-root)),
     let $_ := xmldb:reindex($config:data-root)
-    return
+    return [
         map {
             "type": "action:reindex",
             "message": $config:data-root || " reindexed"
         }
+    ]
 };
 
 declare function action:fix-odds($request as map(*)) {
