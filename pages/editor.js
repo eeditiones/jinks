@@ -86,7 +86,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadApp(app) {
         appConfig = app.config;
-        editor.value = JSON.stringify(app.config, null, 4);
         form.querySelector('[name="id"]').value = appConfig.id;
         form.querySelector('[name="label"]').value = appConfig.label;
         form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
@@ -112,8 +111,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-
-        update();
+        editor.value = JSON.stringify(app.config, null, 2);
+        update(false);
     }
 
     async function displaySpinnerDuringCallback(text, callback) {
@@ -237,6 +236,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 result.config._update === false
             ) {
                 await doDeploy(result.config.pkg.abbrev, result.config.id);
+            } else {
+                loadApps(result.config.id);
             }
         });
     }
@@ -293,7 +294,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function update() {
+    function update(updateEditor = true) {
         const formData = new FormData(form);
         if (formData.get('abbrev') !== '') {
             if (formData.get('label') === '') {
@@ -314,7 +315,7 @@ window.addEventListener('DOMContentLoaded', () => {
         appConfig.extends = formData.getAll('base').concat(formData.getAll('feature'));
         
         validateForm();
-        updateConfig();
+        updateConfig(updateEditor);
     }
 
     function toggleFeature(ev) {
