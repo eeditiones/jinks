@@ -82,7 +82,7 @@ function search(index, fields, query, facets) {
                 if (!entry.doc[dimension]) {
                     return false;
                 }
-                return entry.doc[dimension].some((facet) => value.indexOf(facet) > -1);
+                return entry.doc[dimension].some((facet) => value.includes(facet.id));
             });
         });
         
@@ -160,22 +160,24 @@ function search(index, fields, query, facets) {
 }
 
 function outputFacet(dimension, values, queryFacets) {
-    values = [...new Set(values)].sort();
+    const uniqueValues = Array.from(new Set(values.map(value => value.id)))
+        .map(id => values.find(value => value.id === id));
+    const sortedValues = uniqueValues.sort((a, b) => a.place.localeCompare(b.place));
     const div = document.querySelector(`.facet.${dimension} div`);
-    values.forEach(value => {
+    sortedValues.forEach(value => {
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'checkbox';
         input.name = dimension;
-        input.value = value;
+        input.value = value.id;
         if (queryFacets[dimension]) {
-            input.checked = queryFacets[dimension].indexOf(value) > -1;
+            input.checked = queryFacets[dimension].indexOf(value.id) > -1;
         }
         input.addEventListener('change', function(ev) {
             pbEvents.emit('pb-search-resubmit', 'search');
         });
         label.appendChild(input);
-        const text = document.createTextNode(value.substring(1));
+        const text = document.createTextNode(value.place);
         label.appendChild(text);
         div.appendChild(label);
     });
@@ -183,7 +185,6 @@ function outputFacet(dimension, values, queryFacets) {
 
 document.addEventListener('DOMContentLoaded', function() {
     let loading = false;
-    let places = [];
     const page = document.querySelector('pb-page');
     page.addEventListener('pb-page-ready', function(ev) {
         if (loading) {
@@ -248,9 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         ...doc
                     };
                     index.add(indexParams);
-                    if (doc.places) {
-                        doc.places.forEach(place => places.push(place));
-                    }
                 } catch (e) {
                     console.log('error parsing "%s"', doc);
                 }
@@ -259,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (query) {
                 const facets = [];
                 facetNames.forEach((facet) => {
-                    if (params.has[facet]) {
+                    if (params.has(facet)) {
                         facets.push({
                             dimension: facet,
                             value: params.getAll(facet) || []
