@@ -11,17 +11,15 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function idx:entry($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
-    let $pathPrefix := $request?parameters?prefix
+    let $pathPrefix := head(($request?parameters?prefix, "documents"))
     let $doc := config:get-document($path)/tei:TEI
     let $root := if (ends-with($config:data-default, "/")) then $config:data-default else $config:data-default || "/"
     return [
         map {
-            "content": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'la'], true()) => string-join(),
-            "translation": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'pl'], true()) => string-join(),
-            "commentary": nlp:extract-plain-text($doc//tei:text[@xml:lang = 'la']//tei:note, false()) => string-join(),
-            "title": $pm-config:web-transform($doc//tei:titleStmt, map { "mode": "breadcrumb" }, $config:default-odd),
-            "link": $pathPrefix || "/" || substring-after(document-uri(root($doc)), $root) || "/1/index.html",
-            "places": idx:places($doc)
+            "content": nlp:extract-plain-text($doc//tei:text, true()) => string-join(),
+            "commentary": nlp:extract-plain-text($doc//tei:text//tei:note, false()) => string-join(),
+            "title": nlp:extract-plain-text($doc//tei:titleStmt, false()) => string-join(),
+            "link": $pathPrefix || "/" || substring-after(document-uri(root($doc)), $root) || "/1/index.html"
         }
     ]
 };
@@ -40,27 +38,15 @@ declare function idx:entry-part($request as map(*)) {
         let $path := xmldb:decode($request?parameters?id)
         let $doc := config:get-document($path)/tei:TEI
         let $config := tpu:parse-pi(root($doc), ())
-        let $pathPrefix := $request?parameters?prefix
-
+        let $pathPrefix := head(($request?parameters?prefix, "documents"))
+        let $root := if (ends-with($config:data-default, "/")) then $config:data-default else $config:data-default || "/"
         for $div at $i in idx:get-all-parts($config, $doc)
         return
             map {
                 "content": nlp:extract-plain-text($div, true()) => string-join(),
-                "title": $pm-config:web-transform($div/tei:head, map { "mode": "breadcrumb" }, $config:default-odd),
-                "link": $pathPrefix || "/" || config:get-relpath($doc) || "/" || $i || "/index.html"
-            }
-    }
-};
-
-declare function idx:places($doc as element(tei:TEI)) {
-    array {
-        for $placeName in $doc//tei:text//tei:placeName
-        group by $id := $placeName/@key/string()
-        let $place := collection($config:register-root)/id($id)
-        return
-            map {
-                "id": $id,
-                "place": $place/tei:placeName[@type = "main"]/string()
+                "commentary": nlp:extract-plain-text($div//tei:note, false()) => string-join(),
+                "title": nlp:extract-plain-text($div/tei:head, false()) => string-join(),
+                "link": $pathPrefix || "/" || substring-after(document-uri(root($doc)), $root) || "/" || $i || "/index.html"
             }
     }
 };

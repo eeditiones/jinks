@@ -35,6 +35,11 @@
             "prefix": "rview",
             "path": "registers-api.xql",
             "id": "http://teipublisher.com/api/registers/view"
+        },
+        {
+            "prefix": "ridx",
+            "path": "registers-static-index.xql",
+            "id": "http://tei-publisher.com/jinks/registers/index"
         }
     ],
     "script": {
@@ -82,7 +87,7 @@
         ],
         "fields": {
             "index": ["content", "translation", "commentary"],
-            "store": ["content", "translation", "commentary", "title", "link", "tag", "places"]
+            "store": ["content", "translation", "commentary", "title", "link", "places"]
         },
         "facets": ["places"]
     }

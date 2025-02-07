@@ -40,7 +40,7 @@ let $lookup := function($name as xs:string) {
 }
 let $resp := roaster:route(
     (
-        [% for $module in $context?api?* %]
+        [% for $module in reverse($context?api?*) %]
         [% if $module?spec %]
         "modules/[[ $module?spec ]]",
         [% endif %]

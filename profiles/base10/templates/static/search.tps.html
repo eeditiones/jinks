@@ -22,20 +22,19 @@
             <pb-custom-form id="options">
                 <fieldset>
                     <legend>Field</legend>
+                    [% for $field in $static?fields?index?* %]
                     <label>
-                        <input type="checkbox" name="field" value="content" checked="checked"/> Transcription
+                        <input type="checkbox" name="field" value="[[$field]]" checked="checked"/> <pb-i18n
+                            key="static.search.field-[[ $field ]]">[[ $field ]]</pb-i18n>
                     </label>
-                    <label>
-                        <input type="checkbox" name="field" value="translation" checked="checked"/> Translation
-                    </label>
-                    <label>
-                        <input type="checkbox" name="field" value="commentary" checked="checked"/> Commentary
-                    </label>
+                    [% endfor %]
                 </fieldset>
-                <fieldset class="facet places">
-                    <legend>Places</legend>
+                [% for $facet in $static?facets?* %]
+                <fieldset class="facet [[ $facet ]]">
+                    <legend><pb-i18n key="static.search.facet-[[ $facet ]]">[[ $facet ]]</pb-i18n></legend>
                     <div></div>
                 </fieldset>
+                [% endfor %]
             </pb-custom-form>
         </aside>
         <div id="results"></div>

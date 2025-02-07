@@ -66,9 +66,8 @@
             "transform/serafin.css"
         ],
         "fields": {
-            "index": ["content", "translation", "commentary"],
-            "store": ["content", "translation", "commentary", "title", "link", "tag", "places"]
-        },
-        "facets": ["places"]
+            "index": ["content", "commentary"],
+            "store": ["content", "commentary", "title", "link"]
+        }
     }
 }

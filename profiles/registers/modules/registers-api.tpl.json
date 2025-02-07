@@ -337,7 +337,46 @@
                     }
 				}
 			}			
-		}
+		},
+		"/api/static/{id}/single": {
+            "get": {
+                "summary": "Retrieve index entry for the document given by id",
+                "description": "Retrieve index entry for the document given by id",
+                "tags": ["view"],
+                "operationId": "ridx:entry",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the resource",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "prefix",
+                        "in": "query",
+                        "description": "The path prefix under which documents are stored",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A single index entry for the document",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {
