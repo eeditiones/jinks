@@ -168,6 +168,7 @@ function outputFacet(dimension, values, queryFacets) {
         .map(id => values.find(value => value.id === id));
     const sortedValues = uniqueValues.sort((a, b) => a.place.localeCompare(b.place));
     const div = document.querySelector(`.facet.${dimension} div`);
+    const searchForm = document.getElementById('search-form');
     sortedValues.forEach(value => {
         const label = document.createElement('label');
         const input = document.createElement('input');
@@ -178,7 +179,7 @@ function outputFacet(dimension, values, queryFacets) {
             input.checked = queryFacets[dimension].indexOf(value.id) > -1;
         }
         input.addEventListener('change', function(ev) {
-            pbEvents.emit('pb-search-resubmit', 'search');
+            searchForm.dispatchEvent(new Event('submit', { 'bubbles': true, 'cancelable': true }));
         });
         label.appendChild(input);
         const text = document.createTextNode(value.place);
@@ -221,18 +222,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        pbEvents.subscribe('pb-load', null, (ev) => {
-            const query = ev.detail.params.query;
+        const searchForm = document.getElementById('search-form');
+        searchForm.addEventListener('submit', function(ev) {
+            ev.preventDefault();
+            const formData = new FormData(searchForm);
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                params.append(key, value);
+            }
+            history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
+
+            const query = formData.get('query');
+            const fields = formData.getAll('field');
             const facets = [];
             facetNames.forEach((facet) => {
-                if (ev.detail.params[facet]) {
+                if (formData.has(facet)) {
                     facets.push({
                         dimension: facet,
-                        value: ev.detail.params[facet] || []
+                        value: formData.getAll(facet) || []
                     });
                 }
             });
-            search(index, ev.detail.params.field, query, facets);
+            
+            search(index, fields, query, facets);
         });
 
         pbEvents.emit('pb-start-update', 'transcription');

@@ -17,9 +17,8 @@
     ---
     <main class="search">
         <aside>
-            <pb-search id="search-input" label="Search" disable-autocomplete="disable-autocomplete"
-                subforms="#options" subscribe="search"></pb-search>
-            <pb-custom-form id="options">
+            <form id="search-form">
+                <input type="search" name="query" id="search-input" placeholder="Search" autocomplete="off" />
                 <fieldset>
                     <legend>Field</legend>
                     [% for $field in $static?fields?index?* %]
@@ -35,7 +34,7 @@
                     <div></div>
                 </fieldset>
                 [% endfor %]
-            </pb-custom-form>
+            </form>
         </aside>
         <div id="results"></div>
     </main>
