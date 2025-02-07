@@ -17,7 +17,7 @@ declare function ridx:entry($request as map(*)) {
             "content": nlp:extract-plain-text($doc//tei:text[@type = 'source'], true()) => string-join(),
             "translation": nlp:extract-plain-text($doc//tei:text[@type = 'translation'], true()) => string-join(),
             "commentary": nlp:extract-plain-text($doc//tei:text[@type = 'source']//tei:note, false()) => string-join(),
-            "title": nlp:extract-plain-text($doc//tei:titleStmt, false()) => string-join(),
+            "title": nlp:extract-plain-text($doc//tei:titleStmt/tei:title[not(@level)], false()) => string-join(),
             "link": $pathPrefix || "/" || substring-after(document-uri(root($doc)), $root) || "/1/index.html",
             "places": ridx:places($doc)
         }
