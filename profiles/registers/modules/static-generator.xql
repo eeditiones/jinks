@@ -29,7 +29,7 @@ declare %private function sg:people($context as map(*)) {
                 "data": array { $person }
             }
         return
-            static:split($context, $grouped, "templates/static/templates/people.html", function($context as map(*), $page) {
+            static:split($context, $grouped, "static/templates/people.html", function($context as map(*), $page) {
                 "people/" || encode-for-uri($page)
             }),
         for $person in $people?*
@@ -48,7 +48,7 @@ declare %private function sg:people($context as map(*)) {
                         "user.mode": "register-details"
                     }
                 ],
-                "templates/static/templates/person.html",
+                "static/templates/person.html",
                 function($context as map(*), $n as xs:int) {
                     "people/" || $person?id
                 }
@@ -72,7 +72,7 @@ declare %private function sg:places($context as map(*)) {
             static:split(
                 map:merge(($context, map:entry("geodata", $places))), 
                 $grouped, 
-                "templates/static/templates/places.html", 
+                "static/templates/places.html", 
                 function($context as map(*), $page) {
                     "places/" || encode-for-uri($page)
                 }
@@ -93,7 +93,7 @@ declare %private function sg:places($context as map(*)) {
                         "user.mode": "register-details"
                     }
                 ],
-                "templates/static/templates/place.html",
+                "static/templates/place.html",
                 function($context as map(*), $n as xs:int) {
                     "places/" || $place?id
                 }

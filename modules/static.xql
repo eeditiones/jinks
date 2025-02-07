@@ -412,7 +412,7 @@ declare function static:prepare($jsonConfig as map(*)) {
         if ($jsonConfig?static?target) then
             $jsonConfig?static?target
         else
-            path:resolve-path($jsonConfig?pkg?abbrev, "static")
+            path:resolve-path($jsonConfig?pkg?abbrev, "output")
     let $pkgTarget := path:get-package-target($jsonConfig?id)
     let $baseUri := 
         request:get-scheme() || "://" || request:get-server-name() || ":" || 
@@ -495,7 +495,7 @@ declare function static:generate-from-config($context as map(*)) {
     static:generate-collections-from-config($context),
     cpy:copy-collection(
         map:merge(($context, map { "template-suffix": "\.tps", "ignoreImports": false() })), 
-        "templates/static", 
+        "static", 
         ""
     ),
     cpy:copy-collection($context, "resources/scripts", "resources/scripts"),
