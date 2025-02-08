@@ -40,8 +40,10 @@ body {
     min-height: 100vh;
 }
 
-pb-page {
+pb-page.container-fluid {
     display: block;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .splash {
@@ -106,7 +108,7 @@ header nav svg {
 }
 
 .editor form {
-    padding-top: 1rem;
+    padding: 1rem var(--pico-spacing);
     display: grid;
     grid-template-columns: minmax(auto,24rem) minmax(auto,24rem) 1fr;
     grid-template-areas:
