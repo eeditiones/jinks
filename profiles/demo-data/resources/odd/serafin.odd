@@ -20,6 +20,7 @@
                  
                  
                   
+                 
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -163,15 +164,12 @@
             <param name="content" value="."/>
             <param name="alternate" value="parent::person/note"/>
             <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]">
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
   <pb-popover>
     <span slot="default">[[content]]</span>
     <template slot="alternate">[[alternate]]</template>
   </pb-popover>
 </a></pb:template>
-            <outputRendition xml:space="preserve">
-            color: #1565c0;
-            </outputRendition>
         </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::person" behaviour="inline">
@@ -182,12 +180,9 @@
             font-weight: bold;
             </outputRendition>
         </model>
-                    <model behaviour="alternate">
+                    <model behaviour="alternate" cssClass="persName">
             <param name="default" value="."/>
             <param name="alternate" value="id(@key, collection($global:register-root)/id('pb-persons'))"/>
-            <outputRendition xml:space="preserve">
-            color: #1565c0;
-            </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
@@ -240,20 +235,21 @@
             </outputRendition>
         </model>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
-                    <model predicate="$parameters?mode='register'" behaviour="alternate">
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <param name="default" value="."/>
-            <param name="alternate" value="../note"/>
-            <outputRendition xml:space="preserve">
-            color: #ef6c00;
-            </outputRendition>
+            <param name="alternate" value="parent::place/note"/>
+            <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName">
+  <pb-popover>
+    <span slot="default">[[content]]</span>
+    <template slot="alternate">[[alternate]]</template>
+  </pb-popover>
+</a></pb:template>
         </model>
                     <model predicate="parent::place" behaviour="inline"/>
-                    <model behaviour="alternate">
+                    <model behaviour="alternate" cssClass="placeName">
             <param name="default" value="."/>
             <param name="alternate" value="id(@key, doc($global:register-root || '/places.xml'))"/>
-            <outputRendition xml:space="preserve">
-            color: #ef6c00;
-            </outputRendition>
         </model>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
@@ -355,7 +351,7 @@
                     <model output="fo" behaviour="heading"/>
                     <model predicate="$parameters?mode='register-details'" behaviour="listItem">
             <desc>List of letters in register detail view</desc>
-            <param name="content" value="title[not(@type)]"/>
+            <param name="content" value="title[not(@level)]"/>
         </model>
                     <model predicate="$parameters?mode='title'" behaviour="heading">
             <param name="content" value="title[not(@type)]"/>
@@ -448,7 +444,7 @@
             <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
             <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
             <param name="label" value="placeName[@type='main']/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" zoom="11">[[content]]</pb-geolocation></pb:template>
+            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" zoom="11">[[content]]</pb-geolocation></pb:template>
         </model>
                     <modelSequence>
             <model behaviour="heading">
@@ -478,8 +474,8 @@
             
             <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-            <param name="people" value="for $key in distinct-values(root(.)//persName/@key) let $person := collection($global:register-root)/id($key) return   $person"/>
-            <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) let $place := collection($global:register-root)/id($key) return   $place"/>
+            <param name="people" value="for $key in distinct-values(root(.)//persName/@key) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) return collection($global:register-root)/id($key)[self::place]"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
   <h3>People</h3>
   <ul>
