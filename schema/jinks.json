@@ -47,7 +47,8 @@
             "type": "array",
             "items": {
                 "type": "string"
-            }
+            },
+            "description": "List of relative paths to files, which should not be checked for conflicts. Those files are always overwritten, even if they have local changes."
         },
         "actions": {
             "type": "array",

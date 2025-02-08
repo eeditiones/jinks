@@ -615,21 +615,19 @@ footer a {
 
 .content-grid {
     display: grid;
-    grid-template-rows: min-content 1fr min-content;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     column-gap: 2rem;
-    --pb-content-max-width: 90rem;
+    max-width: auto;
 }
 
-.content-grid.registers {
-    grid-template-columns: auto auto minmax(auto, 25rem);
-    grid-template-areas: "header header aside" "column1 column2 aside";
+.content-grid > .before-content:empty {
+    display: none;
 }
 
-.content-grid.registers .after-content {
-    grid-area: aside;
+.content-grid .before-content {
+    grid-column: 1 / -1;
 }
 
-.content-grid.registers .before-content {
-    grid-area: header;
+.content-grid > .after-content:empty {
+    display: none;
 }
