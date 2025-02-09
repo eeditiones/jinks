@@ -46,6 +46,11 @@ html {
 	}
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
 
 .logo {
@@ -300,31 +305,26 @@ main.search {
     gap: 1rem;
 }
 
-.paginated .content {
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.paginated .nav-button {
+.floating-button {
     position: fixed;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(calc(50% - 24px));
 }
 
-.paginated .nav-button.left {
+.floating-button.left {
     left: 20px; /* Adjust as needed */
 }
 
-.paginated .nav-button.right {
+.floating-button.right {
     right: 20px; /* Adjust as needed */
 }
 
-.paginated .nav-button a {
+.floating-button a {
     width: 48px; /* Adjust as needed */
     height: 48px; /* Adjust as needed */
 }
 
-.paginated .nav-button svg {
+.floating-button svg {
     width: 48px;
 }
 
@@ -615,9 +615,15 @@ footer a {
 
 .content-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     column-gap: 2rem;
-    max-width: auto;
+    position: relative;
+}
+
+@media screen and (max-width: 1023px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .content-grid > .before-content:empty {
