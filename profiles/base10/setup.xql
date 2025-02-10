@@ -18,7 +18,8 @@ declare
     %generator:after-write
 function teip:change-landing($context as map(*), $target as xs:string) {
     (: rename the landing page to index.html :)
-    if (map:contains($context?defaults, "landing")) then
+    if (map:contains($context?defaults, "landing") and
+        $context?defaults?landing != "index.html") then
         xmldb:copy-resource($target || "/templates", $context?defaults?landing, $target || "/templates", "index.html")
     else
         ()
