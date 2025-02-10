@@ -17,6 +17,19 @@ declare variable $cpy:ERROR_TEMPLATE := xs:QName("cpy:template");
 declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
 declare variable $cpy:ERROR_PERMISSION := xs:QName("cpy:permission-denied");
 
+declare variable $cpy:CONFLICT_DETAILS_MIMETYPES := (
+    "text/html", 
+    "application/xml",
+    "text/text",
+    "text/plain",
+    "application/json",
+    "text/javascript",
+    "text/css",
+    "image/svg+xml",
+    "application/xquery",
+    "application/xslt+xml"
+);
+
 declare %private function cpy:save-hash($context as map(*), $relPath as xs:string, $hash as xs:string) {
     let $jsonFile := path:resolve-path($context?target, ".jinks.json")
     let $json :=
@@ -150,15 +163,18 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         let $currentContent :=
             if (util:binary-doc-available($path)) then
                 util:binary-doc($path) => util:binary-to-string()
-            else
+            else if (doc-available($path)) then
                 doc($path) => serialize()
+            else
+                ()
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
         let $currentHash := cpy:hash($currentContent, $mime)
         let $expectedHash := cpy:load-hash($context, $relPath)
+        let $incomingContent := $content()
         return
             (: Check if there have been changes to the file since it was installed :)
-            if (empty($expectedHash) or $currentHash = $expectedHash) then
-                let $contentHash := cpy:hash($content(), $mime)
+            if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
+                let $contentHash := cpy:hash($incomingContent, $mime)
                 return
                     (: Still update if overwrite="update", the file was not there last time,
                     : or the incoming content is different :)
@@ -182,7 +198,12 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                     "hash": map {
                         "original": $expectedHash,
                         "actual": $currentHash
-                    }
+                    },
+                    "incoming": 
+                        if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
+                            $incomingContent
+                        else
+                            ()
                 }
     (: fresh install of new app package :)
     else if ($context?_dry) then
@@ -196,17 +217,20 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     )
 };
 
-declare %private function cpy:hash($content as xs:string) {
+declare %private function cpy:hash($content as xs:string?) {
     cpy:hash($content, ())
 };
 
-declare %private function cpy:hash($content as xs:string, $mime as xs:string?) {
-    (: Remove whitespace and XML version tags. These are not relevant for the actual hash :)
-    (: TODO: self-closing elements are also not important, neither is attribute order. They can have the same hash :)
-    if ($mime = ("text/html", "application/xml")) then
-        util:hash(replace($content, "(<?[xX][mM][lL](^\?)*?>)|[\s\n\r]+", " "), "sha-256")
+declare %private function cpy:hash($content as xs:string?, $mime as xs:string?) {
+    if (exists($content)) then
+        (: Remove whitespace and XML version tags. These are not relevant for the actual hash :)
+        (: TODO: self-closing elements are also not important, neither is attribute order. They can have the same hash :)
+        if ($mime = ("text/html", "application/xml")) then
+            util:hash(replace($content, "(<?[xX][mM][lL](^\?)*?>)|[\s\n\r]+", " "), "sha-256")
+        else
+            util:hash($content, "sha-256")
     else
-        util:hash($content, "sha-256")
+        ()
 };
 
 declare %private function cpy:scan-resources($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {

@@ -224,9 +224,20 @@ window.addEventListener('DOMContentLoaded', () => {
                     const li = document.createElement('li');
                     li.innerHTML = `
                     <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
-                    ${message.path} ${message.source ? ' from ' + message.source : ''}
-                `;
-
+                    ${message.path} ${message.source ? ' from ' + message.source : ''}`;
+                    if (message.type === 'conflict' && message.incoming) {
+                        const copyButton = document.createElement('button');
+                        copyButton.innerText = 'Copy';
+                        copyButton.addEventListener('click', (ev) => {
+                            ev.preventDefault();
+                            navigator.clipboard.writeText(message.incoming).then(() => {
+                                console.log('Copied to clipboard');
+                            }).catch((err) => {
+                                console.error('Failed to copy: ', err);
+                            });
+                        });
+                        li.appendChild(copyButton);
+                    }
                     output.appendChild(li);
                 });
             }
