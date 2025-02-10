@@ -1,8 +1,8 @@
 window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
 
-    const editor = document.getElementById('appConfig');
-    const mergedView = document.querySelector('#mergedConfig pb-code-highlight');
+    let editor = document.getElementById('appConfig');
+    const mergedView = document.querySelector('#mergedConfig jinn-monaco-editor');
     const form = document.getElementById('config');
     const output = document.querySelector('.output');
     const errors = document.querySelector('.error');
@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <div>
-                        <img src="pages/app.svg" width="64px">
+                        <img src="resources/images/app.svg" width="64px">
                         <h3>${app.title}</h3>
                     </div>
                     <nav class="actions"></nav>
@@ -278,7 +278,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function updateConfig(updateEditor = true) {
         getConfig(appConfig).then((mergedConfig) => {
-            mergedView.code = JSON.stringify(mergedConfig, null, 2);
+            mergedView.value = JSON.stringify(mergedConfig, null, 2);
         });
         if (updateEditor) {
             editor.value = JSON.stringify(appConfig, null, 2);
@@ -345,15 +345,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     form.querySelectorAll('input[type="text"]').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"]').forEach((control) => control.addEventListener('change', toggleFeature));
-
-    editor.addEventListener('update', () => {
-        try {
-            appConfig = JSON.parse(editor.value);
-            updateConfig(false);
-        } catch (error) {
-            console.log(error);
-        }
-    });
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};

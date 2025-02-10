@@ -27,7 +27,7 @@
 }
 
 .logo {
-    background-image: url("pages/tei-publisher-logo-contrast-color.svg");
+    background-image: url("../images/tei-publisher-logo-contrast-color.svg");
     height: 64px;
     width: 140px;
     background-size: auto auto;
@@ -54,7 +54,7 @@ pb-page.container-fluid {
     right: 0;
     z-index: 3;
     background-color: #0f0f0f;
-    background-image: url("pages/jinks.png");
+    background-image: url("../images/logo.png");
     background-position: center center;
     background-size: auto auto;
     background-repeat: no-repeat;
@@ -84,7 +84,7 @@ header nav svg {
 
 @media (min-width: 1024px) {
     .is-fixed-above-lg {    
-        z-index: 2;
+        z-index: 6;
         position: sticky;
         top: 0;
         backdrop-filter: blur(1rem);
@@ -126,6 +126,7 @@ header nav svg {
 
 .templating {
     grid-template-columns: 1fr minmax(220px, 480px);
+    padding: 1rem var(--pico-spacing);
 }
 
 h1, h2, h3, .output > label {
@@ -139,18 +140,18 @@ h1, h2, h3, .output > label {
 
 .output {
     margin-top: 1rem;
+    padding: 0 var(--pico-spacing);
 }
 
 p {
     margin-top: 0;
 }
 
-jinn-codemirror {
+jinn-monaco-editor {
     display: block;
     overflow: auto;
     max-height: 60vh;
-    min-height: 20vh;
-    font-size: 1rem;
+    min-height: 50vh;
 }
 
 .hidden {

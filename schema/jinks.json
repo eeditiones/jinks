@@ -12,7 +12,7 @@
         "type": {
             "type": "string",
             "enum": ["base", "feature", "module"],
-            "description": "Type of the profile"
+            "completionDetail": "Type of the profile"
         },
         "label": {
             "type": "string",
@@ -28,7 +28,10 @@
             "default": "1.0.0"
         },
         "extends": {
-            "type": "string",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
             "description": "Path to the profile this profile extends, relative to the root of the application."
         },
         "order": {

@@ -1,7 +1,7 @@
-<div>
+<template>
     ---json
     {
-        "scripts": ["pages/templating.js"],
+        "scripts": ["resources/scripts/templating.js"],
         "templating": {
             "extends": "pages/page.html"
         }
@@ -10,7 +10,7 @@
     <main class="grid templating">
         <div>
             <h1>Template</h1>
-            <jinn-codemirror id="template" mode="html" theme="material-dark">
+            <jinn-monaco-editor id="template" language="html">
                 <fieldset slot="toolbar" class="grid">
                     <select id="examples">
                         <option value="">[Select an example]</option>
@@ -25,19 +25,19 @@
                     </select>
                     <button id="eval">Eval</button>
                 </fieldset>
-            </jinn-codemirror>
+            </jinn-monaco-editor>
             <details>
                 <summary>Syntax Cheatsheet</summary>
-                <pb-markdown url="[[$config:context-path]]/pages/demo/cheatsheet.md"></pb-markdown>
+                [% include "pages/demo/cheatsheet.html" %]
             </details>
         </div>
         <div>
             <h1>Parameters (JSON)</h1>
-            <jinn-codemirror id="parameters" mode="json" theme="material-dark" code="{}">
+            <jinn-monaco-editor id="parameters" language="json" code="{}">
                 <div slot="toolbar">
                     <div>Each top-level key becomes a parameter</div>
                 </div>
-            </jinn-codemirror>
+            </jinn-monaco-editor>
         </div>
     </main>
     <div id="errorMsg" class="output hidden"></div>
@@ -47,14 +47,14 @@
     </div>
     <div class="output hidden">
         <label>Raw Output</label>
-        <pb-code-highlight id="output" language="html" theme="tomorrow" line-numbers=""></pb-code-highlight>
+        <jinn-monaco-editor id="output" language="html" readonly=""></jinn-monaco-editor>
     </div>
     <div class="output hidden">
         <label>Generated XQuery</label>
-        <pb-code-highlight id="xquery" language="xquery" theme="tomorrow" line-numbers=""></pb-code-highlight>
+        <jinn-monaco-editor id="xquery" language="text" readonly=""></jinn-monaco-editor>
     </div>
     <div class="output hidden">
         <label>Abstract Syntax Tree (AST)</label>
-        <pb-code-highlight id="ast" language="xml" theme="tomorrow" line-numbers=""></pb-code-highlight>
+        <jinn-monaco-editor id="ast" language="html" readonly=""></jinn-monaco-editor>
     </div>
-</div>
+</template>

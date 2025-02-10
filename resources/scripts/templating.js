@@ -50,10 +50,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('eval').addEventListener('click', () => {
         toggleOutput(true);
-        output.code = '';
+        output.value = '';
         html.innerHTML = '';
-        xqueryCode.code = '';
-        ast.code = '';
+        xqueryCode.value = '';
+        ast.value = '';
         error.innerHTML = '';
         const code = editor.value;
         const params = JSON.parse(parameters.value);
@@ -76,8 +76,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) {
                     response.json().then((data) => { 
                         error.innerText = data.description || data;
-                        xqueryCode.code = data.code;
-                        ast.code = data.ast;
+                        xqueryCode.value = data.code;
+                        ast.value = data.ast;
                     });
                 } else {
                     return response.json();
@@ -85,10 +85,10 @@ window.addEventListener('DOMContentLoaded', () => {
             })
             .then((data) => {
                 output.language = modes.value;
-                output.code = data.result;
+                output.value = data.result;
                 html.innerHTML = data.result;
-                xqueryCode.code = data.xquery;
-                ast.code = data.ast;
+                xqueryCode.value = data.xquery;
+                ast.value = data.ast;
             });
         } catch (error) {
             error.innerText = error.description;

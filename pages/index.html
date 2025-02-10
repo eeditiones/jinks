@@ -1,7 +1,9 @@
 <main class="editor">
     ---json
     {
-        "scripts": ["pages/editor.js"],
+        "scripts": [
+            "resources/scripts/editor.js"
+        ],
         "templating": {
             "extends": "pages/page.html"
         }
@@ -69,7 +71,8 @@
         <section>
             <fieldset>
                 <h3>Configuration</h3>
-                <jinn-codemirror id="appConfig" mode="json" theme="material-dark"></jinn-codemirror>
+                <jinn-monaco-editor id="appConfig" value="{}"
+                    schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
             </fieldset>
             <fieldset>
                 <label>
@@ -95,7 +98,7 @@
         </section>
         <section id="mergedConfig">
             <h3>Merged Configuration</h3>
-            <pb-code-highlight language="json" theme="tomorrow"></pb-code-highlight>
+            <jinn-monaco-editor language="json" readonly="" value="{}"></jinn-monaco-editor>
         </section>
         <section id="output">
             <h3>Processing output</h3>

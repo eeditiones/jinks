@@ -1,0 +1,57 @@
+<table>
+    <thead>
+        <tr>
+            <th>Expression</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        [% raw %]
+        <tr>
+            <td><code>[[ expr ]]</code></td>
+            <td>Insert result of evaluating <code>expr</code></td>
+        </tr>
+        <tr>
+            <td><code>[% if expr %] … [% endif %]</code></td>
+            <td>Conditional evaluation of block</td>
+        </tr>
+        <tr>
+            <td><code>… [% elsif expr %] …</code></td>
+            <td><em>else if</em> block after <em>if</em></td>
+        </tr>
+        <tr>
+            <td><code>… [% else %] … [% endif %]</code></td>
+            <td><em>else</em> block after <em>if</em> or <em>else if</em></td>
+        </tr>
+        <tr>
+            <td><code>[% for $var in expr %] … [% endfor %]</code></td>
+            <td>Loop <code>$var</code> over sequence returned by <code>expr</code></td>
+        </tr>
+        <tr>
+            <td><code>[% include expr %]</code></td>
+            <td>Include a partial. <code>expr</code> should resolve to relative path.</td>
+        </tr>
+        <tr>
+            <td><code>[% block name %]… [% endblock %]</code></td>
+            <td>Defines a named block, optionally containing fallback content.</td>
+        </tr>
+        <tr>
+            <td><code>[% template name %]… [% endtemplate %]</code></td>
+            <td>Contains content to be appended to the block with the same name.</td>
+        </tr>
+        <tr>
+            <td><code>[% import "uri" as "prefix" at "path" %]</code></td>
+            <td>Import an XQuery module so its functions/variables can be used in template expressions.</td>
+        </tr>
+        <tr>
+            <td><code>[# … #]</code></td>
+            <td>Single or multi-line comment: content will be discarded</td>
+        </tr>
+        [% endraw %]
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"><code>expr</code> must be a valid XPath expression.</td>
+        </tr>
+    </tfoot>
+</table>
