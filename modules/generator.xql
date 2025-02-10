@@ -111,7 +111,7 @@ declare %private function generator:write($context as map(*)?, $collection as xs
 };
 
 declare function generator:after-write($context as map(*), $result as map(*)*, $collection as xs:string) {
-    generator:update-collection-config($context, $result),
+    (: generator:update-collection-config($context, $result), :)
     let $func := generator:find-callback($collection, "after-write")
     return
         if (exists($func)) then
