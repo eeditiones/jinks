@@ -9,11 +9,6 @@
         }
     }
     ---
-    <header>
-        <nav>
-            <ul class="installed"></ul>
-        </nav>
-    </header>
     <form id="config">
         <section>
             <fieldset>
@@ -74,6 +69,10 @@
                 <jinn-monaco-editor id="appConfig" value="{}"
                     schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
             </fieldset>
+            <details>
+                <summary>Merged Configuration</summary>
+                <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
+            </details>
             <fieldset>
                 <label>
                     Overwrite mode
@@ -96,12 +95,7 @@
                 </fieldset>
             </details>
         </section>
-        <section id="mergedConfig">
-            <h3>Merged Configuration</h3>
-            <jinn-monaco-editor language="json" readonly="" value="{}"></jinn-monaco-editor>
-        </section>
         <section id="output">
-            <h3>Processing output</h3>
             <ul class="output"></ul>
             <div class="error"></div>
         </section>

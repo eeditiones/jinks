@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
 
     let editor = document.getElementById('appConfig');
-    const mergedView = document.querySelector('#mergedConfig jinn-monaco-editor');
+    const mergedView = document.getElementById('mergedConfig');
     const form = document.getElementById('config');
     const output = document.querySelector('.output');
     const errors = document.querySelector('.error');
@@ -238,6 +238,33 @@ window.addEventListener('DOMContentLoaded', () => {
                             });
                         });
                         li.appendChild(copyButton);
+
+                        const cmpButton = document.createElement('a');
+                        cmpButton.href = '#';
+                        cmpButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M304 160l-64-64 64-64M207 352l64 64-64 64"/><circle cx="112" cy="96" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="400" cy="416" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M256 96h84a60 60 0 0160 60v212M255 416h-84a60 60 0 01-60-60V144" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>`;
+                        li.appendChild(cmpButton);
+                        cmpButton.addEventListener('click', (ev) => {
+                            ev.preventDefault();
+                            let diff = li.querySelector('jinn-monaco-diff');
+                            if (diff) {
+                                diff.close();
+                                return;
+                            }
+                            diff = document.createElement('jinn-monaco-diff');
+                            li.appendChild(diff);
+
+                            const url = new URL(`../${result.config.pkg.abbrev}/api/document/${message.path}`, window.location);
+                            fetch(url)
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error(response.status);
+                                }
+                                return response.text();
+                            })
+                            .then((text) => {
+                                diff.diff(text, message.incoming, message.mime);
+                            });
+                        });
                     }
                     output.appendChild(li);
                 });

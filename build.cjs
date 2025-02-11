@@ -18,7 +18,9 @@ build({
 });
 
 build({
-	entryPoints: ['resources/scripts/jinn-monaco-editor.js'],
+	entryPoints: [
+		'resources/scripts/jinn-monaco.js'
+	],
 	bundle: true,
 	format: 'esm',
 	minify: true,

@@ -82,6 +82,11 @@ header nav svg {
     height: 24px;
 }
 
+header .toolbar {
+    background-color: var(--color-appbar);
+    margin-bottom: 1rem;
+}
+
 @media (min-width: 1024px) {
     .is-fixed-above-lg {    
         z-index: 6;
@@ -113,13 +118,10 @@ header nav svg {
     grid-template-columns: minmax(auto,24rem) minmax(auto,24rem) 1fr;
     grid-template-areas:
         "form form form"
-        "merged merged output";
+        "output output output";
     grid-column-gap: 2rem;
 }
 
-#mergedConfig {
-    grid-area: merged;
-}
 #output {
     grid-area: output;
 }
@@ -143,6 +145,15 @@ h1, h2, h3, .output > label {
     padding: 0 var(--pico-spacing);
 }
 
+.output li jinn-monaco-diff {
+    height: 40vh;
+    margin-top: 1rem;
+}
+
+.output li a {
+    padding-left: .25rem;
+}
+
 p {
     margin-top: 0;
 }
@@ -150,8 +161,8 @@ p {
 jinn-monaco-editor {
     display: block;
     overflow: auto;
-    max-height: 60vh;
-    min-height: 50vh;
+    max-height: 40vh;
+    min-height: 460px;
 }
 
 .hidden {
@@ -190,11 +201,6 @@ jinn-monaco-editor {
     display: flex;
     column-gap: .5rem;
     align-items: center;
-}
-
-.editor header {
-    background-color: var(--color-appbar);
-    margin-bottom: 1rem;
 }
 
 .installed {

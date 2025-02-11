@@ -199,6 +199,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                         "original": $expectedHash,
                         "actual": $currentHash
                     },
+                    "mime": $mime,
                     "incoming": 
                         if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
                             $incomingContent
