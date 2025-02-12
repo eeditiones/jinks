@@ -13,9 +13,6 @@
         "data-default": "letters",
         "sort": "date"
     },
-    "templating": {
-        "use": [ "templates/registers-blocks.html" ]
-    },
     "menu": {
         "items": [
             {
@@ -52,6 +49,11 @@
     "i18n": [
         "registers"
     ],
+    "collection-config": {
+        "letters":{
+            "template": "register.html"
+        }
+    },
     "static": {
         "collections": {
             "": {

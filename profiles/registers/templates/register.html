@@ -1,4 +1,11 @@
 <template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/pages/parallel.html"
+        }
+    }
+    ---
     [% template after-content %]
     <pb-view src="document1" subscribe="transcription" view="div">
         <pb-param name="mode" value="register"/>
