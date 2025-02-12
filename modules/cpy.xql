@@ -78,7 +78,8 @@ declare function cpy:expand-template($source as xs:string, $template as xs:strin
             "plainText": true(), 
             "resolver": cpy:resource-as-string($context, ?),
             "ignoreImports": head(($context?ignoreImports, true())),
-            "ignoreUse": true()
+            "ignoreUse": true(),
+            "templates": $context?generator?templates
         })
     } catch * {
         error($cpy:ERROR_TEMPLATE, $err:description, map {
@@ -98,7 +99,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
             sm:chown(xs:anyURI($path), $context?pkg?user?name),
             sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
             sm:chmod(xs:anyURI($path), $context?pkg?permissions)
-        )[5]})
+        )[1]})
 };
 
 declare function cpy:copy-resource($context as map(*), $source as xs:string, $target as xs:string) {
@@ -114,7 +115,7 @@ declare function cpy:copy-resource($context as map(*), $source as xs:string, $ta
                 path:basename($sourcePath),
                 path:parent($targetPath),
                 path:basename($targetPath)
-            )[2]
+            )
         })
 };
 
@@ -136,7 +137,7 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
                 let $relPath := substring-after($collection || "/" || $targetName, $context?target || "/")
                 return
                     cpy:overwrite($context, $relPath, $absSource || "/" || $resource, function() { $expanded }, function() {
-                        xmldb:store($collection, $targetName, $expanded)[2]
+                        xmldb:store($collection, $targetName, $expanded)
                     })
             else
                 cpy:copy-resource($context, $source || "/" || $resource, $target || "/" || $resource),
@@ -156,19 +157,12 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         ()
     (: overwrite, but do not check or store hash :)
     else if ($context?force-overwrite or $relPath = $context?ignore) then
-        $callback()
+        $callback()[2]
     (: we're updating an already installed app :)
     else if ($context?_update) then
         let $path := path:resolve-path($context?target, $relPath)
-        let $currentContent :=
-            if (util:binary-doc-available($path)) then
-                util:binary-doc($path) => util:binary-to-string()
-            else if (doc-available($path)) then
-                doc($path) => serialize()
-            else
-                ()
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
-        let $currentHash := cpy:hash($currentContent, $mime)
+        let $currentHash := cpy:hash($path)
         let $expectedHash := cpy:load-hash($context, $relPath)
         let $incomingContent := $content()
         return
@@ -185,8 +179,9 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                                 "path": $relPath,
                                 "source": $sourcePath
                             },
-                            cpy:save-hash($context, $relPath, $contentHash),
-                            $callback()
+                            let $stored := $callback()
+                            return
+                                cpy:save-hash($context, $relPath, cpy:hash($stored))
                         )
                     else
                         ()
@@ -212,14 +207,23 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
             "type": "write",
             "path": $relPath
         }
-    else (
-        cpy:save-hash($context, $relPath, cpy:hash($content(), xmldb:get-mime-type($sourcePath))),
-        $callback()
-    )
+    else
+        let $stored := $callback()
+        return
+            cpy:save-hash($context, $relPath, cpy:hash($stored))
 };
 
-declare %private function cpy:hash($content as xs:string?) {
-    cpy:hash($content, ())
+declare %private function cpy:hash($path as xs:string) {
+    let $content :=
+        if (util:binary-doc-available($path)) then
+            util:binary-doc($path) => util:binary-to-string()
+        else if (doc-available($path)) then
+            doc($path) => serialize()
+        else
+            ()
+    let $mime := xmldb:get-mime-type(xs:anyURI($path))
+    return
+        cpy:hash($content, $mime)
 };
 
 declare %private function cpy:hash($content as xs:string?, $mime as xs:string?) {
