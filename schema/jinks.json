@@ -186,7 +186,8 @@
                         "type": "object",
                         "properties": {
                             "url": {
-                                "type": "string"
+                                "type": ["string", "null"],
+                                "description": "URL to link to. Might be null to remove an item inherited from a parent profile."
                             },
                             "id": {
                                 "type": "string"

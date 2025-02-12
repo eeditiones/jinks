@@ -2,9 +2,11 @@
     <ul>
         <li class="logo"></li>
         [% for $item in $menu?items?* %]
+        [% if $item?url %]
         <li class="hidden-mobile">
             <a href="[[ $context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
         </li>
+        [% endif %]
         [% endfor %]
 
         [# display download menu if in document view #]
