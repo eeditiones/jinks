@@ -34,8 +34,12 @@ declare variable $config:search-default := "[[$defaults?search]]";
     declare variable $config:data-default := $config:data-root;
 [% endif %]
 
+declare variable $config:odd-root := $config:app-root || "/[[$defaults?odd-root]]";
 declare variable $config:default-odd := "[[$defaults?odd]]";
-declare variable $config:odd-available := ( [[string-join($odds?*[. != "docx.odd"] ! ('"' || . || '"'), ", ")]] );
+declare variable $config:odd-available :=
+[% block config-odd-available %]
+( [[string-join($odds?*[. != "docx.odd"] ! ('"' || . || '"'), ", ")]] )
+[% endblock %];
 
 (:
     Determine the application root collection from the current module load path.
