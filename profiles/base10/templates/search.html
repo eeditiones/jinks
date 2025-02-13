@@ -11,17 +11,15 @@
     ---
     <pb-load id="results" url="api/search" emit="results"></pb-load>
     <div class="search-panel">
-        <paper-card>
-            <div class="card-content">
-                <pb-search id="search-form" subscribe="search"
-                    value="[[ $request?parameters?query ]]" submit-on-load="submit-on-load">
-                    <div class="targets">
-                        <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
-                        <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
-                    </div>
-                    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
-                </pb-search>
-            </div>
-        </paper-card>
+        <article class="card-content">
+            <pb-search id="search-form" subscribe="search"
+                value="[[ $request?parameters?query ]]" submit-on-load="submit-on-load">
+                <div class="targets">
+                    <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
+                    <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
+                </div>
+                <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+            </pb-search>
+        </article>
     </div>
 </main>
