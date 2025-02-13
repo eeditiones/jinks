@@ -18,13 +18,18 @@ declare variable $action:repoxml :=
 ;
 
 declare function action:reindex($request as map(*)) {
+    let $_ := xmldb:copy-resource($config:app-root, "collection.xconf", "/db/system/config/" || $config:app-root, "collection.xconf")
+    return
+        map {
+            "type": "action:reindex",
+            "message": "collection.xconf copied to /db/system/config/" || $config:app-root
+        },
     let $_ := xmldb:reindex($config:data-root)
-    return [
+    return
         map {
             "type": "action:reindex",
             "message": $config:data-root || " reindexed"
         }
-    ]
 };
 
 declare function action:fix-odds($request as map(*)) {

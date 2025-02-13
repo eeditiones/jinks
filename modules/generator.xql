@@ -111,7 +111,6 @@ declare %private function generator:write($context as map(*)?, $collection as xs
 };
 
 declare function generator:after-write($context as map(*), $result as map(*)*, $collection as xs:string) {
-    (: generator:update-collection-config($context, $result), :)
     let $func := generator:find-callback($collection, "after-write")
     return
         if (exists($func)) then
@@ -288,13 +287,6 @@ declare %private function generator:load-template-map($collection as xs:string?)
         json-doc($collection || "/.jinks.json")
     else
         map {}
-};
-
-declare %private function generator:update-collection-config($context as map(*), $result as map(*)*) {
-    for $update in $result
-    where $update?type="update" and $update?path = "collection.xconf"
-    return
-        xmldb:copy-resource($context?target, "collection.xconf", "/db/system/config/" || $context?target, "collection.xconf")
 };
 
 declare function generator:list-actions($context as map(*)) as array(*) {
