@@ -1,9 +1,9 @@
 {
     "$schema": "../../schema/jinks.json",
     "type": "feature",
-    "id": "https://e-editiones.org/app/tei-publisher/tei-publisher-app",
-    "label": "Documentation + Playground",
-    "description": "TEI Publisher documentation and playground",
+    "id": "https://e-editiones.org/app/tei-publisher/tei-publisher-docs",
+    "label": "Documentation + Demo",
+    "description": "TEI Publisher documentation and demo",
     "version": "1.0.0",
     "order": 101,
     "defaults": {
@@ -19,7 +19,7 @@
         "demo-data"
     ],
     "pkg": {
-        "abbrev": "tei-publisher"
+        "abbrev": "tei-publisher-docs"
     },
     "collection-config": {
         "doc": {
@@ -39,6 +39,12 @@
             "odd": "jats.odd",
             "template": "jats.html"
         }
+    },
+    "features": {
+        "upload": false
+    },
+    "menu": {
+        "login": false
     },
     "urls": {
         "template": "documentation/:id?",
