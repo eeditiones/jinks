@@ -1,0 +1,18 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/pages/basic.html"
+        },
+        "script": {
+            "extra-components": [
+                "pb-tify"
+            ]
+        },
+        "layout": "fixed-grid"
+    }
+    ---
+    [% template after-content %]
+    <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+    [% endtemplate %]
+</template>

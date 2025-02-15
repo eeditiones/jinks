@@ -35,6 +35,9 @@
             "odd": "dta.odd",
             "template": "monograph.html"
         },
+        "demo": {
+            "template": "monograph.html"
+        },
         "jats": {
             "odd": "jats.odd",
             "template": "jats.html"
@@ -45,10 +48,6 @@
     },
     "menu": {
         "login": false
-    },
-    "urls": {
-        "template": "documentation/:id?",
-        "ignore": "odd,view,path"
     },
     "templating": {
         "use": [
