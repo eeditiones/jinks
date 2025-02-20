@@ -41,8 +41,8 @@ function teip:change-landing($context as map(*), $target as xs:string) {
 
 declare %private function teip:custom-odd-install($context as map(*)) {
     if (map:get($context, "custom-odd")) then
-        let $_ := util:log("INFO", "base10: Installing custom ODD " || $context?custom-odd)
         let $path := path:resolve-path($context?target || "/resources/odd", $context?custom-odd)
+        let $_ := util:log("INFO", "base10: Installing custom ODD " || $path)
         return
             if (doc-available($path)) then
                 ()

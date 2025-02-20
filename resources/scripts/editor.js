@@ -280,6 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
             } else {
                 loadApps(result.config.id);
             }
+            output.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
         });
     }
 

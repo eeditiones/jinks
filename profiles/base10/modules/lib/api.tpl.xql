@@ -10,7 +10,6 @@ import module namespace rutil="http://e-editiones.org/roaster/util";
 import module namespace dapi="http://teipublisher.com/api/documents" at "api/document.xql";
 import module namespace capi="http://teipublisher.com/api/collection" at "api/collection.xql";
 import module namespace sapi="http://teipublisher.com/api/search" at "api/search.xql";
-import module namespace deploy="http://teipublisher.com/api/generate" at "api/generate.xql";
 import module namespace dts="http://teipublisher.com/api/dts" at "api/dts.xql";
 import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql";
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
