@@ -382,6 +382,15 @@ window.addEventListener('DOMContentLoaded', () => {
         process(false);
     });
 
+    dryRunButton.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        validateForm();
+        if (!form.checkValidity()) {
+            return;
+        }
+        process(true);
+    });
+
     // form.addEventListener('change', () => update());
 
     form.querySelectorAll('input[type="text"]').forEach((control) => control.addEventListener('change', update));
