@@ -347,7 +347,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         new FormData(form).forEach((value, key) => {
-            if (key !== 'base' && key !== 'feature' && key !== 'abbrev') {
+            if (key !== 'base' && key !== 'feature' && key !== 'abbrev' && key !== 'custom-odd') {
                 appConfig[key] = value;
             }
         });
@@ -392,9 +392,7 @@ window.addEventListener('DOMContentLoaded', () => {
         process(true);
     });
 
-    // form.addEventListener('change', () => update());
-
-    form.querySelectorAll('input[type="text"]').forEach((control) => control.addEventListener('change', update));
+    form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
@@ -403,5 +401,23 @@ window.addEventListener('DOMContentLoaded', () => {
         updateConfig(true);
     });
 
+    document.getElementById('add-odd').addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const odd = form.querySelector('[name="custom-odd"]');
+        
+        if (odd.checkValidity() && odd.value !== '') {
+            if (!(appConfig.odds && Array.isArray(appConfig.odds))) {
+                appConfig.odds = [];
+            }
+            appConfig.odds.push(odd.value);
+            appConfig.defaults = appConfig.defaults || {};
+            appConfig.defaults.odd = odd.value;
+            
+            updateConfig();
+            odd.value = "";
+        } else {
+            odd.reportValidity();
+        }
+    });
     loadApps();
 });

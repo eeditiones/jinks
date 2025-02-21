@@ -7,30 +7,21 @@ import module namespace cpy="http://tei-publisher.com/library/generator/copy" at
 import module namespace path="http://tei-publisher.com/jinks/path" at "../../paths.xql";
 
 declare 
-    %generator:prepare
-function teip:prepare($context as map(*)) {
-    (: Add custom ODD to list of ODDs, so generated modules are updated accordingly :)
-    if (map:get($context, "custom-odd")) then
-        map:merge((
-            $context,
-            map:entry("odds", array { distinct-values(($context?odds, $context?custom-odd)) })
-        ))
-    else
-        $context
-};
-
-declare 
     %generator:write
 function teip:setup($context as map(*)) {
     util:log("INFO", "base10: Start copying files ..."),
     cpy:copy-collection($context),
-    util:log("INFO", "base10: copying files done."),
-    teip:custom-odd-install($context)
+    util:log("INFO", "base10: copying files done.")
 };
 
 declare 
     %generator:after-write
-function teip:change-landing($context as map(*), $target as xs:string) {
+function teip:after-write($context as map(*), $target as xs:string) {
+    teip:change-landing($context, $target),
+    teip:custom-odd-install($context, $target)
+};
+
+declare %private function teip:change-landing($context as map(*), $target as xs:string) {
     (: rename the landing page to index.html :)
     if (map:contains($context?defaults, "landing") and
         $context?defaults?landing != "index.html") then
@@ -39,27 +30,27 @@ function teip:change-landing($context as map(*), $target as xs:string) {
         ()
 };
 
-declare %private function teip:custom-odd-install($context as map(*)) {
-    if (map:get($context, "custom-odd")) then
-        let $path := path:resolve-path($context?target || "/resources/odd", $context?custom-odd)
+declare %private function teip:custom-odd-install($context as map(*), $target as xs:string) {
+    if (map:contains($context, "odds")) then
+        for $odd in $context?odds?*
+        let $path := path:resolve-path($target || "/resources/odd", $odd)
+        where not(doc-available($path))
         let $_ := util:log("INFO", "base10: Installing custom ODD " || $path)
+        let $sourcePath := path:resolve-path($target || "/resources/odd", "template.odd")
+        let $_ := cpy:copy-template($context, $sourcePath, $path)
+        (: let $template := cpy:resource-as-string($target, "resources/odd/template.odd")
+        let $expanded := cpy:expand-template("template.odd", $template?content, $context)
+        let $_ := (
+            xmldb:store(path:parent($path), path:basename($path), $expanded),
+            sm:chown(xs:anyURI($path), $context?pkg?user?name),
+            sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
+            sm:chmod(xs:anyURI($path), $context?pkg?permissions)
+        ) :)
         return
-            if (doc-available($path)) then
-                ()
-            else
-                let $template := cpy:resource-as-string($context, "resources/odd/template.odd")
-                let $expanded := cpy:expand-template("template.odd", $template?content, $context)
-                let $_ := (
-                    xmldb:store(path:parent($path), path:basename($path), $expanded),
-                    sm:chown(xs:anyURI($path), $context?pkg?user?name),
-                    sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
-                    sm:chmod(xs:anyURI($path), $context?pkg?permissions)
-                )
-                return
-                    map {
-                        "type": "create",
-                        "path": $path
-                    }
+            map {
+                "type": "create",
+                "path": $path
+            }
     else
         ()
 };

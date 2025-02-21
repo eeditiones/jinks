@@ -29,13 +29,6 @@
                     <small>Unique URL to identify the app</small>
                 </label>
             </fieldset>
-            <fieldset>
-                <label>
-                    Create custom ODD
-                    <input type="text" name="custom-odd" placeholder="Name"/>
-                    <small>Create a new custom ODD for the app (if not created already). Leave empty to skip.</small>
-                </label>
-            </fieldset>
             <fieldset class="buttons">
                 <button id="reset" type="reset">New Configuration</button>
             </fieldset>
@@ -69,6 +62,12 @@
                 </label>
                 [% endfor %]
             </fieldset>
+
+            <fieldset role="group">
+                <input type="text" class="action" name="custom-odd" placeholder="Custom ODD" pattern="[\w\-_]+\.odd"/>
+                <button id="add-odd" class="secondary">Add</button>
+            </fieldset>
+            <small>Add a new custom ODD for the app (if not created already).</small>
         </section>
         <section>
             <fieldset>
