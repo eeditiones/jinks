@@ -1,0 +1,15 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/docx",
+    "label": "Support for DOCX import",
+    "description": "Adds support for importing docx (MS Word) files and transforming them to TEI using ODD.",
+    "version": "1.0.0",
+    "odds": [
+        "docx.odd",
+        "docx-output.odd"
+    ],
+    "defaults": {
+        "odd-internal": [ "docx.odd" ]
+    }
+}

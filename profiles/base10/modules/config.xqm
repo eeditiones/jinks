@@ -344,7 +344,7 @@ declare variable $config:odd-available := $gen:odd-available;
  : List of ODD files which are used internally only, i.e. not for displaying information
  : to the user.
  :)
-declare variable $config:odd-internal := "docx.odd";
+declare variable $config:odd-internal := $gen:odd-internal;
 
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
 
