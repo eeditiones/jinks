@@ -36,16 +36,8 @@ declare %private function teip:custom-odd-install($context as map(*), $target as
         let $path := path:resolve-path($target || "/resources/odd", $odd)
         where not(doc-available($path))
         let $_ := util:log("INFO", "base10: Installing custom ODD " || $path)
-        let $sourcePath := path:resolve-path($target || "/resources/odd", "template.odd")
+        let $sourcePath := path:resolve-path($target || "/resources/odd", "template.odd.xml")
         let $_ := cpy:copy-template($context, $sourcePath, $path)
-        (: let $template := cpy:resource-as-string($target, "resources/odd/template.odd")
-        let $expanded := cpy:expand-template("template.odd", $template?content, $context)
-        let $_ := (
-            xmldb:store(path:parent($path), path:basename($path), $expanded),
-            sm:chown(xs:anyURI($path), $context?pkg?user?name),
-            sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
-            sm:chmod(xs:anyURI($path), $context?pkg?permissions)
-        ) :)
         return
             map {
                 "type": "create",
