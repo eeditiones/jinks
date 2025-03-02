@@ -498,7 +498,7 @@
                         "type": "object",
                         "properties": {
                             "index": {
-                                "type": "string"
+                                "type": ["string", "boolean"]
                             },
                             "path-prefix": {
                                 "type": "string"
@@ -581,6 +581,18 @@
                     "description": "Comma-separated list of parameters to ignore in URLs as required by pb-page/@url-ignore"
                 }
             }
+        }
+    },
+    "patternProperties": {
+        ".*": {
+            "type": "object",
+            "properties": {
+                "$replace": {
+                    "type": "boolean",
+                    "description": "If true, the object will not be merged with inherited configurations, but simply replace all of them."
+                }
+            },
+            "additionalProperties": true
         }
     },
     "required": [

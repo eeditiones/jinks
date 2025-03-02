@@ -8,7 +8,7 @@
         <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png" sizes="32x32" />
         <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png" sizes="64x64" />
 
-        [% for $path in ($styles?*, $static?styles?*) %]
+        [% for $path in ($static?styles?*, $styles?*) %]
             [% if matches($path, "(?:^https?://|^/).*$") %]
             <link rel="stylesheet" href="[[ $path ]]" />
             [% else %]
@@ -40,7 +40,7 @@
 
         [% block scripts %][% endblock %]
     </head>
-    <body>
+    <body class="static">
         <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json" 

@@ -1,3 +1,7 @@
+:root {
+    --pb-content-font-family: var(--pb-base-font-family);
+}
+
 @media (min-width: 769px) {
     pb-view.content {
         max-width: 60vw;
@@ -25,11 +29,14 @@ header.page-header {
     --pb-view-max-width: auto;
 }
 
-pb-view.content {
+.static .breadcrumbs {
+    margin-left: 1rem;
+}
+
+pb-view.content, main.content {
     grid-area: content;
     grid-column: 2 / 2;
     overflow: auto;
-    font-family: var(--pb-base-font-family);
     font-size: 20px;
     padding: 1rem 0 0 0;
     margin: 8px 16px;
@@ -43,11 +50,11 @@ footer {
     background-color: var(--pb-toolbar-background-color);
 }
 
-footer pb-navigation[direction=forward] {
+footer .nav-button.right {
     float: right;
 }
 
-pb-navigation svg {
+footer .nav-button svg {
     height: 24px;
 }
 
@@ -73,12 +80,16 @@ pb-navigation svg {
 
 .toc ul li {
     font-weight: bold;
+    list-style: none;
 }
 
 .toc ul {
-    list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.static .toc {
+    padding: 1rem;
 }
 
 .toc ul ul {

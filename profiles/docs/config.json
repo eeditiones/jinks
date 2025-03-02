@@ -65,5 +65,40 @@
     },
     "styles": [
         "resources/css/playground-docs-theme.css"
-    ]
+    ],
+    "static": {
+        "$replace": true,
+        "collections": {
+            "doc": {
+                "path-prefix": "",
+                "index": false,
+                "template": "static/templates/index.html",
+                "paginate": {
+                    "template": "static/templates/documentation.html",
+                    "toc": true,
+                    "parts": [
+                        {
+                            "odd": "docbook.odd"
+                        },
+                        {
+                            "id": "breadcrumbs",
+                            "user.mode": "breadcrumbs",
+                            "odd": "docbook.odd"
+                        }
+                    ]
+                }
+            }
+        },
+        "redirect": {
+            "": "1/index.html"
+        },
+        "styles": [
+            "resources/css/static.css",
+            "transform/docbook.css"
+        ],
+        "fields": {
+            "index": ["content"],
+            "store": ["content", "title", "link"]
+        }
+    }
 }
