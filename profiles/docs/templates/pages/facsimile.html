@@ -12,6 +12,16 @@
         "layout": "fixed-grid"
     }
     ---
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/index.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
+                <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='statement'], map { "mode": "breadcrumb" }) ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
     [% template after-content %]
     <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
     [% endtemplate %]
