@@ -109,7 +109,7 @@ declare %private function static:next-page($context as map(*), $parts as array(m
                 }
             )),
             map {
-                "plainText": true(),
+                "plainText": false(),
                 "resolver": cpy:resource-as-string($context, ?)
             }
         )
@@ -155,8 +155,17 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
     return
         if ($response[1]/@status = 200) then
             let $data := util:binary-to-string(xs:base64Binary($response[2]))
+            let $json := parse-json($data)
+            let $parsed := map:merge((
+                $json,
+                map {
+                    "content": parse-xml-fragment($json?content),
+                    "footnotes": parse-xml-fragment($json?footnotes),
+                    "key": static:compute-key($mergedParams)
+                }
+            ))
             return
-                map:merge((parse-json($data), map { "key": static:compute-key($mergedParams) }))
+                map:merge(($parsed, map { "key": static:compute-key($mergedParams) }))
         else
             error($static:ERROR_PART_LOAD_FAILED, $response[1]/@status)
 };
@@ -224,12 +233,32 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
                             let $data := util:binary-to-string(xs:base64Binary($response[2]))
                             return
                                 parse-json($data)
-                        case "text/html" return
-                            $response[2]//*:body/node()
+                        case "text/html" return (
+                            head(($response[2]//*:body/node(), $response[2]/*))
+                            => static:strip-namespaces()
+                        )
                         default return
                             $response[2]
         ) else
             error($static:ERROR_LOAD_FAILED, "URI: " || $url || ": " || $response[1]/@status)
+};
+
+(:~
+ : Strip all namespaces from the given nodes. Needed because http:send-request may return xhtml.
+ :)
+declare %private function static:strip-namespaces($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case element() return
+                element { local-name($node) } {
+                    $node/@*,
+                    static:strip-namespaces($node/node())
+                }
+            case document-node() return
+                static:strip-namespaces($node/node())
+            default return
+                $node
 };
 
 (:~
@@ -271,7 +300,7 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
                 }
             )),
             map {
-                "plainText": true(),
+                "plainText": false(),
                 "resolver": cpy:resource-as-string($context, ?)
             }
         )
@@ -292,29 +321,32 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
 };
 
 declare function static:index($context as map(*), $input as item()*, $collectionConfig as map(*)) {
-    let $lines :=
-        for $doc in $input
-        let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $collectionConfig?index ||
-            "?prefix=" || $collectionConfig?path-prefix
-        let $request :=
-            <http:request method="GET" href="{$href}"/>
-        let $response := http:send-request($request)
-        return
-            if ($response[1]/@status = 200) then
-                let $data := util:binary-to-string(xs:base64Binary($response[2]))
-                return
-                    parse-json($data)?* ! serialize(., map { "method": "json", "indent": false() })
+    if ($collectionConfig?index) then
+        let $lines :=
+            for $doc in $input
+            let $href := $context?base-uri || '/api/static/' || encode-for-uri($doc?path) || "/" || $collectionConfig?index ||
+                "?prefix=" || $collectionConfig?path-prefix
+            let $request :=
+                <http:request method="GET" href="{$href}"/>
+            let $response := http:send-request($request)
+            return
+                if ($response[1]/@status = 200) then
+                    let $data := util:binary-to-string(xs:base64Binary($response[2]))
+                    return
+                        parse-json($data)?* ! serialize(., map { "method": "json", "indent": false() })
+                else
+                    error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
+        let $jsonPath := path:resolve-path($context?target, '/index.jsonl')
+        let $current-contents := 
+            if (util:binary-doc-available($jsonPath)) then
+                unparsed-text-lines($jsonPath)
             else
-                error($static:ERROR_LOAD_FAILED, "Failed to load index data for " || $doc?path)
-    let $jsonPath := path:resolve-path($context?target, '/index.jsonl')
-    let $current-contents := 
-        if (util:binary-doc-available($jsonPath)) then
-            unparsed-text-lines($jsonPath)
-        else
-            ()
-    let $new-contents := string-join(($current-contents, $lines), "&#10;")
-    return
-        xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")[2]
+                ()
+        let $new-contents := string-join(($current-contents, $lines), "&#10;")
+        return
+            xmldb:store($context?target, "index.jsonl", $new-contents, "application/jsonl")[2]
+    else
+        ()
 };
 
 (:~
