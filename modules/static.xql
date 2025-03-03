@@ -300,7 +300,7 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
                 }
             )),
             map {
-                "plainText": false(),
+                "plainText": true(),
                 "resolver": cpy:resource-as-string($context, ?)
             }
         )
