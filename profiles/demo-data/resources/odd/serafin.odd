@@ -1,5 +1,5 @@
-<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
-    <teiHeader>
+<tei:TEI xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
+    <teiHeader xmlns="http://www.tei-c.org/ns/1.0">
         <fileDesc>
             <titleStmt>
                 <title>Serafin Letters
@@ -20,6 +20,7 @@
                  
                  
                   
+                 
                  
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
@@ -64,7 +65,7 @@
             <change when="2018-08-31+02:00">Initial version</change>
         </revisionDesc>
     </teiHeader>
-    <text>
+    <text xmlns="http://www.tei-c.org/ns/1.0">
         <body>
             <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd">
                 <elementSpec ident="TEI" mode="change">
@@ -151,6 +152,9 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
+                    <model predicate="ancestor::correspContext" behaviour="inline">
+            <param name="content" value="id(@key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/text()"/>
+        </model>
                     <model output="latex" behaviour="inline">
             <param name="id" value="@key"/>
             <pb:template xmlns="" xml:space="preserve">\glslink{[[id]]}{[[content]]}</pb:template>
@@ -233,6 +237,9 @@
             <outputRendition xml:space="preserve">
             color: #ef6c00;
             </outputRendition>
+        </model>
+                    <model predicate="ancestor::correspContext" behaviour="inline">
+            <param name="content" value="id(@key, doc($global:register-root || '/places.xml'))/placeName[@type='main']/text()"/>
         </model>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
@@ -558,12 +565,16 @@
             <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
             <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
             <param name="type" value="@type"/>
-            <param name="content" value="./string()"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="[[content]]" data-placement="bottom">
-  <svg class="icon">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
-  </svg>
-</a></pb:template>
+            <param name="content" value="."/>
+            <param name="target" value="'letters/' || @target"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-popover>
+  <pb-link slot="default" path="[[target]]" data-tooltip="[[content]]" data-placement="bottom" emit="transcription" subscribe="transcription">
+    <svg class="icon">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
+    </svg>
+  </pb-link>
+  <div slot="alternate">[[content]]</div>
+</pb-popover></pb:template>
         </model>
                     <model predicate="@target" behaviour="link">
             <param name="uri" value="@target"/>
@@ -580,7 +591,7 @@
             <param name="previous" value="ref[@type = 'previous']"/>
             <param name="next" value="ref[@type = 'next']"/>
             <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
-            <pb:template xmlns="" xml:space="preserve"><ul>
+            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext">
   <li>[[previous]]</li>
   <li>[[previous-in-correspondence]]</li>
   <li>[[next-in-correspondence]]</li>
@@ -591,4 +602,4 @@
             </schemaSpec>
         </body>
     </text>
-</TEI>
+</tei:TEI>

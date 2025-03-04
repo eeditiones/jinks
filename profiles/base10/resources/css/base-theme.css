@@ -190,20 +190,17 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     display: none;
 }
 
-pb-page {
-    display: grid;
-    grid-template-rows: min-content 1fr;
-}
-
 pb-document {
     display: none;
 }
 
 .page-header {
+    padding-block-start: 0;
+}
+
+.sticky-layout .page-header {
     position: sticky;
     top: 0;
-    grid-column-start: 1;
-    grid-row-start: 1;
     width: 100vw;
     background-color: transparent;
     z-index: 1;
@@ -255,10 +252,6 @@ pb-document {
     z-index: 0;
 }
 
-.page-header {
-    padding-block-start: 0;
-}
-
 /* hero covers 100% of the viewport height */
 .hero {
     display: flex;
@@ -294,9 +287,24 @@ pb-document {
     }
 }
 
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    padding: 0 2rem;
+}
+
 main:not(.container-fluid) {
-    max-width: var(--pb-content-max-width);
-    margin: var(--pico-block-spacing-vertical) auto;
+    margin: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+}
+
+main > *:not(.before-content, .after-content) {
+    flex: 2;
+}
+
+main > .before-content, main > .after-content {
+    flex: 1;
 }
 
 main.search {
@@ -613,27 +621,48 @@ footer a {
     text-align: center;
 }
 
-.content-grid {
+.overflow {
+    overflow: auto;
+    height: 100%;
+}
+
+.above-content, .below-content {
+    max-width: var(--pb-content-max-width);
+    margin: 0 auto;
+}
+
+.fixed-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    column-gap: 2rem;
+    height: 100vh;
+    grid-template-rows: auto 1fr;
     position: relative;
 }
 
 @media screen and (max-width: 1023px) {
-    .content-grid {
+    .fixed-layout {
         grid-template-columns: 1fr;
     }
 }
 
-.content-grid > .before-content:empty {
+.fixed-layout main {
+    grid-row: 2;
+    overflow: auto;
+    height: 100%;
+}
+
+.fixed-layout > .page-header {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+.fixed-layout > .before-content:empty {
     display: none;
 }
 
-.content-grid .before-content {
+.fixed-layout .before-content {
     grid-column: 1 / -1;
 }
 
-.content-grid > .after-content:empty {
+.fixed-layout > .after-content:empty {
     display: none;
 }

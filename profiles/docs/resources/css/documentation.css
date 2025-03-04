@@ -8,18 +8,14 @@
     }
 }
 
-pb-page {
-    display: grid;
-    height: 100vh;
+.fixed-layout {
     grid-template-columns: 420px 1fr;
     grid-template-rows: min-content auto 1fr auto;
     grid-template-areas: "header header" "toc breadcrumbs" "toc content" "toc footer";
 }
 
-header.page-header {
+.page-header {
     grid-area: header;
-    position: static;
-    grid-column: auto / auto;
 }
 
 .breadcrumbs {

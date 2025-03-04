@@ -1,5 +1,18 @@
-.correspondence ul {
+.correspondence {
+    max-width: inherit;
+    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+}
+
+.correspContext {
+    list-style: none;
+    padding: 0;
+    display: flex;
     justify-content: space-between;
     width: 100%;
     margin: 0 16px;
+}
+
+.correspContext svg {
+    width: 24px;
+    height: 24px;
 }

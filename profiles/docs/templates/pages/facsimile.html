@@ -2,14 +2,14 @@
     ---json
     {
         "templating": {
-            "extends": "templates/pages/basic.html"
+            "extends": "templates/layouts/content.html"
         },
         "script": {
             "extra-components": [
                 "pb-tify"
             ]
         },
-        "layout": "fixed-grid"
+        "layout": "fixed-layout"
     }
     ---
     [% template breadcrumb %]
@@ -23,6 +23,7 @@
     </li>
     [% endtemplate %]
     [% template after-content %]
-    <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+    <pb-tify class="after-content" subscribe="transcription" emit="transcription"></pb-tify>
     [% endtemplate %]
+    <pb-view class="[[ if ($layout = 'fixed-layout') then 'overflow' else '' ]]" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </template>

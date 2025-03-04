@@ -7,11 +7,13 @@
     }
     ---
     [% template after-content %]
-    <pb-view src="document1" subscribe="transcription" view="div">
-        <pb-param name="mode" value="register"/>
-    </pb-view>
-    <pb-leaflet-map id="map" zoom="11">
-        <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-    </pb-leaflet-map>
+    <aside class="after-content">
+        <pb-view src="document1" subscribe="transcription" view="div">
+            <pb-param name="mode" value="register"/>
+        </pb-view>
+        <pb-leaflet-map id="map" zoom="11">
+            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+        </pb-leaflet-map>
+    </aside>
     [% endtemplate %]
 </template>

@@ -1,7 +1,11 @@
 <template>
-    [% template before-content %]
-    <nav class="correspondence">
-        [[ $doc?transform-with($doc?content, map { "mode": "metadata", "context-path": $context-path }, "serafin.odd") ]]
-    </nav>
+    [% template above-content %]
+    [% if exists($context?doc) %]
+    <pb-view class="correspondence" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
+        subscribe="transcription" emit="transcription" view="single" load-css="resources/css/correspondence-theme.css">
+        <pb-param name="mode" value="metadata"/>
+        <pb-param name="context-path" value="[[ $context-path ]]"/>
+    </pb-view>
+    [% endif %]
     [% endtemplate %]
 </template>

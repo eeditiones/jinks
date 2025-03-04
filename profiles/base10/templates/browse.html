@@ -1,4 +1,4 @@
-<main class="container-fluid">
+<template>
     ---json
     {
         "features": {
@@ -7,6 +7,7 @@
         "templating": {
             "extends": "templates/layouts/base.html"
         },
+        "layout": "sticky-layout",
         "script": {
             "custom": [
                 "resources/scripts/facets.js",
@@ -15,42 +16,44 @@
         }
     }
     ---
-    <section>
+    [% template hero %]
+    <div class="hero">
         <h1>[[ $label ]]</h1>
-        <div class="grid browse">
-            <aside>
-                <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
-                    subforms=".facets,.options" submit-on-load="submit-on-load">
-                    <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
-                    <input type="hidden" name="field" value="text"/>
-                </pb-search>
-                <pb-custom-form class="options">
-                    <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
-                    <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
-                </pb-custom-form>
-                <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
-                </pb-custom-form>
-            </aside>
-            <div id="document-list">
-                [% block before-list %][% endblock %]
-                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
-                <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
-            </div>
-            <aside>
-                <pb-restricted group="[[ $pkg?user?group ]]">
-                    [% if $context?features?upload %]
-                        [% if $context?defaults?upload %]
-                        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                            event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
-                        [% else %]
-                        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                            event="pb-search-resubmit"></pb-upload>
-                        [% endif %]
-                    [% endif %]
-                </pb-restricted>
-                [% block browse-aside %][% endblock %]
-            </aside>
+    </div>
+    [% endtemplate %]
+    <main>
+        <aside class="before-content">
+            <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+                subforms=".facets,.options" submit-on-load="submit-on-load">
+                <paper-button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></paper-button>
+                <input type="hidden" name="field" value="text"/>
+            </pb-search>
+            <pb-custom-form class="options">
+                <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+                <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
+            </pb-custom-form>
+            <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+            </pb-custom-form>
+        </aside>
+        <div id="document-list">
+            [% block before-list %][% endblock %]
+            <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+            <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
         </div>
-        [% include "templates/footer.html" %]
-    </section>
-</main>
+        <aside class="after-content">
+            <pb-restricted group="[[ $pkg?user?group ]]">
+                [% if $context?features?upload %]
+                    [% if $context?defaults?upload %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+                    [% else %]
+                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                        event="pb-search-resubmit"></pb-upload>
+                    [% endif %]
+                [% endif %]
+            </pb-restricted>
+            [% block browse-aside %][% endblock %]
+        </aside>
+    </main>
+    [% include "templates/footer.html" %]
+</template>
