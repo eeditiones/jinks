@@ -20,6 +20,7 @@ declare variable $cpy:ERROR_PERMISSION := xs:QName("cpy:permission-denied");
 declare variable $cpy:CONFLICT_DETAILS_MIMETYPES := (
     "text/html", 
     "application/xml",
+    "text/xml",
     "text/text",
     "text/plain",
     "application/json",
