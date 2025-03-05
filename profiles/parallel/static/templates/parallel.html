@@ -1,4 +1,4 @@
-<main class="two-column">
+<main>
     ---json
     {
         "templating": {
@@ -6,7 +6,8 @@
         },
         "features": {
             "toc": false
-        }
+        },
+        "layout": "sticky-layout"
     }
     ---
     [% template breadcrumb %]
@@ -19,11 +20,11 @@
         </nav>
     </li>
     [% endtemplate %]
-    <div class="col1">
+    <div class="content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
     </div>
-    <div class="col2">
+    <div class="content">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>

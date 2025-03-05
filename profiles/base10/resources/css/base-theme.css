@@ -198,14 +198,6 @@ pb-document {
     padding-block-start: 0;
 }
 
-.sticky-layout .page-header {
-    position: sticky;
-    top: 0;
-    width: 100vw;
-    background-color: transparent;
-    z-index: 1;
-}
-
 .page-header > div {
     background-image: var(--pb-header-background-image);
     background-size: cover;
@@ -260,8 +252,9 @@ pb-document {
     grid-column-start: 1;
     grid-row-start: 2;
     margin-bottom: 1rem;
-    margin-left: 8rem;
+    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
     height: 100%;
+    background-image: var(--pb-hero-background-image);
 }
 
 /* @media (min-width: 1024px) {
@@ -292,11 +285,7 @@ main {
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    padding: 0 2rem;
-}
-
-main:not(.container-fluid) {
-    margin: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+    padding: 1rem 2rem;
 }
 
 main > *:not(.before-content, .after-content) {
@@ -629,6 +618,19 @@ footer a {
 .above-content, .below-content {
     max-width: var(--pb-content-max-width);
     margin: 0 auto;
+}
+
+/* Layouts
+ *
+ * 1. sticky-layout: The page header is sticky and the content scrolls underneath it.
+ * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
+ */
+.sticky-layout .page-header {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    background-color: transparent;
+    z-index: 1;
 }
 
 .fixed-layout {

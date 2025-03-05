@@ -49,12 +49,6 @@
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
             class="[[ $context?layout ]]">
-            [% if $context?features?hero %]
-            <div class="banner-spacer">
-                <!-- Contains the banner image spanning header and hero -->
-                <div></div>
-            </div>
-            [% endif %]
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]

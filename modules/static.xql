@@ -296,11 +296,26 @@ declare function static:split($context as map(*), $chunks as map(*)*, $template 
                         "page": $chunk?page,
                         "all": $chunks
                     },
-                    "content": $chunk?data?*
+                    "content": 
+                        for $chunk in $chunk?data?*
+                        return map:merge((
+                            $chunk,
+                            map {
+                                "content":
+                                    let $contentChunks :=
+                                        if ($chunk?content instance of array(*)) then
+                                            $chunk?content
+                                        else
+                                            array { $chunk?content }
+                                    for $content in $contentChunks?*
+                                    return
+                                        parse-xml-fragment($content)
+                            }
+                        ))
                 }
             )),
             map {
-                "plainText": true(),
+                "plainText": false(),
                 "resolver": cpy:resource-as-string($context, ?)
             }
         )

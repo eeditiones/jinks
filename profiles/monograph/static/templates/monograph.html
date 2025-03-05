@@ -1,9 +1,13 @@
-<main class="paginated">
+<main>
     ---json
     {
         "templating": {
             "extends": "static/templates/layouts/base.html"
-        }
+        },
+        "toolbar": {
+            "navigation": false
+        },
+        "layout": "sticky-layout"
     }
     ---
     [% template breadcrumb %]
@@ -16,7 +20,7 @@
         </nav>
     </li>
     [% endtemplate %]
-    <div class="nav-button left">
+    <div class="floating-button left">
         [% if $context("parts")?default?previous %]
             <a href="[[ '../' || $context('pagination')?page - 1 || '/index.html' ]]"
                 title="Page [[ $context('pagination')?page - 1 ]]">
@@ -28,7 +32,7 @@
         [[ $parts?default?content ]]
         [[ $parts?default?footnotes ]]
     </div>
-    <div class="nav-button right">
+    <div class="floating-button right">
         [% if $context("parts")?default?next %]
             <a href="[[ '../' || $context('pagination')?page + 1 || '/index.html' ]]"
                 title="Page [[ $context('pagination')?page + 1 ]]">

@@ -45,13 +45,7 @@
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json" 
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
-            unresolved="unresolved">
-            [% if $context?features?hero %]
-            <div class="banner-spacer">
-                <!-- Contains the banner image spanning header and hero -->
-                <div></div>
-            </div>
-            [% endif %]
+            unresolved="unresolved" class="[[ $context?layout ]]">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -65,7 +59,9 @@
                 </div>
             </header>
             [% block hero %][% endblock %]
+            [% block above-content %][% endblock %]
             [% block content %][% endblock %]
+            [% block below-content %][% endblock %]
             [% if $features?toc %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                 <div class="drawer-content">

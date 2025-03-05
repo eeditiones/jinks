@@ -2,6 +2,10 @@
     font-size: var(--pb-base-font-size);
 }
 
+.static main {
+    column-gap: 2rem;
+}
+
 .content a[rel="footnote"] {
     font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
     font-family: var(--pb-footnote-font-family, --pb-content-font-family);
@@ -19,6 +23,7 @@
 .content, .footnotes {
     font-family: var(--pb-content-font-family);
     font-size: var(--pb-content-font-size);
+    max-width: var(--pb-view-max-width);
 }
 
 .footnotes {

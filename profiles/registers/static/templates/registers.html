@@ -1,9 +1,10 @@
-<main class="content-grid">
+<main>
     ---json
     {
         "templating": {
             "extends": "static/templates/layouts/base.html"
         },
+        "layout": "sticky-layout",
         "script": {
             "extra-components": [
                 "pb-leaflet-map"
@@ -24,19 +25,20 @@
         </nav>
     </li>
     [% endtemplate %]
-    <header class="before-content content">
-        <nav class="correspondence">
+    [% template above-content %]
+    <header class="correspondence content">
         [[ $parts?metadata?content ]]
-        </nav>
     </header>
-    <div class="column1 content">
+    [% endtemplate %]
+    <div class="content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
     </div>
-    <div class="column2 content">
+    <div class="content">
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
+    [% template after-content %]
     <aside class="after-content">
         [[ $parts?register?content ]]
 
@@ -44,4 +46,5 @@
             <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
         </pb-leaflet-map>
     </aside>
+    [% endtemplate %]
 </main>
