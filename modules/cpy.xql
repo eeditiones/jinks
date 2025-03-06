@@ -121,14 +121,19 @@ declare function cpy:copy-resource($context as map(*), $source as xs:string, $ta
 };
 
 declare function cpy:copy-collection($context as map(*)) {
-    cpy:copy-collection($context, "", "")
+    cpy:copy-collection($context, "", "", ())
 };
 
 declare function cpy:copy-collection($context as map(*), $source as xs:string, $target as xs:string) {
+    cpy:copy-collection($context, $source, $target, ())
+};
+
+declare function cpy:copy-collection($context as map(*), $source as xs:string, $target as xs:string, $regex as xs:string?) {
     path:mkcol($context, $target),
     let $absSource := path:resolve-path($context?source, $source)
     return (
         for $resource in xmldb:get-child-resources($absSource)
+        where empty($regex) or matches($resource, $regex)
         return
             if (matches($resource, $context?template-suffix)) then
                 let $template := cpy:resource-as-string($context, $absSource || "/" || $resource)
@@ -144,7 +149,7 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
                 cpy:copy-resource($context, $source || "/" || $resource, $target || "/" || $resource),
         for $childColl in xmldb:get-child-collections($absSource)
         return
-            cpy:copy-collection($context, $source || "/" || $childColl, $target || "/" || $childColl)
+            cpy:copy-collection($context, $source || "/" || $childColl, $target || "/" || $childColl, $regex)
     )
 };
 

@@ -51,7 +51,7 @@
         "upload": false
     },
     "menu": {
-        "login": false
+        "login": true
     },
     "templating": {
         "use": [
@@ -99,6 +99,13 @@
         "fields": {
             "index": ["content"],
             "store": ["content", "title", "link"]
-        }
+        },
+        "copy": [
+            {
+                "from": "data/doc",
+                "to": "images",
+                "filter": "\\.(?:png|jpg|jpeg|gif|svg)$"
+            }
+        ]
     }
 }

@@ -1,5 +1,8 @@
 <html>
     <head>
+        [% if $context?defaults?base %]
+        <base href="[[ $context-path ]]/[[ $context?defaults?base ]]"/>
+        [% endif %]
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
         <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico" />

@@ -362,6 +362,13 @@ font-style: italic;
             max-width: 100%;
             </outputRendition>
         </model>
+        <model predicate="$parameters?static" behaviour="graphic">
+            <param name="url" value="$parameters?context-path || '/images/' || @fileref"/>
+            <param name="width" value="@width"/>
+            <outputRendition xml:space="preserve">
+            max-width: 100%;
+            </outputRendition>
+        </model>
                     <model behaviour="graphic">
             <param name="url" value="@fileref"/>
             <param name="width" value="@width"/>

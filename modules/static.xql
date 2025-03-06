@@ -550,6 +550,7 @@ declare function static:generate-from-config($context as map(*)) {
     cpy:copy-collection($context, "resources/images", "resources/images"),
     cpy:copy-collection($context, "resources/fonts", "resources/fonts"),
     cpy:copy-collection($context, "resources/i18n", "resources/i18n"),
+    static:copy($context),
     path:mkcol($context, "transform"),
     for $odd in $context?odds?*
     let $css := "transform/" || replace($odd, "\.odd$", "") || ".css"
@@ -563,4 +564,10 @@ declare function static:generate-from-config($context as map(*)) {
         })
     else
         ()
+};
+
+declare function static:copy($context as map(*)) {
+    for $operation in $context?static?copy?*
+    return
+        cpy:copy-collection($context, $operation?from, $operation?to, $operation?filter)
 };
