@@ -34,38 +34,35 @@
 
     <main>
         <div class="container">
-            <section id="editions">
+            <section id="highlights">
                 <header>
-                    <h1><pb-i18n key="menu.collections"/></h1>
+                    <h1><pb-i18n key="landing.highlights"/></h1>
                 </header>
-                [% include "templates/editions." || $request?parameters?lang || ".html" %]
+                [% include "templates/highlights.html" %]
             </section>
 
             <section id="about">
                 <header>
-                    <h1><pb-i18n key="menu.about"/></h1>
+                    <h1><pb-i18n key="landing.about"/></h1>
                 </header>
                 <div class="grid">
-                    [% include "templates/about." || $request?parameters?lang || ".html" %]
+                    [% include "templates/about.html" %]
                     <div class="bg-transparent"><span></span></div>
                 </div>
             </section>
 
             <section id="team">
                 <header>
-                    <h1><pb-i18n key="menu.team"/></h1>
+                    <h1><pb-i18n key="landing.team"/></h1>
                 </header>
                 [% include "templates/team." || $request?parameters?lang || ".html" %]
             </section>
             <section id="partners">
                 <header>
-                    <h1><pb-i18n key="menu.partners"/></h1>
+                    <h1><pb-i18n key="landing.partners"/></h1>
                 </header>
                 [% include "templates/footer.html" %]
             </section>
-            <section id="info">
-                [% include "templates/info." || $request?parameters?lang || ".html" %]
-            </section> 
         </div>
     </main>
     [% include "templates/bottom.html" %]
