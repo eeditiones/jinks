@@ -122,6 +122,7 @@ pb-page[unresolved]~.splash {
     color: var(--pb-menubar-color);
     --pb-search-suggestions-color: var(--pb-menubar-color);
     --pb-search-suggestions-background: var(--pb-menubar-background-color);
+    font-size: var(--pb-menubar-font-size);
 }
 
 .menubar .icon {
@@ -205,45 +206,6 @@ pb-document {
     background-position: top;
 }
 
-/*  For the landing page, this element contains the background covering both, 
-    page header and hero */
-.banner-spacer {
-    height: 100vh;
-    /* Span from the first to the last grid column line */
-    /* (Negative numbers count from the end of the grid) */
-    grid-column: 1 / -1;
-    /* Start at the first grid row line, and take up 2 rows */
-    grid-row: 1 / span 2;
-    background-image: var(--pb-header-background-image);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.banner-spacer div {
-    background-color: var(--pb-header-background-color);
-    height: 100%;
-}
-
-.banner-spacer ~ .page-header > div {
-    background-image: none;
-}
-
-/* As soon as the hero moves out of the viewport, the page header gets a fixed background */
-.banner-spacer.not-visible ~ .page-header > div {
-    background-image: var(--pb-header-background-image);
-}
-
-.banner-spacer.not-visible ~ .page-header > div::after {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: var(--pb-header-background-color);
-    z-index: 0;
-}
-
 /* hero covers 100% of the viewport height */
 .hero {
     display: flex;
@@ -251,10 +213,27 @@ pb-document {
     justify-content: center;
     grid-column-start: 1;
     grid-row-start: 2;
-    margin-bottom: 1rem;
-    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
-    height: 100%;
-    background-image: var(--pb-hero-background-image);
+    padding: 2rem 1rem 2rem 6rem;
+    height: 512px;
+    color: var(--pb-color-inverse);
+    --pico-color: var(--pb-color-inverse);
+    --pico-h1-color: var(--pb-color-inverse);
+    position: relative;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+}
+
+.hero > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* @media (min-width: 1024px) {
@@ -630,7 +609,7 @@ footer a {
     top: 0;
     width: 100vw;
     background-color: transparent;
-    z-index: 1;
+    z-index: 2;
 }
 
 .fixed-layout {

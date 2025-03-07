@@ -1,38 +1,33 @@
 :root {
+    --pb-base-font-family: 'Albert Sans', sans-serif;
+    --pb-base-font-size: 1.125rem;
+    --pb-base-line-height: 140%;
+
+    --pb-serif-font-family: var(--pb-base-font-family);
+    --pb-content-font-family: var(--pb-base-font-family);
+    --pb-heading-font-family: var(--pb-base-font-family);
+
+    --pb-menubar-font-size: 1rem;
     --pico-font-size: 16px;
-    --pb-header-background-image: url("../images/mael_tsang.jpg");
 }
 
-.logo {
-    background-image: url("../images/SVG/pl-color-3lines.svg");
-    background-size: 100% auto;
-    width: 140px;
-    height: 60px;
-    margin-right: 2rem;
+pb-page {
+    background-image: var(--pb-hero-background-image);
+    background-position: center 95px;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: transparent;
 }
 
-[data-theme="dark"] {
-    .logo.en {
-        background-image: url("../images/SVG/eng-negative-3lines.svg");
-    }
-
-    .logo.pl {
-        background-image: url("../images/SVG/pl-negative-3lines.svg");
-    }
+main {
+    background-color: var(--pico-background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-[data-theme="light"] {
-    .logo.en {
-        background-image: url("../images/SVG/eng-color-3lines.svg");
-    }
-
-    .logo.pl {
-        background-image: url("../images/SVG/pl-color-3lines.svg");
-    }
-}
-
-.menubar a:hover {
-    color: #0172ad;
+.hero {
+    color: var(--pb-color-inverse);
 }
 
 .hero a {
