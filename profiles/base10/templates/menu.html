@@ -92,7 +92,7 @@
     </ul>
     <ul>
         [% if $menu?search %]
-        <li>
+        <li class="hidden-mobile">
             [% if $context('isStatic') %]
             <form action="[[ $context-path ]]/search.html">
                 <input type="search" value="" name="query"/>
@@ -146,9 +146,15 @@
         </li>
         [% endif %]
         [% if $menu?login and not($context?isStatic) %]
-        <li>
+        <li class="hidden-mobile">
             <pb-login id="login" group="[[ $pkg?user?group ]]"/>
         </li>
         [% endif %]
+        <li class="mobile trigger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/></svg>
+            [% if $features?menubar %]
+            [% include "templates/menu-mobile.html" %]
+            [% endif %]
+        </li>
     </ul>
 </nav>

@@ -1,10 +1,12 @@
-<aside class="mobile container-fluid">
+<aside class="mobile menu">
     <nav>
         <ul>
             [% for $item in $menu?items?* %]
+            [% if $item?url %]
             <li>
                 <a href="[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
             </li>
+            [% endif %]
             [% endfor %]
             [% if $menu?language %]
             <li>
@@ -22,7 +24,7 @@
             [% endif %]
 
             [# display download menu items if in document view #]
-            [% if exists($context?doc) %]
+            [% if exists($context?doc) and $menu?download %]
                 <li>
                     <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
                         XML
