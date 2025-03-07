@@ -57,11 +57,16 @@
                 </header>
                 [% include "templates/team." || $request?parameters?lang || ".html" %]
             </section>
+            <section id="partners">
+                <header>
+                    <h1><pb-i18n key="menu.partners"/></h1>
+                </header>
+                [% include "templates/footer.html" %]
+            </section>
             <section id="info">
                 [% include "templates/info." || $request?parameters?lang || ".html" %]
             </section> 
         </div>
     </main>
-    [% include "templates/footer.html" %]
-    [% include "templates/bottom." || $request?parameters?lang || ".html" %]
+    [% include "templates/bottom.html" %]
 </template>
