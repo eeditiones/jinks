@@ -136,47 +136,19 @@ section {
 }
 
 .slides article:nth-child(1) h2 {
-    background-image: url("../images/neolatina.png");
+    background-image: url("../images/mael_tsang.jpg");
 }
 
 .slides article:nth-child(2) h2 {
-    background-image: url("../images/potocki.png");
-}
-
-.slides article:nth-child(3) h2 {
-    background-image: url("../images/skarga.png");
-}
-
-.slides article:nth-child(4) h2 {
-    background-image: url("../images/laks.png");
-}
-
-.slides article:nth-child(5) h2 {
     background-image: url("../images/abstract-1.jpg");
 }
 
-.slides article:nth-child(6) h2 {
+.slides article:nth-child(3) h2 {
     background-image: url("../images/abstract-2.jpg");
 }
 
 #about .bg-transparent {
     background-image: url("../images/mael_tsang.jpg");
-}
-
-.info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: .5rem;
-}
-
-.info section {
-    max-width: 300px;
-}
-
-@media (max-width: 639px) {
-    .info {
-        display: block;
-    }
 }
 
 footer {
@@ -192,6 +164,7 @@ footer {
 }
 
 .bottom {
+    min-height: 300px;
     width: 100vw;
     padding: 1rem;
     display: flex;
@@ -289,8 +262,4 @@ footer img {
         width: 3rem; /* Fixed size */
         height: 3rem; /* Fixed size */
     }
-}
-
-.info p {
-    font-size: 0.925rem;
 }
