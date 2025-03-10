@@ -132,7 +132,7 @@ section {
 }
 
 .slides article:nth-child(1) h2 {
-    background-image: url("../images/skarga.png");
+    background-image: url("../images/mael_tsang.jpg");
 }
 
 .slides article:nth-child(2) h2 {
@@ -145,22 +145,6 @@ section {
 
 #about .bg-transparent {
     background-image: url("../images/mael_tsang.jpg");
-}
-
-.info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: .5rem;
-}
-
-.info section {
-    max-width: 300px;
-}
-
-@media (max-width: 639px) {
-    .info {
-        display: block;
-    }
 }
 
 footer {
@@ -274,8 +258,4 @@ footer img {
         width: 3rem; /* Fixed size */
         height: 3rem; /* Fixed size */
     }
-}
-
-.info p {
-    font-size: 0.925rem;
 }
