@@ -1,0 +1,34 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "layout": "fixed-layout"
+    }
+    ---
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/index.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
+                <li>[[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "title" }, "osinski.odd") ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+    [% template above-content %]
+    <details class="above-content">
+        <summary>
+            [[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "title" }, "osinski.odd") ]]
+        </summary>
+        [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "metadata" }, "osinski.odd") ]]
+        <hr/>
+    </details>
+    [% endtemplate %]
+    [% template after-content %]
+    <pb-facsimile id="facsimile" class="after-content" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" 
+        show-navigator="show-navigator" subscribe="transcription"/>
+    [% endtemplate %]
+    <pb-view class="[[ if ($layout = 'fixed-layout') then 'overflow' else '' ]]" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+</template>
