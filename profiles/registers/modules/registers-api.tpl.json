@@ -41,7 +41,13 @@
 							"type": "string",
                             "default": "people"
 						}
-					}				
+					},
+					{
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }}				
 				],
 				"responses": {
 					"200": {
@@ -197,7 +203,13 @@
 							"type": "string",
                             "default": "places"
 						}
-					}					
+					},
+					{
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }}					
 				],
 				"responses": {
 					"200": {
