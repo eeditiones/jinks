@@ -13,19 +13,12 @@
         }
     }
     ---
-    [% template toolbar %]
-    <li>
-        <pb-toggle-feature name="p_norm" selector=".lb" emit="transcription" subscribe="transcription">
-            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
-        </pb-toggle-feature>
-    </li>
-    [% endtemplate %]
     [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/index.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='main'], map { "mode": "breadcrumb" }, "dta.odd") ]]</li>
+                <li>[[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title, map {  }, "docx-output.odd") ]]</li>
             </ul>
         </nav>
     </li>
