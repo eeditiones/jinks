@@ -254,8 +254,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             }
                             diff = document.createElement('jinn-monaco-diff');
                             li.appendChild(diff);
-
-                            const url = new URL(`../${result.config.pkg.abbrev}/api/document/${message.path}`, window.location);
+                            const url = new URL(`../${result.config.pkg.abbrev}/api/source/${message.path}`, window.location);
                             fetch(url)
                             .then((response) => {
                                 if (!response.ok) {

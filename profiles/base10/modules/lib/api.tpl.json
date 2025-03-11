@@ -3350,6 +3350,30 @@
 					}
 				}
 			}
+		},
+		"/api/source/{path}": {
+			"get": {
+				"description": "Get the source of a file in the application",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
+				"operationId": "iapi:source",
+				"parameters": [
+					{
+						"name": "path",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
 		}
     },
 	"security": [
