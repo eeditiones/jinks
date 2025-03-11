@@ -9,7 +9,9 @@
          <titleStmt>
             <title>Hernán CORTÉS to Ioannes DANTISCUS, Mexico 1531-08-01</title>
             <title type="s">Corpus of Texts and Correspondence of Ioannes Dantiscus</title>
-            <editor>Anna Skolimowska et al.</editor>
+            <editor>Anna Skolimowska</editor>
+            <editor>Magdalena Turska</editor>
+            <editor>Katarzyna Jasińska-Zdun</editor>
             <respStmt>
                <resp>transcription</resp>
                <persName>Jerzy Axer</persName>
@@ -28,29 +30,54 @@
             </respStmt>
          </titleStmt>
          <publicationStmt>
-            <publisher>Laboratory for Source Editing and Digital Humanities</publisher>
-            <pubPlace>Warsaw</pubPlace>
+            <publisher>Laboratory For Editing Sources, "Artes Liberales", University of
+               Warsaw</publisher>
+            <placeName>Warsaw</placeName>
             <date>2010</date>
+            <availability>
+               <licence target="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA
+                  4.0</licence>
+            </availability>
+            <p>Transcribed from manuscript, collated with primary sources; critical apparatus and
+               commentary.</p>
+            <p>Working draft, please refer to http://dantiscus.al.uw.edu.pl for current version.</p>
          </publicationStmt>
          <sourceDesc>
-            <msDesc type="fair-copy">
+            <msDesc type="fair-copy" ana="primary" n="1">
                <msIdentifier>
-                  <institution>B. Cz.</institution>
-                  <idno>1596, p. 301-302</idno>
+                  <repository>B. Cz. <idno>1596</idno>, <locus>p. 301-30</locus></repository>
                </msIdentifier>
                <msContents>
-                  <p/>
+                  <p>fair copy in secretary's hand, author's signagure</p>
                </msContents>
                <physDesc>
-                  <p>fair copy in secretary's hand, author's signagure; a seal next to the
-                     address</p>
+                  <p>seal next to the address</p>
                </physDesc>
             </msDesc>
+            <msDesc type="register" ana="primary" n="2">
+               <msIdentifier>
+                  <repository>CBKUL, <idno>R.III, 32, No. 532</idno></repository>
+               </msIdentifier>
+               <msContents>
+                  <p>20th century register with excerpt in Latin, English</p>
+               </msContents>
+            </msDesc>
+            <bibl type="print"><title>De Vocht 1961</title> No. DE, 149, 90 (reference)</bibl>
+            <bibl type="print"><title>Axer 1990</title> No. 13, 1990, p. 371-377 (in extenso)</bibl>
+            <bibl type="print"><title>Españoles</title> part IIIA, No. 2, 320-321 (in
+               extenso)</bibl>
+            <bibl type="print"><title>Rodriguez, Skolimowska</title> No. 20, p.106 (Spanish
+               register)</bibl>
+            <bibl type="print"><title>Reflejos</title> p. 125-126, 128-129 (in extenso; Polish
+               translation)</bibl>
          </sourceDesc>
       </fileDesc>
       <profileDesc>
          <abstract>
-            <p>Another letter showing complex alignment between transcription and translation. The translation does not contain page breaks, so the alignment has to be computed dynamically for each page using a mapping function. Additionally incorporates a IIF view of the facsimile in the middle column.</p>
+            <p>A letter showing complex alignment between transcription and translation. The
+               translation does not contain page breaks, so the alignment has to be computed
+               dynamically for each page using a mapping function. Additionally incorporates a IIIF
+               view of the facsimile.</p>
          </abstract>
          <textClass>
             <catRef scheme="#genre" target="#correspondence"/>
