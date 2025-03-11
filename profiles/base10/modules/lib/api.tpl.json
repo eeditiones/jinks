@@ -98,10 +98,8 @@
 					{
 						"name": "lang",
 						"in": "query",
-						"required": true,
 						"schema": {
-							"type": "string",
-							"default": "[[ head(($defaults?language, 'en')) ]]"
+							"type": "string"
 						}
 					}
 				],
