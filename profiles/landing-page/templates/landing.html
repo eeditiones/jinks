@@ -34,13 +34,6 @@
 
     <main>
         <div class="container">
-            <section id="highlights">
-                <header>
-                    <h1><pb-i18n key="landing.highlights"/></h1>
-                </header>
-                [% include "templates/highlights.html" %]
-            </section>
-
             <section id="about">
                 <header>
                     <h1><pb-i18n key="landing.about"/></h1>
@@ -49,6 +42,13 @@
                     [% include "templates/about.html" %]
                     <div class="bg-transparent"><span></span></div>
                 </div>
+            </section>
+
+            <section id="highlights">
+                <header>
+                    <h1><pb-i18n key="landing.highlights"/></h1>
+                </header>
+                [% include "templates/highlights.html" %]
             </section>
 
             <section id="team">
