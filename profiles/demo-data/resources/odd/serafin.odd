@@ -599,6 +599,17 @@
 </ul></pb:template>
         </model>
                 </elementSpec>
+                <elementSpec ident="pb" mode="change">
+                    <model behaviour="webcomponent" cssClass="facs">
+                        <desc>Use the pb-tify component, no need for explicit link to the image, this is taken care of by the iiif api</desc>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="content" value="@n"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <param name="emit-on-load" value="'emit-on-load'"/>
+                        <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
+                    </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
