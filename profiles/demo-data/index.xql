@@ -69,7 +69,7 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "date" return
                 idx:get-date($header//tei:correspDesc/tei:correspAction/tei:date)
             case "genre" return (
-                "letter"
+                idx:get-genre($header)
             )
             case "category" return
                 (root($root)/tei:TEI/@n, "ZZZ")[1]

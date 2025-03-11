@@ -53,7 +53,6 @@ declare variable $facets-config:facets := [
         "max": 5,
         "hierarchical": false(),
         "output": function($label, $language) {
-            util:log("INFO", ("Facet label: ", $label, "Language: ", $language)),
             if (matches($language, "^pl-?")) then
                 switch($label)
                 case "it" return "włoski"
