@@ -16,6 +16,7 @@
         "parallel",
         "registers",
         "jats",
+        "docx",
         "demo-data"
     ],
     "pkg": {
@@ -51,7 +52,13 @@
         "upload": false
     },
     "menu": {
-        "login": true
+        "login": true,
+        "items": [
+            {
+                "id": "documentation",
+                "url": "documentation"
+            }
+        ]
     },
     "templating": {
         "use": [
