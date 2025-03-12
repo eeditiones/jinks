@@ -61,10 +61,31 @@ declare function generator:process($settings as map(*)?, $config as map(*)?) {
             }
     return
         map {
-            "messages": array { $result, $postProcessed },
+            "messages": array { generator:filter-conflicts($result), $postProcessed },
             "config": $context,
             "nextStep": $nextStep
         }
+};
+
+(:~
+ : Clean up the list of conflicts: if a file is copied from different profiles, keep only the last conflict message.
+ :)
+declare %private function generator:filter-conflicts($messages as map(*)*) {
+    if (empty($messages)) then
+        ()
+    else
+        let $next := head($messages)
+        let $tail := tail($messages)
+        let $laterMessages := filter($tail, function($msg) { 
+            $msg?type = "conflict" and $msg?path = $next?path
+        })
+        return
+            if (exists($laterMessages)) then
+                generator:filter-conflicts($tail)
+            else (
+                $next,
+                generator:filter-conflicts($tail)
+            )
 };
 
 (:~
