@@ -58,10 +58,12 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                         return
                         <tr>
                             <td>
-                                <paper-checkbox class="facet" name="facet-{$config?dimension}" value="{$label}">
+                                <label>
+                                    <input type="checkbox" class="facet" name="facet-{$config?dimension}" value="{$label}">
                                     { if ($label = $params) then attribute checked { "checked" } else () }
+                                    </input>
                                     <pb-i18n key="{$content}">{$content}</pb-i18n>
-                                </paper-checkbox>
+                                </label>
                             </td>
                             <td>{$freq}</td>
                         </tr>,
@@ -113,10 +115,12 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                     <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
                     {
                         if ($fcount > $max) then
-                            <paper-checkbox class="facet" name="all-{$config?dimension}">
+                            <label>
+                                <input type="checkbox" class="facet" name="all-{$config?dimension}">
                                 { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
+                                </input>
                                 <pb-i18n key="facets.show">Show top 50</pb-i18n>
-                            </paper-checkbox>
+                            </label>
                         else
                             ()
                     }

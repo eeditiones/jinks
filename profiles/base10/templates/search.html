@@ -15,8 +15,12 @@
             <pb-search id="search-form" subscribe="search"
                 value="[[ $request?parameters?query ]]" submit-on-load="submit-on-load">
                 <div class="targets">
-                    <paper-checkbox name="field" value="text">Search sections</paper-checkbox>
-                    <paper-checkbox name="field" value="head">Search headings</paper-checkbox>
+                    <label>Search sections
+                        <input type="checkbox" name="field" value="text"/>
+                    </label>
+                    <label>Search headings
+                        <input type="checkbox" name="field" value="head"/>
+                    </label>
                 </div>
                 <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
             </pb-search>
