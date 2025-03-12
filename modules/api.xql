@@ -6,6 +6,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace auth="http://e-editiones.org/roaster/auth";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
@@ -159,6 +160,20 @@ declare function api:source($request as map(*)) {
                     error($errors:NOT_FOUND, "File " || $path || " not found")
         else
             error($errors:BAD_REQUEST, "No path specified")
+};
+
+declare function api:resolve-conflict($request as map(*)) {
+    let $id := $request?parameters?id
+    let $target := path:get-package-target($id)
+    return
+        if ($target) then
+            let $path := xmldb:decode($request?parameters?path)
+            let $json := generator:load-json(path:resolve-path($target, ".jinks.json"), map {})
+            let $updated := map:remove($json, $path) => serialize(map { "method": "json", "indent": true() })
+            return
+                xmldb:store($target, ".jinks.json", $updated, "application/json")
+        else
+            error($errors:NOT_FOUND, "Target not found: " || $id)
 };
 
 let $lookup := function($name as xs:string) {

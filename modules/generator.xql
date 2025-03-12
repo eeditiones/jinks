@@ -10,7 +10,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
-import module namespace path="http://tei-publisher.com/jinks/path";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";

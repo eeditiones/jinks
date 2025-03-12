@@ -219,6 +219,35 @@
 				}
 			}
 		},
+        "/api/resolve": {
+            "post": {
+                "description": "Mark a conflict as resolved",
+                "operationId": "api:resolve-conflict",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+            }
+        },
         "/api/login": {
 			"post": {
 				"summary": "Login the user",

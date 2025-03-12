@@ -266,6 +266,34 @@ window.addEventListener('DOMContentLoaded', () => {
                                 diff.diff(text, message.incoming, message.mime);
                             });
                         });
+
+                        const resolveBtn = document.createElement('a');
+                        resolveBtn.href = '#';
+                        resolveBtn.dataset.tooltip = 'Overwrite with next update';
+                        resolveBtn.innerHTML = `<svg class="icon"><use href="#icon-resolve"></use></svg>`;
+                        li.appendChild(resolveBtn);
+                        resolveBtn.addEventListener('click', (ev) => {
+                            ev.preventDefault();
+                            const formData = new FormData();
+                            formData.append('path', message.path);
+                            formData.append('id', result.config.id);
+                            fetch('api/resolve', {
+                                method: 'post',
+                                body: formData,
+                            })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    const err = document.createElement('div');
+                                    err.innerHTML = 'Server responded with error: ' + response.status;
+                                    li.appendChild(err);
+                                    return;
+                                }
+                                const badge = li.querySelector('.badge');
+                                badge.className = 'badge resolved';
+                                badge.innerText = 'overwrite';
+                                li.removeChild(resolveBtn);
+                            });
+                        });
                     }
                     output.appendChild(li);
                 });
