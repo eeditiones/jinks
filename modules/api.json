@@ -195,6 +195,30 @@
                 }
             }
         },
+        "/api/source/{path}": {
+			"get": {
+				"description": "Get the source of a file in the application",
+				"x-constraints": {
+					"groups": ["tei"]
+				},
+				"operationId": "api:source",
+				"parameters": [
+					{
+						"name": "path",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
         "/api/login": {
 			"post": {
 				"summary": "Login the user",

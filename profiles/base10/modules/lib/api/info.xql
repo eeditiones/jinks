@@ -31,21 +31,3 @@ declare function iapi:list-templates($request as map(*)) {
             }
     }
 };
-
-declare function iapi:source($request as map(*)) {
-    let $path := xmldb:decode($request?parameters?path)
-    return
-        if ($path) then
-            let $path := xmldb:encode-uri($config:app-root || "/" || $path)
-            let $filename := replace($path, "^.*/([^/]+)$", "$1")
-            let $mime := xmldb:get-mime-type($path)[1]
-            return
-                if (util:binary-doc-available($path)) then
-                    response:stream-binary(util:binary-doc($path), $mime, $filename)
-                else if (doc-available($path)) then
-                    router:response(200, $mime, doc($path))
-                else
-                    error($errors:NOT_FOUND, "File " || $path || " not found")
-        else
-            error($errors:BAD_REQUEST, "No path specified")
-};

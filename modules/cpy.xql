@@ -196,6 +196,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                 map {
                     "type": "conflict",
                     "path": $relPath,
+                    "source": $path,
                     "hash": map {
                         "original": $expectedHash,
                         "actual": $currentHash
