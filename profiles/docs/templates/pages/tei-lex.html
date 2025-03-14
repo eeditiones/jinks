@@ -18,9 +18,9 @@
     ---
     [% template styles %]
     <style>
-        pb-page {
+        .fixed-layout {
             grid-template-columns: minmax(25vw, 640px) 1fr;
-            grid-template-rows: auto auto auto 1fr;
+            grid-template-rows: auto auto min-content 1fr;
             grid-template-areas:
                 "header header"
                 "preface preface"
@@ -34,6 +34,9 @@
         .above-content {
             grid-area: preface;
         }
+        .above-content pb-view {
+            margin-left: 0;
+        }
         #options {
             grid-area: form;
             padding-left: 1rem;
@@ -43,8 +46,15 @@
             overflow: auto;
             padding-left: 1rem;
         }
+        pb-split-list .term {
+            max-width: 20em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
         #view {
             grid-area: text;
+            overflow: auto;
         }
     </style>
     [% endtemplate %]
@@ -53,8 +63,8 @@
         <pb-view src="document1" view="single"></pb-view>
     </header>
     [% endtemplate %]
-    <pb-custom-form id="options" auto="" auto-submit="paper-input,paper-icon-button" emit="transcription">
-        <input type="search" name="search" placeholder="" value="" data-i18n="[placeholder]search.search"/>
+    <pb-custom-form id="options" auto="" auto-submit="input" emit="transcription">
+        <input type="search" name="search" placeholder="" value="[[ $request?parameters?search ]]" data-i18n="[placeholder]search.search"/>
     </pb-custom-form>
     <pb-split-list class="register-split-list" url="api/lemma" subforms="#options" target="#list"
         emit="transcription" subscribe="transcription"/>

@@ -1,9 +1,10 @@
 <?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Lex-0<desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc></title>
+                <title>TEI Lex-0 <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -58,6 +59,9 @@
                 <elementSpec ident="form" mode="add">
                     <model behaviour="heading">
             <param name="level" value="2"/>
+            <outputRendition xml:space="preserve">
+            margin-top: 0;
+            </outputRendition>
         </model>
                 </elementSpec>
             <elementSpec ident="sense" mode="add">
@@ -134,12 +138,10 @@
             </model>
             <model behaviour="pass-through">
                 <param name="content" value="root($parameters?root)//front/div[@type='preface']"/>
-                <pb:template xmlns="" xml:space="preserve">
-                    <pb-collapse>
-                        <div slot="collapse-trigger">Preface</div>
-                        <div slot="collapse-content">[[content]]</div>
-                    </pb-collapse>
-                </pb:template>
+                <pb:template xmlns="" xml:space="preserve"><details>
+  <summary>Preface</summary>
+  <div>[[content]]</div>
+</details></pb:template>
             </model>
         </modelSequence>
                 </elementSpec>
@@ -196,8 +198,8 @@
         </model>
                 </elementSpec>
             <elementSpec ident="note" mode="change">
-        <model behaviour="omit"/>
-    </elementSpec>
+                    <model behaviour="omit"/>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
