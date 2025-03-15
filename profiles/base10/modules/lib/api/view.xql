@@ -7,6 +7,7 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
+import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 
 (:
@@ -122,11 +123,19 @@ declare function vapi:handle-error($error) {
     let $model := map:merge((
         vapi:load-config-json($error),
         map {
+            "type": $error?code,
             "description": $error?description,
             "context-path": $config:context-path
-        }
+        },
+        if ($error?value?code) then
+            map {
+                "code": $error?value?code,
+                "line": $error?value?line
+            }
+        else
+            ()
     ))
-    return
+    let $html :=
         tmpl:process($template, $model, map {
             "plainText": false(), 
             "resolver": vapi:resolver#1,
@@ -135,8 +144,12 @@ declare function vapi:handle-error($error) {
                     "prefix": "config",
                     "at": "modules/config.xqm"
                 }
-            }
+            },
+            "ignoreImports": true(),
+            "ignoreUse": true()
         })
+    return
+        roaster:response(200, "text/html", $html)
 };
 
 declare function vapi:resolver($relPath as xs:string) as map(*)? {
