@@ -100,7 +100,7 @@
     [% endtemplate %]
 
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
-            root-path="[[ $config:data-root ]]"></pb-document>
+            root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"></pb-document>
     <main class="text">
         <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
             <pb-param name="header" value="short"></pb-param>

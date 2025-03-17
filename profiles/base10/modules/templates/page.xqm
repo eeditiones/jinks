@@ -4,6 +4,19 @@ module namespace page="http://teipublisher.com/ns/templates/page";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
+declare namespace expath="http://expath.org/ns/pkg";
+
+declare variable $page:EXIDE :=
+    let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    let $appLink :=
+        if ($pkg) then
+            substring-after(util:collection-name($pkg), repo:get-root())
+        else
+            ()
+    let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")
+    return
+        replace($path, "/+", "/");
+
 declare function page:system() {
     map {
         "publisher": $config:expath-descriptor/@version/string(),

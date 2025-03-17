@@ -24,7 +24,7 @@
     }
     ---
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
-        root-path="[[ $config:app-root ]]"/>
+        root-path="[[ $config:app-root ]]" source-view="[[ $page:EXIDE ]]"/>
     <pb-drawer class="toc" toggle="tocToggle" emit="toc" subscribe="transcription" max-width="1024px">
         <pb-load url="api/document/{doc}/contents?target=transcription&amp;icons=false" expand="expand" src="document1" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
     </pb-drawer>
