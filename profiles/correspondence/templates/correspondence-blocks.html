@@ -8,4 +8,9 @@
     </pb-view>
     [% endif %]
     [% endtemplate %]
+    [% template styles %]
+    [% if $features?correspondence?navigation %]
+    <link rel="stylesheet" href="resources/css/correspondence-theme.css"/>
+    [% endif %]
+    [% endtemplate %]
 </template>
