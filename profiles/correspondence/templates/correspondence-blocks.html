@@ -1,6 +1,6 @@
 <template>
     [% template above-content %]
-    [% if exists($context?doc) %]
+    [% if exists($context?doc) and $features?correspondence?navigation %]
     <pb-view class="correspondence" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
         subscribe="transcription" emit="transcription" view="single" load-css="resources/css/correspondence-theme.css">
         <pb-param name="mode" value="metadata"/>
