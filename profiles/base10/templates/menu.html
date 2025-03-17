@@ -17,8 +17,13 @@
                 <ul dir="rtl">
                     <li>
                         <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
-                            XML
+                            Edit XML
                         </pb-edit-xml>
+                    </li>
+                    <li>
+                        <a href="[[ $context-path ]]/api/document/[[ $context?doc?path ]]" title="download-tei" target="_blank">
+                            View XML
+                        </a>
                     </li>
                     [% if empty($context?media) or "print" = $context?media %]
                     <li>
