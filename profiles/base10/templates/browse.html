@@ -41,6 +41,7 @@
             <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
         </div>
         <aside class="after-content">
+            [% block browse-aside %][% endblock %]
             <pb-restricted group="[[ $pkg?user?group ]]">
                 [% if $context?features?upload %]
                     [% if $context?defaults?upload %]
@@ -52,7 +53,6 @@
                     [% endif %]
                 [% endif %]
             </pb-restricted>
-            [% block browse-aside %][% endblock %]
         </aside>
     </main>
     [% include "templates/footer.html" %]

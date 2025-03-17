@@ -7,7 +7,8 @@
     "version": "1.0.0",
     "order": 101,
     "defaults": {
-        "data-default": ""
+        "data-default": "",
+        "landing": "browse-custom.html"
     },
     "depends": [
         "base10",
@@ -52,13 +53,27 @@
         "upload": false
     },
     "menu": {
-        "login": true,
+        "$replace": true,
         "items": [
+            {
+                "id": "Start",
+                "url": "index.html"
+            },
             {
                 "id": "documentation",
                 "url": "documentation"
+            },
+            {
+                "id": "news",
+                "url": "https://www.e-editiones.org/tags/release"
             }
-        ]
+        ],
+        "delete": true,
+        "login": true,
+        "search": true,
+        "dark-mode": true,
+		"language": true,
+		"download": true
     },
     "templating": {
         "use": [
