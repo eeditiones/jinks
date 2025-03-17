@@ -20,7 +20,7 @@ declare function page:parameter($context as map(*), $name as xs:string) {
  : is not present.
  :)
 declare function page:parameter($context as map(*), $name as xs:string, $default as item()*) {
-    let $reqParam := $context?request?parameters?($name)
+    let $reqParam := head(($context?request?parameters?($name), request:get-parameter($name, ())))
     return
         if (exists($reqParam)) then
             $reqParam
