@@ -90,6 +90,7 @@
 					{
 						"name": "file",
 						"in": "path",
+						"description": "Path to the document relative to the `template` collection below the application root",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -282,33 +283,24 @@
 				}
 			}
 		},
-		"/{docid}.md": {
+		"/{file}.md": {
 			"get": {
 				"summary": "Retrieve the HTML template for a markdown file and render it",
 				"description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
 				"tags": ["view"],
-				"operationId": "vapi:view",
+				"operationId": "vapi:text",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
 					{
-						"name": "docid",
+						"name": "file",
 						"in": "path",
 						"description": "Relative path to the document",
 						"required": true,
 						"schema": {
 							"type": "string",
-							"example": "about.md"
+							"example": "markdown.md"
 						},
 						"allowReserved": true
-					},
-					{
-						"name": "template",
-						"in": "query",
-						"description": "Name of the template to be used. Overwrites any default template setting.",
-						"schema": {
-							"type": "string",
-							"default": "markdown.html"
-						}
 					},
 					{
 						"name": "suffix",

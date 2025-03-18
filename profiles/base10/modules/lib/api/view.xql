@@ -206,3 +206,32 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
             }
         })
 };
+
+declare function vapi:text($request as map(*)) {
+    let $path := $config:app-root || "/" || xmldb:decode($request?parameters?file) || $request?parameters?suffix
+    let $_ := util:log("INFO", "path: " || $path)
+    let $template :=
+        if (doc-available($path)) then
+            doc($path) => serialize()
+        else if (util:binary-doc-available($path)) then
+            util:binary-doc($path) => util:binary-to-string()
+        else
+            error($errors:NOT_FOUND, "File " || $path || " not found")
+     let $config := map:merge((
+        vapi:load-config-json($request), 
+        map {
+            "context-path": $config:context-path
+        }
+    ))
+    return
+        tmpl:process($template, $config, map {
+            "plainText": false(),
+            "resolver": vapi:resolver#1,
+            "modules": map {
+                "http://www.tei-c.org/tei-simple/config": map {
+                    "prefix": "config",
+                    "at": "modules/config.xqm"
+                }
+            }
+        })
+};
