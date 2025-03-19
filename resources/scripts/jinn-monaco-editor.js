@@ -16,10 +16,32 @@ self.MonacoEnvironment = {
 	}
 };
 
+// Map common MIME types to Monaco editor languages
+const mimeToLanguage = {
+    'text/plain': 'plaintext',
+    'text/html': 'html',
+    'text/css': 'css',
+    'text/javascript': 'javascript',
+    'application/javascript': 'javascript',
+    'application/json': 'json',
+    'application/xml': 'xml',
+    'text/xml': 'xml',
+    'text/markdown': 'markdown',
+    'application/x-query': 'xquery',
+    'text/x-query': 'xquery',
+    'application/x-yaml': 'yaml',
+    'text/yaml': 'yaml',
+    'text/x-yaml': 'yaml',
+    'application/x-sh': 'shell',
+    'text/x-sh': 'shell',
+    'application/x-bash': 'shell',
+    'text/x-bash': 'shell'
+};
+
 export class JinnMonacoEditor extends HTMLElement {
 
     static get observedAttributes() {
-        return ['value', 'language'];
+        return ['value', 'language', 'url'];
     }
 
     attributeChangedCallback (name, oldValue, newValue) {
@@ -42,14 +64,41 @@ export class JinnMonacoEditor extends HTMLElement {
         this.editor.setValue(value);
     }
 
+    set url(url) {
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = new URL(url, window.location).toString();
+        }
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status); 
+                }
+                const mime = response.headers.get('Content-Type');
+                if (mime) {
+                    const language = mimeToLanguage[mime.split(';')[0]];
+                    if (language) {
+                        monaco.editor.setModelLanguage(this.editor.getModel(), language);
+                    }
+                }
+                return response.text();
+            })
+            .then(text => {
+                this.editor.setValue(text);
+            })
+            .catch(error => {
+                console.error('Failed to load content:', error);
+            });
+    }
+
     async connectedCallback() {
         this.style.display = 'block';
         if (!this.style.width) { this.style.width = '100%' };
         if (!this.style.height) { this.style.height = '100%' };
 
-        const schema = this.getAttribute('schema');
-        if (schema) {
-            const response = await fetch(schema);
+        this.language = this.getAttribute('language') || 'json';
+        this.schema = this.getAttribute('schema');
+        if (this.schema) {
+            const response = await fetch(this.schema);
             const json = await response.json();
             monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                 validate: true,
@@ -89,7 +138,7 @@ export class JinnMonacoEditor extends HTMLElement {
         monaco.editor.setTheme('customTheme');
 
         this.editor = monaco.editor.create(this, {
-            language: this.getAttribute('language') || 'json',
+            language: this.language,
             automaticLayout: true,
             fontSize: fontSize,
             scrollBeyondLastLine: false,

@@ -1,0 +1,20 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "pages/page.html"
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    [% endtemplate %]
+    <pb-markdown style="display: none;">
+    [% block content %][% endblock %]
+    </pb-markdown>
+</main>

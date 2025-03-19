@@ -125,7 +125,8 @@ declare function api:page($request as map(*)) {
         if (exists($doc)) then
             let $context := map {
                 "title": "jinks",
-                "profiles": api:profiles()
+                "profiles": api:profiles(),
+                "context-path": $config:context-path
             }
             let $output := tmpl:process($doc, $context, map {
                 "plainText": false(), 
@@ -144,6 +145,68 @@ declare function api:page($request as map(*)) {
         error($errors:NOT_FOUND, $path || " not found")
 };
 
+declare function api:profile-documentation($request as map(*)) {
+    let $collection := "profiles/" || $request?parameters?profile
+    let $config := generator:load-json($config:app-root || "/" ||$collection || "/config.json", map {})
+    let $readme := api:resolver($collection || "/doc/README.md")
+    let $template := api:resolver("pages/profile-documentation.html")?content
+    let $context := map:merge(($config, map {
+        "path": $collection,
+        "name": $request?parameters?profile,
+        "title": $config?label,
+        "profile": $config,
+        "readme": if (exists($readme)) then $readme?content else (),
+        "context-path": $config:context-path,
+        "base": $collection || "/doc/",
+        "templating": map {
+            "modules": map {
+                "http://e-editiones.org/jinks/templates/util": map {
+                    "prefix": "tu",
+                    "at": "modules/template-utils.xql"
+                }
+            }
+        }
+    }))
+    return
+        tmpl:process($template, $context, map {
+            "plainText": false(),
+            "resolver": api:resolver#1,
+            "modules": map {
+                "https://tei-publisher.com/generator/xquery/config": map {
+                    "prefix": "config",
+                    "at": "modules/config.xql"
+                }
+            },
+            "ignoreUse": true()
+        })
+};
+
+declare function api:doc($request as map(*)) {
+    let $path := $request?parameters?file || ".md"
+    let $doc := api:resolver($path)?content
+    return
+        if (exists($doc)) then
+            let $context := map {
+                "title": "jinks",
+                "templating": map {
+                    "extends": "pages/documentation.html"
+                }
+            }
+            let $output := tmpl:process($doc, $context, map {
+                "plainText": false(),
+                "resolver": api:resolver#1,
+                "modules": map {
+                    "https://tei-publisher.com/generator/xquery/config": map {
+                        "prefix": "config",
+                        "at": "modules/config.xql"
+                    }
+                }
+            })
+            return
+                roaster:response(200, "text/html", $output)
+    else
+        error($errors:NOT_FOUND, $path || " not found")
+};
 
 declare function api:source($request as map(*)) {
     let $path := xmldb:decode($request?parameters?path)

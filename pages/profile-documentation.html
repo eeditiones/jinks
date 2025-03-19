@@ -1,0 +1,209 @@
+<main>
+    ---json
+    {
+        "templating": {
+            "extends": "pages/page.html"
+        },
+        "scripts": [
+            "resources/scripts/docs.js"
+        ]
+    }
+    ---
+    [% template styles %]
+    <style>
+        main {
+            max-width: 960px;
+            min-width: min-content;
+            margin: 0 auto;
+            padding: 0 1rem 1rem 1rem;
+        }
+        figure {
+            float: right;
+            max-width: 256px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        figcaption {
+            font-size: 0.8rem;
+            text-align: right;
+        }
+        .image-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .image-popup img {
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        article {
+            clear: both;
+        }
+        .version {
+            color: var(--color-highlight);
+            padding-left: 0.5em;
+        }
+    </style>
+    [% endtemplate %]
+
+    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/screenshot.png") %]
+    <figure>
+        <img src="screenshot.png" class="screenshot"/>
+        <figcaption>Screenshot</figcaption>
+    </figure>
+    <div class="image-popup">
+        <img src="screenshot.png"/>
+    </div>
+    [% endif %]
+    <h1>
+        Profile: [[ $label ]] <span class="version">[[ $profile?version ]]</span>
+        <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/config.json"
+            data-tooltip="View config.json">
+            <svg class="icon"><use href="#icon-code"></use></svg>
+        </a>
+    </h1>
+    [% if map:contains($context, "description") %]
+    <p>[[ $context?description ]]</p>
+    [% endif %]
+
+    [% if map:contains($profile, "depends") %]
+    <article>
+        <h3>Dependencies</h3>
+        <ul>
+            [% for $dep in $profile?depends?* %]
+            <li>
+                <a href="[[ $dep ]]">[[ $dep ]]</a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+
+    [% let $files = tu:scan-collection($path || "/resources/odd") %]
+    [% if exists($files) %]
+    <article>
+        <h3>ODD files provided</h3>
+        <ul>
+            [% for $odd in $files %]
+            <li>
+                [[ $odd ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $odd ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
+
+    [% if map:contains($profile, "api") %]
+    <article>
+        <h3>Open API endpoint definitions</h3>
+        <ul>
+            [% for $api in $profile?api?* %]
+            [% if map:contains($api, "spec") %]
+            <li>
+                [[ $api?spec ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/modules/[[ replace($api?spec, '^(.*?)\.json$', '$1.tpl.json') ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endif %]
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+
+    [% let $files = tu:scan-collection($path || "/templates") %]
+    [% if exists($files) %]
+    <article>
+        <h3>HTML Templates</h3>
+        <ul>
+            [% for $file in $files %]
+            <li>
+                [[ substring-after($file, "profiles/" || $name || "/") ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
+
+    [% let $styles = tu:scan-collection($path || "/resources/css") %]
+    [% if exists($styles) %]
+    <article>
+        <h3>CSS Styles</h3>
+        <ul>
+            [% for $style in $styles %]
+            <li>
+                [[ substring-after($style, "profiles/" || $name || "/") ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $style ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
+
+    [% let $scripts = tu:scan-collection($path || "/resources/scripts") %]
+    [% if exists($scripts) %]
+    <article>
+        <h3>Javascript</h3>
+        <ul>
+            [% for $script in $scripts %]
+            <li>
+                [[ substring-after($script, "profiles/" || $name || "/") ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $script ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
+
+    [% let $i18n = tu:scan-collection($path || "/resources/i18n") %]
+    [% if exists($i18n) %]
+    <article>
+        <h3>Internationalization</h3>
+        <ul>
+            [% for $lang in $i18n %]
+            [% if ends-with($lang, ".json") %]
+            <li>
+                [[ substring-after($lang, "profiles/" || $name || "/") ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $lang ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endif %]
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
+
+    <hr/>
+    [% if exists($readme) %]
+    <pb-markdown style="display: none;">
+        [[ $readme ]]
+    </pb-markdown>
+    [% endif %]
+</main>

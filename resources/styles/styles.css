@@ -125,6 +125,18 @@ header .toolbar {
     grid-area: output;
 }
 
+fieldset ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profiles fieldset ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .templating {
     grid-template-columns: 1fr minmax(220px, 480px);
     padding: 1rem var(--pico-spacing);
@@ -153,6 +165,10 @@ h1, h2, h3, .output > label {
     padding-left: .25rem;
 }
 
+.source {
+    padding-left: 1rem;
+}
+
 p {
     margin-top: 0;
 }
@@ -162,6 +178,7 @@ jinn-monaco-editor {
     overflow: auto;
     max-height: 40vh;
     min-height: 460px;
+    font-size: 1rem;
 }
 
 .hidden {

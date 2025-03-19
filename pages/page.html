@@ -1,6 +1,9 @@
 <html>
 
 <head>
+    [% if $context?base %]
+    <base href="[[ $context-path ]]/[[ $context?base ]]"/>
+    [% endif %]
     <meta charset="utf-8"/>
     <title>[[$title]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -8,11 +11,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
     <link rel="stylesheet" href="[[$config:context-path]]/resources/styles/styles.css"/>
     <link rel="stylesheet" href="[[$config:context-path]]/resources/scripts/dist/jinn-monaco.css"/>
+    [% block styles %][% endblock %]
     <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
-    <script type="module" src="resources/scripts/dist/jinn-monaco.js"></script>
-    <script src="profiles/plain/resources/scripts/dark.js"></script>
-    [% for $script in $scripts?* %]
-    <script src="[[ $script ]]"></script>
+    <script type="module" src="[[ $context-path ]]/resources/scripts/dist/jinn-monaco.js"></script>
+    <script src="[[ $context-path ]]/profiles/plain/resources/scripts/dark.js"></script>
+    [% for $script in $context?scripts?* %]
+    <script src="[[ $context-path ]]/[[ $script ]]"></script>
     [% endfor %]
 </head>
 <body>

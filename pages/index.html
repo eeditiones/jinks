@@ -33,7 +33,7 @@
                 <button id="reset" type="reset">New Configuration</button>
             </fieldset>
         </section>
-        <section>
+        <section class="profiles">
             <fieldset>
                 <legend>Base Profile</legend>
                 [% let $baseProfiles = filter($context?profiles, function($p) { $p?type = "base"}) %]
@@ -53,14 +53,21 @@
 
             <fieldset>
                 <legend>Features</legend>
+                <ul>
                 [% for $profile in filter($context?profiles, function($p) { $p?type = "feature"}) %]
-                <label data-tooltip="[[ $profile?description ]]"
-                    data-placement="right">
-                    <input type="checkbox" name="feature" value="[[ $profile?path ]]"
-                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                    [[ $profile?label ]]
-                </label>
+                <li>
+                    <label data-tooltip="[[ $profile?description ]]"
+                        data-placement="right">
+                        <input type="checkbox" name="feature" value="[[ $profile?path ]]"
+                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
+                        [[ $profile?label ]]
+                    </label>
+                    <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                        <svg class="icon"><use href="#icon-information"></use></svg>
+                    </a>
+                </li>
                 [% endfor %]
+                </ul>
             </fieldset>
 
             <fieldset role="group">

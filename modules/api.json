@@ -24,6 +24,39 @@
         }
     },
     "paths": {
+        "/profile/{profile}": {
+            "get": {
+                "description": "Load HTML page via templating",
+                "operationId": "api:profile-documentation",
+                "parameters": [
+                    {
+                        "name": "profile",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The expanded HTML content",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/css": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/{page}": {
             "get": {
                 "description": "Load HTML page via templating",
@@ -57,6 +90,60 @@
                 }
             }
         },
+        "/{file}.md": {
+			"get": {
+				"summary": "Retrieve the HTML template for a markdown file and render it",
+				"description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
+				"tags": ["view"],
+				"operationId": "api:doc",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "path",
+						"description": "Relative path to the document",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "markdown.md"
+						},
+						"allowReserved": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML view for the document",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "An error occurred",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
         "/api/configurations": {
             "get": {
                 "operationId": "api:configurations",
@@ -195,7 +282,7 @@
                 }
             }
         },
-        "/api/source/{path}": {
+        "/api/source": {
 			"get": {
 				"description": "Get the source of a file in the application",
 				"x-constraints": {
@@ -205,7 +292,7 @@
 				"parameters": [
 					{
 						"name": "path",
-						"in": "path",
+						"in": "query",
 						"required": true,
 						"schema": {
 							"type": "string"
