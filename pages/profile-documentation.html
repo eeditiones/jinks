@@ -67,7 +67,7 @@
     </div>
     [% endif %]
     <h1>
-        Profile: [[ $label ]] <span class="version">[[ $profile?version ]]</span>
+        [[ upper-case(substring($profile?type, 1, 1)) || substring($profile?type, 2) ]]: [[ $label ]] <span class="version">[[ $profile?version ]]</span>
         <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/config.json"
             data-tooltip="View config.json">
             <svg class="icon"><use href="#icon-code"></use></svg>
@@ -84,6 +84,19 @@
             [% for $dep in $profile?depends?* %]
             <li>
                 <a href="[[ $context-path ]]/profile/[[ $dep ]]">[[ $dep ]]</a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+
+    [% if map:contains($profile, "defaults") %]
+    <article>
+        <h3>Default settings</h3>
+        <ul>
+            [% for $key in map:keys($profile?defaults) %]
+            <li>
+                [[ $key ]]: <code>[[ $profile?defaults($key) ]]</code>
             </li>
             [% endfor %]
         </ul>
@@ -125,6 +138,24 @@
         </ul>
     </article>
     [% endif %]
+
+    [% let $files = tu:scan-collection($path || "/modules", "^.*\.xql$") %]
+    [% if exists($files) %]
+    <article>
+        <h3>XQuery Modules</h3>
+        <ul>
+            [% for $file in $files %]
+            <li>
+                [[ substring-after($file, "profiles/" || $name || "/") ]]
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
+                    <svg class="icon"><use href="#icon-code"></use></svg>
+                </a>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
+    [% endlet %]
 
     [% let $files = tu:scan-collection($path || "/templates") %]
     [% if exists($files) %]
@@ -179,6 +210,19 @@
     </article>
     [% endif %]
     [% endlet %]
+
+    [% if exists($profile?menu?items) %]
+    <article>
+        <h3>Menu items</h3>
+        <ul>
+            [% for $item in $profile?menu?items?* %]
+            <li>
+                [[ $item?id ]]: <code>[[ $item?url ]]</code>
+            </li>
+            [% endfor %]
+        </ul>
+    </article>
+    [% endif %]
 
     [% let $i18n = tu:scan-collection($path || "/resources/i18n") %]
     [% if exists($i18n) %]
