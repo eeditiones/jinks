@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js';
+import { registerXQuery } from './monaco-xquery.js';
 
 const workersDir = new URL('vs', import.meta.url).toString();
 self.MonacoEnvironment = {
@@ -27,8 +28,7 @@ const mimeToLanguage = {
     'application/xml': 'xml',
     'text/xml': 'xml',
     'text/markdown': 'markdown',
-    'application/x-query': 'xquery',
-    'text/x-query': 'xquery',
+    'application/xquery': 'xquery',
     'application/x-yaml': 'yaml',
     'text/yaml': 'yaml',
     'text/x-yaml': 'yaml',
@@ -136,6 +136,7 @@ export class JinnMonacoEditor extends HTMLElement {
         });
 
         monaco.editor.setTheme('customTheme');
+        registerXQuery(monaco);
 
         this.editor = monaco.editor.create(this, {
             language: this.language,
@@ -145,7 +146,8 @@ export class JinnMonacoEditor extends HTMLElement {
             minimap: {
                 enabled: false
             },
-            readOnly: this.hasAttribute('readonly')
+            readOnly: this.hasAttribute('readonly'),
+            theme: 'customTheme'
         });
 
         if (this.hasAttribute('value')) {
