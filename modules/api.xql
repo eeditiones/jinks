@@ -148,14 +148,12 @@ declare function api:page($request as map(*)) {
 declare function api:profile-documentation($request as map(*)) {
     let $collection := "profiles/" || $request?parameters?profile
     let $config := generator:load-json($config:app-root || "/" ||$collection || "/config.json", map {})
-    let $readme := api:resolver($collection || "/doc/README.md")
     let $template := api:resolver("pages/profile-documentation.html")?content
     let $context := map:merge(($config, map {
         "path": $collection,
         "name": $request?parameters?profile,
         "title": $config?label,
         "profile": $config,
-        "readme": if (exists($readme)) then $readme?content else (),
         "context-path": $config:context-path,
         "base": $collection || "/doc/",
         "templating": map {

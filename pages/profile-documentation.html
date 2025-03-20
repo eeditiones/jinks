@@ -83,7 +83,7 @@
         <ul>
             [% for $dep in $profile?depends?* %]
             <li>
-                <a href="[[ $dep ]]">[[ $dep ]]</a>
+                <a href="[[ $context-path ]]/profile/[[ $dep ]]">[[ $dep ]]</a>
             </li>
             [% endfor %]
         </ul>
@@ -201,9 +201,7 @@
     [% endlet %]
 
     <hr/>
-    [% if exists($readme) %]
-    <pb-markdown style="display: none;">
-        [[ $readme ]]
-    </pb-markdown>
+    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/README.md") %]
+    <pb-markdown style="display: none;" url="[[ $path ]]/doc/README.md"></pb-markdown>
     [% endif %]
 </main>
