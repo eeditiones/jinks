@@ -137,6 +137,29 @@ export class JinnMonacoEditor extends HTMLElement {
 
         monaco.editor.setTheme('customTheme');
         registerXQuery(monaco);
+        
+        // Enable search actions
+        monaco.editor.addEditorAction({
+            id: 'search',
+            label: 'Search',
+            keybindings: [
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF
+            ],
+            run: (editor) => {
+                editor.trigger('', 'actions.find', null);
+            }
+        });
+
+        monaco.editor.addEditorAction({
+            id: 'replace', 
+            label: 'Replace',
+            keybindings: [
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyH
+            ],
+            run: (editor) => {
+                editor.trigger('', 'editor.action.startFindReplaceAction', null);
+            }
+        });
 
         this.editor = monaco.editor.create(this, {
             language: this.language,
