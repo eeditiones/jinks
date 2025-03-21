@@ -223,7 +223,7 @@ declare %private function generator:config($settings as map(*)?, $userConfig as 
         )
     return
         map:merge(($config, map { 
-            "skip": distinct-values(($config?skip?*, "setup.xql", "config.json"))
+            "skip": array { distinct-values(($config?skip?*, "setup.xql", "config.json")) }
         }))
 };
 

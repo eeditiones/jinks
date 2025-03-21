@@ -51,7 +51,14 @@
             "items": {
                 "type": "string"
             },
-            "description": "List of relative paths to files, which should not be checked for conflicts. Those files are always overwritten, even if they have local changes."
+            "description": "List of regular expressions matching relative paths to files, which should not be checked for conflicts. Those files are always overwritten, even if they have local changes."
+        },
+        "skip": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of regular expressions matching relative paths to files, which should not be copied into the target application."
         },
         "actions": {
             "type": "array",

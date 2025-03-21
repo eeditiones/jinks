@@ -159,10 +159,10 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
  :)
 declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string, 
     $content as function(*), $callback as function(*)) {
-    if ($relPath = $context?skip) then
+    if (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) then
         ()
     (: overwrite, but do not check or store hash :)
-    else if ($context?force-overwrite or $relPath = $context?ignore) then
+    else if ($context?force-overwrite or (some $ignorePath in $context?ignore?* satisfies matches($relPath, $ignorePath))) then
         $callback()[2]
     (: we're updating an already installed app :)
     else if ($context?_update) then
