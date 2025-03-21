@@ -67,7 +67,7 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                     root($root)/*/@xml:lang
                 ))
             case "date" return
-                idx:get-date($header//tei:correspDesc/tei:correspAction/tei:date)
+                idx:get-date(($header//tei:correspDesc/tei:correspAction[@type="sent"]/tei:date[1]))
             case "genre" return (
                 idx:get-genre($header)
             )

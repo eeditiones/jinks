@@ -18,6 +18,7 @@
                 <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
                 <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
                 <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
+                <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
             </text>
             [% if $defaults?search = "tei:div" %]
                 <text qname="[[$defaults?search]]">
