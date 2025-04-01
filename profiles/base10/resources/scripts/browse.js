@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
+    let loginCount = 0;
     pbEvents.subscribe('pb-login', null, function(ev) {
-        if (ev.detail.userChanged) {
+        if (ev.detail.userChanged && loginCount > 0) {
             pbEvents.emit('pb-search-resubmit', 'search');
+            ++loginCount;
         }
     });
 
