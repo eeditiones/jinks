@@ -9,7 +9,7 @@
     [% endif %]
     [% endtemplate %]
     [% template styles %]
-    [% if $features?correspondence?navigation %]
+    [% if exists($context?doc) and $features?correspondence?navigation %]
     <link rel="stylesheet" href="resources/css/correspondence-theme.css"/>
     [% endif %]
     [% endtemplate %]

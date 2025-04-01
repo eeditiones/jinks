@@ -16,6 +16,14 @@ window.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('[name=dates]').forEach(input => { input.value = '' });
         facets.submit();
     });
+
+    pbEvents.subscribe('pb-update', 'transcription', (ev) => {
+        console.log(ev.detail);
+        const timeline = document.querySelector('pb-timeline');
+        const url = timeline.url;
+        timeline.url = url.replace(/[^/]+$/, ev.detail.data.doc);
+        pbEvents.emit('pb-results-received', 'corresp-timeline');
+    });
 });
 
 function expandDates(categories, n) {

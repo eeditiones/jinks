@@ -43,7 +43,35 @@
 					}
 				}
 			}
-		}
+		},
+        "/api/timeline/{id}": {
+            "get": {
+                "summary": "Retrieve timeline data for correspondence",
+                "operationId": "timeline:correspondence-entries",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Timeline data for correspondence",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {
