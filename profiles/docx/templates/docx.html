@@ -17,7 +17,7 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/index.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
+                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
                 <li>[[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title, map {  }, "docx-output.odd") ]]</li>
             </ul>
         </nav>

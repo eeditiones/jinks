@@ -2,7 +2,7 @@
     <nav>
         <ul>
             [% for $item in $menu?items?* %]
-            [% if $item?url %]
+            [% if $item?url or $item?url = '' %]
             <li>
                 <a href="[[ $context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
             </li>
@@ -15,11 +15,6 @@
                     <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
                     [% endfor %]
                 </pb-lang>
-            </li>
-            [% endif %]
-            [% if $menu?login %]
-            <li>
-                <pb-login id="login" group="[[ $pkg?user?group ]]"/>
             </li>
             [% endif %]
 

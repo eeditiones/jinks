@@ -17,7 +17,7 @@ function teip:setup($context as map(*)) {
 declare 
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
-    teip:change-landing($context, $target),
+    (: teip:change-landing($context, $target), :)
     teip:custom-odd-install($context, $target)
 };
 
