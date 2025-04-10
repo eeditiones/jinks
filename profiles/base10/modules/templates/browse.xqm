@@ -45,14 +45,14 @@ declare function browse:header($context as map(*), $doc as element(), $config as
         let $header :=
             $pm-config:web-transform($teiHeader, map {
                 "header": "short",
-                "doc": $config:context-path || "/" || $config?relpath,
+                "doc": if ($config:address-by-id) then config:get-identifier($doc) else $config:context-path || "/" || $config?relpath,
                 "language": $context?language
             }, $config?odd)
         return
             if ($header) then
                 $header
             else
-                <a href="{$config?relPath}">{$header}</a>
+                <a href="{$config?relPath}">{$config?relPath}</a>
     } catch * {
         <a href="{$config?relPath}">{util:document-name($doc)}</a>,
         <p class="error">Failed to output document metadata: {$err:description}</p>
