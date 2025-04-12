@@ -1,0 +1,36 @@
+:root {
+
+    /* config.json theme configuration settings have priority, if not set, fall back go Jinks defaults */
+    
+    --jinks-hero-background: [[ 
+        if ($theme?hero?background-image) then 
+            'url("' || $theme?hero?background-image || '")'
+        else 
+            'var(--jinks-hero-background-default)' 
+    ]];
+
+    --jinks-hero-background-size: [[ 
+        if ($theme?hero?background-size) then 
+            $theme?hero?background-size 
+        else 
+            'var(--jinks-hero-background-size-default)' 
+    ]];
+
+    --jinks-hero-background-repeat: [[ 
+        if ($theme?hero?background-repeat) then 
+            $theme?hero?background-repeat 
+        else 
+            'var(--jinks-hero-background-repeat-default)' 
+    ]];
+
+    --jinks-hero-background-color: [[ 
+        if ($theme?hero?background-color) then 
+            $theme?hero?background-color 
+        else 
+            'var(--jinks-hero-background-color-default)' 
+    ]];
+
+    --jinks-hero-height: var(--jinks-hero-height-default);
+    --jinks-hero-min-height: var(--jinks-hero-min-height-default);
+    --jinks-hero-padding: var(--jinks-hero-padding-default);
+}

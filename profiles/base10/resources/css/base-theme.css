@@ -1,6 +1,9 @@
 @import url("../fonts/font.css");
 @import url("variables.css");
 
+@import url("jinks-variables.css");
+
+
 :root {
     --pico-font-family-sans-serif: var(--pb-base-font-family);
     --pico-font-size: var(--pb-base-font-size, var(--pico-font-size));
@@ -227,16 +230,18 @@ pb-document {
     justify-content: center;
     grid-column-start: 1;
     grid-row-start: 2;
-    padding: var(--pb-hero-padding, 1rem);
-    height: var(--pb-hero-height, auto);
+    padding: var(--jinks-hero-padding, 1rem);
+    height: var(--jinks-hero-height, auto);
+    min-height: var(--jinks-hero-min-height, auto);
+
     color: var(--pb-color-inverse);
     --pico-color: var(--pb-color-inverse);
     --pico-h1-color: var(--pb-color-inverse);
     position: relative;
-    background-image: var(--pb-hero-background-image);
-    background-size: var(--pb-hero-background-size); 
-    background-repeat: var(--pb-hero-background-repeat);
-    background-color: var(--pb-hero-background-color);
+    background-image: var(--jinks-hero-background);
+    background-size: var(--jinks-hero-background-size); 
+    background-repeat: var(--jinks-hero-background-repeat);
+    background-color: var(--jinks-hero-background-color);
 }
 
 .hero::after {
@@ -246,7 +251,7 @@ pb-document {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--pb-hero-background-color); /* Adjust the opacity as needed */
+    background-color: var(--jinks-hero-background-color); /* Adjust the opacity as needed */
 }
 
 .hero > * {

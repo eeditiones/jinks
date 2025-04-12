@@ -1,0 +1,28 @@
+:root {
+
+    /* Default Jinks image assets for this theme; do not change the values */
+    --jinks-hero-background-default: url("../images/jinks-images/type.jpeg");
+    --jinks-page-background-default: url("../images/jinks-images/paper.jpeg");
+    --jinks-texture-background-default: url("../images/jinks-images/grunge.jpeg");
+    --jinks-feature-background-default: url("../images/jinks-images/typewriter.jpeg");
+    --jinks-highlight-background-default: url("../images/jinks-images/books.jpeg");
+
+    /* Jinks variable definitions; change here into your tailored assets */
+    --jinks-hero-background: var(--jinks-hero-background-default);
+    --jinks-page-background: var(--jinks-page-background-default);
+    --jinks-texture-background: var(--jinks-texture-background-default);
+    --jinks-feature-background: var(--jinks-feature-background-default);
+    --jinks-highlight-background: var(--jinks-highlight-background-default);
+
+    /* Hero section: start page and narrow hero section in subpages, e.g. browse */
+
+    /* Default Jinks hero image settings; do not change the values */
+
+    --jinks-hero-height-default: auto;
+    --jinks-hero-min-height-default: 50vh;
+    --jinks-hero-padding-default: 1rem;
+    --jinks-hero-background-size-default: cover;
+    --jinks-hero-background-repeat-default: no-repeat;
+    --jinks-hero-background-color-default: rgba(0, 0, 0, 0.6); /* Dark, partly opaque, overlay */
+
+}
