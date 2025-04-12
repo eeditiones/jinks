@@ -234,6 +234,9 @@ pb-document {
     --pico-h1-color: var(--pb-color-inverse);
     position: relative;
     background-image: var(--pb-hero-background-image);
+    background-size: var(--pb-hero-background-size); 
+    background-repeat: var(--pb-hero-background-repeat);
+    background-color: var(--pb-hero-background-color);
 }
 
 .hero::after {
