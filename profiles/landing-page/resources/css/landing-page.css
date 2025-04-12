@@ -10,8 +10,6 @@
     --pb-menubar-font-size: 1rem;
     --pico-font-size: 16px;
 
-    --pb-hero-height: 512px;
-    --pb-hero-padding: 2rem 1rem 2rem 6rem;
 }
 
 pb-page {
@@ -134,20 +132,16 @@ section {
     padding: 2rem 0 0 2rem;
 }
 
-.slides article:nth-child(1) h2 {
+.slides article h2 {
     background-image: var(--jinks-highlight-background);
 }
 
 .slides article:nth-child(2) h2 {
-    background-image: url("../images/abstract-1.jpg");
-}
-
-.slides article:nth-child(3) h2 {
-    background-image: url("../images/abstract-2.jpg");
+    background-image: var(--jinks-feature-background);
 }
 
 #about .bg-transparent {
-    background-image: url("../images/mael_tsang.jpg");
+    background-image: var(--jinks-feature-background);
 }
 
 footer {
