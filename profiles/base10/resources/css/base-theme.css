@@ -26,7 +26,7 @@
         --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
         --pb-splash-image: var(--pb-splash-image-dark);
-        --pb-header-background-color: var(--pb-header-background-color-dark);
+        --jinks-header-background-color: var(--jinks-header-background-color-dark);
     }
 }
 
@@ -37,7 +37,7 @@
     --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
     --pb-splash-image: var(--pb-splash-image-dark);
-    --pb-header-background-color: var(--pb-header-background-color-dark);
+    --jinks-header-background-color: var(--jinks-header-background-color-dark);
 }
 
 html {
@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5, h6 {
     visibility: hidden;
     opacity: 0;
     z-index: 3;
-    background-color: var(--pb-splash-background-color);
+    background-color: var(--jinks-splash-background-color);
     background-position: center center;
     background-size: var(--pb-splash-image-size);
     background-repeat: no-repeat;
@@ -119,10 +119,10 @@ pb-page[unresolved]~.splash {
     --pb-login-link-color: var(--pb-menubar-color);
     --pb-lang-input-color: var(--pb-menubar-color);
     --pb-lang-label-color: var(--pb-menubar-color);
-    background-color: var(--pb-menubar-background-color);
+    background-color: var(--jinks-menubar-background-color);
     color: var(--pb-menubar-color);
     --pb-search-suggestions-color: var(--pb-menubar-color);
-    --pb-search-suggestions-background: var(--pb-menubar-background-color);
+    --pb-search-suggestions-background: var(--jinks-menubar-background-color);
     font-size: var(--pb-menubar-font-size);
 }
 
@@ -189,7 +189,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
 
 .toolbar {
     position: relative;
-    background-color: var(--pb-toolbar-background-color);
+    background-color: var(--jinks-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
     --paper-checkbox-label-color: var(--pb-toolbar-color);
@@ -201,7 +201,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--pb-toolbar-background-color);
+    background-color: var(--jinks-toolbar-background-color);
 }
 
 [disabled] {
@@ -364,7 +364,7 @@ pb-popover {
 
 pb-drawer {
     top: 0;
-    background-color: var(--pb-drawer-background-color);
+    background-color: var(--jinks-drawer-background-color);
     overflow: auto;
     height: 100vh;
 }

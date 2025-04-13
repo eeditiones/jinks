@@ -1,7 +1,18 @@
+[[ 
+    if ($theme?colors?palette) then 
+        '@import url("' || $theme?colors?palette ||'");'
+
+    else 
+        '@import url("palette-blue.css");' 
+]]
+
 :root {
 
     /* config.json theme configuration settings have priority, if not set, fall back go Jinks defaults */
     
+    /* Image backgrounds */
+
+    /* Hero section */
     --jinks-hero-background: [[ 
         if ($theme?hero?background-image) then 
             'url("' || $theme?hero?background-image || '")'
@@ -33,4 +44,27 @@
     --jinks-hero-height: var(--jinks-hero-height-default);
     --jinks-hero-min-height: var(--jinks-hero-min-height-default);
     --jinks-hero-padding: var(--jinks-hero-padding-default);
+
+    /* menubar, toolbar, drawer */
+
+    --jinks-menubar-background-color:  [[
+        if ($theme?colors?menubar?background) then 
+            $theme?colors?menubar?background
+        else 
+            'var(--jinks-menubar-background-color-default)' 
+    ]];
+
+    --jinks-toolbar-background-color:  [[
+        if (count($theme?colors?toolbar)) then 
+            $theme?colors?toolbar
+        else 
+            'var(--jinks-toolbar-background-color-default)' 
+    ]];
+
+    --jinks-drawer-background-color:  [[
+        if (count($theme?colors?drawer)) then 
+            $theme?colors?drawer
+        else 
+            'var(--jinks-drawer-background-color-default)' 
+    ]];
 }
