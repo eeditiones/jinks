@@ -1,0 +1,16 @@
+/* Pico overwrites to let theme colours trickle into pico default settings  */
+:root {
+
+    --pico-background-color: var(--jinks-background-color-default); 
+    --pico-border-color: var(--jinks-border-color-default);
+
+
+    /* Buttons in switch list, browse lists etc */
+    [role=button], [type=button], [type=file]::file-selector-button, [type=reset], [type=submit], button {
+        --pico-background-color: var(--jinks-background-color-default);
+    }
+
+    [type=checkbox]:checked, [type=checkbox]:checked:active, [type=checkbox]:checked:focus, [type=radio]:checked, [type=radio]:checked:active, [type=radio]:checked:focus {
+        --pico-background-color: var(--jinks-background-color-default);
+        --pico-border-color: var(--jinks-border-color-default);
+}
