@@ -67,4 +67,14 @@
         else 
             'var(--jinks-drawer-background-color-default)' 
     ]];
+
+
+    /* Typography */
+
+    --jinks-hero-text-width:  [[
+        if (count($theme?hero?text-width)) then 
+            $theme?hero?text-width
+        else 
+            'var(--jinks-hero-text-width-default)' 
+    ]];
 }
