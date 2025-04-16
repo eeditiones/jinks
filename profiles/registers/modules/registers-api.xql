@@ -47,9 +47,9 @@ declare function rview:people-categories($request as map(*)){
     let $limit := head(($request?parameters?limit, -1))
     let $people :=
             if ($search and $search != '') then
-                collection($config:register-root)//tei:person[ft:query(., 'name:(' || $search || '*)')]
+                collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., 'name:(' || $search || '*)')]
             else
-                collection($config:register-root)//tei:person
+                collection($config:register-root)/id($config:register-map?person?id)//tei:person
     let $byKey := for-each($people, function($person as element()) {
         let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
         return
@@ -134,9 +134,9 @@ declare function rview:places($request as map(*)){
     let $limit := $request?parameters?limit
     let $places :=
         if ($search and $search != '') then 
-            collection($config:register-root)//tei:place[ft:query(., 'name:(' || $search || '*)')]
+            collection($config:register-root)/id($config:register-map?place?id)//tei:place[ft:query(., 'name:(' || $search || '*)')]
         else
-            collection($config:register-root)//tei:place
+            collection($config:register-root)/id($config:register-map?place?id)//tei:place
     let $sorted := sort($places, "?lang=de-DE", function($place) { lower-case(($place/tei:placeName)[1]) })
     let $letter := 
         if (count($places) < $limit) then 

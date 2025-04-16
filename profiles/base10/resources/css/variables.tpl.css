@@ -11,11 +11,11 @@
     --pb-splash-image-dark: url("[[ $theme?logo?splash?dark ]]");
     --pb-splash-image-light: url("[[ $theme?logo?splash?light ]]");
     --pb-splash-image-size: 360px auto;
-    --pb-splash-background-color: var(--pico-background-color);
-
+    /* --pb-splash-background-color: var(--pico-background-color); */
+/* 
     --pb-header-background-color-light: rgba(255, 255, 255, 0.8);
     --pb-header-background-color-dark: rgba(0, 0, 0, 0.6);
-    --pb-header-background-color: var(--pb-header-background-color-light);
+    --pb-header-background-color: var(--pb-header-background-color-light); */
     --pb-header-background-image: url("[[ $theme?header?background ]]");
 
     --pb-base-font-family: [[$theme?fonts?base]];
@@ -37,7 +37,7 @@
     --pb-annotation-stripes-light: #e0e0ef;
     --pb-annotation-stripes-dark: #50505f;
     --pb-drawer-background-color: var(--pb-color-inverse);
-    --pb-menubar-background-color: [[ $theme?colors?menubar?background ]];
+    /* --pb-menubar-background-color: [[ $theme?colors?menubar?background ]]; */
     --pb-menubar-color: [[ $theme?colors?menubar?color ]];
     --pb-menubar-font-size: var(--pb-base-font-size);
     --pb-toolbar-background-color: [[ $theme?colors?toolbar?background ]];
@@ -63,10 +63,14 @@
     --paper-input-container-focus-color: var(--pb-color-focus);
     --pb-view-max-width: 920px;
     --pb-view-scroll-margin-top: 0;
+/*     
+Superseded by Jinks theme-base10
+
     --pb-hero-background-image: url("[[ $theme?hero?background-image ]]");
     --pb-hero-background-size: [[ if ($theme?hero?background-size) then $theme?hero?background-size else 'cover' ]];
     --pb-hero-background-repeat: [[ if($theme?hero?background-repeat) then $theme?hero?background-repeat else 'no-repeat' ]];
     --pb-hero-background-color: [[ if($theme?hero?background-color) then $theme?hero?background-color else 'rgba(0, 0, 0, 0.4)' ]];
     --pb-hero-height: auto;
     --pb-hero-padding: 1rem;
+ */
 }

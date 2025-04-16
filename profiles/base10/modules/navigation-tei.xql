@@ -88,7 +88,11 @@ declare function nav:get-metadata($config as map(*), $root as element(), $field 
 declare function nav:sort($sortBy as xs:string, $items as element()*) {
     switch ($sortBy)
         case "date" return
-            sort($items, (), ft:field(?, "date", "xs:date"))
+            try {
+                sort($items, (), ft:field(?, "date", "xs:date"))
+            } catch * {
+                sort($items, (), ft:field(?, "date"))
+            }
         default return
             sort($items, 'http://www.w3.org/2013/collation/UCA', ft:field(?, $sortBy))
 };

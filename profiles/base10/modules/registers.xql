@@ -7,8 +7,30 @@ import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace annocfg = "http://teipublisher.com/api/annotations/config" at "annotations/annotation-config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function rapi:html($request as map(*)) {
+    rapi:generate-html($request, "web")
+};
+
+declare %private function rapi:generate-html($request as map(*), $outputMode as xs:string) {
+    let $xml := rapi:entry($request)
+    return
+        if (exists($xml)) then
+            let $config := tpu:parse-pi(root($xml), ())
+            let $out := 
+                if ($outputMode = 'print') then
+                    $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+                else
+                    $pm-config:web-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
+            
+            return
+                $out
+        else
+            error($errors:NOT_FOUND, "Document " || $request?parameters?id || " not found")
+};
 
 (:~
  : Resolve register entry by id and type and return the record for use in the editing form

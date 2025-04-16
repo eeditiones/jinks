@@ -3257,6 +3257,58 @@
                 }
             }
         },
+		"/api/register/{id}/html": {
+            "get": {
+				"summary": "Retrieve HTML for a given register entry",
+                "description": "Get the HTML fragment for a given register entry. May be used when retrieving e.g. registry content for popups asynchronously",
+                "tags": ["register"],
+                "operationId": "rapi:html",
+                
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "gnd-139890289" 
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "place",
+                            "default": "person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire entry as HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+						"description": "Register entry not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+                }
+            }
+		},
         "/api/iiif/{path}": {
             "get": {
                 "summary": "Retrieve IIIF presentation manifest for document",
