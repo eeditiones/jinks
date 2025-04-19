@@ -77,4 +77,38 @@
         else 
             'var(--jinks-hero-text-width-default)' 
     ]];
+
+    --jinks-base-font-family: 
+    [[
+        if (count($theme?fonts?base)) then 
+            $theme?fonts?base
+        else 
+            ' var(--jinks-base-font-family-default)' 
+    ]];
+
+    --jinks-base-font-size: var(--jinks-base-font-size-default);
+    --jinks-base-line-height: var(--jinks-base-line-height-default);
+    --jinks-base-font-weight: var(--jinks-base-font-weight-default);
+    --jinks-base-font: var(--jinks-base-font-default);
+
+    /* do we need serif font definition or is content/base/heading enough */
+    --jinks-serif-font-family: var(--jinks-serif-font-family-default);
+
+    --jinks-content-font-family: 
+    [[
+        if (count($theme?fonts?content)) then 
+            $theme?fonts?content
+        else 
+            ' var(--jinks-content-font-family-default)' 
+    ]];
+    
+    --jinks-content-font-size: var(--jinks-content-font-size-default);
+
+    --jinks-heading-font-family: var(--jinks-heading-font-family-default);
+    --jinks-heading-font-weight: var(--jinks-heading-font-weight-default);
+    --jinks-heading-line-height: var(--jinks-heading-line-height-default);
+
+    --jinks-breadcrumbs-font-size: var(--jinks-breadcrumbs-font-size-default);
+
+    /* menubar font size */
 }

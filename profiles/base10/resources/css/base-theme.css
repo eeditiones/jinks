@@ -5,10 +5,10 @@
 
 
 :root {
-    --pico-font-family-sans-serif: var(--pb-base-font-family);
-    --pico-font-size: var(--pb-base-font-size, var(--pico-font-size));
-    --pico-font-weight: var(--pb-base-font-weight);
-    --pico-line-height: var(--pb-line-height);
+    --pico-font-family-sans-serif: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
+    --pico-font-weight: var(--jinks-base-font-weight);
+    --pico-line-height: var(--jinks-line-height);
 
     --pb-color: var(--pb-color-primary, var(--pico-color));
     --primary-text-color: var(--pb-color);
@@ -42,7 +42,7 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: var(--pb-base-font-size);
+    font-size: var(--jinks-base-font-size);
 }
 @media screen and (prefers-reduced-motion: reduce) {
 	html {
@@ -81,9 +81,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--pb-heading-font-family);
-    font-weight: var(--pb-heading-font-weight);
-    line-height: var(--pb-heading-line-height);
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
 }
 
 *:focus {
@@ -123,7 +123,7 @@ pb-page[unresolved]~.splash {
     color: var(--pb-menubar-color);
     --pb-search-suggestions-color: var(--pb-menubar-color);
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
-    font-size: var(--pb-menubar-font-size);
+    font-size: var(--jinks-menubar-font-size);
 }
 
 .menubar .icon {
@@ -346,8 +346,8 @@ pb-progress {
 }
 
 pb-view, pb-view-annotate {
-    font-family: var(--pb-content-font-family);
-    font-size: var(--pb-content-font-size);
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
     margin: 0 1rem;
     position: relative;
 }
@@ -392,7 +392,7 @@ pb-drawer {
 }
 
 .toc pb-link {
-    font-family: var(--pb-link-font-family);
+    font-family: var(--jinks-link-font-family);
     padding: 4px 8px;
 }
 
@@ -402,7 +402,7 @@ pb-drawer {
 }
 
 .toc h1, .toc h2, .toc h3, .toc h4, .toc h5 {
-    font-family: var(--pb-link-font-family);
+    font-family: var(--jinks-link-font-family);
 }
 
 .toc [slot=collapse-trigger] pb-link {
@@ -424,7 +424,7 @@ pb-drawer {
 .matches {
     margin-left: 20px;
     margin-top: 10px;
-    font-family: var(--pb-content-font-family);
+    font-family: var(--jinks-content-font-family);
 }
 
 .matches .hi {
@@ -572,7 +572,7 @@ a ~ .document-info {
 }
 
 .documents .sample-description {
-    font-size: var(--pb-footnote-font-size);
+    font-size: var(--jinks-footnote-font-size);
 }
 
 .browse {

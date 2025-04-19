@@ -18,14 +18,18 @@
     --pb-header-background-color: var(--pb-header-background-color-light); */
     --pb-header-background-image: url("[[ $theme?header?background ]]");
 
-    --pb-base-font-family: [[$theme?fonts?base]];
-    --pb-base-font-size: 16px;
-    --pb-base-line-height: 1.42857143;
-    --pb-base-font-weight: 300;
-    --pb-base-font: var(--pb-base-font-weight) var(--pb-base-font-size)/var(--pb-base-line-height) var(--pb-base-font-family);
-    --pb-serif-font-family: [[$theme?fonts?content]];
-    --pb-content-font-family: var(--pb-serif-font-family);
+    --pb-base-font-family: var(--jinks-base-font-family);
+    --pb-base-font-size: var(--jinks-base-font-size);
+    --pb-base-line-height: var(--jinks-base-line-height);
+    --pb-base-font-weight: var(--jinks-base-font-weight);
+    --pb-base-font: var(--jinks-base-font);
+
+    /* do we really need serif def? */
+    --pb-serif-font-family: var(--jinks-content-font-family);
+    --pb-content-font-family: var(--jinks-content-font-family);
     --pb-content-font-size: 20px;
+
+    /* headings  */
     --pb-heading-font-family: [[$theme?fonts?heading]];
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
