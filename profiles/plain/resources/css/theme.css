@@ -18,7 +18,6 @@ html {
 
     --pb-color: var(--pb-color-light, var(--pico-color));
     --pb-logo: var(--pb-logo-light);
-    --pb-header-background-color: var(--pb-header-background-color-light);
 
     --pb-color-grey-1: var(--pb-light-grey-1);
     --pb-color-grey-2: var(--pb-light-grey-2);
@@ -32,7 +31,7 @@ html {
         --pb-color-grey-2: var(--pb-dark-grey-2);
         --pb-color-grey-3: var(--pb-dark-grey-3);
         --pb-logo: var(--pb-logo-dark);
-        --pb-header-background-color: var(--pb-header-background-color-dark);
+        --jinks-header-background-color: var(--jinks-header-background-color-dark);
     }
 }
 
@@ -42,7 +41,7 @@ html {
     --pb-color-grey-2: var(--pb-dark-grey-2);
     --pb-color-grey-3: var(--pb-dark-grey-3);
     --pb-logo: var(--pb-logo-dark);
-    --pb-header-background-color: var(--pb-header-background-color-dark);
+    --jinks-header-background-color: var(--jinks-header-background-color-dark);
 }
 
 body {
@@ -73,7 +72,7 @@ pb-page {
     grid-column-start: 1;
     grid-row-start: 1;
     width: 100vw;
-    background-image: var(--pb-header-background-image);
+    background-image: var(--jinks-header-background);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -87,13 +86,13 @@ pb-page {
     grid-column: 1 / -1;
     /* Start at the first grid row line, and take up 2 rows */
     grid-row: 1 / span 2;
-    background-image: var(--pb-header-background-image);
+    background-image: var(--jinks-header-background);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .banner-spacer div {
-    background-color: var(--pb-header-background-color);
+    background-color: var(--jinks-header-background-color);
     height: 100%;
 }
 
@@ -103,7 +102,7 @@ pb-page {
 
 /* As soon as the hero moves out of the viewport, the page header gets a fixed background */
 .banner-spacer.not-visible ~ .page-header {
-    background-image: var(--pb-header-background-image);
+    background-image: var(--jinks-header-background);
 }
 
 .banner-spacer.not-visible ~ .page-header::after {
@@ -113,7 +112,7 @@ pb-page {
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--pb-header-background-color);
+    background-color: var(--jinks-header-background-color);
     z-index: -1;
 }
 

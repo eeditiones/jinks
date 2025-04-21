@@ -45,6 +45,14 @@
     --jinks-hero-min-height: var(--jinks-hero-min-height-default);
     --jinks-hero-padding: var(--jinks-hero-padding-default);
 
+    /* Header section */
+    --jinks-header-background-image: [[
+        if ($theme?header?background) then 
+            $theme?header?background
+        else 
+            'var(--jinks-header-background-default)' 
+    ]];
+
     /* menubar, toolbar, drawer */
 
     --jinks-menubar-background-color:  [[
@@ -55,15 +63,15 @@
     ]];
 
     --jinks-toolbar-background-color:  [[
-        if (count($theme?colors?toolbar)) then 
-            $theme?colors?toolbar
+        if (count($theme?colors?toolbar?background)) then 
+            $theme?colors?toolbar?background
         else 
             'var(--jinks-toolbar-background-color-default)' 
     ]];
 
     --jinks-drawer-background-color:  [[
-        if (count($theme?colors?drawer)) then 
-            $theme?colors?drawer
+        if (count($theme?colors?drawer?background)) then 
+            $theme?colors?drawer?background
         else 
             'var(--jinks-drawer-background-color-default)' 
     ]];
