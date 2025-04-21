@@ -15,7 +15,6 @@
     --pb-highlight-color: var(--pb-highlight-color-light);
 
     --pb-logo: var(--pb-logo-light);
-    --pb-splash-image: var(--pb-splash-image-light);
 }
 
 /* Settings for dark mode based on preferred color scheme */
@@ -25,7 +24,7 @@
         --primary-text-color: var(--pb-color);
         --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
-        --pb-splash-image: var(--pb-splash-image-dark);
+        --jinks-splash-background: var(--jinks-splash-background-dark);
         --jinks-header-background-color: var(--jinks-header-background-color-dark);
     }
 }
@@ -36,7 +35,7 @@
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
-    --pb-splash-image: var(--pb-splash-image-dark);
+    --jinks-splash-background: var(--jinks-splash-background-dark);
     --jinks-header-background-color: var(--jinks-header-background-color-dark);
 }
 
@@ -59,10 +58,11 @@ html, body {
 .logo {
     background-image: var(--pb-logo-light);
 }
-
+/* 
+check with safari
 .splash {
-    background-image: var(--pb-splash-image);
-}
+    background-image: var(--jinks-splash-background);
+} */
 
 .menubar {
     background-image: none;
@@ -99,9 +99,9 @@ h1, h2, h3, h4, h5, h6 {
     visibility: hidden;
     opacity: 0;
     z-index: 3;
-    background-color: var(--jinks-splash-background-color);
+    background-image: var(--jinks-splash-background);
     background-position: center center;
-    background-size: var(--pb-splash-image-size);
+    background-size: var(--jinks-splash-image-size);
     background-repeat: no-repeat;
     transition: visibility 0s linear 300ms, opacity 300ms;
 }
