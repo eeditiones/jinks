@@ -27,4 +27,35 @@
     --jinks-drawer-background-color-default: var(--jinks-colors-100);
     --jinks-menubar-background-color-default: var(--jinks-colors-500);
     --jinks-toolbar-background-color-default: var(--jinks-colors-accent);
+
+
+    /* --pb-drawer-background-color: var(--pb-color-inverse); */
+
+    --pb-color-primary: #303030;
+    --pb-color-inverse: #F0F0F0;
+    --pb-color-lighter: #35424b;
+    --pb-color-focus: #f6a623;
+    
+    /* text colors */
+    --pb-menubar-color: [[ $theme?colors?menubar?color ]];
+    --pb-toolbar-color: [[ $theme?colors?toolbar?color ]];
+    --pb-footnote-color: #303030;
+
+    /* Components
+    
+    pb-lang
+    pb-link
+    pb-highlight
+    pb-footnote
+
+    annotations editor input
+    
+    */
+    --pb-lang-input-color: var(--pb-color-inverse);
+    --pb-lang-label-color: var(--pb-color-inverse);
+    --pb-link-color: black;
+    --pb-link-font-family: var(--pb-serif-font-family);
+    --pb-highlight-color-light: #FECC63;
+    --pb-highlight-color-dark: #014063;
+    --paper-input-container-focus-color: var(--pb-color-focus);
 }
