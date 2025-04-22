@@ -166,12 +166,6 @@ footer {
     align-items: center;
 }
 
-[data-theme="light"] {
-    .bottom {
-        background-color: #E3E3E3;
-    }
-}
-
 .bottom a {
     color: var(--pb-color-grey-3);
     text-decoration: none;
@@ -194,59 +188,8 @@ footer img {
     margin: 0;
     padding: 0;
 }
-.team li {
-    list-style: none;
-    margin-bottom: var(--pico-block-spacing-vertical);
-    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
-    border-radius: var(--pico-border-radius);
-    background: var(--pico-card-background-color);
-    box-shadow: var(--pico-card-box-shadow);
-}
-.team header {
-    display: flex;
-    justify-content: space-between;
-}
-.team header img {
-    width: 6.875rem; /* Fixed size */
-    height: 6.875rem; /* Fixed size */
-    border-radius: 50%; /* Makes it round */
-    object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
-    display: block; /* Removes the inline nature of images to allow centering */
-    margin: 0 auto; /* Centers the image horizontally */
-    opacity: 0.6;
-}
-.team li:hover header img {
-    opacity: 1;
-}
-.team h3 {
-    flex: 3;
-    color: var(--pb-color-grey-3, #828282);
-    font-size: 0.73956rem;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 130%; /* 0.96144rem */
-    text-transform: none;
-}
-.team h2 {
-    margin-top: 2rem;
-    color: var(--pb-color-grey-2, #333);
-    font-size: 1.0565rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 110%; /* 1.16219rem */
-    letter-spacing: -0.02113rem;
-    text-transform: none;
-}
-.team p {
-    color: var(--pb-color-grey-1, #828282);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%; /* 1.1375rem */
-    text-transform: uppercase;
-}
-@media (max-width: 1023px) {
 
+@media (max-width: 1023px) {
     .team {
         grid-template-columns: repeat(auto-fill, calc(50% - .5rem));
     }
@@ -255,4 +198,57 @@ footer img {
         width: 3rem; /* Fixed size */
         height: 3rem; /* Fixed size */
     }
+}
+
+.team li {
+    list-style: none;
+    margin-bottom: var(--pico-block-spacing-vertical);
+    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+    border-radius: var(--pico-border-radius);
+    background-color: var(--brand-50);
+    box-shadow: var(--pico-card-box-shadow);
+    color: var(--jinks-text-color);
+
+    p {
+        text-transform: none;
+    }
+}
+
+.team li.collaborator {
+    background-image: var(--jinks-texture-background);
+    background-position-x: -100px;
+    background-position-y: 50px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.team li:hover {
+    background-image: var(--jinks-texture-background);
+    background-size: cover;
+    background-position: 0;
+    background-position-y: 0;
+    color: var(--jinks-text-medium);
+}
+
+img.avatar {
+    width: 5.875rem; /* Fixed size */
+    height: 5.875rem; /* Fixed size */
+    border-radius: 50%; /* Makes it round */
+    object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
+    display: block; /* Removes the inline nature of images to allow centering */
+    margin: 0 auto; /* Centers the image horizontally */
+    opacity: 0.9;
+}
+  
+.team h3 {
+    font-size: 0.73956rem;    
+    font-weight: 300;
+    line-height: 130%; /* 0.96144rem */
+}
+
+.team h2 {
+    margin-top: 2rem;
+    font-size: 1.0565rem;
+    font-weight: 500;
+    line-height: 110%; /* 1.16219rem */
 }
