@@ -29,6 +29,7 @@
             </a>
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+            [% block toolbar %][% endblock %]
         </span>
         <span class="icon-group">
             <button class="annotation-action authority" data-i18n="[title]annotations.person"
@@ -105,7 +106,7 @@
         <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
             <pb-param name="header" value="short"></pb-param>
         </pb-view>
-        <pb-view-annotate id="view1" src="document1" odd="annotations" key="ref" append-footnotes="append-footnotes"
+        <pb-view-annotate id="view1" src="document1" odd="annotations" key="key" append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
         </pb-view-annotate>
@@ -118,7 +119,7 @@
                     <data>
                         <align-bottom></align-bottom>
                         <selected></selected>
-                        <ref></ref>
+                        <key></key>
                         <type></type>
                         <query></query>
                         <annotation>false</annotation>
@@ -189,7 +190,7 @@
                     <iron-form id="edit-form">
                         <form action="">
                             <div class="annotation-form person organization place term">
-                                <paper-input class="form-ref" name="ref" data-i18n="[label]annotations.reference"
+                                <paper-input class="form-ref" name="key" data-i18n="[label]annotations.reference"
                                     label="Reference"></paper-input>
                                 <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                                 <pb-restricted group="tei">
@@ -338,7 +339,7 @@
                     </template>
                 </fx-load>
                 <!-- reset -->
-                <fx-setvalue ref="ref"></fx-setvalue>
+                <fx-setvalue ref="key"></fx-setvalue>
                 <fx-update></fx-update>
                 <fx-refresh></fx-refresh>
             </fx-action>
@@ -409,7 +410,7 @@
             <fx-action event="annotation-edit" target="#document">
                 <fx-call action="reset-panels"></fx-call>
                 <fx-setvalue ref="annotation">true</fx-setvalue>
-                <fx-setvalue ref="ref" value="event('ref')"></fx-setvalue>
+                <fx-setvalue ref="key" value="event('ref')"></fx-setvalue>
 
                 <!-- ### update the input in the iron-form with the text-selection we get from 'query' -->
                 <fx-call function="updateAnnotationDetails(event('ref'))"></fx-call>

@@ -9,7 +9,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 (:~
  : Name of the attribute to use as reference key for entities
  :)
-declare variable $anno:reference-key := 'ref';
+declare variable $anno:reference-key := 'key';
 
 (:~
  : Return the entity reference key for the given node.
@@ -42,13 +42,13 @@ declare function anno:entity-type($node as element()) as xs:string? {
 declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
         case "person" return
-            <persName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</persName>
+            <persName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</persName>
         case "place" return
-            <placeName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</placeName>
+            <placeName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</placeName>
         case "term" return
-            <term xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</term>
+            <term xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</term>
         case "organization" return
-            <orgName xmlns="http://www.tei-c.org/ns/1.0" ref="{$properties?ref}">{$content()}</orgName>
+            <orgName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</orgName>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
             { 
