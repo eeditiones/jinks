@@ -1,0 +1,97 @@
+<template>
+    ---json
+    {
+        "features": {
+            "toolbar": false,
+            "toc": false
+        },
+        "layout": "fixed-layout",
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "styles": [
+            "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        ],
+        "script": {
+            "extra-components": [
+                "pb-odd-editor"
+            ]
+        },
+        "menu": {
+            "login": true
+        }
+    }
+    ---
+    [% template styles %]
+    [% if $script?jinntap = "dev" %]
+    <link rel="stylesheet" href="http://localhost:5174/jinn-tap/editor-styles.css"/>
+    [% else %]
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/editor-styles.css"/>
+    [% endif %]
+    <style>
+        .fixed-layout {
+            grid-template-rows: min-content 1fr;
+            height: 100vh;
+        }
+
+        .page-header {
+            grid-area: header;
+        }
+        jinn-tap {
+            overflow: auto;
+            padding: 0 2rem;
+            margin: 0 auto;
+        }
+
+        jinn-tap .editor-area {
+            font-family: var(--pb-content-font-family);
+            font-size: var(--pb-content-font-size);
+            max-width: var(--pb-view-max-width);
+        }
+
+        jinn-tap .toolbar, jinn-tap .logo {
+            background: none;
+        }
+
+        jinn-tap .toolbar i {
+            font-size: var(--pb-content-font-size);
+        }
+
+        jinn-tap .logo {
+            width: auto;
+            height: auto;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 100;
+        }
+    </style>
+    [% endtemplate %]
+
+    [% template scripts %]
+    [% if $script?jinntap = "dev" %]
+    <script type="module" src="http://localhost:5174/jinn-tap/src/jinn-tap.js"></script>
+    [% else %]
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/jinn-tap.es.js"></script>
+    [% endif %]
+    <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById("saveBtn").addEventListener("click", function() {
+            const doc = "[[ page:parameter($context,'doc')]]";
+            const editor = document.querySelector('jinn-tap');
+
+            sendToApi("[[ $context-path ]]", doc, editor.xml);
+        });
+    });
+    </script>
+    [% endtemplate %]
+    <jinn-tap url="[[ $context-path ]]/api/jinntap/[[ page:parameter($context,'doc') ]]">
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+        <li slot="toolbar">
+            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                <i class="bi bi-floppy"></i>
+            </a>
+        </li>
+    </jinn-tap>
+</template>

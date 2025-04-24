@@ -1,0 +1,25 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/jinntap",
+    "label": "Jinn Tap Editor",
+    "description": "Adds an option to edit TEI documents using a WYSIWYM editor.",
+    "version": "1.0.0",
+    "depends": [
+        "annotate"
+    ],
+    "templating": {
+        "use": [ "templates/editor-blocks.html" ]
+    },
+    "api": [
+        {
+            "spec": "jinntap-api.json",
+            "prefix": "jt",
+            "path": "jinntap-api.xql",
+            "id": "http://teipublisher.com/api/jinntap"
+        }
+    ],
+    "script": {
+        "jinntap": "1.11.0"
+    }
+}
