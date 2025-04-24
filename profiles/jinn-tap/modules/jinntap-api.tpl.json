@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "[[ head(($pkg?title, $label)) ]] – Registers API",
+        "title": "[[ head(($pkg?title, $label)) ]] – JinnTap Editor API",
         "description": "This is the place to add your own path endpoints"
     },
     "servers": [
@@ -77,6 +77,11 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title of the document"
                     }
                 ],
                 "responses": {
