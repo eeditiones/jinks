@@ -54,6 +54,7 @@
         }
 
         jinn-tap .toolbar i {
+            --pb-line-height: unset;
             font-size: var(--pb-content-font-size);
         }
 
@@ -70,22 +71,50 @@
 
     [% template scripts %]
     [% if $script?jinntap = "dev" %]
-    <script type="module" src="http://localhost:5174/jinn-tap/src/jinn-tap.js"></script>
+    <script type="module" src="http://localhost:5174/jinn-tap/src/index.js"></script>
     [% else %]
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/jinn-tap.es.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/index.es.js"></script>
     [% endif %]
     <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
     <script>
     window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById("saveBtn").addEventListener("click", function() {
-            const doc = "[[ page:parameter($context,'doc')]]";
-            const editor = document.querySelector('jinn-tap');
+        let doc = "[[ page:parameter($context,'doc')]]";
+        const saveBtn = document.getElementById("saveBtn");
+        const saveDialog = document.getElementById("saveDialog");
+        const saveForm = document.querySelector('#saveDialog form');
+        const copyBtn = document.getElementById("copyBtn");
+        const editor = document.querySelector('jinn-tap');
 
-            sendToApi("[[ $context-path ]]", doc, editor.xml);
+        saveBtn.addEventListener("click", function() {
+            if (!doc) {
+                saveDialog.showModal();
+            } else {
+                const formData = new FormData(saveForm);
+                sendToApi("[[ $context-path ]]", doc, formData.get('docTitle').trim(), editor.xml);
+            }
+        });
+
+        saveForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const docName = formData.get('docName').trim();
+            const docTitle = formData.get('docTitle').trim();
+            
+            if (docName) {
+                doc = docName;
+                sendToApi("[[ $context-path ]]", docName, docTitle, editor.xml);
+                saveDialog.close();
+                this.reset();
+            }
+        });
+
+        copyBtn.addEventListener("click", function() {
+            copyToClipboard(editor);
         });
     });
     </script>
     [% endtemplate %]
+    [% if page:parameter($context,'doc') %]
     <jinn-tap url="[[ $context-path ]]/api/jinntap/[[ page:parameter($context,'doc') ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
@@ -93,5 +122,46 @@
                 <i class="bi bi-floppy"></i>
             </a>
         </li>
+        <li slot="toolbar">
+            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+            </a>
+        </li>
     </jinn-tap>
+    [% else %]
+    <jinn-tap>
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+        <li slot="toolbar">
+            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                <i class="bi bi-floppy"></i>
+            </a>
+        </li>
+        <li slot="toolbar">
+            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+            </a>
+        </li>
+    </jinn-tap>
+    [% endif %]
+    <jinn-toast></jinn-toast>
+    <dialog id="saveDialog">
+        <form action="">
+            <article>
+                <header>
+                    <h3>Save Document</h3>
+                </header>
+                <label for="docTitle">
+                    Document Title
+                    <input type="text" id="docTitle" name="docTitle" />
+                </label>
+                <label for="docName">
+                    Document Name
+                    <input type="text" id="docName" name="docName" />
+                </label>
+                <footer>
+                    <button id="confirm">Save</button>
+                </footer>
+            </article>
+        </form>
+    </dialog>
 </template>

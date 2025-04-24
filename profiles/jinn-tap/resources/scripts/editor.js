@@ -4,16 +4,14 @@
  * @param {string} content - The editor content to send
  * @returns {Promise} A promise that resolves when the request is complete
  */
-async function sendToApi(baseUri, doc, content) {
+async function sendToApi(baseUri, doc, title, content) {
     const saveBtn = document.getElementById("saveBtn");
-    const originalTooltip = saveBtn.dataset.tooltip;
     
     try {
         // Update button state
         saveBtn.disabled = true;
-        saveBtn.dataset.tooltip = "Saving...";
         
-        const response = await fetch(`${baseUri}/api/jinntap/${doc}`, {
+        const response = await fetch(`${baseUri}/api/jinntap/${doc}?title=${encodeURIComponent(title)}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/xml'
@@ -25,13 +23,43 @@ async function sendToApi(baseUri, doc, content) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.json();
+        const json = await response.json();
+        if (json.status === "ok") {
+            document.dispatchEvent(new CustomEvent('jinn-toast', {
+                detail: {
+                    message: `File saved as ${doc}`,
+                    type: 'info'
+                }
+            }));
+        } else {
+            document.dispatchEvent(new CustomEvent('jinn-toast', {
+                detail: {
+                    message: 'Saving the document failed!',
+                    type: 'error'
+                }
+            }));
+        }
     } catch (error) {
+        document.dispatchEvent(new CustomEvent('jinn-toast', {
+            detail: {
+                message: error.message || 'Error saving document',
+                type: 'error'
+            }
+        }));
         console.error('Error sending content to API:', error);
         throw error;
-    } finally {
-        // Restore button state
-        saveBtn.disabled = false;
-        saveBtn.dataset.tooltip = originalTooltip;
     }
+}
+
+async function copyToClipboard(editor) {
+    const xml = editor.xml;
+    await navigator.clipboard.writeText(xml);
+    
+    // Show success message
+    document.dispatchEvent(new CustomEvent('jinn-toast', {
+        detail: {
+            message: 'XML content copied to clipboard',
+            type: 'info'
+        }
+    }));
 }
