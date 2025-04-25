@@ -56,11 +56,11 @@ declare %private function jt:load-xml($nodes as node()*, $importNotes as xs:bool
         typeswitch($node)
             case element(tei:note) return
                 if ($importNotes) then
-                    <tei-note target="#{generate-id($node)}" type="note">
+                    <tei-note target="{if ($node/@target) then $node/@target else ('#' || generate-id($node))}" type="note">
                         { jt:load-xml($node/node(), false()) }
                     </tei-note>
                 else
-                    <tei-anchor id="{generate-id($node)}"/>
+                    <tei-anchor id="{if ($node/@xml:id) then $node/@xml:id else generate-id($node)}"/>
             case element() return
                 element { "tei-" || local-name($node) } {
                     $node/@* except $node/@xml:id,
