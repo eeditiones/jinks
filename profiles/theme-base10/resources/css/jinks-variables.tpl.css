@@ -6,10 +6,12 @@
         '@import url("palette-neutral.css");' 
 ]]
 
-:root {
+/* This templated section merges configurations from config.json where available and falls back to jinks defaults where not */
+/* config.json theme configuration settings have priority */
+/* If you'd like to overwrite the defaults in a more structured manner than ad-hoc config settings, create a separate css file setting the 
+--jinks-...-default variables as required for the custom theme and import these in your theme.css */
 
-    /* config.json theme configuration settings have priority, if not set, fall back go Jinks defaults */
-    
+:root {
     /* Image backgrounds */
 
     /* Hero section */
@@ -116,8 +118,14 @@
     --jinks-base-font-weight: var(--jinks-base-font-weight-default);
     --jinks-base-font: var(--jinks-base-font-default);
 
-    /* do we need serif font definition or is content/base/heading enough */
-    --jinks-serif-font-family: var(--jinks-serif-font-family-default);
+    /* do we need serif font definition or is content/base/heading enough? */
+    --jinks-serif-font-family: 
+    [[
+        if (count($theme?fonts?serif)) then 
+            $theme?fonts?serif
+        else 
+            ' var(--jinks-serif-font-family-default)' 
+    ]];
 
     --jinks-content-font-family: 
     [[

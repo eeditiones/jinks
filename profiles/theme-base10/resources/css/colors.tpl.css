@@ -29,17 +29,17 @@
     --jinks-toolbar-background-color-default: var(--jinks-colors-accent);
 
 
-    /* --pb-drawer-background-color: var(--pb-color-inverse); */
+    /* --pb-drawer-background-color: var(--jinks-color-inverse); */
 
-    --pb-color-primary: #303030;
-    --pb-color-inverse: #F0F0F0;
-    --pb-color-lighter: #35424b;
-    --pb-color-focus: #f6a623;
+    --jinks-color-primary: var(--jinks-text-color);
+    --jinks-color-inverse:  var(--jinks-text-dark);
+    --jinks-color-lighter:  var(--jinks-colors-medium);
+    --jinks-color-focus: var(--jinks-colors-accent);
     
     /* text colors */
-    --pb-menubar-color: [[ $theme?colors?menubar?color ]];
-    --pb-toolbar-color: [[ $theme?colors?toolbar?color ]];
-    --pb-footnote-color: #303030;
+    --jinks-menubar-color: [[ $theme?colors?menubar?color ]];
+    --jinks-toolbar-color: [[ $theme?colors?toolbar?color ]];
+    --jinks-footnote-color: var(--jinks-text-color);
 
     /* Components
     
@@ -51,11 +51,11 @@
     annotations editor input
     
     */
-    --pb-lang-input-color: var(--pb-color-inverse);
-    --pb-lang-label-color: var(--pb-color-inverse);
+    --pb-lang-input-color: var(--jinks-color-inverse);
+    --pb-lang-label-color: var(--jinks-color-inverse);
     --pb-link-color: black;
-    --pb-link-font-family: var(--pb-serif-font-family);
+    --pb-link-font-family: var(--jinks-content-font-family);
     --pb-highlight-color-light: #FECC63;
     --pb-highlight-color-dark: #014063;
-    --paper-input-container-focus-color: var(--pb-color-focus);
+    --paper-input-container-focus-color: var(--jinks-color-focus);
 }

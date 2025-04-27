@@ -5,7 +5,7 @@
 
     --pb-serif-font-family: var(--jinks-base-font-family);
     --pb-content-font-family: var(--jinks-base-font-family);
-    --pb-heading-font-family: var(--jinks-base-font-family);
+    /* --pb-heading-font-family: var(--jinks-base-font-family); */
 
     --pico-font-size: 16px;
 
@@ -27,16 +27,16 @@ main {
 }
 
 .hero {
-    color: var(--pb-color-inverse);
+    color: var(--jinks-color-inverse);
 }
 
 .hero a {
     display: inline-block;
     padding: 0.8125rem 1.875rem;
     border-radius: 0.25rem;
-    border: 1px solid var(--pb-color-inverse, #4F4F4F);
+    border: 1px solid var(--jinks-color-inverse, #4F4F4F);
     background-color: transparent;
-    color: var(--pb-color-inverse);
+    color: var(--jinks-color-inverse);
     font-weight: 600;
     line-height: 110%; /* 0.9625rem */
     text-transform: uppercase;

@@ -1,6 +1,5 @@
 @import url("../fonts/font.css");
 @import url("variables.css");
-
 @import url("jinks-variables.css");
 
 
@@ -10,7 +9,7 @@
     --pico-font-weight: var(--jinks-base-font-weight);
     --pico-line-height: var(--jinks-line-height);
 
-    --pb-color: var(--pb-color-primary, var(--pico-color));
+    --pb-color: var(--jinks-color-primary, var(--pico-color));
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
 
@@ -20,7 +19,7 @@
 /* Settings for dark mode based on preferred color scheme */
 @media only screen and (prefers-color-scheme: dark) {
     body:not([data-theme]) {
-        --pb-color: var(--pb-color-inverse, var(--pico-color));
+        --pb-color: var(--jinks-color-inverse, var(--pico-color));
         --primary-text-color: var(--pb-color);
         --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
@@ -31,7 +30,7 @@
 
 /* Settings for dark mode if manually chosen by user */
 [data-theme="dark"] {
-    --pb-color: var(--pb-color-inverse, var(--pico-color));
+    --pb-color: var(--jinks-color-inverse, var(--pico-color));
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
@@ -115,15 +114,15 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar {
-    --pico-color: var(--pb-menubar-color);
-    --pico-primary: var(--pb-menubar-color);
-    --pico-primary-hover: var(--pb-menubar-color);
-    --pb-login-link-color: var(--pb-menubar-color);
-    --pb-lang-input-color: var(--pb-menubar-color);
-    --pb-lang-label-color: var(--pb-menubar-color);
+    --pico-color: var(--jinks-menubar-color);
+    --pico-primary: var(--jinks-menubar-color);
+    --pico-primary-hover: var(--jinks-menubar-color);
+    --pb-login-link-color: var(--jinks-menubar-color);
+    --pb-lang-input-color: var(--jinks-menubar-color);
+    --pb-lang-label-color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
-    color: var(--pb-menubar-color);
-    --pb-search-suggestions-color: var(--pb-menubar-color);
+    color: var(--jinks-menubar-color);
+    --pb-search-suggestions-color: var(--jinks-menubar-color);
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
     font-size: var(--jinks-menubar-font-size);
 }
@@ -133,7 +132,7 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar a:link, .menubar a:visited {
-    color: var(--pb-menubar-color);
+    color: var(--jinks-menubar-color);
     text-decoration: none;
 }
 
@@ -142,7 +141,7 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar details a:link, .menubar details a:visited {
-    color: var(--pb-color-primary);
+    color: var(--jinks-color-primary);
 }
 
 .menubar details.dropdown summary::after {
@@ -170,7 +169,7 @@ pb-page[unresolved]~.splash {
     bottom: 0;
     padding: 0 var(--pico-block-spacing-horizontal); 
     background-color: var(--jinks-menubar-background-color);
-    color: var(--pb-menubar-color);
+    color: var(--jinks-menubar-color);
     z-index: 3;
 }
 
@@ -236,9 +235,9 @@ pb-document {
     height: var(--jinks-hero-height, auto);
     min-height: var(--jinks-hero-min-height, auto);
 
-    color: var(--pb-color-inverse);
-    --pico-color: var(--pb-color-inverse);
-    --pico-h1-color: var(--pb-color-inverse);
+    color: var(--jinks-color-inverse);
+    --pico-color: var(--jinks-color-inverse);
+    --pico-h1-color: var(--jinks-color-inverse);
     position: relative;
     background-image: var(--jinks-hero-background);
     background-size: var(--jinks-hero-background-size); 
@@ -415,7 +414,7 @@ pb-drawer {
     text-align: right;
     font-size: 0.85em;
     padding: 1em;
-    color: var(--pb-color-lighter);
+    color: var(--jinks-color-lighter);
 }
 
 .version span {
@@ -430,7 +429,7 @@ pb-drawer {
 }
 
 .matches .hi {
-    color: var(--pb-color-focus);
+    color: var(--jinks-color-focus);
 }
 
 .matches .count {
