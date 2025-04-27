@@ -1,0 +1,61 @@
+
+:root {
+    --jinks-text-color: var(--jinks-colors-dark);
+
+    /* text color for the light mode (usually dark) */
+    --jinks-text-color-light: var(--jinks-text-color);
+
+    /* medium color, supposedly working on both light and dark backgrounds */
+    --jinks-text-color-medium: var(--jinks-colors-medium);
+
+    /* text color for the dark mode (therefore quite light) */
+    --jinks-text-color-dark: var(--jinks-colors-medium);
+
+    --jinks-background-color: var(--jinks-colors-50);
+    --jinks-background-color-light-: var(--jinks-background-color);
+    --jinks-background-color-dark: var(--jinks-colors-700);
+
+    /* Background colors */
+
+    /* Header, menubar, toolbar, drawer, footer, splash */
+
+    /* Overlay for highlights and (CHECK) hero and menubar section */
+    --jinks-header-background-color: rgba(255, 255, 255, 0.8);
+    --jinks-header-background-color-light: var(--jinks-header-background-color);
+    --jinks-header-background-color-dark: rgba(255, 255, 255, 0.8);
+
+    --jinks-drawer-background-color-default: var(--jinks-colors-100);
+    --jinks-menubar-background-color-default: var(--jinks-colors-500);
+    --jinks-toolbar-background-color-default: var(--jinks-colors-accent);
+
+
+    /* --pb-drawer-background-color: var(--jinks-color-inverse); */
+
+    --jinks-color-primary: var(--jinks-text-color);
+    --jinks-color-inverse:  var(--jinks-text-dark);
+    --jinks-color-lighter:  var(--jinks-colors-medium);
+    --jinks-color-focus: var(--jinks-colors-accent);
+    
+    /* text colors */
+    --jinks-menubar-color: [[ $theme?colors?menubar?color ]];
+    --jinks-toolbar-color: [[ $theme?colors?toolbar?color ]];
+    --jinks-footnote-color: var(--jinks-text-color);
+
+    /* Components
+    
+    pb-lang
+    pb-link
+    pb-highlight
+    pb-footnote
+
+    annotations editor input
+    
+    */
+    --pb-lang-input-color: var(--jinks-color-inverse);
+    --pb-lang-label-color: var(--jinks-color-inverse);
+    --pb-link-color: black;
+    --pb-link-font-family: var(--jinks-content-font-family);
+    --pb-highlight-color-light: #FECC63;
+    --pb-highlight-color-dark: #014063;
+    --paper-input-container-focus-color: var(--jinks-color-focus);
+}

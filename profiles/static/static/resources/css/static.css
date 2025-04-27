@@ -8,9 +8,9 @@
 
 .content a[rel="footnote"] {
     font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-    font-family: var(--pb-footnote-font-family, --pb-content-font-family);
+    font-family: var(--pb-footnote-font-family, var(--pb-content-font-family));
     vertical-align: super;
-    color: var(--pb-footnote-color, var(--pb-color-primary, #333333));
+    color: var(--pb-footnote-color, var(--jinks-color-primary, #333333));
     text-decoration: none;
     padding: var(--pb-footnote-padding, 0 0 0 .25em);
 }

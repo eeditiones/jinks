@@ -192,7 +192,7 @@ declare %private function dapi:webcomponents($components as xs:string?) {
         <style rel="stylesheet" type="text/css">
         a[rel=footnote] {{
             font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-            font-family: var(--pb-footnote-font-family, --pb-content-font-family);
+            font-family: var(--pb-footnote-font-family, var(--pb-content-font-family));
             vertical-align: super;
             text-decoration: none;
             padding: var(--pb-footnote-padding, 0 0 0 .25em);

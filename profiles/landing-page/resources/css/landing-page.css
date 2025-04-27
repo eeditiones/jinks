@@ -1,21 +1,18 @@
 :root {
-    --pb-base-font-family: 'Albert Sans', sans-serif;
+    /* --pb-base-font-family: 'Albert Sans', sans-serif; */
     --pb-base-font-size: 1.125rem;
     --pb-base-line-height: 140%;
 
-    --pb-serif-font-family: var(--pb-base-font-family);
-    --pb-content-font-family: var(--pb-base-font-family);
-    --pb-heading-font-family: var(--pb-base-font-family);
+    --pb-serif-font-family: var(--jinks-base-font-family);
+    --pb-content-font-family: var(--jinks-base-font-family);
+    /* --pb-heading-font-family: var(--jinks-base-font-family); */
 
-    --pb-menubar-font-size: 1rem;
     --pico-font-size: 16px;
 
-    --pb-hero-height: 512px;
-    --pb-hero-padding: 2rem 1rem 2rem 6rem;
 }
 
 pb-page {
-    background-image: var(--pb-hero-background-image);
+    background-image: var(--jinks-page-background);
     background-position: center 95px;
     background-size: cover;
     background-attachment: fixed;
@@ -30,16 +27,16 @@ main {
 }
 
 .hero {
-    color: var(--pb-color-inverse);
+    color: var(--jinks-color-inverse);
 }
 
 .hero a {
     display: inline-block;
     padding: 0.8125rem 1.875rem;
     border-radius: 0.25rem;
-    border: 1px solid var(--pb-color-inverse, #4F4F4F);
+    border: 1px solid var(--jinks-color-inverse, #4F4F4F);
     background-color: transparent;
-    color: var(--pb-color-inverse);
+    color: var(--jinks-color-inverse);
     font-weight: 600;
     line-height: 110%; /* 0.9625rem */
     text-transform: uppercase;
@@ -48,11 +45,15 @@ main {
 }
 
 .hero h1 {
-    max-width: 30rem;
+    max-width: var(--jinks-hero-text-width);
 }
 
+/* subtitle for the hero section */
 .hero p {
-    max-width: 40rem;
+    max-width: var(--jinks-hero-text-width);
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
 h1 {
@@ -86,8 +87,9 @@ h3 {
 }
 
 section {
-    margin-top: 9rem;
+    padding-top: 3rem;
 }
+
 @media (max-width: 1023px) {
     section {
         margin-top: 2rem;
@@ -99,7 +101,7 @@ section {
 }
 .bg-transparent > *, .slides h2 > * {
     display: block;
-    background-color: var(--pb-header-background-color);
+    background-color: var(--jinks-header-background-color);
     height: 100%;
 }
 .bg-transparent:hover > *, .slides article:hover h2 > * {
@@ -134,20 +136,16 @@ section {
     padding: 2rem 0 0 2rem;
 }
 
-.slides article:nth-child(1) h2 {
-    background-image: url("../images/mael_tsang.jpg");
+.slides article h2 {
+    background-image: var(--jinks-highlight-background);
 }
 
 .slides article:nth-child(2) h2 {
-    background-image: url("../images/abstract-1.jpg");
-}
-
-.slides article:nth-child(3) h2 {
-    background-image: url("../images/abstract-2.jpg");
+    background-image: var(--jinks-feature-background);
 }
 
 #about .bg-transparent {
-    background-image: url("../images/mael_tsang.jpg");
+    background-image: var(--jinks-feature-background);
 }
 
 footer {
@@ -172,12 +170,6 @@ footer {
     align-items: center;
 }
 
-[data-theme="light"] {
-    .bottom {
-        background-color: #E3E3E3;
-    }
-}
-
 .bottom a {
     color: var(--pb-color-grey-3);
     text-decoration: none;
@@ -200,59 +192,8 @@ footer img {
     margin: 0;
     padding: 0;
 }
-.team li {
-    list-style: none;
-    margin-bottom: var(--pico-block-spacing-vertical);
-    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
-    border-radius: var(--pico-border-radius);
-    background: var(--pico-card-background-color);
-    box-shadow: var(--pico-card-box-shadow);
-}
-.team header {
-    display: flex;
-    justify-content: space-between;
-}
-.team header img {
-    width: 6.875rem; /* Fixed size */
-    height: 6.875rem; /* Fixed size */
-    border-radius: 50%; /* Makes it round */
-    object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
-    display: block; /* Removes the inline nature of images to allow centering */
-    margin: 0 auto; /* Centers the image horizontally */
-    opacity: 0.6;
-}
-.team li:hover header img {
-    opacity: 1;
-}
-.team h3 {
-    flex: 3;
-    color: var(--pb-color-grey-3, #828282);
-    font-size: 0.73956rem;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 130%; /* 0.96144rem */
-    text-transform: none;
-}
-.team h2 {
-    margin-top: 2rem;
-    color: var(--pb-color-grey-2, #333);
-    font-size: 1.0565rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 110%; /* 1.16219rem */
-    letter-spacing: -0.02113rem;
-    text-transform: none;
-}
-.team p {
-    color: var(--pb-color-grey-1, #828282);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%; /* 1.1375rem */
-    text-transform: uppercase;
-}
-@media (max-width: 1023px) {
 
+@media (max-width: 1023px) {
     .team {
         grid-template-columns: repeat(auto-fill, calc(50% - .5rem));
     }
@@ -261,4 +202,57 @@ footer img {
         width: 3rem; /* Fixed size */
         height: 3rem; /* Fixed size */
     }
+}
+
+.team li {
+    list-style: none;
+    margin-bottom: var(--pico-block-spacing-vertical);
+    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+    border-radius: var(--pico-border-radius);
+    background-color: var(--jinks-colors-50);
+    box-shadow: var(--pico-card-box-shadow);
+    color: var(--jinks-text-color);
+
+    p {
+        text-transform: none;
+    }
+}
+
+.team li.collaborator {
+    background-image: var(--jinks-texture-background);
+    background-position-x: -100px;
+    background-position-y: 50px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.team li:hover {
+    background-image: var(--jinks-texture-background);
+    background-size: cover;
+    background-position: 0;
+    background-position-y: 0;
+    color: var(--jinks-text-medium);
+}
+
+img.avatar {
+    width: 5.875rem; /* Fixed size */
+    height: 5.875rem; /* Fixed size */
+    border-radius: 50%; /* Makes it round */
+    object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
+    display: block; /* Removes the inline nature of images to allow centering */
+    margin: 0 auto; /* Centers the image horizontally */
+    opacity: 0.9;
+}
+  
+.team h3 {
+    font-size: 0.73956rem;    
+    font-weight: 300;
+    line-height: 130%; /* 0.96144rem */
+}
+
+.team h2 {
+    margin-top: 2rem;
+    font-size: 1.0565rem;
+    font-weight: 500;
+    line-height: 110%; /* 1.16219rem */
 }

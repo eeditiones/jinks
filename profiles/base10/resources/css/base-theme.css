@@ -1,45 +1,46 @@
 @import url("../fonts/font.css");
 @import url("variables.css");
+@import url("jinks-variables.css");
+
 
 :root {
-    --pico-font-family-sans-serif: var(--pb-base-font-family);
-    --pico-font-size: var(--pb-base-font-size, var(--pico-font-size));
-    --pico-font-weight: var(--pb-base-font-weight);
-    --pico-line-height: var(--pb-line-height);
+    --pico-font-family-sans-serif: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
+    --pico-font-weight: var(--jinks-base-font-weight);
+    --pico-line-height: var(--jinks-line-height);
 
-    --pb-color: var(--pb-color-primary, var(--pico-color));
+    --pb-color: var(--jinks-color-primary, var(--pico-color));
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
 
     --pb-logo: var(--pb-logo-light);
-    --pb-splash-image: var(--pb-splash-image-light);
 }
 
 /* Settings for dark mode based on preferred color scheme */
 @media only screen and (prefers-color-scheme: dark) {
     body:not([data-theme]) {
-        --pb-color: var(--pb-color-inverse, var(--pico-color));
+        --pb-color: var(--jinks-color-inverse, var(--pico-color));
         --primary-text-color: var(--pb-color);
         --pb-highlight-color: var(--pb-highlight-color-dark);
         --pb-logo: var(--pb-logo-dark);
-        --pb-splash-image: var(--pb-splash-image-dark);
-        --pb-header-background-color: var(--pb-header-background-color-dark);
+        --jinks-splash-background: var(--jinks-splash-background-dark);
+        --jinks-header-background-color: var(--jinks-header-background-color-dark);
     }
 }
 
 /* Settings for dark mode if manually chosen by user */
 [data-theme="dark"] {
-    --pb-color: var(--pb-color-inverse, var(--pico-color));
+    --pb-color: var(--jinks-color-inverse, var(--pico-color));
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-dark);
     --pb-logo: var(--pb-logo-dark);
-    --pb-splash-image: var(--pb-splash-image-dark);
-    --pb-header-background-color: var(--pb-header-background-color-dark);
+    --jinks-splash-background: var(--jinks-splash-background-dark);
+    --jinks-header-background-color: var(--jinks-header-background-color-dark);
 }
 
 html {
     scroll-behavior: smooth;
-    font-size: var(--pb-base-font-size);
+    font-size: var(--jinks-base-font-size);
 }
 @media screen and (prefers-reduced-motion: reduce) {
 	html {
@@ -56,15 +57,18 @@ html, body {
 .logo {
     background-image: var(--pb-logo-light);
 }
-
+/* 
+check with safari
 .splash {
-    background-image: var(--pb-splash-image);
-}
+    background-image: var(--jinks-splash-background);
+} */
 
+/* check should take the theming settings */
 .menubar {
     background-image: none;
 }
 
+/* check should take the theming settings */
 .toolbar {
     background-image: none;
 }
@@ -78,9 +82,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--pb-heading-font-family);
-    font-weight: var(--pb-heading-font-weight);
-    line-height: var(--pb-heading-line-height);
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
 }
 
 *:focus {
@@ -96,9 +100,9 @@ h1, h2, h3, h4, h5, h6 {
     visibility: hidden;
     opacity: 0;
     z-index: 3;
-    background-color: var(--pb-splash-background-color);
+    background-image: var(--jinks-splash-background);
     background-position: center center;
-    background-size: var(--pb-splash-image-size);
+    background-size: var(--jinks-splash-image-size);
     background-repeat: no-repeat;
     transition: visibility 0s linear 300ms, opacity 300ms;
 }
@@ -110,17 +114,17 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar {
-    --pico-color: var(--pb-menubar-color);
-    --pico-primary: var(--pb-menubar-color);
-    --pico-primary-hover: var(--pb-menubar-color);
-    --pb-login-link-color: var(--pb-menubar-color);
-    --pb-lang-input-color: var(--pb-menubar-color);
-    --pb-lang-label-color: var(--pb-menubar-color);
-    background-color: var(--pb-menubar-background-color);
-    color: var(--pb-menubar-color);
-    --pb-search-suggestions-color: var(--pb-menubar-color);
-    --pb-search-suggestions-background: var(--pb-menubar-background-color);
-    font-size: var(--pb-menubar-font-size);
+    --pico-color: var(--jinks-menubar-color);
+    --pico-primary: var(--jinks-menubar-color);
+    --pico-primary-hover: var(--jinks-menubar-color);
+    --pb-login-link-color: var(--jinks-menubar-color);
+    --pb-lang-input-color: var(--jinks-menubar-color);
+    --pb-lang-label-color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-background-color);
+    color: var(--jinks-menubar-color);
+    --pb-search-suggestions-color: var(--jinks-menubar-color);
+    --pb-search-suggestions-background: var(--jinks-menubar-background-color);
+    font-size: var(--jinks-menubar-font-size);
 }
 
 .menubar .icon {
@@ -128,7 +132,7 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar a:link, .menubar a:visited {
-    color: var(--pb-menubar-color);
+    color: var(--jinks-menubar-color);
     text-decoration: none;
 }
 
@@ -137,7 +141,7 @@ pb-page[unresolved]~.splash {
 }
 
 .menubar details a:link, .menubar details a:visited {
-    color: var(--pb-color-primary);
+    color: var(--jinks-color-primary);
 }
 
 .menubar details.dropdown summary::after {
@@ -164,8 +168,8 @@ pb-page[unresolved]~.splash {
     right: 0;
     bottom: 0;
     padding: 0 var(--pico-block-spacing-horizontal); 
-    background-color: var(--pb-menubar-background-color);
-    color: var(--pb-menubar-color);
+    background-color: var(--jinks-menubar-background-color);
+    color: var(--jinks-menubar-color);
     z-index: 3;
 }
 
@@ -186,7 +190,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
 
 .toolbar {
     position: relative;
-    background-color: var(--pb-toolbar-background-color);
+    background-color: var(--jinks-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
     --paper-checkbox-label-color: var(--pb-toolbar-color);
@@ -198,7 +202,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--pb-toolbar-background-color);
+    background-color: var(--jinks-toolbar-background-color);
 }
 
 [disabled] {
@@ -214,7 +218,7 @@ pb-document {
 }
 
 .page-header > div {
-    background-image: var(--pb-header-background-image);
+    background-image: var(--jinks-header-background);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -227,16 +231,18 @@ pb-document {
     justify-content: center;
     grid-column-start: 1;
     grid-row-start: 2;
-    padding: var(--pb-hero-padding, 1rem);
-    height: var(--pb-hero-height, auto);
-    color: var(--pb-color-inverse);
-    --pico-color: var(--pb-color-inverse);
-    --pico-h1-color: var(--pb-color-inverse);
+    padding: var(--jinks-hero-padding, 1rem);
+    height: var(--jinks-hero-height, auto);
+    min-height: var(--jinks-hero-min-height, auto);
+
+    color: var(--jinks-color-inverse);
+    --pico-color: var(--jinks-color-inverse);
+    --pico-h1-color: var(--jinks-color-inverse);
     position: relative;
-    background-image: var(--pb-hero-background-image);
-    background-size: var(--pb-hero-background-size); 
-    background-repeat: var(--pb-hero-background-repeat);
-    background-color: var(--pb-hero-background-color);
+    background-image: var(--jinks-hero-background);
+    background-size: var(--jinks-hero-background-size); 
+    background-repeat: var(--jinks-hero-background-repeat);
+    background-color: var(--jinks-hero-background-color);
 }
 
 .hero::after {
@@ -246,7 +252,7 @@ pb-document {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--pb-hero-background-color); /* Adjust the opacity as needed */
+    background-color: var(--jinks-hero-background-color); /* Adjust the opacity as needed */
 }
 
 .hero > * {
@@ -341,8 +347,8 @@ pb-progress {
 }
 
 pb-view, pb-view-annotate {
-    font-family: var(--pb-content-font-family);
-    font-size: var(--pb-content-font-size);
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
     margin: 0 1rem;
     position: relative;
 }
@@ -359,7 +365,7 @@ pb-popover {
 
 pb-drawer {
     top: 0;
-    background-color: var(--pb-drawer-background-color);
+    background-color: var(--jinks-drawer-background-color);
     overflow: auto;
     height: 100vh;
 }
@@ -387,7 +393,7 @@ pb-drawer {
 }
 
 .toc pb-link {
-    font-family: var(--pb-link-font-family);
+    font-family: var(--jinks-link-font-family);
     padding: 4px 8px;
 }
 
@@ -397,7 +403,7 @@ pb-drawer {
 }
 
 .toc h1, .toc h2, .toc h3, .toc h4, .toc h5 {
-    font-family: var(--pb-link-font-family);
+    font-family: var(--jinks-link-font-family);
 }
 
 .toc [slot=collapse-trigger] pb-link {
@@ -408,7 +414,7 @@ pb-drawer {
     text-align: right;
     font-size: 0.85em;
     padding: 1em;
-    color: var(--pb-color-lighter);
+    color: var(--jinks-color-lighter);
 }
 
 .version span {
@@ -419,11 +425,11 @@ pb-drawer {
 .matches {
     margin-left: 20px;
     margin-top: 10px;
-    font-family: var(--pb-content-font-family);
+    font-family: var(--jinks-content-font-family);
 }
 
 .matches .hi {
-    color: var(--pb-color-focus);
+    color: var(--jinks-color-focus);
 }
 
 .matches .count {
@@ -567,7 +573,7 @@ a ~ .document-info {
 }
 
 .documents .sample-description {
-    font-size: var(--pb-footnote-font-size);
+    font-size: var(--jinks-footnote-font-size);
 }
 
 .browse {

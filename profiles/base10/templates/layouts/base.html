@@ -53,7 +53,8 @@
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
-            class="[[ $context?layout ]]">
+            class="[[ $context?layout ]]"
+            require-language="require-language">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]

@@ -17,9 +17,11 @@
     }
     ---
     [% template hero %]
-    <div class="hero">
-        <h1>[[ $label ]]</h1>
-    </div>
+        [% if $context?features?hero %]
+            <div class="hero">
+                <h1>[[ $label ]]</h1>
+            </div>
+        [% endif %]
     [% endtemplate %]
     <main>
         <aside class="before-content">

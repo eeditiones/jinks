@@ -8,65 +8,72 @@
     --pb-logo-image-height: [[ $theme?logo?height ]];
     --pb-logo-margin-right: 1rem;
 
-    --pb-splash-image-dark: url("[[ $theme?logo?splash?dark ]]");
-    --pb-splash-image-light: url("[[ $theme?logo?splash?light ]]");
-    --pb-splash-image-size: 360px auto;
-    --pb-splash-background-color: var(--pico-background-color);
+    --pb-base-font-family: var(--jinks-base-font-family);
+    --pb-base-font-size: var(--jinks-base-font-size);
+    --pb-base-line-height: var(--jinks-base-line-height);
+    --pb-base-font-weight: var(--jinks-base-font-weight);
+    --pb-base-font: var(--jinks-base-font);
 
-    --pb-header-background-color-light: rgba(255, 255, 255, 0.8);
-    --pb-header-background-color-dark: rgba(0, 0, 0, 0.6);
-    --pb-header-background-color: var(--pb-header-background-color-light);
-    --pb-header-background-image: url("[[ $theme?header?background ]]");
-
-    --pb-base-font-family: [[$theme?fonts?base]];
-    --pb-base-font-size: 16px;
-    --pb-base-line-height: 1.42857143;
-    --pb-base-font-weight: 300;
-    --pb-base-font: var(--pb-base-font-weight) var(--pb-base-font-size)/var(--pb-base-line-height) var(--pb-base-font-family);
-    --pb-serif-font-family: [[$theme?fonts?content]];
-    --pb-content-font-family: var(--pb-serif-font-family);
+    /* do we really need serif def? */
+    --pb-serif-font-family: var(--jinks-content-font-family);
+    --pb-content-font-family: var(--jinks-content-font-family);
     --pb-content-font-size: 20px;
+
+    /* headings  */
     --pb-heading-font-family: [[$theme?fonts?heading]];
     --pb-heading-font-weight: 400 !important;
     --pb-heading-line-height: 1.2;
+
     --pb-breadcrumbs-font-size: 18px;
-    --pb-color-primary: #303030;
-    --pb-color-inverse: #F0F0F0;
-    --pb-color-lighter: #35424b;
-    --pb-color-focus: #f6a623;
+
+    /* --pb-color-primary: #303030; */
+    /* --pb-color-inverse: #F0F0F0; */
+    /* --pb-color-lighter: #35424b; */
+    /* --pb-color-focus: #f6a623; */
+
     --pb-annotation-stripes-light: #e0e0ef;
     --pb-annotation-stripes-dark: #50505f;
-    --pb-drawer-background-color: var(--pb-color-inverse);
-    --pb-menubar-background-color: [[ $theme?colors?menubar?background ]];
-    --pb-menubar-color: [[ $theme?colors?menubar?color ]];
-    --pb-menubar-font-size: var(--pb-base-font-size);
-    --pb-toolbar-background-color: [[ $theme?colors?toolbar?background ]];
-    --pb-toolbar-color: [[ $theme?colors?toolbar?color ]];
+
+
+    /* --pb-menubar-color: [[ $theme?colors?menubar?color ]]; */
+    /* --pb-toolbar-color: [[ $theme?colors?toolbar?color ]]; */
     --paper-tooltip-delay-in: 200;
     --pb-footnote-font-size: 13px;
-    --pb-footnote-font-family: var(--pb-content-font-family);
+    --pb-footnote-font-family: var(--jinks-content-font-family);
     --pb-footnote-font-weight: var(--pb-content-font-weight);
-    --pb-footnote-color: #303030;
+    /* --pb-footnote-color: #303030; */
     --pb-footnote-padding: 0 0 0 .25em;
+
+    /* pb-popover */
     --pb-popover-theme: "light-border";
     --pb-popover-max-width: 480px;
     --pb-popover-font-size: 16px;
     --pb-popover-line-height: 1.2;
     --pb-popover-placement: "bottom";
     --pb-popover-fallback-placement: "top right left";
-    --pb-lang-input-color: var(--pb-color-inverse);
-    --pb-lang-label-color: var(--pb-color-inverse);
+
+    --pb-lang-input-color: var(--jinks-color-inverse);
+    --pb-lang-label-color: var(--jinks-color-inverse);
     --pb-link-color: black;
-    --pb-link-font-family: var(--pb-serif-font-family);
+    --pb-link-font-family: var(--jinks-content-font-family);
     --pb-highlight-color-light: #FECC63;
     --pb-highlight-color-dark: #014063;
-    --paper-input-container-focus-color: var(--pb-color-focus);
+    --paper-input-container-focus-color: var(--jinks-color-focus);
     --pb-view-max-width: 920px;
     --pb-view-scroll-margin-top: 0;
+/*     
+Superseded by Jinks theme-base10
+
     --pb-hero-background-image: url("[[ $theme?hero?background-image ]]");
     --pb-hero-background-size: [[ if ($theme?hero?background-size) then $theme?hero?background-size else 'cover' ]];
     --pb-hero-background-repeat: [[ if($theme?hero?background-repeat) then $theme?hero?background-repeat else 'no-repeat' ]];
     --pb-hero-background-color: [[ if($theme?hero?background-color) then $theme?hero?background-color else 'rgba(0, 0, 0, 0.4)' ]];
     --pb-hero-height: auto;
     --pb-hero-padding: 1rem;
+
+    --pb-drawer-background-color: var(--jinks-color-inverse);
+    --pb-menubar-background-color: [[ $theme?colors?menubar?background ]];
+    --pb-toolbar-background-color: [[ $theme?colors?toolbar?background ]];
+
+ */
 }

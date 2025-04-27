@@ -2,6 +2,21 @@
     --pb-content-max-width: 90rem;
 }
 
+/* default base-theme layout is flex, some of the registers pages need different layouts */
+
+/* places.html needs block layout */
+main.places {
+    display: block;
+}
+
+/* place.html uses grid layout */
+.place-details {
+    display: grid;
+    grid-template-columns: 1fr minmax(320px, 50%);
+    column-gap: 2rem;
+    min-height: 320px;
+}
+
 aside .register li {
     padding: 0;
 }
@@ -10,15 +25,8 @@ aside {
     min-width: 320px;
 }
 
-.place-details {
-    display: grid;
-    grid-template-columns: 1fr minmax(320px, 50%);
-    column-gap: 2rem;
-    min-height: 320px;
-}
-
 pb-leaflet-map {
-    height: 33vh;
+    height: 50vh;
     width: 100%;
     position: relative;
     z-index: 0;

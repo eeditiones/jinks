@@ -1,0 +1,147 @@
+[[ 
+    if ($theme?colors?palette) then 
+        '@import url("' || $theme?colors?palette ||'");'
+
+    else 
+        '@import url("palette-neutral.css");' 
+]]
+
+/* This templated section merges configurations from config.json where available and falls back to jinks defaults where not */
+/* config.json theme configuration settings have priority */
+/* If you'd like to overwrite the defaults in a more structured manner than ad-hoc config settings, create a separate css file setting the 
+--jinks-...-default variables as required for the custom theme and import these in your theme.css */
+
+:root {
+    /* Image backgrounds */
+
+    /* Hero section */
+    --jinks-hero-background: [[ 
+        if ($theme?hero?background-image) then 
+            'url("' || $theme?hero?background-image || '")'
+        else 
+            'var(--jinks-hero-background-default)' 
+    ]];
+
+    --jinks-hero-background-size: [[ 
+        if ($theme?hero?background-size) then 
+            $theme?hero?background-size 
+        else 
+            'var(--jinks-hero-background-size-default)' 
+    ]];
+
+    --jinks-hero-background-repeat: [[ 
+        if ($theme?hero?background-repeat) then 
+            $theme?hero?background-repeat 
+        else 
+            'var(--jinks-hero-background-repeat-default)' 
+    ]];
+
+    --jinks-hero-background-color: [[ 
+        if ($theme?hero?background-color) then 
+            $theme?hero?background-color 
+        else 
+            'var(--jinks-hero-background-color-default)' 
+    ]];
+
+    --jinks-hero-height: var(--jinks-hero-height-default);
+    --jinks-hero-min-height: var(--jinks-hero-min-height-default);
+    --jinks-hero-padding: var(--jinks-hero-padding-default);
+
+    /* Header section */
+    --jinks-header-background-image: [[
+        if ($theme?header?background) then 
+            $theme?header?background
+        else 
+            'var(--jinks-header-background-default)' 
+    ]];
+
+    /* menubar, toolbar, drawer */
+
+    --jinks-menubar-background-color:  [[
+        if ($theme?colors?menubar?background) then 
+            $theme?colors?menubar?background
+        else 
+            'var(--jinks-menubar-background-color-default)' 
+    ]];
+
+    --jinks-toolbar-background-color:  [[
+        if (count($theme?colors?toolbar?background)) then 
+            $theme?colors?toolbar?background
+        else 
+            'var(--jinks-toolbar-background-color-default)' 
+    ]];
+
+    --jinks-drawer-background-color:  [[
+        if (count($theme?colors?drawer?background)) then 
+            $theme?colors?drawer?background
+        else 
+            'var(--jinks-drawer-background-color-default)' 
+    ]];
+
+/* Splash */
+
+    --jinks-splash-background:  [[
+        if (count($theme?logo?splash?light)) then 
+            $theme?logo?splash?light
+        else 
+            'var(--jinks-splash-background-default)' 
+    ]];
+
+    --jinks-splash-background-light: var(--jinks-splash-background);
+
+    --jinks-splash-background-dark:  [[
+        if (count($theme?logo?splash?dark)) then 
+            $theme?logo?splash?dark
+        else 
+            'var(--jinks-splash-background-dark-default)' 
+    ]];
+
+    /* Typography */
+
+    --jinks-hero-text-width:  [[
+        if (count($theme?hero?text-width)) then 
+            $theme?hero?text-width
+        else 
+            'var(--jinks-hero-text-width-default)' 
+    ]];
+
+    --jinks-base-font-family: 
+    [[
+        if (count($theme?fonts?base)) then 
+            $theme?fonts?base
+        else 
+            ' var(--jinks-base-font-family-default)' 
+    ]];
+
+    --jinks-base-font-size: var(--jinks-base-font-size-default);
+    --jinks-base-line-height: var(--jinks-base-line-height-default);
+    --jinks-base-font-weight: var(--jinks-base-font-weight-default);
+    --jinks-base-font: var(--jinks-base-font-default);
+
+    /* do we need serif font definition or is content/base/heading enough? */
+    --jinks-serif-font-family: 
+    [[
+        if (count($theme?fonts?serif)) then 
+            $theme?fonts?serif
+        else 
+            ' var(--jinks-serif-font-family-default)' 
+    ]];
+
+    --jinks-content-font-family: 
+    [[
+        if (count($theme?fonts?content)) then 
+            $theme?fonts?content
+        else 
+            ' var(--jinks-content-font-family-default)' 
+    ]];
+    
+    --jinks-content-font-size: var(--jinks-content-font-size-default);
+
+    --jinks-heading-font-family: var(--jinks-heading-font-family-default);
+    --jinks-heading-font-weight: var(--jinks-heading-font-weight-default);
+    --jinks-heading-line-height: var(--jinks-heading-line-height-default);
+
+    --jinks-breadcrumbs-font-size: var(--jinks-breadcrumbs-font-size-default);
+
+    /* menubar font size */
+}
