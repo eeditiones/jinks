@@ -64,6 +64,13 @@
             'var(--jinks-menubar-background-color-default)' 
     ]];
 
+    --jinks-menubar-color:  [[
+        if ($theme?colors?menubar?color) then 
+            $theme?colors?menubar?color
+        else 
+            'var(--jinks-menubar-color-default)' 
+    ]];
+
     --jinks-toolbar-background-color:  [[
         if (count($theme?colors?toolbar?background)) then 
             $theme?colors?toolbar?background

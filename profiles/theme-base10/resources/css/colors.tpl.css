@@ -32,12 +32,12 @@
     /* --pb-drawer-background-color: var(--jinks-color-inverse); */
 
     --jinks-color-primary: var(--jinks-text-color);
-    --jinks-color-inverse:  var(--jinks-text-dark);
+    --jinks-color-inverse:  var(--jinks-colors-light);
     --jinks-color-lighter:  var(--jinks-colors-medium);
     --jinks-color-focus: var(--jinks-colors-accent);
     
     /* text colors */
-    --jinks-menubar-color: [[ $theme?colors?menubar?color ]];
+    --jinks-menubar-color-default: var(--jinks-color-inverse);
     --jinks-toolbar-color: [[ $theme?colors?toolbar?color ]];
     --jinks-footnote-color: var(--jinks-text-color);
 
