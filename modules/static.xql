@@ -400,7 +400,9 @@ declare %private function static:fix-links($nodes as node()*, $links as map(*)) 
     return
         typeswitch ($node)
             case document-node() return
-                static:fix-links($node/node(), $links)
+                document {
+                    static:fix-links($node/node(), $links)
+                }
             case element(a) | element(xhtml:a) return
                 if (starts-with($node/@href, "?id=")) then
                     let $resolved := $links(substring-after($node/@href, "?id="))
