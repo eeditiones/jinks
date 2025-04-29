@@ -79,7 +79,7 @@ else
     let $main :=
         if (matches($exist:path, "^/+api/+(?:odd|lint)")) then 
             "api-odd.xql" 
-        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:apps/+generate|actions/reindex)$")) then
+        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex)$")) then
             "api-dba.xql"
         else 
             "api.xql"
