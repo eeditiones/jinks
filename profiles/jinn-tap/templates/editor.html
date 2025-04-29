@@ -24,8 +24,10 @@
     ---
     [% template styles %]
     [% if $script?jinntap = "dev" %]
+    <link rel="stylesheet" href="http://localhost:5174/jinn-tap/jinn-tap.css" />
     <link rel="stylesheet" href="http://localhost:5174/jinn-tap/editor-styles.css"/>
     [% else %]
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/jinn-tap.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/editor-styles.css"/>
     [% endif %]
     <style>
