@@ -116,8 +116,9 @@
     });
     </script>
     [% endtemplate %]
-    [% if page:parameter($context,'doc') %]
-    <jinn-tap url="[[ $context-path ]]/api/jinntap/[[ page:parameter($context,'doc') ]]">
+    [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/jinntap/" || page:parameter($context,'doc') else () %]
+    <jinn-tap url="[[ $url ]]" port="[[ $features?collab?port ]]" name="[[ page:parameter($context,'doc') ]]"
+        token="[[ page:jwt-token($context) ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
             <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
@@ -130,21 +131,7 @@
             </a>
         </li>
     </jinn-tap>
-    [% else %]
-    <jinn-tap>
-        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
-        <li slot="toolbar">
-            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
-                <i class="bi bi-floppy"></i>
-            </a>
-        </li>
-        <li slot="toolbar">
-            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
-                <i class="bi bi-clipboard-plus"></i>
-            </a>
-        </li>
-    </jinn-tap>
-    [% endif %]
+    [% endlet %]
     <jinn-toast></jinn-toast>
     <dialog id="saveDialog">
         <form action="">
