@@ -117,8 +117,8 @@
     </script>
     [% endtemplate %]
     [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/jinntap/" || page:parameter($context,'doc') else () %]
-    <jinn-tap url="[[ $url ]]" port="[[ $features?collab?port ]]" name="[[ page:parameter($context,'doc') ]]"
-        token="[[ page:jwt-token($context) ]]">
+    <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]"
+        token="[[ page:jwt-token($context) ]]" server="[[ $features?collab?server ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
             <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
