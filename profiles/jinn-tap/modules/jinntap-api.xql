@@ -105,11 +105,12 @@ declare function jt:save-xml($nodes as node()*, $input as document-node()) {
                 element { node-name($node) } {
                     $node/@*,
                     $node/tei:teiHeader,
+                    jt:save-xml($node/tei:text, $input),
                     if (not($node/tei:standOff)) then
-                        <standOff>{ $input//tei:listAnnotation }</standOff>
+                        <standOff xmlns="http://www.tei-c.org/ns/1.0">{ $input//tei:listAnnotation }</standOff>
                     else
                         (),
-                    jt:save-xml($node/tei:text, $input)
+                    jt:save-xml($node/tei:standOff, $input)
                 }
             case element(tei:standOff) return
                 element { node-name($node) } {
