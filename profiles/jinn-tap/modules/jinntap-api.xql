@@ -54,6 +54,8 @@ declare %private function jt:load-xml($nodes as node()*, $importNotes as xs:bool
     for $node in $nodes
     return
         typeswitch($node)
+            case element(tei:listAnnotation) return
+                ()
             case element(tei:note) return
                 if ($importNotes) then
                     <tei-note target="{if ($node/@target) then $node/@target else ('#' || generate-id($node))}" type="note">
