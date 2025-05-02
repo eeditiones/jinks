@@ -35,9 +35,10 @@ ENV PATH ${PATH}:${ANT_HOME}/bin
 FROM builder as tei
 
 ARG EXIST_VERSION=[[ $docker?eXist ]]
-ARG TEMPLATING_VERSION=1.1.0
 ARG PUBLISHER_LIB_VERSION=[[ $docker?tei-publisher-lib ]]
 ARG ROUTER_VERSION=[[ $docker?roaster ]]
+ARG JWT_VERSION=[[ $docker?jwt ]]
+ARG CRYPTO_VERSION=[[ $docker?crypto ]]
 
 # add key
 RUN  mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
@@ -59,7 +60,8 @@ RUN  cd  [[$pkg?abbrev]] \
     && ant xar-local
 
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
-RUN curl -L -o /tmp/templating-${TEMPLATING_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/templating-${TEMPLATING_VERSION}.xar
+RUN curl -L -o /tmp/jwt-${JWT_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar
+RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
 
 FROM duncdrum/existdb:${EXIST_VERSION}-debug-j8
 

@@ -42,6 +42,7 @@ FROM builder as tei
 ARG TEMPLATING_VERSION=master
 ARG PUBLISHER_LIB_VERSION=4.0.1
 ARG ROUTER_VERSION=1.8.1
+ARG CRYPTO_VERSION=6.0.1
 ARG JWT_VERSION=2.0.0
 
 # add key
@@ -70,6 +71,7 @@ RUN  cd jinks \
 
 RUN curl -L -o /tmp/roaster-${ROUTER_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /tmp/jwt-${JWT_VERSION}.xar http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar
+RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
 
 FROM duncdrum/existdb:6.2.0-debug-j8
 
