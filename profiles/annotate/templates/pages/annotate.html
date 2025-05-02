@@ -24,8 +24,10 @@
     [% template header %]
     <span class="header-toolbar toolbar">
         <span class="icon-group">
-            <a id="toolbar-parent" href="[[ $context-path ]]/browse.html?collection=[[ $request?parameters?collection ]]" data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+            <a id="toolbar-parent" href="[[ $context-path ]]/browse.html?collection=[[ $request?parameters?collection ]]">
+                <button data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                </button>
             </a>
             <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
             <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
@@ -77,11 +79,21 @@
         </span>
 
 		<span class="icon-group">
-		  <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page">
-			<button data-i18n="[title]annotations.next-page" data-shortcut="left" title="Next"><iron-icon icon="icons:chevron-left"/></button>
-		  </pb-navigation>
-		  <pb-navigation emit="transcription" subscribe="transcription" unit="page">
-			<button data-i18n="[title]annotations.previous-page" data-shortcut="left" title="Previous"><iron-icon icon="icons:chevron-right"/></button>
+		  <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page" keyboard="left">
+                <button data-i18n="[title]annotations.previous-page" title="Previous">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                            d="M328 112L184 256l144 144" />
+                    </svg>
+                </button>
+			</pb-navigation>
+		  <pb-navigation emit="transcription" subscribe="transcription" unit="page" keyboard="right">
+            <button data-i18n="[title]annotations.next-page" title="Next">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                        d="M184 112l144 144-144 144" />
+                </svg>
+            </button>
 		  </pb-navigation>
 		</span>
 

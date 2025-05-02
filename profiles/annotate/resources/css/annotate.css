@@ -1,4 +1,8 @@
 /* overwrites */
+:root {
+    --pb-color-primary: var(--jinks-color-primary);
+    --pb-color-inverse: var(--jinks-color-inverse);
+}
 html {
     width: 100%;
     border: 0;
@@ -158,8 +162,11 @@ fx-trigger.insert-auth-form{
     padding:0;
     z-index:97;
 }
-.header-toolbar .icon-group{
-    padding:0.5rem 1rem;
+.header-toolbar .icon-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
 }
 .header-toolbar a:link, .header-toolbar a:active {
     text-decoration: none;
