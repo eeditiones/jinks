@@ -1,10 +1,10 @@
-<?xml-model href="teipublisher_odds.xsd"?>
-<?teipublisher output="web"?>
+<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web"?>
 <TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Annotations
+                 
                  
                  
                  <desc>ODD used by the web-based annotation editor. Contains special rules to mark entities with the correct CSS classes</desc>
@@ -165,6 +165,14 @@
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model behaviour="inline" cssClass="annotation annotation-ref"/>
+                </elementSpec>
+            <elementSpec ident="anchor" mode="change">
+                    <model predicate="@type='note'" behaviour="note">
+            <param name="content" value="let $id := @xml:id return   root($parameters?root)//note[@target='#' || $id]/node()"/>
+        </model>
+                    <model behaviour="anchor">
+            <param name="id" value="@xml:id"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

@@ -62,7 +62,7 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
                 return
                     map:entry($id, anno:apply($node, $ordered))
             )
-            let $merged := anno:merge($doc, $map) => anno:strip-exist-id() => anno:revision($log)
+            let $merged := anno:merge($doc, $map) => anno:strip-exist-id() => anno:extend-header($log)
             let $output := document {
                 $srcDoc/(processing-instruction()|comment()),
                 $merged
@@ -111,26 +111,66 @@ declare %private function anno:strip-exist-id($nodes as node()*) {
                 $node
 };
 
-declare function anno:revision($nodes as node()*, $log as map(*)?) {
-    if (exists($log) and map:contains($log, "message") and $log?message != '') then
-        anno:add-revision($nodes, $log)
-    else
-        $nodes
-};
-
-declare %private function anno:add-revision($nodes as node()*, $log as map(*)?) {
+(:~
+ : Add a revisionDesc to the TEI header and move notes with a @target into standOff/listAnnotation.
+ :)
+declare %private function anno:extend-header($nodes as node()*, $log as map(*)?) {
     for $node in $nodes
     return
         typeswitch($node)
             case document-node() return
                 document {
-                    anno:add-revision($node/node(), $log)
+                    anno:extend-header($node/node(), $log)
                 }
+            case element(tei:TEI) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/tei:standOff)) then
+                        <standOff xmlns="http://www.tei-c.org/ns/1.0">
+                            <listAnnotation>
+                                {
+                                    for $note in root($node)/tei:text//tei:note[@target]
+                                    return
+                                        $note
+                                }
+                            </listAnnotation>
+                        </standOff>
+                    else
+                        ()
+                }
+            case element(tei:standOff) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/tei:listAnnotation)) then
+                        <listAnnotation xmlns="http://www.tei-c.org/ns/1.0">
+                        {
+                            for $note in root($node)/tei:text//tei:note[@target]
+                            return
+                                $note
+                        }
+                        </listAnnotation>
+                    else
+                        ()
+                }
+            case element(tei:listAnnotation) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    for $note in root($node)/tei:text//tei:note[@target]
+                    return
+                        $note
+                }
+            case element(tei:note) return
+                if ($node/ancestor::tei:text and $node/@target) then
+                    ()
+                else
+                    $node
             case element(tei:teiHeader) return
-                if (not($node/tei:revisionDesc)) then
-                    element { node-name($node) } {
-                        $node/@*,
-                        $node/node(),
+                element { node-name($node) } {
+                    $node/@*,
+                    if (not($node/tei:revisionDesc)) then
                         if ($log?message != "") then
                             <revisionDesc xmlns="http://www.tei-c.org/ns/1.0">
                                 <listChange>
@@ -139,12 +179,10 @@ declare %private function anno:add-revision($nodes as node()*, $log as map(*)?) 
                             </revisionDesc>
                         else
                             ()
-                    }
-                else
-                    element { node-name($node) } {
-                        $node/@*,
-                        anno:add-revision($node/node(), $log)
-                    }
+                    else
+                        (),
+                    anno:extend-header($node/node(), $log)
+                }
             case element(tei:revisionDesc) return
                 if (not($node/tei:listChange)) then
                     element { node-name($node) } {
@@ -160,7 +198,7 @@ declare %private function anno:add-revision($nodes as node()*, $log as map(*)?) 
                 else
                     element { node-name($node) } {
                         $node/@*,
-                        anno:add-revision($node/node(), $log)
+                        anno:extend-header($node/node(), $log)
                     }
             case element(tei:listChange) return
                 element { node-name($node) } {
@@ -174,7 +212,7 @@ declare %private function anno:add-revision($nodes as node()*, $log as map(*)?) 
             case element() return
                 element { node-name($node) } {
                     $node/@*,
-                    anno:add-revision($node/node(), $log)
+                    anno:extend-header($node/node(), $log)
                 }
             default return
                 $node

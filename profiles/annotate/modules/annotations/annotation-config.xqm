@@ -65,9 +65,12 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             <choice xmlns="http://www.tei-c.org/ns/1.0"><orig>{$content()}</orig><reg>{$properties?reg}</reg></choice>
         case "note" return 
             let $parsed := parse-xml-fragment($properties?content) => anno:fix-namespaces()
+            let $id := util:uuid()
             return (
                 $content(),
-                <note xmlns="http://www.tei-c.org/ns/1.0">{$parsed}</note>
+                <anchor xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" type="note"/>,
+                (: because the note has a @target, it will be extracted into standOff/listAnnotation later :)
+                <note xmlns="http://www.tei-c.org/ns/1.0" target="#{$id}">{$parsed}</note>
             )
         case "date" return
             <date xmlns="http://www.tei-c.org/ns/1.0">
