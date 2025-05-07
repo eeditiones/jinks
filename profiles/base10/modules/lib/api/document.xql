@@ -56,6 +56,21 @@ declare function dapi:delete($request as map(*)) {
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
 
+declare function dapi:save($request as map(*)) {
+    let $id := $request?parameters?id
+    let $body := $request?body
+    return
+        try {
+            let $_ := xmldb:store($config:data-default, $id, $body)
+            return
+                router:response(200, "application/json", map {
+                    "status": "ok"
+                })
+        } catch * {
+            error($errors:BAD_REQUEST, $err:description)
+        }
+};
+
 declare function dapi:source($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
     return

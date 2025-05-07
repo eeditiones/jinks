@@ -872,7 +872,44 @@
 						"description": "Document deleted"
 					}
 				}
-			}
+			},
+            "put": {
+                "summary": "Update the document",
+                "description": "Update the document",
+                "operationId": "dapi:save",
+                "requestBody": {
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Saved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 		},
 		"/api/document/{id}/html": {
 			"get": {

@@ -79,44 +79,15 @@
     [% endif %]
     <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
     <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        let doc = "[[ page:parameter($context,'doc')]]";
-        const saveBtn = document.getElementById("saveBtn");
-        const saveDialog = document.getElementById("saveDialog");
-        const saveForm = document.querySelector('#saveDialog form');
-        const copyBtn = document.getElementById("copyBtn");
-        const editor = document.querySelector('jinn-tap');
-
-        saveBtn.addEventListener("click", function() {
-            if (!doc) {
-                saveDialog.showModal();
-            } else {
-                const formData = new FormData(saveForm);
-                sendToApi("[[ $context-path ]]", doc, formData.get('docTitle').trim(), editor.xml);
-            }
+        window.addEventListener('DOMContentLoaded', () => {
+            const doc = "[[ page:parameter($context,'doc')]]";
+            const baseURI = "[[ $context-path ]]";
+            initEditor(baseURI, doc);
         });
-
-        saveForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const docName = formData.get('docName').trim();
-            const docTitle = formData.get('docTitle').trim();
-            
-            if (docName) {
-                doc = docName;
-                sendToApi("[[ $context-path ]]", docName, docTitle, editor.xml);
-                saveDialog.close();
-                this.reset();
-            }
-        });
-
-        copyBtn.addEventListener("click", function() {
-            copyToClipboard(editor);
-        });
-    });
     </script>
     [% endtemplate %]
-    [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/jinntap/" || page:parameter($context,'doc') else () %]
+    [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/document/" || page:parameter($context,'doc') else () %]
+    [% if $features?collab?enable %]
     <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]"
         token="[[ page:jwt-token($context) ]]" server="[[ $features?collab?server ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
@@ -131,13 +102,29 @@
             </a>
         </li>
     </jinn-tap>
+    [% else %]
+    <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]">
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
+            alt="JinnTap" />
+        <li slot="toolbar">
+            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                <i class="bi bi-floppy"></i>
+            </a>
+        </li>
+        <li slot="toolbar">
+            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+            </a>
+        </li>
+    </jinn-tap>
+    [% endif %]
     [% endlet %]
     <jinn-toast></jinn-toast>
     <dialog id="saveDialog">
         <form action="">
             <article>
                 <header>
-                    <h3>Save Document</h3>
+                    <h3>New Document</h3>
                 </header>
                 <label for="docTitle">
                     Document Title
@@ -148,7 +135,7 @@
                     <input type="text" id="docName" name="docName" />
                 </label>
                 <footer>
-                    <button id="confirm">Save</button>
+                    <button id="confirm">Confirm</button>
                 </footer>
             </article>
         </form>

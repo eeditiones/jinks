@@ -11,20 +11,12 @@
     "templating": {
         "use": [ "templates/editor-blocks.html" ]
     },
-    "api": [
-        {
-            "spec": "jinntap-api.json",
-            "prefix": "jt",
-            "path": "jinntap-api.xql",
-            "id": "http://teipublisher.com/api/jinntap"
-        }
-    ],
     "script": {
-        "jinntap": "1.16.0"
+        "jinntap": "1.21.3"
     },
     "features": {
         "collab": {
-            "enable": true,
+            "enable": false,
             "server": "wss://dev.tei-publisher.com/collab"
         }
     }

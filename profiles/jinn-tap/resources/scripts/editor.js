@@ -4,19 +4,16 @@
  * @param {string} content - The editor content to send
  * @returns {Promise} A promise that resolves when the request is complete
  */
-async function sendToApi(baseUri, doc, title, content) {
-    const saveBtn = document.getElementById("saveBtn");
-    
+async function save(baseUri, editor) {
+    const doc = editor.metadata.name;
+
     try {
-        // Update button state
-        saveBtn.disabled = true;
-        
-        const response = await fetch(`${baseUri}/api/jinntap/${doc}?title=${encodeURIComponent(title)}`, {
+        const response = await fetch(`${baseUri}/api/document/${doc}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/xml'
             },
-            body: `<body xmlns="http://www.tei-c.org/ns/1.0">${content}</body>`
+            body: editor.xml
         });
 
         if (!response.ok) {
@@ -62,4 +59,44 @@ async function copyToClipboard(editor) {
             type: 'info'
         }
     }));
+}
+
+function initEditor(contextPath, doc) {
+    const saveBtn = document.getElementById("saveBtn");
+    const saveDialog = document.getElementById("saveDialog");
+    const saveForm = document.querySelector('#saveDialog form');
+    const copyBtn = document.getElementById("copyBtn");
+    const editor = document.querySelector('jinn-tap');
+
+    saveBtn.addEventListener("click", function () {
+        if (doc) {
+            save(contextPath, editor);
+        } else {
+            saveDialog.showModal();
+        }
+    });
+
+    saveForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const docName = formData.get('docName').trim();
+        const docTitle = formData.get('docTitle').trim();
+
+        if (docName) {
+            editor.metadata.name = doc = docName;
+            editor.metadata.title = docTitle;
+            saveDialog.close();
+            this.reset();
+            save(contextPath, editor);
+        }
+    });
+
+    copyBtn.addEventListener("click", function () {
+        copyToClipboard(editor);
+    });
+
+    // Set initial metadata if doc is provided
+    if (doc) {
+        editor.metadata.name = doc;
+    }
 }
