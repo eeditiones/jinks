@@ -361,6 +361,13 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll(':valid').forEach((element) => {
             element.setAttribute('aria-invalid', 'false');
         });
+        const themes = form.querySelectorAll('input[name="theme"]');
+        const valid = Array.from(themes).some(cb => cb.checked);
+        if (!valid) {
+            Array.from(themes).forEach((cb) => {
+                cb.setAttribute('aria-invalid', 'true');
+            });
+        }
     }
 
     function update(updateEditor = true) {
@@ -374,28 +381,31 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         new FormData(form).forEach((value, key) => {
-            if (key !== 'base' && key !== 'feature' && key !== 'abbrev' && key !== 'custom-odd') {
+            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'abbrev' && key !== 'custom-odd') {
                 appConfig[key] = value;
             }
         });
         appConfig.pkg = {
             abbrev: formData.get('abbrev')
         };
-        appConfig.extends = formData.getAll('base').concat(formData.getAll('feature'));
+        appConfig.extends = formData.getAll('base')
+            .concat(formData.getAll('feature'))
+            .concat(formData.getAll('theme'));
         
         validateForm();
         updateConfig(updateEditor);
     }
 
-    function toggleFeature(ev) {
-        const configExtends = JSON.parse(ev.target.dataset.depends);
+    function toggleFeature(eventOrControl) {
+        const target = eventOrControl.target || eventOrControl;
+        const configExtends = JSON.parse(target.dataset.depends);
         if (configExtends) {
             configExtends.forEach((profile) => {
                 const input = form.querySelector(`[value="${profile}"]`);
-                if (!ev.target.checked && input.name === 'base') {
+                if (!target.checked && input.name === 'base') {
                     return;
                 }
-                input.checked = ev.target.checked;
+                input.checked = target.checked;
             });
         }
         update();
@@ -420,7 +430,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
-    form.querySelectorAll('input[type="checkbox"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};

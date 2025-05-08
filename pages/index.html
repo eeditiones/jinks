@@ -41,9 +41,11 @@
                 <label data-tooltip="[[ $profile?description ]]"
                     data-placement="right">
                     [% if $profile?path = head($baseProfiles)?path %]
-                    <input type="radio" name="base" value="[[ $profile?path ]]" checked=""/>
+                    <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
+                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                     [% else %]
-                    <input type="radio" name="base" value="[[ $profile?path ]]" />
+                    <input type="radio" name="base" value="[[ $profile?path ]]" 
+                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                     [% endif %]
                     [[ $profile?label ]]
                 </label>
@@ -51,6 +53,24 @@
                 [% endlet %]
             </fieldset>
 
+            <fieldset>
+                <legend>Themes</legend>
+                [% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
+                [% for $profile in $themeProfiles %]
+                <label data-tooltip="[[ $profile?description ]]"
+                    data-placement="right">
+                    [% if $profile?path = head($themeProfiles)?path %]
+                    <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
+                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                    [% else %]
+                    <input type="checkbox" name="theme" value="[[ $profile?path ]]"
+                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                    [% endif %]
+                    [[ $profile?label ]]
+                </label>
+                [% endfor %]
+                [% endlet %]
+            </fieldset>
             <fieldset>
                 <legend>Features</legend>
                 <ul>
