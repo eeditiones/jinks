@@ -3,16 +3,20 @@
     "type": "feature",
     "id": "https://e-editiones.org/app/tei-publisher/jinntap",
     "label": "Jinn Tap Editor",
-    "description": "Adds an option to edit TEI documents using a WYSIWYM editor.",
+    "description": "Adds an option to edit documents using a WYSIWYM editor.",
     "version": "1.0.0",
     "depends": [
-        "annotate"
+        "base10"
     ],
+    "defaults": {
+        "data-default": "annotate",
+        "upload": "annotate"
+    },
     "templating": {
         "use": [ "templates/editor-blocks.html" ]
     },
     "script": {
-        "jinntap": "1.21.3"
+        "jinntap": "1.22.0"
     },
     "features": {
         "collab": {
