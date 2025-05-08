@@ -100,6 +100,9 @@
         </model>
                 </elementSpec>
                   <elementSpec ident="anchor" mode="change">
+                    <model predicate="@type='note'" behaviour="note">
+                        <param name="content" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/node()"/>
+                    </model>
                     <model behaviour="anchor">
             <param name="id" value="@xml:id"/>
         </model>

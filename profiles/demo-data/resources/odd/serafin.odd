@@ -146,11 +146,6 @@
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="omit" useSourceRendition="true"/>
                 </elementSpec>
-                <elementSpec ident="anchor" mode="change">
-                    <model behaviour="note">
-            <param name="content" value="let $target := '#' || @xml:id return root(.)//listAnnotation/note[@target=$target]"/>
-        </model>
-                </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
             <param name="content" value="id(@key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/text()"/>
