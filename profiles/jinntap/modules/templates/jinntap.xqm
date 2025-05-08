@@ -8,7 +8,7 @@ declare variable $jt:JWT_SECRET := head((util:system-property("jwt.secret"), "yo
 declare variable $jt:JWT_LIFETIME := 30*24*60*60;
 
 declare function jt:jwt-token() {
-    let $jwt := jwt:instance($page:JWT_SECRET, $page:JWT_LIFETIME)
+    let $jwt := jwt:instance($jt:JWT_SECRET, $jt:JWT_LIFETIME)
     let $real-u := sm:id()/sm:id/sm:real
     let $payload := map {
         "name": $real-u/sm:username/text(),
