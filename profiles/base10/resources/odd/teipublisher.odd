@@ -100,6 +100,9 @@
         </model>
                 </elementSpec>
                   <elementSpec ident="app" mode="add">
+                    <model predicate="$parameters?mode='toc'" behaviour="inline">
+                        <param name="content" value="lem"/>
+                    </model>
                     <model behaviour="alternate">
                       <param name="default" value="lem"/>
                       <param name="alternate" value="rdg"/>
@@ -419,6 +422,7 @@
         </model>
                 </elementSpec>
                   <elementSpec ident="note" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="omit"/>
                     <model behaviour="note">
             <param name="place" value="@place"/>
             <param name="label" value="@n"/>
