@@ -7,7 +7,13 @@
         },
         "layout": "fixed-layout",
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/base.html",
+            "modules": {
+                "http://teipublisher.com/ns/templates/jinntap": {
+                    "prefix": "jt",
+                    "at": "modules/templates/jinntap.xqm"
+                }
+            }
         },
         "styles": [
             "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -93,7 +99,7 @@
     [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/document/" || page:parameter($context,'doc') else () %]
     [% if $features?collab?enable %]
     <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]"
-        token="[[ page:jwt-token($context) ]]" server="[[ $features?collab?server ]]">
+        token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
             <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">

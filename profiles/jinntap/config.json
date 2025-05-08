@@ -5,6 +5,18 @@
     "label": "Jinn Tap Editor",
     "description": "Adds an option to edit documents using a WYSIWYM editor.",
     "version": "1.0.0",
+    "pkg": {
+        "dependencies": [
+            {
+                "package": "http://expath.org/ns/crypto",
+                "semver": "6"
+            },
+            {
+                "package": "http://existsolutions.com/ns/jwt",
+                "semver": "2"
+            }
+        ]
+    },
     "depends": [
         "base10"
     ],
