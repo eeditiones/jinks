@@ -99,6 +99,12 @@
             </outputRendition>
         </model>
                 </elementSpec>
+                  <elementSpec ident="app" mode="add">
+                    <model behaviour="alternate">
+                      <param name="default" value="lem"/>
+                      <param name="alternate" value="rdg"/>
+                    </model>
+                  </elementSpec>
                   <elementSpec ident="anchor" mode="change">
                     <model predicate="@type='note'" behaviour="note">
                         <param name="content" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/node()"/>
