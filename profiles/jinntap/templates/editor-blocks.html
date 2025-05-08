@@ -21,4 +21,11 @@
         </a>
     </button>
     [% endtemplate %]
+    [% template menu.admin %]
+    [% if exists($context?doc) %]
+    <li>
+        <a href="[[ $context-path ]]/editor.html?doc=[[ $context?doc?path ]]" target="jinntap">Edit in JinnTap</a>
+    </li>
+    [% endif %]
+    [% endtemplate %]
 </div>

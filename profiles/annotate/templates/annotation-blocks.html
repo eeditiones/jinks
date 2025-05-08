@@ -11,4 +11,11 @@
         </a>
     </button>
     [% endtemplate %]
+    [% template menu.admin %]
+    [% if exists($context?doc) %]
+    <li>
+        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=annotate.html&amp;odd=annotations.odd" target="annotate">Annotate Document</a>
+    </li>
+    [% endif %]
+    [% endtemplate %]
 </div>
