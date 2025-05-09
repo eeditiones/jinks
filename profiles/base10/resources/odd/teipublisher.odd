@@ -110,7 +110,9 @@
                   </elementSpec>
                   <elementSpec ident="anchor" mode="change">
                     <model predicate="@type='note'" behaviour="note">
+                        <desc>Process standoff notes: assumption is that they have @type="note" and the notes are placed in listAnnotation</desc>
                         <param name="content" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/node()"/>
+                        <param name="label" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/@n/string()"/>
                     </model>
                     <model behaviour="anchor">
             <param name="id" value="@xml:id"/>
