@@ -209,7 +209,7 @@ footer img {
     margin-bottom: var(--pico-block-spacing-vertical);
     padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
     border-radius: var(--pico-border-radius);
-    background-color: var(--jinks-colors-50);
+    background:linear-gradient(0deg, var(--jinks-overlay-background-color-light), var(--jinks-overlay-background-color-light)), var(--jinks-texture-background);
     box-shadow: var(--pico-card-box-shadow);
     color: var(--jinks-text-color);
 
@@ -218,16 +218,10 @@ footer img {
     }
 }
 
-.team li.collaborator {
-    background-image: var(--jinks-texture-background);
-    background-position-x: -100px;
-    background-position-y: 50px;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
 .team li:hover {
+    --jinks-overlay-background-color-light: rgba(255, 255, 255, 0.7);
     background-image: var(--jinks-texture-background);
+    background:linear-gradient(0deg, var(--jinks-overlay-background-color-light), var(--jinks-overlay-background-color-light)), var(--jinks-texture-background);
     background-size: cover;
     background-position: 0;
     background-position-y: 0;

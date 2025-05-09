@@ -19,10 +19,14 @@
 
     /* Header, menubar, toolbar, drawer, footer, splash */
 
+    /* Overlay for image backgrounds to lighten or darken them */
+    --jinks-overlay-background-color-light:rgba(255, 255, 255, 0.8);
+    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.8);
+
     /* Overlay for highlights and (CHECK) hero and menubar section */
-    --jinks-header-background-color: rgba(255, 255, 255, 0.8);
+    --jinks-header-background-color: var(--jinks-overlay-background-color-light);
     --jinks-header-background-color-light: var(--jinks-header-background-color);
-    --jinks-header-background-color-dark: rgba(255, 255, 255, 0.8);
+    --jinks-header-background-color-dark: var(--jinks-overlay-background-color-dark);
 
     --jinks-drawer-background-color-default: var(--jinks-colors-100);
     --jinks-menubar-background-color-default: var(--jinks-colors-500);

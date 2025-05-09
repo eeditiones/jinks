@@ -5,8 +5,8 @@
     
     /* Default Jinks image assets for this theme; do not change the values */
     --jinks-hero-background-default: url("../images/jinks-images/type.jpeg");
-    --jinks-page-background-default: url("../images/jinks-images/paper.jpeg");
     --jinks-texture-background-default: url("../images/jinks-images/paper.jpeg");
+    --jinks-page-background-default: var(--jinks-texture-background-default);
     --jinks-feature-background-default: url("../images/jinks-images/typewriter.jpeg");
     --jinks-highlight-background-default: url("../images/jinks-images/books.jpeg");
 
@@ -17,10 +17,8 @@
 
     --jinks-splash-image-size: 360px auto;
 
-    /* Jinks variable definitions; change here into your tailored assets */
-    --jinks-hero-background: var(--jinks-hero-background-default);
+    /* Jinks variable definitions; change here into your tailored assets, if you don't do it in config.json */
     --jinks-page-background: var(--jinks-page-background-default);
-    --jinks-texture-background: var(--jinks-texture-background-default);
     --jinks-feature-background: var(--jinks-feature-background-default);
     --jinks-highlight-background: var(--jinks-highlight-background-default);
 

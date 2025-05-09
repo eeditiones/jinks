@@ -103,6 +103,13 @@
             'var(--jinks-splash-background-dark-default)' 
     ]];
 
+    --jinks-texture-background: [[ 
+        if ($theme?texture?background-image) then 
+            'url("' || $theme?texture?background-image || '")'
+        else 
+            'var(--jinks-texture-background-default)' 
+    ]];
+
     /* Typography */
 
     --jinks-hero-text-width:  [[
