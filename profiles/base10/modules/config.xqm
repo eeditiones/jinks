@@ -519,10 +519,25 @@ declare function config:get-id($node as node()) {
 };
 
 (:~
- : Returns a path relative to $config:data-root used to locate a document in the database.
+ : Returns a path relative to $config:data-default used to locate a document in the database.
+ : The relative path is used for URL construction within an application context.
+ :
+ : @param $node the node to get the path for
+ : @return a path relative to $config:data-root
  :)
  declare function config:get-relpath($node as node()) {
-     let $root := if (ends-with($config:data-root, "/")) then $config:data-root else $config:data-root || "/"
+    config:get-relpath($node, $config:data-root)
+ };
+
+(:~
+ : Returns a path relative to $root used to locate a document in the database.
+ : 
+ : @param $node the node to get the path for
+ : @param $root the root of the collection hierarchy, usually $config:data-root or $config:data-default
+ : @return a path relative to $root
+ :)
+ declare function config:get-relpath($node as node(), $root as xs:string) {
+     let $root := if (ends-with($root, "/")) then $root else $root || "/"
      return
          substring-after(document-uri(root($node)), $root)
  };
