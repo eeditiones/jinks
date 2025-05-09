@@ -76,8 +76,7 @@ declare variable $config:default-language as xs:string := "[[ $context?defaults?
  :)
 declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
     [% if exists($context?collection-config) %]
-    let $prefix := replace($collection, "^([^/]+).*$", "$1") return
-    switch ($prefix)
+    switch ($collection)
         [% for $relativeCollectionPath in map:keys($context?collection-config) %]
         case "[[$relativeCollectionPath]]" return
             [[ serialize($context?collection-config($relativeCollectionPath), map { "method": "adaptive" }) ]]
