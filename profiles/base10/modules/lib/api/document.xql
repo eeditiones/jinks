@@ -61,10 +61,11 @@ declare function dapi:save($request as map(*)) {
     let $body := $request?body
     return
         try {
-            let $_ := xmldb:store($config:data-default, $id, $body)
+            let $path := xmldb:store($config:data-default, $id, $body)
             return
                 router:response(200, "application/json", map {
-                    "status": "ok"
+                    "status": "ok",
+                    "path": config:get-relpath(doc($path))
                 })
         } catch * {
             error($errors:BAD_REQUEST, $err:description)

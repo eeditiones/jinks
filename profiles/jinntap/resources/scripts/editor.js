@@ -24,10 +24,13 @@ async function save(baseUri, editor) {
         if (json.status === "ok") {
             document.dispatchEvent(new CustomEvent('jinn-toast', {
                 detail: {
-                    message: `File saved as ${doc}`,
+                    message: `File saved as ${json.path}`,
                     type: 'info'
                 }
             }));
+            const url = new URL(json.path, window.location.href);
+            url.searchParams.set('template', 'editor.html');
+            history.pushState({}, '', url.toString());
         } else {
             document.dispatchEvent(new CustomEvent('jinn-toast', {
                 detail: {

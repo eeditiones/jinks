@@ -96,9 +96,9 @@
         });
     </script>
     [% endtemplate %]
-    [% let $url = if (page:parameter($context,'doc')) then $context-path || "/api/document/" || page:parameter($context,'doc') else () %]
+    [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
     [% if $features?collab?enable %]
-    <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]"
+    <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]"
         token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
@@ -113,7 +113,7 @@
         </li>
     </jinn-tap>
     [% else %]
-    <jinn-tap url="[[ $url ]]" name="[[ page:parameter($context,'doc') ]]">
+    <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
             alt="JinnTap" />
         <li slot="toolbar">
