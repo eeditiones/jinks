@@ -36,40 +36,58 @@
         <section class="profiles">
             <fieldset>
                 <legend>Base Profile</legend>
+                <ul>
                 [% let $baseProfiles = filter($context?profiles, function($p) { $p?type = "base"}) %]
                 [% for $profile in $baseProfiles %]
-                <label data-tooltip="[[ $profile?description ]]"
-                    data-placement="right">
-                    [% if $profile?path = head($baseProfiles)?path %]
-                    <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
-                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                    [% else %]
-                    <input type="radio" name="base" value="[[ $profile?path ]]" 
-                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                    [% endif %]
-                    [[ $profile?label ]]
-                </label>
+                <li>
+                    <label data-tooltip="[[ $profile?description ]]"
+                        data-placement="right">
+                        [% if $profile?path = head($baseProfiles)?path %]
+                        <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
+                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
+                        [% else %]
+                        <input type="radio" name="base" value="[[ $profile?path ]]" 
+                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
+                        [% endif %]
+                        [[ $profile?label ]]
+                    </label>
+                    <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                        <svg class="icon">
+                            <use href="#icon-information"></use>
+                        </svg>
+                    </a>
+                </li>
                 [% endfor %]
                 [% endlet %]
+                </ul>
             </fieldset>
 
             <fieldset>
                 <legend>Themes</legend>
+                <ul>
                 [% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
                 [% for $profile in $themeProfiles %]
-                <label data-tooltip="[[ $profile?description ]]"
-                    data-placement="right">
-                    [% if $profile?path = head($themeProfiles)?path %]
-                    <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
-                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                    [% else %]
-                    <input type="checkbox" name="theme" value="[[ $profile?path ]]"
-                        data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                    [% endif %]
-                    [[ $profile?label ]]
-                </label>
+                <li>
+                    <label data-tooltip="[[ $profile?description ]]"
+                        data-placement="right">
+                        [% if $profile?path = head($themeProfiles)?path %]
+                        <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
+                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                        [% else %]
+                        <input type="checkbox" name="theme" value="[[ $profile?path ]]"
+                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                        [% endif %]
+                        [[ $profile?label ]]
+                    </label>
+                    <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                        <svg class="icon">
+                            <use href="#icon-information"></use>
+                            </svg>
+                    </a>
+                </li>
                 [% endfor %]
                 [% endlet %]
+                </ul>
             </fieldset>
             <fieldset>
                 <legend>Features</legend>
