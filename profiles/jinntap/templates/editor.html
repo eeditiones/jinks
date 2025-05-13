@@ -90,7 +90,7 @@
     <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const doc = "[[ page:parameter($context,'doc')]]";
+            const doc = "[[ $context?doc?path ]]";
             const baseURI = "[[ $context-path ]]";
             initEditor(baseURI, doc);
         });
