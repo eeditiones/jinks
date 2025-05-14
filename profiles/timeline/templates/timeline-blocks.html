@@ -1,5 +1,5 @@
 <template>
-    [% template before-list %]
+    [% template before-document-list %]
     [% if $features?timeline %]
     <pb-custom-form id="timeline-options" class="options" emit="search" style="display: none">
         <input type="hidden" name="dates" value="[[ $request?parameters?dates ]]"/>
