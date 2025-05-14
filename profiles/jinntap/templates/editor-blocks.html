@@ -1,6 +1,6 @@
 <div>
     [% template before-list %]
-    <a id="createNewDocument" href="[[ $context-path ]]/editor.html" target="jinntap" data-tooltip="Create New Document" data-placement="bottom">
+    <a id="createNewDocument" href="[[ $context-path ]]/editor.html" data-tooltip="Create New Document" data-placement="bottom">
         <button class="outline">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
                 <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
@@ -11,7 +11,7 @@
     [% endtemplate %]
     [% template document-actions %]
     <button class="outline">
-        <a href="[[ $context-path ]]/[[ $options?relpath ]]?template=editor.html" target="jinntap"
+        <a href="[[ $context-path ]]/[[ $options?relpath ]]?template=editor.html"
             data-tooltip="Edit Document in JinnTap Editor" data-placement="bottom">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
                 viewBox="0 0 16 16">
@@ -24,7 +24,7 @@
     [% template menu.admin %]
     [% if exists($context?doc) %]
     <li>
-        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=editor.html" target="jinntap">Edit in JinnTap</a>
+        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=editor.html">Edit in JinnTap</a>
     </li>
     [% endif %]
     [% endtemplate %]
