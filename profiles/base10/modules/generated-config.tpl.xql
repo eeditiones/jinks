@@ -12,7 +12,7 @@ declare variable $config:fore := "[[$script?fore]]";
 declare variable $config:default-view := "[[$defaults?view]]";
 declare variable $config:default-template := "[[$defaults?template]]";
 declare variable $config:default-media := ([[string-join($defaults?media?* ! ('"' || . || '"'), ", ")]]);
-declare variable $config:search-default := "[[$defaults?search]]";
+declare variable $config:search-default := "[[$indexing?tei?search]]";
 
 [% if map:contains($defaults, "data") %]
     [% if starts-with($defaults?data, "/") %]
