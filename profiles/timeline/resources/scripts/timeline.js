@@ -18,7 +18,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     pbEvents.subscribe('pb-update', 'transcription', (ev) => {
-        console.log(ev.detail);
         const timeline = document.querySelector('pb-timeline');
         const url = timeline.url;
         timeline.url = url.replace(/[^/]+$/, ev.detail.data.doc);
