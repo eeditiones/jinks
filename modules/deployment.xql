@@ -69,7 +69,8 @@ declare function deploy:deploy($collection as xs:string, $expathConf as element(
     let $name := $expathConf/@name/string()
     return (
         deploy:undeploy($name),
-        repo:install-and-deploy-from-db($pkg)
+        repo:install-and-deploy-from-db($pkg),
+        xmldb:remove($collection)
     )
 };
 
