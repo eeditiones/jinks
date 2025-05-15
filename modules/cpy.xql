@@ -111,12 +111,12 @@ declare function cpy:copy-resource($context as map(*), $source as xs:string, $ta
         cpy:overwrite($context, $relPath, $sourcePath, function() {
             cpy:resource-as-string($context, $sourcePath)?content
         }, function() {
-            xmldb:copy-resource(
-                path:parent($sourcePath),
-                path:basename($sourcePath),
-                path:parent($targetPath),
-                path:basename($targetPath)
-            )
+                xmldb:copy-resource(
+                    path:parent($sourcePath),
+                    path:basename($sourcePath),
+                    path:parent($targetPath),
+                    path:basename($targetPath)
+                )
         })
 };
 
@@ -242,79 +242,5 @@ declare %private function cpy:hash($content as xs:string?, $mime as xs:string?) 
         else
             util:hash($content, "sha-256")
     else
-        ()
-};
-
-declare %private function cpy:scan-resources($root as xs:anyURI, $func as function(xs:anyURI, xs:anyURI?) as item()*) {
-    $func($root, ()),
-    if (sm:has-access($root, "rx")) then
-        for $child in xmldb:get-child-resources($root)
-        return
-            $func($root, xs:anyURI($root || "/" || $child))
-    else
-        (),
-    if (sm:has-access($root, "rx")) then
-        for $child in xmldb:get-child-collections($root)
-        return
-            cpy:scan-resources(xs:anyURI($root || "/" || $child), $func)
-    else
-        ()
-};
-
-declare %private function cpy:zip-entries($app-collection as xs:string) {
-    (: compression:zip doesn't seem to store empty collections, so we'll scan for only resources :)
-    cpy:scan-resources(xs:anyURI($app-collection), function($collection as xs:anyURI, $resource as xs:anyURI?) {
-        if (exists($resource)) then
-            let $relative-path := substring-after($resource, $app-collection || "/")
-            return
-                if (starts-with($relative-path, "transform/")) then
-                    ()
-                else if (util:binary-doc-available($resource)) then
-                    <entry name="{$relative-path}" type="uri">{$resource}</entry>
-                else
-                    <entry name="{$relative-path}" type="text">
-                    {
-                        serialize(doc($resource), map { "indent": false() })
-                    }
-                    </entry>
-        else
-            ()
-    })
-};
-
-declare function cpy:package($collection as xs:string, $expathConf as element()) {
-    let $name := concat($expathConf/@abbrev, "-", $expathConf/@version, ".xar")
-    let $entries := cpy:zip-entries($collection)
-    let $xar := compression:zip($entries, true())
-    return
-        try {
-            xmldb:store($config:temp_directory, $name, $xar, "application/zip")
-        } catch * {
-            error($cpy:ERROR_PERMISSION, "Permission denied to store package '" || $name || "'")
-        }
-};
-
-declare function cpy:deploy($collection as xs:string) {
-    let $expathConf := collection($collection)/expath:package
-    let $null := cpy:deploy($collection, $expathConf)
-    return
-        ()
-};
-
-declare function cpy:deploy($collection as xs:string, $expathConf as element()) {
-    let $pkg := cpy:package($collection, $expathConf)
-    let $name := $expathConf/@name/string()
-    return (
-        cpy:undeploy($name),
-        repo:install-and-deploy-from-db($pkg),
-        xmldb:remove($collection)
-    )
-};
-
-declare function cpy:undeploy($id as xs:string) {
-    if (index-of(repo:list(), $id)) then (
-        repo:undeploy($id),
-        repo:remove($id)
-    ) else
         ()
 };

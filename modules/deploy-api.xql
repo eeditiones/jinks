@@ -4,7 +4,7 @@ import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace auth="http://e-editiones.org/roaster/auth";
 import module namespace path="http://tei-publisher.com/jinks/path" at "./paths.xql";
 
-import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
+import module namespace deploy = "http://exist-db.org/xquery/deployment" at "deployment.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
@@ -35,7 +35,7 @@ declare function dep:deploy($request as map(*)) {
                     $profile ||
                     " is not prepared yet. Call the /api/generator endpoint first.")
         else
-            cpy:deploy($profile-temp-location)
+            deploy:deploy($profile-temp-location)
 };
 
 declare function dep:run-action($request as map(*)) {
