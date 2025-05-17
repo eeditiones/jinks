@@ -13,7 +13,7 @@
     <div class="search-panel">
         <article class="card-content">
             <pb-search id="search-form" subscribe="search"
-                value="[[ $request?parameters?query ]]" submit-on-load="submit-on-load">
+                value="[[ page:parameter($context, 'query', '') ]]" submit-on-load="submit-on-load">
                 <div class="targets">
                     <label>Search sections
                         <input type="checkbox" name="field" value="text"/>
