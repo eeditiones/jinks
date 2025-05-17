@@ -371,8 +371,17 @@ pb-drawer {
     height: 100vh;
 }
 
+.toc {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
+}
+
+.toc details summary {
+    /* override pico default */
+    line-height: var(--jinks-line-height);
+}
+
 .toc ul {
-    list-style-type: none;
     margin: 0;
     padding: 0;
 }
@@ -382,6 +391,7 @@ pb-drawer {
 }
 
 .toc li {
+    list-style-type: none;
     margin-bottom: .5em;
 }
 
