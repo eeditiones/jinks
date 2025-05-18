@@ -22,6 +22,7 @@
                   
                  
                  
+                 
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -277,6 +278,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
             <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
             <param name="content" value="string()"/>
@@ -380,42 +382,7 @@
         </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
-                <elementSpec ident="teiHeader" mode="change">
-                    <modelSequence predicate="$parameters?mode='map'">
-            <model behaviour="heading">
-                <param name="content" value="'Places'"/>
-                <param name="level" value="2"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="for $n in root(.)//placeName group by $key := $n/@key order by $key return $n[1]"/>
-            </model>
-        </modelSequence>
-                    <model predicate="$parameters?mode='footer-prev'" behaviour="block" cssClass="footer">
-            <param name="prev" value="let $next := 'MS' || (xs:int(substring-after(./ancestor::TEI/@xml:id, 'MS')) -1)  let $doc := collection(util:collection-name(.))/id($next)  let $link := if ($doc) then util:collection-name(.) || '/' || util:document-name($doc) else &#34;&#34;  return $link"/>
-            <pb:template xmlns="" xml:space="preserve"><paper-button>
-              <pb-link path="[[prev]]" emit="transcription" class="part-nav">
-                  <iron-icon icon="icons:first-page"/>
-                  <pb-i18n key="serafin.navigation.previous">poprzedni</pb-i18n>
-              </pb-link>
- </paper-button></pb:template>
-        </model>
-                    <model predicate="$parameters?mode='footer-next'" behaviour="block" cssClass="footer">
-            <param name="next" value="let $next := 'MS' || (1 + xs:int(substring-after(./ancestor::TEI/@xml:id, 'MS')))  let $doc := collection(util:collection-name(.))/id($next)   let $link := if (count($doc)) then util:collection-name(.) || '/' || util:document-name($doc) else &#34;&#34;  return $link"/>
-            <pb:template xmlns="" xml:space="preserve"><paper-button>
-              <pb-link path="[[next]]" emit="transcription" class="part-nav">
-                <pb-i18n key="serafin.navigation.next">następny</pb-i18n>
-                <iron-icon icon="icons:last-page"/>
-              </pb-link>  
-</paper-button></pb:template>
-        </model>
-                    <model output="latex" behaviour="block">
-            <param name="content" value="(fileDesc/titleStmt/title[not(@type)], profileDesc/correspDesc)"/>
-            <pb:template xmlns="" xml:space="preserve">\def\volume{[[content]]}</pb:template>
-        </model>
-                    <model output="fo" behaviour="omit"/>
-                    <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
-                    <model output="web" behaviour="metadata"/>
-                </elementSpec>
+                <elementSpec ident="teiHeader" mode="change"/>
                 <elementSpec ident="correspAction" mode="add">
                     <model predicate="@type='sent'" behaviour="inline">
             <param name="content" value="(placeName, ', ', date)"/>
@@ -525,26 +492,7 @@
             <pb:template xmlns="" xml:space="preserve"><a href="[[target]]">[[type]]</a></pb:template>
         </model>
                 </elementSpec>
-            <elementSpec ident="fileDesc" mode="change">
-                    <modelSequence predicate="$parameters?header='short'">
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="titleStmt"/>
-            </model>
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="editionStmt"/>
-            </model>
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="publicationStmt"/>
-            </model>
-            <model behaviour="block" cssClass="sample-description">
-                <desc>Output abstract containing demo description</desc>
-                <param name="content" value="../profileDesc/abstract"/>
-            </model>
-        </modelSequence>
-                    <model behaviour="title">
-            <param name="content" value="titleStmt"/>
-        </model>
-                </elementSpec>
+            <elementSpec ident="fileDesc" mode="change"/>
             <elementSpec ident="ref" mode="change">
                     <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
@@ -596,14 +544,14 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model behaviour="webcomponent" cssClass="facs">
-                        <desc>Use the pb-tify component, no need for explicit link to the image, this is taken care of by the iiif api</desc>
-                        <param name="name" value="'pb-facs-link'"/>
-                        <param name="content" value="@n"/>
-                        <param name="emit" value="'transcription'"/>
-                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-                        <param name="emit-on-load" value="'emit-on-load'"/>
-                        <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
-                    </model>
+            <desc>Use the pb-tify component, no need for explicit link to the image, this is taken care of by the iiif api</desc>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
+            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="emit-on-load" value="'emit-on-load'"/>
+            <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
