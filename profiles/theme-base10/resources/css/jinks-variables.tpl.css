@@ -89,7 +89,7 @@
 
     --jinks-splash-background:  [[
         if (count($theme?logo?splash?light)) then 
-            $theme?logo?splash?light
+            'url("' || $theme?logo?splash?light || '")'
         else 
             'var(--jinks-splash-background-default)' 
     ]];
@@ -98,7 +98,7 @@
 
     --jinks-splash-background-dark:  [[
         if (count($theme?logo?splash?dark)) then 
-            $theme?logo?splash?dark
+            'url("' || $theme?logo?splash?dark || '")'
         else 
             'var(--jinks-splash-background-dark-default)' 
     ]];
