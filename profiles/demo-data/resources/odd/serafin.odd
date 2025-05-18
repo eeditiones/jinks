@@ -470,7 +470,6 @@
                 <elementSpec ident="death" mode="add">
                     <model behaviour="inline" cssClass="death"/>
                 </elementSpec>
-            <elementSpec ident="geo" mode="add"/>
                 <elementSpec ident="region" mode="add">
                     <model behaviour="inline" cssClass="region"/>
                 </elementSpec>
@@ -491,7 +490,6 @@
             <pb:template xmlns="" xml:space="preserve"><a href="[[target]]">[[type]]</a></pb:template>
         </model>
                 </elementSpec>
-            <elementSpec ident="fileDesc" mode="change"/>
             <elementSpec ident="ref" mode="change">
                     <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
             <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
