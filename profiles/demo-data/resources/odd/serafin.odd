@@ -382,7 +382,6 @@
         </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
-                <elementSpec ident="teiHeader" mode="change"/>
                 <elementSpec ident="correspAction" mode="add">
                     <model predicate="@type='sent'" behaviour="inline">
             <param name="content" value="(placeName, ', ', date)"/>

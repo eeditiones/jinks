@@ -127,54 +127,6 @@ color: #A0A0A0;
                     <model predicate="@break='no'" behaviour="inline" cssClass="lb hyphenated" useSourceRendition="true"/>
                     <model predicate="parent::p or parent::head" behaviour="inline" cssClass="lb" useSourceRendition="true"/>
                 </elementSpec>
-            <elementSpec ident="title" mode="change">
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
-                    <model predicate="$parameters?header='short'" behaviour="heading">
-            <param name="level" value="5"/>
-        </model>
-                    <modelSequence predicate="parent::titleStmt/parent::fileDesc">
-            <model predicate="preceding-sibling::title" behaviour="text">
-                <param name="content" value="' — '"/>
-            </model>
-            <model behaviour="inline"/>
-        </modelSequence>
-                    <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
-                    <modelSequence predicate="@level='m' or not(@level)">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="ancestor::biblFull" behaviour="text">
-                <param name="content" value="', '"/>
-            </model>
-        </modelSequence>
-                    <modelSequence predicate="@level='s' or @level='j'">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
-                <param name="content" value="', '"/>
-            </model>
-        </modelSequence>
-                    <modelSequence predicate="@level='u' or @level='a'">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
-                <param name="content" value="'. '"/>
-            </model>
-        </modelSequence>
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                </elementSpec>
             </schemaSpec>
         </body>
     </text>
