@@ -14,6 +14,7 @@
     --pb-highlight-color: var(--pb-highlight-color-light);
 
     --pb-logo: var(--pb-logo-light);
+    --jinks-background-color: var(--jinks-background-color-light);
 }
 
 /* Settings for dark mode based on preferred color scheme */
@@ -25,6 +26,7 @@
         --pb-logo: var(--pb-logo-dark);
         --jinks-splash-background: var(--jinks-splash-background-dark);
         --jinks-header-background-color: var(--jinks-header-background-color-dark);
+        --jinks-background-color: var(--jinks-background-color-dark);
     }
 }
 
@@ -36,6 +38,7 @@
     --pb-logo: var(--pb-logo-dark);
     --jinks-splash-background: var(--jinks-splash-background-dark);
     --jinks-header-background-color: var(--jinks-header-background-color-dark);
+    --jinks-background-color: var(--jinks-background-color-dark);
 }
 
 html {
@@ -74,7 +77,7 @@ check with safari
 }
 
 body {
-    background-color: var(--pico-background-color);
+    background-color: var(--jinks-background-color);
     font: var(--pb-base-font);
     margin: 0;
     min-height: 100vh;
@@ -101,6 +104,7 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0;
     z-index: 3;
     background-image: var(--jinks-splash-background);
+    background-color: var(--jinks-background-color);
     background-position: center center;
     background-size: var(--jinks-splash-image-size);
     background-repeat: no-repeat;
