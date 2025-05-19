@@ -37,6 +37,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/editor-styles.css"/>
     [% endif %]
     <style>
+        :root {
+            --jinn-tap-background-color: var(--jinks-background-color-light);
+        }
+
+        @media only screen and (prefers-color-scheme: dark) {
+            body:not([data-theme]) {
+                --jinn-tap-background-color: var(--jinks-background-color-dark);
+            }
+        }
+
+        [data-theme="dark"] {
+            --jinn-tap-background-color: var(--jinks-background-color-dark);
+        }
+
         .fixed-layout {
             grid-template-rows: min-content 1fr;
             height: 100vh;
