@@ -13,6 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const applyConfigButton = document.getElementById('apply-config');
     const dryRunButton = document.getElementById('dry-run');
 
+    const resolveAllButton = document.getElementById('resolve-all');
+
+    let resolveConflicts = {};
+
     let isProcessing = false;
 
     function createOpenButtonHtml(abbrev) {
@@ -85,6 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadApp(app) {
+        resolveConflicts = {};
         appConfig = app.config;
         form.querySelector('[name="id"]').value = appConfig.id;
         form.querySelector('[name="label"]').value = appConfig.label;
@@ -182,10 +187,19 @@ window.addEventListener('DOMContentLoaded', () => {
                         // Reset state
                         output.innerHTML = '';
                         errors.innerHTML = '';
+                        resolveAllButton.style.display = 'none';
 
                         const overwrite = document.querySelector('[name=overwrite]').value;
                         const config = JSON.parse(editor.value);
-                        // const profile = appConfig.pkg.abbrev;
+                        const params = {
+                            config: config,
+                            resolve: []
+                        };
+                        Object.keys(resolveConflicts).forEach((key) => {
+                            params.resolve.push(key);
+                        });
+                        resolveConflicts = {};
+
                         const url = new URL(`api/generator`, window.location);
                         url.searchParams.set('overwrite', overwrite);
                         if (dryRun) {
@@ -193,7 +207,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         }
                         const response = await fetch(url, {
                             method: 'POST',
-                            body: JSON.stringify(config),
+                            body: JSON.stringify(params),
                             headers: {
                                 'Content-Type': 'application/json',
                             },
@@ -222,6 +236,8 @@ window.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     const li = document.createElement('li');
+                    li.classList.add(message.type);
+                    li.dataset.path = message.path;
                     li.innerHTML = `
                     <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
                     ${message.path} ${message.source ? ' from ' + message.source : ''}`;
@@ -274,26 +290,21 @@ window.addEventListener('DOMContentLoaded', () => {
                         li.appendChild(resolveBtn);
                         resolveBtn.addEventListener('click', (ev) => {
                             ev.preventDefault();
-                            const formData = new FormData();
-                            formData.append('path', message.path);
-                            formData.append('id', result.config.id);
-                            fetch('api/resolve', {
-                                method: 'post',
-                                body: formData,
-                            })
-                            .then((response) => {
-                                if (!response.ok) {
-                                    const err = document.createElement('div');
-                                    err.innerHTML = 'Server responded with error: ' + response.status;
-                                    li.appendChild(err);
-                                    return;
-                                }
-                                const badge = li.querySelector('.badge');
+                            
+                            const badge = li.querySelector('.badge');
+                            if (!li.classList.contains('overwrite')) {
+                                li.classList.add('overwrite');
                                 badge.className = 'badge resolved';
                                 badge.innerText = 'overwrite';
-                                li.removeChild(resolveBtn);
-                            });
+                                resolveConflicts[message.path] = '';
+                            } else {
+                                li.classList.remove('overwrite');
+                                badge.className = 'badge conflict';
+                                badge.innerText = 'conflict';
+                                delete resolveConflicts[message.path];
+                            }
                         });
+                        resolveAllButton.style.display = 'block';
                     }
                     output.appendChild(li);
                 });
@@ -457,5 +468,20 @@ window.addEventListener('DOMContentLoaded', () => {
             odd.reportValidity();
         }
     });
+
+    resolveAllButton.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const conflicts = output.querySelectorAll('.conflict');
+        if (conflicts.length > 0) {
+            Array.from(conflicts).forEach((li) => {
+                resolveConflicts[li.dataset.path] = '';
+                li.classList.add('overwrite');
+                const badge = li.querySelector('.badge');
+                badge.className = 'badge resolved';
+                badge.innerText = 'overwrite';
+            });
+        }
+    });
+
     loadApps();
 });

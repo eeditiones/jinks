@@ -39,8 +39,9 @@ declare function api:generator($request as map(*)) {
     let $config := if ($request?body instance of array(*)) then $request?body?1 else $request?body
     let $overwrite := $request?parameters?overwrite
     let $dryRun := $request?parameters?dry
+    let $resolved := api:resolve-conflicts($config?config?id, $config?resolve?*)
     return
-        generator:process(map { "overwrite": $overwrite, "dry": $dryRun }, $config)
+        generator:process(map { "overwrite": $overwrite, "dry": $dryRun }, $config?config)
 };
 
 declare function api:expand-template($request as map(*)) {
@@ -225,16 +226,24 @@ declare function api:source($request as map(*)) {
 
 declare function api:resolve-conflict($request as map(*)) {
     let $id := $request?parameters?id
-    let $target := path:get-package-target($id)
+    let $path := xmldb:decode($request?parameters?path)
+    return
+        api:resolve-conflicts($id, $path)
+};
+
+declare %private function api:resolve-conflicts($appId as xs:string, $paths as xs:string*) {
+    let $target := path:get-package-target($appId)
     return
         if ($target) then
-            let $path := xmldb:decode($request?parameters?path)
             let $json := generator:load-json(path:resolve-path($target, ".jinks.json"), map {})
-            let $updated := map:remove($json, $path) => serialize(map { "method": "json", "indent": true() })
+            let $updated :=
+                fold-right($paths, $json, function($path, $input) {
+                    map:remove($input, $path)
+                }) => serialize(map { "method": "json", "indent": true()})
             return
                 xmldb:store($target, ".jinks.json", $updated, "application/json")
         else
-            error($errors:NOT_FOUND, "Target not found: " || $id)
+            error($errors:NOT_FOUND, "Target not found: " || $appId)
 };
 
 let $lookup := function($name as xs:string) {
