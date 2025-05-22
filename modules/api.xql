@@ -243,7 +243,7 @@ declare %private function api:resolve-conflicts($appId as xs:string, $paths as x
             return
                 xmldb:store($target, ".jinks.json", $updated, "application/json")
         else
-            error($errors:NOT_FOUND, "Target not found: " || $appId)
+            ()
 };
 
 let $lookup := function($name as xs:string) {
