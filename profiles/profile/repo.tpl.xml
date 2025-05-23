@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>[[ head(($pkg?title, $label)) ]]</description>
+    <author>Wolfgang Meier</author>
+    <website>https://github.com/eeditiones/tei-publisher-lib.git</website>
+    <status>stable</status>
+    <license>GPLv3</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>[[$pkg?abbrev]]</target>
+    <permissions user="tei" group="tei" password="simple" mode="rw-rw-r--" />
+</meta>

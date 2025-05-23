@@ -372,11 +372,17 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll(':valid').forEach((element) => {
             element.setAttribute('aria-invalid', 'false');
         });
-        const themes = form.querySelectorAll('input[name="theme"]');
-        const valid = Array.from(themes).some(cb => cb.checked);
-        if (!valid) {
+        const base = form.querySelector('input[name="base"]:checked');
+        if (base.value === 'profile') {
+            form.querySelectorAll('input[name="theme"],input[name="feature"]').forEach((cb) => {
+                cb.checked = false;
+                cb.setAttribute('aria-invalid', false);
+            });
+        } else {
+            const themes = form.querySelectorAll('input[name="theme"]');
+            const themeValid = base.value === 'profile' || Array.from(themes).some(cb => cb.checked);
             Array.from(themes).forEach((cb) => {
-                cb.setAttribute('aria-invalid', 'true');
+                cb.setAttribute('aria-invalid', !themeValid);
             });
         }
     }
@@ -399,10 +405,13 @@ window.addEventListener('DOMContentLoaded', () => {
         appConfig.pkg = {
             abbrev: formData.get('abbrev')
         };
-        appConfig.extends = formData.getAll('base')
-            .concat(formData.getAll('feature'))
-            .concat(formData.getAll('theme'));
-        
+        if (formData.get('base') === 'profile') {
+            appConfig.extends = formData.getAll('base');
+        } else {
+            appConfig.extends = formData.getAll('base')
+                .concat(formData.getAll('feature'))
+                .concat(formData.getAll('theme'));
+        }
         validateForm();
         updateConfig(updateEditor);
     }
@@ -443,6 +452,10 @@ window.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[name="base"]').forEach((control) => control.addEventListener('change', () => {
+        validateForm();
+        update();
+    }));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};

@@ -1,0 +1,22 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "base",
+    "profile": "feature",
+    "id": "https://e-editiones.org/app/jinks/profile",
+    "label": "Profile Template",
+    "description": "Template for a new profile",
+    "version": "1.0.0",
+    "order": 2,
+    "pkg": {
+        "version": "1.0.0",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "ignore": [
+        "repo.xml"
+    ]
+}

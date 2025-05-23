@@ -1,0 +1,20 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "[[ $context?id ]]",
+    "label": "[[ $context?label ]]",
+    "description": "[[ $context?description ]]",
+    "version": "1.0.0",
+    "pkg": {
+        "version": "1.0.0",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "ignore": [
+        "repo.xml"
+    ]
+}
