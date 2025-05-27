@@ -8,6 +8,9 @@
     <property name="git.repo.path" value="${basedir}/.git" />
     <available file="${git.repo.path}" type="dir" property="git.present" />    
     
+    <!-- Adjust path below to match location of your npm binary -->
+    <property name="npm" value="npm" />
+
     <!-- no clean -->
     <target name="all" depends="xar" />
 
@@ -26,7 +29,10 @@
                 excludes="${build.dir}/**,build.xml,README.md,.*,repo.xml.tmpl,node_modules/**,package*.json,local.node-exist.json,gulpfile.js,.devcontainer,.idea/**" />
         </copy>
         <copy todir="${app.build.dir}" overwrite="true" verbose="true">
-            <fileset file="*.xml.tmpl" />
+            <fileset dir="${basedir}">
+                <include name="*.tmpl"/>
+                <include name="pages/page.html.tmpl"/>
+            </fileset>
             <filterchain>
                 <replacetokens>
                     <token key="name" value="${app.name}" />
@@ -35,6 +41,7 @@
                     <token key="title" value="${app.title}" />
                     <token key="commit-id" value="${commit-id}" />
                     <token key="commit-time" value="${commit-time}" />
+                    <token key="scripts-cdn" value="${scripts-cdn}" />
                 </replacetokens>
                 <tokenfilter>
                     <!-- until we move template processing to XSLT, take care with special
@@ -46,9 +53,37 @@
         </copy>
     </target>
 
-    <target name="xar" depends="git.revision,prepare">
+    <target name="xar" depends="git.revision">
+        <property name="scripts-cdn" value="external" />
+        <antcall target="prepare"></antcall>
         <zip basedir="${app.build.dir}"
             destfile="${build.dir}/${project.app}-${project.version}.xar" />
+    </target>
+
+    <target name="xar-local" depends="clean,git.revision,npm.install">
+        <property name="scripts-cdn" value="local" />
+        <antcall target="prepare"></antcall>
+        <copy todir="${app.build.dir}/resources/styles" file="node_modules/@picocss/pico/css/pico.min.css"/>
+        <copy todir="${app.build.dir}/resources/images">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/images">
+                <include name="leaflet/*" />
+                <include name="openseadragon/*" />
+            </fileset>
+        </copy>
+        <copy todir="${app.build.dir}/resources/css">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/css" />
+        </copy>
+        <copy todir="${app.build.dir}/resources/lib">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/lib" />
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/dist">
+                <include name="*.js" />
+                <include name="*.min" />
+            </fileset>
+        </copy>
+        <!--copy todir="${app.build.dir}/resources/i18n/common">
+            <fileset dir="${scripts.dir}/../i18n/common" />
+        </copy-->
+        <antcall target="xar" />
     </target>
 
     <target name="git.revision" description="Store git revision in ${commit-id}" if="git.present">
@@ -81,5 +116,12 @@
             </and>
         </condition>
         <echo>git commit time: ${commit-time}</echo>
+    </target>
+
+    <target name="npm.install">
+        <exec executable="${npm}" outputproperty="npm.output">
+            <arg line="install" />
+        </exec>
+        <echo message="${npm.output}" />
     </target>
 </project>
