@@ -77,12 +77,12 @@
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/lib" />
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/dist">
                 <include name="*.js" />
-                <include name="*.min" />
+                <include name="*.map" />
             </fileset>
         </copy>
-        <!--copy todir="${app.build.dir}/resources/i18n/common">
-            <fileset dir="${scripts.dir}/../i18n/common" />
-        </copy-->
+        <copy todir="${app.build.dir}/resources/i18n/common">
+            <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/i18n/common" />
+        </copy>
         <antcall target="xar" />
     </target>
 

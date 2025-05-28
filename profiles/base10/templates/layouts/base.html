@@ -31,6 +31,11 @@
         [% for $component in $script?extra-components?* %]
         <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
         [% endfor %]
+        [% elif $script?webcomponents = 'local' %]
+        <script type="module" src="[[ $context-path ]]/resources/lib/pb-components-bundle.js"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[ $context-path ]]/resources/lib/[[ $component ]].js"></script>
+        [% endfor %]
         [% elif $script?webcomponents = '' %]
         [% else %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
@@ -40,9 +45,12 @@
         [% endif %]
 
         [% if $script?fore %]
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+            [% if $script?webcomponents = "local" %]
+            <script type="module" src="[[ $context-path ]]/resources/lib/fore.js"></script>
+            [% else %]
+            <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+            [% endif %]
         [% endif %]
-
         [% block scripts %][% endblock %]
     </head>
     <body>

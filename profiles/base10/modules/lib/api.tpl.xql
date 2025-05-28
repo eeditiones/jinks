@@ -18,6 +18,7 @@ import module namespace nlp="http://teipublisher.com/api/nlp" at "api/nlp.xql";
 import module namespace rapi="http://teipublisher.com/api/registers" at "../registers.xql";
 import module namespace custom="http://teipublisher.com/api/custom" at "../custom-api.xql";
 import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
+import module namespace deploy="https://teipublisher.org/api/deploy" at "api/deploy.xql";
 
 [% for $module in $context?api?* %]
 import module namespace [[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";
