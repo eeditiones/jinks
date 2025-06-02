@@ -234,6 +234,9 @@
         </model>
                 </elementSpec>
                   <elementSpec ident="div" mode="change">
+                    <model predicate="$parameters?mode='toc' and not(head)" behaviour="pass-through">
+                      <param name="content" value="'Section' || @n "/>
+                    </model>
                     <model predicate="@type='title_page'" behaviour="block">
             <outputRendition xml:space="preserve">
             border: 1px solid black; padding: 5px;

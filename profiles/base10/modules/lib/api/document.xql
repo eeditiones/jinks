@@ -616,10 +616,10 @@ declare %private function dapi:toc-div($node, $model as map(*), $target as xs:st
             for $div in $divs
             let $headings := nav:get-section-heading($model?config, $div)/node()
             let $html :=
-                if ($headings/*) then
+                if ($headings) then
                     $pm-config:web-transform($headings, map { "mode": "toc", "root": $div }, $model?config?odd)
                 else
-                    $headings/string()
+                    ()
             let $root := (
                 if ($view = "page") then
                     ($div/*[1][self::tei:pb], $div/preceding::tei:pb[1])[1]

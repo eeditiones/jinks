@@ -135,11 +135,17 @@ declare function nav:get-content($config as map(*), $div as element()) {
 };
 
 declare function nav:get-subsections($config as map(*), $root as node()) {
-    $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+    (: Usually divisions have headings, which are used for the TOC labels :)
+    (: In case headings are not available, the divisions are passed instead and 
+    one must take care in the ODD to provide models for processing divs as TOC :)
+
+    let $headed := $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+    return if (count($headed)) then $headed else $root//tei:div except $root//tei:div//tei:div
 };
 
 declare function nav:get-section-heading($config as map(*), $section as node()) {
-    $section/tei:head
+    (: If heading is not available, pass through the section (division) :)
+    if (count($section/tei:head)) then $section/tei:head else $section
 };
 
 declare function nav:is-filler($config as map(*), $div) {
