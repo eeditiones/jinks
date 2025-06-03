@@ -12,6 +12,16 @@
 --jinks-...-default variables as required for the custom theme and import these in your theme.css */
 
 :root {
+
+    /* Logo */
+
+    --jinks-logo-light: url("[[ $theme?logo?light ]]");
+    --jinks-logo-dark: url("[[ $theme?logo?dark ]]");
+    --jinks-logo-image-width: [[ $theme?logo?width ]];
+    --jinks-logo-image-height: [[ $theme?logo?height ]];
+    --jinks-logo-margin-right: 1rem;
+
+
     /* Image backgrounds */
 
     /* Hero section */

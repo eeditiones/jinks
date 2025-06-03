@@ -17,7 +17,7 @@ html {
     --pico-line-height: var(--pb-line-height);
 
     --pb-color: var(--pb-color-light, var(--pico-color));
-    --pb-logo: var(--pb-logo-light);
+    --jinks-logo: var(--jinks-logo-light);
 
     --pb-color-grey-1: var(--pb-light-grey-1);
     --pb-color-grey-2: var(--pb-light-grey-2);
@@ -29,7 +29,7 @@ html {
     --pb-color-grey-1: var(--pb-dark-grey-1);
     --pb-color-grey-2: var(--pb-dark-grey-2);
     --pb-color-grey-3: var(--pb-dark-grey-3);
-    --pb-logo: var(--pb-logo-dark);
+    --jinks-logo: var(--jinks-logo-dark);
     --jinks-header-background-color: var(--jinks-header-background-color-dark);
 }
 
@@ -129,7 +129,7 @@ main {
 .logo {
     width: 180px;
     height: 64px;
-    background-image: var(--pb-logo);
+    background-image: var(--jinks-logo);
     background-size: 100% auto;
     margin-right: 1rem;
 }

@@ -10,10 +10,9 @@
     --pico-line-height: var(--jinks-line-height);
 
     --pb-color: var(--jinks-color-primary, var(--pico-color));
+    --jinks-logo: var(--jinks-logo-light);
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
-
-    --pb-logo: var(--pb-logo-light);
     --jinks-background-color: var(--jinks-background-color-light);
 }
 
@@ -22,7 +21,7 @@
     --pb-color: var(--jinks-color-inverse, var(--pico-color));
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-dark);
-    --pb-logo: var(--pb-logo-dark);
+    --jinks-logo: var(--jinks-logo-dark);
     --jinks-splash-background: var(--jinks-splash-background-dark);
     --jinks-header-background-color: var(--jinks-header-background-color-dark);
     --jinks-background-color: var(--jinks-background-color-dark);
@@ -45,7 +44,7 @@ html, body {
 /* Due to a safari issue, relative paths to background images won't work as variables, so we list them here */
 
 .logo {
-    background-image: var(--pb-logo-light);
+    background-image: var(--jinks-logo-light);
 }
 /* 
 check with safari
@@ -316,9 +315,9 @@ button svg {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: left center;
-    width: var(--pb-logo-image-width);
-    height: var(--pb-logo-image-height);
-    margin-right: var(--pb-logo-margin-right, 1rem);
+    width: var(--jinks-logo-image-width);
+    height: var(--jinks-logo-image-height);
+    margin-right: var(--jinks-logo-margin-right, 1rem);
     cursor: pointer;
 }
 
