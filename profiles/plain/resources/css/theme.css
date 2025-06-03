@@ -24,17 +24,6 @@ html {
     --pb-color-grey-3: var(--pb-light-grey-3);
 }
 
-@media only screen and (prefers-color-scheme: dark) {
-    body:not([data-theme]) {
-        --pb-color: var(--pb-color-dark, var(--pico-color));
-        --pb-color-grey-1: var(--pb-dark-grey-1);
-        --pb-color-grey-2: var(--pb-dark-grey-2);
-        --pb-color-grey-3: var(--pb-dark-grey-3);
-        --pb-logo: var(--pb-logo-dark);
-        --jinks-header-background-color: var(--jinks-header-background-color-dark);
-    }
-}
-
 [data-theme="dark"] {
     --pb-color: var(--pb-color-dark, var(--pico-color));
     --pb-color-grey-1: var(--pb-dark-grey-1);
