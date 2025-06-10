@@ -121,8 +121,9 @@ pb-page[unresolved]~.splash {
     color: var(--pico-color);
 }
 
-.menubar a:link, .menubar a:visited {
+.menubar a:link, .menubar a:visited, .menubar pb-login::part(trigger) {
     color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-background-color);
     text-decoration: none;
 }
 
@@ -172,7 +173,7 @@ pb-page[unresolved]~.splash {
     color: var(--pb-toolbar-color) !important;
 }
 .toolbar a svg, .toolbar pb-navigation:not([disabled]) svg, .toolbar pb-ajax:not([disabled]),
-a[role="button"] svg, .theme-toggle svg, .icon {
+a[role="button"] svg, .theme-toggle svg, pb-login::part(icon), .icon {
     width: 24px;
     height: 24px;
     display: inline-block;

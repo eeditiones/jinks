@@ -62,7 +62,7 @@
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
             class="[[ $context?layout ]]"
-            require-language="require-language">
+            require-language="require-language" theme="resources/css/components.css">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -92,19 +92,15 @@
             [% endif %]
         </pb-page>
         <div class="splash"/>
-        <paper-dialog id="downloadDialog">
-            <h2>
+        <pb-dialog id="downloadDialog">
+            <h2 slot="title">
                 <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
             </h2>
-            <paper-dialog-scrollable>
-                <pb-i18n key="dialogs.downloadMessage"></pb-i18n>
-            </paper-dialog-scrollable>
-            <div class="buttons">
-                <paper-button dialog-confirm="dialog-confirm" autofocus="autofocus">
-                    <pb-i18n key="dialogs.close">Close</pb-i18n>
-                </paper-button>
-            </div>
-        </paper-dialog>
+            <p><pb-i18n key="dialogs.downloadMessage"></pb-i18n></p>
+            <button slot="footer" autofocus="autofocus">
+                <pb-i18n key="dialogs.close">Close</pb-i18n>
+            </button>
+        </pb-dialog>
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]

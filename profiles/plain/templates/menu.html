@@ -11,7 +11,7 @@
         <li class="hidden-mobile">
             <pb-lang name="lang">
                 [% for $lang in map:keys($languages) %]
-                <paper-item value="[[ $lang ]]">[[ $languages?($lang) ]]</paper-item>
+                <option value="[[ $lang ]]">[[ $languages?($lang) ]]</option>
                 [% endfor %]
             </pb-lang>
         </li>
