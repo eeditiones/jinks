@@ -120,6 +120,31 @@ declare function cpy:copy-resource($context as map(*), $source as xs:string, $ta
         })
 };
 
+(:
+ : Concatenate multiple resources (with string content) into a single file.
+ :
+ : @param $context The context map.
+ : @param $sourcePaths The relative paths of the resources to concatenate.
+ : @param $target The relative path of the target file.
+ : @return The result of the overwrite operation.
+ :)
+declare function cpy:concat($context as map(*), $sourcePaths as xs:string+, $target as xs:string) {
+    let $targetPath := path:resolve-path($context?target, $target)
+    let $content := string-join(
+        for $path in $sourcePaths
+        return
+            cpy:resource-as-string($context, $path)?content
+        ,
+        "&#10;&#10;"
+    )
+    let $targetPath := path:resolve-path($context?target, $target)
+    let $_ := util:log("info", "Concatenated " || $targetPath || " from " || string-join($sourcePaths, ", "))
+    return
+        cpy:overwrite($context, $target, string-join($sourcePaths, "; "), function() { $content }, function() {
+            xmldb:store(path:parent($targetPath), path:basename($targetPath), $content)
+        })
+};
+
 declare function cpy:copy-collection($context as map(*)) {
     cpy:copy-collection($context, "", "", ())
 };
