@@ -1,11 +1,17 @@
 const esbuild = require('esbuild');
 const path = require('path');
+const sass = require('sass');
+const fs = require('fs');
 
 const workerEntryPoints = [
 	'vs/language/json/json.worker.js',
 	'vs/language/css/css.worker.js',
 	'vs/language/html/html.worker.js',
 	'vs/editor/editor.worker.js'
+];
+
+const sassOutputDirs = [
+    'profiles/theme-base10/resources/css'
 ];
 
 build({
@@ -28,6 +34,23 @@ build({
     loader: {
 		'.ttf': 'binary'
 	}
+});
+
+// Compile SASS
+const sassResult = sass.compile('profiles/theme-base10/resources/sass/pico-components.sass', {
+    style: 'compressed'
+});
+
+// Ensure the output directory exists
+sassOutputDirs.forEach(outputDir => {
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
+});
+
+// Write the compiled CSS
+sassOutputDirs.forEach(outputDir => {
+    fs.writeFileSync(path.join(outputDir, 'pico-components.css'), sassResult.css);
 });
 
 /**
