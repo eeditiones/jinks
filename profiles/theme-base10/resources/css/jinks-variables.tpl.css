@@ -1,11 +1,3 @@
-[[ 
-    if ($theme?colors?palette) then 
-        '@import url("' || $theme?colors?palette ||'");'
-
-    else 
-        '@import url("palette-neutral.css");' 
-]]
-
 /* This templated section merges configurations from config.json where available and falls back to jinks defaults where not */
 /* config.json theme configuration settings have priority */
 /* If you'd like to overwrite the defaults in a more structured manner than ad-hoc config settings, create a separate css file setting the 
@@ -21,151 +13,148 @@
     --jinks-logo-image-height: [[ $theme?logo?height ]];
     --jinks-logo-margin-right: 1rem;
 
-
     /* Image backgrounds */
 
     /* Hero section */
-    --jinks-hero-background: [[ 
-        if ($theme?hero?background-image) then 
-            'url("' || $theme?hero?background-image || '")'
-        else 
-            'var(--jinks-hero-background-default)' 
-    ]];
-
-    --jinks-hero-background-size: [[ 
-        if ($theme?hero?background-size) then 
-            $theme?hero?background-size 
-        else 
-            'var(--jinks-hero-background-size-default)' 
-    ]];
-
-    --jinks-hero-background-repeat: [[ 
-        if ($theme?hero?background-repeat) then 
-            $theme?hero?background-repeat 
-        else 
-            'var(--jinks-hero-background-repeat-default)' 
-    ]];
-
-    --jinks-hero-background-color: [[ 
-        if ($theme?hero?background-color) then 
-            $theme?hero?background-color 
-        else 
-            'var(--jinks-hero-background-color-default)' 
-    ]];
-
-    --jinks-hero-height: var(--jinks-hero-height-default);
-    --jinks-hero-min-height: var(--jinks-hero-min-height-default);
-    --jinks-hero-padding: var(--jinks-hero-padding-default);
+    --jinks-hero-background-image: url("[[ $theme?hero?background-image ]]");
+    --jinks-hero-background-size: [[ $theme?hero?background-size ]];
+    --jinks-hero-background-repeat: [[ $theme?hero?background-repeat ]];
+    --jinks-hero-background-color: [[ $theme?hero?background-color ]];
+    --jinks-hero-text-width: 50rem;
+    --jinks-hero-height: auto;
+    --jinks-hero-min-height: 60vh;
+    --jinks-hero-padding: 2rem 1rem 2rem 6rem;
 
     /* Header section */
-    --jinks-header-background-image: [[
-        if ($theme?header?background) then 
-            $theme?header?background
-        else 
-            'var(--jinks-header-background-default)' 
-    ]];
+    --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
 
     /* menubar, toolbar, drawer */
 
-    --jinks-menubar-background-color:  [[
-        if ($theme?colors?menubar?background) then 
-            $theme?colors?menubar?background
-        else 
-            'var(--jinks-menubar-background-color-default)' 
-    ]];
+    --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
+    --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
 
-    --jinks-menubar-color:  [[
-        if ($theme?colors?menubar?color) then 
-            $theme?colors?menubar?color
-        else 
-            'var(--jinks-menubar-color-default)' 
-    ]];
+    --jinks-menubar-color: var(--jinks-color-inverse);
 
-    --jinks-toolbar-background-color:  [[
-        if (count($theme?colors?toolbar?background)) then 
-            $theme?colors?toolbar?background
-        else 
-            'var(--jinks-toolbar-background-color-default)' 
-    ]];
+    --jinks-toolbar-background-color: var(--jinks-colors-accent);
+    --jinks-toolbar-color: var(--jinks-text-color);
 
-    --jinks-drawer-background-color:  [[
-        if (count($theme?colors?drawer?background)) then 
-            $theme?colors?drawer?background
-        else 
-            'var(--jinks-drawer-background-color-default)' 
-    ]];
+    --jinks-drawer-background-color: var(--jinks-colors-100);
 
-/* Splash */
+    /* Splash */
 
-    --jinks-splash-background:  [[
-        if (count($theme?logo?splash?light)) then 
-            'url("' || $theme?logo?splash?light || '")'
-        else 
-            'var(--jinks-splash-background-default)' 
-    ]];
-
-    --jinks-splash-background-light: var(--jinks-splash-background);
-
-    --jinks-splash-background-dark:  [[
-        if (count($theme?logo?splash?dark)) then 
-            'url("' || $theme?logo?splash?dark || '")'
-        else 
-            'var(--jinks-splash-background-dark-default)' 
-    ]];
-
-    --jinks-texture-background: [[ 
-        if ($theme?texture?background-image) then 
-            'url("' || $theme?texture?background-image || '")'
-        else 
-            'var(--jinks-texture-background-default)' 
-    ]];
+    --jinks-splash-background-light: url("[[ $theme?logo?splash?light ]]");
+    --jinks-splash-background-dark: url("[[ $theme?logo?splash?dark ]]");
+    --jinks-splash-image-size: [[ $theme?logo?splash?size ]];
+    
+    --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
 
     /* Typography */
 
-    --jinks-hero-text-width:  [[
-        if (count($theme?hero?text-width)) then 
-            $theme?hero?text-width
-        else 
-            'var(--jinks-hero-text-width-default)' 
-    ]];
+    --jinks-hero-text-width: [[ $theme?hero?text-width ]];
 
-    --jinks-base-font-family: 
-    [[
-        if (count($theme?fonts?base)) then 
-            $theme?fonts?base
-        else 
-            ' var(--jinks-base-font-family-default)' 
-    ]];
-
+    --jinks-base-font-family: [[ $theme?fonts?base?family ]];
     --jinks-base-font-size: var(--jinks-base-font-size-default);
     --jinks-base-line-height: var(--jinks-base-line-height-default);
     --jinks-base-font-weight: var(--jinks-base-font-weight-default);
     --jinks-base-font: var(--jinks-base-font-default);
 
-    /* do we need serif font definition or is content/base/heading enough? */
-    --jinks-serif-font-family: 
-    [[
-        if (count($theme?fonts?serif)) then 
-            $theme?fonts?serif
-        else 
-            ' var(--jinks-serif-font-family-default)' 
-    ]];
+    --jinks-content-font-family: [[ $theme?fonts?content?family ]];
+    --jinks-content-font-size: [[ $theme?fonts?content?size ]];
 
-    --jinks-content-font-family: 
-    [[
-        if (count($theme?fonts?content)) then 
-            $theme?fonts?content
-        else 
-            ' var(--jinks-content-font-family-default)' 
-    ]];
+    --jinks-heading-font-family: [[ $theme?fonts?heading?family ]];
+    --jinks-heading-font-weight: 400 !important;
+    --jinks-heading-line-height: 1.2;
+
+    --jinks-breadcrumbs-font-size: [[ $theme?fonts?breadcrumbs?size ]];
+
+    --jinks-footnote-font-size: [[ $theme?fonts?footnote?size ]];
+
+    --jinks-content-max-width: 70rem;
+
+    /* colors */
+    --jinks-text-color: var(--jinks-colors-dark);
     
-    --jinks-content-font-size: var(--jinks-content-font-size-default);
+    /* text color for the light mode (usually dark) */
+    --jinks-text-color-light: var(--jinks-text-color);
 
-    --jinks-heading-font-family: var(--jinks-heading-font-family-default);
-    --jinks-heading-font-weight: var(--jinks-heading-font-weight-default);
-    --jinks-heading-line-height: var(--jinks-heading-line-height-default);
+    /* medium color, supposedly working on both light and dark backgrounds */
+    --jinks-text-color-medium: var(--jinks-colors-medium);
 
-    --jinks-breadcrumbs-font-size: var(--jinks-breadcrumbs-font-size-default);
+    /* text color for the dark mode (therefore quite light) */
+    --jinks-text-color-dark: var(--jinks-colors-medium);
 
-    /* menubar font size */
+    /* Background colors */
+    --jinks-background-color: var(--jinks-colors-50);
+    --jinks-background-color-light: var(--jinks-background-color);
+    --jinks-background-color-dark: var(--jinks-colors-700);
+
+    /* Header, menubar, toolbar, drawer, footer, splash */
+
+    /* Overlay for image backgrounds to lighten or darken them */
+    --jinks-overlay-background-color-light: rgba(255, 255, 255, 0.8);
+    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.8);
+
+    /* Overlay for highlights and (CHECK) hero and menubar section */
+    --jinks-header-background-color: var(--jinks-overlay-background-color-light);
+    --jinks-header-background-color-light: var(--jinks-header-background-color);
+    --jinks-header-background-color-dark: var(--jinks-overlay-background-color-dark);
+
+    --jinks-drawer-background-color: var(--jinks-colors-100);
+    --jinks-toolbar-background-color: var(--jinks-colors-accent);
+
+
+    /* --pb-drawer-background-color: var(--jinks-color-inverse); */
+
+    --jinks-color-primary: var(--jinks-text-color);
+    --jinks-color-inverse: var(--jinks-colors-light);
+    --jinks-color-lighter: var(--jinks-colors-medium);
+    --jinks-color-focus: var(--jinks-colors-accent);
+
+    /* text colors */
+    --jinks-footnote-color: var(--jinks-text-color);
+
+    /* variables passed to tei-publisher-components */
+    --pb-base-font-family: var(--jinks-base-font-family);
+    --pb-base-font-size: var(--jinks-base-font-size);
+    --pb-base-line-height: var(--jinks-base-line-height);
+    --pb-base-font-weight: var(--jinks-base-font-weight);
+    --pb-base-font: var(--jinks-base-font);
+
+    /* do we really need serif def? */
+    --pb-content-font-family: var(--jinks-content-font-family);
+    --pb-content-font-size: var(--jinks-content-font-size);
+
+    /* headings  */
+    --pb-heading-font-family: var(--jinks-heading-font-family);
+    --pb-heading-font-weight: 400 !important;
+    --pb-heading-line-height: 1.2;
+
+    --pb-breadcrumbs-font-size: var(--jinks-breadcrumbs-font-size);
+
+    /* variables for text display in pb-view */
+    --pb-view-max-width: 920px;
+    --pb-view-scroll-margin-top: 0;
+
+    /* --pb-color-primary: #303030; */
+    /* --pb-color-inverse: #F0F0F0; */
+    /* --pb-color-lighter: #35424b; */
+    /* --pb-color-focus: #f6a623; */
+
+    --pb-annotation-stripes-light: #e0e0ef;
+    --pb-annotation-stripes-dark: #50505f;
+
+    --paper-tooltip-delay-in: 200;
+    --pb-footnote-font-size: var(--jinks-footnote-font-size);
+    --pb-footnote-font-family: var(--jinks-content-font-family);
+    --pb-footnote-font-weight: var(--jinks-content-font-weight);
+    /* --pb-footnote-color: #303030; */
+    --pb-footnote-padding: 0 0 0 .25em;
+
+    /* pb-popover */
+    --pb-popover-theme: "light-border";
+    --pb-popover-max-width: 480px;
+    --pb-popover-font-size: 16px;
+    --pb-popover-line-height: 1.2;
+    --pb-popover-placement: "bottom";
+    --pb-popover-fallback-placement: "top right left";
 }

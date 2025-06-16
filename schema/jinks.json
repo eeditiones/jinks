@@ -274,7 +274,7 @@
                         "menubar": {
                             "type": "object",
                             "properties": {
-                                "background": {
+                                "background-color": {
                                     "type": "string"
                                 },
                                 "color": {
@@ -299,13 +299,54 @@
                     "type": "object",
                     "properties": {
                         "content": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
                         },
                         "base": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
                         },
                         "heading": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "footnote": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 }

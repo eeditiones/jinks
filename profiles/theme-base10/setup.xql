@@ -11,7 +11,12 @@ declare
 function teip:after-write($context as map(*), $target as xs:string) {
     cpy:concat(
         map:merge(($context, map:entry("source", $target))), 
-        ("resources/css/pico-components.css", "resources/css/variables.css"), 
+        (
+            "resources/css/pico-components.css",
+            "resources/css/jinks-variables.css",
+            "resources/css/controls.css",
+            "resources/css/jinks-components.css"
+        ),
         "resources/css/components.css"
     )
 };

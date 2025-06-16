@@ -1,8 +1,3 @@
-@import url("../fonts/font.css");
-@import url("variables.css");
-@import url("jinks-variables.css");
-
-
 :root {
     --pico-font-family-sans-serif: var(--jinks-base-font-family);
     --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
@@ -14,6 +9,7 @@
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
     --jinks-background-color: var(--jinks-background-color-light);
+    --jinks-splash-background: var(--jinks-splash-background-light);
 }
 
 /* Settings for dark mode if manually chosen by user */
@@ -46,11 +42,6 @@ html, body {
 .logo {
     background-image: var(--jinks-logo-light);
 }
-/* 
-check with safari
-.splash {
-    background-image: var(--jinks-splash-background);
-} */
 
 /* check should take the theming settings */
 .menubar {
@@ -108,8 +99,8 @@ pb-page[unresolved]~.splash {
     --pico-primary: var(--jinks-menubar-color);
     --pico-primary-hover: var(--jinks-menubar-color);
     --pb-login-link-color: var(--jinks-menubar-color);
-    --pb-lang-input-color: var(--jinks-menubar-color);
-    --pb-lang-label-color: var(--jinks-menubar-color);
+    --jinks-select-color: var(--jinks-menubar-color);
+    --jinks-select-background-color: var(--jinks-menubar-background-color);
     background-color: var(--jinks-menubar-background-color);
     color: var(--jinks-menubar-color);
     --pb-search-suggestions-color: var(--jinks-menubar-color);
@@ -125,6 +116,10 @@ pb-page[unresolved]~.splash {
     color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
     text-decoration: none;
+}
+
+pb-login::part(label) {
+    display: none;
 }
 
 .menubar li {
@@ -209,7 +204,7 @@ pb-document {
 }
 
 .page-header > div {
-    background-image: var(--jinks-header-background);
+    background-image: var(--jinks-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -230,7 +225,7 @@ pb-document {
     --pico-color: var(--jinks-color-inverse);
     --pico-h1-color: var(--jinks-color-inverse);
     position: relative;
-    background-image: var(--jinks-hero-background);
+    background-image: var(--jinks-hero-background-image);
     background-size: var(--jinks-hero-background-size); 
     background-repeat: var(--jinks-hero-background-repeat);
     background-color: var(--jinks-hero-background-color);
@@ -606,7 +601,7 @@ footer a {
 }
 
 .above-content, .below-content {
-    max-width: var(--pb-content-max-width);
+    max-width: var(--jinks-content-max-width);
     padding: 1rem;
 }
 
