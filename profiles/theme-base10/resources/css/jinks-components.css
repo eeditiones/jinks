@@ -1,0 +1,23 @@
+html {
+    scroll-behavior: smooth;
+    font-size: var(--jinks-base-font-size);
+}
+
+:host {
+    font-family: var(--jinks-base-font-family);
+    font-size: var(--jinks-base-font-size);
+    line-height: var(--jinks-base-line-height);
+    --pico-font-family: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size);
+    --pico-line-height: var(--jinks-base-line-height);
+}
+
+:where(:host) {
+    background-color: inherit;
+    color: inherit;
+}
+
+:host(pb-zoom) svg {
+    width: 24px;
+    height: 24px;
+}

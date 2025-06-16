@@ -37,8 +37,7 @@
     },
     "styles": [
         "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
-        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css",
-        "resources/css/theme.css"
+        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"
     ],
     "defaults": {
         "data": "data",
@@ -72,10 +71,52 @@
             "dark": "../images/tei-publisher-logo-contrast-color.svg",
             "splash": {
                 "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg"
+                "dark": "../images/tei-publisher-logo-contrast-color.svg",
+                "size": "360px auto"
             },
             "width": "140px",
             "height": "60px"
+        },
+        "fonts": {
+            "base": {
+                "family": "'Nunito Sans', 'Inter', 'Roboto', 'Noto', sans-serif",
+                "size": "18px",
+                "weight": "300"
+            },
+            "content": {
+                "family": "'Roboto Serif', 'Inter', Junicode, Georgia, 'Times New Roman', serif",
+                "size": "1.2rem",
+                "weight": "300"
+            },
+            "heading": {
+                "family": "Oswald, Verdana, Helvetica, sans-serif",
+                "size": "1.2rem",
+                "weight": "400"
+            },
+            "footnote": {
+                "size": "0.9rem"
+            },
+            "breadcrumbs": {
+                "size": "0.9rem"
+            }
+        },
+        "hero": {
+            "background-image": "../images/jinks-images/type.jpeg",
+            "background-size": "cover",
+            "background-repeat": "no-repeat",
+            "background-color": "rgba(0, 0, 0, 0.6)",
+            "text-width": "50rem"
+        },
+        "header": {
+            "background-image": "none"
+        },
+        "menubar": {
+            "background-image": "none",
+            "background-color": "var(--jinks-colors-500)",
+            "color": "#ffffff"
+        },
+        "texture": {
+            "background-image": "../images/jinks-images/paper.jpeg"
         }
     },
     "features": {
