@@ -1,0 +1,11 @@
+[% if $theme?colors?palette %]
+@import url("[[ $theme?colors?palette ]]");
+[% else %] 
+@import url("palette-neutral.css");
+[% endif %]
+
+@import url("../fonts/font.css");
+@import url("base-theme.css");
+@import url("pico-ext.css");
+@import url("controls.css");
+@import url("jinks-variables.css");
