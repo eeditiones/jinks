@@ -68,14 +68,14 @@
                     [% if $features?menubar %]
                     [% include "templates/menu.html" %]
                     [% endif %]
-                    [% if $features?toolbar %]
-                    [% include "templates/toolbar.html" %]
-                    [% endif %]
-
+                    
                     [% block header %][% endblock %]
                 </div>
             </header>
             [% block hero %][% endblock %]
+            [% if $features?toolbar %]
+            [% include "templates/toolbar.html" %]
+            [% endif %]
             [% block above-content %][% endblock %]
             [% block content %][% endblock %]
             [% block below-content %][% endblock %]

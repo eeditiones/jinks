@@ -79,17 +79,19 @@
         },
         "fonts": {
             "base": {
-                "family": "'Nunito Sans', 'Inter', 'Roboto', 'Noto', sans-serif",
-                "size": "18px",
-                "weight": "300"
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "16px",
+                "line-height": "140%",
+                "weight": "400"
             },
             "content": {
-                "family": "'Roboto Serif', 'Inter', Junicode, Georgia, 'Times New Roman', serif",
-                "size": "1.2rem",
-                "weight": "300"
+                "family": "'Noto Serif', Georgia, 'Times New Roman', serif",
+                "size": "1.125rem",
+                "line-height": "150%",
+                "weight": "400"
             },
             "heading": {
-                "family": "Oswald, Verdana, Helvetica, sans-serif",
+                "family": "'Noto Serif', sans-serif",
                 "size": "1.2rem",
                 "weight": "400"
             },
@@ -113,7 +115,8 @@
         "menubar": {
             "background-image": "none",
             "background-color": "var(--jinks-colors-500)",
-            "color": "#ffffff"
+            "color": "#ffffff",
+            "font-size": "14px"
         },
         "texture": {
             "background-image": "../images/jinks-images/paper.jpeg"
