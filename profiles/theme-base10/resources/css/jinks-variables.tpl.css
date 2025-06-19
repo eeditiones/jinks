@@ -32,9 +32,9 @@
 
     --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
     --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
-
     --jinks-menubar-color: var(--jinks-color-inverse);
-
+    --jinks-menubar-font-size: [[ $theme?menubar?font-size ]];
+    --jinks-menubar-button-color: rgba(165, 165, 165, 0.4);
     --jinks-toolbar-background-color: var(--jinks-colors-accent);
     --jinks-toolbar-color: var(--jinks-text-color);
 
@@ -53,10 +53,9 @@
     --jinks-hero-text-width: [[ $theme?hero?text-width ]];
 
     --jinks-base-font-family: [[ $theme?fonts?base?family ]];
-    --jinks-base-font-size: var(--jinks-base-font-size-default);
-    --jinks-base-line-height: var(--jinks-base-line-height-default);
-    --jinks-base-font-weight: var(--jinks-base-font-weight-default);
-    --jinks-base-font: var(--jinks-base-font-default);
+    --jinks-base-font-size: [[ $theme?fonts?base?size ]];
+    --jinks-base-line-height: [[ $theme?fonts?base?line-height ]];
+    --jinks-base-font-weight: [[ $theme?fonts?base?weight ]];
 
     --jinks-content-font-family: [[ $theme?fonts?content?family ]];
     --jinks-content-font-size: [[ $theme?fonts?content?size ]];

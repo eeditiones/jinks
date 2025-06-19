@@ -17,7 +17,49 @@ html {
     color: inherit;
 }
 
+/* Address shadow DOM inside a component using :host() */
 :host(pb-zoom) svg {
     width: 24px;
     height: 24px;
+}
+
+:host(pb-lang) summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 13.5px 7.2px;
+    border-radius: 81px;
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+}
+
+:host(pb-lang) ul {
+    border-radius: 8px;
+    background: var(--White-White, #FFF);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+:host(pb-lang) ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-colors-accent);
+}
+
+:host(pb-login) > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}
+
+:host(pb-login) > a svg {
+    width: 1rem;
+    height: 1rem;
 }

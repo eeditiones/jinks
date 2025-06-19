@@ -112,13 +112,13 @@ pb-page[unresolved]~.splash {
     color: var(--pico-color);
 }
 
-.menubar a:link, .menubar a:visited, .menubar pb-login::part(trigger) {
+.menubar a:link, .menubar a:visited {
     color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
     text-decoration: none;
 }
 
-pb-login::part(label) {
+.menubar pb-login::part(label) {
     display: none;
 }
 
@@ -168,9 +168,9 @@ pb-login::part(label) {
     color: var(--pb-toolbar-color) !important;
 }
 .toolbar a svg, .toolbar pb-navigation:not([disabled]) svg, .toolbar pb-ajax:not([disabled]),
-a[role="button"] svg, .theme-toggle svg, pb-login::part(icon), .icon {
-    width: 24px;
-    height: 24px;
+a[role="button"] svg, .theme-toggle svg, .icon {
+    width: 16px;
+    height: 16px;
     display: inline-block;
 }
 
@@ -183,7 +183,7 @@ a[role="button"] svg, .theme-toggle svg, pb-login::part(icon), .icon {
     --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
 }
 
-.page-header pb-progress {
+.toolbar pb-progress {
     position: absolute;
     bottom: 0;
     left: 0;
