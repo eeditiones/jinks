@@ -106,6 +106,7 @@ pb-page[unresolved]~.splash {
     --pb-search-suggestions-color: var(--jinks-menubar-color);
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
     font-size: var(--jinks-menubar-font-size);
+    padding: 1rem 1.5rem;
 }
 
 .menubar .icon {
@@ -122,8 +123,16 @@ pb-page[unresolved]~.splash {
     display: none;
 }
 
+.menubar ul:nth-child(1) {
+    gap: 2.5rem;
+}
+
+.menubar ul:nth-child(2) {
+    gap: 10px;
+}
+
 .menubar li {
-    padding: 1rem var(--pico-nav-element-spacing-horizontal);
+    padding: 0;
 }
 
 .menubar details a:link, .menubar details a:visited {
@@ -504,10 +513,6 @@ pb-drawer {
 
 li.document {
     list-style: none;
-    margin-bottom: 10px;
-    padding: 6px 0;
-    border-bottom: thin solid var(--paper-grey-300);
-    padding-bottom:1rem;
     position: relative;
 }
 
@@ -515,9 +520,6 @@ li.document {
     display: grid;
     grid-template-columns: 9rem auto;
     grid-gap: 1rem;
-    margin-bottom: 10px;
-    padding: 6px 0;
-    border-bottom: thin solid var(--paper-grey-300);
 }
 
 li.document header {

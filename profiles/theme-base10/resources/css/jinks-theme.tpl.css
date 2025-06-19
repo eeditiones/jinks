@@ -9,3 +9,22 @@
 @import url("pico-ext.css");
 @import url("controls.css");
 @import url("jinks-variables.css");
+
+.menubar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}
+
+.card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+}
