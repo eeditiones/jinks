@@ -6,7 +6,7 @@
         [% else %]
             [% for $doc in $documents %]
             [% let $options = browse:document-options($doc) %]
-            <li class="document">
+            <li class="document card">
                 <header>[[ browse:header($context, $doc, $options) ]]</header>
                 <div class="matches">
                     [[ browse:show-hits($context, $doc) ]]
