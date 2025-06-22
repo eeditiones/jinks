@@ -528,15 +528,9 @@ li.document header {
 
 li.document .actions {
     display: flex;
-    justify-content: space-between;
-}
-
-li.document .actions * {
-    flex-grow: 0;
-}
-
-li.document svg {
-    width: 24px;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
 }
 
 li.document .thumbnail {
