@@ -1,6 +1,6 @@
 :root {
     --jinks-form-border-color: #CFCDC5;
-    --jinks-form-border-radius: 90px;
+    --jinks-form-border-radius: 86.604px;
     --jinks-form-border-radius-full: 999px;
     --jinks-form-focus-color1: #3B82F6;
     --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
@@ -47,10 +47,81 @@ button.secondary {
     color: var(--jinks-color-primary);
 }
 
+.icon-button svg, .dropdown-button summary svg {
+    width: 1rem;
+    height: 1rem;
+}
+
 .icon-button {
-    padding: 5.143px;
-    border-radius: 77.143px;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 10px;
+    border-radius: var(--jinks-form-border-radius);
+    background-color: var(--jinks-colors-control-background);
+}
+
+.dropdown-button {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.dropdown-button summary {
+    display: inline-flex;
+    height: 34px;
+    padding: 5.774px 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 86.604px;
+    background-color: var(--jinks-colors-control-background);
+    cursor: pointer;
+    user-select: none;
+}
+
+.dropdown-button summary::after {
+    background-image: var(--jinks-dropdown-button-chevron-image);
+    transform: none;
+    height: var(--jinks-dropdown-button-chevron-size);
+    width: var(--jinks-dropdown-button-chevron-size);
+    background-size: var(--jinks-dropdown-button-chevron-size) auto;
+}
+
+.dropdown-button[open]>summary::after {
+    transform: rotate(180deg);
+}
+
+.dropdown-button[open]>summary {
+    margin-bottom: 0;
+}
+
+.dropdown-button>summary+ul {
+    background-color: var(--jinks-colors-light);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0;
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    min-width: fit-content;
+    white-space: nowrap;
+    list-style: none;
+}
+
+.dropdown-button>summary+ul li {
+    list-style: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: var(--jinks-colors-light);
+}
+
+.dropdown-button>summary+ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-colors-control-background);
+    color: var(--jinks-colors-light);
 }
 
 dialog > article{
