@@ -140,7 +140,10 @@ declare function nav:get-subsections($config as map(*), $root as node()) {
     one must take care in the ODD to provide models for processing divs as TOC :)
 
     let $headed := $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
-    return if (count($headed)) then $headed else $root//tei:div except $root//tei:div//tei:div
+    let $subsections := if (count($headed)) then $headed else $root//tei:div except $root//tei:div//tei:div
+
+    (: respect the pagination-depth setting :)
+    return $subsections/self::tei:div[count(ancestor::tei:div) < $config?depth]
 };
 
 declare function nav:get-section-heading($config as map(*), $section as node()) {
