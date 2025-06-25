@@ -82,16 +82,29 @@ button.secondary {
     align-items: center;
     border-radius: 86.604px;
     background-color: var(--jinks-colors-control-background);
+}
+
+.dropdown-button summary, .dropdown summary {
+    list-style: none;
     cursor: pointer;
     user-select: none;
 }
 
-.dropdown-button summary::after {
+.dropdown-button summary::after, 
+.dropdown summary::after {
+    display: block;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    float: right;
     background-image: var(--jinks-dropdown-button-chevron-image);
     transform: none;
     height: var(--jinks-dropdown-button-chevron-size);
     width: var(--jinks-dropdown-button-chevron-size);
     background-size: var(--jinks-dropdown-button-chevron-size) auto;
+    background-position: right center;
+    background-repeat: no-repeat;
+    margin-inline-start: 0.5rem;
 }
 
 .dropdown-button[open]>summary::after {
@@ -126,6 +139,7 @@ button.secondary {
     border: 1px solid transparent;
     border-radius: 8px;
     background-color: var(--jinks-colors-light);
+    width: 100%;
 }
 
 .dropdown-button>summary+ul li:hover, .dropdown>summary+ul li:hover {
