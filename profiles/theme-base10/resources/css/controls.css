@@ -58,13 +58,20 @@ button.secondary {
     justify-content: center;
     height: 34px;
     padding: 10px;
+    border: none;
     border-radius: var(--jinks-form-border-radius);
+    color: var(--jinks-text-color);
     background-color: var(--jinks-colors-control-background);
 }
 
-.dropdown-button {
+.dropdown-button, .dropdown {
     margin-bottom: 0;
     position: relative;
+}
+
+.dropdown-button[open] summary,
+.dropdown[open] summary {
+    margin-bottom: 0;
 }
 
 .dropdown-button summary {
@@ -95,12 +102,12 @@ button.secondary {
     margin-bottom: 0;
 }
 
-.dropdown-button>summary+ul {
+.dropdown-button>summary+ul, .dropdown>summary+ul {
     background-color: var(--jinks-colors-light);
     box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
     border-radius: 0.5rem;
     padding: 0.5rem;
-    margin: 0;
+    margin: 0.5rem 0 0 0;
     z-index: 99;
     position: absolute;
     left: 0;
@@ -109,19 +116,26 @@ button.secondary {
     min-width: fit-content;
     white-space: nowrap;
     list-style: none;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
-.dropdown-button>summary+ul li {
+.dropdown-button>summary+ul li, .dropdown>summary+ul li {
     list-style: none;
     padding: 8px 12px;
+    border: 1px solid transparent;
     border-radius: 8px;
     background-color: var(--jinks-colors-light);
 }
 
-.dropdown-button>summary+ul li:hover {
+.dropdown-button>summary+ul li:hover, .dropdown>summary+ul li:hover {
     border: 1px solid var(--jinks-colors-400);
     background-color: var(--jinks-colors-control-background);
     color: var(--jinks-colors-light);
+}
+
+.dropdown-button a, .dropdown a, .dropdown-button a:link, .dropdown a:link {
+    color: var(--jinks-text-color);
 }
 
 dialog > article{
