@@ -272,7 +272,6 @@ main {
     column-gap: 1rem;
     justify-content: center;
     width: 100%;
-    padding: 1rem 2rem;
 }
 
 main > *:not(.before-content, .after-content) {
@@ -282,6 +281,15 @@ main > *:not(.before-content, .after-content) {
 main > .before-content, main > .after-content {
     flex: 1;
     background-color: var(--jinks-colors-light);
+    padding: 0 .5rem;
+}
+
+main > .before-content {
+    border-right: 1px solid var(--jinks-color-border);
+}
+
+main > .after-content {
+    border-left: 1px solid var(--jinks-color-border);
 }
 
 main.search {
@@ -346,6 +354,7 @@ pb-progress {
 pb-view, pb-view-annotate {
     font-family: var(--jinks-content-font-family);
     font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
     margin: 0 1rem;
     position: relative;
 }

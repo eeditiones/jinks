@@ -3,6 +3,27 @@ html {
     font-size: var(--jinks-base-font-size);
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
+}
+
+h1 {
+    font-size: 28px;
+    line-height: 130%;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 120%;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 140%;
+}
+
 :host {
     font-family: var(--jinks-base-font-family);
     font-size: var(--jinks-base-font-size);
@@ -18,6 +39,12 @@ html {
 }
 
 /* Address shadow DOM inside a component using :host() */
+:host(pb-view) {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
 :host(pb-zoom) svg {
     width: 24px;
     height: 24px;
