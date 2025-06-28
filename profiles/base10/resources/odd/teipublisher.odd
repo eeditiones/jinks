@@ -740,6 +740,14 @@
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
+                        <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
+                        <param name="content" value="string()"/>
+                    </model>
+                    <model predicate="$parameters?mode='register-details'" behaviour="link">
+                        <param name="content" value="string()"/>
+                        <param name="uri" value="'..' || substring-after(document-uri(root(.)), $global:data-root)"/>
+                    </model>
                     <model predicate="$parameters?header='short'" behaviour="heading">
                         <param name="level" value="5"/>
                     </model>
@@ -807,6 +815,7 @@
                         <param name="content" value="title[not(@type)]"/>
                     </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
+                        <desc>Display short header in document lists</desc>
                         <model predicate="$parameters?static" behaviour="link">
                             <param name="content" value="title[1]"/>
                             <param name="uri"
@@ -824,6 +833,10 @@
                             <param name="content" value="author"/>
                         </model>
                     </modelSequence>
+                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+                        <desc>List of letters in register detail view</desc>
+                        <param name="content" value="title[not(@level)]"/>
+                    </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
 
