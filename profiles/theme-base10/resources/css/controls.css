@@ -47,6 +47,20 @@ button.secondary {
     color: var(--jinks-color-primary);
 }
 
+[role="group"] {
+    display: flex;
+    align-items: center;
+    gap: 8.571px;
+    padding: 10px;
+    border: none;
+    border-radius: var(--jinks-form-border-radius);
+    color: var(--jinks-text-color);
+    background-color: var(--jinks-colors-control-background);
+
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
 .icon-button svg, .dropdown-button summary svg {
     width: 1rem;
     height: 1rem;
