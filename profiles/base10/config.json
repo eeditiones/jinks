@@ -30,15 +30,14 @@
         }
     },
     "script": {
-        "webcomponents": "2.26.0-next-3.1",
+        "webcomponents": "2.26.0-next-3.4",
         "extra-components": [],
         "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
         "custom": []
     },
     "styles": [
-        "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
-        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css",
-        "resources/css/theme.css"
+        "resources/css/pico-components.css",
+        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"
     ],
     "defaults": {
         "data": "data",
@@ -72,10 +71,55 @@
             "dark": "../images/tei-publisher-logo-contrast-color.svg",
             "splash": {
                 "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg"
+                "dark": "../images/tei-publisher-logo-contrast-color.svg",
+                "size": "360px auto"
             },
             "width": "140px",
             "height": "60px"
+        },
+        "fonts": {
+            "base": {
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "16px",
+                "line-height": "140%",
+                "weight": "400"
+            },
+            "content": {
+                "family": "'Noto Serif', Georgia, 'Times New Roman', serif",
+                "size": "1.125rem",
+                "line-height": "150%",
+                "weight": "400"
+            },
+            "heading": {
+                "family": "'Noto Serif', sans-serif",
+                "size": "1.2rem",
+                "weight": "400"
+            },
+            "footnote": {
+                "size": "0.9rem"
+            },
+            "breadcrumbs": {
+                "size": "0.9rem"
+            }
+        },
+        "hero": {
+            "background-image": "../images/jinks-images/type.jpeg",
+            "background-size": "cover",
+            "background-repeat": "no-repeat",
+            "background-color": "rgba(0, 0, 0, 0.6)",
+            "text-width": "50rem"
+        },
+        "header": {
+            "background-image": "none"
+        },
+        "menubar": {
+            "background-image": "none",
+            "background-color": "var(--jinks-colors-500)",
+            "color": "#ffffff",
+            "font-size": "14px"
+        },
+        "texture": {
+            "background-image": "../images/jinks-images/paper.jpeg"
         }
     },
     "features": {

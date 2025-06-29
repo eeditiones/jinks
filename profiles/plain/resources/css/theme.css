@@ -14,7 +14,7 @@ html {
 :root {
     --pico-font-family-sans-serif: var(--pb-font-family-sans-serif);
     --pico-font-size: var(--pb-font-size, var(--pico-font-size));
-    --pico-line-height: var(--pb-line-height);
+    --pico-line-height: var(--jinks-base-line-height);
 
     --pb-color: var(--pb-color-light, var(--pico-color));
     --jinks-logo: var(--jinks-logo-light);
@@ -106,7 +106,7 @@ pb-page {
 }
 
 .hero, main, footer {
-    max-width: var(--pb-content-max-width);
+    max-width: var(--jinks-content-max-width);
     margin: 0 auto;
     padding: 0 var(--pico-spacing);
 }

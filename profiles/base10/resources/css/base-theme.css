@@ -1,8 +1,3 @@
-@import url("../fonts/font.css");
-@import url("variables.css");
-@import url("jinks-variables.css");
-
-
 :root {
     --pico-font-family-sans-serif: var(--jinks-base-font-family);
     --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
@@ -14,6 +9,7 @@
     --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
     --jinks-background-color: var(--jinks-background-color-light);
+    --jinks-splash-background: var(--jinks-splash-background-light);
 }
 
 /* Settings for dark mode if manually chosen by user */
@@ -46,11 +42,6 @@ html, body {
 .logo {
     background-image: var(--jinks-logo-light);
 }
-/* 
-check with safari
-.splash {
-    background-image: var(--jinks-splash-background);
-} */
 
 /* check should take the theming settings */
 .menubar {
@@ -108,27 +99,40 @@ pb-page[unresolved]~.splash {
     --pico-primary: var(--jinks-menubar-color);
     --pico-primary-hover: var(--jinks-menubar-color);
     --pb-login-link-color: var(--jinks-menubar-color);
-    --pb-lang-input-color: var(--jinks-menubar-color);
-    --pb-lang-label-color: var(--jinks-menubar-color);
+    --jinks-select-color: var(--jinks-menubar-color);
+    --jinks-select-background-color: var(--jinks-menubar-background-color);
     background-color: var(--jinks-menubar-background-color);
     color: var(--jinks-menubar-color);
     --pb-search-suggestions-color: var(--jinks-menubar-color);
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
     font-size: var(--jinks-menubar-font-size);
+    padding: 1rem 1.5rem;
 }
 
 .menubar .icon {
     color: var(--pico-color);
 }
 
-.menubar a:link, .menubar a:visited, .menubar pb-login::part(trigger) {
+.menubar > ul > li > a:link, .menubar > ul > li > a:visited {
     color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
     text-decoration: none;
 }
 
+.menubar pb-login::part(label) {
+    display: none;
+}
+
+.menubar ul:nth-child(1) {
+    gap: 2.5rem;
+}
+
+.menubar ul:nth-child(2) {
+    gap: 10px;
+}
+
 .menubar li {
-    padding: 1rem var(--pico-nav-element-spacing-horizontal);
+    padding: 0;
 }
 
 .menubar details a:link, .menubar details a:visited {
@@ -172,10 +176,10 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color) !important;
 }
-.toolbar a svg, .toolbar pb-navigation:not([disabled]) svg, .toolbar pb-ajax:not([disabled]),
-a[role="button"] svg, .theme-toggle svg, pb-login::part(icon), .icon {
-    width: 24px;
-    height: 24px;
+.toolbar a svg, .toolbar pb-navigation:not([disabled]) svg,
+a[role="button"] svg, .theme-toggle svg, .icon {
+    width: 1rem;
+    height: 1rem;
     display: inline-block;
 }
 
@@ -186,9 +190,10 @@ a[role="button"] svg, .theme-toggle svg, pb-login::part(icon), .icon {
     --pico-color: var(--pb-toolbar-color);
     --paper-checkbox-label-color: var(--pb-toolbar-color);
     --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
+    padding: 1rem 1.5rem;
 }
 
-.page-header pb-progress {
+.toolbar pb-progress {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -209,7 +214,7 @@ pb-document {
 }
 
 .page-header > div {
-    background-image: var(--jinks-header-background);
+    background-image: var(--jinks-header-background-image);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
@@ -230,7 +235,7 @@ pb-document {
     --pico-color: var(--jinks-color-inverse);
     --pico-h1-color: var(--jinks-color-inverse);
     position: relative;
-    background-image: var(--jinks-hero-background);
+    background-image: var(--jinks-hero-background-image);
     background-size: var(--jinks-hero-background-size); 
     background-repeat: var(--jinks-hero-background-repeat);
     background-color: var(--jinks-hero-background-color);
@@ -268,7 +273,6 @@ main {
     column-gap: 1rem;
     justify-content: center;
     width: 100%;
-    padding: 1rem 2rem;
 }
 
 main > *:not(.before-content, .after-content) {
@@ -277,6 +281,16 @@ main > *:not(.before-content, .after-content) {
 
 main > .before-content, main > .after-content {
     flex: 1;
+    background-color: var(--jinks-colors-light);
+    padding: 0 .5rem;
+}
+
+main > .before-content {
+    border-right: 1px solid var(--jinks-color-border);
+}
+
+main > .after-content {
+    border-left: 1px solid var(--jinks-color-border);
 }
 
 main.search {
@@ -341,6 +355,7 @@ pb-progress {
 pb-view, pb-view-annotate {
     font-family: var(--jinks-content-font-family);
     font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
     margin: 0 1rem;
     position: relative;
 }
@@ -489,6 +504,10 @@ pb-drawer {
     margin-top: 1rem;
 }
 
+.documents {
+    padding-left: 0;
+}
+
 .documents div {
     margin: 0;
 }
@@ -509,10 +528,6 @@ pb-drawer {
 
 li.document {
     list-style: none;
-    margin-bottom: 10px;
-    padding: 6px 0;
-    border-bottom: thin solid var(--paper-grey-300);
-    padding-bottom:1rem;
     position: relative;
 }
 
@@ -520,9 +535,6 @@ li.document {
     display: grid;
     grid-template-columns: 9rem auto;
     grid-gap: 1rem;
-    margin-bottom: 10px;
-    padding: 6px 0;
-    border-bottom: thin solid var(--paper-grey-300);
 }
 
 li.document header {
@@ -531,15 +543,9 @@ li.document header {
 
 li.document .actions {
     display: flex;
-    justify-content: space-between;
-}
-
-li.document .actions * {
-    flex-grow: 0;
-}
-
-li.document svg {
-    width: 24px;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
 }
 
 li.document .thumbnail {
@@ -606,7 +612,7 @@ footer a {
 }
 
 .above-content, .below-content {
-    max-width: var(--pb-content-max-width);
+    max-width: var(--jinks-content-max-width);
     padding: 1rem;
 }
 
@@ -626,7 +632,7 @@ footer a {
 .fixed-layout {
     display: grid;
     height: 100vh;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto auto auto 1fr auto;
     position: relative;
 }
 
@@ -637,7 +643,7 @@ footer a {
 }
 
 .fixed-layout main {
-    grid-row: 3;
+    grid-row: 4;
     overflow: auto;
     height: 100%;
 }
@@ -647,12 +653,17 @@ footer a {
     grid-row: 1;
 }
 
-.fixed-layout > .above-content {
+.fixed-layout > .toolbar {
     grid-row: 2;
     grid-column: 1 / -1;
 }
 
+.fixed-layout > .above-content {
+    grid-row: 3;
+    grid-column: 1 / -1;
+}
+
 .fixed-layout > .below-content {
-    grid-row: 4;
+    grid-row: 5;
     grid-column: 1 / -1;
 }

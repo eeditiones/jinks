@@ -1,0 +1,53 @@
+[% if $theme?colors?palette %]
+@import url("[[ $theme?colors?palette ]]");
+[% else %] 
+@import url("palette-neutral.css");
+[% endif %]
+
+@import url("../fonts/font.css");
+@import url("base-theme.css");
+@import url("pico-ext.css");
+@import url("controls.css");
+@import url("jinks-variables.css");
+
+.menubar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}
+
+.card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+    background-color: var(--jinks-colors-50);
+}
+
+.menubar .dropdown {
+    margin-bottom: 0;
+}
+
+.menubar .dropdown summary, .menubar .dropdown summary::after {
+    color: var(--jinks-menubar-color);
+}
+
+.alert {
+    display: flex;
+    padding: 10px 12px;
+    margin: 1rem 0;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--jinks-colors-control-background);
+
+    /* Light/Elevation/card-rest */
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+}

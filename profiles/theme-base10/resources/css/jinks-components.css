@@ -1,0 +1,92 @@
+html {
+    scroll-behavior: smooth;
+    font-size: var(--jinks-base-font-size);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
+}
+
+h1 {
+    font-size: 28px;
+    line-height: 130%;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 120%;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 140%;
+}
+
+:host {
+    font-family: var(--jinks-base-font-family);
+    font-size: var(--jinks-base-font-size);
+    line-height: var(--jinks-base-line-height);
+    --pico-font-family: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size);
+    --pico-line-height: var(--jinks-base-line-height);
+}
+
+:where(:host) {
+    background-color: inherit;
+    color: inherit;
+}
+
+/* Address shadow DOM inside a component using :host() */
+:host(pb-view) {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
+:host(pb-zoom) svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+:host(pb-lang) summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 13.5px 7.2px;
+    border-radius: 81px;
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+}
+
+:host(pb-lang) ul {
+    border-radius: 8px;
+    background: var(--White-White, #FFF);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+:host(pb-lang) ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-colors-accent);
+}
+
+:host(pb-login) > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}
+
+:host(pb-login) > a svg {
+    width: 1rem;
+    height: 1rem;
+}
