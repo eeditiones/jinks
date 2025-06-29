@@ -1,15 +1,19 @@
 :root {
     --jinks-form-border-color: #CFCDC5;
-    --jinks-form-border-radius: 86.604px;
+    --jinks-form-border-radius: 90px;
     --jinks-form-border-radius-full: 999px;
     --jinks-form-focus-color1: #3B82F6;
     --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
 }
-input {
-    padding: 0 1rem;
+
+input[type="text"], input[type="search"] {
+    width: 100%;
+    height: 36px;
+    padding: 0px 12px;
     background-color: var(--jinks-colors-light);
     border: 1px solid var(--jinks-form-border-color);
     border-radius: var(--jinks-form-border-radius);
+    margin-bottom: 20px;
 }
 
 input:focus, select:focus {

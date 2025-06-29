@@ -9,6 +9,15 @@ main.places {
     display: block;
 }
 
+.places .list, .people .list {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.people .list {
+    padding-top: 1rem;
+}
+
 /* place.html uses grid layout */
 .place-details {
     display: grid;
@@ -26,7 +35,7 @@ aside {
 }
 
 pb-leaflet-map {
-    height: 50vh;
+    height: 40vh;
     width: 100%;
     position: relative;
     z-index: 0;
