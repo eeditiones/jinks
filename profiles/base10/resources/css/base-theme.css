@@ -181,11 +181,16 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color) !important;
 }
-.toolbar a svg, .toolbar pb-navigation:not([disabled]) svg,
+.toolbar pb-navigation:not([disabled]) svg,
 a[role="button"] svg, .theme-toggle svg, .icon {
     width: 1rem;
     height: 1rem;
     display: inline-block;
+}
+
+.toolbar a svg {
+    width: 20px;
+    height: 20px;
 }
 
 .toolbar {
