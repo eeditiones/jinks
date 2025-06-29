@@ -58,6 +58,20 @@ declare function vapi:load-config-json($request as map(*)?) {
         ))
 };
 
+(:~
+: Merge the JSON config with the document/collection config
+:)
+declare %private function vapi:merge-config($jsonConfig as map(*), $docConfig as map(*)) {
+    let $cleanedConfig := map:merge((
+        (: Only keep keys that are not relevant for ODD processing :)
+        for $key in map:keys($docConfig)[not(. = ('odd', 'fill', 'depth', 'media', 'view', 'template', 'output', 'type'))]
+        return
+            map:entry($key, $docConfig($key))
+    ))
+    return
+        tmpl:merge-deep(($jsonConfig, $cleanedConfig))
+};
+
 declare function vapi:view($request as map(*)) {
     let $path :=
         if ($request?parameters?suffix) then 
@@ -80,8 +94,10 @@ declare function vapi:view($request as map(*)) {
         else
             let $data := config:get-document($path)
             let $config := tpu:parse-pi(root($data), $request?parameters?view, $request?parameters?odd)
+            let $jsonConfig := vapi:load-config-json($request)
+            let $mergedConfig := vapi:merge-config($jsonConfig, $config)
             let $model := map:merge((
-                vapi:load-config-json($request),
+                $mergedConfig,
                 map {
                     "doc": map {
                         "content": $data,

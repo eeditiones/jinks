@@ -26,14 +26,13 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
     let $defaultConfig := config:default-config(document-uri($doc))
-    let $default := map {
-        "view": ($view, $defaultConfig?view)[1],
-        "depth": $defaultConfig?depth,
-        "fill": $defaultConfig?fill,
-        "type": config:document-type($doc/*),
-        "template": $defaultConfig?template,
-        "media": $defaultConfig?media
-    }
+    let $default := map:merge((
+        $defaultConfig,
+        map {
+            "view": ($view, $defaultConfig?view)[1],
+            "type": config:document-type($doc/*)
+        }
+    ))
     let $pis :=
         map:merge(
             for $pi in $doc/processing-instruction("teipublisher")

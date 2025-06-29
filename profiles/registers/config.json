@@ -13,6 +13,11 @@
         "data-default": "letters",
         "sort": "date"
     },
+    "templating": {
+        "use": [
+            "templates/register-blocks.html"
+        ]
+    },
     "menu": {
         "items": [
             {
@@ -38,19 +43,9 @@
             "id": "http://tei-publisher.com/jinks/registers/index"
         }
     ],
-    "script": {
-        "extra-components": [
-            "pb-leaflet-map"
-        ]
-    },
     "i18n": [
         "registers"
     ],
-    "collection-config": {
-        "letters":{
-            "template": "register.html"
-        }
-    },
     "static": {
         "collections": {
             "": {

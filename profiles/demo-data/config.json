@@ -17,7 +17,15 @@
     "collection-config": {
         "letters": {
             "odd": "serafin.odd",
-            "view": "single"
+            "view": "single",
+            "template": "parallel.html",
+            "features": {
+                "register": true,
+                "correspondence": {
+                    "navigation": true
+                },
+                "timeline": true
+            }
         },
         "monograph": {
             "odd": "dta.odd"
