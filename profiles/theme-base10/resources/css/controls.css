@@ -6,6 +6,21 @@
     --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
 }
 
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    background-color: var(--jinks-colors-200);
+    border: 1px solid var(--jinks-form-border-color);
+    border-radius: 3.429px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--jinks-colors-accent);
+    border: 1px solid var(--jinks-colors-accent);
+    background-size: 16px;
+}
+
 input[type="text"], input[type="search"] {
     width: 100%;
     height: 36px;
