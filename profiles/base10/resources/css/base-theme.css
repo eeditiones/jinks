@@ -176,10 +176,10 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color) !important;
 }
-.toolbar a svg, .toolbar pb-navigation:not([disabled]) svg, .toolbar pb-ajax:not([disabled]),
+.toolbar a svg, .toolbar pb-navigation:not([disabled]) svg,
 a[role="button"] svg, .theme-toggle svg, .icon {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     display: inline-block;
 }
 
@@ -190,6 +190,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     --pico-color: var(--pb-toolbar-color);
     --paper-checkbox-label-color: var(--pb-toolbar-color);
     --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
+    padding: 1rem 1.5rem;
 }
 
 .toolbar pb-progress {
@@ -501,6 +502,10 @@ pb-drawer {
     gap: 1rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
+}
+
+.documents {
+    padding-left: 0;
 }
 
 .documents div {
