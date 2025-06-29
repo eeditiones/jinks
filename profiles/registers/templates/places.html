@@ -7,15 +7,9 @@
         "toolbar": {
             "zoom": false
         },
-        "styles": [
-            "resources/css/registers-theme.css"
-        ],
         "script": {
             "custom": [
                 "resources/scripts/registers.js"
-            ],
-            "extra-components": [
-                "pb-leaflet-map"
             ]
         }
     }
@@ -33,11 +27,8 @@
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
     <div class="list">
-        <pb-custom-form id="options" auto-submit="input,button" emit="transcription">
-            <fieldset role="search">
-                <input id="query" type="text" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
-                <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M221.09,64A157.09,157.09,0,1,0,378.18,221.09,157.1,157.1,0,0,0,221.09,64Z" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px"/><line x1="338.29" y1="338.29" x2="448" y2="448" style="fill:none;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/></svg></button>
-            </fieldset>
+        <pb-custom-form id="options" auto-submit="[name=search]" emit="transcription">
+            <input id="query" type="search" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
         </pb-custom-form>
         <pb-split-list url="api/places" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
     </div>
