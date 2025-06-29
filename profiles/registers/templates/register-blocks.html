@@ -2,7 +2,7 @@
     [% template after-content %]
     [% if $context?features?register %]
     <aside class="after-content">
-        <pb-view src="document1" subscribe="transcription" view="div">
+        <pb-view src="document1" subscribe="transcription" view="[[ $doc?view ]]" disable-history="">
             <pb-param name="mode" value="register" />
         </pb-view>
         <pb-leaflet-map id="map" zoom="11">
