@@ -72,7 +72,8 @@ button.secondary {
     gap: 8.571px;
     padding: 10px;
     border: none;
-    border-radius: var(--jinks-form-border-radius);
+    border-radius: 81px;
+    height: 36px;
     color: var(--jinks-text-color);
     background-color: var(--jinks-colors-control-background);
 
@@ -86,15 +87,19 @@ button.secondary {
 }
 
 .icon-button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    height: 34px;
-    padding: 10px;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+
     border: none;
-    border-radius: var(--jinks-form-border-radius);
     color: var(--jinks-text-color);
     background-color: var(--jinks-colors-control-background);
+    gap: 8.571px;
+    padding: 10px;
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
 .dropdown-button, .dropdown {

@@ -181,6 +181,10 @@ pb-page[unresolved]~.splash {
     display: inline-block;
     color: var(--pb-toolbar-color) !important;
 }
+.toolbar pb-navigation {
+    cursor: pointer;
+}
+
 .toolbar pb-navigation:not([disabled]) svg,
 a[role="button"] svg, .theme-toggle svg, .icon {
     width: 1rem;
@@ -211,8 +215,8 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     background-color: var(--jinks-toolbar-background-color);
 }
 
-[disabled] {
-    display: none;
+pb-navigation[disabled] {
+    opacity: 0.3;
 }
 
 pb-document {
