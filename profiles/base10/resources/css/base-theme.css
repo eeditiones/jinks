@@ -336,10 +336,6 @@ main.search {
     width: 48px;
 }
 
-button svg {
-    width: 24px;
-}
-
 .logo {
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -512,10 +508,18 @@ pb-drawer {
 
 .before-document-list {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
     gap: 1rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
+}
+
+.before-document-list > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .documents {

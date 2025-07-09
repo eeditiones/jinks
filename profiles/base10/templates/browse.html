@@ -39,19 +39,28 @@
         </aside>
         <div id="document-list">
             <div class="before-document-list">
-                [% if $context?request?parameters?path %]
-                <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
-                    data-i18n="[title]browse.up">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                        <path
-                            d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448"
-                            fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" />
-                    </svg>
-                </a>
-                [% endif %]
-                [% block before-document-list %][% endblock %]
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>
+                            <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
+                                data-i18n="[title]browse.up">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                    <path
+                                        d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448"
+                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" />
+                                </svg>
+                            </a>
+                        </li>
+                        [% if page:parameter($context, 'collection') != '' %]
+                        <li class="current-collection">[[ page:parameter($context, 'collection') ]]</li>
+                        [% endif %]
+                    </ul>
+                </nav>
+                <div>
+                    <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+                    [% block before-document-list %][% endblock %]
+                </div>
             </div>
-            <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
             <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
         </div>
         <aside class="after-content">
