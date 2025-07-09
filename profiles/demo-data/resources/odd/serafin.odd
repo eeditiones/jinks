@@ -23,6 +23,7 @@
                  
                  
                  
+                 
                  <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
@@ -69,73 +70,7 @@
     <text xmlns="http://www.tei-c.org/ns/1.0">
         <body>
             <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd">
-                <elementSpec ident="TEI" mode="change">
-                    <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
-            <param name="content" value="root(.)//correspContext"/>
-        </model>
-                    <model output="latex" behaviour="section">
-            <param name="header" value="teiHeader"/>
-            <param name="title" value="teiHeader/fileDesc/titleStmt/title/node()"/>
-            <param name="content" value=".//text[@type='source']/body"/>
-            <param name="translation" value=".//text[@xml:lang='pl']"/>
-            <param name="glossary" value="(teiHeader//particDesc/listPerson/person, teiHeader//settingDesc/listPlace/place)"/>
-            <param name="styles" value="$config('latex-styles')"/>
-            <pb:template xmlns="" xml:space="preserve">\documentclass[10pt,a4paper,twoside]{article}
-
-\usepackage[latin,polish]{babel}
-\usepackage{reledmac}
-\usepackage{reledpar}
-\usepackage{hyperref}
-\usepackage{glossaries}
-\makenoidxglossaries
-
-\usepackage{fancyhdr,extramarks,xifthen}
-\pagestyle{fancy}
-
-\fancyhf{}
-\fancyhead[LO,RE]{\footnotesize\volume}
-\fancyhead[LE,RO]{\footnotesize\thepage}
-
-[[styles]]
-
-[[glossary]]
-
-\begin{document}
-
-\setlength{\columnrulewidth}{0.2pt}
-\setlength{\Lcolwidth}{0.425\textwidth}
-\setlength{\Rcolwidth}{0.425\textwidth}
-\columnsposition{C}
-\numberlinefalse
-
-[[header]]
-
-\begin{pairs}
-
-\begin{Leftside}
-\beginnumbering
-\selectlanguage{latin}
-[[content]]
-\endnumbering
-\end{Leftside}
-
-\begin{Rightside}
-\beginnumbering
-\selectlanguage{polish}
-[[translation]]
-\endnumbering
-\end{Rightside}
-
-\end{pairs}
-
-\Columns
-
-\printnoidxglossaries
-
-\end{document}</pb:template>
-        </model>
-                    <model behaviour="document"/>
-                </elementSpec>
+                <elementSpec ident="TEI" mode="change"/>
                 <elementSpec ident="p" mode="change">
                     <model output="latex" behaviour="paragraph"/>
                     <model behaviour="paragraph" useSourceRendition="true">
