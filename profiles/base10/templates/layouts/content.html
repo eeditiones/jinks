@@ -3,9 +3,19 @@
     {
         "templating": {
             "extends": "templates/layouts/base.html"
-        }
+        },
+        "layout": "fixed-layout"
     }
     ---
+    [% if $features?toc %]
+    <div class="before-content">
+        <h5>
+            <pb-i18n key="document.contents">Contents</pb-i18n>
+        </h5>
+        <pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand"
+            src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+    </div>
+    [% endif %]
     [% block before-content %][% endblock %]
     [% block content %][% endblock %]
     [% block after-content %][% endblock %]
