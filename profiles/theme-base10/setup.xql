@@ -6,6 +6,12 @@ import module namespace generator="http://tei-publisher.com/library/generator" a
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "../../modules/cpy.xql";
 import module namespace path="http://tei-publisher.com/jinks/path" at "../../paths.xql";
 
+(:~
+ : After write hook: generates a components.css to be imported into webcomponents.
+ :
+ : @param $context the context map
+ : @param $target the target path
+ :)
 declare 
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
