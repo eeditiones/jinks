@@ -10,17 +10,15 @@
 @import url("controls.css");
 @import url("jinks-variables.css");
 
-.menubar-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 81px;
-    width: 36px;
-    height: 36px;
-    color: var(--jinks-menubar-color);
+nav[aria-label="breadcrumb"] svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.menubar button {
     background-color: var(--jinks-menubar-button-color);
-    font-size: var(--jinks-menubar-font-size);
-    text-decoration: none;
+    color: var(--jinks-menubar-color);
+    box-shadow: none;
 }
 
 .card {

@@ -120,7 +120,7 @@
         [% endif %]
         [% if $menu?dark-mode %]
         <li>
-            <div id="colorMode" class="theme-toggle menubar-button" title="Toggle theme">
+            <button id="colorMode" class="theme-toggle" title="Toggle theme">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
@@ -148,7 +148,7 @@
                         </g>
                     </g>
                 </svg>
-            </div>
+            </button>
         </li>
         [% endif %]
         [% if $menu?login and not($context?isStatic) %]
