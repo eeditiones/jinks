@@ -4,6 +4,7 @@
     --jinks-form-border-radius-full: 999px;
     --jinks-form-focus-color1: #3B82F6;
     --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
+    --jinks-button-font-size: 0.875rem;
 }
 
 input[type="checkbox"] {
@@ -51,25 +52,51 @@ select:not([multiple], [size]) {
 }
 
 button {
-    display: flex;
+    display: inline-flex;
     padding: 12px 24px;
+    gap: 0.25rem;
     align-items: center;
+    justify-content: center;
     border-radius: var(--jinks-form-border-radius-full);
-    background-color: var(--jinks-colors-600);
+    border: none;
+    color: var(--jinks-text-color);
+    background-color: var(--jinks-colors-control-background);
+    font-size: var(--jinks-button-font-size);
+}
+
+button:hover, .dropdown-button summary:hover {
+    background-color: var(--jinks-colors-400);
 }
 
 button.secondary {
-    padding: 0.25rem 0.5rem;
-    border: 1px solid var(--jinks-form-border-color);
-    border-radius: var(--jinks-form-border-radius);
-    background-color: transparent;
-    color: var(--jinks-color-primary);
+    color: var(--jinks-color-inverse);
+    background-color: var(--jinks-colors-500);
 }
 
+/* Button with label or icon */
+button:has(svg + span), button:has(span + svg) {
+    height: 34px;
+    padding: 6px 12px;
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+/* Button with icon only */
+button:has(svg):not(:has(span)) {
+    border-radius: 81px;
+    height: 34px;
+    width: 34px;
+    padding: 0;
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+/* Group of buttons, e.g. navigate left/right */
 [role="group"] {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8.571px;
+    justify-content: center;
+    gap: 0.25rem;
     padding: 10px;
     border: none;
     border-radius: 81px;
@@ -81,25 +108,9 @@ button.secondary {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
-.icon-button svg, .dropdown-button summary svg {
+button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     width: 1rem;
     height: 1rem;
-}
-
-.icon-button {
-    display: flex;
-    align-items: center;
-    border-radius: 81px;
-    width: 36px;
-    height: 36px;
-
-    border: none;
-    color: var(--jinks-text-color);
-    background-color: var(--jinks-colors-control-background);
-    gap: 8.571px;
-    padding: 10px;
-    /* Card_shadow */
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
 .dropdown-button, .dropdown {
@@ -114,12 +125,15 @@ button.secondary {
 
 .dropdown-button summary {
     display: inline-flex;
-    height: 34px;
+    gap: 0.25rem;
+    height: 36px;
     padding: 5.774px 12px;
     justify-content: center;
     align-items: center;
-    border-radius: 86.604px;
+    border-radius: 81px;
     background-color: var(--jinks-colors-control-background);
+    font-size: var(--jinks-button-font-size);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
 .dropdown-button summary, .dropdown summary {
