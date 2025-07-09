@@ -62,6 +62,43 @@ h3 {
     font-size: var(--jinks-menubar-font-size);
 }
 
+:host(pb-lang) summary+ul {
+    background-color: var(--jinks-colors-light);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0 0 0;
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    min-width: fit-content;
+    white-space: nowrap;
+    list-style: none;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+:host(pb-lang) summary+ul li {
+    list-style: none;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--jinks-colors-light);
+    width: 100%;
+}
+
+:host(pb-lang) summary+ul li:hover {
+    border: 1px solid var(--jinks-colors-400);
+    background-color: var(--jinks-colors-control-background);
+}
+
+:host(pb-lang) a,
+:host(pb-lang) a:link {
+    color: var(--jinks-text-color);
+}
+
 :host(pb-lang) ul {
     border-radius: 8px;
     background: var(--White-White, #FFF);

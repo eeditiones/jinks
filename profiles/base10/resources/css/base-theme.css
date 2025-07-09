@@ -297,6 +297,7 @@ main > .before-content, main > .after-content {
     flex: 1;
     background-color: var(--jinks-colors-light);
     padding: 1.5rem .5rem;
+    max-width: 30vw;
 }
 
 main > .before-content {
@@ -370,6 +371,10 @@ pb-view, pb-view-annotate {
     position: relative;
 }
 
+pb-view::part(content) {
+    padding-top: 1rem;
+}
+
 @media (min-width: 769px) {
     pb-view, pb-view-annotate {
         max-width: var(--pb-view-max-width);
@@ -389,7 +394,7 @@ pb-drawer {
 
 .toc {
     font-family: var(--jinks-content-font-family);
-    font-size: var(--jinks-content-font-size);
+    font-size: 0.875rem;
 }
 
 .toc details summary {
@@ -476,9 +481,17 @@ pb-drawer {
     min-width: 220px;
 }
 
+.facet-dimension {
+    margin: 1rem .5rem;
+}
+
 .facets h3 {
     display: flex;
     align-items: center;
+    font-size: 0.875rem;
+    font-family: var(--jinks-base-font-family);
+    font-weight: 600;
+    padding: .5rem;
 }
 
 .facets h3 label {
@@ -487,7 +500,7 @@ pb-drawer {
 }
 
 .facets table {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .facets table table {
@@ -499,11 +512,14 @@ pb-drawer {
     padding: 4px 0;
 }
 
+.facets table td:nth-child(1) {
+    font-weight: 500;
+}
+
 .facets table td:nth-child(2) {
-    color: #808080;
+    color: var(--jinks-colors-black-300);
     text-align: right;
     padding-left: 1em;
-    vertical-align: middle;
 }
 
 .before-document-list {
