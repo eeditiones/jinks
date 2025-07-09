@@ -62,7 +62,7 @@
             [% block above-content %][% endblock %]
             [% block content %][% endblock %]
             [% block below-content %][% endblock %]
-            [% if $features?toc %]
+            [% if $features?toc?enabled %]
             <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
                 <div class="drawer-content">
                     <h3>
