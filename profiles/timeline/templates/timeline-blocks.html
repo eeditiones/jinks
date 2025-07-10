@@ -1,6 +1,6 @@
 <template>
-    [% template before-document-list %]
-    [% if $features?timeline %]
+    [% template browse-aside %]
+    [% if $features?timeline?enabled %]
     <pb-custom-form id="timeline-options" class="options" emit="search" style="display: none">
         <input type="hidden" name="dates" value="[[ $request?parameters?dates ]]"/>
     </pb-custom-form>
@@ -13,8 +13,9 @@
     [% endtemplate %]
 
     [% template above-content %]
-    [% if exists($context?doc) and $features?timeline %]
+    [% if exists($context?doc) and $features?timeline?document-view %]
     <div class="timeline above-content">
+        [[ $features?timeline ]]
         <pb-timeline url="[[ $context-path ]]/api/timeline/[[ $context?doc?path ]]" auto="" scopes="[&#34;D&#34;, &#34;M&#34;, &#34;Y&#34;, &#34;5Y&#34;, &#34;10Y&#34;]" resettable="" max-interval="80" subscribe="corresp-timeline" emit="corresp-timeline">
             <span slot="label">Angezeigter Zeitraum: </span>
         </pb-timeline>
@@ -23,13 +24,13 @@
     [% endtemplate %]
 
     [% template scripts %]
-    [% if $features?timeline %]
+    [% if $features?timeline?enabled %]
     <script src="resources/scripts/timeline.js"></script>
     [% endif %]
     [% endtemplate %]
 
     [% template styles %]
-    [% if $features?timeline %]
+    [% if $features?timeline?enabled %]
     <link rel="stylesheet" href="resources/css/timeline.css"/>
     [% endif %]
     [% endtemplate %]
