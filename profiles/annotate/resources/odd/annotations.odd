@@ -47,7 +47,7 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="annotations" source="teipublisher.odd">
-                <elementSpec ident="persName" mode="add">
+                <elementSpec ident="persName" mode="change">
                     <model predicate="parent::person" behaviour="inline"/>
                     <model behaviour="inline" cssClass="annotation annotation-person authority"/>
                 </elementSpec>
@@ -58,7 +58,7 @@
             </outputRendition>
         </model>
                 </elementSpec>
-                <elementSpec ident="placeName" mode="add">
+                <elementSpec ident="placeName" mode="change">
                     <model predicate="ancestor::place" behaviour="link">
             <param name="uri" value="ancestor::place/ptr/@target"/>
             <param name="target" value="'_blank'"/>
@@ -85,7 +85,7 @@
                 <elementSpec ident="orgName" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-organization authority"/>
                 </elementSpec>
-                <elementSpec ident="place" mode="add">
+                <elementSpec ident="place" mode="change">
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="placeName[@type=&#34;main&#34;]"/>
@@ -122,7 +122,7 @@
                     <model predicate="@type='abbreviation'" behaviour="inline" cssClass="annotation annotation-abbreviation"/>
                     <model behaviour="inline"/>
                 </elementSpec>
-                <elementSpec ident="person" mode="add">
+                <elementSpec ident="person" mode="change">
                     <modelSequence>
             <model behaviour="heading">
                 <param name="content" value="persName[@type=&#34;main&#34;]"/>
