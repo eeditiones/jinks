@@ -7,9 +7,6 @@
         "layout": "sticky-layout",
         "urls": {
             "ignore": "selectors"
-        },
-        "toolbar": {
-            "navigation": false
         }
     }
     ---
@@ -23,13 +20,5 @@
         </nav>
     </li>
     [% endtemplate %]
-    <pb-navigation class="floating-button left" emit="transcription" keyboard="left"
-        subscribe="transcription" direction="backward" unit="page">
-        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-    </pb-navigation>
     <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-    <pb-navigation class="floating-button right" emit="transcription" keyboard="right"
-        subscribe="transcription" direction="forward" unit="page">
-            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
-    </pb-navigation>
 </template>
