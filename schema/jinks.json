@@ -242,6 +242,20 @@
                 },
                 "upload": {
                     "type": "boolean"
+                },
+                "timeline": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "document-view": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "register": {
+                    "type": "boolean"
                 }
             }
         },
