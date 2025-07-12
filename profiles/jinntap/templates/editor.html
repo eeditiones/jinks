@@ -10,10 +10,10 @@
             },
             "register": {
                 "enabled": false
-    		},
-			"metadata-editor": {
-				"enabled": true
-			}
+            },
+            "metadata-editor": {
+                "enabled": true
+            }
         },
         "templating": {
             "extends": "templates/layouts/base.html",
@@ -141,22 +141,21 @@
             </li>
         </ul>
 
-		<ul>
-		  [% block toolbar %][% endblock %]
-		</ul>
+        <ul>
+            [% block toolbar %][% endblock %]
+        </ul>
     </nav>
     [% endtemplate %]
 
-	[% template after %]
-	<div id="attributes-panel"></div>
-	[% endtemplate %]
+    [% template after %]
+    <div id="attributes-panel"></div>
+    [% endtemplate %]
 
     <main>
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
-        [% if $features?collab?enable %]
-        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]"
-            token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]"
-            sidebar="#attributes-panel">
+        [% if ($features?collab?enable and $features?schema) %]
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="[[ $context?features?schema ]]"
+                  token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]" sidebar="#attributes-panel">
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
                 <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
@@ -168,11 +167,39 @@
                     <i class="bi bi-clipboard-plus"></i>
                 </a>
             </li>
-		</jinn-tap>
+        </jinn-tap>
+        [% elif $features?collab?enable %]
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]"
+                  token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]" sidebar="#attributes-panel">
+            <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            <li slot="toolbar">
+                <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                    <i class="bi bi-floppy"></i>
+                </a>
+            </li>
+            <li slot="toolbar">
+                <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                    <i class="bi bi-clipboard-plus"></i>
+                </a>
+            </li>
+        </jinn-tap>
+        [% elif $features?schema %]
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" schema="[[ $context?features?schema ]]" sidebar="#attributes-panel">
+            <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            <li slot="toolbar">
+                <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                    <i class="bi bi-floppy"></i>
+                </a>
+            </li>
+            <li slot="toolbar">
+                <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+                </a>
+            </li>
+        </jinn-tap>
         [% else %]
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" sidebar="#attributes-panel">
-            <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
-                alt="JinnTap" />
+            <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
                 <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>
