@@ -107,8 +107,27 @@
         });
     </script>
     [% endtemplate %]
+
+    [% template editor %]
+    [% endtemplate %]
+
     [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
-    [% if $features?collab?enable %]
+    [% if ($features?collab?enable and $features?schema) %]
+    <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="[[ $context?features?schema ]]"
+        token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]">
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+        <li slot="toolbar">
+            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                <i class="bi bi-floppy"></i>
+            </a>
+        </li>
+        <li slot="toolbar">
+            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+            </a>
+        </li>
+    </jinn-tap>
+    [% elif $features?collab?enable %]
     <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]"
         token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]">
         <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
@@ -123,10 +142,23 @@
             </a>
         </li>
     </jinn-tap>
+    [% elif $features?schema %]
+    <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" schema="[[ $context?features?schema ]]">
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+        <li slot="toolbar">
+            <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
+                <i class="bi bi-floppy"></i>
+            </a>
+        </li>
+        <li slot="toolbar">
+            <a href="#" class="toolbar-button" id="copyBtn" data-tooltip="Copy TEI to clipboard" data-placement="bottom">
+                <i class="bi bi-clipboard-plus"></i>
+            </a>
+        </li>
+    </jinn-tap>
     [% else %]
     <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected">
-        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
-            alt="JinnTap" />
+        <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
         <li slot="toolbar">
             <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
                 <i class="bi bi-floppy"></i>
