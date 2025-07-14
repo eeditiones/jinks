@@ -26,8 +26,8 @@ RUN  cd jinks \
     && ant
 
 ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
-ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002.xar
-ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 003.xar
+ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 003.xar
+ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 002.xar
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
 
