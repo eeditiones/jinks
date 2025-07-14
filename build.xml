@@ -6,8 +6,8 @@
     <property name="build.dir" value="build" />
     <property name="app.build.dir" value="${build.dir}/${project.app}-${project.version}" />
     <property name="git.repo.path" value="${basedir}/.git" />
-    <available file="${git.repo.path}" type="dir" property="git.present" />    
-    
+    <available file="${git.repo.path}" type="dir" property="git.present" />
+
     <!-- Adjust path below to match location of your npm binary -->
     <property name="npm" value="npm" />
 
@@ -25,13 +25,27 @@
     <target name="prepare">
         <mkdir dir="${app.build.dir}" />
         <copy todir="${app.build.dir}">
-            <fileset dir="${basedir}"
-                excludes="${build.dir}/**,build.xml,README.md,.*,repo.xml.tmpl,node_modules/**,package*.json,local.node-exist.json,gulpfile.js,.devcontainer,.idea/**" />
+            <fileset dir="${basedir}">
+                <exclude name="${build.dir}/**" />
+                <exclude name=".github/**" />
+                <exclude name=".vscode/**" />
+                <exclude name=".idea/**" />
+                <exclude name=".devcontainer" />
+                <exclude name="node_modules/**" />
+                <exclude name=".gitignore" />
+                <exclude name=".dockerignore" />
+                <exclude name="test/cypress/screenshots/**" />
+                <exclude name="test/cypress/downloads/**" />
+                <exclude name="test/cypress/videos/**" />
+                <exclude name=".*" />
+                <excude name="repo.xml.tmpl" />
+                <exclude name="local.node-exist.json" />
+            </fileset>
         </copy>
         <copy todir="${app.build.dir}" overwrite="true" verbose="true">
             <fileset dir="${basedir}">
-                <include name="*.tmpl"/>
-                <include name="pages/page.html.tmpl"/>
+                <include name="*.tmpl" />
+                <include name="pages/page.html.tmpl" />
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -63,7 +77,8 @@
     <target name="xar-local" depends="clean,git.revision,npm.install">
         <property name="scripts-cdn" value="local" />
         <antcall target="prepare"></antcall>
-        <copy todir="${app.build.dir}/resources/styles" file="node_modules/@picocss/pico/css/pico.min.css"/>
+        <copy todir="${app.build.dir}/resources/styles"
+            file="node_modules/@picocss/pico/css/pico.min.css" />
         <copy todir="${app.build.dir}/resources/images">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/images">
                 <include name="leaflet/*" />
