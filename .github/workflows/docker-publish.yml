@@ -45,10 +45,10 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
       - name: Start docker image
         run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
-      - name: Run npm install
-        run: npm install
-      - name: Run tests
-        run: npm test
+      - name: Run Cypress e2e test
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
       - name: Retrieve eXist log
         if: failure()
         run: docker cp db:/exist/logs/exist.log .
