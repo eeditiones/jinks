@@ -5,7 +5,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:8081/exist/apps/jinks',
+    baseUrl: 'http://localhost:8080/exist/apps/jinks',
     trashAssetsBeforeRuns: true,
     includeShadowDom: true,
     supportFile: 'test/cypress/support/e2e.js', 
