@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        EXIST_BASE: [6.4.0, latest]
+        EXIST_BASE: [6.4.0]
 
     steps:
       - name: Check out repository
@@ -84,6 +84,7 @@ jobs:
         with:
           install: true
 
+      # TODO(DP): add exists_base as subtag?
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
