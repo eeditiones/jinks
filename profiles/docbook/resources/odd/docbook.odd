@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -10,6 +10,7 @@
                  
                  
                   
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -222,56 +223,7 @@
                             </h1>
                         </pb:template>
         </model>
-                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
-
-
-
-
-
-                            content: ' &gt; ';
-                            color: #607d8b;
-
-
-
-
-
-
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            </outputRendition>
-        </model>
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="parent::note" behaviour="heading">
             <param name="level" value="4"/>
         </model>
@@ -316,8 +268,10 @@
             
             
             
+            
             font-weight: 400;
 font-style: italic;
+            
             
             
             
@@ -362,7 +316,7 @@ font-style: italic;
             max-width: 100%;
             </outputRendition>
         </model>
-        <model predicate="$parameters?static" behaviour="graphic">
+                    <model predicate="$parameters?static" behaviour="graphic">
             <param name="url" value="$parameters?context-path || '/images/' || @fileref"/>
             <param name="width" value="@width"/>
             <outputRendition xml:space="preserve">
@@ -449,10 +403,12 @@ font-style: italic;
             <outputRendition xml:space="preserve">
             
             
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
             
             
             </outputRendition>
@@ -498,6 +454,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -508,6 +465,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -569,6 +527,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -584,6 +543,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -701,6 +661,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -714,6 +675,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             
