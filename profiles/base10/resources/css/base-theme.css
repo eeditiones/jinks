@@ -199,6 +199,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
 
 .toolbar {
     position: relative;
+    width: 100%;
     background-color: var(--jinks-toolbar-background-color);
     color: var(--pb-toolbar-color);
     --pico-color: var(--pb-toolbar-color);
@@ -281,33 +282,6 @@ pb-document {
     }
 }
 
-main {
-    display: flex;
-    flex-direction: row;
-    column-gap: 1rem;
-    justify-content: center;
-    width: 100%;
-}
-
-main > *:not(.before-content, .after-content) {
-    flex: 2;
-}
-
-main > .before-content, main > .after-content {
-    flex: 1;
-    background-color: var(--jinks-colors-light);
-    padding: 1.5rem .5rem;
-    max-width: 30vw;
-}
-
-main > .before-content {
-    border-right: 1px solid var(--jinks-color-border);
-}
-
-main > .after-content {
-    border-left: 1px solid var(--jinks-color-border);
-}
-
 main.search {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -374,36 +348,108 @@ pb-drawer {
     font-size: 0.875rem;
 }
 
+.toc ul {
+    padding: 0;
+    margin: 0;
+}
+
+/* Item without child sections */
+.toc ul>li:not(:has(details)) {
+    padding: 0.75rem calc(1rem + 20px) 0.75rem 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+}
+
+/* Item with child sections */
 .toc details summary {
+    display: inline-flex;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.75rem 0 0.75rem 0;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
     /* override pico default */
     line-height: var(--jinks-line-height);
 }
 
-.toc ul {
-    margin: 0;
-    padding: 0;
+.toc ul details>ul>li:not(:has(details)),
+.toc ul details>ul>li>details>summary {
+    padding-left: var(--jinks-toc-indent);
 }
 
-.toc ul ul {
-    margin-left: 28px;
+.toc ul details details>ul>li:not(:has(details)),
+.toc ul details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 2);
+}
+
+.toc ul details details details>ul>li:not(:has(details)),
+.toc ul details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 3);
+}
+
+.toc ul details details details details>ul>li:not(:has(details)),
+.toc ul details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 4);
+}
+
+.toc ul details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 5);
+}
+
+.toc ul details details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 6);
+}
+
+.toc ul details details details details details details details>ul>li:not(:has(details)),
+.toc ul details details details details details details details>ul>li>details>summary {
+    padding-left: calc(var(--jinks-toc-indent) * 7);
+}
+
+.toc details > summary > pb-link,
+.toc ul > li > pb-link {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toc details > summary::after {
+    display: block;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    float: right;
+    background-image: var(--jinks-dropdown-button-chevron-image);
+    transform: none;
+    height: 1.25rem;
+    width: 1.25rem;
+    background-size: 1.25rem auto;
+    background-position: right center;
+    background-repeat: no-repeat;
+    margin-inline-start: 0.5rem;
+    padding-right: 1rem;
+}
+
+.toc details[open]>summary::after {
+    transform: rotate(180deg);
+}
+
+.toc details summary:hover,
+.toc ul>li:not(:has(details)):hover {
+    border: 1px solid #CFCDC5;
+    background-color: var(--jinks-colors-control-background);
 }
 
 .toc li {
     list-style-type: none;
-    margin-bottom: .5em;
-}
-
-.toc li:first-child {
-    margin-top: .5em;
-}
-
-.toc li>pb-link {
-    margin-left: 28px;
-}
-
-.toc pb-link {
-    font-family: var(--jinks-link-font-family);
-    padding: 4px 8px;
+    margin-bottom: 0;
 }
 
 .toc pb-link a {
@@ -499,6 +545,11 @@ pb-drawer {
     padding-left: 1em;
 }
 
+#document-list pb-load {
+    overflow: auto;
+    width: 100%;
+}
+
 .before-document-list {
     display: flex;
     justify-content: space-between;
@@ -516,11 +567,7 @@ pb-drawer {
 }
 
 .documents {
-    padding-left: 0;
-}
-
-.documents div {
-    margin: 0;
+    padding: 8px 20px 40px 20px;
 }
 
 .error {
@@ -593,10 +640,6 @@ li.document .attribution {
     font-size: var(--jinks-footnote-font-size);
 }
 
-.browse {
-    grid-template-columns: 25% 1fr 25%;
-}
-
 main > section {
     margin-top: var(--pico-block-spacing-vertical);
 }
@@ -627,7 +670,6 @@ footer a {
 }
 
 .above-content, .below-content {
-    max-width: var(--jinks-content-max-width);
     padding: 1rem;
 }
 
@@ -644,11 +686,58 @@ footer a {
     z-index: 2;
 }
 
+.before-content,
+.after-content {
+    background-color: var(--jinks-color-white);
+    padding: 1.5rem .5rem;
+}
+
+.before-content {
+    border-right: 1px solid var(--jinks-color-border);
+}
+
+.after-content {
+    border-left: 1px solid var(--jinks-color-border);
+}
+
 .fixed-layout {
     display: grid;
     height: 100vh;
-    grid-template-rows: auto auto auto 1fr auto;
+    width: 100vw;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 
+        minmax(0, var(--jinks-before-content-width)) 
+        1fr 
+        minmax(0, var(--jinks-after-content-width));
+    grid-template-areas:
+        "header header header"
+        "before-content above-content after-content"
+        "before-content content after-content";
     position: relative;
+}
+
+.fixed-layout:not(:has(.before-content)) {
+    grid-template-columns: 1fr minmax(0, var(--jinks-after-content-width));
+    grid-template-areas:
+        "header header"
+        "above-content after-content"
+        "content after-content";
+}
+
+.fixed-layout:not(:has(.after-content)) {
+    grid-template-columns: minmax(0, var(--jinks-before-content-width)) 1fr;
+    grid-template-areas:
+        "header header"
+        "before-content above-content"
+        "before-content content";
+}
+
+.fixed-layout:not(:has(.before-content)):not(:has(.after-content)) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "header"
+        "above-content"
+        "content";
 }
 
 @media screen and (max-width: 1023px) {
@@ -657,28 +746,36 @@ footer a {
     }
 }
 
-.fixed-layout main {
-    grid-row: 4;
+.fixed-layout > main {
+    grid-area: content;
+    display: flex;
+    justify-content: center;
     overflow: auto;
-    height: 100%;
+}
+
+.fixed-layout > .before-content {
+    grid-area: before-content;
+    overflow: auto;
+}
+
+.fixed-layout > .after-content {
+    grid-area: after-content;
+    overflow: auto;
+}
+
+.fixed-layout>main>div>:not(.before-content, .after-content) {
+    flex: 2;
+    padding: .5rem 1.25rem 2.5rem 1.25rem;
 }
 
 .fixed-layout > .page-header {
-    grid-column: 1 / -1;
-    grid-row: 1;
-}
-
-.fixed-layout > .toolbar {
-    grid-row: 2;
-    grid-column: 1 / -1;
+    grid-area: header;
 }
 
 .fixed-layout > .above-content {
-    grid-row: 3;
-    grid-column: 1 / -1;
+    grid-area: above-content;
 }
 
-.fixed-layout > .below-content {
-    grid-row: 5;
-    grid-column: 1 / -1;
-}
+/* .fixed-layout > .below-content {
+    grid-area: content;
+} */

@@ -1,4 +1,4 @@
-<main>
+<template>
     ---json
     {
         "templating": {
@@ -7,6 +7,7 @@
         "layout": "fixed-layout"
     }
     ---
+    [% template before-content %]
     [% if $context?features?toc?enabled %]
     <div class="before-content">
         <h5>
@@ -16,9 +17,16 @@
             src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
     </div>
     [% endif %]
-    [% block before-content %][% endblock %]
-    [% block content %][% endblock %]
-    [% block after-content %][% endblock %]
+    [% endtemplate %]
+    [% if $features?toolbar %]
+    [% include "templates/toolbar.html" %]
+    [% endif %]
+    [% block above-content %][% endblock %]
+    <main>
+        <!-- Content block -->
+        [% block content %][% endblock %]
+    </main>
+    [% block below-content %][% endblock %]
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
-</main>
+</template>

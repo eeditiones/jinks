@@ -7,7 +7,7 @@
         "templating": {
             "extends": "templates/layouts/base.html"
         },
-        "layout": "sticky-layout",
+        "layout": "fixed-layout",
         "script": {
             "custom": [
                 "resources/scripts/facets.js",
@@ -23,59 +23,59 @@
             </div>
         [% endif %]
     [% endtemplate %]
-    <main>
-        <aside class="before-content">
-            <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
-                subforms=".facets,.options" submit-on-load="submit-on-load">
-                <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
-                <input type="hidden" name="field" value="text"/>
-            </pb-search>
-            <pb-custom-form class="options">
-                <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
-                <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
-            </pb-custom-form>
-            <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
-            </pb-custom-form>
-        </aside>
-        <div id="document-list">
-            <div class="before-document-list">
-                <nav aria-label="breadcrumb">
-                    <ul>
-                        <li>
-                            <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
-                                data-i18n="[title]browse.up">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                    <path
-                                        d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448"
-                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" />
-                                </svg>
-                            </a>
-                        </li>
-                        [% if page:parameter($context, 'collection') != '' %]
-                        <li class="current-collection">[[ page:parameter($context, 'collection') ]]</li>
-                        [% endif %]
-                    </ul>
-                </nav>
-                <div>
-                    <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
-                    [% block before-document-list %][% endblock %]
-                </div>
-            </div>
-            <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
-        </div>
-        <aside class="after-content">
-            [% block browse-aside %][% endblock %]
-            <pb-restricted group="[[ $pkg?user?group ]]">
-                [% if $context?features?upload %]
-                    [% if $context?defaults?upload %]
-                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                        event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
-                    [% else %]
-                    <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                        event="pb-search-resubmit"></pb-upload>
-                    [% endif %]
+    <aside class="before-content">
+        <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+            subforms=".facets,.options" submit-on-load="submit-on-load">
+            <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+            <input type="hidden" name="field" value="text"/>
+        </pb-search>
+        <pb-custom-form class="options">
+            <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+            <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
+        </pb-custom-form>
+        <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+        </pb-custom-form>
+    </aside>
+    <nav class="above-content">
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li>
+                    <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
+                        data-i18n="[title]browse.up">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                            <path
+                                d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448"
+                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" />
+                        </svg>
+                    </a>
+                </li>
+                [% if page:parameter($context, 'collection') != '' %]
+                <li class="current-collection">[[ page:parameter($context, 'collection') ]]</li>
                 [% endif %]
-            </pb-restricted>
-        </aside>
+            </ul>
+        </nav>
+        <ul>
+            <li>
+                <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
+                [% block before-document-list %][% endblock %]
+            </li>
+        </ul>
+    </nav>
+    <main id="document-list">
+        <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
     </main>
+    <aside class="after-content">
+        [% block browse-aside %][% endblock %]
+        <pb-restricted group="[[ $pkg?user?group ]]">
+            [% if $context?features?upload %]
+                [% if $context?defaults?upload %]
+                <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                    event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+                [% else %]
+                <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                    event="pb-search-resubmit"></pb-upload>
+                [% endif %]
+            [% endif %]
+        </pb-restricted>
+    </aside>
 </template>

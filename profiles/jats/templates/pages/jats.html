@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         }
     }
     ---
@@ -16,8 +16,5 @@
         </nav>
     </li>
     [% endtemplate %]
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
-        root-path="[[ $config:app-root ]]" source-view="[[ $page:EXIDE ]]"/>
-        <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-    </div>
+    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </main>
