@@ -1,9 +1,4 @@
 <html>
----json
-{
-    "cdn": "@scripts-cdn@"
-}
----
 <head>
     [% if $context?base %]
     <base href="[[ $context-path ]]/[[ $context?base ]]"/>
@@ -11,20 +6,12 @@
     <meta charset="utf-8"/>
     <title>[[$title]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="profiles/theme-base10/resources/fonts/font.css"/>
-    [% if $cdn = "local" %]
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
     <link rel="stylesheet" href="[[ $config:context-path ]]/resources/styles/pico.min.css" />
-    [% else %]
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
-    [% endif %]
     <link rel="stylesheet" href="[[$config:context-path]]/resources/styles/styles.css"/>
     <link rel="stylesheet" href="[[$config:context-path]]/resources/scripts/dist/jinn-monaco.css"/>
     [% block styles %][% endblock %]
-    [% if $cdn = "local" %]
     <script type="module" src="[[ $context-path ]]/resources/lib/pb-components-bundle.js"></script>
-    [% else %]
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components@2.19.0/dist/pb-components-bundle.js"></script>
-    [% endif %]
     <script type="module" src="[[ $context-path ]]/resources/scripts/dist/jinn-monaco.js"></script>
     <script src="[[ $context-path ]]/profiles/base10/resources/scripts/dark.js"></script>
     [% for $script in $context?scripts?* %]
