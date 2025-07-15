@@ -3,9 +3,9 @@
     {
         "templating": {
             "extends": "templates/layouts/content.html"
-        },
-        "layout": "sticky-layout"
+        }
     }
     ---
-    <pb-view class="[[ if ($layout = 'fixed-layout') then 'overflow' else '' ]]" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <!-- Basic template for a page with a single document -->
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </template>

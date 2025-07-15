@@ -1,13 +1,5 @@
-<nav class="toolbar container-fluid">
+<nav class="toolbar above-content">
     <ul>
-        [% if exists($context?doc) and $features?toc?enabled %]
-        <li>
-            <a id="tocToggle" class="toc-toggle" title="Table of Contents">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M160 144h288M160 256h288M160 368h288"/><circle cx="80" cy="144" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="80" cy="256" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="80" cy="368" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-            </a>
-        </li>
-        [% endif %]
-
         [# display go to parent if in document view #]
         [% if exists($context?doc) and $toolbar?parent %]
         <li>

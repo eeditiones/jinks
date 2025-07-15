@@ -4,7 +4,6 @@
         "templating": {
             "extends": "templates/layouts/content.html"
         },
-        "layout": "sticky-layout",
         "urls": {
             "ignore": "selectors"
         }
@@ -12,7 +11,7 @@
     ---
     [% template toolbar %]
     <li>
-        <pb-toggle-feature name="p_norm" selector=".lb" emit="transcription" subscribe="transcription">
+        <pb-toggle-feature name="p_norm" selector=".lb,.running" emit="transcription" subscribe="transcription">
             <pb-i18n key="document.normalized">Normalized View</pb-i18n>
         </pb-toggle-feature>
     </li>
@@ -27,4 +26,6 @@
         </nav>
     </li>
     [% endtemplate %]
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
+        subscribe="transcription" emit="transcription" />
 </template>
