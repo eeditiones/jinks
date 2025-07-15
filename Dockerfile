@@ -21,13 +21,14 @@ RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && ant 
 
 # Build Jinks
+# TODO(DP): needs to be xar local
 COPY . jinks/
 RUN  cd jinks \
     && ant
 
-ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
+ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 001.xar
+ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 002.xar
 ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 003.xar
-ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 002.xar
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
 
@@ -37,7 +38,7 @@ USER ${USR}
 ONBUILD COPY --from=builder /tmp/*.xar /exist/autodeploy/
 ONBUILD COPY --from=builder /tmp/jinks-templates/build/*.xar /exist/autodeploy/004.xar
 ONBUILD COPY --from=builder /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy/005.xar
-ONBUILD COPY --from=builder /tmp/jinks/build/*.car /exist/autodeploy/006.xar
+ONBUILD COPY --from=builder /tmp/jinks/build/*.xar /exist/autodeploy/006.xar
 
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
 FROM  ghcr.io/jinntec/base:main AS build_prod
