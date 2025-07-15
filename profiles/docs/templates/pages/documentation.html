@@ -11,14 +11,6 @@
         "defaults": {
             "base": "doc/documentation.xml"
         },
-        "features": {
-            "toc": {
-                "enabled": false
-            }
-        },
-        "toolbar": {
-            "navigation": false
-        },
         "urls": {
             "template": "documentation/:id?",
             "ignore": "odd,view,path"
@@ -27,21 +19,28 @@
     ---
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:app-root ]]" source-view="[[ $page:EXIDE ]]"/>
-    <pb-drawer class="toc" toggle="tocToggle" emit="toc" subscribe="transcription" max-width="1024px">
-        <pb-load url="api/document/{doc}/contents?target=transcription&amp;icons=false" expand="expand" src="document1" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
-    </pb-drawer>
+    [% template before-content %]
+    [% if $context?features?toc?enabled %]
+    <div class="before-content">
+        <h5>
+            <pb-i18n key="document.contents">Contents</pb-i18n>
+        </h5>
+        <pb-load class="toc"
+            url="api/document/{doc}/contents?target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]"
+            expand="expand" src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n
+                key="dialogs.loading">Loading</pb-i18n></pb-load>
+    </div>
+    [% endif %]
+    [% endtemplate %]
+    [% if $features?toolbar %]
+    [% include "templates/toolbar.html" %]
+    [% endif %]
+    [% template breadcrumb %]
     <pb-view class="breadcrumbs" src="document1" subscribe="transcription" disable-history="" on-update="">
         <pb-param name="mode" value="breadcrumbs"/>
     </pb-view>
-    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-    <footer>
-        <pb-navigation class="nav-button left" emit="transcription" keyboard="left"
-            subscribe="transcription" direction="backward" unit="page" rendition="visible">
-            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-        </pb-navigation>
-        <pb-navigation class="nav-button right" emit="transcription" keyboard="right"
-            subscribe="transcription" direction="forward" unit="page" rendition="visible">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
-        </pb-navigation>
-    </footer>
+    [% endtemplate %]
+    <main>
+        <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    </main>
 </template>

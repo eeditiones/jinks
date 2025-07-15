@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print epub"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -9,6 +9,7 @@
                  
                  
                   
+                 
                  
                  
                  
@@ -41,6 +42,7 @@
                     <model behaviour="section"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="add">
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="parent::caption" behaviour="heading">
             <param name="level" value="3"/>
             <outputRendition xml:space="preserve">
@@ -115,9 +117,11 @@
             
             
             
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
             
             
             

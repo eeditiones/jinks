@@ -1,11 +1,12 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>Deutsches Textarchiv (dta) (Custom ODD)
                       
-                   <desc>A simple ODD to render documents encoded according to the </desc>
+                   
+                  <desc>A simple ODD to render documents encoded according to the </desc>
                 </title>
                 <title type="short">Deutsches Textarchiv</title>
             </titleStmt>
@@ -65,39 +66,18 @@
                     <model output="print" predicate="@place='top'" behaviour="inline" cssClass="running">
             <param name="content" value="string(.)"/>
         </model>
-                    <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline">
+                    <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline" cssClass="running">
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-            
-            display: inline-block;
-                            margin-bottom: 1em;
-                            color: #CCC;
-            
-            
-            
-            
-            
+            display: block;
+color: #CCC;
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">
             <param name="catch" value="following-sibling::fw/node()"/>
             <pb:template xmlns="" xml:space="preserve"><div class="catch">[[catch]]</div><div class="sig">[[content]]</div></pb:template>
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-            
             margin-top: 1em;
 color: #A0A0A0;
-            
-            
-            
-            
-            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page' and preceding-sibling::fw" behaviour="omit">
@@ -107,18 +87,8 @@ color: #A0A0A0;
         </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block" cssClass="catch">
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-            
             margin-top: 1em;
 color: #A0A0A0;
-            
-            
-            
-            
-            
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
