@@ -3,7 +3,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Lex-0 <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
+                <title>TEI Lex-0 
+                 <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -199,6 +200,15 @@
                 </elementSpec>
             <elementSpec ident="note" mode="change">
                     <model behaviour="omit"/>
+                </elementSpec>
+            <elementSpec ident="p" mode="change">
+                    <model output="print" predicate="ancestor::note" behaviour="inline"/>
+                    <model behaviour="paragraph" useSourceRendition="true">
+            <outputRendition xml:space="preserve">
+            text-align: left;
+hyphen: auto;
+            </outputRendition>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

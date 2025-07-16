@@ -2,14 +2,18 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         },
         "script": {
             "extra-components": [
                 "pb-tify"
             ]
         },
-        "layout": "fixed-layout",
+        "extensions": {
+            "toc": {
+                "enabled": false
+            }
+        },
         "urls": {
             "template": "encyclopedia/:search?",
             "ignore": "path,odd,view,userParams"
@@ -18,31 +22,10 @@
     ---
     [% template styles %]
     <style>
-        .fixed-layout {
-            grid-template-columns: minmax(25vw, 640px) 1fr;
-            grid-template-rows: auto auto min-content 1fr;
-            grid-template-areas:
-                "header header"
-                "preface preface"
-                "form text"
-                "list text";
-            column-gap: 1rem;
-        }
-        .page-header {
-            grid-area: header;
-        }
-        .above-content {
-            grid-area: preface;
-        }
-        .above-content pb-view {
-            margin-left: 0;
-        }
         #options {
-            grid-area: form;
             padding-left: 1rem;
         }
         pb-split-list {
-            grid-area: list;
             overflow: auto;
             padding-left: 1rem;
         }
@@ -53,21 +36,24 @@
             text-overflow: ellipsis;
         }
         #view {
-            grid-area: text;
             overflow: auto;
         }
     </style>
     [% endtemplate %]
-    [% template above-content %]
-    <header class="above-content">
+    [% template before-content %]
+    <aside class="left">
+        <pb-custom-form id="options" auto="" auto-submit="input" emit="transcription">
+            <input type="search" name="search" placeholder="" value="[[ $request?parameters?search ]]" data-i18n="[placeholder]search.search"/>
+        </pb-custom-form>
+        <pb-split-list class="register-split-list" url="api/lemma" subforms="#options" target="#list"
+        emit="transcription" subscribe="transcription"/>
+    </aside>
+    [% endtemplate %]
+    [% template after-content %]
+    <header class="right">
         <pb-view src="document1" view="single"></pb-view>
     </header>
     [% endtemplate %]
-    <pb-custom-form id="options" auto="" auto-submit="input" emit="transcription">
-        <input type="search" name="search" placeholder="" value="[[ $request?parameters?search ]]" data-i18n="[placeholder]search.search"/>
-    </pb-custom-form>
-    <pb-split-list class="register-split-list" url="api/lemma" subforms="#options" target="#list"
-        emit="transcription" subscribe="transcription"/>
     <pb-view id="view" src="document1" subscribe="detail" view="other"
         map="encyclopedia" append-footnotes="">
     </pb-view>

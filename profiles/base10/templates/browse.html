@@ -7,7 +7,6 @@
         "templating": {
             "extends": "templates/layouts/base.html"
         },
-        "layout": "fixed-layout",
         "script": {
             "custom": [
                 "resources/scripts/facets.js",
@@ -23,7 +22,21 @@
             </div>
         [% endif %]
     [% endtemplate %]
-    <aside class="before-content">
+    <nav class="top-left">
+        <ul></ul>
+        <ul>
+            <li>
+                <a class="aside-toggle" title="Hide" data-toggle=".left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <aside class="left">
         <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
             subforms=".facets,.options" submit-on-load="submit-on-load">
             <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
@@ -36,17 +49,13 @@
         <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
         </pb-custom-form>
     </aside>
-    <nav class="above-content">
+    <nav class="top-center">
         <nav aria-label="breadcrumb">
             <ul>
                 <li>
                     <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
                         data-i18n="[title]browse.up">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                            <path
-                                d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448"
-                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" />
-                        </svg>
+                        Collections
                     </a>
                 </li>
                 [% if page:parameter($context, 'collection') != '' %]
@@ -55,16 +64,29 @@
             </ul>
         </nav>
         <ul>
+            [% block before-document-list %][% endblock %]
             <li>
                 <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
-                [% block before-document-list %][% endblock %]
             </li>
         </ul>
     </nav>
     <main id="document-list">
         <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
     </main>
-    <aside class="after-content">
+    <nav class="top-right">
+        <ul>
+            <li>
+                <a class="aside-toggle" title="Hide" data-toggle=".right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <aside class="right">
         [% block browse-aside %][% endblock %]
         <pb-restricted group="[[ $pkg?user?group ]]">
             [% if $context?features?upload %]

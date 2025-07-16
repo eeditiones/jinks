@@ -4,7 +4,6 @@
         "templating": {
             "extends": "templates/layouts/content.html"
         },
-        "layout": "fixed-layout",
         "urls": {
             "ignore": "selectors"
         },
@@ -42,7 +41,7 @@
     </li>
     [% endtemplate %]
     [% template after-content %]
-    <pb-tify class="after-content" subscribe="transcription" emit="transcription"></pb-tify>
+    <pb-tify class="right" subscribe="transcription" emit="transcription"></pb-tify>
     [% endtemplate %]
     <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
         append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"
