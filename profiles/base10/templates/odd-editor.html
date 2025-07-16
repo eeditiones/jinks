@@ -7,7 +7,6 @@
                 "enabled": false
             }
         },
-        "layout": "sticky-layout",
         "templating": {
             "extends": "templates/layouts/base.html"
         },
@@ -21,6 +20,13 @@
         }
     }
     ---
+    [% template styles %]
+    <style>
+        pb-odd-editor {
+            width: 100%;
+        }
+    </style>
+    [% endtemplate %]
     <pb-odd-editor output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]"
     root-path="[[ $config:odd-root ]]"
     output-prefix="transform"
