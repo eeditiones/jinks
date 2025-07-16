@@ -1,29 +1,32 @@
-<main class="search">
+<template>
     ---json
     {
         "features": {
-            "toolbar": false
+            "toolbar": true
         },
         "templating": {
             "extends": "templates/layouts/base.html"
         }
     }
     ---
-    <pb-load id="results" url="api/search" emit="results"></pb-load>
-    <div class="search-panel">
-        <article class="card-content">
-            <pb-search id="search-form" subscribe="search"
-                value="[[ page:parameter($context, 'query', '') ]]" submit-on-load="submit-on-load">
-                <div class="targets">
-                    <label>Search sections
-                        <input type="checkbox" name="field" value="text"/>
-                    </label>
-                    <label>Search headings
-                        <input type="checkbox" name="field" value="head"/>
-                    </label>
-                </div>
-                <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
-            </pb-search>
-        </article>
-    </div>
-</main>
+    [% if $features?toolbar %]
+    [% include "templates/toolbar.html" %]
+    [% endif %]
+    <main>
+        <pb-load id="results" url="api/search" emit="results"></pb-load>
+    </main>
+    <aside class="right">
+        <pb-search id="search-form" subscribe="search"
+            value="[[ page:parameter($context, 'query', '') ]]" submit-on-load="submit-on-load">
+            <div class="targets">
+                <label>Search sections
+                    <input type="checkbox" name="field" value="text"/>
+                </label>
+                <label>Search headings
+                    <input type="checkbox" name="field" value="head"/>
+                </label>
+            </div>
+            <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+        </pb-search>
+    </aside>
+</template>
