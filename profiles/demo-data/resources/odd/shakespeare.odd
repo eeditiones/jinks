@@ -1,9 +1,10 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Shakespeare Plays<desc>Output of a classic play with facsimile links</desc></title>
+                <title>Shakespeare Plays <desc>Output of a classic play with facsimile links</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -49,6 +50,7 @@
             <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
             <outputRendition xml:space="preserve">
+            
             font-size: 16px;
 color: #888888;
 cursor: pointer;
@@ -56,6 +58,7 @@ display: inline;
 display: block;
 margin-right: -32px;
 float: right;
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -106,6 +109,7 @@ float: right;
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="@type='supplied'" behaviour="omit"/>
                     <model predicate="parent::figure" behaviour="block">
             <outputRendition xml:space="preserve">
@@ -153,9 +157,11 @@ float: right;
             <outputRendition xml:space="preserve">
             
             
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             </outputRendition>
@@ -164,9 +170,11 @@ float: right;
             <outputRendition xml:space="preserve">
             
             
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             </outputRendition>

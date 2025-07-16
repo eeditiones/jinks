@@ -4,7 +4,11 @@
         "templating": {
             "extends": "templates/layouts/content.html"
         },
-        "layout": "fixed-layout"
+        "features": {
+            "toc": {
+                "enabled": false
+            }
+        }
     }
     ---
     [% template breadcrumb %]
@@ -18,7 +22,7 @@
     </li>
     [% endtemplate %]
     [% template above-content %]
-    <details class="above-content">
+    <details class="top-center">
         <summary>
             [[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "title" }, "osinski.odd") ]]
         </summary>
@@ -27,8 +31,8 @@
     </details>
     [% endtemplate %]
     [% template after-content %]
-    <pb-facsimile id="facsimile" class="after-content" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" 
+    <pb-facsimile id="facsimile" class="right" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" 
         show-navigator="show-navigator" subscribe="transcription"/>
     [% endtemplate %]
-    <pb-view class="[[ if ($layout = 'fixed-layout') then 'overflow' else '' ]]" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
 </template>

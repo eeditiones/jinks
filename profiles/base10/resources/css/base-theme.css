@@ -192,7 +192,8 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     display: inline-block;
 }
 
-.toolbar a svg {
+.toolbar a svg, 
+.aside-toggle svg {
     width: 20px;
     height: 20px;
 }
@@ -669,75 +670,97 @@ footer a {
     height: 100%;
 }
 
-.above-content, .below-content {
-    padding: 1rem;
-}
-
 /* Layouts
  *
  * 1. sticky-layout: The page header is sticky and the content scrolls underneath it.
  * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
  */
-.sticky-layout .page-header {
-    position: sticky;
-    top: 0;
-    width: 100vw;
-    background-color: transparent;
-    z-index: 2;
+.fixed-layout > .top-left li,
+.fixed-layout > .top-right li,
+.fixed-layout > .top-center li {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-.before-content,
-.after-content {
+.fixed-layout > .top-left,
+.fixed-layout > .left,
+.fixed-layout > .top-right,
+.fixed-layout > .right {
     background-color: var(--jinks-color-white);
-    padding: 1.5rem .5rem;
+    padding: 0 .5rem 1.5rem .5rem;
+    overflow: auto;
 }
 
-.before-content {
+.fixed-layout > .top-left,
+.fixed-layout > .left {
     border-right: 1px solid var(--jinks-color-border);
 }
 
-.after-content {
+.fixed-layout > .top-right,
+.fixed-layout > .right {
     border-left: 1px solid var(--jinks-color-border);
 }
 
+.fixed-layout > .top-left,
+.fixed-layout > .top-right,
+.fixed-layout > .top-center,
+.fixed-layout > .below-content {
+    padding: 1rem;
+}
+
 .fixed-layout {
+    --left-column-width: minmax(0, var(--jinks-before-content-width));
+    --right-column-width: minmax(0, var(--jinks-after-content-width));
+
     display: grid;
     height: 100vh;
     width: 100vw;
     grid-template-rows: auto auto 1fr;
     grid-template-columns: 
-        minmax(0, var(--jinks-before-content-width)) 
+        var(--left-column-width) 
         1fr 
-        minmax(0, var(--jinks-after-content-width));
+        var(--right-column-width);
     grid-template-areas:
         "header header header"
-        "before-content above-content after-content"
-        "before-content content after-content";
+        "top-left top-center top-right"
+        "left content right";
     position: relative;
 }
 
-.fixed-layout:not(:has(.before-content)) {
-    grid-template-columns: 1fr minmax(0, var(--jinks-after-content-width));
-    grid-template-areas:
-        "header header"
-        "above-content after-content"
-        "content after-content";
+.fixed-layout:not(:has(> .left)) {
+    --left-column-width: 0;
 }
 
-.fixed-layout:not(:has(.after-content)) {
-    grid-template-columns: minmax(0, var(--jinks-before-content-width)) 1fr;
-    grid-template-areas:
-        "header header"
-        "before-content above-content"
-        "before-content content";
+.fixed-layout:not(:has(> .right)) {
+    --right-column-width: 0;
 }
 
-.fixed-layout:not(:has(.before-content)):not(:has(.after-content)) {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-        "header"
-        "above-content"
-        "content";
+.fixed-layout:not(:has(> .left)):not(:has(> .right)) {
+    --left-column-width: 0;
+    --right-column-width: 0;
+}
+
+.fixed-layout > .top-left.hidden svg,
+.fixed-layout > .top-right svg {
+    rotate: 180deg;
+}
+.fixed-layout > .top-right.hidden svg {
+    rotate: 0deg;
+}
+
+.fixed-layout:has(> .left.hidden) {
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+    --left-column-width: calc(2rem + 20px);
+}
+
+.fixed-layout:has(> .right.hidden) {
+    --right-column-width: calc(2rem + 20px);
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+}
+
+.fixed-layout > .left.hidden,
+.fixed-layout > .right.hidden {
+    visibility: hidden;
 }
 
 @media screen and (max-width: 1023px) {
@@ -753,27 +776,29 @@ footer a {
     overflow: auto;
 }
 
-.fixed-layout > .before-content {
-    grid-area: before-content;
+.fixed-layout > .left {
+    grid-area: left;
+}
+
+.fixed-layout > .top-left {
+    grid-area: top-left;
+}
+
+.fixed-layout>.top-right {
+    grid-area: top-right;
+}
+
+.fixed-layout > .right {
+    grid-area: right;
     overflow: auto;
 }
 
-.fixed-layout > .after-content {
-    grid-area: after-content;
-    overflow: auto;
-}
-
-.fixed-layout>main>div>:not(.before-content, .after-content) {
-    flex: 2;
-    padding: .5rem 1.25rem 2.5rem 1.25rem;
-}
-
-.fixed-layout > .page-header {
+.fixed-layout>.page-header {
     grid-area: header;
 }
 
-.fixed-layout > .above-content {
-    grid-area: above-content;
+.fixed-layout>.top-center {
+    grid-area: top-center;
 }
 
 /* .fixed-layout > .below-content {
