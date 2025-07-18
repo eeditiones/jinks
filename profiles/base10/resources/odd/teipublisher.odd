@@ -936,7 +936,7 @@
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model behaviour="alternate" cssClass="persName">
             <param name="default" value="."/>
-            <param name="alternate" value="id(@key, collection($global:register-root)/id('pb-persons'))"/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
@@ -959,7 +959,7 @@
                     <model predicate="parent::place" behaviour="inline"/>
                     <model behaviour="alternate" cssClass="placeName">
             <param name="default" value="."/>
-            <param name="alternate" value="id(@key, collection($global:register-root)/id('pb-places'))"/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
         </model>
                 </elementSpec>
             </schemaSpec>
