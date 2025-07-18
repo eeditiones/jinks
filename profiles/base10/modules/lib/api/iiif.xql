@@ -96,7 +96,15 @@ declare %private function iiif:link($relpath as xs:string) {
  :)
 declare function iiif:manifest($request as map(*)) {
     let $id := $request?parameters?path
-    let $doc := config:get-document($id)/tei:TEI
+    let $document := config:get-document($id)
+
+    let $doc :=
+        typeswitch ($document)
+            case document-node() return
+                $document/child::*
+            default return
+                $document
+    
     let $canvases := iiif:canvases($doc)
     return
         map:merge((

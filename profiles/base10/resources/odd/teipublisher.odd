@@ -462,12 +462,15 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
-                    <model predicate="@facs" behaviour="webcomponent">
-            <desc>Use the url from the facs attribute to link with IIIF image</desc>
+                    <model output="print" behaviour="omit"/>
+                    <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
+                        <desc>Use the url from the facs attribute to link with IIIF image; assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
-            <param name="facs" value="@facs"/>
-            <param name="label" value="@n"/>
+                        <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <param name="emit-on-load" value="'emit-on-load'"/>
+                        <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
         </model>
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
             <desc>If facs attribute starts with iiif prefix, use the trailing part as a
