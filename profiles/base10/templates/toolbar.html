@@ -12,7 +12,8 @@
         [% block breadcrumb %][% endblock %]
     </ul>
     <ul>
-        [% if $features?toolbar?navigation %]
+        [% block toggle %][% endblock %]
+        [% if $toolbar?navigation %]
         <li>
             <span role="group">
                 <pb-navigation emit="transcription" keyboard="left" subscribe="transcription" direction="backward" unit="page" rendition="visible">
