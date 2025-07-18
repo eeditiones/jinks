@@ -703,8 +703,8 @@ footer a {
 }
 
 .fixed-layout {
-    --left-column-width: minmax(0, var(--jinks-before-content-width));
-    --right-column-width: minmax(0, var(--jinks-after-content-width));
+    --left-column-width: minmax(0, var(--jinks-layout-left-width));
+    --right-column-width: minmax(0, var(--jinks-layout-right-width));
 
     display: grid;
     height: 100vh;

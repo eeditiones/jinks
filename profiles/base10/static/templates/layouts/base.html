@@ -45,7 +45,7 @@
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json" 
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
-            unresolved="unresolved" class="[[ $context?layout ]]">
+            unresolved="unresolved" class="[[ $context?theme?layout ]]">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
