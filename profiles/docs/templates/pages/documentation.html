@@ -18,7 +18,7 @@
     ---
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:app-root ]]" source-view="[[ $page:EXIDE ]]"/>
-    [% template before-content %]
+    [% template sidebar %]
     [% if $context?features?toc?enabled %]
     <nav class="top-left">
         <ul></ul>

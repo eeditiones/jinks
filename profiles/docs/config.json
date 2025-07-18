@@ -33,7 +33,9 @@
             "view": "single",
             "template": "parallel.html",
             "features": {
-                "register": true
+                "register": {
+                    "enabled": true
+                }
             }
         },
         "monograph": {
@@ -54,7 +56,9 @@
     },
     "features": {
         "upload": false,
-        "register": false
+        "register": {
+            "enabled": false
+        }
     },
     "menu": {
         "$replace": true,

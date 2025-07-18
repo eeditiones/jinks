@@ -227,16 +227,20 @@
                     "type": "object",
                     "properties": {
                         "enabled": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, the toolbar will be displayed"
                         },
                         "zoom": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, zoom buttons will be displayed"
                         },
                         "navigation": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, navigation buttons will be displayed"
                         },
                         "parent": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, the go to parent collection button will be displayed"
                         }
                     }
                 },
@@ -247,29 +251,44 @@
                     "type": "object",
                     "properties": {
                         "collapse": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, table of contents items will be initially collapsed"
                         },
                         "enabled": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, the table of contents will be displayed"
                         }
                     }
                 },
                 "upload": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "If true, the upload form will be displayed"
                 },
                 "timeline": {
                     "type": "object",
                     "properties": {
                         "enabled": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, the timeline will be displayed"
                         },
                         "document-view": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "description": "If true, the timeline will also be displayed in document view. If false, it is only visible when browsing a collection."
                         }
                     }
                 },
                 "register": {
-                    "type": "boolean"
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the entity register sidebar will be displayed"
+                        },
+                        "placement": {
+                            "type": "string",
+                            "enum": ["left", "right"]
+                        }
+                    }
                 }
             }
         },

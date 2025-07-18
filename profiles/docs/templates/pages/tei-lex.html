@@ -40,7 +40,7 @@
         }
     </style>
     [% endtemplate %]
-    [% template before-content %]
+    [% template sidebar %]
     <aside class="left">
         <pb-custom-form id="options" auto="" auto-submit="input" emit="transcription">
             <input type="search" name="search" placeholder="" value="[[ $request?parameters?search ]]" data-i18n="[placeholder]search.search"/>
@@ -49,7 +49,7 @@
         emit="transcription" subscribe="transcription"/>
     </aside>
     [% endtemplate %]
-    [% template after-content %]
+    [% template sidebar %]
     <header class="right">
         <pb-view src="document1" view="single"></pb-view>
     </header>

@@ -1,7 +1,7 @@
 <template>
-    [% template after-content %]
-    [% if $context?features?register and exists($context?doc)%]
-    <aside class="right">
+    [% template sidebar %]
+    [% if $context?features?register?enabled and exists($context?doc)%]
+    <aside class="[[ $features?register?placement ]]">
         <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
             <pb-param name="mode" value="register" />
         </pb-view>
@@ -15,7 +15,7 @@
     [% endtemplate %]
 
     [% template scripts %]
-    [% if $context?features?register %]
+    [% if $context?features?register?enabled %]
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
         [% elif $script?webcomponents = 'local' %]
@@ -28,7 +28,7 @@
     [% endtemplate %]
 
     [% template styles %]
-    [% if $context?features?register %]
+    [% if $context?features?register?enabled %]
     <link rel="stylesheet" href="[[ $context-path ]]/resources/css/registers-theme.css" />
     [% endif %]
     [% endtemplate %]
