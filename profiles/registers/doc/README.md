@@ -13,7 +13,9 @@ To enable the sidebar, set feature "register" to true in the config:
 
 ```json
 "features": {
-    "register": true
+    "register": {
+        "enabled": true
+    }
 }
 ```
 
