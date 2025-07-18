@@ -129,7 +129,12 @@
         }
     },
     "features": {
-        "toolbar": true,
+        "toolbar": {
+            "enabled": true,
+            "zoom": true,
+            "navigation": true,
+            "parent": true
+        },
         "menubar": true,
         "toc": {
             "collapse": false,
@@ -160,11 +165,6 @@
         "dark-mode": true,
 		"language": true,
 		"download": true
-    },
-    "toolbar": {
-        "zoom": true,
-        "navigation": true,
-        "parent": true
     },
     "address-by-id": false,
     "actions": [

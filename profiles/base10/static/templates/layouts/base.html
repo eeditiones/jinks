@@ -51,7 +51,7 @@
                     [% if $features?menubar %]
                     [% include "static/templates/menu.html" %]
                     [% endif %]
-                    [% if $features?toolbar %]
+                    [% if $features?toolbar?enabled %]
                     [% include "static/templates/toolbar.html" %]
                     [% endif %]
 
