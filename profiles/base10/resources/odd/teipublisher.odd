@@ -463,36 +463,39 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
+                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
+                        <desc>If facs attribute starts with iiif prefix, use the trailing part as a
+                            link to the IIIF image; fits pb-facsimile viewer</desc>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
+                        <param name="label" value="'Page'"/>
+                        <param name="emit" value="'transcription'"/>
+                    </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
-                        <desc>Use the url from the facs attribute to link with IIIF image; assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint to generate relevant manifest</desc>
-            <param name="name" value="'pb-facs-link'"/>
+                        <desc>Use the url from the facs attribute to link with IIIF image; 
+                            assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint 
+                            to generate relevant manifest</desc>
+                        <param name="name" value="'pb-facs-link'"/>
                         <param name="content" value="@n"/>
-            <param name="emit" value="'transcription'"/>
+                        <param name="emit" value="'transcription'"/>
                         <param name="order" value="count($get(.)/preceding::pb) + 1"/>
                         <param name="emit-on-load" value="'emit-on-load'"/>
                         <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
-        </model>
-                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
-            <desc>If facs attribute starts with iiif prefix, use the trailing part as a
-                            link to the IIIF image</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-            <param name="label" value="'Page'"/>
-            <param name="emit" value="'transcription'"/>
-        </model>
-                    <model behaviour="break" useSourceRendition="true">
-            <param name="type" value="'page'"/>
-            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-            <outputRendition xml:space="preserve">
-            display: block; margin-left: 4pt; color: grey; float: right;
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[Page ';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: ']';
-            </outputRendition>
-        </model>
+                    </model>
+                    <model behaviour="break" useSourceRendition="true" cssClass="pb">
+                        <desc>Output Page label when no facsimile information is available</desc>
+                        <param name="type" value="'page'"/>
+                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+                        <outputRendition xml:space="preserve">
+                        display: block; margin-left: 4pt; color: grey; float: right;
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[Page ';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: ']';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="postscript" mode="change">
                     <model behaviour="block"/>
