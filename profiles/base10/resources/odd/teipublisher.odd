@@ -940,10 +940,10 @@
 </a></pb:template>
         </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
-                    <model behaviour="alternate" cssClass="persName">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
-        </model>
+                    <model behaviour="alternate" cssClass="persName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
@@ -963,10 +963,10 @@
 </a></pb:template>
         </model>
                     <model predicate="parent::place" behaviour="inline"/>
-                    <model behaviour="alternate" cssClass="placeName">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
-        </model>
+                    <model behaviour="alternate" cssClass="placeName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>
