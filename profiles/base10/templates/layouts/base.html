@@ -19,6 +19,12 @@
             [% endif %]
         [% endfor %]
 
+        <style>
+            :root {
+                --jinks-layout-left-width: [[$context?theme?layout?left-width]];
+                --jinks-layout-right-width: [[$context?theme?layout?right-width]];
+            }
+        </style>
         [% block styles %][% endblock %]
 
         <title>[[ $label ]]</title>
@@ -61,7 +67,7 @@
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
-            class="[[ $context?layout ]]"
+            class="[[ $context?theme?layout?class ]]"
             require-language="require-language" theme="resources/css/components.css">
             <header class="page-header">
                 <div>

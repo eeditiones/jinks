@@ -116,15 +116,27 @@
     /* text colors */
     --jinks-footnote-color: var(--jinks-text-color);
 
+    /* form controls */
+    --jinks-form-background-color: #EFEEE9;
+    --jinks-form-border-color: var(--jinks-colors-accent);
+    --jinks-form-border-radius: 90px;
+    --jinks-form-border-radius-full: 999px;
+    --jinks-form-focus-color1: #3B82F6;
+    --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
+    --jinks-form-control-font-size: 0.875rem;
+
     /* dropdown component */
     --jinks-dropdown-button-chevron-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E");
     --jinks-dropdown-button-chevron-size: 12px;
 
+    /* search input */
+    --jinks-search-input-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/%3E%3C/svg%3E");
+
     /* table of contents */
     --jinks-toc-indent: 1rem;
 
-    --jinks-before-content-width: min(30vw, 356px);
-    --jinks-after-content-width: min(30vw, 356px);
+    --jinks-layout-default-left-width: 356px;
+    --jinks-layout-default-right-width: 356px;
 
     /* variables passed to tei-publisher-components */
     --pb-base-font-family: var(--jinks-base-font-family);

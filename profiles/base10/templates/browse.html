@@ -88,16 +88,16 @@
     </nav>
     <aside class="right">
         [% block browse-aside %][% endblock %]
+        [% if $context?features?upload %]
         <pb-restricted group="[[ $pkg?user?group ]]">
-            [% if $context?features?upload %]
-                [% if $context?defaults?upload %]
-                <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                    event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
-                [% else %]
-                <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
-                    event="pb-search-resubmit"></pb-upload>
-                [% endif %]
+            [% if $context?defaults?upload %]
+            <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+            [% else %]
+            <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei" 
+                event="pb-search-resubmit"></pb-upload>
             [% endif %]
         </pb-restricted>
+        [% endif %]
     </aside>
 </template>

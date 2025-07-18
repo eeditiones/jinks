@@ -5,8 +5,9 @@
 /* default base-theme layout is flex, some of the registers pages need different layouts */
 
 /* places.html needs block layout */
-main.places {
+main.places, main.people {
     display: block;
+    width: 100%;
 }
 
 .places .list, .people .list {

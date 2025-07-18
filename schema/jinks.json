@@ -371,6 +371,27 @@
                             }
                         }
                     }
+                },
+                "layout": {
+                    "type": "object",
+                    "properties": {
+                        "left": {
+                            "type": "object",
+                            "properties": {
+                                "width": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "right": {
+                            "type": "object",
+                            "properties": {
+                                "width": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },

@@ -15,13 +15,27 @@ nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     height: 1.25rem;
 }
 
-.menubar button {
+.menubar button,
+.menubar pb-search::part(input) {
     background-color: var(--jinks-menubar-button-color);
     color: var(--jinks-menubar-color);
-    box-shadow: none;
+    border: 1px solid transparent;
 }
 
-.card {
+.menubar pb-search::part(input)::placeholder {
+    color: #E1E1E1;
+}
+
+.left > pb-search, .right > pb-search {
+    display: block;
+    margin-top: .5rem;
+}
+
+pb-search .targets {
+    margin-top: 1rem;
+}
+
+.card, article {
     padding: 1.5rem;
     margin-bottom: .5rem;
     border-radius: 1rem;

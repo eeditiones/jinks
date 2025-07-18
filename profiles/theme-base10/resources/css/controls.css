@@ -1,12 +1,3 @@
-:root {
-    --jinks-form-border-color: #CFCDC5;
-    --jinks-form-border-radius: 90px;
-    --jinks-form-border-radius-full: 999px;
-    --jinks-form-focus-color1: #3B82F6;
-    --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
-    --jinks-button-font-size: 0.875rem;
-}
-
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -22,7 +13,7 @@ input[type="checkbox"]:checked {
     background-size: 16px;
 }
 
-input:not([type]), input[type="text"], input[type="search"],
+input:not([type]), input[type="text"],
 input[type="password"] {
     width: 100%;
     height: 36px;
@@ -33,8 +24,52 @@ input[type="password"] {
     margin-bottom: 20px;
 }
 
-input:focus, select:focus {
+input[type="search"] {
+    display: inline-flex;
+    gap: 0.25rem;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--jinks-form-border-radius);
+    border: 1px solid var(--jinks-form-border-color);
+    background-color: var(--jinks-colors-light);
+    font-size: var(--jinks-form-control-font-size);
+    padding: 0px 12px 0px 1.875rem;
+    background-image: var(--jinks-search-input-icon);
+    background-position: center left 0.75rem;
+    background-size: .875rem auto;
+    background-repeat: no-repeat;
+    appearance: none;
+}
+
+pb-search {
+    border-radius: var(--jinks-form-border-radius);
+    height: 36px;
+}
+
+pb-search:has([slot="searchButton"])::part(input) {
+    flex: 2;
+    padding-left: 1.875rem;
+    border-radius: var(--jinks-form-border-radius) 0 0 var(--jinks-form-border-radius);
+    border-right: none;
+    height: 36px;
+}
+
+pb-search [slot="searchButton"] {
+    border-radius: 0 var(--jinks-form-border-radius) var(--jinks-form-border-radius) 0;
+    border: 1px solid var(--jinks-form-border-color);
+    border-left: none;
+    height: 36px;
+}
+
+input:focus, select:focus, pb-search:focus-within {
+    outline: none;
     box-shadow: 0px 0px 0px 1px var(--jinks-form-focus-color1), 0px 0px 0px 4px var(--jinks-form-focus-color2);
+}
+
+pb-search:focus-within::part(input) {
+    outline: none;
+    box-shadow: none;
 }
 
 label > input {
@@ -65,8 +100,8 @@ button {
     border-radius: var(--jinks-form-border-radius-full);
     border: none;
     color: var(--jinks-text-color);
-    background-color: var(--jinks-colors-control-background);
-    font-size: var(--jinks-button-font-size);
+    background-color: var(--jinks-form-background-color);
+    font-size: var(--jinks-form-control-font-size);
 }
 
 button:hover, .dropdown-button summary:hover {
@@ -80,7 +115,7 @@ button.secondary {
 
 /* Button with label or icon */
 button:has(svg + span), button:has(span + svg) {
-    height: 34px;
+    height: 36px;
     padding: 6px 12px;
     /* Card_shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
@@ -88,9 +123,9 @@ button:has(svg + span), button:has(span + svg) {
 
 /* Button with icon only */
 button:has(svg):not(:has(span)) {
-    border-radius: 81px;
-    height: 34px;
-    width: 34px;
+    border-radius: var(--jinks-form-border-radius);
+    height: 36px;
+    width: 36px;
     padding: 0;
     /* Card_shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
@@ -104,10 +139,10 @@ button:has(svg):not(:has(span)) {
     gap: 0.25rem;
     padding: 10px;
     border: none;
-    border-radius: 81px;
+    border-radius: var(--jinks-form-border-radius);
     height: 36px;
     color: var(--jinks-text-color);
-    background-color: var(--jinks-colors-control-background);
+    background-color: var(--jinks-form-background-color);
 
     /* Card_shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
@@ -135,9 +170,9 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     padding: 5.774px 12px;
     justify-content: center;
     align-items: center;
-    border-radius: 81px;
-    background-color: var(--jinks-colors-control-background);
-    font-size: var(--jinks-button-font-size);
+    border-radius: var(--jinks-form-border-radius);
+    background-color: var(--jinks-form-background-color);
+    font-size: var(--jinks-form-control-font-size);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
