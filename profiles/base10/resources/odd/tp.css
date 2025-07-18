@@ -1,0 +1,29 @@
+
+/* 
+.context
+general handle for all semantic context annotations: 
+people, places, organizations etc */
+
+.context:not(.disable) {
+    /* highlight colour for when not toggled to .disable */
+    color: grey;
+}
+
+.pb {
+    float: right;
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 1em; 
+    color: grey;
+}
+
+/* Default styles for TEI elements */
+
+.tei-dateline {
+    text-align: right;
+}
+
+.tei-closer {
+    .tei-signed, .tei-salute {
+        text-align: right;
+    }
+}
