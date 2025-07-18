@@ -243,8 +243,8 @@
                 <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
             <desc>Output register data if register profile is enabled</desc>
-            <param name="people" value="for $key in distinct-values(root(.)//persName/@key) return collection($global:register-root)/id($key)[self::person]"/>
-            <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) return collection($global:register-root)/id($key)[self::place]"/>
+            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
 <h3>People</h3>
 <ul>
@@ -714,8 +714,8 @@
         </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
             <desc>Output register data if register profile is enabled</desc>
-            <param name="people" value="for $key in distinct-values(root(.)//persName/@key) return collection($global:register-root)/id($key)[self::person]"/>
-            <param name="places" value="for $key in distinct-values(root(.)//placeName/@key) return collection($global:register-root)/id($key)[self::place]"/>
+            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
 <h3>People</h3>
 <ul>
@@ -878,8 +878,8 @@
                 <param name="content" value="note"/>
             </model>
             <model predicate="$parameters?mode='register-details'" behaviour="block">
-                <desc>List of letters (in register details only)</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Documents</h2>
   <ul>
@@ -915,8 +915,8 @@
                 <param name="content" value="ptr"/>
             </model>
             <model predicate="$parameters?mode='register-details'" behaviour="block">
-                <desc>List of letters (in register details only)</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Documents</h2>
   [[content]]
@@ -926,20 +926,20 @@
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
-            <param name="content" value="id(@key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/text()"/>
-        </model>
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
+                    </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-            <desc>Register sidebar</desc>
-            <param name="content" value="."/>
-            <param name="alternate" value="parent::person/note"/>
-            <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
-  <pb-popover>
-    <span slot="default">[[content]]</span>
-    <template slot="alternate">[[alternate]]</template>
-  </pb-popover>
-</a></pb:template>
-        </model>
+                        <desc>Register sidebar</desc>
+                        <param name="content" value="."/>
+                        <param name="alternate" value="parent::person/note"/>
+                        <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
+                        <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
+            <pb-popover>
+                <span slot="default">[[content]]</span>
+                <template slot="alternate">[[alternate]]</template>
+            </pb-popover>
+            </a></pb:template>
+                    </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model behaviour="alternate" cssClass="persName context">
                         <param name="default" value="."/>
@@ -948,21 +948,21 @@
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
-            <param name="content" value="id(@key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/text()"/>
-        </model>
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+                    </model>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-            <desc>Register sidebar</desc>
-            <param name="default" value="."/>
-            <param name="alternate" value="parent::place/note"/>
-            <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName">
-  <pb-popover>
-    <span slot="default">[[content]]</span>
-    <template slot="alternate">[[alternate]]</template>
-  </pb-popover>
-</a></pb:template>
-        </model>
+                        <desc>Register sidebar</desc>
+                        <param name="default" value="."/>
+                        <param name="alternate" value="parent::place/note"/>
+                        <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
+                        <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName context">
+            <pb-popover>
+                <span slot="default">[[content]]</span>
+                <template slot="alternate">[[alternate]]</template>
+            </pb-popover>
+            </a></pb:template>
+                    </model>
                     <model predicate="parent::place" behaviour="inline"/>
                     <model behaviour="alternate" cssClass="placeName context">
                         <param name="default" value="."/>
