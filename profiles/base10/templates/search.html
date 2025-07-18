@@ -2,7 +2,9 @@
     ---json
     {
         "features": {
-            "toolbar": true
+            "toolbar": {
+                "navigation": false
+            }
         },
         "templating": {
             "extends": "templates/layouts/base.html"
@@ -14,7 +16,22 @@
         }
     }
     ---
-    [% if $features?toolbar %]
+    <style>
+        main {
+            padding: 1rem;
+        }
+
+        pb-search .targets {
+            margin-top: 1rem;
+        }
+
+        /* Fix for overlapping targets and pb-custom-form */
+        .right > pb-search {
+            margin-bottom: 1rem;
+            height: fit-content;
+        }
+    </style>
+    [% if $features?toolbar?enabled %]
     [% include "templates/toolbar.html" %]
     [% endif %]
     <main>

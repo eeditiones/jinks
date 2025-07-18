@@ -224,7 +224,21 @@
                     "type": "boolean"
                 },
                 "toolbar": {
-                    "type": "boolean"
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "zoom": {
+                            "type": "boolean"
+                        },
+                        "navigation": {
+                            "type": "boolean"
+                        },
+                        "parent": {
+                            "type": "boolean"
+                        }
+                    }
                 },
                 "hero": {
                     "type": "boolean"
@@ -375,21 +389,11 @@
                 "layout": {
                     "type": "object",
                     "properties": {
-                        "left": {
-                            "type": "object",
-                            "properties": {
-                                "width": {
-                                    "type": "string"
-                                }
-                            }
+                        "left-width": {
+                            "type": "string"
                         },
-                        "right": {
-                            "type": "object",
-                            "properties": {
-                                "width": {
-                                    "type": "string"
-                                }
-                            }
+                        "right-width": {
+                            "type": "string"
                         }
                     }
                 }
@@ -667,20 +671,6 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        "toolbar": {
-            "type": "object",
-            "properties": {
-                "zoom": {
-                    "type": "boolean"
-                },
-                "navigation": {
-                    "type": "boolean"
-                },
-                "parent": {
-                    "type": "boolean"
                 }
             }
         },

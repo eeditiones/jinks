@@ -7,7 +7,7 @@
             </a>
         </li>
         [% endif %]
-        [% if $toolbar?navigation %]
+        [% if $features?toolbar?navigation %]
         <li>
         [% if $context("parts")?default?previous %]
             <a href="[[ '../' || $context('pagination')?page - 1 || '/index.html' ]]"

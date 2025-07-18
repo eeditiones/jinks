@@ -31,7 +31,7 @@
     </div>
     [% endif %]
     [% endtemplate %]
-    [% if $features?toolbar %]
+    [% if $features?toolbar?enabled %]
     [% include "templates/toolbar.html" %]
     [% endif %]
     [% block above-content %][% endblock %]
