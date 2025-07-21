@@ -814,8 +814,9 @@
         </model>
                     <model output="fo" behaviour="heading"/>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="title[not(@type)]"/>
-        </model>
+                        <desc>for breadcrumbs, pick only the first title</desc>
+                        <param name="content" value="title[1]"/>
+                    </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <desc>Display short header in document lists</desc>
             <model predicate="$parameters?static" behaviour="link">
