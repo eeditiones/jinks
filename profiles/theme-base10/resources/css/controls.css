@@ -164,8 +164,6 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
 }
 
 .dropdown-button summary {
-    display: inline-flex;
-    gap: 0.25rem;
     height: 36px;
     padding: 5.774px 12px;
     justify-content: center;
@@ -177,6 +175,9 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
 }
 
 .dropdown-button summary, .dropdown summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     list-style: none;
     cursor: pointer;
     user-select: none;
@@ -188,7 +189,6 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     content: "";
     width: 1rem;
     height: 1rem;
-    float: right;
     background-image: var(--jinks-dropdown-button-chevron-image);
     transform: none;
     height: var(--jinks-dropdown-button-chevron-size);
@@ -196,7 +196,6 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     background-size: var(--jinks-dropdown-button-chevron-size) auto;
     background-position: right center;
     background-repeat: no-repeat;
-    margin-inline-start: 0.5rem;
 }
 
 .dropdown-button[open]>summary::after {

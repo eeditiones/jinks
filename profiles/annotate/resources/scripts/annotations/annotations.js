@@ -944,7 +944,6 @@ document.addEventListener("pb-page-loaded", () => {
 			styles.push(`
 				.annotation-action[data-type=${type}] {
 					color: ${color.color};
-					border-bottom: 2px solid ${color.color};
 				}
 			`);
 		});

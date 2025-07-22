@@ -3,9 +3,9 @@
     --pb-color-primary: var(--jinks-color-primary);
     --pb-color-inverse: var(--jinks-color-inverse);
 }
-html {
-    width: 100%;
-    border: 0;
+
+.fixed-layout > main {
+    display: block;
 }
 
 #authority-editor{
@@ -20,11 +20,7 @@ section.person{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
 }
-fx-fore header{
-    padding:0.5rem;
-    font-size:1.2rem;
-    border-top:thin solid #dddddd;
-}
+
 fx-fore .actions{
     text-align:right;
     padding:0.25rem 0.5rem;
@@ -44,15 +40,6 @@ fx-fore fx-case:last-child{
 
 body {
     --annotate-color-modify: #dc3848;
-}
-aside > fx-fore > fx-group{
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    margin:0.5rem;
-    width:calc(100% - 2rem);
-    background: white;
-    padding:0;
 }
 
 .toastify.on {
@@ -95,13 +82,6 @@ aside > fx-fore > fx-group{
     padding:0.5rem;
     overflow: auto;
     background: white;
-}
-#authority-editor fx-fore > header {
-    position: absolute;
-    width: calc(100% - 1rem);
-    z-index: 10;
-    background: #efefef;
-    padding-left:0.5rem;
 }
 
 fx-group#general{
@@ -151,35 +131,6 @@ fx-trigger.insert-auth-form{
     grid-template-columns: auto;
     grid-template-rows: auto auto 1fr;
 }
-.header-toolbar{
-    position: relative;
-    display:flex;
-    flex-wrap: wrap;
-    justify-content:space-between;
-    /*position:fixed;*/
-    width:100%;
-    background:#efefef;
-    padding:0;
-    z-index:97;
-}
-.header-toolbar .icon-group {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-}
-.header-toolbar a:link, .header-toolbar a:active {
-    text-decoration: none;
-}
-.header-toolbar button, .edit-panel button, #markupPanel button {
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-    color: inherit;
-}
-
-.icon-group paper-icon-button{
-    display: inline-block;
-}
 
 fx-group.search{
     /*max-height:30rem;*/
@@ -196,19 +147,6 @@ fx-fore > fx-group{
     margin-bottom:1rem;
 }
 
-fx-fore header{
-    font-size:1rem;
-}
-
-header h1{
-    margin-block-start:0.5rem;
-    margin-block-end:0.5rem;
-}
-
-
-header paper-icon-button{
-    display: inline-block;
-}
 
 fx-fore textarea {
     width: calc(100% - 2rem);
@@ -254,34 +192,6 @@ fx-group[ref="authority"]{
 fx-fore #markupPanel pb-tabs,
 fx-fore #markupPanel .preview-toolbar {
     height: 25vh;
-}
-
-pb-page {
-    height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr minmax(30rem, 30vw);
-    grid-template-areas: "header header" "body aside"
-}
-
-@media (max-width: 1023px) {
-
-    pb-page {
-        grid-template-columns: 1fr minmax(10rem, 25vw);
-    }
-}
-
-.page-header {
-    grid-area: header;
-    position: relative;
-}
-
-main {
-    grid-area: body;
-}
-.edit-panel {
-    grid-area: aside;
-    overflow: auto;
 }
 
 .text {

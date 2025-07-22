@@ -3,7 +3,7 @@
     {
         "features": {
             "toolbar": {
-                "enabled": false
+                "enabled": true
             },
             "toc": {
                 "enabled": false
@@ -111,6 +111,22 @@
         });
     </script>
     [% endtemplate %]
+    <nav class="toolbar top-center">
+        <ul>
+            <li>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Editor</a>
+                        </li>
+                        <li>
+                            [[ $context?doc?path ]]
+                        </li>
+                    </ul>
+                </nav>
+            </li>
+        </ul>
+    </nav>
     <main>
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
         [% if $features?collab?enable %]
