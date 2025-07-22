@@ -35,12 +35,12 @@
     }
     ---
     [% template styles %]
-    [% if $script?jinntap = "dev" %]
-    <link rel="stylesheet" href="http://localhost:5174/jinn-tap/jinn-tap.css" />
-    <link rel="stylesheet" href="http://localhost:5174/jinn-tap/editor-styles.css"/>
+    [% if $features?jinntap?version = "dev" %]
+    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]/jinn-tap/jinn-tap.css" />
+    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]/jinn-tap/editor-styles.css"/>
     [% else %]
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/jinn-tap.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/editor-styles.css"/>
+    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
+    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/editor-styles.css"/>
     [% endif %]
     <style>
         :root {
@@ -51,18 +51,8 @@
             --jinn-tap-background-color: var(--jinks-background-color-dark);
         }
 
-        .fixed-layout {
-            grid-template-rows: min-content 1fr;
-            height: 100vh;
-        }
-
-        .page-header {
-            grid-area: header;
-        }
         jinn-tap {
-            overflow: auto;
             padding: 0 2rem;
-            margin: 0 auto;
         }
 
         jinn-tap .editor-area {
@@ -107,10 +97,10 @@
     [% endtemplate %]
 
     [% template scripts %]
-    [% if $script?jinntap = "dev" %]
-    <script type="module" src="http://localhost:5174/jinn-tap/src/index.js"></script>
+    [% if $features?jinntap?version = "dev" %]
+    <script type="module" src="[[ $features?jinntap?cdn ]]/jinn-tap/src/index.js"></script>
     [% else %]
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@[[ $script?jinntap ]]/dist/index.es.js"></script>
+    <script type="module" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/index.es.js"></script>
     [% endif %]
     <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
     <script>
