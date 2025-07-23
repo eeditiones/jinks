@@ -1,12 +1,13 @@
-<main class="container">
+<template>
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         },
         "features": {
             "toolbar": {
-                "zoom": false
+                "zoom": false,
+                "navigation": false
             }
         },
         "styles": [
@@ -27,4 +28,4 @@
     <section class="person">
         [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
     </section>
-</main>
+</template>
