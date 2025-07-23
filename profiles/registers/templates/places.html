@@ -1,12 +1,13 @@
-<main class="places">
+<div class="places">
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         },
         "features": {
             "toolbar": {
-                "zoom": false
+                "zoom": false,
+                "navigation": false
             }
         },
         "script": {
@@ -34,4 +35,4 @@
         </pb-custom-form>
         <pb-split-list url="api/places" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
     </div>
-</main>
+</div>

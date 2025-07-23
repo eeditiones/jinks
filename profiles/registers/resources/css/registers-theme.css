@@ -1,30 +1,29 @@
-:root {
-    --jinks-content-max-width: 90rem;
+.places {
+    width: 100vw;
 }
 
-/* default base-theme layout is flex, some of the registers pages need different layouts */
-
-/* places.html needs block layout */
-main.places, main.people {
-    display: block;
-    width: 100%;
-}
-
-.places .list, .people .list {
-    padding-left: 24px;
-    padding-right: 24px;
-}
-
-.people .list {
+.person, .people .list, .places .list, .place {
     padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: var(--pb-view-max-width);
 }
 
-/* place.html uses grid layout */
-.place-details {
-    display: grid;
-    grid-template-columns: 1fr minmax(320px, 50%);
-    column-gap: 2rem;
-    min-height: 320px;
+.places .list {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+pb-split-list::part(items) {
+    margin-top: 1rem;
+}
+
+pb-custom-form {
+    margin-bottom: 1rem;
+}
+
+pb-custom-form input {
+    width: 100%;
 }
 
 aside .register li {
@@ -35,10 +34,20 @@ aside {
     min-width: 320px;
 }
 
-pb-leaflet-map {
+aside pb-leaflet-map {
     height: 40vh;
     width: 100%;
     position: relative;
     z-index: 0;
     margin-bottom: 1rem;
+}
+
+/* place detail view */
+.right.map pb-leaflet-map {
+    height: 100%;
+    width: 100%;
+}
+
+.right.map {
+    padding: 0;
 }

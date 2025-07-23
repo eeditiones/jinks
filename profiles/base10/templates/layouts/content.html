@@ -53,6 +53,8 @@
             </li>
         </ul>
     </nav>
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    [% if exists($context?doc) %]
+    <pb-document id="document1" path="[[ $context?doc?path ]]" odd="[[ $context?doc?odd ]]" view="[[ $context?doc?view ]]"
         root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
+    [% endif %]
 </template>
