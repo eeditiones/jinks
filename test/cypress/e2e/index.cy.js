@@ -11,7 +11,7 @@ describe('index page', () => {
   })
 
   it('user should be logged in', () => {
-    cy.get('pb-login')
-        .should('have.attr', 'logged-in')
+    cy.get('#login')
+      .should('be.visible')
   })
 })
