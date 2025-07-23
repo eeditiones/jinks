@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         },
         "styles": [
             "resources/css/documentation.css"
@@ -16,44 +16,10 @@
         }
     }
     ---
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
-        root-path="[[ $config:app-root ]]" source-view="[[ $page:EXIDE ]]"/>
-    [% template sidebar %]
-    [% if $context?features?toc?enabled %]
-    <nav class="top-left">
-        <ul></ul>
-        <ul>
-            <li>
-                <a class="aside-toggle" title="Hide" data-toggle=".left">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
-                    </svg>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <div class="left">
-        <h5>
-            <pb-i18n key="document.contents">Contents</pb-i18n>
-        </h5>
-        <pb-load class="toc"
-            url="api/document/{doc}/contents?target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]"
-            expand="expand" src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n
-                key="dialogs.loading">Loading</pb-i18n></pb-load>
-    </div>
-    [% endif %]
-    [% endtemplate %]
-    [% if $features?toolbar?enabled %]
-    [% include "templates/toolbar.html" %]
-    [% endif %]
     [% template breadcrumb %]
     <pb-view class="breadcrumbs" src="document1" subscribe="transcription" disable-history="" on-update="">
         <pb-param name="mode" value="breadcrumbs"/>
     </pb-view>
     [% endtemplate %]
-    <main>
-        <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-    </main>
+    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </template>

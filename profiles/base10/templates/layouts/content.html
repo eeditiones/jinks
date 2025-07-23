@@ -21,7 +21,7 @@
             </li>
         </ul>
     </nav>
-    [% if $context?features?toc?enabled %]
+    [% if $context?features?toc?enabled and exists($context?doc)%]
     <div class="left">
         <h5>
             <pb-i18n key="document.contents">Contents</pb-i18n>
