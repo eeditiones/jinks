@@ -148,10 +148,25 @@ button:has(svg):not(:has(span)) {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
+[role="group"] button {
+    box-shadow: none;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+[role="group"] pb-zoom, [role="group"] pb-navigation {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     width: 1rem;
     height: 1rem;
 }
+
 
 .dropdown-button, .dropdown {
     margin-bottom: 0;
