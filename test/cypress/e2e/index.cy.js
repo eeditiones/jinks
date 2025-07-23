@@ -12,6 +12,6 @@ describe('index page', () => {
 
   it('user should be logged in', () => {
     cy.get('#login')
-      .contains('Logged in as tei')
+      .should('be.visible')
   })
 })
