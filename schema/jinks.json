@@ -408,11 +408,26 @@
                 "layout": {
                     "type": "object",
                     "properties": {
+                        "class": {
+                            "type": "string",
+                            "description": "Class to add to the main container element of the page",
+                            "examples": [
+                                "fixed-layout"
+                            ]
+                        },
                         "left-width": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Width of the left sidebar",
+                            "examples": [
+                                "min(30vw, 356px)"
+                            ]
                         },
                         "right-width": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Width of the right sidebar",
+                            "examples": [
+                                "min(30vw, 356px)"
+                            ]
                         }
                     }
                 }
@@ -516,16 +531,27 @@
                     "type": "array"
                 },
                 "webcomponents": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Version of the tei-publisher-components package to use or 'dev' to connect to a development server"
                 },
                 "extra-components": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "description": "Names of additional components to load from tei-publisher-components",
+                    "examples": [
+                        "pb-tify",
+                        "pb-leaflet-map"
+                    ]
                 },
                 "cdn": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "URL of the CDN to use for web components",
+                    "examples": [
+                        "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
+                        "http://localhost:8000"
+                    ]
                 },
                 "jinntap": {
                     "type": "string"
