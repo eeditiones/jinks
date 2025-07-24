@@ -9,9 +9,23 @@
     max-width: var(--pb-view-max-width);
 }
 
+.place > div, .person > div {
+    margin-bottom: 1rem;
+}
+
+.place h1 small {
+    font-size: var(--jinks-font-size-smaller);
+    vertical-align: super;
+    padding-left: 0.85rem;
+}
+
 .places .list {
     margin-left: auto;
     margin-right: auto;
+}
+
+.person .variant:not(:first-child)::before {
+    content: "; ";
 }
 
 pb-split-list::part(items) {
@@ -26,15 +40,11 @@ pb-custom-form input {
     width: 100%;
 }
 
-aside .register li {
+.register li {
     padding: 0;
 }
 
-aside {
-    min-width: 320px;
-}
-
-aside pb-leaflet-map {
+pb-leaflet-map {
     height: 40vh;
     width: 100%;
     position: relative;
