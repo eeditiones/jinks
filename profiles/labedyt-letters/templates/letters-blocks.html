@@ -30,7 +30,9 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"><pb-i18n key="breadcrumbs.letters">Listy</pb-i18n></a></li>
-                <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                [% if exists($context?doc)%]
+                    <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                [% endif %]
             </ul>
         </nav>
     </li>
