@@ -222,7 +222,7 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
 }
 
 .dropdown-button>summary+ul, .dropdown>summary+ul {
-    background-color: var(--jinks-colors-light);
+    background-color: var(--jinks-color-white);
     box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
     border-radius: 0.5rem;
     padding: 0.5rem;
@@ -241,17 +241,16 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
 
 .dropdown-button>summary+ul li, .dropdown>summary+ul li {
     list-style: none;
-    padding: 8px 12px;
+    padding: 0.5rem 0.75rem;
     border: 1px solid transparent;
-    border-radius: 8px;
-    background-color: var(--jinks-colors-light);
+    border-radius: 0.5rem;
+    background-color: var(--jinks-color-white);
     width: 100%;
 }
 
 .dropdown-button>summary+ul li:hover, .dropdown>summary+ul li:hover {
     border: 1px solid var(--jinks-colors-400);
-    background-color: var(--jinks-colors-control-background);
-    color: var(--jinks-colors-light);
+    background-color: var(--jinks-form-background-color);
 }
 
 .dropdown-button a, .dropdown a, .dropdown-button a:link, .dropdown a:link {

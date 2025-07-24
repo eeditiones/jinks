@@ -113,7 +113,8 @@ pb-page[unresolved]~.splash {
     color: var(--pico-color);
 }
 
-.menubar > ul > li > a:link, .menubar > ul > li > a:visited {
+.menubar > ul > li > a:link, 
+.menubar > ul > li > a:visited {
     color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
     text-decoration: none;
@@ -135,7 +136,9 @@ pb-page[unresolved]~.splash {
     padding: 0;
 }
 
-.menubar details a:link, .menubar details a:visited {
+.menubar details a:link,
+.menubar details a:visited,
+.menubar details ul {
     color: var(--jinks-color-primary);
 }
 
@@ -440,7 +443,7 @@ pb-drawer {
 .toc details summary:hover,
 .toc ul>li:not(:has(details)):hover {
     border: 1px solid #CFCDC5;
-    background-color: var(--jinks-colors-control-background);
+    background-color: var(--jinks-form-background-color);
 }
 
 .toc li {
