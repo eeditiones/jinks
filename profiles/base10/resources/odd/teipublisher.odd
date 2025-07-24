@@ -1,10 +1,11 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
-    <teiHeader>
+<tei:TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
+    <teiHeader xmlns="http://www.tei-c.org/ns/1.0">
         <fileDesc>
             <titleStmt>
                 <title>TEI Publisher ODD 
                   
+                 
                  <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
@@ -94,7 +95,7 @@
             <change when="2017-09-08">adjust metadata in teiHeader</change>
         </revisionDesc>
     </teiHeader>
-    <text>
+    <text xmlns="http://www.tei-c.org/ns/1.0">
         <body>
             <schemaSpec start="TEI teiCorpus" ident="teipublisher">
                 <elementSpec ident="ab" mode="change">
@@ -118,10 +119,10 @@
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model predicate="@corresp" behaviour="note">
-                        <desc>Process standoff notes with corresp attribute</desc>
-                        <param name="content" value="let $target := @corresp return root($parameters?root)/id($target)/node()"/>
-                        <param name="label" value="@n"/>
-                    </model>
+            <desc>Process standoff notes with corresp attribute</desc>
+            <param name="content" value="let $target := @corresp return root($parameters?root)/id($target)/node()"/>
+            <param name="label" value="@n"/>
+        </model>
                     <model predicate="@type='note'" behaviour="note">
             <desc>Process standoff notes: assumption is that they have @type="note" and
                             the notes are placed in listAnnotation</desc>
@@ -814,9 +815,9 @@
         </model>
                     <model output="fo" behaviour="heading"/>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-                        <desc>for breadcrumbs, pick only the first title</desc>
-                        <param name="content" value="title[1]"/>
-                    </model>
+            <desc>for breadcrumbs, pick only the first title</desc>
+            <param name="content" value="title[1]"/>
+        </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
             <desc>Display short header in document lists</desc>
             <model predicate="$parameters?static" behaviour="link">
@@ -867,6 +868,16 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
+                    <model predicate="parent::listPerson and $parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
+            <param name="description" value="note"/>
+            <pb:template xmlns="" xml:space="preserve"><header>
+    <a href="people/[[ id ]]">[[ label ]]</a>
+</header>
+<p>[[ description ]]</p></pb:template>
+        </model>
                     <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar</desc>
             <param name="content" value="persName[@type=('main', 'full')]"/>
@@ -897,6 +908,26 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
+                    <model predicate="$parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="placeName[1]/string()"/>
+            <param name="longitude" value="tokenize(location/geo)[2]"/>
+            <param name="latitude" value="tokenize(location/geo)[1]"/>
+            <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
+            <param name="description" value="note/string()"/>
+            <pb:template xmlns="" xml:space="preserve"><header>
+    <a href="places/[[id]]">
+        [[ label ]]
+    </a>
+    <pb-geolocation latitude="[[ latitude ]]" longitude="[[ longitude ]]" label="[[ label ]]" emit="map" event="click" zoom="[[ zoom ]]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+</svg>
+    </pb-geolocation>
+</header>
+<p>[[ description ]]</p></pb:template>
+        </model>
                     <model predicate="$parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar</desc>
             <param name="content" value="placeName[@type='main']"/>
@@ -934,7 +965,7 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
-                    <model predicate="ancestor::correspContext" behaviour="inline">
+                    <model predicate="ancestor::correspContext or $parameters?mode='register-detail'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
         </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
@@ -981,4 +1012,4 @@
             </schemaSpec>
         </body>
     </text>
-</TEI>
+</tei:TEI>

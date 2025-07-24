@@ -30,6 +30,21 @@
 
 pb-split-list::part(items) {
     margin-top: 1rem;
+    gap: 1rem;
+}
+
+.people .split-list-item p,
+.places .split-list-item p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: calc(var(--pb-view-max-width) / 2 - 1rem);
+}
+
+.places .split-list-item header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 pb-custom-form {
