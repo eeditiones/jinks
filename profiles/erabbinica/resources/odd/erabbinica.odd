@@ -131,7 +131,12 @@ direction: rtl;
                 </elementSpec>
                 <elementSpec ident="ab" mode="change">
                     <modelSequence>
-            <model behaviour="canonical-ref" cssClass="versification">
+            <model behaviour="inline">
+                <desc>versification: find tractate level, which is always two levels up from ab</desc>
+                <param name="tractate" value="let $id := reverse(tokenize(@xml:id, '\.'))                    let $depth := count($id)                  let $ab := $id[1]                    let $tractate :=  switch ($depth)  case 6 return $id[3] case 5 return $id[3] default return ()                     let $verse := $id[1]                    let $chapter :=  switch ($depth)  case 6 return $id[2] case 5 return $id[2] default return ()                     let $order := switch ($depth)  case 6 return $id[4] default return ()                          let $composition :=   $id[$depth]                    let $cid :=   'ref.' || string-join(($composition, $order, $tractate),'.')                    let $can := if ($tractate) then collection('/db/apps/erabbinica-data/data/sources/ref')/id($cid)   else ()                  return      if ($tractate) then   ($can/head[1]/string(),  ' '||$chapter || ':' || $verse)  else ()"/>
+                <param name="id" value="@xml:id"/>
+                <pb:template xmlns="" xml:space="preserve"><span dir="ltr" id="[[id]]">[[tractate]]</span></pb:template>
+            </model>
                 <param name="content" value="."/>
             </model>
             <model predicate="$parameters?layout ne 'synoptic'" behaviour="alternate">
