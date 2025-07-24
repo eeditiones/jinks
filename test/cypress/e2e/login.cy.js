@@ -3,7 +3,7 @@ describe('login page', () => {
     cy.visit('/')
   })
 
-  it('should succeed with keyboard', () => {
+  it('should succeed with mouse', () => {
     cy.get('article')
       .should('be.visible')
       .find('[name="user"]')

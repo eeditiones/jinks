@@ -1,9 +1,16 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
+const glob = require('glob');
 
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('task', {
+        findFiles({ pattern }) {
+          // Use glob.sync to get the files synchronously
+          return glob.sync(pattern, { nodir: true });
+        }
+      });
+      return config;
     },
     baseUrl: 'http://localhost:8080/exist/apps/jinks',
     trashAssetsBeforeRuns: true,
