@@ -27,7 +27,9 @@
                 <li><a href="[[ $context-path ]]/browse.html">All</a></li>
 
                 <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">[[ browse:parent-link($context) ]]</a></li>
-                <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                [% if exists($context?doc) %]
+                    <li>[[ $context?doc?transform($context?doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                [% endif %]
             </ul>
         </nav>
     </li>
