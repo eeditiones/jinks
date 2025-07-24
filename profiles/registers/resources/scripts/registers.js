@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const page = document.querySelector('pb-page');
     const map = document.querySelector('pb-leaflet-map');
 
-    page.addEventListener('pb-page-ready', function(ev) {
+    document.addEventListener('pb-page-ready', function(ev) {
         if (document.querySelector('pb-split-list')) {
             const endpoint = ev.detail.endpoint;
             
@@ -18,9 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         
                 pbEvents.subscribe('pb-leaflet-marker-click', 'map', function(ev) {
-                    const label = ev.detail.label;
-                    const category = label.substring(0, 1);
-                    window.location = `${label}?category=${category}`;
+                    const id = ev.detail.element.id;
+                    window.location = `places/${id}`;
                 });
             });
         }
