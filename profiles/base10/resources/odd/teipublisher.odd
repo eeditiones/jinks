@@ -4,7 +4,8 @@
         <fileDesc>
             <titleStmt>
                 <title>TEI Publisher ODD 
-                  <desc>Base ODD from which all other ODDs inherit</desc>
+                  
+                 <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
             </titleStmt>
@@ -465,38 +466,38 @@
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
-                        <desc>If facs attribute starts with iiif prefix, use the trailing part as a
+            <desc>If facs attribute starts with iiif prefix, use the trailing part as a
                             link to the IIIF image; fits pb-facsimile viewer</desc>
-                        <param name="name" value="'pb-facs-link'"/>
-                        <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-                        <param name="label" value="'Page'"/>
-                        <param name="emit" value="'transcription'"/>
-                    </model>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
+            <param name="label" value="'Page'"/>
+            <param name="emit" value="'transcription'"/>
+        </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
-                        <desc>Use the url from the facs attribute to link with IIIF image; 
+            <desc>Use the url from the facs attribute to link with IIIF image; 
                             assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint 
                             to generate relevant manifest</desc>
-                        <param name="name" value="'pb-facs-link'"/>
-                        <param name="content" value="@n"/>
-                        <param name="emit" value="'transcription'"/>
-                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-                        <param name="emit-on-load" value="'emit-on-load'"/>
-                        <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
-                    </model>
-                    <model behaviour="break" useSourceRendition="true" cssClass="pb">
-                        <desc>Output Page label when no facsimile information is available</desc>
-                        <param name="type" value="'page'"/>
-                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-                        <outputRendition xml:space="preserve">
-                        display: block; margin-left: 4pt; color: grey; float: right;
-                        </outputRendition>
-                        <outputRendition xml:space="preserve" scope="before">
-                        content: '[Page ';
-                        </outputRendition>
-                        <outputRendition xml:space="preserve" scope="after">
-                        content: ']';
-                        </outputRendition>
-                    </model>
+            <param name="name" value="'pb-facs-link'"/>
+            <param name="content" value="@n"/>
+            <param name="emit" value="'transcription'"/>
+            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="emit-on-load" value="'emit-on-load'"/>
+            <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
+        </model>
+                    <model behaviour="break" cssClass="pb" useSourceRendition="true">
+            <desc>Output Page label when no facsimile information is available</desc>
+            <param name="type" value="'page'"/>
+            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+            <outputRendition xml:space="preserve">
+            display: block; margin-left: 4pt; color: grey; float: right;
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="before">
+            content: '[Page ';
+            </outputRendition>
+            <outputRendition xml:space="preserve" scope="after">
+            content: ']';
+            </outputRendition>
+        </model>
                 </elementSpec>
                 <elementSpec ident="postscript" mode="change">
                     <model behaviour="block"/>
@@ -877,7 +878,7 @@
             <model behaviour="block">
                 <param name="content" value="note"/>
             </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
+            <model predicate="let $id := @xml:id  return $parameters?mode='register-details' and collection($global:data-root)//persName[@key = $id or @ref = $id]" behaviour="block">
                 <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
                 <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
@@ -905,7 +906,7 @@
                 <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
                 <param name="label" value="placeName[@type='main']/node()"/>
                 <param name="content" value="placeName[@type='main']"/>
-                <param name="location" value="(country, region)"/>
+                <param name="location" value="string-join((country, region), ', ')"/>
                 <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
             </model>
             <model behaviour="paragraph">
@@ -914,60 +915,62 @@
             <model behaviour="list" cssClass="links">
                 <param name="content" value="ptr"/>
             </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
+            <model predicate="let $id := @xml:id  return $parameters?mode='register-details' and  collection($global:data-root)//placeName[@key = $id or @ref = $id]" behaviour="block">
                 <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
                 <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Documents</h2>
+  <ul>
   [[content]]
+  </ul>
 </div></pb:template>
             </model>
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
-                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
-                    </model>
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
+        </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-                        <desc>Register sidebar</desc>
-                        <param name="content" value="."/>
-                        <param name="alternate" value="parent::person/note"/>
-                        <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
-                        <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
+            <desc>Register sidebar</desc>
+            <param name="content" value="."/>
+            <param name="alternate" value="parent::person/note"/>
+            <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
             <pb-popover>
                 <span slot="default">[[content]]</span>
                 <template slot="alternate">[[alternate]]</template>
             </pb-popover>
             </a></pb:template>
-                    </model>
+        </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model behaviour="alternate" cssClass="persName context">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
-                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
-                    </model>
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+        </model>
                     <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-                        <desc>Register sidebar</desc>
-                        <param name="default" value="."/>
-                        <param name="alternate" value="parent::place/note"/>
-                        <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
-                        <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName context">
+            <desc>Register sidebar</desc>
+            <param name="default" value="."/>
+            <param name="alternate" value="parent::place/note"/>
+            <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName context">
             <pb-popover>
                 <span slot="default">[[content]]</span>
                 <template slot="alternate">[[alternate]]</template>
             </pb-popover>
             </a></pb:template>
-                    </model>
+        </model>
                     <model predicate="parent::place" behaviour="inline"/>
                     <model behaviour="alternate" cssClass="placeName context">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
-                    </model>
+            <param name="default" value="."/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
