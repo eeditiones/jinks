@@ -91,7 +91,7 @@ h3 {
 
 :host(pb-lang) summary+ul li:hover {
     border: 1px solid var(--jinks-colors-400);
-    background-color: var(--jinks-colors-control-background);
+    background-color: var(--jinks-form-background-color);
 }
 
 :host(pb-lang) a,
@@ -129,12 +129,14 @@ h3 {
     height: 1rem;
 }
 
-:host(pb-edit-xml) > a {
-    text-decoration: none;
-    color: inherit;
-}
-
+:host(pb-edit-xml) > a,
 :host(pb-download) > a {
     text-decoration: none;
-    color: inherit;
+    color: var(--jinks-text-color);
+    font-size: var(--jinks-menubar-font-size);
+}
+
+:host(pb-edit-xml)>a:hover,
+:host(pb-download)>a:hover {
+    text-decoration: underline;
 }
