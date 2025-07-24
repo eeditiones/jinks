@@ -47,7 +47,15 @@
                         "in": "query",
                         "schema":{
                             "type": "string"
-                        }}				
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }				
 				],
 				"responses": {
 					"200": {
@@ -98,7 +106,14 @@
 							"type": "string",
                             "default": "person"
 						}
-					}			
+					},
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -150,6 +165,13 @@
                         "name": "search",
                         "in": "query",
                         "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
                     }
@@ -209,7 +231,15 @@
                         "in": "query",
                         "schema":{
                             "type": "string"
-                        }}					
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }					
 				],
 				"responses": {
 					"200": {
@@ -260,7 +290,14 @@
 							"type": "string",
                             "default": "place"
 						}
-					}			
+					},
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }			
 				],
 				"responses": {
 					"200": {
@@ -312,6 +349,13 @@
                         "name": "search",
                         "in": "query",
                         "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
                     }

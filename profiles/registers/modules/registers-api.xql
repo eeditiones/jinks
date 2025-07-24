@@ -45,13 +45,14 @@ declare function rview:people-categories($request as map(*)){
     let $letterParam := $request?parameters?category
     let $sortDir := ($request?parameters?dir, 'asc')[1]
     let $limit := head(($request?parameters?limit, -1))
+    let $odd := head(($request?parameters?odd, $config:default-odd))
     let $people :=
             if ($search and $search != '') then
                 collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., 'name:(' || $search || '*)')]
             else
                 collection($config:register-root)/id($config:register-map?person?id)//tei:person
     let $byKey := for-each($people, function($person as element()) {
-        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
+        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1] => string()
         return
             [lower-case($label), $label, $person]
     })
@@ -72,7 +73,7 @@ declare function rview:people-categories($request as map(*)){
             })
     return
         map {
-            "items": rview:output-person-all($byLetter, $letter, $search),
+            "items": rview:output-person-all($byLetter, $letter, $search, $odd),
             "categories":
                 if (count($people) < $limit) then
                     []
@@ -94,15 +95,16 @@ declare function rview:people-categories($request as map(*)){
         }
 };
 
-declare function rview:output-person-all($list, $letter as xs:string,  $search as xs:string?) {
+declare function rview:output-person-all($list as array(*)*, $letter as xs:string,  $search as xs:string?, $odd as xs:string) {
     array {
         for $person in $list
-        (: let $dates := pmf:get-dates($person?3) :)
         let $letterParam := if ($letter = "all") then substring($person?3/@n, 1, 1) else $letter
+        let $note := 
+            $pm-config:web-transform($person?3, map { "mode": "register-overview" }, $odd)
         return
-            <span class="split-list-item">
-                <a href="people/{$person?3/@xml:id}">{$person?2}</a>
-            </span>
+            <div class="split-list-item">
+            { $note }
+            </div>
     }
 };
 
@@ -132,6 +134,7 @@ declare function rview:places($request as map(*)){
     let $search := normalize-space($request?parameters?search)
     let $letterParam := $request?parameters?category
     let $limit := $request?parameters?limit
+    let $odd := head(($request?parameters?odd, $config:default-odd))
     let $places :=
         if ($search and $search != '') then 
             collection($config:register-root)/id($config:register-map?place?id)//tei:place[ft:query(., 'name:(' || $search || '*)')]
@@ -154,7 +157,7 @@ declare function rview:places($request as map(*)){
             })
     return
         map {
-            "items": rview:output-place($byLetter, $letter, $search),
+            "items": rview:output-place($byLetter, $letter, $search, $odd),
             "categories":
                 if (count($places) < $limit) then
                     []
@@ -176,24 +179,19 @@ declare function rview:places($request as map(*)){
         }    
 };
 
-declare function rview:output-place($list, $category as xs:string, $search as xs:string?) {
+declare function rview:output-place($list, $category as xs:string, $search as xs:string?, $odd as xs:string) {
     array {
         for $place in $list
             let $label := ($place/tei:placeName)[1]/string()
             let $id := $place/@xml:id
             let $alt := $place/tei:placeName[@type='alt']
-
+            let $note := 
+                $pm-config:web-transform($place, map { "mode": "register-overview" }, $odd)
             let $coords := tokenize($place/tei:location/tei:geo)
         return
-            <span class="place split-list-item">
-                <a href="places/{$id}">
-                    {$label} {if ($alt) then ' (' || $alt/string() || ')' else ()}
-                </a>
-                <pb-geolocation latitude="{$coords[1]}" longitude="{$coords[2]}" label="{$label}" emit="map" event="click">
-                    { if ($place/@type != 'approximate') then attribute zoom { 12 } else attribute zoom { 9 } }
-                    <iron-icon icon="maps:map"></iron-icon>
-                </pb-geolocation>
-            </span>
+            <div class="place split-list-item">
+            { $note }
+            </div>
     }
 };
 
