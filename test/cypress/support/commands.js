@@ -8,10 +8,9 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 //
-//
-// -- This is a parent command --
+import 'cypress-ajv-schema-validator';
 
-// ...existing code...
+// -- This is a parent command --
 
 Cypress.Commands.add('loginApi', (fixtureName = 'user') => {
   cy.fixture(fixtureName).then((userData) => {
@@ -36,7 +35,27 @@ Cypress.Commands.add('loginApi', (fixtureName = 'user') => {
   })
 })
 
-// ...existing code...
+
+Cypress.Commands.add('findFiles', (pattern) => {
+  return cy.task('findFiles', { pattern })
+})
+
+Cypress.Commands.add('validateJsonSchema', (ajv, schema, data, filePath) => {
+  const valid = ajv.validate(schema, data)
+  if (!valid) {
+    const errorDetails = ajv.errors.map(err => {
+      return [
+        `[${err.instancePath || '/'}]`,
+        `Error: ${err.message}`,
+        err.keyword ? `Keyword: ${err.keyword}` : '',
+        err.params ? `Params: ${JSON.stringify(err.params)}` : ''
+      ].filter(Boolean).join('\n')
+    }).join('\n\n')
+
+    expect(valid, `\n❌ Schema validation failed for: ${filePath}\n${'-'.repeat(60)}\n${errorDetails}\n${'-'.repeat(60)}\n`).to.be.true
+  }
+})
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
@@ -48,3 +67,5 @@ Cypress.Commands.add('loginApi', (fixtureName = 'user') => {
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
