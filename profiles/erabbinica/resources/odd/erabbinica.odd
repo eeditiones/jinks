@@ -205,10 +205,11 @@ cursor: pointer;
 display: inline;
 display: block;
 margin-right: 1em;
+margin-left: 1em;
 float: right;
                 </outputRendition>
             </model>
-            <model predicate="not(@facs and matches(@facs, '^iiif:[^/]+'))" behaviour="inline" cssClass="facs">
+            <model predicate="not(@facs)" behaviour="inline">
                 <param name="content" value="@n"/>
                 <outputRendition xml:space="preserve">
                 font-size: 16px;
@@ -216,6 +217,7 @@ color: #888888;
 cursor: pointer;
 display: block;
 margin-right: 1em;
+margin-left: 1em;
 float: right;
                 </outputRendition>
             </model>
