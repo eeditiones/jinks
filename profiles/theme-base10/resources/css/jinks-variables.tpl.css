@@ -26,11 +26,20 @@
     --jinks-hero-padding: 2rem 1rem 2rem 6rem;
 
     /* Header section */
-    --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
+    [% if $theme?header?background-image %]
+        --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
+    [% else %]
+        --jinks-header-background-image: none;
+    [% endif %]
 
     /* menubar, toolbar, drawer */
 
-    --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
+    [% if $theme?menubar?background-image %]
+        --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
+    [% else %]
+        --jinks-menubar-background-image: none;
+    [% endif %]
+
     --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
     --jinks-menubar-color: var(--jinks-color-inverse);
     --jinks-menubar-font-size: [[ $theme?menubar?font-size ]];
