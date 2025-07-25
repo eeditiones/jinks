@@ -167,6 +167,7 @@ document.addEventListener("pb-page-loaded", () => {
 					} else {
 						field.value = data[key];
 					}
+                    field.dispatchEvent(new Event('change'));
 				}
 			});
 			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
@@ -188,7 +189,10 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(ref) {
-		refInput.forEach((input) => { input.value = ref });
+		refInput.forEach((input) => { 
+            input.value = ref;
+            input.dispatchEvent(new Event('change'));
+        });
 		if (autoSave) {
 			save();
 		}
@@ -744,8 +748,9 @@ document.addEventListener("pb-page-loaded", () => {
 			elem.title = `${title} [${output.replaceAll('+', ' ')}]`;
 		});
 		checkNERAvailable();
+	}, {
+		once: true
 	});
-
 	
 	// todo: what's this for? -> fishes the type and query params from iron-form and opens dialog
 	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
@@ -765,7 +770,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * Reference changed: update authority information and search for other occurrences
 	 */
 	refInput.forEach(input => {
-		input.addEventListener("value-changed", () => {
+		input.addEventListener("change", () => {
 			const ref = input.value;
 			const authorityInfo = input.parentElement.querySelector('.authority-info');
 			if (ref && ref.length > 0) {

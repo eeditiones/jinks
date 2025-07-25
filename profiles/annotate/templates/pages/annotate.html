@@ -38,11 +38,16 @@
     <nav class="toolbar top-center">
         <ul>
             <li>
-                <a id="toolbar-parent" href="[[ $context-path ]]/browse.html?collection=[[ $request?parameters?collection ]]">
-                    <button data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                    </button>
-                </a>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Annotate</a>
+                        </li>
+                        <li>
+                            [[ $context?doc?path ]]
+                        </li>
+                    </ul>
+                </nav>
             </li>
             <li>
                 <span role="group">
@@ -262,7 +267,7 @@
 
                 <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
                     type="text/javascript">
-                    document.querySelector('iron-form paper-input').value=$ident;
+                    document.querySelector('iron-form input').value=$ident;
                 </fx-function>
 
                 <fx-function signature="commit($msg as xs:string) as xs:boolean" type="text/javascript">
@@ -270,7 +275,7 @@
                 </fx-function>
             </fx-model>
 
-            <fx-group ref="commit[.='true']" id="commit" track-history="">
+            <fx-group ref="commit[.='true']" id="commit" track-history="" class="card">
                 <section>
                     <header>Revision Description</header>
                     <fx-control ref="instance('i-commit')/@user">
@@ -306,18 +311,21 @@
                 <iron-form id="edit-form">
                     <form action="">
                         <div class="annotation-form person organization place term">
-                            <paper-input class="form-ref" name="key" data-i18n="[label]annotations.reference"
-                                label="Reference"></paper-input>
+                            <input class="form-ref" name="key" data-i18n="[placeholder]annotations.reference"
+                                placeholder="Reference"></input>
                             <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                             <pb-restricted group="tei">
-                                <button data-i18n="[title]annotations.edit-entity" id="edit-entity"><iron-icon
-                                        icon="editor:mode-edit"></iron-icon></button>
+                                <button data-i18n="[title]annotations.edit-entity" id="edit-entity">
+                                    <svg>
+                                        <use href="#pencil-square"></use>
+                                    </svg>
+                                </button>
                             </pb-restricted>
                         </div>
                         <div class="annotation-form date">
-                            <paper-input name="when" label="when" type="date"></paper-input>
-                            <paper-input name="from" label="from" type="date"></paper-input>
-                            <paper-input name="to" label="to" type="date"></paper-input>
+                            <label>when <input name="when" placeholder="when" type="date"></input></label>
+                            <label>from <input name="from" placeholder="from" type="date"></input></label>
+                            <label>to <input name="to" placeholder="to" type="date"></input></label>
                         </div>
                         <div class="annotation-form hi">
                             <label>
@@ -326,26 +334,26 @@
                             <label>
                                 <input type="checkbox" name="rend" value="i" /> italicised
                             </label>
-                            <paper-input name="rendition" label="rendition"></paper-input>
+                            <input name="rendition" placeholder="rendition"></input>
                         </div>
                         <div class="annotation-form link">
-                            <paper-input name="target" label="target"></paper-input>
+                            <input name="target" placeholder="target"></input>
                         </div>
                         <pb-repeat class="annotation-form app" initial="1">
                             <template>
-                                <paper-input name="wit" label="wit"></paper-input>
-                                <paper-input name="rdg" label="rdg"></paper-input>
+                                <input name="wit" placeholder="wit"></input>
+                                <input name="rdg" placeholder="rdg"></input>
                             </template>
                         </pb-repeat>
-                        <paper-input class="annotation-form sic" name="corr"
-                            data-i18n="[label]annotations.correction" label="Correction"></paper-input>
-                        <paper-input class="annotation-form abbreviation" name="expan"
-                            data-i18n="[label]annotations.expansion" label="Expansion"></paper-input>
-                        <paper-input class="annotation-form reg" name="reg" data-i18n="[label]annotations.reg"
-                            label="Regularization"></paper-input>
+                        <input class="annotation-form sic" name="corr"
+                            data-i18n="[placeholder]annotations.correction" placeholder="Correction"></input>
+                        <input class="annotation-form abbreviation" name="expan"
+                            data-i18n="[placeholder]annotations.expansion" placeholder="Expansion"></input>
+                        <input class="annotation-form reg" name="reg" data-i18n="[placeholder]annotations.reg"
+                            placeholder="Regularization"></input>
                         <div class="annotation-form pb">
-                            <paper-input name="n" data-i18n="[label]annotations.pagenum"></paper-input>
-                            <paper-input name="facs" data-i18n="[label]annotations.facs"></paper-input>
+                            <input name="n" data-i18n="[placeholder]annotations.pagenum"></input>
+                            <input name="facs" data-i18n="[placeholder]annotations.facs"></input>
                         </div>
                         <div class="annotation-form note">
                             <jinn-xml-editor name="content"
@@ -370,8 +378,8 @@
                         </div>
                         <div class="annotation-form edit">
                             <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
-                            <paper-input name="content" data-i18n="[label]annotations.correction"
-                                label="Correction"></paper-input>
+                            <input name="content" data-i18n="[placeholder]annotations.correction"
+                                placeholder="Correction"></input>
                         </div>
                         <button data-i18n="[label]annotations.apply" id="form-save"><iron-icon
                                 icon="icons:save"></iron-icon></button>
