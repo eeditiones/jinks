@@ -609,17 +609,31 @@
     <dialog id="d-review">
         <article>
             <header>
-                <button class="close" dialog-confirm="dialog-confirm" data-i18n="[title]dialogs.close"></button>
-                [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>]
-                <a id="review-doc-link" href="#" target="_blank" data-i18n="[title]annotations.hints.open-in-tab"></a>: <span
-                    class="count"></span>
+                <div>
+                    [<pb-i18n key="annotations.doc-count" options='{"count": 0, "total": 0}'></pb-i18n>]
+                    <a id="review-doc-link" href="#" target="_blank" data-i18n="[title]annotations.hints.open-in-tab"></a>: <span
+                class="count"></span>
+                </div>
+                <button class="close" dialog-confirm="dialog-confirm" data-i18n="[title]dialogs.close">
+                    <svg>
+                        <use href="#dialog-close"></use>
+                    </svg>
+                </button>
             </header>
-            <header class="toolbar">
-                <button class="previous"><iron-icon icon="icons:chevron-left"></iron-icon></button>
-                <button class="save-current" data-i18n="[title]annotations.save"><iron-icon
-                        icon="icons:save"></iron-icon></button>
-                <button class="next"><iron-icon icon="icons:chevron-right"></iron-icon></button>
-            </header>
+            <nav>
+                <ul>
+                    <li>
+                        <button class="previous"><iron-icon icon="icons:chevron-left"></iron-icon></button>
+                    </li>
+                    <li>
+                        <button class="save-current" data-i18n="[title]annotations.save"><iron-icon
+                                icon="icons:save"></iron-icon></button>
+                    </li>
+                    <li>
+                        <button class="next"><iron-icon icon="icons:chevron-right"></iron-icon></button>
+                    </li>
+                </ul>
+            </nav>
             <ul></ul>
             <footer>
                 <mark class="modify">&#x2003;</mark> <pb-i18n key="annotations.hints.modify"></pb-i18n>;

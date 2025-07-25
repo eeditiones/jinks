@@ -105,7 +105,7 @@ function _reviewNext() {
 
     const body = {};
     body[doc] = matches;
-    const list = reviewDialog.querySelector('ul');
+    const list = reviewDialog.querySelector('article > ul');
     list.innerHTML = '';
     fetch(`${endpoint}/api/nlp/strings`, {
         method: "POST",

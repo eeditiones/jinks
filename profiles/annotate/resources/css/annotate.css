@@ -386,6 +386,15 @@ paper-icon-button[data-type="edit"] {
     max-width: 85vw;
 }
 
+#d-review > article > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--jinks-colors-200);
+    color: var(--jinks-color-primary);
+}
+
 #d-review ul {
     overflow: auto;
 }

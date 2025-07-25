@@ -59,10 +59,16 @@ input[type="search"] {
 }
 
 label:has(input:not([type="checkbox"])) {
-    display: flex;
+    display: grid;
+    grid-template-columns: min-content 1fr;
     align-items: center;
     justify-content: space-between;
-    gap: 0.25rem;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+label:has(input:not([type="checkbox"])) > input {
+    margin: 0;
 }
 
 pb-search {
