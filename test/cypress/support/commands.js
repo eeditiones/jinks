@@ -43,16 +43,40 @@ Cypress.Commands.add('findFiles', (pattern) => {
 Cypress.Commands.add('validateJsonSchema', (ajv, schema, data, filePath) => {
   const valid = ajv.validate(schema, data)
   if (!valid) {
-    const errorDetails = ajv.errors.map(err => {
-      return [
-        `[${err.instancePath || '/'}]`,
-        `Error: ${err.message}`,
-        err.keyword ? `Keyword: ${err.keyword}` : '',
-        err.params ? `Params: ${JSON.stringify(err.params)}` : ''
-      ].filter(Boolean).join('\n')
-    }).join('\n\n')
+    const formattedErrors = ajv.errors.map(error => {
+      const path = error.instancePath.slice(1)
+      const propertySchema = schema.properties?.[path]
+      
+      return {
+        path: path || 'root',
+        value: error.instancePath ? 
+          error.instancePath.split('/').reduce((obj, key) => obj?.[key], data) 
+          : data,
+        message: error.message,
+        keyword: error.keyword,
+        expectedType: propertySchema?.type,
+        format: propertySchema?.format,
+        enum: propertySchema?.enum
+      }
+    })
 
-    expect(valid, `\n❌ Schema validation failed for: ${filePath}\n${'-'.repeat(60)}\n${errorDetails}\n${'-'.repeat(60)}\n`).to.be.true
+    const errorMessage = [
+      `\n❌ Schema validation failed for: ${filePath}`,
+      '-'.repeat(60),
+      'Validation errors:',
+      JSON.stringify(formattedErrors, null, 2),
+      '-'.repeat(60),
+      'Expected format:',
+      schema.required ? `Required fields: ${schema.required.join(', ')}` : '',
+      schema.properties ? 
+        Object.entries(schema.properties)
+          .map(([key, prop]) => 
+            `- ${key}: ${prop.type}${prop.format ? ` (${prop.format})` : ''}${prop.enum ? ` [${prop.enum.join('|')}]` : ''}`)
+          .join('\n')
+        : ''
+    ].filter(Boolean).join('\n')
+
+    expect(valid, errorMessage).to.be.true
   }
 })
 
