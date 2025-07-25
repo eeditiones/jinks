@@ -140,3 +140,12 @@ h3 {
 :host(pb-download)>a:hover {
     text-decoration: underline;
 }
+
+:host(pb-authority-lookup) .source {
+    background-color: var(--jinks-colors-accent);
+}
+
+:host(pb-authority-lookup) .register {
+    background-color: var(--jinks-colors-600);
+    color: var(--jinks-colors-light);
+}

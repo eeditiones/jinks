@@ -62,7 +62,6 @@ body {
     position: relative;
     /*overflow: auto;*/
     background:#efefef;
-    padding-bottom: 1rem;
 }
 #authority-editor main,
 #authority-editor button{
@@ -124,6 +123,13 @@ fx-trigger.insert-auth-form{
     position: absolute;
     right: 0;
     top: 1.5rem;
+}
+
+fx-trigger:has(button) {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
 }
 
 .annotation-editor {
