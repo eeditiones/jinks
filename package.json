@@ -2,7 +2,8 @@
   "name": "jinks",
   "version": "1.0.0",
   "description": "jinks: App Manager for TEI Publisher",
-  "main": "index.js",
+  "main": "scripts/jinks-cli.js",
+  "type": "module",
   "scripts": {
     "build": "node build.cjs"
   },
@@ -10,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/eeditiones/jinks.git"
   },
-  "author": "",
+  "author": "e-editiones.org",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/eeditiones/jinks/issues"
@@ -22,7 +23,15 @@
     "monaco-editor": "^0.52.2"
   },
   "devDependencies": {
+    "@inquirer/prompts": "^7.7.1",
+    "axios": "^1.11.0",
+    "axios-cookiejar-support": "^6.0.4",
+    "chalk": "^5.4.1",
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.0",
     "esbuild": "^0.25.0",
+    "figlet": "^1.8.2",
+    "ora": "^8.2.0",
     "sass": "^1.89.1"
   }
 }
