@@ -39,16 +39,19 @@ const quietOption = new Option("-q, --quiet", "Do not print banner.");
 // Hook to run before any command action
 program.hook('preAction', async (thisCommand, actionCommand) => {
     const options = actionCommand.opts();
-    printBanner(options);
     
-    // Store client and configurations in the command context for use in actions
-    actionCommand.client = initClient(options);
-    actionCommand.allConfigurations = await fetchAvailableConfigurations(actionCommand.client);
+    // Only initialize client if server option is available (commands that need server connection)
+    if (options.server) {
+        // Store client and configurations in the command context for use in actions
+        actionCommand.client = initClient(options);
+        actionCommand.allConfigurations = await fetchAvailableConfigurations(actionCommand.client);
+    }
 });
 
 program.command("list")
     .summary("List installed applications")
     .description("List all (jinks-generated) applications installed on the server.")
+    .addOption(serverOption)
     .action(async (options, command) => {
         try {
             listInstalledApplications(command.allConfigurations);
@@ -67,6 +70,7 @@ program
     .addOption(editOption)
     .addOption(quietOption)
     .action(async (abbrev, options, command) => {
+        printBanner(options);
         try {
             let baseConfig = null;
             if (abbrev) {
@@ -92,6 +96,7 @@ program
     .addOption(editOption)
     .addOption(quietOption)
     .action(async (abbrev, options, command) => {
+        printBanner(options);
         try {
             let config;
             if (abbrev) {
@@ -116,6 +121,7 @@ program
     .addOption(passwordOption)
     .addOption(quietOption)
     .action(async (abbrev, options, command) => {
+        printBanner(options);
         try {
             let config;
             if (abbrev) {
