@@ -141,6 +141,15 @@ h3 {
     text-decoration: underline;
 }
 
+:host(pb-authority-lookup) {
+    font-size: var(--jinks-font-size-smaller);
+}
+
+:host(pb-authority-lookup) #output li button:nth-child(1) {
+    background-color: var(--jinks-colors-700);
+    color: var(--jinks-colors-light);
+}
+
 :host(pb-authority-lookup) .source {
     background-color: var(--jinks-colors-accent);
 }
