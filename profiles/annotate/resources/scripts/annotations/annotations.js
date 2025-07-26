@@ -140,6 +140,9 @@ document.addEventListener("pb-page-loaded", () => {
 	 */
 	function showForm(type, data) {
 		form.reset();
+        refInput.forEach((input) => {
+            input.dispatchEvent(new Event('input'));
+        });
 		if (autoSave) {
 			saveBtn.style.display = "none";
 		} else {
@@ -166,8 +169,8 @@ document.addEventListener("pb-page-loaded", () => {
 						});
 					} else {
 						field.value = data[key];
+                        field.dispatchEvent(new Event('input'));
 					}
-                    field.dispatchEvent(new Event('change'));
 				}
 			});
 			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
@@ -191,7 +194,7 @@ document.addEventListener("pb-page-loaded", () => {
 	function authoritySelected(ref) {
 		refInput.forEach((input) => { 
             input.value = ref;
-            input.dispatchEvent(new Event('change'));
+            input.dispatchEvent(new Event('input'));
         });
 		if (autoSave) {
 			save();
@@ -770,7 +773,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * Reference changed: update authority information and search for other occurrences
 	 */
 	refInput.forEach(input => {
-		input.addEventListener("change", () => {
+		input.addEventListener("input", () => {
 			const ref = input.value;
 			const authorityInfo = input.parentElement.querySelector('.authority-info');
 			if (ref && ref.length > 0) {

@@ -29,7 +29,7 @@
         },
         "theme": {
             "layout": {
-            "right-width": "30vw"
+                "left-width": "33vw"
             }
         }
     }
@@ -49,13 +49,6 @@
                     </ul>
                 </nav>
             </li>
-            <li>
-                <span role="group">
-                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
-                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
-                </span>
-            </li>
-            [% block toolbar %][% endblock %]
         </ul>
         <ul>
             <li>
@@ -167,7 +160,6 @@
                 </button>
             </li>
         </ul>
-
 		<ul>
             <li>
                 <span role="group">
@@ -186,6 +178,12 @@
                         </svg>
                     </pb-navigation>
                 </span>
+                <li>
+                    <span role="group">
+                        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+                    </span>
+                </li>
             </li>
         </ul>
         <ul>
@@ -201,8 +199,7 @@
                             <use href="#floppy-save"></use>
                         </svg>
                     </button>
-                    <button data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d"
-                        id="document-download">
+                    <button data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d" id="document-download">
                         <svg>
                             <use href="#download-archive"></use>
                         </svg>
@@ -234,7 +231,21 @@
         </pb-view-annotate>
     </main>
 
-    <aside class="preview edit-panel right">
+    <nav class="top-left">
+        <ul></ul>
+        <ul>
+            <li>
+                <a class="aside-toggle" title="Hide" data-toggle=".left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <aside class="preview edit-panel left">
         <fx-fore ignore-expressions="pb-authority">
             <fx-model>
                 <fx-instance id="i-default">
@@ -267,7 +278,10 @@
 
                 <fx-function signature="updateAnnotationDetails($ident as xs:string) as xs:boolean"
                     type="text/javascript">
-                    document.querySelector('iron-form input').value=$ident;
+                    console.log('updateAnnotationDetails', $ident);
+                    const input = document.querySelector('iron-form input');
+                    input.value = $ident;
+                    input.dispatchEvent(new Event('input'));
                 </fx-function>
 
                 <fx-function signature="commit($msg as xs:string) as xs:boolean" type="text/javascript">
@@ -323,9 +337,9 @@
                             </pb-restricted>
                         </div>
                         <div class="annotation-form date">
-                            <label>when <input name="when" placeholder="when" type="date"></input></label>
-                            <label>from <input name="from" placeholder="from" type="date"></input></label>
-                            <label>to <input name="to" placeholder="to" type="date"></input></label>
+                            <label>when <input name="when" placeholder="yyyy-mm-dd" type="text"></input></label>
+                            <label>from <input name="from" placeholder="yyyy-mm-dd" type="text"></input></label>
+                            <label>to <input name="to" placeholder="yyyy-mm-dd" type="text"></input></label>
                         </div>
                         <div class="annotation-form hi">
                             <label>
