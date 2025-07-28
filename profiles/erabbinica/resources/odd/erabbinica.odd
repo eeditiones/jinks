@@ -68,7 +68,7 @@
                     <model predicate="$parameters?iiif-prefix" behaviour="inline" cssClass="facs pagebreak">
             <param name="facs" value="let $vat := if ($parameters?iiif-prefix = 'vatican') then 'MSS_Vat.ebr.299/' else '' return  $parameters?iiif || $vat ||substring-after(@facs, $parameters?iiif-prefix ||':')"/>
             <param name="foo" value="$parameters?iiif-prefix"/>
-            <pb:template xmlns="" xml:space="preserve"><span><pb-facs-link facs="[[facs]]" emit="transcription"/> -- [[foo]]  </span></pb:template>
+            <pb:template xmlns="" xml:space="preserve"><span><pb-facs-link facs="[[facs]]" emit="transcription"/></span></pb:template>
             <outputRendition xml:space="preserve">
             cursor: pointer;
 color: #888888;
@@ -136,8 +136,6 @@ direction: rtl;
                 <param name="tractate" value="let $id := reverse(tokenize(@xml:id, '\.'))                    let $depth := count($id)                  let $ab := $id[1]                    let $tractate :=  switch ($depth)  case 6 return $id[3] case 5 return $id[3] default return ()                     let $verse := $id[1]                    let $chapter :=  switch ($depth)  case 6 return $id[2] case 5 return $id[2] default return ()                     let $order := switch ($depth)  case 6 return $id[4] default return ()                          let $composition :=   $id[$depth]                    let $cid :=   'ref.' || string-join(($composition, $order, $tractate),'.')                    let $can := if ($tractate) then collection('/db/apps/erabbinica-data/data/sources/ref')/id($cid)   else ()                  return      if ($tractate) then   ($can/head[1]/string(),  ' '||$chapter || ':' || $verse)  else ()"/>
                 <param name="id" value="@xml:id"/>
                 <pb:template xmlns="" xml:space="preserve"><span dir="ltr" id="[[id]]">[[tractate]]</span></pb:template>
-            </model>
-                <param name="content" value="."/>
             </model>
             <model predicate="$parameters?layout ne 'synoptic'" behaviour="alternate">
                 <param name="default" value="count(preceding-sibling::ab)+1"/>
