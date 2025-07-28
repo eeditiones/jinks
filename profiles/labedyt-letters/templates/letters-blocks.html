@@ -18,7 +18,7 @@
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
         [% endif %]
         
-        [% if $context?features?pb-tify and exists($context?doc)%]
+        [% if $context?features?pb-tify and exists($context?doc) %]
         <aside class="right">
             <pb-tify class="right" subscribe="transcription" emit="transcription"></pb-tify>
         </aside>
@@ -31,7 +31,7 @@
             <ul>
                 <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"><pb-i18n key="breadcrumbs.letters">Listy</pb-i18n></a></li>
                 [% if exists($context?doc)%]
-                    <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
+                    <li>[[ $context?doc?transform($context?doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
                 [% endif %]
             </ul>
         </nav>
