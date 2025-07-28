@@ -1,0 +1,39 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/erabbinica",
+    "label": "eRabbinica",
+    "description": "Profile for a TEI Publisher 10 application with several views for rabbinical text. By default shows transcription and facsimile viewer",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "odds": [
+        "teipublisher.odd", "erabbinica.odd""
+    ],
+    "defaults": {
+        "data-default": "sources/transcriptions",
+        "odd": "erabbinica.odd",
+        "view": "page",
+        "data": "/db/apps/erabbinica-data/data",
+        "language": "en",
+        "direction": "rtl"
+    },
+    "templating": {
+        "use": [
+            "templates/blocks.html"
+        ]
+    },
+    "features": {
+        "upload": false,
+        "register": {
+            "enabled": false
+        },
+        "facsimile": false
+    },
+    "menu": {
+        "language": false,
+        "search": false,
+        "delete": false
+    }
+}
