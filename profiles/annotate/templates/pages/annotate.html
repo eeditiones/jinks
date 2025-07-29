@@ -29,7 +29,8 @@
         },
         "theme": {
             "layout": {
-                "left-width": "33vw"
+                "left-width": "33vw",
+                "right-width": "33vw"
             }
         }
     }
@@ -231,7 +232,7 @@
         </pb-view-annotate>
     </main>
 
-    <nav class="top-left">
+    <nav class="top-[[ $features?annotations?edit-panel ]]">
         <ul></ul>
         <ul>
             <li>
@@ -245,7 +246,7 @@
             </li>
         </ul>
     </nav>
-    <aside class="preview edit-panel left">
+    <aside class="preview edit-panel [[ $features?annotations?edit-panel ]]">
         <fx-fore ignore-expressions="pb-authority">
             <fx-model>
                 <fx-instance id="i-default">
