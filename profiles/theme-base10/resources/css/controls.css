@@ -130,14 +130,14 @@ button {
     justify-content: center;
     border-radius: var(--jinks-form-border-radius-full);
     border: none;
-    color: var(--jinks-text-color);
+    color: var(--jinks-form-text-color);
     background-color: var(--jinks-form-background-color);
     font-size: var(--jinks-form-control-font-size);
     cursor: pointer;
 }
 
 button:hover, .dropdown-button summary:hover {
-    background-color: var(--jinks-colors-400);
+    background-color: var(--jinks-form-hover-color);
 }
 
 button.secondary {
@@ -230,7 +230,7 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
     user-select: none;
 }
 
-.dropdown-button summary::after, 
+.dropdown-button summary::after,
 .dropdown summary::after {
     display: block;
     content: "";

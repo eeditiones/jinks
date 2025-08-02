@@ -1,6 +1,6 @@
 /* This templated section merges configurations from config.json where available and falls back to jinks defaults where not */
 /* config.json theme configuration settings have priority */
-/* If you'd like to overwrite the defaults in a more structured manner than ad-hoc config settings, create a separate css file setting the 
+/* If you'd like to overwrite the defaults in a more structured manner than ad-hoc config settings, create a separate css file setting the
 --jinks-...-default variables as required for the custom theme and import these in your theme.css */
 
 :root {
@@ -54,7 +54,7 @@
     --jinks-splash-background-light: url("[[ $theme?logo?splash?light ]]");
     --jinks-splash-background-dark: url("[[ $theme?logo?splash?dark ]]");
     --jinks-splash-image-size: [[ $theme?logo?splash?size ]];
-    
+
     --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
 
     /* Typography */
@@ -83,7 +83,7 @@
 
     /* colors */
     --jinks-text-color: var(--jinks-colors-dark);
-    
+
     /* text color for the light mode (usually dark) */
     --jinks-text-color-light: var(--jinks-text-color);
 
@@ -130,8 +130,10 @@
     --jinks-form-border-color: var(--jinks-colors-accent);
     --jinks-form-border-radius: 90px;
     --jinks-form-border-radius-full: 999px;
+    --jinks-form-hover-color: var(--jinks-colors-400);
     --jinks-form-focus-color1: #3B82F6;
     --jinks-form-focus-color2: rgba(59, 130, 246, 0.20);
+    --jinks-form-text-color: var(--jinks-text-color);
     --jinks-form-control-font-size: 0.875rem;
 
     /* dropdown component */
