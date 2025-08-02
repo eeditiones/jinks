@@ -113,7 +113,7 @@ pb-page[unresolved]~.splash {
     color: var(--pico-color);
 }
 
-.menubar > ul > li > a:link, 
+.menubar > ul > li > a:link,
 .menubar > ul > li > a:visited {
     color: var(--jinks-menubar-color);
     background-color: var(--jinks-menubar-background-color);
@@ -165,7 +165,7 @@ pb-page[unresolved]~.splash {
     top: 64px;
     right: 0;
     bottom: 0;
-    padding: 0 var(--pico-block-spacing-horizontal); 
+    padding: 0 var(--pico-block-spacing-horizontal);
     background-color: var(--jinks-menubar-background-color);
     color: var(--jinks-menubar-color);
     z-index: 3;
@@ -195,7 +195,7 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     display: inline-block;
 }
 
-.toolbar a svg, 
+.toolbar a svg,
 .aside-toggle svg {
     width: 20px;
     height: 20px;
@@ -205,10 +205,10 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     position: relative;
     width: 100%;
     background-color: var(--jinks-toolbar-background-color);
-    color: var(--pb-toolbar-color);
-    --pico-color: var(--pb-toolbar-color);
-    --paper-checkbox-label-color: var(--pb-toolbar-color);
-    --paper-checkbox-unchecked-color: var(--pb-toolbar-color);
+    color: var(--jinks-toolbar-color);
+    --pico-color: var(--jinks-toolbar-color);
+    --paper-checkbox-label-color: var(--jinks-toolbar-color);
+    --paper-checkbox-unchecked-color: var(--jinks-toolbar-color);
     padding: 1rem 1.5rem;
 }
 
@@ -256,7 +256,7 @@ pb-document {
     --pico-h1-color: var(--jinks-color-inverse);
     position: relative;
     background-image: var(--jinks-hero-background-image);
-    background-size: var(--jinks-hero-background-size); 
+    background-size: var(--jinks-hero-background-size);
     background-repeat: var(--jinks-hero-background-repeat);
     background-color: var(--jinks-hero-background-color);
 }
@@ -333,13 +333,6 @@ pb-view::part(content) {
 
 pb-popover {
     text-align: left !important;
-}
-
-pb-drawer {
-    top: 0;
-    background-color: var(--jinks-drawer-background-color);
-    overflow: auto;
-    height: 100vh;
 }
 
 .toc {
@@ -546,11 +539,11 @@ pb-drawer {
 
 #document-list {
     flex-grow: 2;
+    width: 100%;
 }
 
 #document-list pb-load {
     overflow: auto;
-    width: 100%;
 }
 
 .before-document-list {
@@ -688,7 +681,7 @@ footer a {
 .fixed-layout > .left,
 .fixed-layout > .top-right,
 .fixed-layout > .right {
-    background-color: var(--jinks-color-white);
+    background-color: var(--jinks-colors-50);
     padding: 0 .5rem 1.5rem .5rem;
     overflow: auto;
 }
@@ -718,9 +711,9 @@ footer a {
     height: 100vh;
     width: 100vw;
     grid-template-rows: auto auto 1fr;
-    grid-template-columns: 
-        var(--left-column-width) 
-        1fr 
+    grid-template-columns:
+        var(--left-column-width)
+        1fr
         var(--right-column-width);
     grid-template-areas:
         "header header header"

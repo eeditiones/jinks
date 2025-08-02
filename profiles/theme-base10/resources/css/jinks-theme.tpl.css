@@ -1,6 +1,6 @@
 [% if $theme?colors?palette %]
-@import url("[[ $theme?colors?palette ]]");
-[% else %] 
+@import url("palette-[[ $theme?colors?palette ]].css");
+[% else %]
 @import url("palette-neutral.css");
 [% endif %]
 

@@ -41,13 +41,11 @@
     [% endif %]
 
     --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
-    --jinks-menubar-color: var(--jinks-color-inverse);
+    --jinks-menubar-color: var(--jinks-colors-inverse);
     --jinks-menubar-font-size: [[ $theme?menubar?font-size ]];
     --jinks-menubar-button-color: rgba(165, 165, 165, 0.4);
     --jinks-toolbar-background-color: var(--jinks-colors-accent);
     --jinks-toolbar-color: var(--jinks-text-color);
-
-    --jinks-drawer-background-color: var(--jinks-colors-100);
 
     /* Splash */
 
@@ -109,14 +107,12 @@
     --jinks-header-background-color-light: var(--jinks-header-background-color);
     --jinks-header-background-color-dark: var(--jinks-overlay-background-color-dark);
 
-    --jinks-drawer-background-color: var(--jinks-colors-100);
-    --jinks-toolbar-background-color: var(--jinks-colors-accent);
+    --jinks-toolbar-background-color: var(--jinks-colors-200);
 
 
     /* --pb-drawer-background-color: var(--jinks-color-inverse); */
 
     --jinks-color-primary: var(--jinks-text-color);
-    --jinks-color-inverse: var(--jinks-colors-light);
     --jinks-color-lighter: var(--jinks-colors-medium);
     --jinks-color-focus: var(--jinks-colors-accent);
     --jinks-color-border: #EBEBEB;
