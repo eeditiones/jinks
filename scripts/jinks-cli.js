@@ -39,7 +39,7 @@ const quietOption = new Option("-q, --quiet", "Do not print banner.");
 // Hook to run before any command action
 program.hook('preAction', async (thisCommand, actionCommand) => {
     const options = actionCommand.opts();
-    
+
     // Only initialize client if server option is available (commands that need server connection)
     if (options.server) {
         // Store client and configurations in the command context for use in actions
@@ -104,7 +104,7 @@ program
             } else {
                 config = await selectInstalledApplication(command.allConfigurations);
             }
-            config = await editOrCreateConfiguration(config, options, command.allConfigurations, command.client);
+            config = await editOrCreateConfiguration(config.config, options, command.allConfigurations, command.client);
             await update(config, options, command.client);
         } catch (error) {
             console.error(error);
@@ -129,7 +129,7 @@ program
             } else {
                 config = await selectInstalledApplication(command.allConfigurations);
             }
-            await update(config, options, command.client);
+            await update(config.config, options, command.client);
         } catch (error) {
             console.error(error);
         }
@@ -139,7 +139,7 @@ program
     .command("config")
     .argument("[abbrev]", "Application to get configuration for")
     .summary("Get configuration for an application")
-    .option("-e, --expand", "Show the expanded configuration")
+    .option("-x, --expand", "Show the expanded configuration")
     .addOption(serverOption)
     .addOption(userOption)
     .addOption(passwordOption)
@@ -147,9 +147,87 @@ program
         try {
             let config = await loadConfigFromApplication(abbrev, command.allConfigurations);
             if (options.expand) {
-                config = await expandConfig(config, command.client);
+                config = await expandConfig(config.config, command.client);
+            } else {
+                config = config.config;
             }
             console.log(JSON.stringify(config, null, 2));
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+program
+    .command("run")
+    .argument("[abbrev]", "Application to perform action on")
+    .argument("[action]", "Name of the action to run, e.g. 'reindex'")
+    .summary("Run an action on an installed application")
+    .addOption(serverOption)
+    .addOption(userOption)
+    .addOption(passwordOption)
+    .action(async (abbrev, action, options, command) => {
+        try {
+            let config;
+            if (abbrev) {
+                config = await loadConfigFromApplication(abbrev, command.allConfigurations);
+            } else {
+                config = await selectInstalledApplication(command.allConfigurations);
+            }
+            if (!action) {
+                if (config.actions && config.actions.length > 0) {
+                    const actionChoices = config.actions.map(actionItem => ({
+                        name: actionItem.description,
+                        value: actionItem.name
+                    }));
+
+                    action = await select({
+                        message: "Select action to perform:",
+                        choices: actionChoices
+                    });
+                } else {
+                    console.log(chalk.yellow("No actions available for this application."));
+                    return;
+                }
+            }
+
+            const spinner = ora(`Executing action: ${action}...`).start();
+            try {
+                // Login first
+                await loginUser(command.client, options);
+
+                // Execute the action
+                const actionResponse = await command.client.post(`../${config.config.pkg.abbrev}/api/actions/${action}`);
+
+                if (actionResponse.status !== 200) {
+                    spinner.fail("Action failed with error: " + actionResponse.status);
+                    console.error(actionResponse.data);
+                    return;
+                }
+                spinner.stop();
+
+                const output = actionResponse.data;
+
+                if (output && output.length > 0) {
+                    // Table output
+                    console.log(chalk.blue("Action response:"));
+                    const table = new Table({
+                        head: [chalk.bold("Type"), chalk.bold("Message")],
+                        colWidths: [15, 50],
+                        wordWrap: true
+                    });
+
+                    output.forEach((message) => {
+                        let typeColored = chalk.blue(message.type.padEnd(15));
+                        table.push([typeColored, message.message]);
+                    });
+                    console.log(table.toString());
+                }
+
+                console.log(chalk.green("Action completed successfully!"));
+            } catch (error) {
+                spinner.fail("Action execution failed");
+                console.error(error);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -173,6 +251,21 @@ function initClient(options) {
             withCredentials: true,
         })
     );
+}
+
+// Helper function to login user
+async function loginUser(client, options) {
+    const params = new URLSearchParams();
+    params.append("user", options.user);
+    params.append("password", options.password);
+
+    const loginResponse = await client.post("/api/login", params, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+
+    if (loginResponse.status !== 200) {
+        throw new Error(`Login failed: ${loginResponse.status} ${loginResponse.data}`);
+    }
 }
 
 // Helper function to fetch available configurations
@@ -240,7 +333,7 @@ async function loadConfigFromApplication(appOption, allConfigurations) {
         // Load configuration from existing application
         const config = allConfigurations.find(
             (item) => item.config.pkg.abbrev === appOption,
-        )?.config;
+        );
         if (!config) {
             console.error(chalk.red(`Application ${appOption} not found.`));
             process.exit(1);
@@ -288,7 +381,7 @@ async function selectInstalledApplication(allConfigurations) {
         .map((item) => ({
             name: chalk.bold(item.config.label) +
                 (item.config.description ? ` – ${item.config.description}` : ''),
-            value: item.config,
+            value: item,
         }));
     return await select({
         message: "Select installed application:",
@@ -366,19 +459,14 @@ async function update(config, options, client, resolve = []) {
     };
 
     // 1. Login to get the cookie
-    const params = new URLSearchParams();
-    params.append("user", options.user);
-    params.append("password", options.password);
-
-    const loginResponse = await client.post("/api/login", params, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
-    if (loginResponse.status !== 200) {
-        console.error("Login failed:", loginResponse.status, loginResponse.data);
+    try {
+        await loginUser(client, options);
+    } catch (error) {
+        console.error(error.message);
         return;
     }
 
-    const spinner = ora("Starting generator ...").start();
+    let spinner = ora("Starting generator ...").start();
 
     // 2. Use the cookie for the generator request
     const generatorResponse = await client.post(
@@ -395,7 +483,7 @@ async function update(config, options, client, resolve = []) {
     spinner.stop();
 
     const output = generatorResponse.data;
-    
+
     if (output.messages.length > 0) {
         // Table output
         console.log(chalk.blue("Generator response:"));
@@ -428,13 +516,14 @@ async function update(config, options, client, resolve = []) {
         });
         console.log(table.toString());
     }
-    
+
     if (output.nextStep && output.nextStep.action === "DEPLOY") {
-        console.log("\n" + chalk.blue("Deploying..."));
+        spinner = ora("Deploying ...").start();
         const deployResponse = await client.post(
             `/api/generator/${config.pkg.abbrev}/deploy`,
         );
         if (deployResponse.status !== 200) {
+            spinner.fail("Deploy failed with code " + deployResponse.status + ": " + deployResponse.data);
             console.error(
                 "Deploy failed:",
                 deployResponse.status,
@@ -442,6 +531,7 @@ async function update(config, options, client, resolve = []) {
             );
             return;
         }
+        spinner.stop();
         console.log(chalk.green("Done!"));
     }
 
