@@ -15,7 +15,7 @@
         [% block toggle %][% endblock %]
         [% if $features?toolbar?navigation %]
         <li>
-            <span role="group">
+            <span role="group" class="light">
                 <pb-navigation emit="transcription" keyboard="left" subscribe="transcription" direction="backward" unit="page" rendition="visible">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
@@ -43,7 +43,7 @@
 
 		[% if $features?toolbar?zoom and exists($context?doc) %]
         <li>
-            <span role="group">
+            <span role="group" class="light">
                 <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
                 <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
             </span>
