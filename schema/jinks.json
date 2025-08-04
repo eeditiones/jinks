@@ -198,11 +198,29 @@
                             },
                             "id": {
                                 "type": "string"
-                            }
+                            },
+                            "subitems": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                            },
+                                        "url": {
+                                            "type": ["string", "null"],
+                                            "description": "URL to link to. Might be null to remove an item inherited from a parent profile."
+                                        }
+                                    },
+                                "required": [
+                                    "id",
+                                    "url"
+                                    ]
+                                }  
+                            }  
                         },
                         "required": [
-                            "id",
-                            "url"
+                            "id"
                         ]
                     }
                 },

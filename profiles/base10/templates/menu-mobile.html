@@ -6,6 +6,19 @@
             <li>
                 <a href="[[ $context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></a>
             </li>
+            [% elif exists($item?subitems) %]
+            <li>
+                <details class="dropdown">
+                    <summary><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></summary>
+                    <ul dir="rtl">
+                        [% for $subitem in $item?subitems?* %]
+                        <li>
+                            <a href="[[ $context-path ]]/[[ $subitem?url ]]"><pb-i18n key="menu.[[ $subitem?id ]]">[[ $subitem?id ]]</pb-i18n></a>
+                        </li>
+                        [% endfor %]
+                    </ul>
+                </details>
+            </li>
             [% endif %]
             [% endfor %]
             [% if $menu?language %]
