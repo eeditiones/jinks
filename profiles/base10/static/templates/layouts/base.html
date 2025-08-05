@@ -16,11 +16,15 @@
             [% endif %]
         [% endfor %]
 
+        <style>
+            :root {
+                --jinks-layout-left-width: [[$context?theme?layout?left-width]];
+                --jinks-layout-right-width: [[$context?theme?layout?right-width]];
+            }
+        </style>
+
         <title>[[ $label ]]</title>
-        
-        [% if $menu?dark-mode %]
-        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
-        [% endif %]
+
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
@@ -41,45 +45,30 @@
         [% block scripts %][% endblock %]
     </head>
     <body class="static">
-        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
-            locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json" 
-            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
-            unresolved="unresolved" class="[[ $context?theme?layout ]]">
+            locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json"
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
+            unresolved="unresolved" class="[[ $context?theme?layout?class ]]"
+            theme="resources/css/components.css">
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
                     [% include "static/templates/menu.html" %]
-                    [% endif %]
-                    [% if $features?toolbar?enabled %]
-                    [% include "static/templates/toolbar.html" %]
                     [% endif %]
 
                     [% block header %][% endblock %]
                 </div>
             </header>
             [% block hero %][% endblock %]
-            [% block above-content %][% endblock %]
+            [% block sidebar %][% endblock %]
             [% block content %][% endblock %]
-            [% block below-content %][% endblock %]
-            [% if $features?toc?enabled %]
-            <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
-                <div class="drawer-content">
-                    <h3>
-                        <pb-i18n key="document.contents">Contents</pb-i18n>
-                    </h3>
-                    [[ 
-                        replace(
-                            serialize($context?table-of-contents, map { "method": "xml" }),
-                            "&lt;!DOCTYPE[^&gt;]+&gt;", 
-                            ""
-                        )
-                    ]]
-                </div>
-            </pb-drawer>
-            [% endif %]
         </pb-page>
         <div class="splash"/>
+        <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
+        [% if $menu?dark-mode %]
+        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+        [% endif %]
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]

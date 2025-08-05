@@ -101,7 +101,7 @@
         <li class="hidden-mobile">
             [% if $context('isStatic') %]
             <form action="[[ $context-path ]]/search.html">
-                <input type="search" value="" name="query"/>
+                <input type="search" value="" name="query" placeholder="" data-i18n="[placeholder]search.placeholder"/>
             </form>
             [% else %]
             <pb-search action="[[ $context-path ]]/search.html" value="[[ page:parameter($context, 'query', '') ]]"

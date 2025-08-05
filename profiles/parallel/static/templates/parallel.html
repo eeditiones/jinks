@@ -1,15 +1,14 @@
-<main>
+<template>
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
         "features": {
             "toc": {
                 "enabled": false
             }
-        },
-        "layout": "sticky-layout"
+        }
     }
     ---
     [% template breadcrumb %]
@@ -30,4 +29,4 @@
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-</main>
+</template>

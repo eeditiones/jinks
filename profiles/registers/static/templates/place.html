@@ -1,19 +1,21 @@
-<main class="place-details">
+<template>
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
         "features": {
             "toolbar": {
-                "zoom": false
+                "zoom": false,
+                "navigation": false
             },
             "toc": {
                 "enabled": false
             }
         },
         "styles": [
-            "transform/serafin.css"
+            "transform/teipublisher.css",
+            "resources/css/registers-theme.css"
         ]
     }
     ---
@@ -27,12 +29,16 @@
         </nav>
     </li>
     [% endtemplate %]
-    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude ]]">
-        <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
-    </pb-leaflet-map>
+    [% template sidebar %]
+    <div class="right map">
+        <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude ]]">
+            <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
+        </pb-leaflet-map>
+    </div>
+    [% endtemplate %]
     <section class="place">
-        <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]" 
+        <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]"
             emit="map" auto="auto" wait-for="#map"></pb-geolocation>
         [[ $parts?default?content ]]
     </section>
-</main>
+</template>

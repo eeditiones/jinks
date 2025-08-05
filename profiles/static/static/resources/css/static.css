@@ -2,8 +2,12 @@
     font-size: var(--pb-base-font-size);
 }
 
-.static main {
-    column-gap: 2rem;
+.menubar input[type="search"] {
+    height: 2.25rem;
+    padding: 0px 12px 0px 1.875rem;
+}
+.menubar input[type="search"]::placeholder {
+    color: var(--jinks-color-lighter);
 }
 
 .content a[rel="footnote"] {

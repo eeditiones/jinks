@@ -1,10 +1,9 @@
-<main>
+<template>
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
-        "layout": "sticky-layout",
         "script": {
             "extra-components": [
                 "pb-leaflet-map"
@@ -30,10 +29,17 @@
         </nav>
     </li>
     [% endtemplate %]
-    [% template above-content %]
-    <header class="correspondence content">
+    [% template sidebar %]
+    <header class="correspondence content top-center">
         [[ $parts?metadata?content ]]
     </header>
+    <aside class="right">
+        [[ $parts?register?content ]]
+
+        <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
+            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+        </pb-leaflet-map>
+    </aside>
     [% endtemplate %]
     <div class="content">
     [[ $parts?default?content ]]
@@ -43,13 +49,4 @@
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-    [% template sidebar %]
-    <aside class="right">
-        [[ $parts?register?content ]]
-
-        <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
-            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-        </pb-leaflet-map>
-    </aside>
-    [% endtemplate %]
-</main>
+</template>
