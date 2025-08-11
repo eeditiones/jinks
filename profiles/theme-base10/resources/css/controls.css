@@ -122,7 +122,9 @@ select:not([multiple], [size]) {
     color: var(--jinks-select-color);
 }
 
-button {
+button,
+.btn:not(pb-link),
+pb-link.btn a {
     display: inline-flex;
     padding: 12px 24px;
     gap: 0.25rem;
@@ -134,9 +136,10 @@ button {
     background-color: var(--jinks-form-background-color);
     font-size: var(--jinks-form-control-font-size);
     cursor: pointer;
+    text-decoration: none;
 }
 
-button:hover, .dropdown-button summary:hover {
+button:hover, .dropdown-button summary:hover, btn:hover {
     background-color: var(--jinks-form-hover-color);
 }
 
@@ -146,7 +149,12 @@ button.secondary {
 }
 
 /* Button with label or icon */
-button:has(svg + span), button:has(span + svg) {
+button:has(svg + span),
+button:has(span + svg),
+.btn:not(pb-link):has(svg + span),
+.btn:not(pb-link):has(span + svg),
+pb-link.btn a:has(svg + span),
+pb-link.btn a:has(span + svg){
     height: 36px;
     padding: 6px 12px;
     /* Card_shadow */
@@ -154,7 +162,9 @@ button:has(svg + span), button:has(span + svg) {
 }
 
 /* Button with icon only */
-button:has(svg):not(:has(span)) {
+button:has(svg):not(:has(span)),
+.btn:not(pb-link):has(svg):not(:has(span)),
+.pb-link.btn a:not(:has(span)){
     border-radius: var(--jinks-form-border-radius);
     height: 36px;
     width: 36px;
@@ -165,11 +175,13 @@ button:has(svg):not(:has(span)) {
 
 /* Group of buttons, e.g. navigate left/right */
 [role="group"] {
+    list-style-type: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
     padding: 10px;
+    margin: 0;
     border: none;
     border-radius: var(--jinks-form-border-radius);
     height: 36px;
@@ -180,17 +192,32 @@ button:has(svg):not(:has(span)) {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
+[role="group"] a {
+    color: inherit;
+    text-decoration: none;
+}
+
 [role="group"] button {
     box-shadow: none;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-[role="group"].light {
+[role="group"] li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+[role="group"].light,
+.btn.light,
+pb-link .btn.light a {
     background-color: var(--jinks-color-white);
 }
 
-[role="group"] pb-zoom, [role="group"] pb-navigation {
+[role="group"] pb-zoom,
+[role="group"] pb-navigation,
+[role="group"] pb-link {
     width: 1.5rem;
     height: 1.5rem;
     display: inline-flex;
@@ -198,7 +225,7 @@ button:has(svg):not(:has(span)) {
     justify-content: center;
 }
 
-button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg {
+button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .btn svg {
     width: 1rem;
     height: 1rem;
 }

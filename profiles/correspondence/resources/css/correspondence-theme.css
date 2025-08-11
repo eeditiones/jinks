@@ -1,21 +1,14 @@
 .correspondence {
-    max-width: inherit;
-    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
-}
-
-.correspContext {
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
     width: 100%;
-    margin: 0 16px;
 }
 
-.correspContext li {
-    list-style: none;
+.correspondence::part(content) {
+    margin: 0;
+    padding: 0;
 }
 
-.correspContext svg {
-    width: 24px;
-    height: 24px;
+.correspContext pb-link[path$="/"] {
+    display: inline-block;
+    opacity: 0.3;
+    pointer-events: none;
 }

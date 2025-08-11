@@ -1,13 +1,15 @@
 <template>
-    [% template above-content %]
+    [% template toolbar %]
     [% if exists($context?doc) and $features?correspondence?navigation %]
-    <pb-view class="correspondence" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
-        subscribe="transcription" emit="transcription" view="single" load-css="resources/css/correspondence-theme.css">
+    <pb-view class="correspondence" src="document1"
+        subscribe="transcription" emit="transcription"
+        view="single" load-css="resources/css/correspondence-theme.css">
         <pb-param name="mode" value="metadata"/>
         <pb-param name="context-path" value="[[ $context-path ]]"/>
     </pb-view>
     [% endif %]
     [% endtemplate %]
+
     [% template styles %]
     [% if exists($context?doc) and $features?correspondence?navigation %]
     <link rel="stylesheet" href="resources/css/correspondence-theme.css"/>
