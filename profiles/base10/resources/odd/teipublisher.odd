@@ -1,11 +1,14 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<tei:TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
-    <teiHeader xmlns="http://www.tei-c.org/ns/1.0">
+<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+    <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Publisher ODD 
+                <title>TEI Publisher ODD
+
+
+
                  
-                 <desc>Base ODD from which all other ODDs inherit</desc>
+                   <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
             </titleStmt>
@@ -94,7 +97,7 @@
             <change when="2017-09-08">adjust metadata in teiHeader</change>
         </revisionDesc>
     </teiHeader>
-    <text xmlns="http://www.tei-c.org/ns/1.0">
+    <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="teipublisher">
                 <elementSpec ident="ab" mode="change">
@@ -479,8 +482,8 @@
             <param name="emit" value="'transcription'"/>
         </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
-            <desc>Use the url from the facs attribute to link with IIIF image; 
-                            assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint 
+            <desc>Use the url from the facs attribute to link with IIIF image;
+                            assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint
                             to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
@@ -562,6 +565,22 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
+                    <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
+            <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
+            <param name="type" value="@type"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <pb:template xmlns="" xml:space="preserve">
+<a href="[[uri]]">
+    <pb-popover>
+    <svg class="icon" slot="default">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
+    </svg>
+    <span slot="alternate"><pb-i18n key="correspondence.[[type]]"/></span>
+    </pb-popover>
+</a>
+            </pb:template>
+        </model>
+                    <model predicate="parent::correspContext" behaviour="inline"/>
                     <model predicate="@target" behaviour="link">
             <param name="uri" value="@target"/>
         </model>
@@ -1008,7 +1027,64 @@
             <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
         </model>
                 </elementSpec>
+            <elementSpec ident="correspContext" mode="add">
+                    <model behaviour="pass-through">
+            <desc>Outputs links to next/previous letter within entire and current correspondence</desc>
+            <param name="previous-in-correspondence-target" value="ref[@type = 'previous-in-correspondence']/@target"/>
+            <param name="previous-target" value="ref[@type = 'previous']/@target"/>
+            <param name="next-target" value="ref[@type = 'next']/@target"/>
+            <param name="next-in-correspondence-target" value="ref[@type = 'next-in-correspondence']/@target"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <param name="previous-in-correspondence" value="ref[@type = 'previous-in-correspondence']"/>
+            <param name="previous" value="ref[@type = 'previous']"/>
+            <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
+            <param name="next" value="ref[@type = 'next']"/>
+            <param name="context" value="substring-after(util:collection-name($parameters?root), $global:data-root || &#34;/&#34;)"/>
+            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
+  <li>
+      <pb-popover>
+        <pb-link path="[[context]]/[[previous-target]]" emit="transcription" subscribe="transcription" slot="default">
+            <svg class="icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#previous"/>
+            </svg>
+        </pb-link>
+        <template slot="alternate">[[ previous ]]</template>
+      </pb-popover>
+  </li>
+  <li>
+      <pb-popover>
+        <pb-link path="[[context]]/[[previous-in-correspondence-target]]" emit="transcription" subscribe="transcription" slot="default">
+            <svg class="icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#previous-in-correspondence"/>
+            </svg>
+        </pb-link>
+        <template slot="alternate">[[ previous-in-correspondence ]]</template>
+      </pb-popover>
+  </li>
+  <li>
+      <pb-popover>
+        <pb-link path="[[context]]/[[next-in-correspondence-target]]" emit="transcription" subscribe="transcription" slot="default">
+            <svg class="icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#next-in-correspondence"/>
+            </svg>
+        </pb-link>
+        <template slot="alternate">[[ next-in-correspondence ]]</template>
+      </pb-popover>
+  </li>
+  <li>
+      <pb-popover>
+        <pb-link path="[[context]]/[[next-target]]" emit="transcription" subscribe="transcription" slot="default">
+            <svg class="icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#next"/>
+            </svg>
+        </pb-link>
+        <template slot="alternate">[[ next ]]</template>
+      </pb-popover>
+  </li>
+</ul></pb:template>
+        </model>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>
-</tei:TEI>
+</TEI>

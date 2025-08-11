@@ -5,26 +5,28 @@
                 <title>Serafin Letters
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                  
-                 
-                 
-                 
-                 
-                 
-                  
-                 
-                  
-                 
-                  
-                 
-                 
-                 
-                  
-                 
-                 
-                 
-                 
-                 <desc>15th c. manuscript correspondence with parallel translation</desc>
+                   <desc>15th c. manuscript correspondence with parallel translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -82,7 +84,7 @@
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="omit" useSourceRendition="true"/>
                 </elementSpec>
-                
+
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline">
             <outputRendition xml:space="preserve" scope="selected">
@@ -149,7 +151,7 @@
         </model>
                     <model predicate="text()" behaviour="inline"/>
                 </elementSpec>
-            
+
                 <elementSpec ident="birth" mode="add">
                     <model behaviour="inline" cssClass="birth"/>
                 </elementSpec>
@@ -174,55 +176,6 @@
             <param name="target" value="@target"/>
             <param name="type" value="@type"/>
             <pb:template xmlns="" xml:space="preserve"><a href="[[target]]">[[type]]</a></pb:template>
-        </model>
-                </elementSpec>
-            <elementSpec ident="ref" mode="change">
-                    <model predicate="$parameters?static and parent::correspContext" behaviour="pass-through">
-            <param name="uri" value="$parameters?context-path || '/letters/' || @target || '/1/index.html'"/>
-            <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
-            <param name="type" value="@type"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" data-tooltip="" data-i18n="[data-tooltip]correspondence.[[type]]">
-  <svg class="icon">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
-  </svg>
-</a></pb:template>
-        </model>
-                    <model predicate="parent::correspContext" behaviour="pass-through">
-            <param name="uri" value="$parameters?context-path || '/letters/' || @target"/>
-            <param name="icons" value="$parameters?context-path || '/resources/css/icons.svg'"/>
-            <param name="type" value="@type"/>
-            <param name="content" value="."/>
-            <param name="target" value="'letters/' || @target"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-popover>
-  <pb-link slot="default" path="[[target]]" data-tooltip="[[content]]" data-placement="bottom" emit="transcription" subscribe="transcription">
-    <svg class="icon">
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[icons]]#[[type]]"/>
-    </svg>
-  </pb-link>
-  <div slot="alternate">[[content]]</div>
-</pb-popover></pb:template>
-        </model>
-                    <model predicate="@target" behaviour="link">
-            <param name="uri" value="@target"/>
-        </model>
-                    <model predicate="not(node())" behaviour="link">
-            <param name="content" value="@target"/>
-            <param name="uri" value="@target"/>
-        </model>
-                    <model behaviour="inline"/>
-                </elementSpec>
-                <elementSpec ident="correspContext" mode="add">
-                    <model behaviour="pass-through">
-            <param name="previous-in-correspondence" value="ref[@type = 'previous-in-correspondence']"/>
-            <param name="previous" value="ref[@type = 'previous']"/>
-            <param name="next" value="ref[@type = 'next']"/>
-            <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
-            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext">
-  <li>[[previous]]</li>
-  <li>[[previous-in-correspondence]]</li>
-  <li>[[next-in-correspondence]]</li>
-  <li>[[next]]</li>
-</ul></pb:template>
         </model>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
