@@ -195,6 +195,8 @@ button:has(svg):not(:has(span)),
 [role="group"] a {
     color: inherit;
     text-decoration: none;
+    margin: 0;
+    padding: 0;
 }
 
 [role="group"] button {
@@ -211,6 +213,7 @@ button:has(svg):not(:has(span)),
 
 [role="group"].light,
 .btn.light,
+button.light,
 pb-link .btn.light a {
     background-color: var(--jinks-color-white);
 }

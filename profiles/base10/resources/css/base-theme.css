@@ -758,6 +758,12 @@ footer a {
     visibility: hidden;
 }
 
+.fixed-layout > .top-right.hidden,
+.fixed-layout > .top-left.hidden {
+    background-color: inherit;
+    border: none;
+}
+
 @media screen and (max-width: 1023px) {
     .fixed-layout {
         grid-template-columns: 1fr;
