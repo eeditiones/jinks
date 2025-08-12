@@ -10,6 +10,17 @@
     color: var(--jinks-color-lighter);
 }
 
+main {
+    gap: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+main > .content {
+    flex: 1;
+    flex-grow: 1;
+}
+
 .content a[rel="footnote"] {
     font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
     font-family: var(--pb-footnote-font-family, var(--pb-content-font-family));
@@ -42,4 +53,9 @@
 
 pb-geolocation svg {
     width: 16px;
+}
+
+.static [role="group"] svg {
+    width: 1rem;
+    height: 1rem;
 }

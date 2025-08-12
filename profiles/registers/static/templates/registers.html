@@ -15,7 +15,8 @@
             }
         },
         "styles": [
-            "resources/css/registers-theme.css"
+            "resources/css/registers-theme.css",
+            "resources/css/correspondence-theme.css"
         ]
     }
     ---
@@ -29,10 +30,14 @@
         </nav>
     </li>
     [% endtemplate %]
-    [% template sidebar %]
-    <header class="correspondence content top-center">
+
+    [% template toolbar %]
+    <li>
         [[ $parts?metadata?content ]]
-    </header>
+    </li>
+    [% endtemplate %]
+
+    [% template sidebar %]
     <aside class="right">
         [[ $parts?register?content ]]
 
