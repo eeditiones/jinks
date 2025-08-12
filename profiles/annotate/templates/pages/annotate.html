@@ -521,7 +521,7 @@
 
             <fx-action event="pb-authority-edit-entity" target="#document">
                 <fx-setvalue ref="authority">true</fx-setvalue>
-                <fx-setvalue ref="ref" value="event('id')"></fx-setvalue>
+                <fx-setvalue ref="key" value="event('id')"></fx-setvalue>
                 <fx-message>Remember to close/save editor before continuing</fx-message>
                 <fx-setvalue ref="instance()/authority-editor" value="event('type')"></fx-setvalue>
                 <fx-load url="[[ $context-path ]]/pages/annotation/{event('type')}-editor.html"
