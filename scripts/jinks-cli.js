@@ -162,6 +162,7 @@ program
     .argument("[abbrev]", "Application to perform action on")
     .argument("[action]", "Name of the action to run, e.g. 'reindex'")
     .summary("Run an action on an installed application")
+    .option("-U, --update", "Perform an update of the application before running the action")
     .addOption(serverOption)
     .addOption(userOption)
     .addOption(passwordOption)
@@ -189,7 +190,9 @@ program
                     return;
                 }
             }
-
+            if (options.update) {
+                await update(config.config, options, command.client);
+            }
             const spinner = ora(`Executing action: ${action}...`).start();
             try {
                 // Login first
@@ -436,6 +439,17 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
                 loop: false
             });
         }
+
+        // Sort selected profiles by order attribute
+        selectedProfiles.sort((a, b) => {
+            const profileA = configurations.find(config => config.profile === a);
+            const profileB = configurations.find(config => config.profile === b);
+
+            const orderA = profileA?.config?.order ?? Number.MAX_SAFE_INTEGER;
+            const orderB = profileB?.config?.order ?? Number.MAX_SAFE_INTEGER;
+
+            return orderA - orderB;
+        });
 
         const newConfig = {
             overwrite: "default",
