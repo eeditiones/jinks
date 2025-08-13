@@ -3,59 +3,32 @@
 * We now use one CSS layout for all pages.
 * The layout uses a grid with defined areas:
     * header (menubar)
-    * top-left, left
-    * top-center, content
-    * top-right, right
+    * before-top, before
+    * content-top, content
+    * after-top, after
+* In the default grid, *before* and *after* refer to left and right sidebar areas. However, this can change, e.g. if you are in a rtl language context.
 * The left and right sidebar can be collapsed (button added automatically) and are best suited for things like table of contents, register of places/people, or a facsimile viewer.
-* The main content uses flex layout, which means it can host more than one thing, e.g. the transcription and the translation for the *registers* profile.
-
-**Example:**  
-In [`profiles/base10/templates/layouts/content.html`](https://github.com/eeditiones/jinks/blob/main/profiles/base10/templates/layouts/content.html), the grid areas and sidebar toggles are defined as follows:
-```html
-<nav class="top-left">
-  <ul></ul>
-  <ul>
-    <li>
-      <a class="aside-toggle" title="Hide" data-toggle=".left">
-        <!-- SVG icon -->
-      </a>
-    </li>
-  </ul>
-</nav>
-[% if $context?features?toc?enabled %]
-<div class="left">
-  <h5><pb-i18n key="document.contents">Contents</pb-i18n></h5>
-  <pb-load class="toc" url="api/document/{doc}/contents?..."></pb-load>
-</div>
-[% endif %]
-...
-<nav class="top-right">
-  <ul>
-    <li>
-      <a class="aside-toggle" title="Hide" data-toggle=".right">
-        <!-- SVG icon -->
-      </a>
-    </li>
-  </ul>
-</nav>
-```
+* The main content uses a horizontal flex layout, which means it can host more than one thing, e.g. the transcription and the translation for the *registers* profile.
 
 # Templating blocks
 
-* To populate one of the sidebars, your HTML template view can push content to the block named `sidebar`. Inside the block use CSS classes to either make the block display on the left or the right.
-* Most page templates will extend [`profiles/base10/templates/content.html`](https://github.com/eeditiones/jinks/blob/main/profiles/base10/templates/layouts/content.html), which again extends [`base.html`](https://github.com/eeditiones/jinks/blob/main/profiles/base10/templates/layouts/base.html). It adds the buttons to collapse side panels and (optional) the table of contents to `base.html`.
+* To populate any of the areas, your HTML template view can push content to the corresponding block.
+* Most page templates will extend [`profiles/base10/templates/content.html`](https://github.com/eeditiones/jinks/blob/main/profiles/base10/templates/layouts/content.html), which again extends [`base.html`](https://github.com/eeditiones/jinks/blob/main/profiles/base10/templates/layouts/base.html).
 
 **Examples from the codebase:**
 
 ### 1. Adding a timeline to the right sidebar (timeline profile)
 In [`profiles/timeline/templates/timeline-blocks.html`](https://github.com/eeditiones/jinks/blob/main/profiles/timeline/templates/timeline-blocks.html):
 ```html
-[% template sidebar %]
+[% template after %]
 [% if exists($context?doc) and $features?timeline?document-view %]
-<div class="timeline right">
-  <pb-timeline url="[[ $context-path ]]/api/timeline/[[ $context?doc?path ]]" ...>
-    <span slot="label">Angezeigter Zeitraum:&nbsp;</span>
-  </pb-timeline>
+<div class="timeline">
+    <pb-timeline url="[[ $context-path ]]/api/timeline/[[ $context?doc?path ]]" auto=""
+        scopes="[&#34;D&#34;, &#34;M&#34;, &#34;Y&#34;, &#34;5Y&#34;, &#34;10Y&#34;]"
+        resettable="" max-interval="80" subscribe="corresp-timeline" emit="corresp-timeline"
+    >
+        <span slot="label">Angezeigter Zeitraum: </span>
+    </pb-timeline>
 </div>
 [% endif %]
 [% endtemplate %]
@@ -64,16 +37,16 @@ In [`profiles/timeline/templates/timeline-blocks.html`](https://github.com/eedit
 ### 2. Register and map in the sidebar (registers profile)
 In [`profiles/registers/templates/register-blocks.html`](https://github.com/eeditiones/jinks/blob/main/profiles/registers/templates/register-blocks.html):
 ```html
-[% template sidebar %]
+[% template after %]
 [% if $context?features?register?enabled and exists($context?doc)%]
-<aside class="[[ $features?register?placement ]]">
-  <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
+<pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
     <pb-param name="mode" value="register" />
-  </pb-view>
-  <pb-leaflet-map id="map" zoom="11">
-    <pb-map-layer ...></pb-map-layer>
-  </pb-leaflet-map>
-</aside>
+</pb-view>
+<pb-leaflet-map id="map" zoom="11" subscribe="map">
+    <pb-map-layer show="" base="" label="OpenTopo Map"
+        url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19"
+        attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+</pb-leaflet-map>
 [% endif %]
 [% endtemplate %]
 ```
@@ -81,20 +54,7 @@ In [`profiles/registers/templates/register-blocks.html`](https://github.com/eedi
 ### 3. Facsimile viewer in the right sidebar (docs profile)
 In [`profiles/docs/templates/pages/facsimile.html`](https://github.com/eeditiones/jinks/blob/main/profiles/docs/templates/pages/facsimile.html):
 ```html
-[% template sidebar %]
-<nav class="top-right">
-  <ul>
-    <li>
-      <a class="aside-toggle" title="Hide" data-toggle=".right">
-        <!-- SVG icon -->
-      </a>
-    </li>
-  </ul>
-</nav>
-<pb-tify class="right" subscribe="transcription" emit="transcription"></pb-tify>
+[% template after %]
+<pb-tify subscribe="transcription" emit="transcription"></pb-tify>
 [% endtemplate %]
 ```
-
----
-
-These examples show how to use the `sidebar` block in your templates to add custom content to the left or right sidebars, leveraging the grid layout and built-in collapse functionality. If you need more examples or want to see how to add content to other blocks (like `above-content` or `below-content`), let me know!
