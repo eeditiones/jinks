@@ -19,7 +19,7 @@ function teip:after-write($context as map(*), $target as xs:string) {
         cpy:concat(
             map:merge(($context, map:entry("source", $target))), 
             (
-                concat("palette-", ($context?theme?colors?palette, "neutral")[1], ".css"),
+                concat("resources/css/palette-", ($context?theme?colors?palette, "neutral")[1], ".css"),
                 "resources/css/jinks-variables.css",
                 "resources/css/pico-ext.css",
                 "resources/css/base.css",
@@ -31,7 +31,7 @@ function teip:after-write($context as map(*), $target as xs:string) {
                 "resources/css/toc.css",
                 "resources/css/jinks-theme.css"
             ),
-            "resources/css/jinks-theme-bundle.css"
+            "resources/css/jinks-theme.css" (: overwrite style :)
         )
     ) else ()
     ,
