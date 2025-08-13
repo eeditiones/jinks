@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const target = this.dataset.toggle;
             const targetElement = document.querySelector(target);
             targetElement.classList.toggle('hidden');
-            this.closest('.top-left,.top-right').classList.toggle('hidden');
+            this.closest('.before-top,.after-top').classList.toggle('hidden');
         });
     });
 });

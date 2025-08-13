@@ -34,22 +34,21 @@
     <main>
         <pb-load id="results" url="api/search" emit="results"></pb-load>
     </main>
-    [% template sidebar %]
-    <aside class="right">
-        <pb-search id="search-form" subscribe="search"
-            value="[[ page:parameter($context, 'query', '') ]]" 
-            submit-on-load="submit-on-load" subforms=".facets">
-            <div class="targets">
-                <label>Search sections
-                    <input type="checkbox" name="field" value="text"/>
-                </label>
-                <label>Search headings
-                    <input type="checkbox" name="field" value="head"/>
-                </label>
-            </div>
-            <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
-        </pb-search>
-        <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
-    </aside>
+
+    [% template after %]
+    <pb-search id="search-form" subscribe="search"
+        value="[[ page:parameter($context, 'query', '') ]]"
+        submit-on-load="submit-on-load" subforms=".facets">
+        <div class="targets">
+            <label>Search sections
+                <input type="checkbox" name="field" value="text"/>
+            </label>
+            <label>Search headings
+                <input type="checkbox" name="field" value="head"/>
+            </label>
+        </div>
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+    </pb-search>
+    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
     [% endtemplate %]
 </template>

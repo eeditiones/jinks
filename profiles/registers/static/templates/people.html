@@ -12,7 +12,7 @@
         },
         "theme": {
             "layout": {
-                "left-width": "6rem"
+                "before-width": "6rem"
             }
         }
     }
@@ -27,23 +27,23 @@
         </nav>
     </li>
     [% endtemplate %]
-    [% template sidebar %]
-    <aside class="left">
-        <nav>
-            <ul>
-            [% for $i in $pagination?all %]
-                <li>
-                    [% if $pagination?page = $i?page %]
-                    <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
-                    [% else %]
-                    <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
-                    [% endif %]
-                </li>
-            [% endfor %]
-            </ul>
-        </nav>
-    </aside>
+
+    [% template before %]
+    <nav>
+        <ul>
+        [% for $i in $pagination?all %]
+            <li>
+                [% if $pagination?page = $i?page %]
+                <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
+                [% else %]
+                <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
+                [% endif %]
+            </li>
+        [% endfor %]
+        </ul>
+    </nav>
     [% endtemplate %]
+
     <ul>
     [% for $doc in $content %]
         <li>

@@ -45,8 +45,8 @@
         </nav>
     </li>
     [% endtemplate %]
-    [% template sidebar %]
-    <pb-tify class="right" subscribe="transcription" emit="transcription"></pb-tify>
+    [% template after %]
+    <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
     [% endtemplate %]
     <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
         append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"

@@ -1,16 +1,14 @@
 <template>
-    [% template sidebar %]
+    [% template after %]
     [% if $context?features?register?enabled and exists($context?doc)%]
-    <aside class="[[ $features?register?placement ]]">
-        <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
-            <pb-param name="mode" value="register" />
-        </pb-view>
-        <pb-leaflet-map id="map" zoom="11" subscribe="map">
-            <pb-map-layer show="" base="" label="OpenTopo Map"
-                url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19"
-                attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-        </pb-leaflet-map>
-    </aside>
+    <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
+        <pb-param name="mode" value="register" />
+    </pb-view>
+    <pb-leaflet-map id="map" zoom="11" subscribe="map">
+        <pb-map-layer show="" base="" label="OpenTopo Map"
+            url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19"
+            attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+    </pb-leaflet-map>
     [% endif %]
     [% endtemplate %]
 

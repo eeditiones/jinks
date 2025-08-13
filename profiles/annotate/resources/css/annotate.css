@@ -223,17 +223,10 @@ pb-document{
 }
 
 aside .preview {
-    grid-area: aside;
     overflow: auto;
-    background: #efefef;
-    border-top: solid 2px #ddd;
-    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
-    0 1px 8px 0 rgba(0, 0, 0, 0.12),
-    0 3px 3px -2px rgba(0, 0, 0, 0.4);
-    z-index: 98;
     padding-bottom: 25vh;
 }
-    
+
 pb-progress {
     position: absolute;
     bottom: 0;
@@ -520,7 +513,7 @@ fx-control select:focus {
     outline: 2px solid #007bff;
     /* Increase outline width and change color on hover and focus */
 }
-  
+
 /*!
  * Toastify js 1.11.0
  * https://github.com/apvarun/toastify-js

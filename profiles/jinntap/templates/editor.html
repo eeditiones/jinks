@@ -116,7 +116,9 @@
         });
     </script>
     [% endtemplate %]
-    <nav class="toolbar top-center">
+
+    [% template content-top %]
+    <nav class="toolbar">
         <ul>
             <li>
                 <nav aria-label="breadcrumb">
@@ -132,6 +134,8 @@
             </li>
         </ul>
     </nav>
+    [% endtemplate %]
+
     <main>
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
         [% if $features?collab?enable %]

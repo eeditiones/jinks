@@ -13,15 +13,13 @@
         [% endif %]
     [% endtemplate %]
 
-    [% template sidebar %]
+    [% template after %]
         [% if $context?features?pb-tify %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
         [% endif %]
-        
+
         [% if $context?features?pb-tify and exists($context?doc) %]
-        <aside class="right">
-            <pb-tify class="right" subscribe="transcription" emit="transcription"></pb-tify>
-        </aside>
+        <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
         [% endif %]
     [% endtemplate %]
 

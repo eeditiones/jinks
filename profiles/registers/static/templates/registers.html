@@ -12,6 +12,9 @@
         "features": {
             "toc": {
                 "enabled": false
+            },
+            "toolbar": {
+                "navigation": false
             }
         },
         "styles": [
@@ -37,15 +40,14 @@
     </li>
     [% endtemplate %]
 
-    [% template sidebar %]
-    <aside class="right">
-        [[ $parts?register?content ]]
+    [% template after %]
+    [[ $parts?register?content ]]
 
-        <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
-            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-        </pb-leaflet-map>
-    </aside>
+    <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
+        <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+    </pb-leaflet-map>
     [% endtemplate %]
+
     <div class="content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]

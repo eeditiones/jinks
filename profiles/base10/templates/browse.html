@@ -24,35 +24,37 @@
             </div>
         [% endif %]
     [% endtemplate %]
-    [% template sidebar %]
-    <aside class="left">
-        <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
-            subforms=".facets,.options" submit-on-load="submit-on-load">
-            <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
-            <input type="hidden" name="field" value="text"/>
-        </pb-search>
-        <pb-custom-form class="options">
-            <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
-            <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
-        </pb-custom-form>
-        <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
-        </pb-custom-form>
-    </aside>
-    <aside class="right">
-        [% block browse-aside %][% endblock %]
-        [% if $context?features?upload %]
-        <pb-restricted group="[[ $pkg?user?group ]]">
-            [% if $context?defaults?upload %]
-            <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
-                event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
-            [% else %]
-            <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
-                event="pb-search-resubmit"></pb-upload>
-            [% endif %]
-        </pb-restricted>
+    [% template before %]
+    <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+        subforms=".facets,.options" submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text"/>
+    </pb-search>
+    <pb-custom-form class="options">
+        <input type="hidden" name="collection" value="[[ page:parameter($context, 'collection') ]]"/>
+        <input type="hidden" name="sort" value="[[ page:parameter($context, 'sort', $defaults?sort)]]"/>
+    </pb-custom-form>
+    <pb-custom-form class="facets" url="api/search/facets" event="pb-results-received" subscribe="search" emit="search">
+    </pb-custom-form>
+    [% endtemplate %]
+
+    [% template after %]
+    [% block browse-aside %][% endblock %]
+    [% if $context?features?upload %]
+    <pb-restricted group="[[ $pkg?user?group ]]">
+        [% if $context?defaults?upload %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
+            event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
+        [% else %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
+            event="pb-search-resubmit"></pb-upload>
         [% endif %]
-    </aside>
-    <nav class="top-center">
+    </pb-restricted>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template content-top %]
+    <nav class="toolbar">
         <nav aria-label="breadcrumb">
             <ul>
                 <li>
@@ -74,6 +76,7 @@
         </ul>
     </nav>
     [% endtemplate %]
+
     <div id="document-list">
         <pb-load url="api/collection/{collection}" expand="" emit="search"></pb-load>
     </div>

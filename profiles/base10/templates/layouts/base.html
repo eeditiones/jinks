@@ -21,8 +21,8 @@
 
         <style>
             :root {
-                --jinks-layout-left-width: [[$context?theme?layout?left-width]];
-                --jinks-layout-right-width: [[$context?theme?layout?right-width]];
+                --jinks-layout-before-width: [[$context?theme?layout?before-width]];
+                --jinks-layout-after-width: [[$context?theme?layout?after-width]];
             }
         </style>
         [% block styles %][% endblock %]
@@ -57,11 +57,11 @@
         [% block scripts %][% endblock %]
     </head>
     <body>
-        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
-            locales="resources/i18n/{{ns}}/{{lng}}.json" 
-            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
+            locales="resources/i18n/{{ns}}/{{lng}}.json"
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
             class="[[ $context?theme?layout?class ]]"
@@ -71,13 +71,48 @@
                     [% if $features?menubar %]
                     [% include "templates/menu.html" %]
                     [% endif %]
-                    
+
                     [% block header %][% endblock %]
                 </div>
             </header>
             [% block hero %][% endblock %]
-            [% block sidebar %][% endblock %]
+            <nav class="before-top">
+                <ul></ul>
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".before">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <aside class="before">
+                [% block before %][% endblock %]
+            </aside>
+            <header class="content-top">
+                [% block content-top %][% endblock %]
+            </header>
             [% block content %][% endblock %]
+            <nav class="after-top">
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".after">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <aside class="after">
+                [% block after %][% endblock %]
+            </aside>
         </pb-page>
         <div class="splash"/>
         <pb-dialog id="downloadDialog">
