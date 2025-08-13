@@ -1,0 +1,356 @@
+:root {
+    --pico-font-family-sans-serif: var(--jinks-base-font-family);
+    --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
+    --pico-font-weight: var(--jinks-base-font-weight);
+    --pico-line-height: var(--jinks-line-height);
+
+    --pb-color: var(--jinks-color-primary, var(--pico-color));
+    --jinks-logo: var(--jinks-logo-light);
+    --primary-text-color: var(--pb-color);
+    --pb-highlight-color: var(--pb-highlight-color-light);
+    --jinks-background-color: var(--jinks-background-color-light);
+    --jinks-splash-background: var(--jinks-splash-background-light);
+}
+
+/* Settings for dark mode if manually chosen by user */
+[data-theme="dark"] {
+    --pb-color: var(--jinks-color-inverse, var(--pico-color));
+    --primary-text-color: var(--pb-color);
+    --pb-highlight-color: var(--pb-highlight-color-dark);
+    --jinks-logo: var(--jinks-logo-dark);
+    --jinks-splash-background: var(--jinks-splash-background-dark);
+    --jinks-header-background-color: var(--jinks-header-background-color-dark);
+    --jinks-background-color: var(--jinks-background-color-dark);
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: var(--jinks-base-font-size);
+}
+@media screen and (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+html, body {
+    max-width: 100%;
+}
+
+body {
+    background-color: var(--jinks-background-color);
+    font: var(--pb-base-font);
+    margin: 0;
+    min-height: 100vh;
+    color: var(--pb-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--jinks-heading-font-family);
+    font-weight: var(--jinks-heading-font-weight);
+    line-height: var(--jinks-heading-line-height);
+}
+
+*:focus {
+    outline: none;
+}
+
+.splash {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 3;
+    background-image: var(--jinks-splash-background);
+    background-color: var(--jinks-background-color);
+    background-position: center center;
+    background-size: var(--jinks-splash-image-size);
+    background-repeat: no-repeat;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+pb-page[unresolved]~.splash {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+/* check should take the theming settings */
+.toolbar {
+    background-image: none;
+    position: relative;
+    width: 100%;
+    background-color: var(--jinks-toolbar-background-color);
+    color: var(--jinks-toolbar-color);
+    --pico-color: var(--jinks-toolbar-color);
+    --paper-checkbox-label-color: var(--jinks-toolbar-color);
+    --paper-checkbox-unchecked-color: var(--jinks-toolbar-color);
+    padding: 1rem 1.5rem;
+}
+
+.toolbar li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.toolbar a {
+    display: inline-block;
+    color: var(--pb-toolbar-color) !important;
+}
+.toolbar pb-navigation {
+    cursor: pointer;
+}
+
+.toolbar pb-navigation:not([disabled]) svg,
+a[role="button"] svg, .theme-toggle svg, .icon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+}
+
+.toolbar a svg,
+.aside-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.toolbar pb-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--jinks-toolbar-background-color);
+}
+
+pb-navigation[disabled] {
+    display: inline-block;
+    opacity: 0.3;
+}
+
+pb-document {
+    display: none;
+}
+
+.page-header {
+    padding-block-start: 0;
+}
+
+.page-header > div {
+    background-image: var(--jinks-header-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+/* hero covers 100% of the viewport height */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    padding: var(--jinks-hero-padding, 1rem);
+    height: var(--jinks-hero-height, auto);
+    min-height: var(--jinks-hero-min-height, auto);
+
+    color: var(--jinks-color-inverse);
+    --pico-color: var(--jinks-color-inverse);
+    --pico-h1-color: var(--jinks-color-inverse);
+    position: relative;
+    background-image: var(--jinks-hero-background-image);
+    background-size: var(--jinks-hero-background-size);
+    background-repeat: var(--jinks-hero-background-repeat);
+    background-color: var(--jinks-hero-background-color);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--jinks-hero-background-color); /* Adjust the opacity as needed */
+}
+
+.hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 1023px) {
+    .hidden-mobile {
+        display: none;
+    }
+}
+@media (min-width: 1024px) {
+    .mobile {
+        display: none;
+    }
+}
+
+.logo {
+    background-image: var(--jinks-logo-light);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: left center;
+    width: var(--jinks-logo-image-width);
+    height: var(--jinks-logo-image-height);
+    margin-right: var(--jinks-logo-margin-right, 1rem);
+    cursor: pointer;
+}
+
+pb-progress {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #downloadDialog {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+    #downloadDialog {
+        width: 50%;
+    }
+}
+
+pb-view, pb-view-annotate {
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+    margin: 0 1rem;
+    position: relative;
+}
+
+pb-view::part(content) {
+    padding-top: 1rem;
+}
+
+@media (min-width: 769px) {
+    pb-view, pb-view-annotate {
+        max-width: var(--pb-view-max-width);
+    }
+}
+
+pb-popover {
+    text-align: left !important;
+}
+
+.version {
+    text-align: right;
+    font-size: 0.85em;
+    padding: 1em;
+    color: var(--jinks-color-lighter);
+}
+
+.version span {
+    font-weight: bold;
+}
+
+/* Display KWIC search results */
+.matches {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-family: var(--jinks-content-font-family);
+}
+
+.matches .hi {
+    color: var(--jinks-color-focus);
+}
+
+.matches .count {
+    margin-top: 1em;
+}
+
+.matches .count::before {
+    content: '[';
+}
+
+.matches .count::after {
+    content: ']';
+}
+
+.facets {
+    flex: 0;
+    min-width: 220px;
+}
+
+.facet-dimension {
+    margin: 1rem .5rem;
+}
+
+.facets h3 {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-family: var(--jinks-base-font-family);
+    font-weight: 600;
+    padding: .5rem;
+}
+
+.facets h3 label {
+    margin-left: 16px;
+    font-size: 11px;
+}
+
+.facets table {
+    font-size: 0.875rem;
+}
+
+.facets table table {
+    padding-left: 16px;
+    width: 100%;
+}
+
+.facets table td {
+    padding: 4px 0;
+}
+
+.facets table td:nth-child(1) {
+    font-weight: 500;
+}
+
+.facets table td:nth-child(2) {
+    color: var(--jinks-colors-black-300);
+    text-align: right;
+    padding-left: 1em;
+}
+
+main > section {
+    margin-top: var(--pico-block-spacing-vertical);
+}
+
+pb-odd-editor {
+    margin: 1rem;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-bottom: 2rem;
+}
+footer a {
+    width: 128px;
+}
+
+.metadata a {
+    width: 100%;
+    text-align: center;
+}
+
+.overflow {
+    overflow: auto;
+    height: 100%;
+}
+
+.error {
+    /* FIXME: hard-coded color value */
+    color: #c02020;
+}

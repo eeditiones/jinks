@@ -1,0 +1,144 @@
+/* Layouts
+ *
+ * 1. sticky-layout: The page header is sticky and the content scrolls underneath it.
+ * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
+ */
+.fixed-layout > .before-top li,
+.fixed-layout > .after-top li,
+.fixed-layout > .content-top li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.fixed-layout > .before:not(:empty),
+.fixed-layout > .after:not(:empty) {
+    background-color: var(--jinks-colors-50);
+    padding: 0 .5rem 1.5rem .5rem;
+    overflow: auto;
+}
+
+.fixed-layout > .before-top,
+.fixed-layout > .before {
+    border-right: 1px solid var(--jinks-color-border);
+}
+
+.fixed-layout > .after-top,
+.fixed-layout > .after {
+    border-left: 1px solid var(--jinks-color-border);
+}
+
+.fixed-layout > .below-content {
+    padding: 1rem;
+}
+
+.fixed-layout:has(> .before:not(:empty)) > .before-top,
+.fixed-layout:has(> .after:not(:empty)) > .after-top {
+    background-color: var(--jinks-colors-50);
+    padding: 0 .5rem 1.5rem .5rem;
+    padding: 1rem;
+}
+
+.fixed-layout:has(> .before:empty) > .before-top,
+.fixed-layout:has(> .after:empty) > .after-top {
+    display: none;
+}
+
+.fixed-layout {
+    --before-column-width: minmax(0, var(--jinks-layout-before-width));
+    --after-column-width: minmax(0, var(--jinks-layout-after-width));
+
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns:
+        var(--before-column-width)
+        1fr
+        var(--after-column-width);
+    grid-template-areas:
+        "header header header"
+        "before-top content-top after-top"
+        "before content after";
+    position: relative;
+}
+
+.fixed-layout:not(:has(> .before)),
+.fixed-layout:has(> .before:empty) {
+    --before-column-width: 0;
+}
+
+.fixed-layout:not(:has(> .after)),
+.fixed-layout:has(> .after:empty) {
+    --after-column-width: 0;
+}
+
+.fixed-layout > .before-top.hidden svg,
+.fixed-layout > .after-top svg {
+    rotate: 180deg;
+}
+.fixed-layout > .after-top.hidden svg {
+    rotate: 0deg;
+}
+
+.fixed-layout:has(> .before.hidden) {
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+    --before-column-width: calc(2rem + 20px);
+}
+
+.fixed-layout:has(> .after.hidden) {
+    --after-column-width: calc(2rem + 20px);
+    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+}
+
+.fixed-layout > .before.hidden,
+.fixed-layout > .after.hidden {
+    visibility: hidden;
+}
+
+.fixed-layout > .after-top.hidden,
+.fixed-layout > .before-top.hidden {
+    background-color: inherit;
+    border: none;
+}
+
+@media screen and (max-width: 1023px) {
+    .fixed-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fixed-layout > main {
+    grid-area: content;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.fixed-layout > .before {
+    grid-area: before;
+}
+
+.fixed-layout > .before-top {
+    grid-area: before-top;
+}
+
+.fixed-layout>.after-top {
+    grid-area: after-top;
+}
+
+.fixed-layout > .after {
+    grid-area: after;
+    overflow: auto;
+}
+
+.fixed-layout>.page-header {
+    grid-area: header;
+}
+
+.fixed-layout>.content-top {
+    grid-area: content-top;
+}
+
+/* .fixed-layout > .below-content {
+    grid-area: content;
+} */

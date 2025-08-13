@@ -3,12 +3,15 @@
 [% else %]
 @import url("palette-neutral.css");
 [% endif %]
-
-@import url("../fonts/font.css");
-@import url("base-theme.css");
-@import url("pico-ext.css");
-@import url("controls.css");
 @import url("jinks-variables.css");
+@import url("pico-ext.css");
+@import url("base.css");
+@import url("../fonts/font.css");
+@import url("controls.css");
+@import url("layouts.css");
+@import url("menu.css");
+@import url("documents.css");
+@import url("toc.css");
 
 nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     width: 1.25rem;
