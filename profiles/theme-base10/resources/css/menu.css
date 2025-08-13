@@ -68,6 +68,27 @@
     margin-bottom: 0;
 }
 
+
+.menubar button,
+.menubar input[type="search"],
+.menubar pb-search::part(input) {
+    background-color: var(--jinks-menubar-button-color);
+    color: var(--jinks-menubar-color);
+    border: 1px solid transparent;
+}
+
+.menubar pb-search::part(input)::placeholder {
+    color: #E1E1E1;
+}
+
+.menubar .dropdown {
+    margin-bottom: 0;
+}
+
+.menubar .dropdown summary, .menubar .dropdown summary::after {
+    color: var(--jinks-menubar-color);
+}
+
 .mobile.menu {
     display: none;
     position: fixed;

@@ -21,17 +21,6 @@ nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     height: 1.25rem;
 }
 
-.menubar button,
-.menubar input[type="search"],
-.menubar pb-search::part(input) {
-    background-color: var(--jinks-menubar-button-color);
-    color: var(--jinks-menubar-color);
-    border: 1px solid transparent;
-}
-
-.menubar pb-search::part(input)::placeholder {
-    color: #E1E1E1;
-}
 
 .left > pb-search, .right > pb-search {
     display: block;
@@ -46,14 +35,6 @@ nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     border-radius: 1rem;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
     background-color: var(--jinks-colors-50);
-}
-
-.menubar .dropdown {
-    margin-bottom: 0;
-}
-
-.menubar .dropdown summary, .menubar .dropdown summary::after {
-    color: var(--jinks-menubar-color);
 }
 
 .alert {
