@@ -1,3 +1,5 @@
+[% if $context?production %] /* production = no imports but import css modules */
+[% else %] /* dev mode by default */
 [% if $theme?colors?palette %]
 @import url("palette-[[ $theme?colors?palette ]].css");
 [% else %]
@@ -12,6 +14,7 @@
 @import url("menu.css");
 @import url("documents.css");
 @import url("toc.css");
+[% endif %]
 
 nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     width: 1.25rem;

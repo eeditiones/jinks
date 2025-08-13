@@ -15,6 +15,26 @@ import module namespace path="http://tei-publisher.com/jinks/path" at "../../pat
 declare 
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
+    if ($context?production) then (
+        cpy:concat(
+            map:merge(($context, map:entry("source", $target))), 
+            (
+                concat("palette-", ($context?theme?colors?palette, "neutral")[1], ".css"),
+                "resources/css/jinks-variables.css",
+                "resources/css/pico-ext.css",
+                "resources/css/base.css",
+                "resources/fonts/font.css",
+                "resources/css/layouts.css",
+                "resources/css/controls.css",
+                "resources/css/menu.css",
+                "resources/css/documents.css",
+                "resources/css/toc.css",
+                "resources/css/jinks-theme.css"
+            ),
+            "resources/css/jinks-theme-bundle.css"
+        )
+    ) else ()
+    ,
     cpy:concat(
         map:merge(($context, map:entry("source", $target))), 
         (
@@ -26,3 +46,5 @@ function teip:after-write($context as map(*), $target as xs:string) {
         "resources/css/components.css"
     )
 };
+
+
