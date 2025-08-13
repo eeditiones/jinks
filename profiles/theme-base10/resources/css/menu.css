@@ -1,21 +1,20 @@
-/* check should take the theming settings */
-.menubar {
-    background-image: none;
-}
-
 .menubar {
     --pico-color: var(--jinks-menubar-color);
     --pico-primary: var(--jinks-menubar-color);
     --pico-primary-hover: var(--jinks-menubar-color);
-    --pb-login-link-color: var(--jinks-menubar-color);
+
     --jinks-select-color: var(--jinks-menubar-color);
     --jinks-select-background-color: var(--jinks-menubar-background-color);
-    background-color: var(--jinks-menubar-background-color);
-    color: var(--jinks-menubar-color);
+
+    --pb-login-link-color: var(--jinks-menubar-color);
     --pb-search-suggestions-color: var(--jinks-menubar-color);
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
+
+    background-color: var(--jinks-menubar-background-color);
+    background-image: none;
+    color: var(--jinks-menubar-color);
     font-size: var(--jinks-menubar-font-size);
-    padding: 1rem 1.5rem;
+    padding-inline: 1.5rem;
 }
 
 .menubar .icon {
