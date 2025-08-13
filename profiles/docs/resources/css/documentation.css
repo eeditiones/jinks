@@ -2,6 +2,14 @@
     --jinks-content-font-family: var(--pb-base-font-family);
 }
 
+pb-view.breadcrumbs {
+    --jinks-content-font-size: var(--pb-base-font-size);
+}
+
+pb-view.breadcrumbs::part(content) {
+    padding: inherit;
+}
+
 @media (min-width: 769px) {
     pb-view.content {
         max-width: 60vw;

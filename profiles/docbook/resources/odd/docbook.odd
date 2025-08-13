@@ -11,6 +11,7 @@
                  
                   
                  
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -214,6 +215,7 @@
                     <model output="latex" predicate="parent::info" behaviour="inline">
             <pb:template xmlns="" xml:space="preserve">\title{[[content]]}</pb:template>
         </model>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="listItem"/>
                     <model predicate="$parameters?mode='summary'" behaviour="block" cssClass="articletitle">
             <param name="content" value="node()"/>
             <param name="path" value="$parameters?path"/>
@@ -236,12 +238,12 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="section">
-                    <modelSequence predicate="$parameters?mode='breadcrumbs'">
+                    <modelSequence predicate="$parameters?mode='breadcrumb'">
             <model behaviour="inline">
-                <param name="content" value="$get(.)/ancestor::section/title"/>
-            </model>
-            <model behaviour="inline">
-                <param name="content" value="title"/>
+                <param name="content" value="($get(.)/ancestor::section/title, title)"/>
+                <pb:template xmlns="" xml:space="preserve"><nav aria-label="breadcrumb">
+  <ul>[[ content ]]</ul>
+</nav></pb:template>
             </model>
         </modelSequence>
                     <model output="print" behaviour="section"/>
@@ -269,8 +271,10 @@
             
             
             
+            
             font-weight: 400;
 font-style: italic;
+            
             
             
             
@@ -404,10 +408,12 @@ font-style: italic;
             
             
             
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
             
             
             
@@ -455,6 +461,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -465,6 +472,7 @@ white-space: pre-wrap;
 
 
 
+            
             
             
             
@@ -528,6 +536,7 @@ white-space: pre-wrap;
             
             
             
+            
 
 
 
@@ -543,6 +552,7 @@ padding: 1em 0 1em .5em;
 
 
 
+            
             
             
             
@@ -662,6 +672,7 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
 
 
 
@@ -675,6 +686,7 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
             
             
             
