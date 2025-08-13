@@ -15,40 +15,44 @@ import module namespace path="http://tei-publisher.com/jinks/path" at "../../pat
 declare
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
-    if ($context?production) then (
+    let $palette := concat("resources/css/palette-", ($context?theme?colors?palette, "neutral")[1], ".css")
+    let $context-with-target := map:merge(($context, map:entry("source", $target)))
+
+    let $theme-bundle :=
+        if ($context?production) then (
+            cpy:concat(
+                $context-with-target, 
+                (
+                    $palette,
+                    "resources/css/jinks-variables.css",
+                    "resources/css/pico-ext.css",
+                    "resources/css/base.css",
+                    "resources/fonts/font.css",
+                    "resources/css/layouts.css",
+                    "resources/css/controls.css",
+                    "resources/css/menu.css",
+                    "resources/css/documents.css",
+                    "resources/css/toc.css",
+                    "resources/css/jinks-theme.css"
+                ),
+                "resources/css/jinks-theme.css" (: overwrite style :)
+            )
+        ) else ()
+
+    let $components-bundle :=
         cpy:concat(
-            map:merge(($context, map:entry("source", $target))), 
+            $context-with-target,
             (
-                concat("resources/css/palette-", ($context?theme?colors?palette, "neutral")[1], ".css"),
+                $palette,
+                "resources/css/pico-components.css",
                 "resources/css/jinks-variables.css",
-                "resources/css/pico-ext.css",
-                "resources/css/base.css",
-                "resources/fonts/font.css",
-                "resources/css/layouts.css",
                 "resources/css/controls.css",
-                "resources/css/menu.css",
-                "resources/css/documents.css",
-                "resources/css/toc.css",
-                "resources/css/jinks-theme.css"
+                "resources/css/jinks-components.css"
             ),
-            "resources/css/jinks-theme.css" (: overwrite style :)
+            "resources/css/components.css"
         )
-    ) else ()
-    ,
-    cpy:concat(
-        map:merge(($context, map:entry("source", $target))),
-        (
-            if ($context?theme?colors?palette) then
-                "resources/css/palette-" || $context?theme?colors?palette || ".css"
-            else
-                "resources/css/palette-neutral.css",
-            "resources/css/pico-components.css",
-            "resources/css/jinks-variables.css",
-            "resources/css/controls.css",
-            "resources/css/jinks-components.css"
-        ),
-        "resources/css/components.css"
-    )
+
+    return ($theme-bundle, $components-bundle)
 };
 
 
