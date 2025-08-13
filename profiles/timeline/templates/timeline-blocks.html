@@ -12,9 +12,9 @@
     [% endif %]
     [% endtemplate %]
 
-    [% template sidebar %]
+    [% template after %]
     [% if exists($context?doc) and $features?timeline?document-view %]
-    <div class="timeline right">
+    <div class="timeline">
         <pb-timeline url="[[ $context-path ]]/api/timeline/[[ $context?doc?path ]]" auto="" scopes="[&#34;D&#34;, &#34;M&#34;, &#34;Y&#34;, &#34;5Y&#34;, &#34;10Y&#34;]" resettable="" max-interval="80" subscribe="corresp-timeline" emit="corresp-timeline">
             <span slot="label">Angezeigter Zeitraum: </span>
         </pb-timeline>
