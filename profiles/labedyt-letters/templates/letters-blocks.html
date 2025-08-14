@@ -2,13 +2,11 @@
     [% template toggle %]
         [% if $context?toolbar?toggle %]
         <li>
-            <span role="group">
-                <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover"
-                    action="disable" default="off" emit="transcription" subscribe="transcription"
-                    data-target="toolbar-start">
-                    <pb-i18n key="document.plain">Reading View</pb-i18n>
-                </pb-toggle-feature>
-            </span>
+            <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover"
+                action="disable" default="off" emit="transcription" subscribe="transcription"
+                data-target="toolbar-start" class="light">
+                <pb-i18n key="document.plain">Reading View</pb-i18n>
+            </pb-toggle-feature>
         </li>
         [% endif %]
     [% endtemplate %]

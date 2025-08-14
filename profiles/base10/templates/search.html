@@ -40,11 +40,13 @@
         value="[[ page:parameter($context, 'query', '') ]]"
         submit-on-load="submit-on-load" subforms=".facets">
         <div class="targets">
-            <label>Search sections
+            <label>
                 <input type="checkbox" name="field" value="text"/>
+                Search sections
             </label>
-            <label>Search headings
+            <label>
                 <input type="checkbox" name="field" value="head"/>
+                Search headings
             </label>
         </div>
         <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>

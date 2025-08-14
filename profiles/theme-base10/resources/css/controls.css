@@ -12,6 +12,10 @@
     background-color: var(--jinks-colors-accent);
 }
 
+label, input {
+    font-size: var(--jinks-form-control-font-size);
+}
+
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -19,6 +23,7 @@ input[type="checkbox"] {
     background-color: var(--jinks-colors-200);
     border: 1px solid var(--jinks-form-border-color);
     border-radius: 3.429px;
+    margin: 0;
 }
 
 input[type="checkbox"]:checked {
@@ -68,6 +73,19 @@ label:has(input:not([type="checkbox"])) {
 }
 
 label:has(input:not([type="checkbox"])) > input {
+    margin: 0;
+}
+
+label:has(input[type="checkbox"]) {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+label:has(input[type="checkbox"]) > input {
     margin: 0;
 }
 
@@ -211,11 +229,9 @@ button:has(svg):not(:has(span)),
     margin: 0;
 }
 
-[role="group"].light,
-.btn.light,
-button.light,
+.light,
 pb-link .btn.light a {
-    background-color: var(--jinks-color-white);
+    background-color: var(--jinks-colors-light);
 }
 
 [role="group"] pb-zoom,
