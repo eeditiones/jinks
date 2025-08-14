@@ -11,16 +11,6 @@
         }
     }
     ---
-    [% template breadcrumb %]
-    <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ $request?parameters?collection ]]">Letters</a></li>
-                <li>[[ $doc?transform($doc?content//*:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
-            </ul>
-        </nav>
-    </li>
-    [% endtemplate %]
     <pb-view class="column1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
     <pb-view class="column2" src="document1" xpath="//text[@type = 'translation']" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>
 </template>

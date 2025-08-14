@@ -6,6 +6,7 @@
                 <title>Deutsches Textarchiv (dta) (Custom ODD)
                       
                    
+                  
                   <desc>A simple ODD to render documents encoded according to the </desc>
                 </title>
                 <title type="short">Deutsches Textarchiv</title>
@@ -68,16 +69,24 @@
         </model>
                     <model output="web" predicate="@place='top' and $parameters?view='page'" behaviour="inline" cssClass="running">
             <outputRendition xml:space="preserve">
+            
+            
             display: block;
 color: #CCC;
+            
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig' and $parameters?view='page'" behaviour="block">
             <param name="catch" value="following-sibling::fw/node()"/>
             <pb:template xmlns="" xml:space="preserve"><div class="catch">[[catch]]</div><div class="sig">[[content]]</div></pb:template>
             <outputRendition xml:space="preserve">
+            
+            
             margin-top: 1em;
 color: #A0A0A0;
+            
+            
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page' and preceding-sibling::fw" behaviour="omit">
@@ -87,8 +96,12 @@ color: #A0A0A0;
         </model>
                     <model output="web" predicate="@type='catch' and $parameters?view='page'" behaviour="block" cssClass="catch">
             <outputRendition xml:space="preserve">
+            
+            
             margin-top: 1em;
 color: #A0A0A0;
+            
+            
             </outputRendition>
         </model>
                     <model behaviour="omit"/>
@@ -96,6 +109,39 @@ color: #A0A0A0;
                 <elementSpec ident="lb" mode="change">
                     <model predicate="@break='no'" behaviour="inline" cssClass="lb hyphenated" useSourceRendition="true"/>
                     <model predicate="parent::p or parent::head" behaviour="inline" cssClass="lb" useSourceRendition="true"/>
+                </elementSpec>
+            <elementSpec ident="teiHeader" mode="change"/>
+                <elementSpec ident="titleStmt" mode="change">
+                    <model output="latex" behaviour="meta">
+            <param name="content" value="."/>
+        </model>
+                    <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+            <desc>for breadcrumbs, pick only the first title</desc>
+            <param name="content" value="title[@type='main']"/>
+        </model>
+                    <modelSequence output="web" predicate="$parameters?header='short'">
+            <desc>Display short header in document lists</desc>
+            <model predicate="$parameters?static" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+            </model>
+            <model predicate="not($parameters?static)" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?doc"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="subsequence(title, 2)"/>
+            </model>
+            <model behaviour="block">
+                <param name="content" value="author"/>
+            </model>
+        </modelSequence>
+                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+            <desc>List of letters in register detail view</desc>
+            <param name="content" value="head((title[@type='main'], title))"/>
+        </model>
+                    <model output="web" behaviour="block"/>
                 </elementSpec>
             </schemaSpec>
         </body>

@@ -93,10 +93,16 @@
             <aside class="before">
                 [% block before %][% endblock %]
             </aside>
+
             <header class="content-top">
+                [% if $features?toolbar?enabled %]
+                [% include "templates/toolbar.html" %]
+                [% endif %]
                 [% block content-top %][% endblock %]
             </header>
+
             [% block content %][% endblock %]
+
             <nav class="after-top">
                 <ul>
                     <li>

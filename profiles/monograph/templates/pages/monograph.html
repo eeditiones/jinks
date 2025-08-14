@@ -16,16 +16,6 @@
         </pb-toggle-feature>
     </li>
     [% endtemplate %]
-    [% template breadcrumb %]
-    <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='main'], map { "mode": "breadcrumb" }, "dta.odd") ]]</li>
-            </ul>
-        </nav>
-    </li>
-    [% endtemplate %]
     <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes"
         subscribe="transcription" emit="transcription" />
 </template>

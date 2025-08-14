@@ -3,7 +3,8 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Bogactwa mowy polskiej <desc>Polish dictionary example</desc>
+                <title>Bogactwa mowy polskiej 
+                  <desc>Polish dictionary example</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -61,6 +62,8 @@
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
             <outputRendition xml:space="preserve">
             
+            
+            
             font-size: 16px;
                             color: #888888;
                             cursor: pointer;
@@ -68,6 +71,8 @@
                             display: block;
                             margin-right: -32px;
                             float: right;
+            
+            
             
             </outputRendition>
         </model>
@@ -153,7 +158,8 @@
             <param name="content" value="."/>
         </model>
                     <model output="fo" behaviour="heading"/>
-                    <modelSequence output="web" predicate="$parameters?mode='title' ">
+                    <modelSequence output="web" predicate="$parameters?mode=('title', 'breadcrumb')">
+            <desc>Title and breadcrumb</desc>
             <model behaviour="inline">
                 <param name="content" value="title[1]"/>
             </model>
@@ -185,6 +191,9 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+            <param name="content" value="fileDesc/titleStmt"/>
+        </model>
                     <model output="web" predicate="$parameters?mode='metadata'" behaviour="block"/>
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>

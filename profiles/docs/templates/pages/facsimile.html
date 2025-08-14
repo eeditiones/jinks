@@ -13,19 +13,14 @@
             "toc": {
                 "enabled": false
             }
+        },
+        "theme": {
+            "layout": {
+                "after-width": "33vw"
+            }
         }
     }
     ---
-    [% template breadcrumb %]
-    <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='statement'], map { "mode": "breadcrumb" }) ]]</li>
-            </ul>
-        </nav>
-    </li>
-    [% endtemplate %]
     [% template after %]
     <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
     [% endtemplate %]

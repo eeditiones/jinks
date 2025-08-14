@@ -16,14 +16,4 @@
         }
     }
     ---
-    [% template breadcrumb %]
-    <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $doc?transform($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1], map { "header": "short" }) ]]</li>
-            </ul>
-        </nav>
-    </li>
-    [% endtemplate %]
 </template>

@@ -6,6 +6,19 @@
         }
     }
     ---
+    [% template breadcrumb %]
+    [% if exists($context?doc) %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
+                <li>[[ $context?doc?transform($context?doc?content, map { "mode": "breadcrumb" }) ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+
     [% template before %]
     [% if $context?features?toc?enabled and exists($context?doc)%]
     <h5>
@@ -13,12 +26,6 @@
     </h5>
     <pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]" expand="expand"
         src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
-    [% endif %]
-    [% endtemplate %]
-
-    [% template content-top %]
-    [% if $features?toolbar?enabled %]
-    [% include "templates/toolbar.html" %]
     [% endif %]
     [% endtemplate %]
 
