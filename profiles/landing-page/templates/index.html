@@ -19,57 +19,72 @@
         },
         "theme": {
             "layout": {
-                "class": "sticky-layout"
+                "class": "landing-layout"
             }
         }
     }
     ---
     [% template styles %]
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
-    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/> -->
     [% endtemplate %]
 
     [% template hero %]
-    <div class="hero">
-        <h1><pb-i18n key="hero.main"/></h1>
-        <p><pb-i18n key="hero.sub"/></p>
-        <a href="browse.html"><pb-i18n key="hero.explore"/></a>
-    </div>
+    <header class="hero">
+        <section class="center-l">
+            <h1><pb-i18n key="hero.main"/></h1>
+            <p><pb-i18n key="hero.sub"/></p>
+            <a href="browse.html"><pb-i18n key="hero.explore"/></a>
+        </section>
+    </header>
     [% endtemplate %]
 
-    <main>
-        <div class="container">
-            <section id="about">
-                <header>
-                    <h1><pb-i18n key="landing.about"/></h1>
-                </header>
-                <div class="grid">
-                    [% include "templates/about.html" %]
-                    <div class="bg-transparent"><span></span></div>
-                </div>
-            </section>
-
-            <section id="highlights">
-                <header>
-                    <h1><pb-i18n key="landing.highlights"/></h1>
-                </header>
-                [% include "templates/highlights.html" %]
-            </section>
-
-            <section id="team">
-                <header>
-                    <h1><pb-i18n key="landing.team"/></h1>
-                </header>
-                [% include "templates/team.html" %]
-            </section>
-            <section id="partners">
-                <header>
-                    <h1><pb-i18n key="landing.partners"/></h1>
-                </header>
-                [% include "templates/footer.html" %]
-            </section>
+    <section id="about" class="section-light">
+        <div class="center-l">
+            <header>
+                <h1><pb-i18n key="landing.about"/></h1>
+            </header>
+            <div class="grid">
+                [% include "templates/about.html" %]
+                <div class="bg-transparent"><span></span></div>
+            </div>
         </div>
-    </main>
-    [% include "templates/bottom.html" %]
+    </section>
+
+    <section id="highlights" class="section-highlight">
+        <div class="center-l">
+            <header>
+                <h1><pb-i18n key="landing.highlights"/></h1>
+            </header>
+            [% include "templates/highlights.html" %]
+        </div>
+    </section>
+
+    <section id="team" class="section-dark">
+        <div class="center-l">
+            <header>
+                <h1><pb-i18n key="landing.team"/></h1>
+            </header>
+            [% include "templates/team.html" %]
+        </div>
+    </section>
+
+    <section id="partners" class="section-light">
+        <div class="center-l">
+            <header>
+                <h1><pb-i18n key="landing.partners"/></h1>
+            </header>
+            [% include "templates/partners.html" %]
+        </div>
+    </section>
+
+    <section id="bottom" class="section-dark">
+         <!-- style="background-image:url(resources/images/abstract-1.jpg)"> -->
+        <div class="bottom center-l">
+        [% include "templates/bottom.html" %]
+        </div>
+    </section>
+
+    [% include "templates/footer.html" %]
 </template>
