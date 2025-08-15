@@ -7,6 +7,9 @@
         "features": {
             "toc": {
                 "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-facsimile"
             }
         }
     }
@@ -18,8 +21,6 @@
         </summary>
         [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "metadata" }, "osinski.odd") ]]
     </details>
-    <pb-facsimile base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control"
-        show-navigator="show-navigator" subscribe="transcription" style="height: 100%"/>
     [% endtemplate %]
     <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
 </template>

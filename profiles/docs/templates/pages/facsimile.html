@@ -2,16 +2,14 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/content.html"
-        },
-        "script": {
-            "extra-components": [
-                "pb-tify"
-            ]
+            "extends": "templates/pages/basic.html"
         },
         "features": {
             "toc": {
                 "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-tify"
             }
         },
         "theme": {
@@ -21,8 +19,4 @@
         }
     }
     ---
-    [% template after %]
-    <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
-    [% endtemplate %]
-    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </template>

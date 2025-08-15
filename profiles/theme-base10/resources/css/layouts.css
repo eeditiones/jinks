@@ -145,6 +145,10 @@
     grid-area: content-top;
 }
 
+body:has(.fixed-layout) {
+    overflow: hidden;
+}
+
 /* .fixed-layout > .below-content {
     grid-area: content;
 } */
