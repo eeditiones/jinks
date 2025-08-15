@@ -11,8 +11,8 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $context?doc?transform($context?doc?content, map { "mode": "breadcrumb" }) ]]</li>
+                [[ page:collection-breadcrumbs($context) ]]
+                <li>[[ $context?doc?transform-with($context?doc?content, map { "mode": "breadcrumb" }, $context?doc?odd || ".odd") ]]</li>
             </ul>
         </nav>
     </li>
