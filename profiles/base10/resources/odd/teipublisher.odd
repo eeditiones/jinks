@@ -543,23 +543,12 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="quote" mode="change">
-                    <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true">
-            <desc>If it is inside a paragraph then it is inline, otherwise it is block
-                            level</desc>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '‘';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: '’';
-            </outputRendition>
-        </model>
-                    <model behaviour="block" useSourceRendition="true">
-            <desc>If it is inside a paragraph then it is inline, otherwise it is block
-                            level</desc>
-            <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px;
-            </outputRendition>
-        </model>
+                    <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
+                        <desc>If inside a paragraph then rendered inline</desc>
+                    </model>
+                    <model behaviour="block" useSourceRendition="true" cssClass="block-quote">
+                        <desc>If it is not inside a paragraph then it is a block</desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::correspContext" behaviour="inline"/>

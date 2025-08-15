@@ -24,6 +24,17 @@ people, places, organizations etc */
     font-style: italic;
 }
 
+/* Quotes: inline and block level */
+    .tei-quote.inline-quote::before {
+        content: '‘';
+    }
+    .tei-quote.inline-quote::after {                
+        content: '’';
+    }
+    .tei-quote.block-quote {
+        margin: 2rem;
+    }
+
 .tei-dateline {
     text-align: right;
 }
