@@ -3,7 +3,7 @@
     {
         "features": {
             "toolbar": {
-                "enabled": true
+                "enabled": false
             },
             "toc": {
                 "enabled": false
@@ -124,7 +124,9 @@
                 <nav aria-label="breadcrumb">
                     <ul>
                         <li>
-                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Editor</a>
+                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">
+                                <pb-i18n key="breadcrumb.document-root">Documents</pb-i18n>
+                            </a>
                         </li>
                         <li>
                             [[ $context?doc?path ]]
