@@ -20,17 +20,4 @@
         <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
         [% endif %]
     [% endtemplate %]
-
-    [% template breadcrumb %]
-    <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"><pb-i18n key="breadcrumbs.letters">Listy</pb-i18n></a></li>
-                [% if exists($context?doc)%]
-                    <li>[[ $context?doc?transform($context?doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "breadcrumb" }) ]]</li>
-                [% endif %]
-            </ul>
-        </nav>
-    </li>
-    [% endtemplate %]
 </template>
