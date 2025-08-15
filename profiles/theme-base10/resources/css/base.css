@@ -391,3 +391,31 @@ nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     /* Light/Elevation/card-rest */
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
 }
+
+main {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+
+  * {
+    flex: 0 0 auto;
+    align-self: auto;
+  }
+}
+
+.container > :not(.resize-handler) {
+  padding: 10px;
+  overflow: aut;ool
+}

@@ -20,11 +20,13 @@
 .fixed-layout > .before-top,
 .fixed-layout > .before {
     border-right: 1px solid var(--jinks-color-border);
+	max-width: 45vw;
 }
 
 .fixed-layout > .after-top,
 .fixed-layout > .after {
     border-left: 1px solid var(--jinks-color-border);
+	max-width: 45vw;
 }
 
 .fixed-layout > .below-content {
@@ -42,7 +44,6 @@
 .fixed-layout:has(> .after:empty) > .after-top {
     display: none;
 }
-
 .fixed-layout {
     --before-column-width: minmax(0, var(--jinks-layout-before-width));
     --after-column-width: minmax(0, var(--jinks-layout-after-width));
@@ -52,9 +53,9 @@
     width: 100vw;
     grid-template-rows: auto auto 1fr;
     grid-template-columns:
-        var(--before-column-width)
+        auto
         1fr
-        var(--after-column-width);
+        auto;
     grid-template-areas:
         "header header header"
         "before-top content-top after-top"
@@ -116,6 +117,8 @@
 
 .fixed-layout > .before {
     grid-area: before;
+	/* Position the resize handler relative to here */
+	position: relative;
 }
 
 .fixed-layout > .before-top {
@@ -129,6 +132,9 @@
 .fixed-layout > .after {
     grid-area: after;
     overflow: auto;
+
+	/* Position the resize handler relative to here */
+	position: relative;
 }
 
 .fixed-layout>.page-header {
@@ -142,3 +148,30 @@
 /* .fixed-layout > .below-content {
     grid-area: content;
 } */
+
+
+.resize-handler {
+    top: 0px;
+    cursor: e-resize;
+
+	/* Make mobile work: prevent long-press actions */
+    touch-action: none;
+
+	width: 1rem;
+	bottom: 0px;
+
+	position: absolute;
+
+	&.active {
+		var(--pico-primary-hover);
+	}
+}
+
+.before > .resize-handler {
+    right: 0px;
+	float: right;
+}
+.after > .resize-handler {
+    left: 0px;
+	float: left;
+}
