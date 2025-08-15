@@ -46,15 +46,25 @@ declare function page:parameter($context as map(*), $name as xs:string, $default
  :)
 declare function page:collection-breadcrumbs($context as map(*)) {
     if (exists($context?doc)) then
-        let $components := config:get-relpath($context?doc?content, $config:data-root) => tokenize("/")
-        for $i in 1 to count($components) - 1
+        let $components := config:get-relpath($context?doc?content, $config:data-default) => tokenize("/")
         return
-            <li>
-                <a href="{$context?context-path}/browse.html?collection={string-join(subsequence($components, 1, $i), '/')}">
-                    <pb-i18n key="breadcrumb.{string-join(subsequence($components, 1, $i), '.')}">
-                        {$components[$i]}
-                    </pb-i18n>
-                </a>
-            </li>
+            if (count($components) = 1) then
+                <li>
+                    <a href="{$context?context-path}/browse.html?collection=">
+                        <pb-i18n key="breadcrumb.document-root">
+                            Home
+                        </pb-i18n>
+                    </a>
+                </li>
+            else
+                for $i in 1 to count($components) - 1
+                return
+                    <li>
+                        <a href="{$context?context-path}/browse.html?collection={string-join(subsequence($components, 1, $i), '/')}">
+                            <pb-i18n key="breadcrumb.{string-join(subsequence($components, 1, $i), '.')}">
+                                {$components[$i]}
+                            </pb-i18n>
+                        </a>
+                    </li>
     else ()
 };

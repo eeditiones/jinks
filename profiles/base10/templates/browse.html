@@ -56,17 +56,7 @@
     [% template content-top %]
     <nav class="toolbar">
         <nav aria-label="breadcrumb">
-            <ul>
-                <li>
-                    <a class="parent-link" role="button" data-collection="[[ browse:parent-link($context) ]]"
-                        data-i18n="[title]browse.up">
-                        Collections
-                    </a>
-                </li>
-                [% if page:parameter($context, 'collection') != '' %]
-                <li class="current-collection">[[ page:parameter($context, 'collection') ]]</li>
-                [% endif %]
-            </ul>
+            <ul></ul>
         </nav>
         <ul>
             [% block before-document-list %][% endblock %]
