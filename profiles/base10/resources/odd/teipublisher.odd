@@ -146,10 +146,6 @@
                 <elementSpec ident="back" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
-                <elementSpec ident="bibl" mode="change">
-                    <model predicate="parent::listBibl" behaviour="listItem"/>
-                    <model behaviour="inline"/>
-                </elementSpec>
                 <elementSpec ident="body" mode="change">
                     <modelSequence>
             <model behaviour="index">
