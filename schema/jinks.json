@@ -289,6 +289,20 @@
                             "enum": ["left", "right"]
                         }
                     }
+                },
+                "iiif": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, a IIIF viewer will be displayed in the right sidebar."
+                        },
+                        "viewer": {
+                            "type": "string",
+                            "description": "The viewer to use",
+                            "enum": ["pb-tify", "pb-facsimile"]
+                        }
+                    }
                 }
             }
         },
