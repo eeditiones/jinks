@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        form.querySelectorAll('[name="feature"]').forEach((input) => {
+        form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
 
