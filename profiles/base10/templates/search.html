@@ -31,11 +31,23 @@
             height: fit-content;
         }
     </style>
+
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]"><pb-i18n key="search.search" /></a>
+                </li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+
     <main>
-        <pb-load id="results" url="api/search" emit="results"></pb-load>
+        <pb-load class="results" url="api/search" emit="results"></pb-load>
     </main>
 
-    [% template after %]
+    [% template before %]
     <pb-search id="search-form" subscribe="search"
         value="[[ page:parameter($context, 'query', '') ]]"
         submit-on-load="submit-on-load" subforms=".facets">

@@ -261,6 +261,16 @@ pb-popover {
 }
 
 /* Display KWIC search results */
+.results .card header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.results .card header .count {
+    font-size: 0.875rem;
+}
+
 .matches {
     margin-left: 20px;
     margin-top: 10px;

@@ -73,7 +73,7 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
     let $expanded := util:expand($hit, "add-exist-id=all")
     let $docId := config:get-identifier($div)
     return
-        <article>
+        <div class="card">
             <header>
                 <div class="count">{$request?parameters?start + $p - 1}</div>
                 { query:get-breadcrumbs($config, $hit, $parent-id) }
@@ -107,7 +107,7 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
                     kwic:get-summary($expanded, $match, $config)
             }
             </div>
-        </article>
+        </div>
 };
 
 declare function sapi:facets($request as map(*)) {
