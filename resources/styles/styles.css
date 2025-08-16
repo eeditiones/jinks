@@ -300,11 +300,13 @@ details {
 details pb-markdown {
     margin-top: 1rem;
 }
-table th, table td {
+
+.templating table th, .templating table td {
     text-align: left;
     border-bottom: 1px solid #ced4da;
 }
-table td:nth-child(1), table th:nth-child(1) {
+
+.templating table td:nth-child(1), .templating table th:nth-child(1) {
     width: 40%;
 }
 
