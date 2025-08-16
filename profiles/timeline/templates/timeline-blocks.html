@@ -1,6 +1,6 @@
 <template>
     [% template after %]
-    [% if $features?timeline?enabled %]
+    [% if empty($context?doc) and $features?timeline?enabled %]
     <pb-custom-form id="timeline-options" class="options" emit="search" style="display: none">
         <input type="hidden" name="dates" value="[[ $request?parameters?dates ]]"/>
     </pb-custom-form>
