@@ -505,12 +505,8 @@
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::correspContext" behaviour="inline"/>
                     <model predicate="@target" behaviour="link">
-            <param name="uri" value="@target"/>
-        </model>
-                    <model predicate="not(node())" behaviour="link">
-            <param name="content" value="@target"/>
-            <param name="uri" value="@target"/>
-        </model>
+                        <param name="uri" value="@target"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="role" mode="change">
