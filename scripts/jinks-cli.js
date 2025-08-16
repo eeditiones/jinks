@@ -440,8 +440,73 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
             });
         }
 
-        // Sort selected profiles by order attribute
-        selectedProfiles.sort((a, b) => {
+        // Check for missing dependencies
+        const baseProfiles = ["base10", "theme-base10"];
+        const currentExtends = [...baseProfiles, ...selectedProfiles];
+        const missingDependencies = [];
+        const missingProfiles = [];
+
+        for (const profileName of selectedProfiles) {
+            const profileConfig = configurations.find(config => config.profile === profileName);
+            if (profileConfig?.config?.depends) {
+                for (const dependency of profileConfig.config.depends) {
+                    if (!currentExtends.includes(dependency)) {
+                        // Check if the dependency profile exists
+                        const dependencyConfig = configurations.find(config => config.profile === dependency);
+                        if (dependencyConfig) {
+                            missingDependencies.push({
+                                profile: profileName,
+                                dependency: dependency,
+                                label: profileConfig.config.label,
+                                dependencyLabel: dependencyConfig.config.label
+                            });
+                        } else {
+                            missingProfiles.push({
+                                profile: profileName,
+                                dependency: dependency,
+                                label: profileConfig.config.label
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        // Show warnings for missing profile configurations
+        if (missingProfiles.length > 0) {
+            console.log(chalk.red("\n❌ Some dependencies reference profiles that don't exist:"));
+            for (const item of missingProfiles) {
+                console.log(chalk.red(`   • ${item.label} (${item.profile}) depends on missing profile: ${item.dependency}`));
+            }
+            console.log(chalk.yellow("   These dependencies will be ignored."));
+        }
+
+        // Ask user if they want to add missing dependencies
+        if (missingDependencies.length > 0) {
+            console.log(chalk.yellow("\n⚠️  Some selected profiles have dependencies that are not included yet:"));
+            
+            for (const item of missingDependencies) {
+                console.log(chalk.yellow(`   • ${item.label} (${item.profile}) depends on: ${item.dependencyLabel} (${item.dependency})`));
+            }
+
+            const addDependencies = await confirm({
+                message: "Do you want to add these dependencies automatically?",
+                default: true
+            });
+
+            if (addDependencies) {
+                for (const item of missingDependencies) {
+                    if (!currentExtends.includes(item.dependency)) {
+                        currentExtends.push(item.dependency);
+                        console.log(chalk.green(`   ✓ Added dependency: ${item.dependencyLabel} (${item.dependency})`));
+                    }
+                }
+            }
+        }
+
+        // Sort all profiles (including dependencies) by order attribute
+        const profilesToSort = currentExtends.filter(profile => profile !== "base10" && profile !== "theme-base10");
+        profilesToSort.sort((a, b) => {
             const profileA = configurations.find(config => config.profile === a);
             const profileB = configurations.find(config => config.profile === b);
 
@@ -451,14 +516,19 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
             return orderA - orderB;
         });
 
+        // Reconstruct currentExtends with proper ordering
+        currentExtends.splice(2); // Remove all profiles after base profiles
+        currentExtends.push(...profilesToSort);
+
         const newConfig = {
             overwrite: "default",
             pkg: { abbrev: abbrev },
             label: label,
             id: id,
-            extends: ["base10", "theme-base10", ...selectedProfiles],
+            extends: currentExtends,
         };
 
+        
         return newConfig;
     } catch (error) {
         // Re-throw the error to be handled by the caller
