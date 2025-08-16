@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/content.html"
+            "extends": "templates/pages/basic.html"
         },
         "features": {
             "toc": {
@@ -23,5 +23,4 @@
         [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "metadata" }, "osinski.odd") ]]
     </details>
     [% endtemplate %]
-    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
 </template>

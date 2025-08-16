@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/content.html"
+            "extends": "templates/pages/basic.html"
         },
         "styles": [
             "resources/css/documentation.css"
@@ -13,6 +13,11 @@
         "urls": {
             "template": "documentation/:id?",
             "ignore": "odd,view,path"
+        },
+        "features": {
+            "toc": {
+                "enabled": true
+            }
         }
     }
     ---
@@ -21,5 +26,4 @@
         <pb-param name="mode" value="breadcrumb"/>
     </pb-view>
     [% endtemplate %]
-    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
 </template>
