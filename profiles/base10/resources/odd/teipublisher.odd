@@ -109,12 +109,12 @@
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
                     <model predicate="$parameters?mode='toc'" behaviour="inline">
-            <param name="content" value="lem"/>
-        </model>
+                        <param name="content" value="lem"/>
+                    </model>
                     <model behaviour="alternate">
-            <param name="default" value="lem"/>
-            <param name="alternate" value="rdg"/>
-        </model>
+                        <param name="default" value="lem"/>
+                        <param name="alternate" value="rdg"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
@@ -146,11 +146,11 @@
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
                     <modelSequence>
-            <model behaviour="index">
-                <param name="type" value="'toc'"/>
-            </model>
-            <model behaviour="block"/>
-        </modelSequence>
+                        <model behaviour="index">
+                            <param name="type" value="'toc'"/>
+                        </model>
+                        <model behaviour="block"/>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="byline" mode="change">
                     <model behaviour="block"/>
@@ -173,33 +173,33 @@
                 </elementSpec>
                 <elementSpec ident="cb" mode="change">
                     <model behaviour="break">
-            <param name="type" value="'column'"/>
-            <param name="label" value="@n"/>
-        </model>
+                        <param name="type" value="'column'"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="cell" mode="change">
                     <model behaviour="cell">
-            <desc>Insert table cell. </desc>
-        </model>
+                        <desc>Insert table cell. </desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="alternate">
-            <param name="default" value="corr[1]"/>
-            <param name="alternate" value="sic[1]"/>
-        </model>
+                        <param name="default" value="corr[1]"/>
+                        <param name="alternate" value="sic[1]"/>
+                    </model>
                     <model predicate="abbr and expan" behaviour="alternate">
-            <param name="default" value="expan[1]"/>
-            <param name="alternate" value="abbr[1]"/>
-        </model>
+                        <param name="default" value="expan[1]"/>
+                        <param name="alternate" value="abbr[1]"/>
+                    </model>
                     <model predicate="orig and reg" behaviour="alternate">
-            <param name="default" value="reg[1]"/>
-            <param name="alternate" value="orig[1]"/>
-        </model>
+                        <param name="default" value="reg[1]"/>
+                        <param name="alternate" value="orig[1]"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="cit" mode="change">
                     <model predicate="child::quote and child::bibl" behaviour="cit">
-            <desc>Insert citation </desc>
-        </model>
+                        <desc>Insert citation </desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="closer" mode="change">
                     <model behaviour="block"/>
@@ -209,22 +209,22 @@
                 </elementSpec>
                 <elementSpec ident="corr" mode="change">
                     <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline">
-            <desc>simple inline, if in parent choice. </desc>
-        </model>
+                        <desc>simple inline, if in parent choice. </desc>
+                    </model>
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: ']';
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: ']';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model output="web" predicate="@when" behaviour="alternate">
-            <param name="default" value="."/>
-            <param name="alternate" value="@when"/>
-        </model>
+                    <model predicate="@when" behaviour="alternate">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="@when"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="dateline" mode="change">
@@ -232,10 +232,10 @@
                 </elementSpec>
                 <elementSpec ident="del" mode="change">
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            text-decoration: line-through;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        text-decoration: line-through;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
@@ -258,18 +258,10 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="docTitle" mode="change">
-                    <model behaviour="block" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            font-size: larger;
-            </outputRendition>
-        </model>
+                    <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="edition" mode="change">
-                    <model predicate="ancestor::teiHeader" behaviour="block">
-            <outputRendition xml:space="preserve" scope="before">
-            content: 'Edition: ';
-            </outputRendition>
-        </model>
+                    <model predicate="ancestor::teiHeader" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="epigraph" mode="change">
                     <model behaviour="block"/>
@@ -279,11 +271,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="floatingText" mode="change">
-                    <model behaviour="block">
-            <outputRendition xml:space="preserve">
-            margin: 6pt; border: solid black 1pt;
-            </outputRendition>
-        </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="foreign" mode="change">
                     <model behaviour="inline"/>
@@ -291,20 +279,20 @@
                 <elementSpec ident="formula" mode="change">
                     <model predicate="@rendition='simple:display'" behaviour="block"/>
                     <model output="latex" predicate="@rend=&#34;display&#34;" behaviour="inline">
-            <param name="content" value="string()"/>
-            <pb:template xmlns="" xml:space="preserve">\begin{equation}[[content]]\end{equation}</pb:template>
-        </model>
+                        <param name="content" value="string()"/>
+                        <pb:template xmlns="" xml:space="preserve">\begin{equation}[[content]]\end{equation}</pb:template>
+                    </model>
                     <model output="latex" behaviour="inline">
-            <param name="content" value="string()"/>
-            <pb:template xmlns="" xml:space="preserve">\begin{math}[[content]]\end{math}</pb:template>
-        </model>
+                        <param name="content" value="string()"/>
+                        <pb:template xmlns="" xml:space="preserve">\begin{math}[[content]]\end{math}</pb:template>
+                    </model>
                     <model predicate="@rend='display'" behaviour="webcomponent">
-            <param name="name" value="'pb-formula'"/>
-            <param name="display" value="true()"/>
-        </model>
+                        <param name="name" value="'pb-formula'"/>
+                        <param name="display" value="true()"/>
+                    </model>
                     <model behaviour="webcomponent">
-            <param name="name" value="'pb-formula'"/>
-        </model>
+                        <param name="name" value="'pb-formula'"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="front" mode="change">
                     <model behaviour="block"/>
@@ -315,8 +303,8 @@
                 </elementSpec>
                 <elementSpec ident="g" mode="change">
                     <model predicate="not(text())" behaviour="glyph">
-            <param name="uri" value="@ref"/>
-        </model>
+                        <param name="uri" value="@ref"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
@@ -338,12 +326,12 @@
                 </elementSpec>
                 <elementSpec ident="graphic" mode="change">
                     <model behaviour="graphic">
-            <param name="url" value="@url"/>
-            <param name="width" value="@width"/>
-            <param name="height" value="@height"/>
-            <param name="scale" value="@scale"/>
-            <param name="title" value="desc"/>
-        </model>
+                        <param name="url" value="@url"/>
+                        <param name="width" value="@width"/>
+                        <param name="height" value="@height"/>
+                        <param name="scale" value="@scale"/>
+                        <param name="title" value="desc"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="group" mode="change">
                     <model behaviour="block"/>
@@ -376,24 +364,24 @@
                 </elementSpec>
                 <elementSpec ident="licence" mode="add">
                     <model output="web" predicate="@target" behaviour="link" cssClass="licence">
-            <param name="content" value="'Licence'"/>
-            <param name="uri" value="@target"/>
-        </model>
+                        <param name="content" value="'Licence'"/>
+                        <param name="uri" value="@target"/>
+                    </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="break" useSourceRendition="true">
-            <param name="type" value="'line'"/>
-            <param name="label" value="@n"/>
-        </model>
+                        <param name="type" value="'line'"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="lg" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="list" mode="change">
                     <model behaviour="list" useSourceRendition="true">
-            <param name="content" value="item"/>
-        </model>
+                        <param name="content" value="item"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="listBibl" mode="change">
                     <model predicate="bibl" behaviour="list"/>
@@ -401,17 +389,17 @@
                 </elementSpec>
                 <elementSpec ident="notatedMusic" mode="add">
                     <model behaviour="figure">
-            <param name="title" value="label"/>
-            <param name="content" value="(ptr, mei:mdiv)"/>
-        </model>
+                        <param name="title" value="label"/>
+                        <param name="content" value="(ptr, mei:mdiv)"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
-            <param name="place" value="@place"/>
-            <param name="label" value="@n"/>
-        </model>
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="opener" mode="change">
                     <model behaviour="block"/>
@@ -423,76 +411,76 @@
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
                     <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
-            <desc>If facs attribute starts with iiif prefix, use the trailing part as a
-                            link to the IIIF image; fits pb-facsimile viewer</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-            <param name="label" value="'Page'"/>
-            <param name="emit" value="'transcription'"/>
-        </model>
+                        <desc>If facs attribute starts with iiif prefix, use the trailing part as a
+                                        link to the IIIF image; fits pb-facsimile viewer</desc>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
+                        <param name="label" value="'Page'"/>
+                        <param name="emit" value="'transcription'"/>
+                    </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
-            <desc>Use the url from the facs attribute to link with IIIF image;
-                            assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint
-                            to generate relevant manifest</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="content" value="@n"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
-            <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
-        </model>
+                        <desc>Use the url from the facs attribute to link with IIIF image;
+                                        assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint
+                                        to generate relevant manifest</desc>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="content" value="@n"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <param name="emit-on-load" value="'emit-on-load'"/>
+                        <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
+                    </model>
                     <model behaviour="break" cssClass="pb" useSourceRendition="true">
-            <desc>Output Page label when no facsimile information is available</desc>
-            <param name="type" value="'page'"/>
-            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-            <outputRendition xml:space="preserve">
-            display: block; margin-left: 4pt; color: grey; float: right;
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[Page ';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: ']';
-            </outputRendition>
-        </model>
+                        <desc>Output Page label when no facsimile information is available</desc>
+                        <param name="type" value="'page'"/>
+                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+                        <outputRendition xml:space="preserve">
+                        display: block; margin-left: 4pt; color: grey; float: right;
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[Page ';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: ']';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="postscript" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="ptr" mode="add">
                     <model predicate="parent::notatedMusic" behaviour="pass-through">
-            <desc>Load and display external MEI</desc>
-            <param name="url" value="@target"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
-                              <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
-                              </pb-mei></pb:template>
-        </model>
+                        <desc>Load and display external MEI</desc>
+                        <param name="url" value="@target"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
+                                        <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
+                                        </pb-mei></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
                     <model output="web" behaviour="block">
-            <param name="content" value="availability/licence"/>
-        </model>
+                        <param name="content" value="availability/licence"/>
+                    </model>
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="q" mode="change">
                     <model predicate="l" behaviour="block" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        margin-left: 10px; margin-right: 10px;
+                        </outputRendition>
+                    </model>
                     <model predicate="ancestor::p or ancestor::cell" behaviour="inline" useSourceRendition="true">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '‘';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: '’';
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '‘';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: '’';
+                        </outputRendition>
+                    </model>
                     <model behaviour="block" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            margin-left: 10px; margin-right: 10px;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        margin-left: 10px; margin-right: 10px;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="quote" mode="change">
                     <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
@@ -517,13 +505,13 @@
                 </elementSpec>
                 <elementSpec ident="row" mode="change">
                     <model predicate="@role='label'" behaviour="row">
-            <outputRendition xml:space="preserve">
-            font-weight: bold;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        font-weight: bold;
+                        </outputRendition>
+                    </model>
                     <model behaviour="row">
-            <desc>Insert table row. </desc>
-        </model>
+                        <desc>Insert table row. </desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="salute" mode="change">
                     <model predicate="parent::closer" behaviour="inline"/>
@@ -535,25 +523,25 @@
                 <elementSpec ident="sic" mode="change">
                     <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline"/>
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '{';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: '}';
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '{';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: '}';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="signed" mode="change">
                     <model predicate="parent::closer" behaviour="block">
-            <outputRendition xml:space="preserve">
-            text-align: right;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        text-align: right;
+                        </outputRendition>
+                    </model>
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve">
+                        font-style: italic;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="sp" mode="change">
                     <model behaviour="block"/>
