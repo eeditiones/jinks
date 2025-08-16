@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/content.html"
+            "extends": "templates/layouts/base.html"
         },
         "features": {
             "toolbar": {
@@ -11,8 +11,13 @@
             }
         },
         "styles": [
-            "transform/serafin.css"
-        ]
+            "transform/teipublisher.css"
+        ],
+        "theme": {
+            "layout": {
+                "after-width": "min(30vw, 356px)"
+            }
+        }
     }
     ---
     [% template breadcrumb %]
