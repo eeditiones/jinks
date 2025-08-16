@@ -1,6 +1,8 @@
 <nav class="menubar container-fluid">
     <ul>
-        <li class="logo"></li>
+        <li class="logo">
+            <a href="[[ $context-path ]]"></a>
+        </li>
         [% for $item in $menu?items?* %]
         [% if $item?url or $item?url = ''%]
         <li class="hidden-mobile">
