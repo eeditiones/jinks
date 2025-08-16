@@ -1,0 +1,22 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/upload",
+    "label": "Upload Documents",
+    "description": "Adds a component to the sidebar for uploading documents …",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "features": {
+        "upload": {
+            "enabled": true,
+            "target": null
+        }
+    },
+    "templating": {
+        "use": [
+            "templates/upload-blocks.html"
+        ]
+    }
+}

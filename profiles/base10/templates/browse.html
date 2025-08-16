@@ -38,21 +38,6 @@
     </pb-custom-form>
     [% endtemplate %]
 
-    [% template after %]
-    [% block browse-aside %][% endblock %]
-    [% if $context?features?upload %]
-    <pb-restricted group="[[ $pkg?user?group ]]">
-        [% if $context?defaults?upload %]
-        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
-            event="pb-search-resubmit" target="[[ $context?defaults?upload ]]"></pb-upload>
-        [% else %]
-        <pb-upload id="upload" subscribe="search" emit="search" accept=".xml, .tei, .odd, .docx, .md, .mei"
-            event="pb-search-resubmit"></pb-upload>
-        [% endif %]
-    </pb-restricted>
-    [% endif %]
-    [% endtemplate %]
-
     [% template content-top %]
     <nav class="toolbar">
         <nav aria-label="breadcrumb">
