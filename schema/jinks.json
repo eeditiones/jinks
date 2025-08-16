@@ -260,10 +260,6 @@
                         }
                     }
                 },
-                "upload": {
-                    "type": "boolean",
-                    "description": "If true, the upload form will be displayed"
-                },
                 "timeline": {
                     "type": "object",
                     "properties": {
@@ -309,6 +305,23 @@
                     "properties": {
                         "navigation": {
                             "type": "boolean"
+                        }
+                    }
+                },
+                "upload": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the upload form will be displayed"
+                        },
+                        "target": {
+                            "type": "string",
+                            "description": "The target collection to upload documents to"
+                        },
+                        "accept": {
+                            "type": "string",
+                            "description": "The file extensions accepted for uploading"
                         }
                     }
                 }
