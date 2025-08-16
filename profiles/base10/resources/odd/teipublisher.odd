@@ -105,11 +105,7 @@
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="add" mode="change">
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: green; text-decoration: underline;
-            </outputRendition>
-        </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
                     <model predicate="$parameters?mode='toc'" behaviour="inline">
