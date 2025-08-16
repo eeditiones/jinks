@@ -157,22 +157,19 @@
                 </elementSpec>
                 <elementSpec ident="castGroup" mode="change">
                     <model predicate="child::*" behaviour="list">
-            <desc>Insert list. </desc>
-            <param name="content" value="castItem|castGroup"/>
-        </model>
+                        <desc>Treat as a list</desc>
+                        <param name="content" value="castItem|castGroup"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="castItem" mode="change">
                     <model behaviour="listItem">
-            <desc>Insert item, rendered as described in parent list rendition. </desc>
-        </model>
+                        <desc>Treat as a list item</desc>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="castList" mode="change">
                     <model predicate="child::*" behaviour="list" useSourceRendition="true">
-            <param name="content" value="castItem"/>
-            <outputRendition xml:space="preserve">
-            list-style: ordered;
-            </outputRendition>
-        </model>
+                        <param name="content" value="castItem"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="cb" mode="change">
                     <model behaviour="break">
