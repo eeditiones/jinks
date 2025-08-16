@@ -3,6 +3,8 @@
 }
 
 .person, .people .list, .places .list, .place {
+    /* determines the number of columns for the pb-split-list */
+    --pb-categorized-list-columns: 2;
     padding-top: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -31,6 +33,7 @@
 pb-split-list::part(items) {
     margin-top: 1rem;
     gap: 1rem;
+    grid-auto-rows: min-content;
 }
 
 .people .split-list-item p,
