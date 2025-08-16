@@ -418,11 +418,7 @@
                 </elementSpec>
                 <elementSpec ident="p" mode="change">
                     <model output="print" predicate="ancestor::note" behaviour="inline"/>
-                    <model behaviour="paragraph" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            text-align: justify;
-            </outputRendition>
-        </model>
+                    <model behaviour="paragraph" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
