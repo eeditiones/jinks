@@ -320,28 +320,21 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
-                    <model predicate="desc" behaviour="inline">
-            <outputRendition xml:space="preserve">
-            color: grey;
-            </outputRendition>
-        </model>
+                    <model predicate="desc" behaviour="inline"/>
                     <model predicate="@extent" behaviour="inline">
-            <param name="content" value="@extent"/>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[..';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: '..]';
-            </outputRendition>
-            <outputRendition xml:space="preserve">
-            color: grey;
-            </outputRendition>
-        </model>
+                        <param name="content" value="@extent"/>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[..';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: '..]';
+                        </outputRendition>
+                    </model>
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[...]';
-            </outputRendition>
-        </model>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[...]';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="graphic" mode="change">
                     <model behaviour="graphic">
