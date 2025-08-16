@@ -205,11 +205,7 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="code" mode="change">
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            font-family:monospace
-            </outputRendition>
-        </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="corr" mode="change">
                     <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline">
