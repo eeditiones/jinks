@@ -31,6 +31,7 @@
             </span>
         </li>
 		[% endif %]
+        [% if exists($context?doc) %]
 		<li>
             <pb-restricted>
                 <pb-ajax subscribe="transcription" emit="transcription" url="api/odd?odd=[[ $defaults?odd ]]" method="post" event="pb-refresh"
@@ -42,6 +43,7 @@
                 </pb-ajax>
             </pb-restricted>
         </li>
+        [% endif %]
         [% block toolbar %][% endblock %]
     </ul>
     <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
