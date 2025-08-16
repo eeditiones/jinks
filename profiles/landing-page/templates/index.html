@@ -32,59 +32,22 @@
 
     [% template hero %]
     <header class="hero">
-        <section class="center-l">
-            <h1><pb-i18n key="hero.main"/></h1>
-            <p><pb-i18n key="hero.sub"/></p>
-            <a href="browse.html"><pb-i18n key="hero.explore"/></a>
-        </section>
+        <div class="center-l row">
+            <h1><pb-i18n key="hero.main"></pb-i18n></h1>
+            <p>
+                <pb-i18n key="hero.sub"></pb-i18n><br/>
+                <a class="explore-link" href="browse.html"><pb-i18n key="hero.explore"></pb-i18n></a>
+            </p>
+        </div>
     </header>
     [% endtemplate %]
 
-    <section id="about" class="section-light">
-        <div class="center-l">
-            <header>
-                <h1><pb-i18n key="landing.about"/></h1>
-            </header>
-            <div class="grid">
-                [% include "templates/about.html" %]
-                <div class="bg-transparent"><span></span></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="highlights" class="section-highlight">
-        <div class="center-l">
-            <header>
-                <h1><pb-i18n key="landing.highlights"/></h1>
-            </header>
-            [% include "templates/highlights.html" %]
-        </div>
-    </section>
-
-    <section id="team" class="section-dark">
-        <div class="center-l">
-            <header>
-                <h1><pb-i18n key="landing.team"/></h1>
-            </header>
-            [% include "templates/team.html" %]
-        </div>
-    </section>
-
-    <section id="partners" class="section-light">
-        <div class="center-l">
-            <header>
-                <h1><pb-i18n key="landing.partners"/></h1>
-            </header>
-            [% include "templates/partners.html" %]
-        </div>
-    </section>
-
-    <section id="bottom" class="section-dark">
-         <!-- style="background-image:url(resources/images/abstract-1.jpg)"> -->
-        <div class="bottom center-l">
-        [% include "templates/bottom.html" %]
-        </div>
-    </section>
+    [% include "templates/sections/about.html" %]
+    [% include "templates/sections/highlights.html" %]
+    [% include "templates/sections/team.html" %]
+    [% include "templates/sections/section.html" %]
+    [% include "templates/sections/partners.html" %]
+    [% include "templates/sections/bottom.html" %]
 
     [% include "templates/footer.html" %]
 </template>
