@@ -1,6 +1,6 @@
 {
     "$schema": "../../schema/jinks.json",
-    "type": "feature",
+    "type": "blueprint",
     "id": "https://e-editiones.org/app/tei-publisher/tei-publisher-docs",
     "label": "Documentation + Demo",
     "description": "TEI Publisher documentation and demo",
@@ -14,7 +14,6 @@
         "base10",
         "docbook",
         "iiif",
-        "registers",
         "jats",
         "docx",
         "demo-data"
@@ -27,20 +26,6 @@
             "odd": "docbook.odd",
             "template": "documentation.html"
         },
-        "letters": {
-            "odd": "serafin.odd",
-            "view": "single",
-            "template": "parallel.html",
-            "features": {
-                "register": {
-                    "enabled": true
-                }
-            }
-        },
-        "monograph": {
-            "odd": "dta.odd",
-            "template": "monograph.html"
-        },
         "demo": {
             "template": "monograph.html"
         },
@@ -51,12 +36,6 @@
         "docx": {
             "odd": "docx-output.odd",
             "template": "docx.html"
-        }
-    },
-    "features": {
-        "upload": false,
-        "register": {
-            "enabled": false
         }
     },
     "menu": {
