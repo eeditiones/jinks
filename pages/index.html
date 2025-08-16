@@ -32,6 +32,26 @@
             <fieldset class="buttons">
                 <button id="reset" type="reset">New Configuration</button>
             </fieldset>
+
+            <fieldset>
+                <legend>Blueprints</legend>
+                <ul>
+                    [% for $profile in filter($context?profiles, function($p) { $p?type = "blueprint"}) %]
+                    <li>
+                        <label data-tooltip="[[ $profile?description ]]" data-placement="right">
+                            <input type="checkbox" name="blueprint" value="[[ $profile?path ]]"
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                            [[ $profile?label ]]
+                        </label>
+                        <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                            <svg class="icon">
+                                <use href="#icon-information"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    [% endfor %]
+                </ul>
+            </fieldset>
         </section>
         <section class="profiles">
             <fieldset>

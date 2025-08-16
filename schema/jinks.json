@@ -11,7 +11,7 @@
         },
         "type": {
             "type": "string",
-            "enum": ["base", "feature", "theme"],
+            "enum": ["base", "feature", "theme", "blueprint"],
             "completionDetail": "Type of the profile"
         },
         "label": {
@@ -301,6 +301,14 @@
                             "type": "string",
                             "description": "The viewer to use",
                             "enum": ["pb-tify", "pb-facsimile"]
+                        }
+                    }
+                },
+                "correspondence": {
+                    "type": "object",
+                    "properties": {
+                        "navigation": {
+                            "type": "boolean"
                         }
                     }
                 }

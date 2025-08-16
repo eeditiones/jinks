@@ -392,7 +392,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         new FormData(form).forEach((value, key) => {
-            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'abbrev' && key !== 'custom-odd') {
+            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'blueprint' && key !== 'abbrev' && key !== 'custom-odd') {
                 appConfig[key] = value;
             }
         });
@@ -401,7 +401,8 @@ window.addEventListener('DOMContentLoaded', () => {
         };
         appConfig.extends = formData.getAll('base')
             .concat(formData.getAll('feature'))
-            .concat(formData.getAll('theme'));
+            .concat(formData.getAll('theme'))
+            .concat(formData.getAll('blueprint'));
         
         validateForm();
         updateConfig(updateEditor);
@@ -443,6 +444,7 @@ window.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};
