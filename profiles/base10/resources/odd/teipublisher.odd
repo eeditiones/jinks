@@ -350,32 +350,16 @@
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
                     <model predicate="$parameters?header='short' or $parameters?mode='toc'" behaviour="inline">
-            <desc>For browse view and table of contents, just output inline text</desc>
-            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
-        </model>
-                    <model predicate="parent::figure" behaviour="block">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                    <model predicate="parent::table" behaviour="block">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                    <model predicate="parent::lg" behaviour="block">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                    <model predicate="parent::list" behaviour="block">
-            <outputRendition xml:space="preserve">
-            font-weight: bold;
-            </outputRendition>
-        </model>
+                        <desc>For browse view and table of contents, just output inline text</desc>
+                        <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
+                    </model>
+                    <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
+                    <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
+                    <model predicate="parent::lg" behaviour="block" cssClass="lg-head"/>
+                    <model predicate="parent::list" behaviour="block" cssClass="list-head"/>
                     <model predicate="parent::div" behaviour="heading">
-            <param name="level" value="count(ancestor::div)"/>
-        </model>
+                        <param name="level" value="count(ancestor::div)"/>
+                    </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
