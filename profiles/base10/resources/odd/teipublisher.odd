@@ -372,11 +372,7 @@
                     <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="l" mode="change">
-                    <model behaviour="block" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            margin-left: 1em;
-            </outputRendition>
-        </model>
+                    <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="licence" mode="add">
                     <model output="web" predicate="@target" behaviour="link" cssClass="licence">
