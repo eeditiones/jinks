@@ -91,7 +91,9 @@
                 </ul>
             </nav>
             <aside class="before">
+                [% block before.top %][% endblock %]
                 [% block before %][% endblock %]
+                [% block before.bottom %][% endblock %]
             </aside>
 
             <header class="content-top">
@@ -117,7 +119,9 @@
                 </ul>
             </nav>
             <aside class="after">
+                [% block after.top %][% endblock %]
                 [% block after %][% endblock %]
+                [% block after.bottom %][% endblock %]
             </aside>
         </pb-page>
         <div class="splash"/>
