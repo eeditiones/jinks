@@ -4,7 +4,7 @@ import { wrapper } from "axios-cookiejar-support";
 import chalk from "chalk";
 import { Command, Option } from "commander";
 import fs from "fs";
-import { input, checkbox, confirm, editor, select } from "@inquirer/prompts";
+import { input, checkbox, confirm, editor, select, Separator } from "@inquirer/prompts";
 import Table from "cli-table3";
 import ora from "ora";
 import figlet from "figlet";
@@ -414,13 +414,22 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
             default: initialConfig?.id || `https://e-editiones.org/apps/${abbrev}`,
         });
 
+        const blueprintOptions = configurations
+            .filter((item) => item.type === "profile" && item.config.type === "blueprint")
+            .sort((a, b) => a.config.label.localeCompare(b.config.label))
+            .map((blueprint) => ({
+                name: `${chalk.bold(blueprint.profile)} – ${blueprint.config.label}`,
+                value: blueprint.profile,
+                description: blueprint.description || "",
+                checked: initialConfig?.extends?.includes(blueprint.profile),
+            }));
+
         // Filter profiles and create checkbox options
         const profileOptions = configurations
             .filter(
                 (item) =>
                     item.type === "profile" &&
-                    item.config.type !== "theme" &&
-                    item.config.type !== "base",
+                    !["theme", "base", "blueprint"].includes(item.config.type)
             )
             .sort((a, b) => a.config.label.localeCompare(b.config.label))
             .map((profile) => ({
@@ -429,14 +438,21 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
                 description: profile.description || "",
                 checked: initialConfig?.extends?.includes(profile.profile),
             }));
-
+        
+        const selectOptions = [new Separator('Blueprints'), ...blueprintOptions, new Separator('Features'), ...profileOptions];
         let selectedProfiles = [];
         if (profileOptions.length > 0) {
             selectedProfiles = await checkbox({
-                message: "Select features:",
-                choices: profileOptions,
+                message: "Select features to include:",
+                choices: selectOptions,
                 pageSize: 10,
-                loop: false
+                loop: false,
+                theme: {
+                    icon: {
+                        unchecked: "[ ]",
+                        checked: "[x]"
+                    }
+                }
             });
         }
 
