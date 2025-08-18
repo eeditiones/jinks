@@ -542,38 +542,11 @@
                 </elementSpec>
                 <elementSpec ident="supplied" mode="change">
                     <model predicate="parent::choice" behaviour="inline"/>
-                    <model predicate="@reason='damage'" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content:"&lt;";
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content:"&gt;";
-            </outputRendition>
-        </model>
-                    <model predicate="@reason='illegible' or not(@reason)" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content:"[";
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content:"]";
-            </outputRendition>
-        </model>
-                    <model predicate="@reason='omitted'" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content:"(";
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content:")";
-            </outputRendition>
-        </model>
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content:"{";
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content:"}";
-            </outputRendition>
-        </model>
+                    <model predicate="@reason" behaviour="pass-through">
+                        <param name="reason" value="@reason"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="tei-supplied [[reason]]">[[ content ]]</span></pb:template>
+                    </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="table" mode="change">
                     <model behaviour="table">

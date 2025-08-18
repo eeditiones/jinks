@@ -136,3 +136,11 @@ people, places, organizations etc */
 .tei-stage {
     font-style: italic;
 }
+
+.tei-supplied::before {
+    content: '[';
+}
+
+.tei-supplied::after {
+    content: ']';
+}
