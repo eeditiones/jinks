@@ -52,6 +52,31 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="osinski" source="teipublisher.odd">
+                <elementSpec ident="teiHeader" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                        <param name="content" value="fileDesc/titleStmt"/>
+                    </model>
+                    <modelSequence predicate="$parameters?mode='sidebar'">
+                        <model behaviour="pass-through">
+                            <param name="title" value="fileDesc/titleStmt"/>
+                            <pb:template xmlns="" xml:space="preserve"><summary>
+                                [[title]]
+                            </summary></pb:template>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="fileDesc/titleStmt/editor"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="fileDesc/publicationStmt"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="fileDesc/sourceDesc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="profileDesc"/>
+                        </model>
+                    </modelSequence>
+                </elementSpec>
                 <elementSpec ident="entryFree" mode="add">
                     <model behaviour="block"/>
                 </elementSpec>
@@ -74,6 +99,14 @@
                         </outputRendition>
                     </model>
                 </elementSpec>
+                <elementSpec ident="note" mode="change">
+                    <model predicate="parent::person or parent::place or ancestor::entryFree" behaviour="inline"/>
+                    <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
+                    <model behaviour="note">
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::cit or parent::def" behaviour="inline" cssClass="ref-author">
                         <desc>references (authors) within translations, examples or definitions</desc>
@@ -87,7 +120,6 @@
                     <model predicate="@type='example'" behaviour="block" cssClass="example"/>
                     <model predicate="@type='translation'" behaviour="block" cssClass="translation"/>
                 </elementSpec>
-                <elementSpec ident="quote" mode="change"/>
                 <elementSpec ident="oRef" mode="add">
                     <model behaviour="inline">
                         <desc>marker for headword reference; rendered as dash</desc>

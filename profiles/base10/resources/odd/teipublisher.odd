@@ -457,6 +457,9 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
+                    <model predicate="$parameters?display='browse'">
+                        <param name="content" value=".//availability"/>
+                    </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="q" mode="change">
@@ -549,22 +552,14 @@
                 <elementSpec ident="fileDesc" mode="change">
                     <modelSequence predicate="$parameters?display='browse'">
                         <model behaviour="block">
-                            <param name="content" value="titleStmt"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="editionStmt"/>
-                        </model>
-                        <model behaviour="block">
-                            <param name="content" value="publicationStmt"/>
+                            <param name="content" value="(titleStmt, editionStmt, publicationStmt)"/>
                         </model>
                         <model behaviour="block" cssClass="sample-description">
                             <desc>Output abstract containing demo description</desc>
                             <param name="content" value="../profileDesc/abstract"/>
                         </model>
                     </modelSequence>
-                    <model behaviour="block">
-                        <param name="content" value="titleStmt"/>
-                    </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
                     <model predicate="$parameters?display='browse'" behaviour="omit"/>

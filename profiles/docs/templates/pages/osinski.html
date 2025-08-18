@@ -17,10 +17,7 @@
     ---
     [% template after %]
     <details>
-        <summary>
-            [[ $doc?transform-with($doc?content//tei:teiHeader/tei:fileDesc/tei:titleStmt, map { "mode": "title" }, "osinski.odd") ]]
-        </summary>
-        [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "metadata" }, "osinski.odd") ]]
+        [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "sidebar" }, "osinski.odd") ]]
     </details>
     [% endtemplate %]
 </template>
