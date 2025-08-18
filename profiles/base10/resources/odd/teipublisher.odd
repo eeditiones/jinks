@@ -872,26 +872,27 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
-                    <model predicate="ancestor::correspContext or $parameters?mode='register-detail'" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
-        </model>
+                    <model predicate="@key and $parameters?mode='register-detail'" behaviour="inline">
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
+                    </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-            <desc>Register sidebar</desc>
-            <param name="content" value="."/>
-            <param name="alternate" value="parent::person/note"/>
-            <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
-            <pb-popover>
-                <span slot="default">[[content]]</span>
-                <template slot="alternate">[[alternate]]</template>
-            </pb-popover>
-            </a></pb:template>
-        </model>
+                        <desc>Register sidebar</desc>
+                        <param name="content" value="."/>
+                        <param name="alternate" value="parent::person/note"/>
+                        <param name="uri" value="$parameters?context-path || '/people/' || parent::person/@xml:id"/>
+                        <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="persName">
+                        <pb-popover>
+                            <span slot="default">[[content]]</span>
+                            <template slot="alternate">[[alternate]]</template>
+                        </pb-popover>
+                        </a></pb:template>
+                    </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
-                    <model behaviour="alternate" cssClass="persName context">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
-        </model>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
+                    </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
                     <model predicate="ancestor::correspContext" behaviour="inline">
