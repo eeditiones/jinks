@@ -338,7 +338,7 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-                    <model predicate="$parameters?header='short' or $parameters?mode='toc'" behaviour="inline">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
                         <desc>For browse view and table of contents, just output inline text</desc>
                         <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
                     </model>
@@ -549,14 +549,14 @@
                     <model behaviour="table"/>
                 </elementSpec>
                 <elementSpec ident="fileDesc" mode="change">
-                    <modelSequence predicate="$parameters?header='short'">
-                        <model behaviour="block" cssClass="header-short">
+                    <modelSequence predicate="$parameters?display='browse'">
+                        <model behaviour="block">
                             <param name="content" value="titleStmt"/>
                         </model>
-                        <model behaviour="block" cssClass="header-short">
+                        <model behaviour="block">
                             <param name="content" value="editionStmt"/>
                         </model>
-                        <model behaviour="block" cssClass="header-short">
+                        <model behaviour="block">
                             <param name="content" value="publicationStmt"/>
                         </model>
                         <model behaviour="block" cssClass="sample-description">
@@ -569,13 +569,13 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="revisionDesc" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="encodingDesc" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
@@ -583,7 +583,7 @@
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
                         <param name="content" value="fileDesc/titleStmt"/>
                     </model>
-                    <model predicate="$parameters?header='short'" behaviour="block"/>
+                    <model predicate="$parameters?display='browse'" behaviour="block"/>
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
@@ -627,7 +627,7 @@
                         <param name="content" value="string()"/>
                         <param name="uri" value="'..' || substring-after(document-uri(root(.)), $global:data-root)"/>
                     </model>
-                    <model predicate="$parameters?header='short'" behaviour="heading">
+                    <model predicate="$parameters?display='browse'" behaviour="heading">
                         <param name="level" value="5"/>
                     </model>
                     <model predicate="@key or @ref" behaviour="alternate">
@@ -649,8 +649,8 @@
                         <desc>for breadcrumbs, pick only the first title</desc>
                         <param name="content" value="title[1]"/>
                     </model>
-                    <modelSequence output="web" predicate="$parameters?header='short'">
-                        <desc>Display short header in document lists</desc>
+                    <modelSequence output="web" predicate="$parameters?display='browse'">
+                        <desc>Display short metadata in document lists in the browse view</desc>
                         <model predicate="$parameters?static" behaviour="link">
                             <param name="content" value="title[1]"/>
                             <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
@@ -813,7 +813,7 @@
                     <model predicate="ancestor::correspContext" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
         </model>
-                    <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="default" value="."/>

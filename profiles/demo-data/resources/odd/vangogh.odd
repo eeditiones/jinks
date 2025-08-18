@@ -193,8 +193,8 @@ margin: 0 .25em;
             font-size: .85em;
             </outputRendition>
                     </model>
-                    <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
-                    <model output="web" predicate="$parameters?header='letter'" behaviour="inline">
+                    <model output="web" predicate="$parameters?display='browse'" behaviour="block"/>
+                    <model output="web" predicate="$parameters?display='browse'" behaviour="inline">
                         <param name="content" value="fileDesc/titleStmt/title"/>
                         <param name="level" value="5"/>
                     </model>

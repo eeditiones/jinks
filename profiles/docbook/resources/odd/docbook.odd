@@ -172,7 +172,7 @@
                     <model output="epub" behaviour="block">
             <param name="content" value="(title, author)"/>
         </model>
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="heading">
                 <param name="content" value="title"/>
                 <param name="level" value="5"/>
@@ -229,7 +229,7 @@
                     <model predicate="parent::note" behaviour="heading">
             <param name="level" value="4"/>
         </model>
-                    <model predicate="parent::info and $parameters?header='short'" behaviour="link">
+                    <model predicate="parent::info and $parameters?display='browse'" behaviour="link">
             <param name="uri" value="$parameters?doc"/>
         </model>
                     <model predicate="parent::info" behaviour="heading" cssClass="doc-title"/>

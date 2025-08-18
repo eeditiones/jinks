@@ -115,7 +115,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="fileDesc" mode="change">
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="block" cssClass="header-short">
                 <param name="content" value="titleStmt"/>
             </model>

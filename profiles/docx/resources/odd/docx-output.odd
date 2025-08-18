@@ -228,7 +228,7 @@ border-left: 1px solid #C0C0C0;
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-                    <model predicate="$parameters?header='short' or $parameters?mode='toc'" behaviour="inline">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
             <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
         </model>
                     <model predicate="parent::figure" behaviour="block">

@@ -141,7 +141,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model predicate="$parameters?header='short' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model output="print" predicate="text()" behaviour="inline"/>
                     <model predicate="@when and (not(text()) or text() = '')" behaviour="pass-through">
             <param name="content" value="text { @when }"/>

@@ -138,7 +138,7 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="article-meta" mode="add">
-                    <model predicate="$parameters?header='short'" behaviour="block">
+                    <model predicate="$parameters?display='browse'" behaviour="block">
             <param name="content" value="(title-group, contrib-group)"/>
         </model>
                     <modelSequence>
@@ -160,7 +160,7 @@ padding: 0 4px;
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
             <param name="content" value="article-title/text()"/>
         </model>
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="link">
                 <param name="content" value="article-title"/>
                 <param name="uri" value="$parameters?doc"/>
@@ -172,7 +172,7 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="article-title" mode="add">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
-                    <model predicate="$parameters?header='short'" behaviour="heading">
+                    <model predicate="$parameters?display='browse'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
                     <model predicate="ancestor::article-meta" behaviour="heading" cssClass="title">

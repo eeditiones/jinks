@@ -48,7 +48,7 @@ declare function browse:header($context as map(*), $doc as element(), $config as
         let $teiHeader := nav:get-header($config, root($doc)/*)
         let $header :=
             $pm-config:web-transform($teiHeader, map {
-                "header": "short",
+                "display": "browse",
                 "doc": if ($config:address-by-id) then config:get-identifier($doc) else $config:context-path || "/" || $config?relpath,
                 "language": $context?language
             }, $config?odd)

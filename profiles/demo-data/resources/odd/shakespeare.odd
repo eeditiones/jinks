@@ -203,7 +203,7 @@ float: right;
             <desc>for breadcrumbs, pick title/@type='statement'</desc>
             <param name="content" value="title[@type='statement']"/>
         </model>
-                    <modelSequence output="web" predicate="$parameters?header='short'">
+                    <modelSequence output="web" predicate="$parameters?display='browse'">
             <desc>Display short header in document lists</desc>
             <model predicate="$parameters?static" behaviour="link">
                 <param name="content" value="title[1]"/>
