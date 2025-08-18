@@ -521,15 +521,8 @@
                     <model behaviour="inline" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="sic" mode="change">
-                    <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline"/>
-                    <model behaviour="inline">
-                        <outputRendition xml:space="preserve" scope="before">
-                        content: '{';
-                        </outputRendition>
-                        <outputRendition xml:space="preserve" scope="after">
-                        content: '}';
-                        </outputRendition>
-                    </model>
+                    <model predicate="parent::choice" behaviour="inline"/>
+                    <model behaviour="inline" cssClass="sic"/>
                 </elementSpec>
                 <elementSpec ident="signed" mode="change">
                     <model predicate="parent::closer" behaviour="block">

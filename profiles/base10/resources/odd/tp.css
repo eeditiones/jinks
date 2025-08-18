@@ -108,3 +108,15 @@ people, places, organizations etc */
 .tei-row.row-label {
     font-weight: bold;
 }
+
+.tei-salute {
+    text-align: right;
+}
+
+.tei-sic.sic::before {
+    content: '{';
+}
+
+.tei-sic.sic::after {                   
+    content: '}';
+}
