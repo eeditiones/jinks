@@ -148,3 +148,11 @@ people, places, organizations etc */
 .tei-table {
     font-size: smaller;
 }
+
+.tei-titlePage {
+    text-align: center;
+}
+
+.tei-unclear::after {
+    content: ' [?] ';
+}

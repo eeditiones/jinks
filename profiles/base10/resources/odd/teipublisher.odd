@@ -363,11 +363,10 @@
                     <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="licence" mode="add">
-                    <model output="web" predicate="@target" behaviour="link" cssClass="licence">
+                    <model predicate="@target" behaviour="link" cssClass="licence">
                         <param name="content" value="'Licence'"/>
                         <param name="uri" value="@target"/>
                     </model>
-                    <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="break" useSourceRendition="true">
@@ -457,10 +456,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
-                    <model output="web" behaviour="block">
-                        <param name="content" value="availability/licence"/>
-                    </model>
-                    <model behaviour="omit"/>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="q" mode="change">
                     <model predicate="l" behaviour="block" useSourceRendition="true" cssClass="block-quote"/>
@@ -553,54 +549,54 @@
                 </elementSpec>
                 <elementSpec ident="fileDesc" mode="change">
                     <modelSequence predicate="$parameters?header='short'">
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="titleStmt"/>
-            </model>
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="editionStmt"/>
-            </model>
-            <model behaviour="block" cssClass="header-short">
-                <param name="content" value="publicationStmt"/>
-            </model>
-            <model behaviour="block" cssClass="sample-description">
-                <desc>Output abstract containing demo description</desc>
-                <param name="content" value="../profileDesc/abstract"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="block" cssClass="header-short">
+                            <param name="content" value="titleStmt"/>
+                        </model>
+                        <model behaviour="block" cssClass="header-short">
+                            <param name="content" value="editionStmt"/>
+                        </model>
+                        <model behaviour="block" cssClass="header-short">
+                            <param name="content" value="publicationStmt"/>
+                        </model>
+                        <model behaviour="block" cssClass="sample-description">
+                            <desc>Output abstract containing demo description</desc>
+                            <param name="content" value="../profileDesc/abstract"/>
+                        </model>
+                    </modelSequence>
                     <model behaviour="block">
-            <param name="content" value="titleStmt"/>
-        </model>
+                        <param name="content" value="titleStmt"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
-                    <model behaviour="omit"/>
+                    <model predicate="$parameters?header='short'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="revisionDesc" mode="change">
-                    <model behaviour="omit"/>
+                    <model predicate="$parameters?header='short'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="encodingDesc" mode="change">
-                    <model behaviour="omit"/>
+                    <model predicate="$parameters?header='short'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="fileDesc/titleStmt"/>
-        </model>
-                    <model output="web" predicate="$parameters?header='short'" behaviour="block"/>
-                    <model output="web" behaviour="metadata"/>
+                        <param name="content" value="fileDesc/titleStmt"/>
+                    </model>
+                    <model predicate="$parameters?header='short'" behaviour="block"/>
+                    <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
-            <param name="content" value="teiHeader"/>
-        </model>
+                        <param name="content" value="teiHeader"/>
+                    </model>
                     <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
-            <param name="content" value="root(.)//correspContext"/>
-        </model>
+                        <param name="content" value="root(.)//correspContext"/>
+                    </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-            <desc>Output register data if register profile is enabled</desc>
-            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
-            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="register">
+                        <desc>Output register data if register profile is enabled</desc>
+                        <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="register">
 <h3>People</h3>
 <ul>
 [[people]]
@@ -611,7 +607,7 @@
 [[places]]
 </ul>
 </div></pb:template>
-        </model>
+                    </model>
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="text" mode="change">
@@ -640,123 +636,108 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="titlePage" mode="change">
-                    <model behaviour="block" useSourceRendition="true">
-            <outputRendition xml:space="preserve">
-            text-align: center;
-            </outputRendition>
-        </model>
+                    <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="titlePart" mode="change">
                     <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="titleStmt" mode="add">
-                    <model output="latex" behaviour="meta">
-            <param name="content" value="."/>
-        </model>
+                    <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="heading"/>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <desc>for breadcrumbs, pick only the first title</desc>
-            <param name="content" value="title[1]"/>
-        </model>
+                        <desc>for breadcrumbs, pick only the first title</desc>
+                        <param name="content" value="title[1]"/>
+                    </model>
                     <modelSequence output="web" predicate="$parameters?header='short'">
-            <desc>Display short header in document lists</desc>
-            <model predicate="$parameters?static" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
-            </model>
-            <model predicate="not($parameters?static)" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="subsequence(title, 2)"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="author"/>
-            </model>
-        </modelSequence>
+                        <desc>Display short header in document lists</desc>
+                        <model predicate="$parameters?static" behaviour="link">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+                        </model>
+                        <model predicate="not($parameters?static)" behaviour="link">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?doc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="subsequence(title, 2)"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="author"/>
+                        </model>
+                    </modelSequence>
                     <model predicate="$parameters?mode='register-details'" behaviour="listItem">
-            <desc>List of letters in register detail view</desc>
-            <param name="content" value="head((title[@type='main'], title))"/>
-        </model>
+                        <desc>List of letters in register detail view</desc>
+                        <param name="content" value="head((title[@type='main'], title))"/>
+                    </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
-
                 <elementSpec ident="trailer" mode="change">
-                    <model behaviour="block">
-            <outputRendition xml:space="preserve">
-            color: green;
-            </outputRendition>
-        </model>
+                    <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="unclear" mode="change">
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="after">
-            content: ' [?] ';
-            </outputRendition>
-        </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="w" mode="change">
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="mei:mdiv" mode="add">
                     <model behaviour="pass-through">
-            <desc>Single MEI mdiv needs to be wrapped to create complete MEI
-                            document</desc>
-            <param name="data" value="let $title := root($parameters?root)//titleStmt/title let $data :=   &lt;mei xmlns=&#34;http://www.music-encoding.org/ns/mei&#34; meiversion=&#34;4.0.0&#34;&gt;     &lt;meiHead&gt;         &lt;fileDesc&gt;             &lt;titleStmt&gt;                 &lt;title&gt;&lt;/title&gt;             &lt;/titleStmt&gt;             &lt;pubStmt&gt;&lt;/pubStmt&gt;         &lt;/fileDesc&gt;     &lt;/meiHead&gt;     &lt;music&gt;         &lt;body&gt;{.}&lt;/body&gt;     &lt;/music&gt;   &lt;/mei&gt; return   serialize($data)"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-mei player="player" data="[[data]]"/></pb:template>
-        </model>
+                        <desc>Single MEI mdiv needs to be wrapped to create complete MEI
+                                        document</desc>
+                        <param name="data" value="let $title := root($parameters?root)//titleStmt/title let $data :=   &lt;mei xmlns=&#34;http://www.music-encoding.org/ns/mei&#34; meiversion=&#34;4.0.0&#34;&gt;     &lt;meiHead&gt;         &lt;fileDesc&gt;             &lt;titleStmt&gt;                 &lt;title&gt;&lt;/title&gt;             &lt;/titleStmt&gt;             &lt;pubStmt&gt;&lt;/pubStmt&gt;         &lt;/fileDesc&gt;     &lt;/meiHead&gt;     &lt;music&gt;         &lt;body&gt;{.}&lt;/body&gt;     &lt;/music&gt;   &lt;/mei&gt; return   serialize($data)"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-mei player="player" data="[[data]]"/></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="person" mode="add">
                     <model predicate="parent::listPerson and $parameters?mode='register-overview'" behaviour="pass-through">
-            <desc>Register entry overview in list</desc>
-            <param name="id" value="@xml:id"/>
-            <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
-            <param name="description" value="note"/>
-            <pb:template xmlns="" xml:space="preserve"><header>
+                        <desc>Register entry overview in list</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
+                        <param name="description" value="note"/>
+                        <pb:template xmlns="" xml:space="preserve"><header>
     <a href="people/[[ id ]]">[[ label ]]</a>
 </header>
 <p>[[ description ]]</p></pb:template>
-        </model>
+                    </model>
                     <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
-            <desc>Register sidebar</desc>
-            <param name="content" value="persName[@type=('main', 'full')]"/>
-        </model>
+                        <desc>Register sidebar</desc>
+                        <param name="content" value="persName[@type=('main', 'full')]"/>
+                    </model>
                     <modelSequence predicate="parent::listPerson">
-            <desc>Register details view</desc>
-            <model behaviour="pass-through">
-                <param name="content" value="persName[@type=('main', 'full')]/node()"/>
-                <param name="dates" value="(birth, death)"/>
-                <pb:template xmlns="" xml:space="preserve"><h3>[[content]] <span class="dates">[[dates]]</span></h3></pb:template>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="persName[@type='variant']"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="note"/>
-            </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
-                <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
-                <pb:template xmlns="" xml:space="preserve"><div>
+                        <desc>Register details view</desc>
+                        <model behaviour="pass-through">
+                            <param name="content" value="persName[@type=('main', 'full')]/node()"/>
+                            <param name="dates" value="(birth, death)"/>
+                            <pb:template xmlns="" xml:space="preserve"><h3>[[content]] <span class="dates">[[dates]]</span></h3></pb:template>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="persName[@type='variant']"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="note"/>
+                        </model>
+                        <model predicate="$parameters?mode='register-details'" behaviour="block">
+                            <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
+                            <param name="content" value="let $id := @xml:id return collection($global:data-root)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                            <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Documents</h2>
   <ul>
   [[content]]
   </ul>
 </div></pb:template>
-            </model>
-        </modelSequence>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="place" mode="add">
                     <model predicate="$parameters?mode='register-overview'" behaviour="pass-through">
-            <desc>Register entry overview in list</desc>
-            <param name="id" value="@xml:id"/>
-            <param name="label" value="placeName[1]/string()"/>
-            <param name="longitude" value="tokenize(location/geo)[2]"/>
-            <param name="latitude" value="tokenize(location/geo)[1]"/>
-            <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
-            <param name="description" value="note/string()"/>
-            <pb:template xmlns="" xml:space="preserve"><header>
+                        <desc>Register entry overview in list</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="label" value="placeName[1]/string()"/>
+                        <param name="longitude" value="tokenize(location/geo)[2]"/>
+                        <param name="latitude" value="tokenize(location/geo)[1]"/>
+                        <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
+                        <param name="description" value="note/string()"/>
+                        <pb:template xmlns="" xml:space="preserve"><header>
     <a href="places/[[id]]">
         [[ label ]]
     </a>
@@ -767,42 +748,42 @@
     </pb-geolocation>
 </header>
 <p>[[ description ]]</p></pb:template>
-        </model>
+                    </model>
                     <model predicate="$parameters?mode='register'" behaviour="listItem">
-            <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
-            <param name="content" value="placeName[@type='main']"/>
-            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
-            <param name="label" value="placeName[@type='main']/node()"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
-        </model>
+                        <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
+                        <param name="content" value="placeName[@type='main']"/>
+                        <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+                        <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                        <param name="label" value="placeName[@type='main']/node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
+                    </model>
                     <modelSequence>
-            <desc>Register details view</desc>
-            <model behaviour="heading">
-                <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
-                <param name="label" value="placeName[@type='main']/node()"/>
-                <param name="content" value="placeName[@type='main']"/>
-                <param name="location" value="string-join((country, region), ', ')"/>
-                <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
-            </model>
-            <model behaviour="paragraph">
-                <param name="content" value="note"/>
-            </model>
-            <model behaviour="list" cssClass="links">
-                <param name="content" value="ptr"/>
-            </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
-                <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
-                <pb:template xmlns="" xml:space="preserve"><div>
+                        <desc>Register details view</desc>
+                        <model behaviour="heading">
+                            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
+                            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                            <param name="label" value="placeName[@type='main']/node()"/>
+                            <param name="content" value="placeName[@type='main']"/>
+                            <param name="location" value="string-join((country, region), ', ')"/>
+                            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
+                        </model>
+                        <model behaviour="paragraph">
+                            <param name="content" value="note"/>
+                        </model>
+                        <model behaviour="list" cssClass="links">
+                            <param name="content" value="ptr"/>
+                        </model>
+                        <model predicate="$parameters?mode='register-details'" behaviour="block">
+                            <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
+                            <param name="content" value="let $id := @xml:id return collection($global:data-root)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                            <pb:template xmlns="" xml:space="preserve"><div>
   <h2>Documents</h2>
   <ul>
   [[content]]
   </ul>
 </div></pb:template>
-            </model>
-        </modelSequence>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model predicate="@key and $parameters?mode='register-detail'" behaviour="inline">
