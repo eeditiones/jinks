@@ -461,18 +461,16 @@
                 </elementSpec>
                 <elementSpec ident="q" mode="change">
                     <model predicate="l" behaviour="block" useSourceRendition="true" cssClass="block-quote"/>
-                    <model predicate="ancestor::p or ancestor::cell" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
-                        <desc>If inside a paragraph or table cell then rendered inline</desc>
+                    <model predicate="ancestor::p or ancestor::cell or ancestor::cit" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
+                        <desc>If inside a paragraph, table cell or citation then rendered inline</desc>
                     </model>
                     <model behaviour="block" useSourceRendition="true" cssClass="block-quote"/>
                 </elementSpec>
                 <elementSpec ident="quote" mode="change">
-                    <model predicate="ancestor::p" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
-                        <desc>If inside a paragraph then rendered inline</desc>
+                    <model predicate="ancestor::p or ancestor::cell or ancestor::cit" behaviour="inline" useSourceRendition="true" cssClass="inline-quote">
+                        <desc>If inside a paragraph, table cell or citation then rendered inline</desc>
                     </model>
-                    <model behaviour="block" useSourceRendition="true" cssClass="block-quote">
-                        <desc>If it is not inside a paragraph then it is a block</desc>
-                    </model>
+                    <model behaviour="block" useSourceRendition="true" cssClass="block-quote"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::correspContext and @type and @target" behaviour="pass-through">
