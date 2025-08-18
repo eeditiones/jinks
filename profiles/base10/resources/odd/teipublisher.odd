@@ -510,14 +510,8 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="row" mode="change">
-                    <model predicate="@role='label'" behaviour="row">
-                        <outputRendition xml:space="preserve">
-                        font-weight: bold;
-                        </outputRendition>
-                    </model>
-                    <model behaviour="row">
-                        <desc>Insert table row. </desc>
-                    </model>
+                    <model predicate="@role='label'" behaviour="row" cssClass="row-label"/>
+                    <model behaviour="row"/>
                 </elementSpec>
                 <elementSpec ident="salute" mode="change">
                     <model predicate="parent::closer" behaviour="inline"/>
