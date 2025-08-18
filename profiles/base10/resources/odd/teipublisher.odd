@@ -525,16 +525,8 @@
                     <model behaviour="inline" cssClass="sic"/>
                 </elementSpec>
                 <elementSpec ident="signed" mode="change">
-                    <model predicate="parent::closer" behaviour="block">
-                        <outputRendition xml:space="preserve">
-                        text-align: right;
-                        </outputRendition>
-                    </model>
-                    <model behaviour="inline">
-                        <outputRendition xml:space="preserve">
-                        font-style: italic;
-                        </outputRendition>
-                    </model>
+                    <model predicate="parent::closer" behaviour="block" cssClass="signed"/>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="sp" mode="change">
                     <model behaviour="block"/>
