@@ -479,6 +479,12 @@
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::correspContext and @type and @target" behaviour="pass-through">
+                        <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus; 
+                            type attribute is used to determine what navigation structure it is: known values are 
+                            -  in the entire corpus (type='next' or type='prev')
+                            - next in the correspondence subcorpus between two correspondents (type='next-in-correspondence' or type='prev-in-correspondence')
+                            for which relevant svg icons are provided
+                        </desc>
                         <param name="type" value="@type"/>
                         <param name="target" value="@target"/>
                         <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
@@ -962,7 +968,7 @@
                         </pb:template>
         </model>
                     <model behaviour="pass-through">
-                        <desc>Outputs links to next/previous letter within entire and current correspondence</desc>
+                        <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
                         <param name="previous-in-correspondence" value="ref[@type = 'previous-in-correspondence']"/>
                         <param name="previous" value="ref[@type = 'previous']"/>
                         <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
