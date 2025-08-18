@@ -221,6 +221,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
                         <param name="default" value="."/>
                         <param name="alternate" value="@when"/>
