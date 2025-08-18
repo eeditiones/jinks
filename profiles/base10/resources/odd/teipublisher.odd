@@ -549,11 +549,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="table" mode="change">
-                    <model behaviour="table">
-            <outputRendition xml:space="preserve">
-            font-size: smaller; background-color: #F0F0F0;
-            </outputRendition>
-        </model>
+                    <model behaviour="table"/>
                 </elementSpec>
                 <elementSpec ident="fileDesc" mode="change">
                     <modelSequence predicate="$parameters?header='short'">
