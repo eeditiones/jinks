@@ -41,6 +41,16 @@ people, places, organizations etc */
         margin: 2rem;
     }
 
+    .tei-q.inline-quote::before {
+        content: '‘';
+    }
+    .tei-q.inline-quote::after {                
+        content: '’';
+    }
+    .tei-q.block-quote {
+        margin: 2rem;
+    }
+
 .tei-dateline {
     text-align: right;
 }
