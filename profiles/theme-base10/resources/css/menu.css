@@ -14,7 +14,6 @@
     background-image: none;
     color: var(--jinks-menubar-color);
     font-size: var(--jinks-menubar-font-size);
-    padding-inline: 1.5rem;
 }
 
 .menubar .icon {
@@ -32,12 +31,21 @@
     display: none;
 }
 
+/*
+ * overrided setting in pico-components.css
+ * that misalignes items on the right of the
+ * menubar
+ */
+nav.menubar ul:last-of-type {
+    margin-inline-end: 0;
+}
+
 .menubar ul:nth-child(1) {
     gap: 2.5rem;
 }
 
 .menubar ul:nth-child(2) {
-    gap: 10px;
+    gap: var(--s-1);
 }
 
 .menubar li {
@@ -67,13 +75,12 @@
     margin-bottom: 0;
 }
 
-
 .menubar button,
 .menubar input[type="search"],
 .menubar pb-search::part(input) {
     background-color: var(--jinks-menubar-button-color);
     color: var(--jinks-menubar-color);
-    border: 1px solid transparent;
+    border: thin solid transparent;
 }
 
 .menubar pb-search::part(input)::placeholder {

@@ -3,6 +3,36 @@
  * 1. sticky-layout: The page header is sticky and the content scrolls underneath it.
  * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
  */
+.fixed-layout {
+    --before-column-width: minmax(0, var(--jinks-layout-before-width));
+    --after-column-width: minmax(0, var(--jinks-layout-after-width));
+
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns:
+        auto
+        1fr
+        auto;
+    grid-template-areas:
+        "header header header"
+        "before-top content-top after-top"
+        "before content after";
+    position: relative;
+
+    /*
+     * set maximum page size for fixed layout
+     * (see also .center-l rules in base.css)
+     * --s2 has to be added in order to align
+     * the top navigation bar with the landing
+     * page layout
+     */
+    max-width: calc(var(--jinks-page-max-width) + var(--s2));
+    box-sizing: content-box;
+    margin-inline: auto;
+}
+
 .fixed-layout > .before-top li,
 .fixed-layout > .after-top li,
 .fixed-layout > .content-top li {
@@ -47,25 +77,6 @@
 .fixed-layout:not(:has(> .after > :not(.resize-handler))) >  :is(.after-top, .after)
 {
     display: none;
-}
-
-.fixed-layout {
-    --before-column-width: minmax(0, var(--jinks-layout-before-width));
-    --after-column-width: minmax(0, var(--jinks-layout-after-width));
-
-    display: grid;
-    height: 100vh;
-    width: 100vw;
-    grid-template-rows: auto auto 1fr;
-    grid-template-columns:
-        auto
-        1fr
-        auto;
-    grid-template-areas:
-        "header header header"
-        "before-top content-top after-top"
-        "before content after";
-    position: relative;
 }
 
 .fixed-layout:not(:has(> .before)),
