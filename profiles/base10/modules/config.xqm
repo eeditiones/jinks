@@ -316,6 +316,11 @@ declare variable $config:register-map := map {
         "default": "place-default",
         "prefix": "place-"
     },
+    "bibliography": map {
+        "id": "pb-bibl",
+        "default": "bibl-default",
+        "prefix": "bibl-"
+    },
     "organization": map {
         "id": "pb-organizations",
         "default": "organization-default",

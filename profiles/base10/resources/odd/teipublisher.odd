@@ -399,6 +399,36 @@
                     <model predicate="bibl" behaviour="list"/>
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="bibl" mode="add">
+                    <modelSequence predicate="$parameters?mode='register-details'">
+                        <desc>Register details view</desc>
+                        
+                        <model behaviour="block">
+                            <param name="content" value="."/>
+                        </model>
+                        
+                        <model predicate="$parameters?mode='register-details'" behaviour="block">
+                            <desc>List of letters (in register details only); trying to match by key or ref attributes</desc>
+                            <param name="content" value="let $id := @xml:id return (collection($global:data-root)//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-root)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
+                            <pb:template xmlns="" xml:space="preserve"><div>
+  <h2>Documents</h2>
+  <ul>
+  [[content]]
+  </ul>
+</div></pb:template>
+                        </model>
+                    </modelSequence>
+                    <model predicate="parent::listBibl and $parameters?mode='register-overview'" behaviour="pass-through">
+                        <desc>Register entry overview in list</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="label" value="(head(author), ' ', head(title), ' ', head(date))"/>
+                        <param name="description" value="."/>
+                        <pb:template xmlns="" xml:space="preserve"><header>
+                            <a href="bibliography/[[ id ]]">[[ label ]]</a>
+                            </header>
+                            <p>[[ description ]]</p></pb:template>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="notatedMusic" mode="add">
                     <model behaviour="figure">
                         <param name="title" value="label"/>
@@ -473,7 +503,7 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
-                    <model predicate="$parameters?display='browse'">
+                    <model predicate="$parameters?display='browse'" behaviour="block">
                         <param name="content" value=".//availability"/>
                     </model>
                     <model behaviour="block"/>
