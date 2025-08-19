@@ -221,10 +221,10 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
-                        <param name="default" value="."/>
-                        <param name="alternate" value="@when"/>
+                        <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
+                        <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ()) } catch * { @when/string() }"/>
                     </model>
                     <model behaviour="inline"/>
                 </elementSpec>
