@@ -231,6 +231,18 @@
                 <elementSpec ident="dateline" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="birth" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="death" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="region" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="country" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="del" mode="change">
                     <model behaviour="inline">
                         <outputRendition xml:space="preserve">
@@ -454,6 +466,10 @@
                         <pb:template xmlns="" xml:space="preserve"><pb-mei url="[[url]]" player="player">
                                         <pb-option name="appXPath" on="./rdg[contains(@label, 'original')]" off="">Original Clefs</pb-option>
                                         </pb-mei></pb:template>
+                    </model>
+                    <model predicate="@target" behaviour="link">
+                        <param name="uri" value="@target"/>
+                        <param name="content" value="if (@type) then @type else ."/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="publicationStmt" mode="add">
@@ -824,6 +840,19 @@
             <param name="default" value="."/>
             <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
         </model>
+                </elementSpec>
+                <elementSpec ident="orgName" mode="add">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model predicate="parent::org" behaviour="inline"/>
+                    <model behaviour="alternate">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="correspAction" mode="add">
+                    <model predicate="@type='sent'" behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="correspContext" mode="add">
                     <model predicate="$parameters?static" behaviour="pass-through">
