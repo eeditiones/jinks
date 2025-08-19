@@ -33,17 +33,22 @@
     padding: 1rem;
 }
 
-.fixed-layout:has(> .before:not(:empty)) > .before-top,
-.fixed-layout:has(> .after:not(:empty)) > .after-top {
+.fixed-layout:has(> .before > :not(.resize-handler)) > .before-top,
+.fixed-layout:has(> .after > :not(:resize-handler)) > .after-top {
     background-color: var(--jinks-colors-50);
     padding: 0 .5rem 1.5rem .5rem;
     padding: 1rem;
 }
 
-.fixed-layout:has(> .before:empty) > .before-top,
-.fixed-layout:has(> .after:empty) > .after-top {
+/**
+ * If there is only one a resize handler in an element it's effectively empty. Do not display it
+ */
+.fixed-layout:not(:has(> .before > :not(.resize-handler))) > :is(.before-top, .before),
+.fixed-layout:not(:has(> .after > :not(.resize-handler))) >  :is(.after-top, .after)
+{
     display: none;
 }
+
 .fixed-layout {
     --before-column-width: minmax(0, var(--jinks-layout-before-width));
     --after-column-width: minmax(0, var(--jinks-layout-after-width));
@@ -64,12 +69,12 @@
 }
 
 .fixed-layout:not(:has(> .before)),
-.fixed-layout:has(> .before:empty) {
+.fixed-layout:has(:not(> .before > :not(.resize-handler))) {
     --before-column-width: 0;
 }
 
 .fixed-layout:not(:has(> .after)),
-.fixed-layout:has(> .after:empty) {
+.fixed-layout:has(:not(> .after > :not(.resize-handler))) {
     --after-column-width: 0;
 }
 
@@ -127,6 +132,13 @@
 
 .fixed-layout>.after-top {
     grid-area: after-top;
+}
+
+.fixed-area > :is(.after-top,.after) {
+ 	width: var(--after-column-width)
+}
+.fixed-area > :is(.before-top,.before) {
+ 	width: var(--before-column-width)
 }
 
 .fixed-layout > .after {
