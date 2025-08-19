@@ -796,7 +796,7 @@
                     </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
-                    <model predicate="@key and $parameters?mode='register-detail'" behaviour="inline">
+                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
                         <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
                     </model>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
