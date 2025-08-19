@@ -112,7 +112,7 @@ declare function capi:documents($request as map(*)) {
             let $relPath := config:get-identifier($doc)
             let $header :=
                 $pm-config:web-transform($teiHeader, map {
-                    "header": "short",
+                    "display": "browse",
                     "doc": $relPath,
                     "context-path": $request?parameters?link,
                     "static": true()
