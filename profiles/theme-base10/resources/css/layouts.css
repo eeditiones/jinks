@@ -155,11 +155,11 @@
     grid-area: after-top;
 }
 
-.fixed-layout > :is(.after-top,.after) {
- 	width: var(--after-column-width)
+.fixed-layout > :is(.after-top, .after) {
+    width: var(--jinks-layout-before-width);
 }
-.fixed-layout > :is(.before-top,.before) {
- 	width: var(--before-column-width)
+.fixed-layout > :is(.before-top, .before) {
+    width: var(--jinks-layout-before-width);
 }
 
 .fixed-layout > .after {
