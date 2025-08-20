@@ -452,18 +452,20 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
-                    <model predicate="starts-with(@facs, 'iiif:')" behaviour="webcomponent">
-                        <desc>If facs attribute starts with iiif prefix, use the trailing part as a
-                                        link to the IIIF image; fits pb-facsimile viewer</desc>
+                    <model predicate="$parameters?iiif-viewer='pb-facsimile'" behaviour="webcomponent">
+                        <desc>If iiif-viewer parameter passed is set to pb-facsimile prepare pb-facs-link accordingly;
+                            assumes that facs attribute starts with 'iiif' prefix, use the trailing part as a
+                            link to the IIIF image; fits pb-facsimile viewer</desc>
                         <param name="name" value="'pb-facs-link'"/>
                         <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-                        <param name="label" value="'Page'"/>
+                        <param name="content" value="'Page ' || @n"/>
                         <param name="emit" value="'transcription'"/>
                     </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
                         <desc>Use the url from the facs attribute to link with IIIF image;
-                                        assumes pb-tify viewer; passes document's xml:id to the api/iiif endpoint
-                                        to generate relevant manifest</desc>
+                            assumes pb-tify viewer; passes document's path or xml:id 
+                            (depending on the app's addressing configuration) to the api/iiif endpoint
+                            to generate relevant manifest</desc>
                         <param name="name" value="'pb-facs-link'"/>
                         <param name="content" value="@n"/>
                         <param name="emit" value="'transcription'"/>

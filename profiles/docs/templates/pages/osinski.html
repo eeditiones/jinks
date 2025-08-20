@@ -2,7 +2,7 @@
     ---json
     {
         "templating": {
-            "extends": "templates/pages/basic.html"
+            "extends": "templates/layouts/content.html"
         },
         "features": {
             "toc": {
@@ -10,7 +10,8 @@
             },
             "iiif": {
                 "viewer": "pb-facsimile",
-                "enabled": true
+                "enabled": true,
+                "type": "iiif"
             }
         }
     }
@@ -19,5 +20,10 @@
     <details>
         [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "sidebar" }, "osinski.odd") ]]
     </details>
+    [% endtemplate %]
+    [% template! content %]
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]">
+        <pb-param name="iiif-viewer" value="pb-facsimile"/>
+    </pb-view>
     [% endtemplate %]
 </template>
