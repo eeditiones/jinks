@@ -297,6 +297,11 @@
                             "type": "string",
                             "description": "The viewer to use",
                             "enum": ["pb-tify", "pb-facsimile"]
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the source of the images: either 'iiif' or 'image' (for simple image links not served via IIIF).",
+                            "enum": ["iiif", "image"]
                         }
                     }
                 },

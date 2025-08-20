@@ -12,6 +12,7 @@
         <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
         [% else %]
         <pb-facsimile base-uri="[[ $context?features?iiif?base_uri ]]" default-zoom-level="0"
+            type="[[ $context?features?iiif?type ]]"
             show-navigation-control="show-navigation-control"
             show-navigator="show-navigator" subscribe="transcription" style="height: 100%"/>
         [% endif %]
