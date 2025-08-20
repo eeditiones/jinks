@@ -11,10 +11,15 @@
     height: 100vh;
     width: 100vw;
     grid-template-rows: auto auto 1fr;
+    /**
+     * Manually set the widths of the columsn instead of using auto, so the columns themselves will
+     *  regulate their width either by using variables (--column-before-width / column-after-width)
+     *  or by being resized and getting an absolute width set in HTML
+     */
     grid-template-columns:
-        auto
+        0.001fr
         1fr
-        auto;
+        0.001fr;
     grid-template-areas:
         "header header header"
         "before-top content-top after-top"
@@ -73,9 +78,10 @@
 /**
  * If there is only one a resize handler in an element it's effectively empty. Do not display it
  */
-.fixed-layout:not(:has(> .before > :not(.resize-handler))) > :is(.before-top, .before),
-.fixed-layout:not(:has(> .after > :not(.resize-handler))) >  :is(.after-top, .after)
-{
+.fixed-layout:not(:has(> .before > :not(.resize-handler)))
+    > :is(.before-top, .before),
+.fixed-layout:not(:has(> .after > :not(.resize-handler)))
+    > :is(.after-top, .after) {
     display: none;
 }
 
@@ -110,12 +116,16 @@
 .fixed-layout > .before.hidden,
 .fixed-layout > .after.hidden {
     visibility: hidden;
+    /* Make sure this is actually hidden and takes no more width */
+    width: 0px !important;
 }
 
 .fixed-layout > .after-top.hidden,
 .fixed-layout > .before-top.hidden {
     background-color: inherit;
     border: none;
+    /* Make sure this is actually hidden and takes no more width */
+    width: 0px !important;
 }
 
 @media screen and (max-width: 1023px) {
@@ -176,29 +186,24 @@ body:has(.fixed-layout) {
     grid-area: content;
 } */
 
-
 .resize-handler {
     top: 0px;
     cursor: e-resize;
 
-	/* Make mobile work: prevent long-press actions */
+    /* Make mobile work: prevent long-press actions */
     touch-action: none;
 
-	width: 1rem;
-	bottom: 0px;
+    width: 1rem;
+    bottom: 0px;
 
-	position: absolute;
-
-	&.active {
-		var(--pico-primary-hover);
-	}
+    position: absolute;
 }
 
 .before > .resize-handler {
     right: 0px;
-	float: right;
+    float: right;
 }
 .after > .resize-handler {
     left: 0px;
-	float: left;
+    float: left;
 }
