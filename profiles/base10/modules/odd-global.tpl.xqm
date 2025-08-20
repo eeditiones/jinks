@@ -37,3 +37,12 @@ declare variable $config:app-root :=
  : The root of the collection hierarchy containing registers data.
  :)
 declare variable $config:register-root := $config:data-root || "/registers";
+
+(:~
+ : Addressing method used in the app: by id or not
+ :)
+[% if map:contains($defaults, "address-by-id") %]
+    declare variable $config:address-by-id := "[[$defaults?address-by-id]]";
+[% else %]
+    declare variable $config:address-by-id := false();
+[% endif %]

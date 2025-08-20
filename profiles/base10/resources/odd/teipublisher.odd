@@ -469,7 +469,13 @@
                         <param name="emit" value="'transcription'"/>
                         <param name="order" value="count($get(.)/preceding::pb) + 1"/>
                         <param name="emit-on-load" value="'emit-on-load'"/>
-                        <param name="facs" value="'api/iiif/' || root($parameters?root)/descendant-or-self::TEI/@xml:id"/>
+                        <param name="facs" value="
+                        let $ref := if ($global:address-by-id) 
+                        then 
+                            root($parameters?root)/descendant-or-self::TEI/@xml:id 
+                        else 
+                            substring-after(document-uri(root($parameters?root)), $global:data-root || '/')
+                        return 'api/iiif/' || $ref"/>
                     </model>
                     <model behaviour="break" cssClass="pb" useSourceRendition="true">
                         <desc>Output Page label when no facsimile information is available</desc>
