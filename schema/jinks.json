@@ -329,6 +329,21 @@
                             "description": "The file extensions accepted for uploading"
                         }
                     }
+                },
+                "jinntap": {
+                    "type": "object",
+                    "properties": {
+                        "version": {
+                            "type": "string",
+                            "description": "The version of Jinntap",
+                            "examples": [ "dev", "1.24.0" ]
+                        },
+                        "cdn": {
+                            "type": "string",
+                            "description": "The CDN URL for Jinntap",
+                            "examples": [ "http://localhost:5174/" ]
+                        }
+                    }
                 }
             }
         },
@@ -596,9 +611,6 @@
                         "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
                         "http://localhost:8000"
                     ]
-                },
-                "jinntap": {
-                    "type": "string"
                 }
             }
         },

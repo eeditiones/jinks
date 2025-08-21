@@ -391,11 +391,24 @@ footer a {
     color: #c02020;
 }
 
+aside nav[aria-label="breadcrumb"] {
+    display: flex;
+    align-items: center;
+}
+
+aside nav[aria-label="breadcrumb"] ul,
+aside nav[aria-label="breadcrumb"] ul li {
+    display: inline-block;
+}
+
+aside nav[aria-label="breadcrumb"] ul li a {
+    display: inline;
+}
+
 nav[aria-label="breadcrumb"] svg, .menubar .icon svg {
     width: 1.25rem;
     height: 1.25rem;
 }
-
 
 .left > pb-search, .right > pb-search {
     display: block;
