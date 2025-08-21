@@ -837,6 +837,7 @@
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
                         <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
                     </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
                         <desc>Register sidebar</desc>
                         <param name="content" value="."/>
@@ -850,6 +851,10 @@
                         </a></pb:template>
                     </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
+                    <model predicate="parent::person" behaviour="inline"/>
+                    <model predicate="ancestor::correspContext" behaviour="inline">
+                        <desc>do not resolve correspContext descriptions</desc>
+                    </model>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
                         <param name="default" value="."/>
                         <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
@@ -857,10 +862,10 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
-                    <model predicate="ancestor::correspContext" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
-        </model>
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+                    </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="default" value="."/>
@@ -873,21 +878,40 @@
             </pb-popover>
             </a></pb:template>
         </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::place" behaviour="inline"/>
-                    <model behaviour="alternate" cssClass="placeName context">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
-        </model>
+                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model  predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
+                    </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
-                    <model output="print" behaviour="inline"/>
-                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))/placeName[@type='main']/string()"/>
+                    </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+            <desc>Register sidebar</desc>
+            <param name="default" value="."/>
+            <param name="alternate" value="parent::org/note"/>
+            <param name="uri" value="$parameters?context-path || '/organizations/' || parent::org/@xml:id"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="orgName context">
+            <pb-popover>
+                <span slot="default">[[content]]</span>
+                <template slot="alternate">[[alternate]]</template>
+            </pb-popover>
+            </a></pb:template>
+        </model>
+                    <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::org" behaviour="inline"/>
-                    <model behaviour="alternate">
+                    <model predicate="ancestor::correspContext" behaviour="inline"/>
+                    <model  predicate="@key or @ref" behaviour="alternate" cssClass="orgName context">
                         <param name="default" value="."/>
                         <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))"/>
                     </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="correspAction" mode="add">
                     <model predicate="@type='sent'" behaviour="inline"/>
