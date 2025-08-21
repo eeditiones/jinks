@@ -133,7 +133,6 @@ declare %private function vapi:transform-helper($content as node()*, $parameters
             $parameters
         else
             map:put($parameters, "root", $content)
-    let $log := util:log("INFO", $params)
     return
         $pm-config:web-transform($content, $params, $odd)
 };
