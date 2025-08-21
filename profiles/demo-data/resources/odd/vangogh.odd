@@ -49,41 +49,63 @@
                             \usepackage[a4paper, twoside, top=25mm, bottom=35mm, outer=40mm, inner=20mm, heightrounded, marginparwidth=25mm, marginparsep=5mm]{geometry}
                             \usepackage[french,english]{babel}
                             \usepackage{hyperref}
-                            
+
                             \usepackage{fancyhdr,extramarks,xifthen}
                             \pagestyle{fancy}
-                            
+
                             \fancyhf{}
                             \fancyhead[LO,RE]{\footnotesize [[title]]}
                             \fancyhead[LE,RO]{\footnotesize\thepage}
-                            
+
                             [[styles]]
-                            
+
                             \setlength{\parindent}{0}
-                            
+
                             \begin{document}
-                            
+
                             \title{[[title]]}
                             \date{[[date]]}}
                             \maketitle
-                            
+
                             \selectlanguage{english}
                             \section*{Metadata}
-                            
+
                             [[header]]
-                            
+
                             \section*{Original}
                             \selectlanguage{french}
                             [[content]]
-                            
+
                             \selectlanguage{english}
                             \section*{Translation}
                             [[translation]]
-                            
+
                             \end{document}</pb:template>
                     </model>
                     <model output="fo" behaviour="document">
                         <param name="content" value="(teiHeader,.//div[@type='original'], .//div[@type='translation'])"/>
+                    </model>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+                        <param name="content" value="teiHeader"/>
+                    </model>
+                    <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
+                        <param name="content" value="descendant::correspContext"/>
+                    </model>
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+                        <desc>Output register data if register profile is enabled</desc>
+                        <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="register">
+<h3>People</h3>
+<ul>
+[[people]]
+</ul>
+
+<h3>Places</h3>
+<ul>
+[[places]]
+</ul>
+</div></pb:template>
                     </model>
                     <model behaviour="document"/>
                 </elementSpec>
@@ -100,7 +122,7 @@
                         <param name="facs"
                             value="let $zone := id(substring-after(@facs, '#'), root($parameters?root)) return  'http://vangoghletters.org/vg/facsimiles/' ||     $zone/graphic[@mimeType=&#34;image/png&#34;]/@url"/>
                         <param name="name" value="'pb-facs-link'"/>
-                        <param name="emit" value="'transcription'"/>                        
+                        <param name="emit" value="'transcription'"/>
                         <outputRendition xml:space="preserve">
             font-size: .85em;
 background-color: #C0C0C0;
@@ -125,7 +147,7 @@ padding: 0 1em;
                     <model predicate="ancestor::div[@type='translation'] or $parameters?view='normalized'" behaviour="paragraph"/>
                     <model predicate="@rend='indent'" behaviour="inline">
                         <outputRendition xml:space="preserve">
-            
+
 
 
 
@@ -134,7 +156,7 @@ text-indent: 20px;
 
 
 
-            
+
             </outputRendition>
                     </model>
                     <model behaviour="inline"/>
@@ -153,7 +175,7 @@ text-indent: 20px;
                         <param name="label" value="@n/string()"/>
                         <param name="content" value="let $n := @n return $get(.)/ancestor::TEI//div[@type='notes']//note[@n=$n]/node()"/>
                         <outputRendition xml:space="preserve">
-            
+
 
 
 
@@ -166,7 +188,7 @@ margin: 0 .25em;
 
 
 
-            
+
             </outputRendition>
                     </model>
                 </elementSpec>
@@ -194,9 +216,8 @@ margin: 0 .25em;
             </outputRendition>
                     </model>
                     <model output="web" predicate="$parameters?display='browse'" behaviour="block"/>
-                    <model output="web" predicate="$parameters?display='browse'" behaviour="inline">
-                        <param name="content" value="fileDesc/titleStmt/title"/>
-                        <param name="level" value="5"/>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                        <param name="content" value="fileDesc/titleStmt"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
