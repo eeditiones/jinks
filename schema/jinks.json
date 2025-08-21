@@ -198,11 +198,30 @@
                             },
                             "id": {
                                 "type": "string"
-                            }
+                            },
+                            "subitems": {
+                                "type": "array",
+                                "description": "Secondary menu displayed as a dropdown list. The submenu gets created if the parent item does not have an 'url' property.",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                            },
+                                        "url": {
+                                            "type": ["string", "null"],
+                                            "description": "URL to link to. Might be null to remove an item inherited from a parent profile."
+                                        }
+                                    },
+                                "required": [
+                                    "id",
+                                    "url"
+                                    ]
+                                }  
+                            }  
                         },
                         "required": [
-                            "id",
-                            "url"
+                            "id"
                         ]
                     }
                 },
