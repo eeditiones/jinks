@@ -324,11 +324,15 @@
                         }
                     }
                 },
-                "correspondence": {
+                "edition-navigation": {
                     "type": "object",
                     "properties": {
                         "navigation": {
                             "type": "boolean"
+                        },
+                        "in-correspondence": {
+                            "type": "boolean",
+                            "description": "If true, shows additional navigation for letter exchange between two specific correspondents"
                         }
                     }
                 },
