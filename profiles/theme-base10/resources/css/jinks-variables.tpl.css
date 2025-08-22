@@ -72,7 +72,25 @@
     --jinks-heading-font-weight: 600 !important;
     --jinks-heading-line-height: 1.2;
 
+    --jinks-h1-font-size: 1.625rem;
+    --jinks-h1-font-weight: 600;
+    --jinks-h1-line-height: 130%;
+
+    --jinks-h2-font-size: 1.25rem;
+    --jinks-h2-font-weight: 600;
+    --jinks-h2-line-height: 120%;
+
+    --jinks-h3-font-size: 1.125rem;
+    --jinks-h4-font-weight: 600;
+    --jinks-h3-line-height: 140%;
+
+    --jinks-h4-font-size: 1rem;
+    --jinks-h4-line-height: 140%;
+    --jinks-h4-font-weight: 500;
+
     --jinks-breadcrumbs-font-size: [[ $theme?fonts?breadcrumbs?size ]];
+
+    --jinks-toc-font-size: [[ $theme?fonts?toc?size ]];
 
     --jinks-font-size-smaller: 0.875rem;
     --jinks-footnote-font-size: [[ $theme?fonts?footnote?size ]];

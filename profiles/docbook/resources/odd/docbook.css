@@ -1,35 +1,12 @@
 body {
-    --pb-heading-font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-    --pb-heading-font-weight: 400 !important;
+    --pb-heading-font-family: var(--jinks-base-font-family);
+    --pb-heading-font-weight: var(--jinks-heading-font-weight);
     --pb-color-focus: #f6a623;
     --pb-footnote-font-size: 13px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--pb-heading-font-family);
-    line-height: 1.2;
-    font-weight: var(--pb-heading-font-weight);
-    margin-top: 0;
-}
-
 .doc-title {
     font-size: 2.488em;
-}
-
-h1 {
-    font-size: 2.074em;
-}
-
-h2 {
-    font-size: 1.728em;
-}
-
-h3 {
-    font-size: 1.44em;
-}
-
-h4 {
-    font-size: 1.2em;
 }
 
 .abstract {
@@ -229,11 +206,11 @@ pb-code-highlight {
     section {
         margin-bottom: 2.5em;
     }
-    
+
     section section {
         margin-bottom: 1.5em;
     }
-    
+
     h1, h2, h3, h4, h5, h6 {
         break-after: avoid;
     }
