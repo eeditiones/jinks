@@ -47,6 +47,7 @@
         "odd": "teipublisher.odd",
         "odd-root": "resources/odd",
         "template": "basic.html",
+        "address-by-id": false,
         "media": ["web", "print", "fo", "latex", "epub"],
         "direction": "ltr",
         "pagination": {
@@ -79,7 +80,43 @@
             "enabled": false
         },
         "hero": false,
-        "upload": true
+        "browse": {
+            "sort": {
+                "default": "category",
+                "options": [
+                    {
+                        "value": "category",
+                        "key": "browse.category",
+                        "label": "Category"
+                    },
+                    {
+                        "value": "title",
+                        "key": "browse.title",
+                        "label": "Title"
+                    },
+                    {
+                        "value": "author",
+                        "key": "browse.author",
+                        "label": "Author"
+                    }
+                ]
+            },
+            "field": {
+                "default": "text",
+                "options": [
+                    {
+                        "value": "text",
+                        "key": "search.content",
+                        "label": "Content"
+                    },
+                    {
+                        "value": "title",
+                        "key": "search.title",
+                        "label": "Title"
+                    }
+                ]
+            }
+        }
     },
     "odds": [
         "teipublisher.odd"
@@ -104,7 +141,6 @@
 		"language": true,
 		"download": true
     },
-    "address-by-id": false,
     "actions": [
         {
             "name": "reindex",

@@ -150,8 +150,22 @@
                     "type": "boolean"
                 },
                 "sort": {
-                    "type": "string",
-                    "description": "The field to sort by default when displaying list of documents"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "default": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "description": "The fields to sort by default when displaying list of documents"
                 }
             }
         },
@@ -217,8 +231,8 @@
                                     "id",
                                     "url"
                                     ]
-                                }  
-                            }  
+                                }
+                            }
                         },
                         "required": [
                             "id"
@@ -276,6 +290,63 @@
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the table of contents will be displayed"
+                        }
+                    }
+                },
+                "browse": {
+                    "type": "object",
+                    "properties": {
+                        "sort": {
+                            "type": "object",
+                            "properties": {
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "value": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "value",
+                                            "key"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "field": {
+                            "type": "object",
+                            "properties": {
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "value": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "value",
+                                            "key"
+                                        ]
+                                    }
+                                }
+                            }
                         }
                     }
                 },
