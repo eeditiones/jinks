@@ -31,6 +31,7 @@
 }
 
 body {
+    font-family: 'Inter', sans-serif;
     background-color: var(--pico-background-color);
     min-height: 100vh;
 }
@@ -83,7 +84,7 @@ header .toolbar {
 }
 
 @media (min-width: 1024px) {
-    .is-fixed-above-lg {    
+    .is-fixed-above-lg {
         z-index: 6;
         position: sticky;
         top: 0;
@@ -138,7 +139,7 @@ fieldset ul li {
 }
 
 h1, h2, h3, .output > label {
-    font-family: Oswald, sans-serif;
+    font-family: Inter, sans-serif;
     font-weight: 200;
 }
 
