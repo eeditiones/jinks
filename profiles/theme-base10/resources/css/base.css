@@ -12,14 +12,8 @@
     --s4: calc(var(--s3) * var(--ratio));
     --s5: calc(var(--s4) * var(--ratio));
 
-    --pico-font-family-sans-serif: var(--jinks-base-font-family);
-    --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
-    --pico-font-weight: var(--jinks-base-font-weight);
-    --pico-line-height: var(--jinks-line-height);
-
     --pb-color: var(--jinks-color-primary, var(--pico-color));
     --jinks-logo: var(--jinks-logo-light);
-    --primary-text-color: var(--pb-color);
     --pb-highlight-color: var(--pb-highlight-color-light);
     --jinks-background-color: var(--jinks-background-color-light);
     --jinks-splash-background: var(--jinks-splash-background-light);
@@ -402,6 +396,13 @@ aside nav[aria-label="breadcrumb"] ul li {
 
 aside nav[aria-label="breadcrumb"] ul li a {
     display: inline;
+}
+
+nav[aria-label="breadcrumb"] ul li {
+    max-width: 32ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 nav[aria-label="breadcrumb"] svg, .menubar .icon svg {

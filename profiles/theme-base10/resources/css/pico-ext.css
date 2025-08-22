@@ -6,6 +6,14 @@
     --pico-line-height: var(--jinks-line-height);
     --pico-background-color: var(--jinks-background-color);
     --pico-border-color: var(--jinks-border-color);
+}
+
+[data-theme=light],
+:root:not([data-theme=dark]),
+:host:not([data-theme=dark]) {
+    --pico-primary: var(--jinks-colors-600);
+    --pico-primary-hover: var(--jinks-colors-500);
+    --pico-color: var(--jinks-color-primary);
 
     --pico-h1-color: var(--jinks-h1-color);
     --pico-h2-color: var(--jinks-h2-color);
@@ -13,23 +21,14 @@
     --pico-h4-color: var(--jinks-h4-color);
     --pico-h5-color: var(--jinks-h5-color);
     --pico-h6-color: var(--jinks-h6-color);
-
-    /* Buttons in switch list, browse lists etc */
-    [role=button], [type=button], [type=file]::file-selector-button, [type=reset], [type=submit], button {
-        --pico-background-color: var(--jinks-background-color);
-    }
-
-    [type=checkbox]:checked, [type=checkbox]:checked:active, [type=checkbox]:checked:focus, [type=radio]:checked, [type=radio]:checked:active, [type=radio]:checked:focus {
-        --pico-background-color: var(--jinks-background-color);
-        --pico-border-color: var(--jinks-border-color);
-    }
 }
 
 @media only screen and (prefers-color-scheme: dark) {
     :root:not([data-theme]),
     :host(:not([data-theme])) {
-        --pico-color: var(--jinks-color-primary);
         --pico-primary: var(--jinks-colors-600);
+        --pico-primary-hover: var(--jinks-colors-700);
+        --pico-color: var(--jinks-color-primary);
         --pico-h1-color: var(--jinks-h1-color);
         --pico-h2-color: var(--jinks-h2-color);
         --pico-h3-color: var(--jinks-h3-color);
@@ -40,12 +39,17 @@
 }
 
 [data-theme="dark"] {
-    --pico-color: var(--jinks-color-primary);
     --pico-primary: var(--jinks-colors-600);
+    --pico-primary-hover: var(--jinks-colors-700);
+    --pico-color: var(--jinks-color-primary);
     --pico-h1-color: var(--jinks-h1-color);
     --pico-h2-color: var(--jinks-h2-color);
     --pico-h3-color: var(--jinks-h3-color);
     --pico-h4-color: var(--jinks-h4-color);
     --pico-h5-color: var(--jinks-h5-color);
     --pico-h6-color: var(--jinks-h6-color);
+}
+
+a:link, a:visited {
+    --pico-text-decoration: none;
 }
