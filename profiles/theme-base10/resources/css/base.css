@@ -26,18 +26,6 @@
     --jinks-color-inverse: var(--jinks-background-color-dark);
 }
 
-/* Settings for dark mode if manually chosen by user */
-[data-theme="dark"] {
-    --pb-color: var(--jinks-color-inverse, var(--pico-color));
-    --primary-text-color: var(--pb-color);
-    --pb-highlight-color: var(--pb-highlight-color-dark);
-    --jinks-logo: var(--jinks-logo-dark);
-    --jinks-splash-background: var(--jinks-splash-background-dark);
-    --jinks-header-background-color: var(--jinks-header-background-color-dark);
-    --jinks-background-color: var(--jinks-background-color-dark);
-    --jinks-color-inverse: var(--jinks-background-color-light);
-}
-
 html {
     scroll-behavior: smooth;
     font-size: var(--jinks-base-font-size);
@@ -257,6 +245,13 @@ pb-view, pb-view-annotate {
 
 pb-view::part(content) {
     padding-top: 1rem;
+    --pico-color: var(--jinks-color-primary);
+    --pico-h1-color: var(--jinks-h1-color);
+    --pico-h2-color: var(--jinks-h2-color);
+    --pico-h3-color: var(--jinks-h3-color);
+    --pico-h4-color: var(--jinks-h4-color);
+    --pico-h5-color: var(--jinks-h5-color);
+    --pico-h6-color: var(--jinks-h6-color);
 }
 
 @media (min-width: 769px) {
@@ -347,6 +342,8 @@ pb-popover {
 
 .facets table td {
     padding: 4px 0;
+    background-color: transparent;
+    border: none;
 }
 
 .facets table td:nth-child(1) {

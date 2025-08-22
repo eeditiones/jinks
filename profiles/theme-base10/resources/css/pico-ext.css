@@ -4,9 +4,15 @@
     --pico-font-size: var(--jinks-base-font-size, var(--pico-font-size));
     --pico-font-weight: var(--jinks-base-font-weight);
     --pico-line-height: var(--jinks-line-height);
-    --pico-background-color: var(--jinks-background-color); 
+    --pico-background-color: var(--jinks-background-color);
     --pico-border-color: var(--jinks-border-color);
 
+    --pico-h1-color: var(--jinks-h1-color);
+    --pico-h2-color: var(--jinks-h2-color);
+    --pico-h3-color: var(--jinks-h3-color);
+    --pico-h4-color: var(--jinks-h4-color);
+    --pico-h5-color: var(--jinks-h5-color);
+    --pico-h6-color: var(--jinks-h6-color);
 
     /* Buttons in switch list, browse lists etc */
     [role=button], [type=button], [type=file]::file-selector-button, [type=reset], [type=submit], button {
@@ -19,6 +25,27 @@
     }
 }
 
-.left, .right {
-    --pico-background-color: var(--jinks-colors-light);
+@media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]),
+    :host(:not([data-theme])) {
+        --pico-color: var(--jinks-color-primary);
+        --pico-primary: var(--jinks-colors-600);
+        --pico-h1-color: var(--jinks-h1-color);
+        --pico-h2-color: var(--jinks-h2-color);
+        --pico-h3-color: var(--jinks-h3-color);
+        --pico-h4-color: var(--jinks-h4-color);
+        --pico-h5-color: var(--jinks-h5-color);
+        --pico-h6-color: var(--jinks-h6-color);
+    }
+}
+
+[data-theme="dark"] {
+    --pico-color: var(--jinks-color-primary);
+    --pico-primary: var(--jinks-colors-600);
+    --pico-h1-color: var(--jinks-h1-color);
+    --pico-h2-color: var(--jinks-h2-color);
+    --pico-h3-color: var(--jinks-h3-color);
+    --pico-h4-color: var(--jinks-h4-color);
+    --pico-h5-color: var(--jinks-h5-color);
+    --pico-h6-color: var(--jinks-h6-color);
 }

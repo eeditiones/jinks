@@ -14,6 +14,7 @@
 
 label, input {
     font-size: var(--jinks-form-control-font-size);
+    color: var(--jinks-color-primary);
 }
 
 input[type="checkbox"] {
@@ -141,6 +142,7 @@ select:not([multiple], [size]) {
     background-size: 1rem auto;
     background-color: var(--jinks-form-background-color);
     appearance: none;
+    color: var(--jinks-color-primary);
 }
 
 fieldset {
@@ -217,7 +219,7 @@ button:has(svg):not(:has(span)),
     border: none;
     border-radius: var(--jinks-form-border-radius);
     height: 36px;
-    color: var(--jinks-text-color);
+    color: var(--jinks-color-primary);
     background-color: var(--jinks-form-background-color);
 
     /* Card_shadow */
@@ -356,7 +358,7 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .
 }
 
 .dropdown-button a, .dropdown a, .dropdown-button a:link, .dropdown a:link {
-    color: var(--jinks-text-color);
+    color: var(--jinks-color-primary);
 }
 
 dialog > article{
