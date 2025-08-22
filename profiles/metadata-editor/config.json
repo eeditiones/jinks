@@ -1,0 +1,26 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/metadata-editor",
+    "label": "Metadata Editor",
+    "description": "Edit the metadata of TEI documents, right from the JinnTap editor",
+    "version": "1.0.0",
+    "pkg": {
+        "dependencies": [
+        ]
+    },
+    "depends": [
+        "base10",
+		"jinntap"
+    ],
+    "templating": {
+        "use": [
+            "templates/metadata-editor.html"
+        ]
+	},
+	"script": {
+       "fore": "2.6.0"
+	},
+    "features": {
+    }
+}
