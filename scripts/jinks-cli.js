@@ -34,6 +34,7 @@ const serverOption = new Option("-s, --server <address>", "Server address").defa
 const userOption = new Option("-u, --user <username>", "Username").default("tei");
 const passwordOption = new Option("-p, --password <password>", "Password").default("simple");
 const editOption = new Option("-e, --edit", "Use text editor rather than interactive mode to modify configuration.");
+const reinstallOption = new Option("-r, --reinstall", "Fully reinstall application, overwriting existing files.");
 const quietOption = new Option("-q, --quiet", "Do not print banner.");
 
 // Hook to run before any command action
@@ -78,7 +79,7 @@ program
                     pkg: { abbrev: abbrev }
                 }
             }
-            const config = await editOrCreateConfiguration(baseConfig, options, command.allConfigurations, command.client);
+            const config = await createConfiguration(baseConfig, options, command.allConfigurations, command.client);
             await update(config, options, command.client);
         } catch (error) {
             console.error(error);
@@ -95,6 +96,7 @@ program
     .addOption(passwordOption)
     .addOption(editOption)
     .addOption(quietOption)
+    .addOption(reinstallOption)
     .action(async (abbrev, options, command) => {
         printBanner(options);
         try {
@@ -120,6 +122,7 @@ program
     .addOption(userOption)
     .addOption(passwordOption)
     .addOption(quietOption)
+    .addOption(reinstallOption)
     .action(async (abbrev, options, command) => {
         printBanner(options);
         try {
@@ -345,13 +348,18 @@ async function loadConfigFromApplication(appOption, allConfigurations) {
     }
 }
 
+async function createConfiguration(config, options, allConfigurations, client) {
+    return await editOrCreateConfiguration(config, options, allConfigurations, client, true);
+}
+
 // Helper function to edit and save configuration
-async function editOrCreateConfiguration(config, options, allConfigurations, client) {
+async function editOrCreateConfiguration(config, options, allConfigurations, client, create = false) {
     if (options.edit) {
         const edited = await editor({
             message: "Edit configuration:",
             default: JSON.stringify(config || DEFAULT_CONFIG, null, 2),
-            waitForUseInput: false
+            waitForUseInput: false,
+            postfix: ".json"
         });
         config = JSON.parse(edited);
     } else {
@@ -372,6 +380,25 @@ async function editOrCreateConfiguration(config, options, allConfigurations, cli
     console.log("\n" + chalk.blue("Using configuration:"));
     console.log(JSON.stringify(config, null, 2));
 
+    if (create) {
+        const shouldEdit = await confirm({
+            message: "Would you like to edit this configuration?",
+            default: false
+        });
+
+        if (shouldEdit) {
+            const edited = await editor({
+                message: "Edit configuration:",
+                default: JSON.stringify(config, null, 2),
+                waitForUseInput: false,
+                postfix: ".json"
+            });
+            config = JSON.parse(edited);
+
+            console.log("\n" + chalk.blue("Updated configuration:"));
+            console.log(JSON.stringify(config, null, 2));
+        }
+    }
     return config;
 }
 
@@ -438,7 +465,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
                 description: profile.description || "",
                 checked: initialConfig?.extends?.includes(profile.profile),
             }));
-        
+
         const selectOptions = [new Separator('Blueprints'), ...blueprintOptions, new Separator('Features'), ...profileOptions];
         let selectedProfiles = [];
         if (profileOptions.length > 0) {
@@ -500,7 +527,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
         // Ask user if they want to add missing dependencies
         if (missingDependencies.length > 0) {
             console.log(chalk.yellow("\n⚠️  Some selected profiles have dependencies that are not included yet:"));
-            
+
             for (const item of missingDependencies) {
                 console.log(chalk.yellow(`   • ${item.label} (${item.profile}) depends on: ${item.dependencyLabel} (${item.dependency})`));
             }
@@ -544,7 +571,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
             extends: currentExtends,
         };
 
-        
+
         return newConfig;
     } catch (error) {
         // Re-throw the error to be handled by the caller
@@ -570,8 +597,8 @@ async function update(config, options, client, resolve = []) {
 
     // 2. Use the cookie for the generator request
     const generatorResponse = await client.post(
-        "/api/generator?overwrite=default",
-        requestBody,
+        `/api/generator?overwrite=${options.reinstall ? "all" : "default"}`,
+        requestBody
     );
 
     if (generatorResponse.status !== 200) {
@@ -617,7 +644,7 @@ async function update(config, options, client, resolve = []) {
         console.log(table.toString());
     }
 
-    if (output.nextStep && output.nextStep.action === "DEPLOY") {
+    if (options.reinstall || (output.nextStep && output.nextStep.action === "DEPLOY")) {
         spinner = ora("Deploying ...").start();
         const deployResponse = await client.post(
             `/api/generator/${config.pkg.abbrev}/deploy`,
