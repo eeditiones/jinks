@@ -2,7 +2,7 @@
     [# Receives a list of documents to display in $documents #]
     <ul class="documents">
         [% if empty($documents) %]
-        <li>No documents</li>
+        <li class="document card"><h5>No documents</h5></li>
         [% else %]
             [% for $doc in $documents %]
             [% let $options = browse:document-options($doc) %]
@@ -20,7 +20,7 @@
                         </summary>
                         <ul dir="rtl">
                             <li>
-                                <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="view-tei" 
+                                <pb-edit-xml data-i18n="[title]menu.download.view-tei" title="view-tei"
                                     path="[[ document-uri(root($doc)) ]]">
                                     XML
                                 </pb-edit-xml>
@@ -32,7 +32,7 @@
                             [% endif %]
                             [% if empty($options?media) or "latex" = $options?media %]
                             <li>
-                                <pb-download type="tex" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex" 
+                                <pb-download type="tex" dialog="downloadDialog" data-i18n="[title]menu.download.pdf-latex"
                                     title="i18n(pdf-latex)"
                                     odd="[[ $options?odd ]]"
                                     url="api/document/[[ escape-uri($options?relpath, true()) ]]">
@@ -60,7 +60,7 @@
                             [% endif %]
                             [% if empty($options?media) or "fo" = $options?media %]
                             <li>
-                                <pb-download type="pdf" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source" 
+                                <pb-download type="pdf" dialog="downloadDialog" data-i18n="[title]menu.download.fo-source"
                                     title="pdf-fo" source="source"
                                     odd="[[ $options?odd ]]"
                                     url="api/document/[[ escape-uri($options?relpath, true()) ]]">
