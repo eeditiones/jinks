@@ -39,9 +39,9 @@ declare function api:generator($request as map(*)) {
     let $config := if ($request?body instance of array(*)) then $request?body?1 else $request?body
     let $overwrite := $request?parameters?overwrite
     let $dryRun := $request?parameters?dry
-    let $resolved := api:resolve-conflicts($config?config?id, $config?resolve?*)
+    let $lastModified := api:resolve-conflicts($config?config?id, $config?resolve?*)
     return
-        generator:process(map { "overwrite": $overwrite, "dry": $dryRun }, $config?config)
+        generator:process(map { "overwrite": $overwrite, "dry": $dryRun, "last-modified": $lastModified }, $config?config)
 };
 
 declare function api:expand-template($request as map(*)) {
@@ -235,13 +235,16 @@ declare %private function api:resolve-conflicts($appId as xs:string, $paths as x
     let $target := path:get-package-target($appId)
     return
         if ($target) then
-            let $json := generator:load-json(path:resolve-path($target, ".jinks.json"), map {})
+            let $jsonPath := path:resolve-path($target, ".jinks.json")
+            let $lastModified := xmldb:last-modified(path:parent($jsonPath), path:basename($jsonPath))
+            let $json := generator:load-json($jsonPath, map {})
             let $updated :=
                 fold-right($paths, $json, function($path, $input) {
                     map:remove($input, $path)
                 }) => serialize(map { "method": "json", "indent": true()})
+            let $_ := xmldb:store($target, ".jinks.json", $updated, "application/json")
             return
-                xmldb:store($target, ".jinks.json", $updated, "application/json")
+                $lastModified
         else
             ()
 };

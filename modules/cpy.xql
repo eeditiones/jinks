@@ -193,46 +193,52 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     else if ($context?_update) then
         let $path := path:resolve-path($context?target, $relPath)
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
-        let $currentHash := cpy:hash($path)
-        let $expectedHash := cpy:load-hash($context, $relPath)
-        let $incomingContent := $content()
+        let $lastModified := xmldb:last-modified(path:parent($sourcePath), path:basename($sourcePath))
         return
-            (: Check if there have been changes to the file since it was installed :)
-            if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
-                let $contentHash := cpy:hash($incomingContent, $mime)
-                return
-                    (: Still update if overwrite="update", the file was not there last time,
-                    : or the incoming content is different :)
-                    if (empty($expectedHash) or $context?_overwrite = "update"
-                        or $contentHash != $expectedHash) then (
-                            map {
-                                "type": "update",
-                                "path": $relPath,
-                                "source": $sourcePath
-                            },
-                            let $stored := $callback()
-                            return
-                                cpy:save-hash($context, $relPath, cpy:hash($stored))
-                        )
-                    else
-                        ()
+            (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
+            if ($context?_overwrite != "force" and exists($context?_lastModified) and $context?_lastModified >= $lastModified) then
+                ()
             else
-                (: conflict detected :)
-                map {
-                    "type": "conflict",
-                    "path": $relPath,
-                    "source": $path,
-                    "hash": map {
-                        "original": $expectedHash,
-                        "actual": $currentHash
-                    },
-                    "mime": $mime,
-                    "incoming": 
-                        if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
-                            $incomingContent
-                        else
-                            ()
-                }
+                let $currentHash := cpy:hash($path)
+                let $expectedHash := cpy:load-hash($context, $relPath)
+                let $incomingContent := $content()
+                return
+                    (: Check if there have been changes to the file since it was installed :)
+                    if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
+                        let $contentHash := cpy:hash($incomingContent, $mime)
+                        return
+                            (: Still update if overwrite="update", the file was not there last time,
+                            : or the incoming content is different :)
+                            if (empty($expectedHash)
+                                or $contentHash != $expectedHash) then (
+                                    map {
+                                        "type": "update",
+                                        "path": $relPath,
+                                        "source": $sourcePath
+                                    },
+                                    let $stored := $callback()
+                                    return
+                                        cpy:save-hash($context, $relPath, cpy:hash($stored))
+                                )
+                            else
+                                ()
+                    else
+                        (: conflict detected :)
+                        map {
+                            "type": "conflict",
+                            "path": $relPath,
+                            "source": $path,
+                            "hash": map {
+                                "original": $expectedHash,
+                                "actual": $currentHash
+                            },
+                            "mime": $mime,
+                            "incoming": 
+                                if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
+                                    $incomingContent
+                                else
+                                    ()
+                        }
     (: fresh install of new app package :)
     else if ($context?_dry) then
         map {

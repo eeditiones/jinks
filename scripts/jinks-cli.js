@@ -35,6 +35,7 @@ const userOption = new Option("-u, --user <username>", "Username").default("tei"
 const passwordOption = new Option("-p, --password <password>", "Password").default("simple");
 const editOption = new Option("-e, --edit", "Use text editor rather than interactive mode to modify configuration.");
 const reinstallOption = new Option("-r, --reinstall", "Fully reinstall application, overwriting existing files.");
+const forceOption = new Option("-f, --force", "Ignore last modified date and check every file for changes.");
 const quietOption = new Option("-q, --quiet", "Do not print banner.");
 
 // Hook to run before any command action
@@ -97,6 +98,7 @@ program
     .addOption(editOption)
     .addOption(quietOption)
     .addOption(reinstallOption)
+    .addOption(forceOption)
     .action(async (abbrev, options, command) => {
         printBanner(options);
         try {
@@ -123,6 +125,7 @@ program
     .addOption(passwordOption)
     .addOption(quietOption)
     .addOption(reinstallOption)
+    .addOption(forceOption)
     .action(async (abbrev, options, command) => {
         printBanner(options);
         try {
@@ -597,7 +600,7 @@ async function update(config, options, client, resolve = []) {
 
     // 2. Use the cookie for the generator request
     const generatorResponse = await client.post(
-        `/api/generator?overwrite=${options.reinstall ? "all" : "default"}`,
+        `/api/generator?overwrite=${options.reinstall ? "all" : (options.force ? "force" : "default")}`,
         requestBody
     );
 
@@ -642,6 +645,8 @@ async function update(config, options, client, resolve = []) {
             table.push([typeColored, message.path || "", source]);
         });
         console.log(table.toString());
+    } else {
+        console.log(chalk.green("No changes detected."));
     }
 
     if (options.reinstall || (output.nextStep && output.nextStep.action === "DEPLOY")) {

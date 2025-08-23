@@ -24,8 +24,9 @@ declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
  :
  : In the settings, property "overwrite" controls how files in an existing app are updated:
  : 
+ : * "overwrite=default": check last modified date of source and if newer, check if content has changed
+ : * "overwrite=force": ignore last modified date, enforce content check
  : * "overwrite=all": the entire app is regenerated and then reinstalled
- : * "overwrite=update": files will be updated by the potentially newer versions from the profile –
  :   unless local modifications were applied by the user
  :
  : @param $settings general settings to control the generator
@@ -39,7 +40,8 @@ declare function generator:process($settings as map(*)?, $config as map(*)?) {
             $context,
             map {
                 "source": $generator:PROFILES_ROOT || "/" || $profileName,
-                "_noDeploy": map:contains($config, "profiles") or $settings?dry
+                "_noDeploy": map:contains($config, "profiles") or $settings?dry,
+                "_lastModified": $settings?last-modified
             }
         ))
         return
