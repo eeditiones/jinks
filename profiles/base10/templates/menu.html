@@ -87,8 +87,8 @@
         </li>
         [% endif %]
 
-        <pb-restricted group="[[ $pkg?user?group ]]">
-            <li class="hidden-mobile">
+        <li class="hidden-mobile">
+            <pb-restricted group="[[ $pkg?user?group ]]">
                 <details class="dropdown">
                     <summary><pb-i18n key="menu.admin.title">Admin</pb-i18n></summary>
                     <ul dir="rtl">
@@ -109,8 +109,8 @@
                         [% block menu.admin %][% endblock %]
                     </ul>
                 </details>
-            </li>
-        </pb-restricted>
+            </pb-restricted>
+        </li>
         [% block menu.left %][% endblock %]
     </ul>
     <ul>

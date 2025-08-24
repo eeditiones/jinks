@@ -139,12 +139,6 @@
     width: auto;
 }
 
-@media screen and (max-width: 1023px) {
-    .fixed-layout {
-        grid-template-columns: 1fr;
-    }
-}
-
 .fixed-layout > main {
     grid-area: content;
     display: flex;
@@ -187,11 +181,12 @@
 
 .fixed-layout>.content-top {
     grid-area: content-top;
+    overflow: auto;
 }
 
-body:has(.fixed-layout) {
+/*body:has(.fixed-layout) {
     overflow: hidden;
-}
+}*/
 
 /* .fixed-layout > .below-content {
     grid-area: content;
