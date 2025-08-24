@@ -459,7 +459,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
             .filter(
                 (item) =>
                     item.type === "profile" &&
-                    !["theme", "base", "blueprint"].includes(item.config.type)
+                    !["theme", "base", "blueprint", "disabled"].includes(item.config.type)
             )
             .sort((a, b) => a.config.label.localeCompare(b.config.label))
             .map((profile) => ({
@@ -645,8 +645,6 @@ async function update(config, options, client, resolve = []) {
             table.push([typeColored, message.path || "", source]);
         });
         console.log(table.toString());
-    } else {
-        console.log(chalk.green("No changes detected."));
     }
 
     if (options.reinstall || (output.nextStep && output.nextStep.action === "DEPLOY")) {
@@ -665,6 +663,8 @@ async function update(config, options, client, resolve = []) {
         }
         spinner.stop();
         console.log(chalk.green("Done!"));
+    } else if (output.messages.length === 0) {
+        console.log(chalk.green("No changes detected."));
     }
 
     const conflicts = output.messages.filter(message => message.type === "conflict");
