@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-module namespace api="http://teipublisher.com/api/custom";
+module namespace api="http://teipublisher.com/api/documentation-and-demo";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

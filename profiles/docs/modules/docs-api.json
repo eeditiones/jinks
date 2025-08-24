@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "Custom API",
-        "description": "This is the place to add your own path endpoints"
+        "title": "Demo and Documentation API",
+        "description": "API used by demos and the TEI Publisher documentation"
     },
     "servers": [
         {
@@ -152,7 +152,7 @@
             "get": {
                 "summary": "List encyclopedia headwords",
                 "description": "Retrieve list of headwords in format required by pb-split-list. Used by the encyclopedia sample (Damen Conversations Lexikon)",
-                "operationId": "custom:lemmata",
+                "operationId": "demo:lemmata",
                 "tags": ["encyclopedia"],
                 "parameters": [
 					{
