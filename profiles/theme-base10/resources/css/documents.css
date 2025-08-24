@@ -52,6 +52,12 @@ li.document header {
     margin-bottom: 1rem;
 }
 
+li.document header,
+li.document .matches {
+    --jinks-heading-font-family: var(--jinks-content-font-family);
+    font-family: var(--jinks-content-font-family);
+}
+
 li.document .actions {
     display: flex;
     flex-wrap: wrap;

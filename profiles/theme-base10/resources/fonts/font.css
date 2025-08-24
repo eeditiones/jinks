@@ -64,24 +64,24 @@
     /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* junicodevf-roman - latin */
+/* junicodevf-roman - latin (variable font) */
 @font-face {
     font-display: swap;
     /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'JunicodeVF';
     font-style: normal;
-    font-weight: 400;
-    src: url('JunicodeVF-Roman.woff2') format('woff2');
+    font-weight: 100 900;
+    src: url('JunicodeVF-Roman.woff2') format('woff2-variations');
     /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* junicodevf-italic - latin */
+/* junicodevf-italic - latin (variable font) */
 @font-face {
     font-display: swap;
     /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'JunicodeVF';
     font-style: italic;
-    font-weight: 400;
-    src: url('JunicodeVF-Italic.woff2') format('woff2');
+    font-weight: 100 900;
+    src: url('JunicodeVF-Italic.woff2') format('woff2-variations');
     /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
