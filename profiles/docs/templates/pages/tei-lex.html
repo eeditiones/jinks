@@ -19,11 +19,16 @@
     <style>
         #options {
             padding-left: 1rem;
+            margin-bottom: 1rem;
         }
         pb-split-list {
             overflow: auto;
             padding-left: 1rem;
         }
+        pb-split-list::part(items) {
+            margin-top: 1rem;
+        }
+
         pb-split-list .term {
             max-width: 20em;
             overflow: hidden;
