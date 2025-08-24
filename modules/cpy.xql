@@ -18,7 +18,7 @@ declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
 declare variable $cpy:ERROR_PERMISSION := xs:QName("cpy:permission-denied");
 
 declare variable $cpy:CONFLICT_DETAILS_MIMETYPES := (
-    "text/html", 
+    "text/html",
     "application/xml",
     "text/xml",
     "text/text",
@@ -76,7 +76,7 @@ declare function cpy:resource-as-string($context as map(*), $relPath as xs:strin
 declare function cpy:expand-template($source as xs:string, $template as xs:string, $context as map(*)) {
     try {
         tmpl:process($template, $context, map {
-            "plainText": true(), 
+            "plainText": true(),
             "resolver": cpy:resource-as-string($context, ?),
             "ignoreImports": head(($context?ignoreImports, true())),
             "ignoreUse": true(),
@@ -94,7 +94,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
     let $expanded := cpy:expand-template($source, $template?content, $context)
     let $path := path:resolve-path($context?target, $target)
     let $relPath := substring-after($path, $context?target || "/")
-    return 
+    return
         cpy:overwrite($context, $relPath, $source, function() { $expanded }, function() {(
             xmldb:store(path:parent($path), path:basename($path), $expanded),
             sm:chown(xs:anyURI($path), $context?pkg?user?name),
@@ -182,7 +182,7 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
  : Determine if the file corresponding to $relPath can be overwritten, and if yes, call the $callback
  : function. To detect conflicts, a hash key is computed and stored into .jinks.json.
  :)
-declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string, 
+declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string,
     $content as function(*), $callback as function(*)) {
     if (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) then
         ()
@@ -196,7 +196,13 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         let $lastModified := xmldb:last-modified(path:parent($sourcePath), path:basename($sourcePath))
         return
             (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
-            if ($context?_overwrite != "force" and exists($context?_lastModified) and $context?_lastModified >= $lastModified) then
+            (: Templated source files should always be updated though :)
+            if (
+                $context?_overwrite != "force" and
+                not(matches($sourcePath, $context?template-suffix)) and
+                exists($context?_lastModified) and
+                $context?_lastModified >= $lastModified
+            ) then
                 ()
             else
                 let $currentHash := cpy:hash($path)
@@ -233,8 +239,8 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                                 "actual": $currentHash
                             },
                             "mime": $mime,
-                            "incoming": 
-                                if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
+                            "incoming":
+                                if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then
                                     $incomingContent
                                 else
                                     ()
