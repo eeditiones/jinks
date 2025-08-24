@@ -30,10 +30,6 @@ h4 {
     line-height: var(--jinks-h4-line-height);
 }
 
-details > summary {
-    margin-bottom: 1rem;
-}
-
 :host {
     font-family: var(--jinks-base-font-family);
     font-size: var(--jinks-base-font-size);
@@ -53,6 +49,10 @@ details > summary {
     font-family: var(--jinks-content-font-family);
     font-size: var(--jinks-content-font-size);
     line-height: var(--jinks-content-line-height);
+}
+
+:host(pb-view) details > summary {
+    margin-bottom: 1rem;
 }
 
 :host(pb-zoom) svg {

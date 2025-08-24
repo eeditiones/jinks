@@ -74,7 +74,11 @@
 
                     [% block header %][% endblock %]
                 </div>
+                [% if $features?menubar %]
+                    [% include "templates/menu-mobile.html" %]
+                [% endif %]
             </header>
+
             [% block hero %][% endblock %]
             <nav class="before-top">
                 <ul>
