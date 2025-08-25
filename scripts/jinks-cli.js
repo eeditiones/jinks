@@ -567,6 +567,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
         currentExtends.push(...profilesToSort);
 
         const newConfig = {
+            ...initialConfig,
             overwrite: "default",
             pkg: { abbrev: abbrev },
             label: label,
