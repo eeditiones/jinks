@@ -26,7 +26,7 @@
     [% endtemplate %]
     [% template before-top %]
     <li>
-        <pb-search id="search-form" subscribe="search" value="[[ $request?parameters?query ]]"
+        <pb-search subscribe="search" value="[[ $request?parameters?query ]]"
             subforms=".facets,.options" submit-on-load="submit-on-load">
             <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
             <input type="hidden" name="field" value="text"/>
@@ -34,6 +34,11 @@
     </li>
     [% endtemplate %]
     [% template before %]
+    <pb-search class="mobile" subscribe="search" value="[[ $request?parameters?query ]]"
+        subforms=".facets,.options" submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text"/>
+    </pb-search>
     <pb-custom-form class="options">
         <fieldset>
             <label for="search.sort"><pb-i18n key="browse.sort"></pb-i18n>:</label>

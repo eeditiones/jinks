@@ -1,16 +1,16 @@
 :root {
     --ratio: 1.5;
-    --s-5: calc(var(--s-4) / var(--ratio));
-    --s-4: calc(var(--s-3) / var(--ratio));
-    --s-3: calc(var(--s-2) / var(--ratio));
-    --s-2: calc(var(--s-1) / var(--ratio));
-    --s-1: calc(var(--s0) / var(--ratio));
-    --s0: 1rem;
-    --s1: calc(var(--s0) * var(--ratio));
-    --s2: calc(var(--s1) * var(--ratio));
-    --s3: calc(var(--s2) * var(--ratio));
-    --s4: calc(var(--s3) * var(--ratio));
-    --s5: calc(var(--s4) * var(--ratio));
+    --s-5: calc(var(--s-4) / var(--ratio));    /* 0.131rem */
+    --s-4: calc(var(--s-3) / var(--ratio));    /* 0.198rem */
+    --s-3: calc(var(--s-2) / var(--ratio));    /* 0.296rem */
+    --s-2: calc(var(--s-1) / var(--ratio));    /* 0.444rem */
+    --s-1: calc(var(--s0) / var(--ratio));     /* 0.667rem */
+    --s0: 1rem;                                 /* 1.000rem */
+    --s1: calc(var(--s0) * var(--ratio));      /* 1.500rem */
+    --s2: calc(var(--s1) * var(--ratio));      /* 2.250rem */
+    --s3: calc(var(--s2) * var(--ratio));      /* 3.375rem */
+    --s4: calc(var(--s3) * var(--ratio));      /* 5.063rem */
+    --s5: calc(var(--s4) * var(--ratio));      /* 7.594rem */
 
     --pb-color: var(--jinks-color-primary, var(--pico-color));
     --jinks-logo: var(--jinks-logo-light);
@@ -112,7 +112,7 @@ pb-page[unresolved]~.splash {
     --pico-color: var(--jinks-toolbar-color);
     --paper-checkbox-label-color: var(--jinks-toolbar-color);
     --paper-checkbox-unchecked-color: var(--jinks-toolbar-color);
-    padding: 1rem 1.5rem;
+    padding: var(--s-1) var(--s1);
     flex-wrap: wrap;
     row-gap: var(--s-1);
 }
@@ -473,8 +473,13 @@ nav.before-top > ul:first-child > li {
     flex: 1;
 }
 
-nav.before-top pb-search {
+.before-top pb-search,
+.before pb-search {
     width: 100%;
+}
+
+.before pb-search.mobile {
+    margin-bottom: var(--s-1);
 }
 
 main {
