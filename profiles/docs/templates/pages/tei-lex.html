@@ -7,6 +7,9 @@
         "features": {
             "toc": {
                 "enabled": false
+            },
+            "toolbar": {
+                "navigation": false
             }
         },
         "urls": {
@@ -37,6 +40,15 @@
         }
         #view {
             overflow: auto;
+        }
+        [name="search"] {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            pb-split-list {
+                --pb-categorized-list-columns: 1;
+            }
         }
     </style>
     [% endtemplate %]
