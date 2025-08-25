@@ -79,3 +79,14 @@ pb-leaflet-map {
 .right.map {
     padding: 0;
 }
+
+@media (max-width: 768px) {
+    .people .list, .places .list {
+        --pb-categorized-list-columns: 1;
+    }
+
+    .people .split-list-item p,
+    .places .split-list-item p {
+        white-space: normal;
+    }
+}
