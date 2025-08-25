@@ -10,7 +10,7 @@
     display: grid;
     height: 100vh;
     width: 100vw;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     /**
      * Manually set the widths of the columsn instead of using auto, so the columns themselves will
      *  regulate their width either by using variables (--column-before-width / column-after-width)
@@ -23,7 +23,8 @@
     grid-template-areas:
         "header header header"
         "before-top content-top after-top"
-        "before content after";
+        "before content after"
+        "footer footer footer";
     position: relative;
 
     /*
@@ -184,6 +185,10 @@
     overflow: auto;
 }
 
+.fixed-layout > footer {
+    grid-area: footer;
+}
+
 /*body:has(.fixed-layout) {
     overflow: hidden;
 }*/
@@ -212,4 +217,35 @@
 .after > .resize-handler {
     left: 0px;
     float: left;
+}
+
+@media (max-width: 768px) {
+    .fixed-layout > .before {
+        width: 100vw;
+        max-width: 100vw;
+    }
+
+    .fixed-layout main.hidden-mobile {
+        display: none;
+    }
+
+    footer.mobile-footer .aside-toggle:not(.open) svg {
+        rotate: 180deg;
+    }
+
+    .resize-handler {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .hidden-mobile {
+        display: none;
+    }
+}
+@media (min-width: 1024px) {
+    .mobile,
+    footer.mobile-footer.mobile {
+        display: none;
+    }
 }

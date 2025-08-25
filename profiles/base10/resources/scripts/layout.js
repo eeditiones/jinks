@@ -74,11 +74,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // hide/expand the before and after sidebars
     const asideToggles = document.querySelectorAll(".aside-toggle");
     asideToggles.forEach((toggle) => {
+        const mobileToggle = toggle.classList.contains('mobile');
+        const hiddenClass = mobileToggle ? 'hidden-mobile' : 'hidden';
         toggle.addEventListener("click", function () {
+            toggle.classList.toggle('open');
             const target = this.dataset.toggle;
             const targetElement = document.querySelector(target);
-            targetElement.classList.toggle("hidden");
-            this.closest(".before-top,.after-top").classList.toggle("hidden");
+            targetElement.classList.toggle(hiddenClass);
+            if (mobileToggle) {
+                document.querySelector('.fixed-layout > main').classList.toggle(hiddenClass);
+            }
+            const topPanel = this.closest(".before-top,.after-top");
+            if (topPanel) {
+                topPanel.classList.toggle(hiddenClass);
+            }
         });
     });
 

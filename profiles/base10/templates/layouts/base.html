@@ -102,7 +102,7 @@
                 [% block before.bottom %][% endblock %]
             </aside>
 
-            <header class="content-top">
+            <header class="content-top hidden-mobile">
                 [% if $features?toolbar?enabled %]
                 [% include "templates/toolbar.html" %]
                 [% endif %]
@@ -129,6 +129,7 @@
                 [% block after %][% endblock %]
                 [% block after.bottom %][% endblock %]
             </aside>
+            [% include 'templates/footer-mobile.html' %]
         </pb-page>
         <div class="splash"/>
         <pb-dialog id="downloadDialog">

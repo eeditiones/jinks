@@ -205,17 +205,6 @@ pb-document {
     z-index: 1;
 }
 
-@media (max-width: 1023px) {
-    .hidden-mobile {
-        display: none;
-    }
-}
-@media (min-width: 1024px) {
-    .mobile {
-        display: none;
-    }
-}
-
 .logo {
     background-image: var(--jinks-logo-light);
     background-repeat: no-repeat;
@@ -389,6 +378,31 @@ footer {
 }
 footer a {
     width: 128px;
+}
+
+footer.mobile-footer {
+    display: block;
+    padding: .375rem 1rem;
+    margin: 0;
+    background: var(--jinks-colors-50);
+}
+
+footer.mobile-footer > nav > ul {
+    gap: 1rem;
+}
+
+footer.mobile-footer > nav > ul > li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+footer.mobile-footer svg {
+    height: 1.65rem;
+    width: 1.65rem;
+}
+
+footer.mobile-footer a {
+    width: auto;
 }
 
 .metadata a {
