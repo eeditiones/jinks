@@ -12,6 +12,7 @@
             </li>
         </ul>
         <ul>
+            [% if $features?toolbar?navigation and exists($context?doc) %]
             <li>
                 <pb-navigation emit="transcription" keyboard="left" subscribe="transcription" direction="backward" unit="page" rendition="visible">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -28,6 +29,7 @@
                     </svg>
                 </pb-navigation>
             </li>
+            [% endif %]
         </ul>
     </nav>
 </footer>
