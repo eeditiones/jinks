@@ -200,6 +200,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
             if (
                 $context?_overwrite != "force" and
                 not(matches($sourcePath, $context?template-suffix)) and
+                cpy:file-exists($path) and
                 exists($context?_lastModified) and
                 $context?_lastModified >= $lastModified
             ) then
@@ -280,4 +281,8 @@ declare %private function cpy:hash($content as xs:string?, $mime as xs:string?) 
             util:hash($content, "sha-256")
     else
         ()
+};
+
+declare %private function cpy:file-exists($path as xs:string) {
+    doc-available($path) or util:binary-doc-available($path)
 };
