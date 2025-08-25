@@ -283,10 +283,11 @@ async function fetchAvailableConfigurations(client) {
     try {
         const configResponse = await client.get("/api/configurations");
         spinner.stop();
+        console.log(configResponse.data);
         return configResponse.data;
     } catch (error) {
         spinner.fail(`Could not fetch configurations: ${error.message}\n`);
-        return null;
+        process.exit(1);
     }
 }
 
@@ -374,6 +375,7 @@ async function editOrCreateConfiguration(config, options, allConfigurations, cli
                 console.log(chalk.yellow('\nOperation cancelled by user.'));
                 process.exit(0);
             } else {
+                console.error(error);
                 console.error(chalk.red('Error during configuration collection:'), error.message);
                 process.exit(1);
             }
