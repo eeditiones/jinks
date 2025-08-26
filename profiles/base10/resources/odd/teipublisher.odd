@@ -636,7 +636,8 @@
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
                         <param name="content" value="teiHeader"/>
                     </model>
-                    <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
+                    <model predicate="$parameters?mode='edition-navigation' and descendant::correspContext" behaviour="pass-through">
+                        <desc>process correspContext to provide in-edition navigation buttons to move between documents</desc>
                         <param name="content" value="descendant::correspContext"/>
                     </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">

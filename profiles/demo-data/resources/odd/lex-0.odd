@@ -151,9 +151,6 @@
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
             <param name="content" value="teiHeader"/>
         </model>
-                    <model predicate="$parameters?mode='metadata'" behaviour="pass-through">
-            <param name="content" value="root(.)//correspContext"/>
-        </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
             <desc>Output register data if register profile is enabled</desc>
             <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
