@@ -58,7 +58,14 @@
             "items": {
                 "type": "string"
             },
-            "description": "List of regular expressions matching relative paths to files, which should not be copied into the target application."
+            "description": "List of regular expressions matching relative target paths to files, which should not be copied into the target application."
+        },
+        "skipSource": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of regular expressions matching the source path of files, which should not be copied into the target application."
         },
         "actions": {
             "type": "array",

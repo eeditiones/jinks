@@ -75,16 +75,26 @@ declare function api:configurations($request as map(*)) {
         return
             if (util:binary-doc-available($configPath)) then
                 let $config := json-doc($configPath)
-                let $extConfig := generator:extends($config)
                 return
-                    map {
-                        "type": "installed",
-                        "profile": $config?profiles?*[last()],
-                        "title": head(($config?label, $config?pkg?title)),
-                        "description": $config?description,
-                        "config": $config,
-                        "actions": $extConfig?actions
-                    }
+                    if (map:contains($config, "type")) then
+                        map {
+                            "type": "profile",
+                            "profile": $collection,
+                            "title": head(($config?label, $config?pkg?title)),
+                            "description": $config?description,
+                            "config": $config
+                        }
+                    else
+                        let $extConfig := generator:extends($config)
+                        return
+                            map {
+                                "type": "installed",
+                                "profile": $config?profiles?*[last()],
+                                "title": head(($config?label, $config?pkg?title)),
+                                "description": $config?description,
+                                "config": $config,
+                                "actions": $extConfig?actions
+                            }
             else
                 ()
     let $profiles :=
@@ -112,6 +122,14 @@ declare function api:profiles() {
     for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
     let $config := generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {})
     order by if (map:contains($config, "order")) then number($config?order) else 100
+    return
+        map:merge((
+            $config,
+            map { "path": $collection }
+        )),
+    for $collection in xmldb:get-child-collections(repo:get-root())
+    let $config := generator:load-json(repo:get-root() || "/" || $collection || "/config.json", map {})
+    where map:contains($config, "type")
     return
         map:merge((
             $config,

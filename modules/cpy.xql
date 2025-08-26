@@ -184,7 +184,10 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
  :)
 declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string,
     $content as function(*), $callback as function(*)) {
-    if (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) then
+    if (
+        (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) or
+        (some $skipPath in $context?skipSource satisfies matches($sourcePath, $skipPath))
+    ) then
         ()
     (: overwrite, but do not check or store hash :)
     else if ($context?force-overwrite or (some $ignorePath in $context?ignore?* satisfies matches($relPath, $ignorePath))) then

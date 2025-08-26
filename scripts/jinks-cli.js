@@ -4,6 +4,7 @@ import { wrapper } from "axios-cookiejar-support";
 import chalk from "chalk";
 import { Command, Option } from "commander";
 import fs from "fs";
+import path from "path";
 import { input, checkbox, confirm, editor, select, Separator } from "@inquirer/prompts";
 import Table from "cli-table3";
 import ora from "ora";
@@ -242,6 +243,44 @@ program
         }
     });
 
+program.command("create-profile")
+    .argument("[abbrev]", "Name of the profile to create")
+    .summary("Create a new profile")
+    .addOption(serverOption)
+    .addOption(userOption)
+    .addOption(passwordOption)
+    .option("-o, --out <file>", "Directory to save the profile configuration to")
+    .action(async (abbrev, options, command) => {
+        printBanner(options);
+        let baseConfig = null;
+        if (abbrev) {
+            baseConfig = {
+                pkg: { abbrev: abbrev }
+            }
+        }
+        try {
+            await createOrEditProfile(baseConfig, options.out, command.allConfigurations);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+program.command("edit-profile")
+    .argument("<dir>", "Directory containing the profile configuration")
+    .summary("Edit an existing profile")
+    .addOption(serverOption)
+    .addOption(userOption)
+    .addOption(passwordOption)
+    .action(async (dir, options, command) => {
+        printBanner(options);
+        const config = loadConfigFromFile(path.join(dir, "config.json"));
+        try {
+            await createOrEditProfile(config, dir, command.allConfigurations);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
 program.parse();
 
 function printBanner(options) {
@@ -283,7 +322,6 @@ async function fetchAvailableConfigurations(client) {
     try {
         const configResponse = await client.get("/api/configurations");
         spinner.stop();
-        console.log(configResponse.data);
         return configResponse.data;
     } catch (error) {
         spinner.fail(`Could not fetch configurations: ${error.message}\n`);
@@ -369,7 +407,7 @@ async function editOrCreateConfiguration(config, options, allConfigurations, cli
     } else {
         // If no file is provided, use interactive prompts
         try {
-            config = await collectConfigInteractively(config, allConfigurations, client);
+            config = await collectConfigInteractively(config, allConfigurations, config?.extends);
         } catch (error) {
             if (error.name === 'ExitPromptError' || error.message.includes('SIGINT')) {
                 console.log(chalk.yellow('\nOperation cancelled by user.'));
@@ -407,6 +445,103 @@ async function editOrCreateConfiguration(config, options, allConfigurations, cli
     return config;
 }
 
+async function createOrEditProfile(config, outDir, configurations) {
+    const profileType = await select({
+        message: "Select profile type:",
+        choices: [
+            {
+                name: "Blueprint - Base configuration for an application",
+                value: "blueprint"
+            },
+            {
+                name: "Feature - Reusable functionality module",
+                value: "feature"
+            },
+            {
+                name: "Theme - Styling and appearance configuration",
+                value: "theme"
+            }
+        ],
+        default: config?.type || "blueprint"
+    });
+    
+    try {
+        const newConfig = await collectConfigInteractively(config, configurations, config?.depends);
+        const depends = newConfig.extends;
+        delete newConfig.extends;
+        const profileConfig = {
+            ...newConfig,
+            type: profileType,
+            version: newConfig.version || "1.0.0",
+            depends,
+            skipSource: ["repo.xml", "expath-pkg.xml", "build.xml"]
+        }
+
+        try {
+            fs.mkdirSync(outDir, { recursive: true });
+            const configPath = path.join(outDir, 'config.json');
+            fs.writeFileSync(configPath, JSON.stringify(profileConfig, null, 2));
+
+            const expathPath = path.join(outDir, 'expath-pkg.xml');
+            const expath = `<?xml version="1.0" encoding="UTF-8" ?>
+<package xmlns="http://expath.org/ns/pkg" name="${profileConfig.id}" abbrev="${profileConfig.pkg.abbrev}" version="${profileConfig.version}" spec="1.0">
+    <title>${profileConfig.label}</title>
+    <dependency processor="http://exist-db.org" semver-min="6.2.0" />
+    <dependency package="http://e-editiones.org/roaster" semver="1"/>
+</package>`;
+            fs.writeFileSync(expathPath, expath);
+
+            const repoPath = path.join(outDir, 'repo.xml');
+            const repo = `<?xml version="1.0" encoding="UTF-8" ?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>${profileConfig.label}</description>
+    <author>Wolfgang Meier</author>
+    <website>https://github.com/eeditiones/tei-publisher-lib.git</website>
+    <status>stable</status>
+    <license>GPLv3</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>${profileConfig.pkg.abbrev}</target>
+    <permissions user="tei" group="tei" password="simple" mode="rw-rw-r--" />
+</meta>`;
+            fs.writeFileSync(repoPath, repo);
+
+            const buildPath = path.join(outDir, 'build.xml');
+            const build = `<?xml version="1.0" encoding="UTF-8"?>
+<project default="all" name="${profileConfig.label}">
+    <xmlproperty file="expath-pkg.xml"/>
+    <property name="project.version" value="\${package(version)}"/>
+    <property name="project.app" value="\${package(abbrev)}"/>
+    <property name="build.dir" value="build"/>
+    <target name="all" depends="xar"/>
+    <target name="rebuild" depends="clean,all"/>
+    <target name="clean">
+        <delete dir="\${build}"/>
+    </target>
+    <target name="xar">
+        <mkdir dir="\${build.dir}"/>
+        <zip basedir="." destfile="\${build.dir}/\${project.app}-\${project.version}.xar" excludes="\${build.dir}/*"/>
+    </target>
+</project>`;
+            fs.writeFileSync(buildPath, build);
+
+            console.log(chalk.green(`Profile configuration saved to ${chalk.bold(configPath)}`));
+        } catch (error) {
+            console.error(chalk.red(`Failed to create profile directory: ${error.message}`));
+            process.exit(1);
+        }
+    } catch (error) {
+        if (error.name === 'ExitPromptError' || error.message.includes('SIGINT')) {
+            console.log(chalk.yellow('\nOperation cancelled by user.'));
+            process.exit(0);
+        } else {
+            console.error(error);
+            console.error(chalk.red('Error during configuration collection:'), error.message);
+            process.exit(1);
+        }
+    }
+}
+
 async function selectInstalledApplication(allConfigurations) {
     const installed = allConfigurations
         .filter(
@@ -425,7 +560,7 @@ async function selectInstalledApplication(allConfigurations) {
 }
 
 // Function to handle interactive prompts
-async function collectConfigInteractively(initialConfig = {}, configurations, client) {
+async function collectConfigInteractively(initialConfig = {}, configurations, dependencies) {
     console.log(
         chalk.blue("Entering interactive mode...\n"),
     );
@@ -453,7 +588,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
                 name: `${chalk.bold(blueprint.profile)} – ${blueprint.config.label}`,
                 value: blueprint.profile,
                 description: blueprint.description || "",
-                checked: initialConfig?.extends?.includes(blueprint.profile),
+                checked: dependencies?.includes(blueprint.profile),
             }));
 
         // Filter profiles and create checkbox options
@@ -468,7 +603,7 @@ async function collectConfigInteractively(initialConfig = {}, configurations, cl
                 name: `${chalk.bold(profile.profile)} – ${profile.config.label}`,
                 value: profile.profile,
                 description: profile.description || "",
-                checked: initialConfig?.extends?.includes(profile.profile),
+                checked: dependencies?.includes(profile.profile),
             }));
 
         const selectOptions = [new Separator('Blueprints'), ...blueprintOptions, new Separator('Features'), ...profileOptions];
