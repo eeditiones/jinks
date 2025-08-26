@@ -102,6 +102,12 @@ export class MetadataEditor {
             "refresh-done",
             this._onMetadataChange.bind(this),
         );
+
+        const metadataPanelBtn = document.getElementById("metadataPanelBtn");
+
+        metadataPanelBtn.addEventListener("click", () => {
+            this.panel.classList.toggle("hidden");
+        });
     }
 
     /**

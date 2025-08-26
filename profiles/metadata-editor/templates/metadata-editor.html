@@ -5,12 +5,20 @@
     [% endif %]
 	[% endtemplate %]
 
+	[% template toolbar %]
+    <li>
+        <a href="#" class="toolbar-button" id="metadataPanelBtn" data-tooltip="Edit metadata" data-placement="left">
+            <i class="bi bi-code-square"></i>
+        </a>
+    </li>
+	[% endtemplate %]
 
 	[% template after %]
     [% if exists($context?doc) and $context?features?metadata-editor?enabled %]
 	<div>
       <style>
 		/* Make sure Fore actually hides irrelevant stuff */
+		#metadata-panel.hidden,
 		fx-case:not(.selected-case),
         .deselected-case
 		[nonrelevant] {
@@ -25,10 +33,10 @@
             <fx-instance id="date-scratchpad"><data mode=""></data></fx-instance>
 
             <fx-bind ref="instance('date-scratchpad')/*:date">
-                <fx-bind ref="@from" required="../@to[string()] => trace('from')"></fx-bind>
-                <fx-bind ref="@notAfter" required="../@notAfter[string()] => trace('notAfter')"></fx-bind>
-                <fx-bind ref="@notBefore" required="../@notAfter[string()] => trace('notBefore')"></fx-bind>
-                <fx-bind ref="@to" required="../@from[string()] => trace('to')"></fx-bind>
+                <fx-bind ref="@from" required="../@to[string()]"></fx-bind>
+                <fx-bind ref="@notAfter" required="../@notAfter[string()]"></fx-bind>
+                <fx-bind ref="@notBefore" required="../@notAfter[string()]"></fx-bind>
+                <fx-bind ref="@to" required="../@from[string()]"></fx-bind>
                 <fx-bind ref="@when"></fx-bind>
             </fx-bind>
         </fx-model>
