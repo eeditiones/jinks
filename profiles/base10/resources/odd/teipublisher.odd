@@ -870,9 +870,10 @@
             <desc>do not resolve correspContext descriptions</desc>
         </model>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
-        </model>
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) 
+                        let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
@@ -895,10 +896,11 @@
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::place" behaviour="inline"/>
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
-                    <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
-        </model>
+                    <model  predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)) 
+                        let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
