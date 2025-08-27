@@ -598,6 +598,12 @@
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
+                <elementSpec ident="subst" mode="change">
+                    <model behaviour="inline">
+                        <desc>explicitly set content to avoid whitespace issues</desc>
+                        <param name="content" value="(del, add)"/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="table" mode="change">
                     <model behaviour="table"/>
                 </elementSpec>
