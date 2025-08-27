@@ -30,25 +30,27 @@
         }
     },
     "script": {
-        "webcomponents": "2.26.0-next-3.1",
+        "webcomponents": "2.26.0-next-3.10",
         "extra-components": [],
         "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
         "custom": []
     },
     "styles": [
-        "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
-        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css",
-        "resources/css/theme.css"
+        "resources/css/pico-components.css",
+        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"
     ],
     "defaults": {
         "data": "data",
+        "data-default": "",
         "landing": "browse.html",
         "view": "div",
         "search": "div",
         "odd": "teipublisher.odd",
         "odd-root": "resources/odd",
         "template": "basic.html",
+        "address-by-id": false,
         "media": ["web", "print", "fo", "latex", "epub"],
+        "direction": "ltr",
         "pagination": {
             "depth": 10,
             "fill": 5
@@ -66,24 +68,56 @@
             "context": "div"
         }
     },
-    "theme": {
-        "logo": {
-            "light": "../images/tei-publisher-logo-contrast-color.svg",
-            "dark": "../images/tei-publisher-logo-contrast-color.svg",
-            "splash": {
-                "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg"
-            },
-            "width": "140px",
-            "height": "60px"
-        }
-    },
     "features": {
-        "toolbar": true,
+        "toolbar": {
+            "enabled": true,
+            "zoom": true,
+            "navigation": true,
+            "parent": true
+        },
         "menubar": true,
-        "toc": false,
+        "toc": {
+            "collapse": false,
+            "enabled": false
+        },
         "hero": false,
-        "upload": true
+        "browse": {
+            "sort": {
+                "default": "category",
+                "options": [
+                    {
+                        "value": "category",
+                        "key": "browse.category",
+                        "label": "Category"
+                    },
+                    {
+                        "value": "title",
+                        "key": "browse.title",
+                        "label": "Title"
+                    },
+                    {
+                        "value": "author",
+                        "key": "browse.author",
+                        "label": "Author"
+                    }
+                ]
+            },
+            "field": {
+                "default": "text",
+                "options": [
+                    {
+                        "value": "text",
+                        "key": "search.content",
+                        "label": "Content"
+                    },
+                    {
+                        "value": "title",
+                        "key": "search.title",
+                        "label": "Title"
+                    }
+                ]
+            }
+        }
     },
     "odds": [
         "teipublisher.odd"
@@ -108,12 +142,6 @@
 		"language": true,
 		"download": true
     },
-    "toolbar": {
-        "zoom": true,
-        "navigation": true,
-        "parent": true
-    },
-    "address-by-id": false,
     "actions": [
         {
             "name": "reindex",

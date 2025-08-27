@@ -9,7 +9,7 @@
         </li>
         [% endif %]
         [% endfor %]
-        
+
         [% block menu.left %][% endblock %]
     </ul>
     <ul>
@@ -17,7 +17,7 @@
         <li class="hidden-mobile">
             [% if $context('isStatic') %]
             <form action="[[ $context-path ]]/search.html">
-                <input type="search" value="" name="query" />
+                <input type="search" value="" name="query" placeholder="" data-i18n="[placeholder]search.placeholder"/>
             </form>
             [% else %]
             <pb-search action="[[ $context-path ]]/search.html" value="[[ page:parameter($context, 'query', '') ]]"
@@ -36,9 +36,17 @@
         [% endif %]
         [% if $menu?dark-mode %]
         <li>
-            <div id="colorMode" class="theme-toggle" title="Toggle theme">
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1em" height="1em" fill="currentColor"
-                    stroke-linecap="round" class="theme-toggle__classic" viewBox="0 0 32 32">
+            <button id="colorMode" class="theme-toggle" title="Toggle theme">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    width="1em"
+                    height="1em"
+                    fill="currentColor"
+                    stroke-linecap="round"
+                    class="theme-toggle__classic"
+                    viewBox="0 0 32 32"
+                >
                     <clipPath id="theme-toggle__classic__cutout">
                         <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
                     </clipPath>
@@ -56,7 +64,7 @@
                         </g>
                     </g>
                 </svg>
-            </div>
+            </button>
         </li>
         [% endif %]
         [% if $menu?login and not($context?isStatic) %]

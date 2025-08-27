@@ -66,7 +66,7 @@ declare
     %private
 function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
     (: session:clear(), :)
-    let $sort := head(($params?sort, "title"))
+    let $sort := head(($params?sort, $config:sort-default))
     let $filter := $params?field
     let $query := $params?query
     let $filtered :=
@@ -112,7 +112,7 @@ declare function capi:documents($request as map(*)) {
             let $relPath := config:get-identifier($doc)
             let $header :=
                 $pm-config:web-transform($teiHeader, map {
-                    "header": "short",
+                    "display": "browse",
                     "doc": $relPath,
                     "context-path": $request?parameters?link,
                     "static": true()

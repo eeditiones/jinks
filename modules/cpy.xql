@@ -18,7 +18,7 @@ declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
 declare variable $cpy:ERROR_PERMISSION := xs:QName("cpy:permission-denied");
 
 declare variable $cpy:CONFLICT_DETAILS_MIMETYPES := (
-    "text/html", 
+    "text/html",
     "application/xml",
     "text/xml",
     "text/text",
@@ -76,7 +76,7 @@ declare function cpy:resource-as-string($context as map(*), $relPath as xs:strin
 declare function cpy:expand-template($source as xs:string, $template as xs:string, $context as map(*)) {
     try {
         tmpl:process($template, $context, map {
-            "plainText": true(), 
+            "plainText": true(),
             "resolver": cpy:resource-as-string($context, ?),
             "ignoreImports": head(($context?ignoreImports, true())),
             "ignoreUse": true(),
@@ -94,7 +94,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
     let $expanded := cpy:expand-template($source, $template?content, $context)
     let $path := path:resolve-path($context?target, $target)
     let $relPath := substring-after($path, $context?target || "/")
-    return 
+    return
         cpy:overwrite($context, $relPath, $source, function() { $expanded }, function() {(
             xmldb:store(path:parent($path), path:basename($path), $expanded),
             sm:chown(xs:anyURI($path), $context?pkg?user?name),
@@ -182,9 +182,12 @@ declare function cpy:copy-collection($context as map(*), $source as xs:string, $
  : Determine if the file corresponding to $relPath can be overwritten, and if yes, call the $callback
  : function. To detect conflicts, a hash key is computed and stored into .jinks.json.
  :)
-declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string, 
+declare %private function cpy:overwrite($context as map(*), $relPath as xs:string, $sourcePath as xs:string,
     $content as function(*), $callback as function(*)) {
-    if (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) then
+    if (
+        (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) or
+        (some $skipPath in $context?skipSource?* satisfies matches($sourcePath, $skipPath))
+    ) then
         ()
     (: overwrite, but do not check or store hash :)
     else if ($context?force-overwrite or (some $ignorePath in $context?ignore?* satisfies matches($relPath, $ignorePath))) then
@@ -193,46 +196,59 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     else if ($context?_update) then
         let $path := path:resolve-path($context?target, $relPath)
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
-        let $currentHash := cpy:hash($path)
-        let $expectedHash := cpy:load-hash($context, $relPath)
-        let $incomingContent := $content()
+        let $lastModified := xmldb:last-modified(path:parent($sourcePath), path:basename($sourcePath))
         return
-            (: Check if there have been changes to the file since it was installed :)
-            if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
-                let $contentHash := cpy:hash($incomingContent, $mime)
-                return
-                    (: Still update if overwrite="update", the file was not there last time,
-                    : or the incoming content is different :)
-                    if (empty($expectedHash) or $context?_overwrite = "update"
-                        or $contentHash != $expectedHash) then (
-                            map {
-                                "type": "update",
-                                "path": $relPath,
-                                "source": $sourcePath
-                            },
-                            let $stored := $callback()
-                            return
-                                cpy:save-hash($context, $relPath, cpy:hash($stored))
-                        )
-                    else
-                        ()
+            (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
+            (: Templated source files should always be updated though :)
+            if (
+                $context?_overwrite != "force" and
+                not(matches($sourcePath, $context?template-suffix)) and
+                cpy:file-exists($path) and
+                exists($context?_lastModified) and
+                $context?_lastModified >= $lastModified
+            ) then
+                ()
             else
-                (: conflict detected :)
-                map {
-                    "type": "conflict",
-                    "path": $relPath,
-                    "source": $path,
-                    "hash": map {
-                        "original": $expectedHash,
-                        "actual": $currentHash
-                    },
-                    "mime": $mime,
-                    "incoming": 
-                        if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then 
-                            $incomingContent
-                        else
-                            ()
-                }
+                let $currentHash := cpy:hash($path)
+                let $expectedHash := cpy:load-hash($context, $relPath)
+                let $incomingContent := $content()
+                return
+                    (: Check if there have been changes to the file since it was installed :)
+                    if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
+                        let $contentHash := cpy:hash($incomingContent, $mime)
+                        return
+                            (: Still update if overwrite="update", the file was not there last time,
+                            : or the incoming content is different :)
+                            if (empty($expectedHash)
+                                or $contentHash != $expectedHash) then (
+                                    map {
+                                        "type": "update",
+                                        "path": $relPath,
+                                        "source": $sourcePath
+                                    },
+                                    let $stored := $callback()
+                                    return
+                                        cpy:save-hash($context, $relPath, cpy:hash($stored))
+                                )
+                            else
+                                ()
+                    else
+                        (: conflict detected :)
+                        map {
+                            "type": "conflict",
+                            "path": $relPath,
+                            "source": $path,
+                            "hash": map {
+                                "original": $expectedHash,
+                                "actual": $currentHash
+                            },
+                            "mime": $mime,
+                            "incoming":
+                                if ($mime = $cpy:CONFLICT_DETAILS_MIMETYPES) then
+                                    $incomingContent
+                                else
+                                    ()
+                        }
     (: fresh install of new app package :)
     else if ($context?_dry) then
         map {
@@ -268,4 +284,8 @@ declare %private function cpy:hash($content as xs:string?, $mime as xs:string?) 
             util:hash($content, "sha-256")
     else
         ()
+};
+
+declare %private function cpy:file-exists($path as xs:string) {
+    doc-available($path) or util:binary-doc-available($path)
 };

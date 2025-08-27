@@ -1,15 +1,26 @@
-<main class="container">
+<template>
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
         },
-        "toolbar": {
-            "zoom": false
+        "features": {
+            "toolbar": {
+                "zoom": false,
+                "navigation": false
+            },
+            "timeline": {
+                "enabled": false
+            }
         },
         "styles": [
-            "transform/serafin.css"
-        ]
+            "transform/teipublisher.css"
+        ],
+        "theme": {
+            "layout": {
+                "after-width": "min(30vw, 356px)"
+            }
+        }
     }
     ---
     [% template breadcrumb %]
@@ -25,4 +36,4 @@
     <section class="person">
         [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
     </section>
-</main>
+</template>

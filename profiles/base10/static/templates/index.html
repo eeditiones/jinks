@@ -2,32 +2,43 @@
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
-        "layout": "sticky-layout",
         "features": {
-            "toolbar": false
+            "toolbar": {
+                "enabled": false
+            },
+            "toc": {
+                "enabled": false
+            }
         }
     }
     ---
-    <main>
-        <div>
-            <div role="group">
-                [% for $i in $pagination?all %]
-                [% if $pagination?page = $i?page %]
-                <a role="button" href="../[[ $i?page ]]/index.html" aria-current="page">[[ $i?page ]]</a>
-                [% else %]
-                <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
-                [% endif %]
-                [% endfor %]
-            </div>
-            <ul>
-            [% for $doc in $content %]
-                <li>
-                    [[$doc?content]]
-                </li>
-            [% endfor %]
-            </ul>
-        </div>
-    </main>
+    [% template content-top %]
+    <nav>
+        <ul>
+            [% block before-document-list %][% endblock %]
+            <li>
+                <div role="group">
+                    [% for $i in $pagination?all %]
+                    [% if $pagination?page = $i?page %]
+                    <a role="button" href="../[[ $i?page ]]/index.html" aria-current="page">[[ $i?page ]]</a>
+                    [% else %]
+                    <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
+                    [% endif %]
+                    [% endfor %]
+                </div>
+            </li>
+        </ul>
+    </nav>
+    [% endtemplate %]
+    <div id="document-list">
+        <ul>
+        [% for $doc in $content %]
+            <li>
+                [[$doc?content]]
+            </li>
+        [% endfor %]
+        </ul>
+    </div>
 </template>

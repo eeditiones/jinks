@@ -589,6 +589,7 @@ declare %private function dapi:extract-footnotes($html as element()*, $root as n
 };
 
 declare function dapi:table-of-contents($request as map(*)) {
+    let $collapse := $request?parameters?collapse
     let $doc := xmldb:decode-uri($request?parameters?id)
     let $documents := config:get-document($doc)
     return
@@ -598,7 +599,7 @@ declare function dapi:table-of-contents($request as map(*)) {
                 let $xml := pages:load-xml($documents, $request?parameters?view, (), $doc)
                 return
                 if (exists($xml)) then
-                    dapi:toc-div(root($xml?data), $xml, $request?parameters?target)
+                    dapi:toc-div(root($xml?data), $xml, $request?parameters?target, $collapse)
                 else
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
                 })
@@ -607,7 +608,8 @@ declare function dapi:table-of-contents($request as map(*)) {
         )
 };
 
-declare %private function dapi:toc-div($node, $model as map(*), $target as xs:string?) {
+declare %private function dapi:toc-div($node, $model as map(*), $target as xs:string?,
+    $collapse as xs:boolean?) {
     let $view := $model?config?view
     let $divs := nav:get-subsections($model?config, $node)
     return
@@ -643,7 +645,8 @@ declare %private function dapi:toc-div($node, $model as map(*), $target as xs:st
                                 "hasDivs": $hasDivs,
                                 "target": $target
                             },
-                            dapi:toc-div($div, $model, $target)
+                            dapi:toc-div($div, $model, $target, $collapse),
+                            $collapse
                         )
                     }
                     </li>

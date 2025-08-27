@@ -3,20 +3,9 @@
     {
         "templating": {
             "extends": "templates/layouts/content.html"
-        },
-        "toolbar": {
-            "navigation": false
-        },
-        "layout": "sticky-layout"
+        }
     }
     ---
-    <pb-navigation class="floating-button left" emit="transcription" keyboard="left"
-        subscribe="transcription" direction="backward" unit="page">
-        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-    </pb-navigation>
-    <pb-view class="[[ if ($layout = 'fixed-layout') then 'overflow' else '' ]]" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
-    <pb-navigation class="floating-button right" emit="transcription" keyboard="right"
-        subscribe="transcription" direction="forward" unit="page">
-            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
-    </pb-navigation>
+    <!-- Basic template for a page with a single document -->
+    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]"/>
 </template>

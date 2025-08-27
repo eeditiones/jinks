@@ -47,7 +47,15 @@
                         "in": "query",
                         "schema":{
                             "type": "string"
-                        }}				
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }				
 				],
 				"responses": {
 					"200": {
@@ -98,7 +106,14 @@
 							"type": "string",
                             "default": "person"
 						}
-					}			
+					},
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -152,6 +167,13 @@
                         "schema":{
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -188,6 +210,190 @@
 				}
 			}			
 		},
+        "/bibliography": {
+            "get": {
+				"summary": "Landing page for bibliography",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "vapi:html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "bibliography"
+						}
+					},
+					{
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    }				
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/bibliography/{id}": {
+            "get": {
+				"summary": "Landing page for bibliography entry",
+				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+				"tags": ["view"],
+				"operationId": "rview:detail-html",
+				"x-error-handler": "vapi:handle-error",
+				"parameters": [
+                    {
+						"name": "id",
+						"in": "path",
+						"description": "ID of the entry",
+						"required": true,						
+						"schema":{
+							"type": "string",
+							"default": "all"
+						}
+					},
+					{
+						"name": "file",
+						"in": "query",
+						"schema": {
+							"type": "string",
+                            "default": "bibliography-entry"
+						}
+					},
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "HTML of the page",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The document was not found",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/api/bibliography": {
+            "get": {
+                "summary": "List bibliography",
+                "description": "Retrieve list of bibliography in format required by pb-split-list",
+				"tags": ["view"],
+                "operationId": "rview:bibliography-categories",
+                "parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					},
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 50
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories and entries to display",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"/api/bibliography/all": {
+            "get": {
+                "summary": "List all bibliography",
+                "description": "Retrieve list of all bibliography",
+				"tags": ["view"],
+                "operationId": "rview:bibliography-all",
+				"responses": {
+                    "200": {
+                        "description": "List of all bibliography entries as JSON array",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+				}
+			}			
+		},
 		"/places": {
             "get": {
 				"summary": "Landing page for places",
@@ -209,7 +415,15 @@
                         "in": "query",
                         "schema":{
                             "type": "string"
-                        }}					
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }					
 				],
 				"responses": {
 					"200": {
@@ -260,7 +474,14 @@
 							"type": "string",
                             "default": "place"
 						}
-					}			
+					},
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }			
 				],
 				"responses": {
 					"200": {
@@ -312,6 +533,13 @@
                         "name": "search",
                         "in": "query",
                         "schema":{
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
                     }

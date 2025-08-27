@@ -1,9 +1,11 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Shakespeare Plays<desc>Output of a classic play with facsimile links</desc></title>
+                <title>Shakespeare Plays 
+                  <desc>Output of a classic play with facsimile links</desc>
+                </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
@@ -49,6 +51,9 @@
             <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
             <outputRendition xml:space="preserve">
+            
+            
+            
             font-size: 16px;
 color: #888888;
 cursor: pointer;
@@ -56,6 +61,9 @@ display: inline;
 display: block;
 margin-right: -32px;
 float: right;
+            
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -106,6 +114,7 @@ float: right;
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="@type='supplied'" behaviour="omit"/>
                     <model predicate="parent::figure" behaviour="block">
             <outputRendition xml:space="preserve">
@@ -153,9 +162,15 @@ float: right;
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
+            
             
             
             </outputRendition>
@@ -164,9 +179,15 @@ float: right;
             <outputRendition xml:space="preserve">
             
             
+            
+            
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
+            
             
             
             </outputRendition>
@@ -178,12 +199,17 @@ float: right;
             <param name="content" value="."/>
         </model>
                     <model output="fo" behaviour="heading"/>
-                    <model predicate="$parameters?mode='title'" behaviour="heading">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+            <desc>for breadcrumbs, pick title/@type='statement'</desc>
             <param name="content" value="title[@type='statement']"/>
-            <param name="level" value="5"/>
         </model>
-                    <modelSequence output="web" predicate="$parameters?header='short'">
-            <model behaviour="link">
+                    <modelSequence output="web" predicate="$parameters?display='browse'">
+            <desc>Display short header in document lists</desc>
+            <model predicate="$parameters?static" behaviour="link">
+                <param name="content" value="title[1]"/>
+                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+            </model>
+            <model predicate="not($parameters?static)" behaviour="link">
                 <param name="content" value="title[1]"/>
                 <param name="uri" value="$parameters?doc"/>
             </model>
@@ -194,6 +220,10 @@ float: right;
                 <param name="content" value="author"/>
             </model>
         </modelSequence>
+                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+            <desc>List of letters in register detail view</desc>
+            <param name="content" value="head((title[@type='main'], title))"/>
+        </model>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
             <elementSpec ident="sp" mode="change">
@@ -212,6 +242,7 @@ float: right;
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
                 </elementSpec>
+            <elementSpec ident="teiHeader" mode="change"/>
             </schemaSpec>
         </body>
     </text>

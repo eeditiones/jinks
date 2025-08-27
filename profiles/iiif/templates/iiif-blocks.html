@@ -1,0 +1,21 @@
+<template>
+    [# import pb-tify if we're in document view and pb-tify is enabled %]
+    [% template scripts %]
+    [% if exists($context?doc) and $context?features?iiif?enabled and $context?features?iiif?viewer = "pb-tify" %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template after %]
+    [% if exists($context?doc) and $context?features?iiif?enabled %]
+        [% if $context?features?iiif?viewer = "pb-tify" %]
+        <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+        [% else %]
+        <pb-facsimile base-uri="[[ $context?features?iiif?base_uri ]]" default-zoom-level="0"
+            type="[[ $context?features?iiif?type ]]"
+            show-navigation-control="show-navigation-control"
+            show-navigator="show-navigator" subscribe="transcription" style="height: 100%"/>
+        [% endif %]
+    [% endif %]
+    [% endtemplate %]
+</template>

@@ -1,29 +1,68 @@
-<main class="search">
+<template>
     ---json
     {
         "features": {
-            "toolbar": false
+            "toolbar": {
+                "navigation": false
+            }
         },
         "templating": {
-            "extends": "templates/layouts/base.html"
+            "extends": "templates/layouts/content.html"
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/facets.js"
+            ]
         }
     }
     ---
-    <pb-load id="results" url="api/search" emit="results"></pb-load>
-    <div class="search-panel">
-        <article class="card-content">
-            <pb-search id="search-form" subscribe="search"
-                value="[[ page:parameter($context, 'query', '') ]]" submit-on-load="submit-on-load">
-                <div class="targets">
-                    <label>Search sections
-                        <input type="checkbox" name="field" value="text"/>
-                    </label>
-                    <label>Search headings
-                        <input type="checkbox" name="field" value="head"/>
-                    </label>
-                </div>
-                <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
-            </pb-search>
-        </article>
-    </div>
-</main>
+    <style>
+        main {
+            padding: 1rem;
+        }
+
+        pb-search .targets {
+            margin-top: 1rem;
+        }
+
+        /* Fix for overlapping targets and pb-custom-form */
+        .right > pb-search {
+            margin-bottom: 1rem;
+            height: fit-content;
+        }
+    </style>
+
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]"><pb-i18n key="search.search" /></a>
+                </li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+
+    <main>
+        <pb-load class="results" url="api/search" emit="results"></pb-load>
+    </main>
+
+    [% template before %]
+    <pb-search id="search-form" subscribe="search"
+        value="[[ page:parameter($context, 'query', '') ]]"
+        submit-on-load="submit-on-load" subforms=".facets">
+        <div class="targets">
+            <label>
+                <input type="checkbox" name="field" value="text"/>
+                Search sections
+            </label>
+            <label>
+                <input type="checkbox" name="field" value="head"/>
+                Search headings
+            </label>
+        </div>
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+    </pb-search>
+    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+    [% endtemplate %]
+</template>

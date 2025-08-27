@@ -2,7 +2,9 @@
     ---json
     {
         "features": {
-            "toolbar": false,
+            "toolbar": {
+                "enabled": false
+            },
             "menubar": false
         },
         "styles": ["resources/css/print-preview.css"],
@@ -19,28 +21,32 @@
                 <li>
                     <button id="close-action">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>
+                        <span>Close</span>
                     </button>
                 </li>
                 <li>
                     <button id="print-action">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><circle cx="392" cy="184" r="24"/></svg>
+                        <span>Print</span>
                     </button>
                 </li>
                 <li>
-                    <button class="secondary">
+                    <button>
                         <input id="preview-toggle" type="checkbox" role="switch" />
+                        <span>Preview</span>
                     </button>
                 </li>
                 <li>
-                    <button id="copy-action" class="secondary">
+                    <button id="copy-action">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><rect x="128" y="128" width="336" height="336" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M383.5 128l.5-24a56.16 56.16 0 00-56-56H112a64.19 64.19 0 00-64 64v216a56.16 56.16 0 0056 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                        <span>Copy to clipboard</span>
                     </button>
                 </li>
             </ul>
         </nav>
     </aside>
     <pb-progress subscribe="preview"></pb-progress>
-    
+
     <main>
         <pb-print-preview src="document1" styles="[[ $context-path ]]/resources/fonts/font.css,[[ $context-path ]]/resources/css/print.css" emit="preview"></pb-print-preview>
     </main>

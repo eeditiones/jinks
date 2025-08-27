@@ -1,21 +1,18 @@
 {
     "$schema": "../../schema/jinks.json",
-    "type": "feature",
+    "type": "blueprint",
     "id": "https://e-editiones.org/app/tei-publisher/tei-publisher-docs",
     "label": "Documentation + Demo",
     "description": "TEI Publisher documentation and demo",
     "version": "1.0.0",
     "order": 101,
     "defaults": {
-        "data-default": "",
-        "landing": "browse-custom.html"
+        "data-default": ""
     },
     "depends": [
         "base10",
         "docbook",
-        "monograph",
-        "parallel",
-        "registers",
+        "iiif",
         "jats",
         "docx",
         "demo-data"
@@ -28,18 +25,6 @@
             "odd": "docbook.odd",
             "template": "documentation.html"
         },
-        "letters": {
-            "odd": "serafin.odd",
-            "view": "single",
-            "template": "parallel.html",
-            "features": {
-                "register": true
-            }
-        },
-        "monograph": {
-            "odd": "dta.odd",
-            "template": "monograph.html"
-        },
         "demo": {
             "template": "monograph.html"
         },
@@ -51,9 +36,6 @@
             "odd": "docx-output.odd",
             "template": "docx.html"
         }
-    },
-    "features": {
-        "upload": false
     },
     "menu": {
         "$replace": true,
@@ -78,11 +60,6 @@
 		"language": true,
 		"download": true
     },
-    "templating": {
-        "use": [
-            "templates/playground-blocks.html"
-        ]
-    },
     "generator": {
         "templates": {
             "config-odd-available": "xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][. != 'teipublisher_odds.odd']"
@@ -90,6 +67,14 @@
     },
     "styles": [
         "resources/css/playground-docs-theme.css"
+    ],
+    "api": [
+        {
+            "id": "http://teipublisher.com/api/documentation-and-demo",
+            "path": "docs-api.xql",
+            "spec": "docs-api.json",
+            "prefix": "demo"
+        }
     ],
     "static": {
         "$replace": true,

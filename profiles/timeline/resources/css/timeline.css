@@ -7,3 +7,11 @@ pb-timeline {
     margin-left: var(--pico-block-spacing-horizontal);
     padding-left: var(--pico-block-spacing-horizontal);
 }
+
+pb-timeline::part(label) {
+    font-size: var(--jinks-font-size-smaller);
+}
+
+.timeline {
+    margin-bottom: 1rem;
+}

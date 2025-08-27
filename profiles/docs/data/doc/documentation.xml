@@ -2535,9 +2535,9 @@
           <para>For example, one can use this feature to control how specific parts of the document
             are output, without having to define a separate output mode, which would result in much
             more code. Below we display a shortened header for the document, containing simply its
-            title, but only if the parameter "header" is set to "short":</para>
+            title, but only if the parameter "display" is set to "browse":</para>
           <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
-    &lt;model predicate="$parameters?header='short' behaviour="block" cssClass="header-short"&gt;
+    &lt;model predicate="$parameters?display='browse' behaviour="block"&gt;
       &lt;param name="content" value="titleStmt"/&gt;
     &lt;/model&gt;
   ...

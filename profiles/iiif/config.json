@@ -1,0 +1,24 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/iiif",
+    "label": "IIIF Viewer Integration",
+    "description": "Integrates a IIIF viewer for displaying facsimiles and other images",
+    "version": "1.0.0",
+    "order": 3,
+    "depends": [
+        "base10"
+    ],
+    "templating": {
+        "use": [
+            "templates/iiif-blocks.html"
+        ]
+    },
+    "features": {
+        "iiif": {
+            "viewer": "pb-tify",
+            "base_uri": "https://apps.existsolutions.com/cantaloupe/iiif/2/",
+            "enabled": false
+        }
+    }
+}

@@ -31,6 +31,7 @@
 }
 
 body {
+    font-family: 'Inter', sans-serif;
     background-color: var(--pico-background-color);
     min-height: 100vh;
 }
@@ -83,7 +84,7 @@ header .toolbar {
 }
 
 @media (min-width: 1024px) {
-    .is-fixed-above-lg {    
+    .is-fixed-above-lg {
         z-index: 6;
         position: sticky;
         top: 0;
@@ -126,7 +127,7 @@ fieldset ul {
     margin: 0;
 }
 
-.profiles fieldset ul li {
+fieldset ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -138,7 +139,7 @@ fieldset ul {
 }
 
 h1, h2, h3, .output > label {
-    font-family: Oswald, sans-serif;
+    font-family: Inter, sans-serif;
     font-weight: 200;
 }
 
@@ -300,11 +301,13 @@ details {
 details pb-markdown {
     margin-top: 1rem;
 }
-table th, table td {
+
+.templating table th, .templating table td {
     text-align: left;
     border-bottom: 1px solid #ced4da;
 }
-table td:nth-child(1), table th:nth-child(1) {
+
+.templating table td:nth-child(1), .templating table th:nth-child(1) {
     width: 40%;
 }
 

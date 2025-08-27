@@ -5,13 +5,15 @@
             "extends": "static/templates/layouts/base.html"
         },
         "features": {
-            "toolbar": false
+            "toolbar": {
+                "enabled": false
+            }
         }
     }
     ---
     <main class="collection">
         <ul class="documents">
-            <li class="document">
+            <li class="document card">
                 <a href="monograph/1/index.html">
                     <img class="thumbnail"
                         src="[[$context-path]]/resources/images/annie-spratt-iLEwA5UH8mE-unsplash.jpg"/>
@@ -25,7 +27,7 @@
                     </a></h3>
                 </div>
             </li>
-            <li class="document">
+            <li class="document card">
                 <a href="letters/1/index.html">
                     <img class="thumbnail" src="[[ $context-path ]]/resources/images/tolga-deniz-aran-YQdum4z_1dM-unsplash.jpg"/>
                 </a>

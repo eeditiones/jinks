@@ -1,0 +1,23 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/edition-navigation",
+    "label": "Edition navigation",
+    "description": "Adds navigation options based on correspContext ...",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "templating": {
+        "use": [ "templates/edition-navigation-blocks.html" ]
+    },
+    "i18n": [
+        "edition-navigation"
+    ],
+    "features": {
+        "edition-navigation": {
+            "navigation": false,
+            "in-correspondence": false
+        }
+    }
+}

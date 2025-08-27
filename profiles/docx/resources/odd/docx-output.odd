@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -8,6 +7,7 @@
                  
                  
                       
+                 
                  
                  
                  <desc>A test ODD to preview TEI imported from Word docx</desc>
@@ -61,8 +61,10 @@
             
             
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
             
             
             
@@ -93,8 +95,10 @@ font-size: 0.85em;
             
             
             
+            
             color: #e24329;
 font-variant: small-caps;
+            
             
             
             
@@ -132,8 +136,10 @@ font-variant: small-caps;
             <outputRendition xml:space="preserve">
             
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
+            
             
             
             </outputRendition>
@@ -170,10 +176,12 @@ font-size: .85em;
             
             
             
+            
             margin-left: 10px; 
 margin-right: 10px;
 padding-left: 10px;
 border-left: 1px solid #C0C0C0;
+            
             
             
             
@@ -220,8 +228,8 @@ border-left: 1px solid #C0C0C0;
         </model>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="inline">
-            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.*?)[^\w]*$', '$1')"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
+            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
         </model>
                     <model predicate="parent::figure" behaviour="block">
             <outputRendition xml:space="preserve">
@@ -268,8 +276,10 @@ border-left: 1px solid #C0C0C0;
                     <model predicate="parent::div and not(@place)" behaviour="block">
             <outputRendition xml:space="preserve">
             
+            
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
+            
             
             </outputRendition>
         </model>
@@ -286,18 +296,18 @@ border-left: 1px solid #C0C0C0;
         </model>
                 </elementSpec>
             <elementSpec ident="ref" mode="change">
-        <model predicate="not(@target)" behaviour="inline"/>
-        <model predicate="not(node())" behaviour="link">
+                    <model predicate="not(@target)" behaviour="inline"/>
+                    <model predicate="not(node())" behaviour="link">
             <param name="content" value="@target"/>
             <param name="uri" value="@target"/>
         </model>
-        <model predicate="starts-with(@target, '#')" behaviour="link">
+                    <model predicate="starts-with(@target, '#')" behaviour="link">
             <param name="uri" value="'?id=' || substring-after(@target, '#') || @target"/>
         </model>
-        <model behaviour="link">
+                    <model behaviour="link">
             <param name="uri" value="@target"/>
         </model>
-    </elementSpec>
+                </elementSpec>
             </schemaSpec>
         </body>
     </text>

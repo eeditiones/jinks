@@ -1,0 +1,17 @@
+@media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --jinks-color-primary: var(--jinks-colors-100);
+        --jinks-background-color: var(--jinks-background-color-dark);
+    }
+}
+
+/* Settings for dark mode if manually chosen by user */
+[data-theme="dark"] {
+    --pb-color: var(--jinks-color-inverse, var(--pico-color));
+    --pb-highlight-color: var(--pb-highlight-color-dark);
+    --jinks-logo: var(--jinks-logo-dark);
+    --jinks-splash-background: var(--jinks-splash-background-dark);
+    --jinks-header-background-color: var(--jinks-header-background-color-dark);
+    --jinks-background-color: var(--jinks-background-color-dark);
+    --jinks-color-inverse: var(--jinks-background-color-light);
+}

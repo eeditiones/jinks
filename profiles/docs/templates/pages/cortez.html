@@ -4,7 +4,6 @@
         "templating": {
             "extends": "templates/layouts/content.html"
         },
-        "layout": "fixed-layout",
         "urls": {
             "ignore": "selectors"
         },
@@ -12,32 +11,37 @@
             "extra-components": [
                 "pb-tify"
             ]
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-tify",
+                "enabled": true
+            }
+        },
+        "theme": {
+            "layout": {
+                "after-width": "30vw"
+            }
         }
     }
     ---
     [% template toolbar %]
-    <pb-toggle-feature name="p_norm" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription"
-        data-target="toolbar-start">
-        <pb-i18n key="document.normalized">Normalized View</pb-i18n>
-    </pb-toggle-feature>
-    <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover"
-        action="disable" default="off" emit="transcription" subscribe="transcription"
-        data-target="toolbar-start">
-        <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
-    </pb-toggle-feature>
-    [% endtemplate %]
-    [% template breadcrumb %]
     <li>
-        <nav aria-label="breadcrumb">
-            <ul>
-                <li><a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">Documents</a></li>
-                <li>[[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "breadcrumb" }, "serafin.odd") ]]</li>
-            </ul>
-        </nav>
+        <pb-toggle-feature name="p_norm" selector=".choice,.choice-alternate,br" emit="transcription" subscribe="transcription"
+            class="light">
+            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
+        </pb-toggle-feature>
     </li>
-    [% endtemplate %]
-    [% template after-content %]
-    <pb-tify class="after-content" subscribe="transcription" emit="transcription"></pb-tify>
+    <li>
+        <pb-toggle-feature name="p_highlight" selector=".tei-foreign,pb-highlight,pb-popover"
+            action="disable" default="off" emit="transcription" subscribe="transcription"
+            class="light">
+            <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
+        </pb-toggle-feature>
+    </li>
     [% endtemplate %]
     <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
         append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"

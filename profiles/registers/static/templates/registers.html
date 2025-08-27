@@ -1,20 +1,25 @@
-<main>
+<template>
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
-        "layout": "sticky-layout",
         "script": {
             "extra-components": [
                 "pb-leaflet-map"
             ]
         },
         "features": {
-            "toc": false
+            "toc": {
+                "enabled": false
+            },
+            "toolbar": {
+                "navigation": false
+            }
         },
         "styles": [
-            "resources/css/registers-theme.css"
+            "resources/css/registers-theme.css",
+            "resources/css/correspondence-theme.css"
         ]
     }
     ---
@@ -28,11 +33,21 @@
         </nav>
     </li>
     [% endtemplate %]
-    [% template above-content %]
-    <header class="correspondence content">
+
+    [% template toolbar %]
+    <li>
         [[ $parts?metadata?content ]]
-    </header>
+    </li>
     [% endtemplate %]
+
+    [% template after %]
+    [[ $parts?register?content ]]
+
+    <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers" subscribe="map">
+        <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+    </pb-leaflet-map>
+    [% endtemplate %]
+
     <div class="content">
     [[ $parts?default?content ]]
     [[ $parts?default?footnotes ]]
@@ -41,13 +56,4 @@
         [[ $parts?translation?content ]]
         [[ $parts?translation?footnotes ]]
     </div>
-    [% template after-content %]
-    <aside class="after-content">
-        [[ $parts?register?content ]]
-
-        <pb-leaflet-map id="map" zoom="11" fit-markers="fit-markers">
-            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
-        </pb-leaflet-map>
-    </aside>
-    [% endtemplate %]
-</main>
+</template>

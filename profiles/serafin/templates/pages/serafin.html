@@ -1,0 +1,23 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "edition-navigation": {
+                "navigation": true,
+                "in-correspondence": true
+            },
+            "toolbar": {
+                "navigation": false
+            }
+        }
+    }
+    ---
+    <pb-view class="column1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <pb-view class="column2" src="document1" xpath="//text[@type = 'translation']" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>
+</template>

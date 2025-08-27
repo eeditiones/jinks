@@ -99,6 +99,11 @@ declare variable $config:default-media := $gen:default-media;
 declare variable $config:search-default := $gen:search-default;
 
 (:
+ : The default sort order to use for the browse view.
+ :)
+declare variable $config:sort-default := $gen:sort-default;
+
+(:
  : Defines which nested divs will be displayed as single units on one
  : page (using pagination by div). Divs which are nested
  : deeper than $pagination-depth will always appear in their parent div.
@@ -315,6 +320,11 @@ declare variable $config:register-map := map {
         "id": "pb-places",
         "default": "place-default",
         "prefix": "place-"
+    },
+    "bibliography": map {
+        "id": "pb-bibl",
+        "default": "bibl-default",
+        "prefix": "bibl-"
     },
     "organization": map {
         "id": "pb-organizations",

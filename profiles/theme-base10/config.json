@@ -5,8 +5,77 @@
     "label": "Default Jinks theme",
     "description": "Includes style defaults",
     "order": 902,
-    "version": "1.0.0"
-    ,
+    "version": "1.0.0",
+    "layout": "fixed-layout",
+    "theme": {
+        "colors": {
+            "palette": "neutral"
+        },
+        "logo": {
+            "light": "../images/tei-publisher-logo-contrast-color.svg",
+            "dark": "../images/tei-publisher-logo-contrast-color.svg",
+            "splash": {
+                "light": "../images/tei-publisher-logo-color.svg",
+                "dark": "../images/tei-publisher-logo-contrast-color.svg",
+                "size": "360px auto"
+            },
+            "width": "140px",
+            "height": "48px"
+        },
+        "fonts": {
+            "base": {
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "16px",
+                "line-height": "140%",
+                "weight": "400"
+            },
+            "content": {
+                "family": "JunicodeVF, Georgia, 'Times New Roman', serif",
+                "size": "1.25rem",
+                "line-height": "150%",
+                "weight": "400"
+            },
+            "heading": {
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "1.2rem",
+                "weight": "400"
+            },
+            "footnote": {
+                "size": "0.9rem"
+            },
+            "breadcrumbs": {
+                "size": "0.9rem"
+            },
+            "toc": {
+                "size": "1.125rem"
+            }
+        },
+        "hero": {
+            "background-image": "../images/jinks-images/type.jpeg",
+            "background-size": "cover",
+            "background-repeat": "no-repeat",
+            "background-color": "rgba(0, 0, 0, 0.6)",
+            "text-width": "50rem"
+        },
+        "header": {
+            "background-image": null
+        },
+        "menubar": {
+            "background-image": null,
+            "background-color": "var(--jinks-colors-500)",
+            "color": "#ffffff",
+            "font-size": "14px"
+        },
+        "texture": {
+            "background-image": "../images/jinks-images/paper.jpeg"
+        },
+        "layout": {
+            "class": "fixed-layout",
+            "before-width": "min(30vw, 356px)",
+            "after-width": "min(30vw, 356px)",
+            "max-width": "108rem"
+        }
+    },
     "styles": [
         "resources/css/jinks-theme.css"
     ],

@@ -8,11 +8,11 @@
     "depends": [
         "base10"
     ],
-    "defaults": {
-        "data-default": "letters"
-    },
     "features": {
-        "timeline": true
+        "timeline": {
+            "enabled": true,
+            "document-view": false
+        }
     },
     "api": [
         {

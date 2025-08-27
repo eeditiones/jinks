@@ -9,29 +9,13 @@
     "version": "1.0.0",
     "odds": [
         "serafin.odd",
-        "dta.odd"
+        "dta.odd",
+        "shakespeare.odd",
+        "vangogh.odd",
+        "osinski.odd"
     ],
     "defaults": {
+        "data-default": "monograph",
         "odd": "teipublisher.odd"
-    },
-    "collection-config": {
-        "letters": {
-            "odd": "serafin.odd",
-            "view": "single",
-            "template": "parallel.html",
-            "features": {
-                "register": true,
-                "correspondence": {
-                    "navigation": true
-                },
-                "timeline": true
-            }
-        },
-        "monograph": {
-            "odd": "dta.odd"
-        },
-        "docx": {
-            "odd": "docx-output.odd"
-        }
     }
 }

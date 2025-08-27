@@ -1,0 +1,50 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "blueprint",
+    "id": "https://e-editiones.org/app/tei-publisher/serafin",
+    "label": "Serafin Correspondence",
+    "description": "A blueprint for the correspondence of Mikołaj Serafin",
+    "version": "1.0.0",
+    "depends": [
+        "base10",
+        "demo-data",
+        "registers",
+        "edition-navigation",
+        "timeline"
+    ],
+    "order": 11,
+    "defaults": {
+        "data-default": "letters",
+        "template": "serafin.html",
+        "odd": "serafin.odd"
+    },
+    "i18n": [
+        "serafin"
+    ],
+    "features": {
+        "toc": {
+            "enabled": false
+        },
+        "edition-navigation": {
+            "navigation": true,
+            "in-correspondence": true
+        },
+        "browse": {
+            "sort": {
+                "default": "date",
+                "options": [
+                    {
+                        "value": "date",
+                        "key": "browse.date",
+                        "label": "Date"
+                    }
+                ]
+            }
+        }
+    },
+    "theme": {
+        "colors": {
+            "palette": "green"
+        }
+    }
+}

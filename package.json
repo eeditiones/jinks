@@ -2,7 +2,8 @@
   "name": "jinks",
   "version": "1.0.0",
   "description": "jinks: App Manager for TEI Publisher",
-  "main": "index.js",
+
+  "type": "module",
   "scripts": {
     "build": "node build.cjs"
   },
@@ -10,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/eeditiones/jinks.git"
   },
-  "author": "",
+  "author": "e-editiones.org",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/eeditiones/jinks/issues"

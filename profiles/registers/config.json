@@ -6,17 +6,22 @@
     "description": "Adds pages to browse entities, i.e. people, places",
     "version": "1.0.0",
     "depends": [
-        "base10",
-        "parallel"
+        "base10"
     ],
+    "order": 11,
     "defaults": {
-        "data-default": "letters",
         "sort": "date"
     },
     "templating": {
         "use": [
             "templates/register-blocks.html"
         ]
+    },
+    "features": {
+        "register": {
+            "enabled": true,
+            "placement": "right"
+        }
     },
     "menu": {
         "items": [
@@ -76,7 +81,7 @@
         },
         "styles": [
             "resources/css/static.css",
-            "transform/serafin.css"
+            "transform/teipublisher.css"
         ],
         "fields": {
             "index": ["content", "translation", "commentary"],

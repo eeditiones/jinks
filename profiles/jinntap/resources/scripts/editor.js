@@ -8,7 +8,7 @@ async function save(baseUri, editor) {
     const doc = editor.metadata.name;
 
     try {
-        const response = await fetch(`${baseUri}/api/document/${doc}`, {
+        const response = await fetch(`${baseUri}/api/document/${encodeURIComponent(doc)}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/xml'
@@ -28,9 +28,14 @@ async function save(baseUri, editor) {
                     type: 'info'
                 }
             }));
-            const url = new URL(json.path, window.location.href);
-            url.searchParams.set('template', 'editor.html');
-            history.pushState({}, '', url.toString());
+            // Change the URL if the document is now in some other place (happens for newly created documents)
+            // Keep into account collections though: 'a/b.xml' will be saved in 'a/b.xml', not in some other location.
+            // TODO: consider URIEncoding the collection and path to prevent this.
+            if (!window.location.pathname.endsWith(json.path)) {
+                const url = new URL(json.path, window.location.href);
+                url.searchParams.set('template', 'editor.html');
+                history.pushState({}, '', url.toString());
+            }
         } else {
             document.dispatchEvent(new CustomEvent('jinn-toast', {
                 detail: {
@@ -54,7 +59,7 @@ async function save(baseUri, editor) {
 async function copyToClipboard(editor) {
     const xml = editor.xml;
     await navigator.clipboard.writeText(xml);
-    
+
     // Show success message
     document.dispatchEvent(new CustomEvent('jinn-toast', {
         detail: {

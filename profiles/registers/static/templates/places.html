@@ -1,19 +1,27 @@
-<div class="container-fluid">
+<div class="places">
     ---json
     {
         "templating": {
-            "extends": "static/templates/layouts/base.html"
+            "extends": "static/templates/layouts/content.html"
         },
         "features": {
-            "toc": false
-        },
-        "toolbar": {
-            "zoom": false
+            "toolbar": {
+                "zoom": false,
+                "navigation": false
+            }
         },
         "script": {
             "custom": [
                 "resources/scripts/map.js"
             ]
+        },
+        "styles": [
+            "resources/css/registers-theme.css"
+        ],
+        "theme": {
+            "layout": {
+                "before-width": "6rem"
+            }
         }
     }
     ---
@@ -27,37 +35,35 @@
         </nav>
     </li>
     [% endtemplate %]
-    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
-        <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
-    </pb-leaflet-map>
-    <main class="grid nav">
-        <aside>
-            <nav>
-                <ul>
-                [% for $i in $pagination?all %]
-                    <li>
-                        [% if $pagination?page = $i?page %]
-                        <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
-                        [% else %]
-                        <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
-                        [% endif %]
-                    </li>
-                [% endfor %]
-                </ul>
-            </nav>
-        </aside>
+    [% template before %]
+    <nav>
         <ul>
-        [% for $place in $content %]
+        [% for $i in $pagination?all %]
             <li>
-                <a href="../[[$place?id]]">
-                    [[$place?label]]
-                </a>
-                <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]" emit="map" event="click">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M313.27 124.64L198.73 51.36a32 32 0 00-29.28.35L56.51 127.49A16 16 0 0048 141.63v295.8a16 16 0 0023.49 14.14l97.82-63.79a32 32 0 0129.5-.24l111.86 73a32 32 0 0029.27-.11l115.43-75.94a16 16 0 008.63-14.2V74.57a16 16 0 00-23.49-14.14l-98 63.86a32 32 0 01-29.24.35zM328 128v336M184 48v336" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                </pb-geolocation>
+                [% if $pagination?page = $i?page %]
+                <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
+                [% else %]
+                <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
+                [% endif %]
             </li>
         [% endfor %]
         </ul>
-    </main>
+    </nav>
+    [% endtemplate %]
+    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
+        <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
+    </pb-leaflet-map>
+    <ul>
+    [% for $place in $content %]
+        <li>
+            <a href="../[[$place?id]]">
+                [[$place?label]]
+            </a>
+            <pb-geolocation latitude="[[ $place?latitude ]]" longitude="[[ $place?longitude]]" label="[[ $place?label ]]" emit="map" event="click">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M313.27 124.64L198.73 51.36a32 32 0 00-29.28.35L56.51 127.49A16 16 0 0048 141.63v295.8a16 16 0 0023.49 14.14l97.82-63.79a32 32 0 0129.5-.24l111.86 73a32 32 0 0029.27-.11l115.43-75.94a16 16 0 008.63-14.2V74.57a16 16 0 00-23.49-14.14l-98 63.86a32 32 0 01-29.24.35zM328 128v336M184 48v336" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+            </pb-geolocation>
+        </li>
+    [% endfor %]
+    </ul>
     <script id="geodata" type="application/json">[[ serialize($geodata, map { "method": "json" }) ]]</script>
 </div>

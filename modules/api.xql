@@ -39,9 +39,9 @@ declare function api:generator($request as map(*)) {
     let $config := if ($request?body instance of array(*)) then $request?body?1 else $request?body
     let $overwrite := $request?parameters?overwrite
     let $dryRun := $request?parameters?dry
-    let $resolved := api:resolve-conflicts($config?config?id, $config?resolve?*)
+    let $lastModified := api:resolve-conflicts($config?config?id, $config?resolve?*)
     return
-        generator:process(map { "overwrite": $overwrite, "dry": $dryRun }, $config?config)
+        generator:process(map { "overwrite": $overwrite, "dry": $dryRun, "last-modified": $lastModified }, $config?config)
 };
 
 declare function api:expand-template($request as map(*)) {
@@ -75,16 +75,26 @@ declare function api:configurations($request as map(*)) {
         return
             if (util:binary-doc-available($configPath)) then
                 let $config := json-doc($configPath)
-                let $extConfig := generator:extends($config)
                 return
-                    map {
-                        "type": "installed",
-                        "profile": $config?profiles?*[last()],
-                        "title": head(($config?label, $config?pkg?title)),
-                        "description": $config?description,
-                        "config": $config,
-                        "actions": $extConfig?actions
-                    }
+                    if (map:contains($config, "type")) then
+                        map {
+                            "type": "profile",
+                            "profile": $collection,
+                            "title": head(($config?label, $config?pkg?title)),
+                            "description": $config?description,
+                            "config": $config
+                        }
+                    else
+                        let $extConfig := generator:extends($config)
+                        return
+                            map {
+                                "type": "installed",
+                                "profile": $config?profiles?*[last()],
+                                "title": head(($config?label, $config?pkg?title)),
+                                "description": $config?description,
+                                "config": $config,
+                                "actions": $extConfig?actions
+                            }
             else
                 ()
     let $profiles :=
@@ -112,6 +122,14 @@ declare function api:profiles() {
     for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
     let $config := generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {})
     order by if (map:contains($config, "order")) then number($config?order) else 100
+    return
+        map:merge((
+            $config,
+            map { "path": $collection }
+        )),
+    for $collection in xmldb:get-child-collections(repo:get-root())
+    let $config := generator:load-json(repo:get-root() || "/" || $collection || "/config.json", map {})
+    where map:contains($config, "type")
     return
         map:merge((
             $config,
@@ -235,13 +253,16 @@ declare %private function api:resolve-conflicts($appId as xs:string, $paths as x
     let $target := path:get-package-target($appId)
     return
         if ($target) then
-            let $json := generator:load-json(path:resolve-path($target, ".jinks.json"), map {})
+            let $jsonPath := path:resolve-path($target, ".jinks.json")
+            let $lastModified := xmldb:last-modified(path:parent($jsonPath), path:basename($jsonPath))
+            let $json := generator:load-json($jsonPath, map {})
             let $updated :=
                 fold-right($paths, $json, function($path, $input) {
                     map:remove($input, $path)
                 }) => serialize(map { "method": "json", "indent": true()})
+            let $_ := xmldb:store($target, ".jinks.json", $updated, "application/json")
             return
-                xmldb:store($target, ".jinks.json", $updated, "application/json")
+                $lastModified
         else
             ()
 };

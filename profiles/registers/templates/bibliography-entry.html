@@ -1,0 +1,39 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "features": {
+            "toolbar": {
+                "zoom": false,
+                "navigation": false
+            },
+            "timeline": {
+                "enabled": false
+            }
+        },
+        "styles": [
+            "transform/teipublisher.css"
+        ],
+        "theme": {
+            "layout": {
+                "after-width": "min(30vw, 356px)"
+            }
+        }
+    }
+    ---
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'bibliography']?url ]]"><pb-i18n key="menu.bibliography"/></a></li>
+                <li>[[ $data?root/string-join((tei:author[1], tei:title[1], tei:date[1]), ' ') ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+    <section class="person">
+        [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
+    </section>
+</template>

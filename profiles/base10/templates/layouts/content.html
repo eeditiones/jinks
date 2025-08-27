@@ -1,4 +1,4 @@
-<main>
+<template>
     ---json
     {
         "templating": {
@@ -6,9 +6,37 @@
         }
     }
     ---
-    [% block before-content %][% endblock %]
-    [% block content %][% endblock %]
-    [% block after-content %][% endblock %]
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    [% template breadcrumb %]
+    [% if exists($context?doc) %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                [[ page:collection-breadcrumbs($context) ]]
+                <li>[[ $context?doc?transform-with($context?doc?content, map { "mode": "breadcrumb" }, $context?doc?odd || ".odd") ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template before %]
+    [% if $context?features?toc?enabled and exists($context?doc)%]
+    <h5>
+        <pb-i18n key="document.contents">Contents</pb-i18n>
+    </h5>
+    <pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]" expand="expand"
+        src="document1" subscribe="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+    [% endif %]
+    [% endtemplate %]
+
+    [% block above-content %][% endblock %]
+    <main>
+        <!-- Content block -->
+        [% block content %][% endblock %]
+    </main>
+    [% block below-content %][% endblock %]
+    [% if exists($context?doc) %]
+    <pb-document id="document1" path="[[ $context?doc?path ]]" odd="[[ $context?doc?odd ]]" view="[[ $context?doc?view ]]"
         root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
-</main>
+    [% endif %]
+</template>

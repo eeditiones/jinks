@@ -1,0 +1,17 @@
+[% if $context?production %] /* production = no imports but import css modules */
+[% else %] /* dev mode by default */
+[% if $theme?colors?palette %]
+@import url("palette-[[ $theme?colors?palette ]].css");
+[% else %]
+@import url("palette-neutral.css");
+[% endif %]
+@import url("jinks-variables.css");
+@import url("pico-ext.css");
+@import url("base.css");
+@import url("../fonts/font.css");
+@import url("controls.css");
+@import url("layouts.css");
+@import url("menu.css");
+@import url("documents.css");
+@import url("toc.css");
+[% endif %]

@@ -11,7 +11,7 @@
         },
         "type": {
             "type": "string",
-            "enum": ["base", "feature", "theme"],
+            "enum": ["base", "feature", "theme", "blueprint"],
             "completionDetail": "Type of the profile"
         },
         "label": {
@@ -58,7 +58,14 @@
             "items": {
                 "type": "string"
             },
-            "description": "List of regular expressions matching relative paths to files, which should not be copied into the target application."
+            "description": "List of regular expressions matching relative target paths to files, which should not be copied into the target application."
+        },
+        "skipSource": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of regular expressions matching the source path of files, which should not be copied into the target application."
         },
         "actions": {
             "type": "array",
@@ -150,8 +157,22 @@
                     "type": "boolean"
                 },
                 "sort": {
-                    "type": "string",
-                    "description": "The field to sort by default when displaying list of documents"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "default": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "description": "The fields to sort by default when displaying list of documents"
                 }
             }
         },
@@ -198,11 +219,30 @@
                             },
                             "id": {
                                 "type": "string"
+                            },
+                            "subitems": {
+                                "type": "array",
+                                "description": "Secondary menu displayed as a dropdown list. The submenu gets created if the parent item does not have an 'url' property.",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                            },
+                                        "url": {
+                                            "type": ["string", "null"],
+                                            "description": "URL to link to. Might be null to remove an item inherited from a parent profile."
+                                        }
+                                    },
+                                "required": [
+                                    "id",
+                                    "url"
+                                    ]
+                                }
                             }
                         },
                         "required": [
-                            "id",
-                            "url"
+                            "id"
                         ]
                     }
                 },
@@ -224,16 +264,187 @@
                     "type": "boolean"
                 },
                 "toolbar": {
-                    "type": "boolean"
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the toolbar will be displayed"
+                        },
+                        "zoom": {
+                            "type": "boolean",
+                            "description": "If true, zoom buttons will be displayed"
+                        },
+                        "navigation": {
+                            "type": "boolean",
+                            "description": "If true, navigation buttons will be displayed"
+                        },
+                        "parent": {
+                            "type": "boolean",
+                            "description": "If true, the go to parent collection button will be displayed"
+                        }
+                    }
                 },
                 "hero": {
                     "type": "boolean"
                 },
                 "toc": {
-                    "type": "boolean"
+                    "type": "object",
+                    "properties": {
+                        "collapse": {
+                            "type": "boolean",
+                            "description": "If true, table of contents items will be initially collapsed"
+                        },
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the table of contents will be displayed"
+                        }
+                    }
+                },
+                "browse": {
+                    "type": "object",
+                    "properties": {
+                        "sort": {
+                            "type": "object",
+                            "properties": {
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "value": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "value",
+                                            "key"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "field": {
+                            "type": "object",
+                            "properties": {
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "value": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "value",
+                                            "key"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "timeline": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the timeline will be displayed"
+                        },
+                        "document-view": {
+                            "type": "boolean",
+                            "description": "If true, the timeline will also be displayed in document view. If false, it is only visible when browsing a collection."
+                        }
+                    }
+                },
+                "register": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the entity register sidebar will be displayed"
+                        },
+                        "placement": {
+                            "type": "string",
+                            "enum": ["left", "right"]
+                        }
+                    }
+                },
+                "iiif": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, a IIIF viewer will be displayed in the right sidebar."
+                        },
+                        "viewer": {
+                            "type": "string",
+                            "description": "The viewer to use",
+                            "enum": ["pb-tify", "pb-facsimile"]
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the source of the images: either 'iiif' or 'image' (for simple image links not served via IIIF).",
+                            "enum": ["iiif", "image"]
+                        }
+                    }
+                },
+                "edition-navigation": {
+                    "type": "object",
+                    "properties": {
+                        "navigation": {
+                            "type": "boolean"
+                        },
+                        "in-correspondence": {
+                            "type": "boolean",
+                            "description": "If true, shows additional navigation for letter exchange between two specific correspondents"
+                        }
+                    }
                 },
                 "upload": {
-                    "type": "boolean"
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the upload form will be displayed"
+                        },
+                        "target": {
+                            "type": "string",
+                            "description": "The target collection to upload documents to"
+                        },
+                        "accept": {
+                            "type": "string",
+                            "description": "The file extensions accepted for uploading"
+                        }
+                    }
+                },
+                "jinntap": {
+                    "type": "object",
+                    "properties": {
+                        "version": {
+                            "type": "string",
+                            "description": "The version of Jinntap",
+                            "examples": [ "dev", "1.24.0" ]
+                        },
+                        "cdn": {
+                            "type": "string",
+                            "description": "The CDN URL for Jinntap",
+                            "examples": [ "http://localhost:5174/" ]
+                        }
+                    }
                 }
             }
         },
@@ -271,10 +482,14 @@
                 "colors": {
                     "type": "object",
                     "properties": {
+                        "palette": {
+                            "type": "string",
+                            "examples": ["neutral", "green", "beige"]
+                        },
                         "menubar": {
                             "type": "object",
                             "properties": {
-                                "background": {
+                                "background-color": {
                                     "type": "string"
                                 },
                                 "color": {
@@ -299,13 +514,80 @@
                     "type": "object",
                     "properties": {
                         "content": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
                         },
                         "base": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
                         },
                         "heading": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "family": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "footnote": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "layout": {
+                    "type": "object",
+                    "properties": {
+                        "class": {
+                            "type": "string",
+                            "description": "Class to add to the main container element of the page",
+                            "examples": [
+                                "fixed-layout"
+                            ]
+                        },
+                        "before-width": {
+                            "type": "string",
+                            "description": "Width of the left sidebar",
+                            "examples": [
+                                "min(30vw, 356px)"
+                            ]
+                        },
+                        "after-width": {
+                            "type": "string",
+                            "description": "Width of the right sidebar",
+                            "examples": [
+                                "min(30vw, 356px)"
+                            ]
                         }
                     }
                 }
@@ -409,19 +691,27 @@
                     "type": "array"
                 },
                 "webcomponents": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Version of the tei-publisher-components package to use or 'dev' to connect to a development server"
                 },
                 "extra-components": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "description": "Names of additional components to load from tei-publisher-components",
+                    "examples": [
+                        "pb-tify",
+                        "pb-leaflet-map"
+                    ]
                 },
                 "cdn": {
-                    "type": "string"
-                },
-                "jinntap": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "URL of the CDN to use for web components",
+                    "examples": [
+                        "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
+                        "http://localhost:8000"
+                    ]
                 }
             }
         },
@@ -583,20 +873,6 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        "toolbar": {
-            "type": "object",
-            "properties": {
-                "zoom": {
-                    "type": "boolean"
-                },
-                "navigation": {
-                    "type": "boolean"
-                },
-                "parent": {
-                    "type": "boolean"
                 }
             }
         },

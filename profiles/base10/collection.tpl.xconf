@@ -36,6 +36,9 @@
             <text qname="tei:person">
                 <field name="name" expression="tei:persName"/>
             </text>
+            <text qname="tei:bibl">
+                <field name="name" expression="."/>
+            </text>
             <text qname="tei:head"/>
             <text match="//tei:titleStmt/tei:title"/>
             <text match="//tei:msDesc/tei:head"/>

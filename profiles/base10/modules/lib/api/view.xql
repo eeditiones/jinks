@@ -74,7 +74,7 @@ declare %private function vapi:merge-config($jsonConfig as map(*), $docConfig as
 
 declare function vapi:view($request as map(*)) {
     let $path :=
-        if ($request?parameters?suffix) then 
+        if ($request?parameters?suffix) then
             xmldb:decode($request?parameters?docid) || $request?parameters?suffix
         else
             xmldb:decode($request?parameters?docid)
@@ -104,8 +104,8 @@ declare function vapi:view($request as map(*)) {
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
                         "view": $config?view,
-                        "transform": $pm-config:web-transform(?, ?, $config?odd),
-                        "transform-with": $pm-config:web-transform
+                        "transform": vapi:transform-helper(?, ?, $config?odd),
+                        "transform-with": vapi:transform-helper#3
                     },
                     "template": $templateName,
                     "media": if (map:contains($config, 'media')) then $config?media else ()
@@ -113,7 +113,7 @@ declare function vapi:view($request as map(*)) {
             ))
             return
                 tmpl:process(serialize($template), $model, map {
-                    "plainText": false(), 
+                    "plainText": false(),
                     "resolver": vapi:resolver#1,
                     "modules": map {
                         "http://www.tei-c.org/tei-simple/config": map {
@@ -125,6 +125,16 @@ declare function vapi:view($request as map(*)) {
                         "tei": "http://www.tei-c.org/ns/1.0"
                     }
                 })
+};
+
+declare %private function vapi:transform-helper($content as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    let $params :=
+        if (map:contains($parameters, "root")) then
+            $parameters
+        else
+            map:put($parameters, "root", $content)
+    return
+        $pm-config:web-transform($content, $params, $odd)
 };
 
 declare function vapi:handle-error($error) {
@@ -153,7 +163,7 @@ declare function vapi:handle-error($error) {
     ))
     let $html :=
         tmpl:process($template, $model, map {
-            "plainText": false(), 
+            "plainText": false(),
             "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
@@ -201,7 +211,7 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
     let $config := map:merge((
-        vapi:load-config-json($request), 
+        vapi:load-config-json($request),
         map {
             "context-path": $config:context-path
         },
@@ -209,7 +219,7 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
     ))
     return
         tmpl:process($template, $config, map {
-            "plainText": false(), 
+            "plainText": false(),
             "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
@@ -234,7 +244,7 @@ declare function vapi:text($request as map(*)) {
         else
             error($errors:NOT_FOUND, "File " || $path || " not found")
      let $config := map:merge((
-        vapi:load-config-json($request), 
+        vapi:load-config-json($request),
         map {
             "context-path": $config:context-path
         }

@@ -1,0 +1,16 @@
+<template>
+    [% template after %]
+    [# Include only if the upload feature is enabled and no document is currently being viewed #]
+    [% if map:contains($context?features, "upload") and empty($context?doc) %]
+    <pb-restricted group="[[ $pkg?user?group ]]">
+        [% if $context?features?upload?target %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept="[[ $context?features?upload?accept ]]"
+            event="pb-search-resubmit" target="[[ $context?features?upload?target ]]"></pb-upload>
+        [% else %]
+        <pb-upload id="upload" subscribe="search" emit="search" accept="[[ $context?features?upload?accept ]]"
+            event="pb-search-resubmit"></pb-upload>
+        [% endif %]
+    </pb-restricted>
+    [% endif %]
+    [% endtemplate %]
+</template>

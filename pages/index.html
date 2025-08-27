@@ -32,6 +32,26 @@
             <fieldset class="buttons">
                 <button id="reset" type="reset">New Configuration</button>
             </fieldset>
+
+            <fieldset>
+                <legend>Blueprints</legend>
+                <ul>
+                    [% for $profile in filter($context?profiles, function($p) { $p?type = "blueprint"}) %]
+                    <li>
+                        <label data-tooltip="[[ $profile?description ]]" data-placement="right">
+                            <input type="checkbox" name="blueprint" value="[[ $profile?path ]]"
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                            [[ $profile?label ]]
+                        </label>
+                        <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                            <svg class="icon">
+                                <use href="#icon-information"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    [% endfor %]
+                </ul>
+            </fieldset>
         </section>
         <section class="profiles">
             <fieldset>
@@ -129,7 +149,7 @@
                     Overwrite mode
                     <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
                         <option value="default">Default: overwrite files if upstream version changed</option>
-                        <option value="update">Update: always overwrite</option>
+                        <option value="force">Force: ignore last modified date and check every file for changes</option>
                         <option value="all">All: reinstall everything</option>
                     </select>
                     <small>Modes default and update will never overwrite local changes</small>

@@ -3,7 +3,9 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>TEI Lex-0 <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
+                <title>TEI Lex-0 
+                 
+                  <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -113,7 +115,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
             <elementSpec ident="fileDesc" mode="change">
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="block" cssClass="header-short">
                 <param name="content" value="titleStmt"/>
             </model>
@@ -146,60 +148,47 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+            <param name="content" value="teiHeader"/>
+        </model>
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+            <desc>Output register data if register profile is enabled</desc>
+            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="register">
+<h3>People</h3>
+<ul>
+[[people]]
+</ul>
+
+<h3>Places</h3>
+<ul>
+[[places]]
+</ul>
+</div></pb:template>
+        </model>
                     <model behaviour="document">
             <param name="content" value="teiHeader/fileDesc"/>
         </model>
                 </elementSpec>
-                <elementSpec ident="title" mode="change">
-                    <model predicate="$parameters?header='short'" behaviour="heading">
-            <param name="level" value="5"/>
-        </model>
-                    <modelSequence predicate="parent::titleStmt/parent::fileDesc">
-            <model predicate="preceding-sibling::title" behaviour="text">
-                <param name="content" value="' — '"/>
-            </model>
-            <model behaviour="inline"/>
-        </modelSequence>
-                    <model predicate="not(@level) and parent::bibl" behaviour="inline"/>
-                    <modelSequence predicate="@level='m' or not(@level)">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="ancestor::biblFull" behaviour="text">
-                <param name="content" value="', '"/>
-            </model>
-        </modelSequence>
-                    <modelSequence predicate="@level='s' or @level='j'">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="following-sibling::* and     (  ancestor::biblFull)" behaviour="text">
-                <param name="content" value="', '"/>
-            </model>
-        </modelSequence>
-                    <modelSequence predicate="@level='u' or @level='a'">
-            <model behaviour="inline">
-                <outputRendition xml:space="preserve">
-                font-style: italic;
-                </outputRendition>
-            </model>
-            <model predicate="following-sibling::* and     (    ancestor::biblFull)" behaviour="text">
-                <param name="content" value="'. '"/>
-            </model>
-        </modelSequence>
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            font-style: italic;
-            </outputRendition>
-        </model>
-                </elementSpec>
+                <elementSpec ident="title" mode="change"/>
             <elementSpec ident="note" mode="change">
                     <model behaviour="omit"/>
                 </elementSpec>
+            <elementSpec ident="p" mode="change">
+                    <model output="print" predicate="ancestor::note" behaviour="inline"/>
+                    <model behaviour="paragraph" useSourceRendition="true">
+            <outputRendition xml:space="preserve">
+            
+            
+            text-align: left;
+hyphen: auto;
+            
+            
+            </outputRendition>
+        </model>
+                </elementSpec>
+            <elementSpec ident="titleStmt" mode="change"/>
             </schemaSpec>
         </body>
     </text>

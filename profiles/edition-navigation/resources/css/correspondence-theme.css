@@ -1,0 +1,23 @@
+.correspondence {
+    margin: 0;
+}
+
+.correspondence::part(content) {
+    margin: 0;
+    padding: 0;
+}
+
+.correspContext pb-link:not([path*=".xml"]),
+.static .correspRef:not([href*=".xml"]) {
+    display: inline-block;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.static .correspContext .correspRef {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

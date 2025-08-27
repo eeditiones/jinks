@@ -19,13 +19,16 @@
             [% endif %]
         [% endfor %]
 
+        <style>
+            :root {
+                --jinks-layout-before-width: [[$context?theme?layout?before-width]];
+                --jinks-layout-after-width: [[$context?theme?layout?after-width]];
+            }
+        </style>
         [% block styles %][% endblock %]
 
         <title>[[ $label ]]</title>
-        
-        [% if $menu?dark-mode %]
-        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
-        [% endif %]
+
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
@@ -54,42 +57,79 @@
         [% block scripts %][% endblock %]
     </head>
     <body>
-        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0" 
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
-            locales="resources/i18n/{{ns}}/{{lng}}.json" 
-            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]" 
+            locales="resources/i18n/{{ns}}/{{lng}}.json"
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
             unresolved="unresolved"
             url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
-            class="[[ $context?layout ]]"
+            class="[[ $context?theme?layout?class ]]"
             require-language="require-language" theme="resources/css/components.css">
             <header class="page-header">
-                <div>
+                <div class="center-l">
                     [% if $features?menubar %]
                     [% include "templates/menu.html" %]
-                    [% endif %]
-                    [% if $features?toolbar %]
-                    [% include "templates/toolbar.html" %]
                     [% endif %]
 
                     [% block header %][% endblock %]
                 </div>
+                [% if $features?menubar %]
+                    [% include "templates/menu-mobile.html" %]
+                [% endif %]
             </header>
+
             [% block hero %][% endblock %]
-            [% block above-content %][% endblock %]
+            <nav class="before-top hidden-mobile">
+                <ul>
+                    [% block before-top %][% endblock %]
+                </ul>
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".before">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <aside class="before hidden-mobile">
+                [% block before.top %][% endblock %]
+                [% block before %][% endblock %]
+                [% block before.bottom %][% endblock %]
+            </aside>
+
+            <header class="content-top hidden-mobile">
+                [% if $features?toolbar?enabled %]
+                [% include "templates/toolbar.html" %]
+                [% endif %]
+                [% block content-top %][% endblock %]
+            </header>
+
             [% block content %][% endblock %]
-            [% block below-content %][% endblock %]
-            
-            [% if $features?toc %]
-            <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
-                <div class="drawer-content">
-                    <h3>
-                        <pb-i18n key="document.contents">Contents</pb-i18n>
-                    </h3>
-                    <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" expand="expand" src="document1" subscribe="toc" load-once="load-once"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
-                </div>
-            </pb-drawer>
-            [% endif %]
+
+            <nav class="after-top hidden-mobile">
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".after">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <aside class="after hidden-mobile">
+                [% block after.top %][% endblock %]
+                [% block after %][% endblock %]
+                [% block after.bottom %][% endblock %]
+            </aside>
+            [% include 'templates/footer-mobile.html' %]
         </pb-page>
         <div class="splash"/>
         <pb-dialog id="downloadDialog">
@@ -101,6 +141,10 @@
                 <pb-i18n key="dialogs.close">Close</pb-i18n>
             </button>
         </pb-dialog>
+        <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
+        [% if $menu?dark-mode %]
+        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+        [% endif %]
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]

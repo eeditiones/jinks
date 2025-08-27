@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        form.querySelectorAll('[name="feature"]').forEach((input) => {
+        form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
 
@@ -231,83 +231,89 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (result.messages) {
                 output.innerHTML = '';
-                result.messages.forEach((message) => {
-                    if (!message.type) {
-                        return;
-                    }
+                if (result.messages.length === 0) {
                     const li = document.createElement('li');
-                    li.classList.add(message.type);
-                    li.dataset.path = message.path;
-                    li.innerHTML = `
-                    <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
-                    ${message.path} ${message.source ? ' from ' + message.source : ''}`;
-                    if (message.type === 'conflict' && message.incoming) {
-                        const copyButton = document.createElement('a');
-                        copyButton.href = '#';
-                        copyButton.dataset.tooltip = 'Copy incoming version to clipboard';
-                        copyButton.innerHTML = `<svg class="icon"><use href="#icon-copy"></use></svg>`;
-                        copyButton.addEventListener('click', (ev) => {
-                            ev.preventDefault();
-                            navigator.clipboard.writeText(message.incoming).then(() => {
-                                console.log('Copied to clipboard');
-                            }).catch((err) => {
-                                console.error('Failed to copy: ', err);
-                            });
-                        });
-                        li.appendChild(copyButton);
-
-                        const cmpButton = document.createElement('a');
-                        cmpButton.href = '#';
-                        cmpButton.dataset.tooltip = 'Compare current version to incoming';
-                        cmpButton.innerHTML = `<svg class="icon"><use href="#icon-compare"></use></svg>`;
-                        li.appendChild(cmpButton);
-                        cmpButton.addEventListener('click', (ev) => {
-                            ev.preventDefault();
-                            let diff = li.querySelector('jinn-monaco-diff');
-                            if (diff) {
-                                diff.close();
-                                return;
-                            }
-                            diff = document.createElement('jinn-monaco-diff');
-                            li.appendChild(diff);
-                            const url = new URL(`api/source?path=${encodeURIComponent(message.source)}`, window.location);
-                            fetch(url)
-                            .then((response) => {
-                                if (!response.ok) {
-                                    throw new Error(response.status);
-                                }
-                                return response.text();
-                            })
-                            .then((text) => {
-                                diff.diff(text, message.incoming, message.mime);
-                            });
-                        });
-
-                        const resolveBtn = document.createElement('a');
-                        resolveBtn.href = '#';
-                        resolveBtn.dataset.tooltip = 'Overwrite with next update';
-                        resolveBtn.innerHTML = `<svg class="icon"><use href="#icon-resolve"></use></svg>`;
-                        li.appendChild(resolveBtn);
-                        resolveBtn.addEventListener('click', (ev) => {
-                            ev.preventDefault();
-                            
-                            const badge = li.querySelector('.badge');
-                            if (!li.classList.contains('overwrite')) {
-                                li.classList.add('overwrite');
-                                badge.className = 'badge resolved';
-                                badge.innerText = 'overwrite';
-                                resolveConflicts[message.path] = '';
-                            } else {
-                                li.classList.remove('overwrite');
-                                badge.className = 'badge conflict';
-                                badge.innerText = 'conflict';
-                                delete resolveConflicts[message.path];
-                            }
-                        });
-                        resolveAllButton.style.display = 'block';
-                    }
+                    li.innerHTML = 'No changes detected.';
                     output.appendChild(li);
-                });
+                } else {
+                    result.messages.forEach((message) => {
+                        if (!message.type) {
+                            return;
+                        }
+                        const li = document.createElement('li');
+                        li.classList.add(message.type);
+                        li.dataset.path = message.path;
+                        li.innerHTML = `
+                        <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
+                        ${message.path} ${message.source ? ' from ' + message.source : ''}`;
+                        if (message.type === 'conflict' && message.incoming) {
+                            const copyButton = document.createElement('a');
+                            copyButton.href = '#';
+                            copyButton.dataset.tooltip = 'Copy incoming version to clipboard';
+                            copyButton.innerHTML = `<svg class="icon"><use href="#icon-copy"></use></svg>`;
+                            copyButton.addEventListener('click', (ev) => {
+                                ev.preventDefault();
+                                navigator.clipboard.writeText(message.incoming).then(() => {
+                                    console.log('Copied to clipboard');
+                                }).catch((err) => {
+                                    console.error('Failed to copy: ', err);
+                                });
+                            });
+                            li.appendChild(copyButton);
+
+                            const cmpButton = document.createElement('a');
+                            cmpButton.href = '#';
+                            cmpButton.dataset.tooltip = 'Compare current version to incoming';
+                            cmpButton.innerHTML = `<svg class="icon"><use href="#icon-compare"></use></svg>`;
+                            li.appendChild(cmpButton);
+                            cmpButton.addEventListener('click', (ev) => {
+                                ev.preventDefault();
+                                let diff = li.querySelector('jinn-monaco-diff');
+                                if (diff) {
+                                    diff.close();
+                                    return;
+                                }
+                                diff = document.createElement('jinn-monaco-diff');
+                                li.appendChild(diff);
+                                const url = new URL(`api/source?path=${encodeURIComponent(message.source)}`, window.location);
+                                fetch(url)
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error(response.status);
+                                    }
+                                    return response.text();
+                                })
+                                .then((text) => {
+                                    diff.diff(text, message.incoming, message.mime);
+                                });
+                            });
+
+                            const resolveBtn = document.createElement('a');
+                            resolveBtn.href = '#';
+                            resolveBtn.dataset.tooltip = 'Overwrite with next update';
+                            resolveBtn.innerHTML = `<svg class="icon"><use href="#icon-resolve"></use></svg>`;
+                            li.appendChild(resolveBtn);
+                            resolveBtn.addEventListener('click', (ev) => {
+                                ev.preventDefault();
+                                
+                                const badge = li.querySelector('.badge');
+                                if (!li.classList.contains('overwrite')) {
+                                    li.classList.add('overwrite');
+                                    badge.className = 'badge resolved';
+                                    badge.innerText = 'overwrite';
+                                    resolveConflicts[message.path] = '';
+                                } else {
+                                    li.classList.remove('overwrite');
+                                    badge.className = 'badge conflict';
+                                    badge.innerText = 'conflict';
+                                    delete resolveConflicts[message.path];
+                                }
+                            });
+                            resolveAllButton.style.display = 'block';
+                        }
+                        output.appendChild(li);
+                    });
+                }
             }
 
             if (
@@ -392,7 +398,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         new FormData(form).forEach((value, key) => {
-            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'abbrev' && key !== 'custom-odd') {
+            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'blueprint' && key !== 'abbrev' && key !== 'custom-odd') {
                 appConfig[key] = value;
             }
         });
@@ -401,7 +407,8 @@ window.addEventListener('DOMContentLoaded', () => {
         };
         appConfig.extends = formData.getAll('base')
             .concat(formData.getAll('feature'))
-            .concat(formData.getAll('theme'));
+            .concat(formData.getAll('theme'))
+            .concat(formData.getAll('blueprint'));
         
         validateForm();
         updateConfig(updateEditor);
@@ -443,6 +450,7 @@ window.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};

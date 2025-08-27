@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -10,6 +10,8 @@
                  
                  
                   
+                 
+                 
                  <desc>Processing of Docbook format</desc>
                 </title>
                 <title type="short">Docbook v5 </title>
@@ -170,7 +172,7 @@
                     <model output="epub" behaviour="block">
             <param name="content" value="(title, author)"/>
         </model>
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="heading">
                 <param name="content" value="title"/>
                 <param name="level" value="5"/>
@@ -213,6 +215,7 @@
                     <model output="latex" predicate="parent::info" behaviour="inline">
             <pb:template xmlns="" xml:space="preserve">\title{[[content]]}</pb:template>
         </model>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="listItem"/>
                     <model predicate="$parameters?mode='summary'" behaviour="block" cssClass="articletitle">
             <param name="content" value="node()"/>
             <param name="path" value="$parameters?path"/>
@@ -222,60 +225,11 @@
                             </h1>
                         </pb:template>
         </model>
-                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
-
-
-
-
-
-                            content: ' &gt; ';
-                            color: #607d8b;
-
-
-
-
-
-
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            </outputRendition>
-        </model>
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="parent::note" behaviour="heading">
             <param name="level" value="4"/>
         </model>
-                    <model predicate="parent::info and $parameters?header='short'" behaviour="link">
+                    <model predicate="parent::info and $parameters?display='browse'" behaviour="link">
             <param name="uri" value="$parameters?doc"/>
         </model>
                     <model predicate="parent::info" behaviour="heading" cssClass="doc-title"/>
@@ -284,12 +238,12 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="section">
-                    <modelSequence predicate="$parameters?mode='breadcrumbs'">
+                    <modelSequence predicate="$parameters?mode='breadcrumb'">
             <model behaviour="inline">
-                <param name="content" value="$get(.)/ancestor::section/title"/>
-            </model>
-            <model behaviour="inline">
-                <param name="content" value="title"/>
+                <param name="content" value="($get(.)/ancestor::section/title, title)"/>
+                <pb:template xmlns="" xml:space="preserve"><nav aria-label="breadcrumb">
+  <ul>[[ content ]]</ul>
+</nav></pb:template>
             </model>
         </modelSequence>
                     <model output="print" behaviour="section"/>
@@ -316,8 +270,12 @@
             
             
             
+            
+            
             font-weight: 400;
 font-style: italic;
+            
+            
             
             
             
@@ -362,7 +320,7 @@ font-style: italic;
             max-width: 100%;
             </outputRendition>
         </model>
-        <model predicate="$parameters?static" behaviour="graphic">
+                    <model predicate="$parameters?static" behaviour="graphic">
             <param name="url" value="$parameters?context-path || '/images/' || @fileref"/>
             <param name="width" value="@width"/>
             <outputRendition xml:space="preserve">
@@ -449,10 +407,14 @@ font-style: italic;
             <outputRendition xml:space="preserve">
             
             
+            
+            
             font-family: monospace;
 margin: 1em 0 1em .5em;
 padding: 1em 0 1em .5em;
 white-space: pre-wrap;
+            
+            
             
             
             </outputRendition>
@@ -498,6 +460,8 @@ white-space: pre-wrap;
             
             
             
+            
+            
 
 
 
@@ -508,6 +472,8 @@ white-space: pre-wrap;
 
 
 
+            
+            
             
             
             
@@ -569,6 +535,8 @@ white-space: pre-wrap;
             
             
             
+            
+            
 
 
 
@@ -584,6 +552,8 @@ padding: 1em 0 1em .5em;
 
 
 
+            
+            
             
             
             
@@ -701,6 +671,8 @@ Not available in PDF edition. Go to \url{[[content]]} to view.
             
             
             
+            
+            
 
 
 
@@ -714,6 +686,8 @@ border-left: 3px solid #c0c0c0;
 
 
 
+            
+            
             
             
             

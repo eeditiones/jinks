@@ -27,13 +27,14 @@
     "templating": {
         "use": [ "templates/editor-blocks.html" ]
     },
-    "script": {
-        "jinntap": "1.22.1"
-    },
     "features": {
         "collab": {
             "enable": false,
             "server": "wss://dev.tei-publisher.com/collab"
+        },
+        "jinntap": {
+            "version": "1.24.0",
+            "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap"
         }
     }
 }

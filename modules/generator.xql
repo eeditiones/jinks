@@ -19,13 +19,26 @@ declare variable $generator:ERROR_NOT_FOUND := xs:QName("generator:not-found");
 
 declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
 
+declare function generator:profile-path($name as xs:string) {
+    let $internalPath := $generator:PROFILES_ROOT || "/" || $name
+    return
+        if (xmldb:collection-available($internalPath)) then
+            $internalPath
+        else
+            for $collection in xmldb:get-child-collections(repo:get-root())
+            where $collection = $name
+            return
+                repo:get-root() || "/" || $collection
+};
+
 (:~
  : Generate or update an application using the provided configuration and settings.
  :
  : In the settings, property "overwrite" controls how files in an existing app are updated:
  : 
+ : * "overwrite=default": check last modified date of source and if newer, check if content has changed
+ : * "overwrite=force": ignore last modified date, enforce content check
  : * "overwrite=all": the entire app is regenerated and then reinstalled
- : * "overwrite=update": files will be updated by the potentially newer versions from the profile –
  :   unless local modifications were applied by the user
  :
  : @param $settings general settings to control the generator
@@ -38,16 +51,17 @@ declare function generator:process($settings as map(*)?, $config as map(*)?) {
         let $adjContext := map:merge((
             $context,
             map {
-                "source": $generator:PROFILES_ROOT || "/" || $profileName,
-                "_noDeploy": map:contains($config, "profiles") or $settings?dry
+                "source": generator:profile-path($profileName),
+                "_noDeploy": map:contains($config, "profiles") or $settings?dry,
+                "_lastModified": $settings?last-modified
             }
         ))
         return
-            generator:write($adjContext, $generator:PROFILES_ROOT || "/" || $profileName, $config)
+            generator:write($adjContext, generator:profile-path($profileName), $config)
     let $postProcessed :=
         for $profileName in $context?profiles?*
         return
-            generator:after-write($context, $result, $generator:PROFILES_ROOT || "/" || $profileName)
+            generator:after-write($context, $result, generator:profile-path($profileName))
     let $nextStep := 
         if (not(repo:list() = $context?id)) then
             map {
@@ -100,7 +114,7 @@ declare function generator:prepare($settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($settings, $config)
     let $mergedConfig :=
         fold-right($baseConfig?profiles?*, $baseConfig, function($profile, $config) {
-            generator:call-prepare($generator:PROFILES_ROOT || "/" || $profile, $config)
+            generator:call-prepare(generator:profile-path($profile), $config)
         })
     return
         $mergedConfig
@@ -243,11 +257,12 @@ declare %private function generator:extends($config as map(*), $profile as xs:st
             else
                 $config?extends
         let $extendedConfig :=
-            for $profile in $extendedProfiles
-            let $log := util:log("INFO", ("Loading extended profile: " || $profile))
+            for $extProfile in $extendedProfiles
+            where not($extProfile = $profile)
+            let $log := util:log("INFO", ("Loading extended profile: " || $extProfile))
             return
-                generator:load-json($generator:PROFILES_ROOT || "/" || $profile || "/config.json", map {})
-                => generator:extends($profile)
+                generator:load-json(generator:profile-path($extProfile) || "/config.json", map {})
+                => generator:extends($extProfile)
         return
             tmpl:merge-deep((
                 $extendedConfig,
@@ -316,7 +331,7 @@ declare function generator:list-actions($context as map(*)) as array(*) {
         let $actions :=
             for $profile in $mcontext?profiles?*
             return
-                generator:find-callback($generator:PROFILES_ROOT || "/" || $profile, "action")
+                generator:find-callback(generator:profile-path($profile), "action")
         for $action in $actions
         group by $name := function-name($action?2) => local-name-from-QName()
         return
@@ -334,7 +349,7 @@ declare function generator:run-action($collection as xs:string, $actionName as x
     let $context := generator:extends($config)
     let $actions :=
         for $profile in $context?profiles?*
-        let $callback := generator:find-callback($generator:PROFILES_ROOT || "/" || $profile, "action")
+        let $callback := generator:find-callback(generator:profile-path($profile), "action")
         return
             if (exists($callback) and local-name-from-QName(function-name($callback?2)) = $actionName) then
                 $callback

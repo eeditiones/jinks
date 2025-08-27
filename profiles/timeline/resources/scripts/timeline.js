@@ -19,9 +19,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
     pbEvents.subscribe('pb-update', 'transcription', (ev) => {
         const timeline = document.querySelector('pb-timeline');
-        const url = timeline.url;
-        timeline.url = url.replace(/[^/]+$/, ev.detail.data.doc);
-        pbEvents.emit('pb-results-received', 'corresp-timeline');
+        if (timeline) {
+            const url = timeline.url;
+            timeline.url = url.replace(/[^/]+$/, ev.detail.data.doc);
+            pbEvents.emit('pb-results-received', 'corresp-timeline');
+        }
     });
 });
 

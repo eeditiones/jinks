@@ -1,57 +1,50 @@
-<nav class="toolbar container-fluid">
+<nav class="toolbar">
     <ul>
-        [% if exists($context?doc) and $features?toc %]
-        <li>
-            <a id="tocToggle" class="toc-toggle" title="Table of Contents">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M160 144h288M160 256h288M160 368h288"/><circle cx="80" cy="144" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="80" cy="256" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="80" cy="368" r="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-            </a>
-        </li>
-        [% endif %]
-
-        [# display go to parent if in document view #]
-        [% if exists($context?doc) and $toolbar?parent %]
-        <li>
-            <a id="toolbar-parent" href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]" data-i18n="[title]browse.[[ $request?parameters?collection ]].title">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M440 432H72a40 40 0 01-40-40V120a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H440a40 40 0 0140 40v240a40 40 0 01-40 40zM32 192h448" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-            </a>
-        </li>
-        [% endif %]
-
         [% block breadcrumb %][% endblock %]
+    </ul>
+    <ul>
+        [% block toggle %][% endblock %]
+        [% if $features?toolbar?navigation %]
+        <li>
+            <span role="group" class="light">
+                <pb-navigation emit="transcription" keyboard="left" subscribe="transcription" direction="backward" unit="page" rendition="visible">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                            d="M328 112L184 256l144 144" />
+                    </svg>
+                </pb-navigation>
+                <pb-navigation emit="transcription" keyboard="right" subscribe="transcription" direction="forward" unit="page" rendition="visible">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                            d="M184 112l144 144-144 144" />
+                    </svg>
+                </pb-navigation>
+            </span>
+        </li>
+        [% endif %]
 
-        <pb-restricted>
-            <li>
+		[% if $features?toolbar?zoom and exists($context?doc) %]
+        <li>
+            <span role="group" class="light">
+                <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
+                <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
+            </span>
+        </li>
+		[% endif %]
+        [% if exists($context?doc) %]
+		<li>
+            <pb-restricted>
                 <pb-ajax subscribe="transcription" emit="transcription" url="api/odd?odd=[[ $defaults?odd ]]" method="post" event="pb-refresh"
                     title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                     <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 58l80 80-80 80"/></svg>
+                    <button class="light">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 58l80 80-80 80"/></svg>
+                    </button>
                 </pb-ajax>
-            </li>
-        </pb-restricted>
-
-		[% if $toolbar?zoom and exists($context?doc) %]
-        <li>
-            <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"/>
-        </li>
-        <li>
-            <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"/>
-        </li>
-		[% endif %]
-        [% block toolbar %][% endblock %]
-        [% if $toolbar?navigation %]
-        <li>
-            <pb-navigation emit="transcription" keyboard="left"
-                subscribe="transcription" direction="backward" unit="page">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-            </pb-navigation>
-        </li>
-        <li>
-            <pb-navigation emit="transcription" keyboard="right"
-            subscribe="transcription" direction="forward" unit="page">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
-            </pb-navigation>
+            </pb-restricted>
         </li>
         [% endif %]
+        [% block toolbar %][% endblock %]
     </ul>
     <pb-progress subscribe="transcription" indeterminate="indeterminate"/>
 </nav>

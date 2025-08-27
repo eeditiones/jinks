@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print epub"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -9,6 +9,8 @@
                  
                  
                   
+                 
+                 
                  
                  
                  
@@ -41,6 +43,7 @@
                     <model behaviour="section"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="add">
+                    <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="parent::caption" behaviour="heading">
             <param name="level" value="3"/>
             <outputRendition xml:space="preserve">
@@ -115,9 +118,13 @@
             
             
             
+            
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
+            
             
             
             
@@ -131,7 +138,7 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="article-meta" mode="add">
-                    <model predicate="$parameters?header='short' or $parameters?mode='breadcrumbs'" behaviour="block">
+                    <model predicate="$parameters?display='browse'" behaviour="block">
             <param name="content" value="(title-group, contrib-group)"/>
         </model>
                     <modelSequence>
@@ -150,10 +157,10 @@ padding: 0 4px;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="title-group" mode="add">
-                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
             <param name="content" value="article-title/text()"/>
         </model>
-                    <modelSequence predicate="$parameters?header='short'">
+                    <modelSequence predicate="$parameters?display='browse'">
             <model behaviour="link">
                 <param name="content" value="article-title"/>
                 <param name="uri" value="$parameters?doc"/>
@@ -164,7 +171,8 @@ padding: 0 4px;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="article-title" mode="add">
-                    <model predicate="$parameters?header='short'" behaviour="heading">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
                     <model predicate="ancestor::article-meta" behaviour="heading" cssClass="title">
@@ -217,7 +225,7 @@ padding: 0 4px;
         </model>
                 </elementSpec>
                 <elementSpec ident="contrib-group" mode="add">
-                    <model predicate="$parameters?mode='breadcrumbs'" behaviour="inline">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
             <param name="content" value="contrib"/>
             <outputRendition xml:space="preserve" scope="before">
             content: ' - ';
@@ -297,6 +305,9 @@ padding: 0 4px;
         </model>
                 </elementSpec>
             <elementSpec ident="article" mode="add">
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+            <param name="content" value="front/article-meta/title-group"/>
+        </model>
                     <model behaviour="document"/>
                 </elementSpec>
             <elementSpec ident="back" mode="add">
