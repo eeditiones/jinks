@@ -1,0 +1,121 @@
+# This workflow builds a xar archive, deploys it into exist and execute a simple smoke test.
+
+name: exist-db CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    strategy:
+       fail-fast: false
+       matrix:
+        # 7.0.0-SNAPSHOT and 6.4.0 created
+         exist-version: [latest, release]
+         java-version: [11, 21]
+         exclude:
+           - exist-version: release
+             java-version: 21
+           - exist-version: latest
+             java-version: 11
+    continue-on-error: ${{ matrix.exist-version == 'latest' }}
+
+    steps:
+      # Checkout code
+      - uses: actions/checkout@v4
+
+      # Speed up apt-get installs
+      - name: Disable man-db to make package install and removal faster
+        run: |
+          echo 'set man-db/auto-update false' | sudo debconf-communicate >/dev/null
+          sudo dpkg-reconfigure man-db
+          
+      - name: Install Test Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-utils bats
+
+      # sanity check
+      - name: Ensure all XML files are well-formed
+        run: |
+          xmllint --noout \
+            $(find . -type f -name '*.xml')
+
+      # Build
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+      - run: ant
+
+      # For private repos use secret org token
+      - name: authenticate gh cli
+        timeout-minutes: 1
+        run: gh auth status
+
+      - name: Add Expath Dependency
+        working-directory: build/
+        run: |
+          gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar'
+          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar'
+          gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar'
+          gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar'
+          gh release download -R eXist-db/expath-crypto-module -p '*.xar' -O '_crypto.xar'
+          gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar'
+          
+      - name: Check Contents
+        working-directory: build/
+        run: ls
+
+      # Install
+      - name: Start exist-ci containers
+        run: |
+          docker run -dit -p 8080:8080 -v ${{ github.workspace }}/build:/exist/autodeploy \
+          --name exist --rm --health-interval=1s --health-start-period=2s \
+          duncdrum/existdb:${{ matrix.exist-version }}-slim
+
+      - name: Wait for server to start
+        timeout-minutes: 1 
+        run: |
+          echo "Waiting for server to start..."
+          until docker logs exist 2>&1 | grep -q "Server has started"; do
+            echo "Still waiting..."
+            sleep 4
+          done
+
+      # Test
+      - name: Run smoke test
+        run: bats --tap test/*.bats
+  
+      - name: debug logs
+        if: failure()
+        run: docker logs exist | grep 'ERROR'
+
+      - name: Copy logs on failure
+        if: failure()
+        run: |
+          echo "Copying logs..."
+          docker cp exist:/exist/logs/exist.log ./exist.log
+
+      - name: Upload logs artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jinks-exist-${{ matrix.exist-version }}-log
+          path: exist.log
+
+      - name: Run Cypress e2e test
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
+
+      - name: Upload cypress sceenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CiM-exist-${{ matrix.exist-version }}-screenshots
+          path: test/cypress/screenshots/
