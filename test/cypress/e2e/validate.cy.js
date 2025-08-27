@@ -95,12 +95,11 @@ describe('Static JSON Schema Validation', () => {
       })
     })
 
-    it('custom-api.json (docs) should validate against OpenAPI 3.0.3 schema', () => {
-      // TODO: For consistency this should probably be custom-api.tpl.json
-      const customApi = 'profiles/docs/modules/custom-api.json'
-      cy.readFile(customApi).then(data => {
+    it('docs-api.json should validate against OpenAPI 3.0.3 schema', () => {
+      const docsApi = 'profiles/docs/modules/docs-api.json'
+      cy.readFile(docsApi).then(data => {
         const schema = ajv4.getSchema('https://spec.openapis.org/oas/3.0/schema/2021-09-28').schema
-        cy.validateJsonSchema(ajv4, schema, data, customApi)
+        cy.validateJsonSchema(ajv4, schema, data, docsApi)
       })
     })
   })
