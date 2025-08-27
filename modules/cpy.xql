@@ -186,7 +186,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     $content as function(*), $callback as function(*)) {
     if (
         (some $skipPath in $context?skip?* satisfies matches($relPath, $skipPath)) or
-        (some $skipPath in $context?skipSource satisfies matches($sourcePath, $skipPath))
+        (some $skipPath in $context?skipSource?* satisfies matches($sourcePath, $skipPath))
     ) then
         ()
     (: overwrite, but do not check or store hash :)
