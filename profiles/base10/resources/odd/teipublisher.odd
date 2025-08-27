@@ -221,6 +221,9 @@
             </outputRendition>
         </model>
                 </elementSpec>
+                <elementSpec ident="damage" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="date" mode="change">
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
@@ -279,6 +282,11 @@
                 </elementSpec>
                 <elementSpec ident="epigraph" mode="change">
                     <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="ex" mode="change">
+                    <model predicate="ancestor::expan" behaviour="inline">
+                        <param name="content" value="('(', ., ')')"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="figure" mode="change">
                     <model predicate="head or @rendition='simple:display'" behaviour="block"/>
