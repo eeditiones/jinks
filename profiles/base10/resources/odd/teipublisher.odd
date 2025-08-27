@@ -323,15 +323,15 @@
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
                     <model predicate="desc" behaviour="inline"/>
-                    <model predicate="@extent" behaviour="inline">
-            <param name="content" value="@extent"/>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[..';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: '..]';
-            </outputRendition>
-        </model>
+                    <model predicate="@extent or @quantity" behaviour="inline">
+                        <param name="extent" value="head((@extent, @quantity))"/>
+                        <param name="unit" value="@unit"/>
+                        <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-popover>
+                            <span class="gap" slot="default">[.. ..]</span>
+                            <template slot="alternate">[[reason]] [[ extent ]] [[unit]]</template>
+            </pb-popover></pb:template>
+                    </model>
                     <model behaviour="inline">
             <outputRendition xml:space="preserve" scope="before">
             content: '[...]';
