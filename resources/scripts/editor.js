@@ -231,7 +231,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (result.messages) {
                 output.innerHTML = '';
-                if (result.messages.length === 0) {
+                if (
+                    result.messages.length === 0 &&
+                    !(result.nextStep.action === 'DEPLOY' || result.config._update === false)
+                ) {
                     const li = document.createElement('li');
                     li.innerHTML = 'No changes detected.';
                     output.appendChild(li);
