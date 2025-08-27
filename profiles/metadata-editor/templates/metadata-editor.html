@@ -3,29 +3,28 @@
     [% if exists($context?doc) and $context?features?metadata-editor?enabled %]
     <script type="module" src="[[ $context-path ]]/resources/scripts/metadata-editor.js"></script>
     [% endif %]
-	[% endtemplate %]
+    [% endtemplate %]
 
-	[% template toolbar %]
+    [% template toolbar %]
     <li>
         <a href="#" class="toolbar-button" id="metadataPanelBtn" data-tooltip="Edit metadata" data-placement="left">
             <i class="bi bi-code-square"></i>
         </a>
     </li>
-	[% endtemplate %]
+    [% endtemplate %]
 
-	[% template after %]
+    [% template after %]
     [% if exists($context?doc) and $context?features?metadata-editor?enabled %]
-	<div>
-      <style>
-		/* Make sure Fore actually hides irrelevant stuff */
-		#metadata-panel.hidden,
-		fx-case:not(.selected-case),
+    <style>
+        /* Make sure Fore actually hides irrelevant stuff */
+        #metadata-panel.hidden,
+        fx-case:not(.selected-case),
         .deselected-case
-		[nonrelevant] {
+        [nonrelevant] {
             display: none;
         }
     </style>
-    <fx-fore xmlns:tei="http://www.tei-c.org/ns/1.0" create-nodes="create-nodes" id="metadata-panel" ignore-expressions="fx-function">
+    <fx-fore xmlns:tei="http://www.tei-c.org/ns/1.0" create-nodes="create-nodes" id="metadata-panel" ignore-expressions="fx-function" class="hidden">
         <fx-model>
             <!-- This will be filled with the teiHeader element -->
             <fx-instance id="default"></fx-instance>
@@ -66,168 +65,165 @@
             <fx-refresh force="true"></fx-refresh>
         </fx-action>
 
-        <label>Title<fx-control ref="instance('default')//*:titleStmt/*:title"></fx-control></label>
+        <label for="title">Title</label>
+        <fx-control id="title" ref="instance('default')//*:titleStmt/*:title"></fx-control>
 
-        <fx-group ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date">
-            <label>
-                Date format
-                <fx-switch ref="instance('date-scratchpad')/@mode">
-                    <nav>
-                        <details class="dropdown">
-                            <summary>{instance('date-scratchpad')/@mode}</summary>
-                            <ul>
-                                <li>
-                                    <fx-trigger>
-                                        <a
-                                            class="secondary"
-                                            href="#"
-                                            onclick="this.closest('details').removeAttribute('open')"
-                                            >When</a
-                                        >
-                                        <fx-setvalue ref="." value="'when'"></fx-setvalue>
-                                        <fx-replace
-                                            ref="instance('default')//*:date"
-                                            with="remove-attributes(instance('date-scratchpad')//*:date)"
-                                        >
-                                        </fx-replace>
-                                        <fx-refresh force="true"></fx-refresh>
-                                    </fx-trigger>
-                                </li>
-                                <li>
-                                    <fx-trigger>
-                                        <a
-                                            class="secondary"
-                                            href="#"
-                                            onclick="this.closest('details').removeAttribute('open')"
-                                            >From / To</a
-                                        >
-                                        <fx-setvalue ref="." value="'from'"></fx-setvalue>
-                                        <fx-replace
-                                            ref="instance('default')//*:date"
-                                            with="remove-attributes(instance('date-scratchpad')//*:date)"
-                                        >
-                                        </fx-replace
-                                        ><fx-refresh force="true"></fx-refresh>
-                                    </fx-trigger>
-                                </li>
-                                <li>
-                                    <fx-trigger>
-                                        <a
-                                            class="secondary"
-                                            href="#"
-                                            onclick="this.closest('details').removeAttribute('open')"
-                                            >Not before / Not after</a
-                                        >
-                                        <fx-setvalue ref="." value="'notBefore'"></fx-setvalue>
-                                        <fx-replace
-                                            ref="instance('default')//*:date"
-                                            with="remove-attributes(instance('date-scratchpad')//*:date)"
-                                        >
-                                        </fx-replace
-                                        ><fx-refresh force="true"></fx-refresh>
-                                    </fx-trigger>
-                                </li>
-                            </ul>
-                        </details>
-                    </nav>
+        <fx-switch id="dateFormat" ref="instance('date-scratchpad')/@mode">
+          <nav>
+			<fieldset>
+			        <label for="dateFormat">
+                        Date format
+                    </label>
 
-                    <fx-case name="when" id="when">
-                        <fieldset>
-                            <fx-group ref="instance('date-scratchpad')/*:date">
-                                <label>
-                                    When
-                                    <fx-control style="display: block" update-event="change" ref="@when">
-                                        <jinntap-datetime data-default-timezone="-5:00" class="widget">
-                                        </jinntap-datetime>
-                                    </fx-control>
-                                </label>
-                            </fx-group>
-                            <!-- Copy the date, without irrelevant attributes into the correct instance -->
-                            <fx-action event="change">
-                                <fx-replace
-                                    ref="instance('default')//*:date"
-                                    with="remove-attributes(instance('date-scratchpad')//*:date)"
-                                >
-                                </fx-replace>
-                                <fx-refresh force="true"></fx-refresh
-                            ></fx-action>
-                        </fieldset>
-                    </fx-case>
-
-                    <fx-case name="notBefore" id="notBefore">
-                        <fx-group ref="instance('date-scratchpad')/*:date">
-                            <fieldset>
-                                <label>
-                                    Not before
-                                    <fx-control style="display: block" update-event="change" ref="@notBefore">
-                                        <jinntap-datetime data-default-timezone="-5:00" class="widget">
-                                        </jinntap-datetime>
-                                    </fx-control>
-                                </label>
-                                <label>
-                                    Not after
-                                    <fx-control style="display: block" update-event="change" ref="@notAfter">
-                                        <jinntap-datetime data-default-timezone="-5:00" class="widget">
-                                        </jinntap-datetime>
-                                    </fx-control>
-                                </label>
-                            </fieldset>
-                            <!-- Copy the date, without irrelevant attributes into the correct instance -->
-                            <fx-action event="change">
-                                <fx-replace
-                                    ref="instance('default')//*:date"
-                                    with="remove-attributes(instance('date-scratchpad')//*:date)"
-                                >
-                                </fx-replace>
-                                <fx-refresh force="true"></fx-refresh>
-                            </fx-action>
-                        </fx-group>
-                    </fx-case>
-
-                    <fx-case name="from" id="from">
-                        <fx-group ref="instance('date-scratchpad')/*:date">
-                            <fieldset>
-                                <label>
-                                    From
-                                    <fx-control style="display: block" update-event="change" ref="@from">
-                                        <jinntap-datetime data-default-timezone="-5:00" class="widget">
-                                        </jinntap-datetime>
-                                    </fx-control>
-                                </label>
-                                <label>
-                                    To
-                                    <fx-control style="display: block" update-event="change" ref="@to">
-                                        <jinntap-datetime data-default-timezone="-5:00" class="widget">
-                                        </jinntap-datetime>
-                                    </fx-control>
-                                </label>
-
-                                <!-- Copy the date, without irrelevant attributes into the correct instance -->
-                                <fx-action event="change">
+                    <details class="dropdown">
+                        <summary>{instance('date-scratchpad')/@mode}</summary>
+                        <ul>
+                            <li>
+                                <fx-trigger>
+                                    <a
+                                        class="secondary"
+                                        href="#"
+                                        onclick="this.closest('details').removeAttribute('open')"
+                                        >When</a
+                                    >
+                                    <fx-setvalue ref="." value="'when'"></fx-setvalue>
                                     <fx-replace
                                         ref="instance('default')//*:date"
                                         with="remove-attributes(instance('date-scratchpad')//*:date)"
                                     >
                                     </fx-replace>
                                     <fx-refresh force="true"></fx-refresh>
-                                </fx-action>
-                            </fieldset>
-                        </fx-group>
-                    </fx-case>
-                </fx-switch>
-                <label>
-                    Calendar
-                    <fx-control ref="@calendar" update-event="change" style="display: block">
-                        <select class="widget">
-                            <option value="gregorian">Gregorian</option>
-                            <option value="julian">Julian</option>
-                        </select>
-                    </fx-control>
-                </label>
+                                </fx-trigger>
+                            </li>
+                            <li>
+                                <fx-trigger>
+                                    <a
+                                        class="secondary"
+                                        href="#"
+                                        onclick="this.closest('details').removeAttribute('open')"
+                                        >From / To</a
+                                    >
+                                    <fx-setvalue ref="." value="'from'"></fx-setvalue>
+                                    <fx-replace
+                                        ref="instance('default')//*:date"
+                                        with="remove-attributes(instance('date-scratchpad')//*:date)"
+                                    >
+                                    </fx-replace
+                                    ><fx-refresh force="true"></fx-refresh>
+                                </fx-trigger>
+                            </li>
+                            <li>
+                                <fx-trigger>
+                                    <a
+                                        class="secondary"
+                                        href="#"
+                                        onclick="this.closest('details').removeAttribute('open')"
+                                        >Not before / Not after</a
+                                    >
+                                    <fx-setvalue ref="." value="'notBefore'"></fx-setvalue>
+                                    <fx-replace
+                                        ref="instance('default')//*:date"
+                                        with="remove-attributes(instance('date-scratchpad')//*:date)"
+                                    >
+                                    </fx-replace
+                                    ><fx-refresh force="true"></fx-refresh>
+                                </fx-trigger>
+                            </li>
+                        </ul>
+                    </details>
+				</fieldset>
+            </nav>
+
+            <fx-case name="when" id="when">
+                <fieldset>
+                    <fx-group ref="instance('date-scratchpad')/*:date">
+                        <label for="when">
+                            When
+                        </label>
+                        <fx-control id="when" style="display: block" update-event="change" ref="@when">
+                            <jinntap-datetime data-default-timezone="-5:00" class="widget">
+                            </jinntap-datetime>
+                        </fx-control>
+                    </fx-group>
+                    <!-- Copy the date, without irrelevant attributes into the correct instance -->
+                    <fx-action event="change">
+                        <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                        </fx-replace>
+                        <fx-refresh force="true"/>
+                        </fx-action>
+                </fieldset>
+            </fx-case>
+
+            <fx-case name="notBefore" id="notBefore">
+                <fx-group ref="instance('date-scratchpad')/*:date">
+                    <fieldset>
+                        <label for="notBefore">
+                            Not before
+                        </label>
+                        <fx-control id="notBefore" style="display: block" update-event="change" ref="@notBefore">
+                            <jinntap-datetime data-default-timezone="-5:00" class="widget">
+                            </jinntap-datetime>
+                        </fx-control>
+
+                        <label for="notAfter">
+                            Not after
+                        </label>
+                        <fx-control id="notAfter" style="display: block" update-event="change" ref="@notAfter">
+                            <jinntap-datetime data-default-timezone="-5:00" class="widget">
+                            </jinntap-datetime>
+                        </fx-control>
+
+                    </fieldset>
+                    <!-- Copy the date, without irrelevant attributes into the correct instance -->
+                    <fx-action event="change">
+                        <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                        </fx-replace>
+                        <fx-refresh force="true"/>
+                    </fx-action>
+                </fx-group>
+            </fx-case>
+
+            <fx-case name="from" id="from">
+                <fx-group ref="instance('date-scratchpad')/*:date">
+                    <fieldset>
+                        <label for="from">
+                            From
+                        </label>
+                        <fx-control id="from" style="display: block" update-event="change" ref="@from">
+                           <jinntap-datetime data-default-timezone="-5:00" class="widget">
+                            </jinntap-datetime>
+                        </fx-control>
+
+                        <label for="to">
+                            To
+                        </label>
+                        <fx-control id="to" style="display: block" update-event="change" ref="@to">
+                           <jinntap-datetime data-default-timezone="-5:00" class="widget">
+                            </jinntap-datetime>
+                        </fx-control>
+
+                        <!-- Copy the date, without irrelevant attributes into the correct instance -->
+                        <fx-action event="change">
+                            <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                            </fx-replace>
+                            <fx-refresh force="true"/>
+                        </fx-action>
+                    </fieldset>
+                </fx-group>
+            </fx-case>
+        </fx-switch>
+		<fieldset>
+            <label for="calendar-type">
+                Calendar
             </label>
-        </fx-group>
+            <fx-control id="calendar-type" ref="@calendar" update-event="change" style="display: block">
+                <select class="widget">
+                    <option value="gregorian">Gregorian</option>
+                    <option value="julian">Julian</option>
+                </select>
+            </fx-control>
+		</fieldset>
     </fx-fore>
-	</div>
     [% endif %]
-	[% endtemplate %]
+    [% endtemplate %]
 </template>
