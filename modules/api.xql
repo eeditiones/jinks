@@ -45,12 +45,13 @@ declare function api:generator($request as map(*)) {
 };
 
 declare function api:expand-template($request as map(*)) {
-    let $template := $request?body?template
-    let $params := head(($request?body?params, map {}))
+    let $template := if ($request?body instance of map(*)) then $request?body?template else $request?body
+    let $params := if ($request?body instance of map(*)) then head(($request?body?params, map {})) else map {}
+    let $mode := if ($request?body instance of map(*)) then $request?body?mode else ()
     return
         try {
             tmpl:process($template, $params, map {
-                "plainText": not($request?body?mode = ('html', 'xml')), 
+                "plainText": not($mode = ('html', 'xml')), 
                 "resolver": api:resolver#1, 
                 "debug": true(),
                 "modules": map {
