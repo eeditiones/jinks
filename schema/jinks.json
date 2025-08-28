@@ -633,6 +633,19 @@
                 }
             }
         },
+        "generator": {
+            "type": "object",
+            "properties": {
+                "templates": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[^\\s]+$": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "templating": {
             "type": "object",
             "properties": {
