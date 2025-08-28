@@ -72,6 +72,31 @@ describe('API', () => {
       })
     })
 
+    it.skip('POST /api/templates returns 500 for invalid template syntax', () => {
+      cy.request({
+        method: 'POST',
+        url: '/api/templates',
+        headers: { 'content-type': 'application/json' },
+        body: { template: 'Error [%= 1 idiv 0 %]', params: {}, mode: 'html' },
+        failOnStatusCode: false
+      }).then(res => {
+        cy.wrap(res.status).should('eq', 500)
+        cy.wrap(res.headers).its('content-type').should('include', 'application/json')
+      })
+    })
+
+    it('POST /api/templates returns 400 for plain string body', () => {
+      cy.request({
+        method: 'POST',
+        url: '/api/templates',
+        headers: { 'content-type': 'text/plain' },
+        body: 'Plain text with no placeholders',
+        failOnStatusCode: false
+      }).then(res => {
+        cy.wrap(res.status).should('eq', 400)
+      })
+    })
+
     it('GET /api/source returns source or not found', () => {
       cy.request({
         url: '/api/source',
@@ -79,6 +104,15 @@ describe('API', () => {
         failOnStatusCode: false
       }).then(res => {
         cy.wrap(res.status).should('be.oneOf', [200, 404])
+      })
+    })
+
+    it('GET /api/source requires path parameter', () => {
+      cy.request({
+        url: '/api/source',
+        failOnStatusCode: false
+      }).then(res => {
+        cy.wrap(res.status).should('eq', 400)
       })
     })
 
