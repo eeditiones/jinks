@@ -25,12 +25,19 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
 };
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
+    let $fill := request:get-parameter("fill", ())
+    return
+        tpu:parse-pi($doc, $view, $odd, if ($fill) then number($fill) else ())
+};
+
+declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?, $fill as xs:double?) {
     let $defaultConfig := config:default-config(document-uri($doc))
     let $default := map:merge((
         $defaultConfig,
         map {
             "view": ($view, $defaultConfig?view)[1],
-            "type": config:document-type($doc/*)
+            "type": config:document-type($doc/*),
+            "fill": ($fill, $defaultConfig?fill)[1]
         }
     ))
     let $pis :=
