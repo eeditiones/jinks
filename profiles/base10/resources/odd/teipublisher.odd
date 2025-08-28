@@ -10,6 +10,7 @@
 
                    
                  
+                 
                  <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
@@ -280,6 +281,11 @@
                 <elementSpec ident="epigraph" mode="change">
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="ex" mode="change">
+                    <model predicate="ancestor::expan" behaviour="inline">
+            <param name="content" value="('(', ., ')')"/>
+        </model>
+                </elementSpec>
                 <elementSpec ident="figure" mode="change">
                     <model predicate="head or @rendition='simple:display'" behaviour="block"/>
                     <model behaviour="inline"/>
@@ -324,14 +330,17 @@
                 <elementSpec ident="gap" mode="change">
                     <model predicate="desc" behaviour="inline"/>
                     <model predicate="@extent or @quantity" behaviour="inline">
-                        <param name="extent" value="head((@extent, @quantity))"/>
-                        <param name="unit" value="@unit"/>
-                        <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
-                        <pb:template xmlns="" xml:space="preserve"><pb-popover>
-                            <span class="gap" slot="default">[.. ..]</span>
+            <param name="extent" value="head((@extent, @quantity))"/>
+            <param name="unit" value="@unit"/>
+            <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
+            <pb:template xmlns="" xml:space="preserve"><pb-popover>
+                            <span class="gap" slot="default"/>
                             <template slot="alternate">[[reason]] [[ extent ]] [[unit]]</template>
             </pb-popover></pb:template>
-                    </model>
+            <outputRendition xml:space="preserve" scope="before">
+            content: "[.. ..]";
+            </outputRendition>
+        </model>
                     <model behaviour="inline">
             <outputRendition xml:space="preserve" scope="before">
             content: '[...]';
@@ -597,6 +606,12 @@
             <pb:template xmlns="" xml:space="preserve"><span class="tei-supplied [[reason]]">[[ content ]]</span></pb:template>
         </model>
                     <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="subst" mode="change">
+                    <model behaviour="inline">
+            <desc>explicitly set content to avoid whitespace issues</desc>
+            <param name="content" value="(del, add)"/>
+        </model>
                 </elementSpec>
                 <elementSpec ident="table" mode="change">
                     <model behaviour="table"/>
@@ -865,7 +880,7 @@
         </model>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))"/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -891,7 +906,7 @@
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))"/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
