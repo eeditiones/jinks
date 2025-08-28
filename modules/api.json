@@ -247,17 +247,36 @@
             "post": {
                 "operationId": "api:expand-template",
                 "description": "Expand the provided template",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "force-error",
+                        "in": "query",
+                        "required": false,
+                        "schema": { "type": "boolean" },
+                        "description": "If true, the server will raise an error (testing only)"
+                    }
+                ],
                 "requestBody": {
 					"required": true,
 					"content": {
                         "application/json": {
 							"schema": {
-								"type": "string"
-							}
-						}
-					}
-				},
+                                "oneOf": [
+                                    { "type": "string" },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "template": { "type": "string" },
+                                            "params": { "type": "object" },
+                                            "mode": { "type": "string", "enum": ["html", "xml", "text"] }
+                                        },
+                                        "required": ["template"]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",

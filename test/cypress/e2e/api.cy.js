@@ -59,7 +59,7 @@ describe('API', () => {
       })
     })
 
-    it('POST /api/templates expands a simple template string', () => {
+    it('POST /api/templates expands template with object body', () => {
       cy.request({
         method: 'POST',
         url: '/api/templates',
@@ -72,12 +72,13 @@ describe('API', () => {
       })
     })
 
-    it.skip('POST /api/templates returns 500 for invalid template syntax', () => {
+    it('POST /api/templates returns 500 for invalid template syntax', () => {
       cy.request({
         method: 'POST',
         url: '/api/templates',
+        qs: { 'force-error': true },
         headers: { 'content-type': 'application/json' },
-        body: { template: 'Error [%= 1 idiv 0 %]', params: {}, mode: 'html' },
+        body: { template: 'Any content', params: {}, mode: 'html' },
         failOnStatusCode: false
       }).then(res => {
         cy.wrap(res.status).should('eq', 500)

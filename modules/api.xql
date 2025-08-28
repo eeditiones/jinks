@@ -50,7 +50,10 @@ declare function api:expand-template($request as map(*)) {
     let $mode := if ($request?body instance of map(*)) then $request?body?mode else ()
     return
         try {
-            tmpl:process($template, $params, map {
+            if ($request?parameters?force-error = true()) then
+                error(xs:QName('err:FORCED'), 'Forced error for testing')
+            else
+                tmpl:process($template, $params, map {
                 "plainText": not($mode = ('html', 'xml')), 
                 "resolver": api:resolver#1, 
                 "debug": true(),
