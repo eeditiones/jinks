@@ -11,7 +11,7 @@ describe('index page', () => {
   })
 
   it('user should be logged in', () => {
-    cy.get('#login')
-      .contains('Logged in as tei')
+    cy.get('pb-login')
+        .should('have.attr', 'logged-in')
   })
 })
