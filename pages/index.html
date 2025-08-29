@@ -10,7 +10,7 @@
     }
     ---
     <form id="config">
-        <section>
+        <section id="configMeta">
             <fieldset>
                 <h3>Application Configuration</h3>
                 <label>
@@ -53,7 +53,7 @@
                 </ul>
             </fieldset>
         </section>
-        <section class="profiles">
+        <section id="profiles" class="profiles">
             <fieldset>
                 <legend>Base Profile</legend>
                 <ul>
@@ -134,7 +134,7 @@
             </fieldset>
             <small>Add a new custom ODD for the app (if not created already).</small>
         </section>
-        <section>
+        <section id="configEditor">
             <fieldset>
                 <h3>Configuration</h3>
                 <jinn-monaco-editor id="appConfig" value="{}"
