@@ -71,7 +71,7 @@ describe('API', () => {
       })
     })
 
-    it('POST /api/generator updates/generates profile in dry mode', () => {
+    it('POST /api/generator updates/generates profile (dry mode)', () => {
       cy.request({
         method: 'POST',
         url: '/api/generator',
