@@ -7,6 +7,11 @@ describe('API', () => {
     it('renders API docs page', () => {
       cy.visit('api.html')
       cy.get('.title').contains('jinks API')
+      cy.get('.auth-wrapper').should('be.visible')
+      cy.get('h3').contains('default')
+      cy.get('h3').contains('view')
+      cy.get('h3').contains('user')
+      cy.get('h3').should('have.length.greaterThan', 3)
     })
   })
 
@@ -99,9 +104,12 @@ describe('API', () => {
     })
 
     // TODO(DP): auth not enforced by backend
+    // see #104
     it.skip('POST /api/generator requires authentication (no dry run)', () => {
       cy.clearCookie('token')
+      cy.clearCookie('JSESSIONID')
       cy.clearCookie('org.exist.login')
+      cy.clearCookie('teipublisher.com.login')
       cy.clearCookies()
       cy.clearLocalStorage()
       cy.window().then(win => { try { win.sessionStorage.clear() } catch (e) {} })
@@ -179,14 +187,15 @@ describe('API', () => {
       })
     })
 
-    it('POST /api/resolve with fake id/path is rejected or ok', () => {
+    // TODO(DP): see #104 
+    it('POST /api/resolve with fake id/path is accepted', () => {
       cy.request({
         method: 'POST',
         url: '/api/resolve',
-        qs: { id: 'fake-id', path: 'pages/index.html' },
+        qs: { id: 'fake-id', path: 'pages/foobar.html' },
         failOnStatusCode: false
       }).then(res => {
-        cy.wrap(res.status).should('be.oneOf', [200, 400, 404])
+        cy.wrap(res.status).should('eq', 200)
       })
     })
 
