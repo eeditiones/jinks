@@ -277,8 +277,8 @@ header.row {
 }
 
 .team-members {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, calc(33% - var(--s-1)));
+    columns: 3;
+    column-fill: balance;
     gap: var(--s-1);
     margin: 0;
     padding: 0;
@@ -286,7 +286,7 @@ header.row {
 
 @media (max-width: 1023px) {
     .team-members {
-        grid-template-columns: repeat(auto-fill, calc(50% - var(--s-1)));
+        columns: 2;
     }
 
     .team-members header img {
@@ -296,44 +296,62 @@ header.row {
 }
 
 .member-card {
-    list-style: none;
-    margin-bottom: var(--pico-block-spacing-vertical);
+    display: inline-block;
     padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
     border-radius: var(--pico-border-radius);
     background-color: linear-gradient(0deg, var(--jinks-overlay-background-color-light), var(--jinks-overlay-background-color-light));
     box-shadow: var(--pico-card-box-shadow);
     color: var(--jinks-color-primary);
-
-    p {
-        text-transform: none;
-    }
+    min-width: 16rem;
+    margin-block-end: var(--s-1);
 }
 
 .member-card:hover {
     --jinks-overlay-background-color-light: rgba(255, 255, 255, 0.7);
     color: var(--jinks-text-medium);
 }
+.member-card--top,
+.member-card--middle {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.member-card--top {
+    margin-block-end: var(--s3);
+}
 
 .member-card .label {
     border: thin solid var(--jinks-colors-300);
     background: transparent;
+    align-content: flex-start;
+    align-self: flex-start;
 }
 
 .member-card .member-name {
-    margin-top: 2rem;
     font-size: 1.0565rem;
     font-weight: 500;
     line-height: 110%; /* 1.16219rem */
+    margin-block-end: var(--s-4);
 }
 
-img.avatar {
-    width: 5.875rem; /* Fixed size */
-    height: 5.875rem; /* Fixed size */
+/*
+ * institutions and corporations might want to be shown with their logo
+ */
+.member-logo {
+    max-width: 40%;
+    max-height: var(--s4);
+}
+
+/*
+ * individuals usually have some kind of avatar that can be displayed in a circle
+ */
+.avatar {
+    width: var(--s4); /* Fixed size */
+    height: var(--s4); /* Fixed size */
     border-radius: 50%; /* Makes it round */
     object-fit: cover; /* Ensures the image covers the badge area without losing its aspect ratio */
     display: block; /* Removes the inline nature of images to allow centering */
-    margin: 0 auto; /* Centers the image horizontally */
-    opacity: 0.9;
 }
 
 .license {
