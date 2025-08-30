@@ -90,7 +90,7 @@
                 <li>
                     <label data-tooltip="[[ $profile?description ]]"
                         data-placement="right">
-                        [% if $profile?path = head($themeProfiles)?path %]
+                        [% if $profile?path = tail($themeProfiles)?path %]
                         <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
                         [% else %]
