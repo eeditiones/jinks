@@ -222,6 +222,9 @@
             </outputRendition>
         </model>
                 </elementSpec>
+                <elementSpec ident="damage" mode="add">
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="date" mode="change">
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">

@@ -196,6 +196,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
     else if ($context?_update) then
         let $path := path:resolve-path($context?target, $relPath)
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
+        let $expectedHash := cpy:load-hash($context, $relPath)
         let $lastModified := xmldb:last-modified(path:parent($sourcePath), path:basename($sourcePath))
         return
             (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
@@ -205,12 +206,13 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                 not(matches($sourcePath, $context?template-suffix)) and
                 cpy:file-exists($path) and
                 exists($context?_lastModified) and
-                $context?_lastModified >= $lastModified
+                $context?_lastModified >= $lastModified and
+                (: If a conflicting file was marked to be overwritten, it will not have a hash :)
+                exists($expectedHash)
             ) then
                 ()
             else
                 let $currentHash := cpy:hash($path)
-                let $expectedHash := cpy:load-hash($context, $relPath)
                 let $incomingContent := $content()
                 return
                     (: Check if there have been changes to the file since it was installed :)
