@@ -36,7 +36,8 @@ build({
 	}
 });
 
-// Compile SASS
+console.log('Compiling SASS for tei-publisher web components');
+// Compile SASS for tei-publisher web components
 const sassResult = sass.compile('profiles/theme-base10/resources/sass/pico-components.sass', {
     style: 'compressed'
 });
@@ -52,6 +53,15 @@ sassOutputDirs.forEach(outputDir => {
 sassOutputDirs.forEach(outputDir => {
     fs.writeFileSync(path.join(outputDir, 'pico-components.css'), sassResult.css);
 });
+
+// Compile SASS for jinks
+console.log('Compiling SASS for jinks');
+const sassJinksResult = sass.compile('resources/styles/pico-jinks.sass', {
+    style: 'compressed'
+});
+
+// Write the compiled CSS
+fs.writeFileSync(path.join('resources/styles/pico-jinks.css'), sassJinksResult.css);
 
 /**
  * @param {import ('esbuild').BuildOptions} opts

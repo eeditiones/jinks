@@ -29,27 +29,12 @@
 
     <target name="clean">
         <echo message="Cleaning build artefacts..." />
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${build.dir}" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${vendor.dir}" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${basedir}/resources/css" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${basedir}/resources/i18n/common" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${basedir}/resources/images/leaflet" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${basedir}/resources/images/openseadragon" includes="**/*" />
-        </delete>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${basedir}/resources/styles" includes="pico.min.css" />
-        </delete>
+        <delete dir="${build.dir}" failonerror="false" />
+        <delete dir="${vendor.dir}" failonerror="false" />
+        <delete dir="${basedir}/resources/css" failonerror="false" />
+        <delete dir="${basedir}/resources/i18n/common" failonerror="false" />
+        <delete dir="${basedir}/resources/images/leaflet" failonerror="false" />
+        <delete dir="${basedir}/resources/images/openseadragon" failonerror="false" />
     </target>
 
     <target name="npm.install">
@@ -128,11 +113,6 @@
         </copy>
         <copy todir="${basedir}/resources/i18n/common">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/i18n/common" />
-        </copy>
-        <copy todir="${basedir}/resources/styles">
-            <fileset dir="${basedir}/node_modules/@picocss/pico/css/">
-                <include name="pico.min.css" />
-            </fileset>
         </copy>
         <copy todir="${basedir}/resources/images">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/images">
