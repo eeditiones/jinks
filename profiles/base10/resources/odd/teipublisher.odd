@@ -780,6 +780,10 @@
                 <desc>Variant names</desc>
                 <param name="content" value="persName[@type='variant']"/>
             </model>
+            <model behaviour="block">
+                <desc>Images</desc>
+                <param name="content" value="figure"/>
+            </model>
             <model behaviour="paragraph">
                 <desc>Additional notes</desc>
                 <param name="content" value="note"/>
