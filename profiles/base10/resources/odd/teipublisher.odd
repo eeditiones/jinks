@@ -769,7 +769,7 @@
             <desc>Register entry overview in list</desc>
             <param name="id" value="@xml:id"/>
             <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
-            <param name="description" value="note"/>
+            <param name="description" value="note[@type='bio']"/>
             <pb:template xmlns="" xml:space="preserve"><header>
     <a href="people/[[ id ]]">[[ label ]]</a>
 </header>

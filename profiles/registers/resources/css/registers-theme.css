@@ -41,7 +41,7 @@ pb-split-list::part(items) {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: calc(var(--pb-view-max-width) / 2 - 1rem);
+    max-width: calc(var(--pb-view-max-width) / var(--pb-categorized-list-columns) - 1rem);
 }
 
 .places .split-list-item header {
