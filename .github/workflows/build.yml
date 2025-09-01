@@ -1,6 +1,6 @@
 # This workflow builds a xar archive, deploys it into exist and execute a simple smoke test.
 
-name: exist-db CI
+name: Build and Test
 
 on: [push]
 
@@ -109,6 +109,14 @@ jobs:
           path: exist.log
 
       - name: Run Cypress e2e test
+        if: matrix.experimental != true 
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
+      
+      - name: Run Cypress e2e test (expect fail)
+        if: matrix.experimental == true
+        continue-on-error: true
         uses: cypress-io/github-action@v6
         with:
           browser: firefox
