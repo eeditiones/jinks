@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build default images for testing on CI
         uses: docker/build-push-action@v6
         with:
@@ -71,7 +71,7 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -84,16 +84,17 @@ jobs:
         with:
           install: true
 
-      # TODO(DP): add exists_base as subtag?
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/eeditiones/jinks/${{ env.IMAGE_NAME }}
-          # TODO(DP): This could be extended further
+          images: ghcr.io/${{ github.repository }}
+          # set e.g v1 and 1.0.0 for pushed tags
+          # set latest tag for default branch
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}    
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}  
 
 
       # was ${{ github.actor }}
@@ -112,7 +113,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             PUBLISHER_VERSION=main
-            EXIST_VERSION=release
+            EXIST_VERSION=6.4.0
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           sbom: true

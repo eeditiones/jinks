@@ -5,7 +5,8 @@
 
   "type": "module",
   "scripts": {
-    "build": "node build.cjs"
+    "build": "node build.cjs",
+    "test": "npx cypress run"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,13 @@
     "monaco-editor": "^0.52.2"
   },
   "devDependencies": {
-    "cypress": "^14.5.1",
-    "esbuild": "^0.25.0",
-    "sass": "^1.89.1"
+    "ajv": "^8.17.1",
+    "ajv-draft-04": "^1.0.0",
+    "ajv-formats": "^3.0.1",
+    "cypress": "^15.0.0",
+    "cypress-ajv-schema-validator": "^2.0.2",
+    "esbuild": "^0.25.9",
+    "glob": "^11.0.3",
+    "sass": "^1.91.0"
   }
 }
