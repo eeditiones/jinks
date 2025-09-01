@@ -6,8 +6,9 @@ describe('index page', () => {
 
   describe('nav bar', () => {
     it('should be visible', () => {
-      cy.get('.container-fluid > nav')
+      cy.get('nav')
         .should('be.visible')
+        .and('have.length.gte', 2)
     })
 
     it('user should be logged in', () => {
