@@ -1,0 +1,355 @@
+﻿// Pico lightweight version
+@use "../../node_modules/@picocss/pico/scss/pico" with (
+  $enable-semantic-container: true,
+  $enable-classes: true,
+  $theme-color: "sand",
+  $modules: (
+    "content/code": false,
+    "forms/input-color": false,
+    "forms/input-date": false,
+    "forms/input-file": false,
+    "forms/input-range": false,
+    "forms/input-search": false,
+    "components/progress": false,
+    "components/dropdown": true,
+    "utilities/reduce-motion": false
+  )
+);
+
+// ============================================================================
+// CSS Custom Properties
+// ============================================================================
+:root
+    --text-light: #333333
+    --text-dark: white
+    --color-highlight: #F6A623
+    --color-menu-bg: #35424b
+    --color-submenu: #FADCA1
+    --color-appbar: #D1D5DB
+    --pico-header-background: var(--color-menu-bg)
+    --color-splash-bg: #0f0f0f
+    --color-border-light: #ced4da
+    --color-success: #2C6C0C
+    --color-alert: #D93526
+    --color-resolved: #55524A
+    --color-text-black: #000
+
+// ============================================================================
+// SASS Mixins
+// ============================================================================
+@mixin icon-size($size: 1.5rem)
+    width: $size
+    height: $size
+
+// ============================================================================
+// Base Typography & Layout
+// ============================================================================
+
+body
+    font-family: 'Inter', sans-serif
+    background-color: var(--pico-background-color)
+    min-height: 100vh
+
+h1, h2, h3, .output > label
+    font-family: Inter, sans-serif
+    font-weight: 200
+
+p
+    margin-top: 0
+
+// ============================================================================
+// Header & Navigation
+// ============================================================================
+header
+    --pico-nav-element-spacing-vertical: 0
+    --pico-primary: var(--text-dark)
+    --pico-primary-hover: var(--text-dark)
+    --pb-login-link-color: var(--text-dark)
+    --pico-accordion-close-summary-color: var(--text-dark)
+
+header nav svg
+    @include icon-size(1.5rem)
+
+header .toolbar
+    background-color: var(--color-appbar)
+    margin-bottom: 1rem
+
+nav details
+    --pico-form-element-background-color: var(--color-menu-bg)
+    --pico-form-element-border-color: var(--color-menu-bg)
+    --pico-form-element-focus-color: var(--color-menu-bg)
+    --pico-form-element-placeholder-color: var(--pico-primary)
+    --pico-form-element-active-background-color: var(--color-menu-bg)
+    --pico-form-element-active-border-color: var(--color-menu-bg)
+
+nav details > ul
+    &:last-of-type
+        margin-right: 0
+    &:firs-of-type
+        margin-left: 0
+
+// ============================================================================
+// Login Component
+// ============================================================================
+pb-login [role="button"]
+    margin: 0
+    background-color: transparent
+    border: none
+
+:host(pb-login) > a
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 81px
+    width: 36px
+    height: 36px
+    padding: 0
+    color: var(--text-dark)
+    background-color: var(--color-menu-bg)
+    font-size: var(--jinks-menubar-font-size)
+    text-decoration: none
+
+pb-login::part(label)
+    display: none
+
+// ============================================================================
+// Layout Components
+// ============================================================================
+pb-page.container-fluid
+    display: block
+    padding-left: 0
+    padding-right: 0
+
+.splash
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    z-index: 3
+    background-color: var(--color-splash-bg)
+    background-image: url("../images/logo.png")
+    background-position: center center
+    background-size: auto auto
+    background-repeat: no-repeat
+    transition: visibility 0s linear 300ms, opacity 300ms
+
+.logo
+    background-image: url("../images/tei-publisher-logo-contrast-color.svg")
+    height: 64px
+    width: 140px
+    background-size: auto auto
+    background-position: left center
+    background-repeat: no-repeat
+
+// ============================================================================
+// Editor & Forms
+// ============================================================================
+.editor
+    grid-column-gap: 3rem
+
+.editor.grid
+    grid-template-columns: auto 1fr
+
+.editor form
+    padding: 1rem var(--pico-spacing)
+    display: grid
+    grid-template-columns: minmax(auto,24rem) minmax(auto,24rem) 1fr
+    grid-template-areas: "form form form" "output output output"
+    grid-column-gap: 2rem
+
+.templating
+    grid-template-columns: 1fr minmax(220px, 480px)
+    padding: 1rem var(--pico-spacing)
+
+fieldset ul
+    list-style: none
+    padding: 0
+    margin: 0
+
+fieldset ul li
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+dialog footer button
+    padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
+    margin: 0
+
+#eval
+    min-width: fit-content
+
+// ============================================================================
+// Output & Content
+// ============================================================================
+#output
+    grid-area: output
+
+.output
+    margin-top: 1rem
+    padding: 0 var(--pico-spacing)
+    line-height: 2
+
+.output > label
+    color: var(--color-highlight)
+
+.output li jinn-monaco-diff
+    height: 40vh
+    margin-top: 1rem
+
+.output li a
+    padding-left: .25rem
+
+.output .action
+    width: 24px
+    display: inline-block
+
+ul.output li
+    list-style: none
+    margin-top: 1rem
+
+.source
+    padding-left: 1rem
+
+jinn-monaco-editor
+    display: block
+    overflow: auto
+    max-height: 40vh
+    min-height: 460px
+    font-size: 1rem
+
+// ============================================================================
+// Tables
+// ============================================================================
+.templating table th, .templating table td
+    text-align: left
+    border-bottom: 1px solid var(--color-border-light)
+
+.templating table td:nth-child(1), .templating table th:nth-child(1)
+    width: 40%
+
+// ============================================================================
+// Interactive Elements
+// ============================================================================
+summary
+    width: fit-content
+
+details
+    margin-top: 1rem
+
+details pb-markdown
+    margin-top: 1rem
+
+[slot=toolbar]
+    display: flex
+    margin-bottom: 4px
+    --pico-spacing: 0
+
+[data-tooltip]:not(a,button,input)
+    border-bottom: none
+
+// ============================================================================
+// Utility Classes
+// ============================================================================
+.hidden
+    display: none
+
+.badge
+    display: inline-block
+    padding: 0.25em 0.5em
+    border-radius: 0.25em
+    background-color: var(--color-success)
+    color: var(--text-dark)
+    font-size: 0.875rem
+    font-weight: bold
+
+.alert
+    background-color: var(--color-alert)
+    color: var(--text-dark)
+
+.resolved
+    background-color: var(--color-resolved)
+    color: var(--text-dark)
+
+.error
+    color: var(--color-alert)
+
+.buttons
+    display: flex
+    column-gap: .5rem
+    align-items: center
+
+.icon,
+:host(pb-login) > a svg
+    @include icon-size(1.5rem)
+
+// ============================================================================
+// Installed Components
+// ============================================================================
+.installed
+    padding: .5rem
+    max-width: 100%
+    overflow: auto
+    column-gap: 1rem
+    justify-content: flex-start
+
+.installed li
+    display: flex
+    column-gap: .5rem
+    color: var(--color-text-black)
+
+.installed li > div
+    padding-top: .5rem
+
+.installed .actions
+    display: flex
+    flex-direction: column
+
+.installed .action svg
+    @include icon-size(1rem)
+
+.installed:empty
+    padding: 0
+
+.installed h3
+    font-size: .875rem
+    text-align: center
+    margin-bottom: 0
+    color: var(--text-light)
+
+.installed img, .installed li > label
+    display: block
+    margin: 0 auto
+
+.installed img
+    width: 64px
+    margin-bottom: .5rem
+
+// ============================================================================
+// Messages & Errors
+// ============================================================================
+#errorMsg
+    color: red
+    font-size: 1.2em
+    margin: 10px 0
+
+#mergedConfig pre
+    min-height: 100px
+
+// ============================================================================
+// Responsive Design
+// ============================================================================
+@media (min-width: 1024px)
+    .is-fixed-above-lg
+        z-index: 6
+        position: sticky
+        top: 0
+        background-color: var(--pico-header-background)
+        transition: border-top-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out
+    .is-fixed
+        border-bottom-color: var(--pico-header-border-color)
+        box-shadow: var(--pico-card-box-shadow)
+
+@media (min-width: 1536px)
+    :root
+        --pico-font-size: 100%

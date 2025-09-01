@@ -1,11 +1,12 @@
 <template>
     [% template toolbar %]
     [% if exists($context?doc) and $features?edition-navigation?navigation %]
-    <li>
+    <li id="edition-navigation">
         <pb-view class="correspondence" src="document1"
             subscribe="transcription" emit="transcription"
             view="single" load-css="resources/css/correspondence-theme.css">
             <pb-param name="mode" value="edition-navigation"/>
+            <pb-param name="in-correspondence" value="[[ if ($features?edition-navigation?in-correspondence) then 'true' else 'false' ]]"/>
             <pb-param name="context-path" value="[[ $context-path ]]"/>
         </pb-view>
     </li>

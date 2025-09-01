@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -11,7 +11,8 @@
                    
                  
                  
-                 <desc>Base ODD from which all other ODDs inherit</desc>
+                 
+                  <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
             </titleStmt>
@@ -541,7 +542,17 @@
                     <model behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
-                    <model predicate="parent::correspContext and @type and @target" behaviour="pass-through">
+                    <model predicate="@subtype='placeholder'" behaviour="pass-through">
+                        <desc>placeholder for unavailable next/prev links</desc>
+                        <param name="type" value="if (@type='prev') then 'previous' else @type"/>
+                        <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+                        <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
+                                            <svg class="icon">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
+                                            </svg>
+                            </li></pb:template>
+                    </model>
+                    <model predicate="parent::correspContext and @type" behaviour="pass-through">
             <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus; 
                             type attribute is used to determine what navigation structure it is: known values are 
                             -  in the entire corpus (type='next' or type='previous') ('prev' is mapped to 'previous')
@@ -758,7 +769,7 @@
             <desc>Register entry overview in list</desc>
             <param name="id" value="@xml:id"/>
             <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
-            <param name="description" value="note"/>
+            <param name="description" value="note[@type='bio']"/>
             <pb:template xmlns="" xml:space="preserve"><header>
     <a href="people/[[ id ]]">[[ label ]]</a>
 </header>
@@ -779,6 +790,10 @@
             <model behaviour="block">
                 <desc>Variant names</desc>
                 <param name="content" value="persName[@type='variant']"/>
+            </model>
+            <model behaviour="block">
+                <desc>Images</desc>
+                <param name="content" value="figure"/>
             </model>
             <model behaviour="paragraph">
                 <desc>Additional notes</desc>
@@ -1000,18 +1015,18 @@
                         </pb:template>
         </model>
                     <model behaviour="pass-through">
-            <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
-            <param name="previous-in-correspondence" value="ref[@type = 'previous-in-correspondence']"/>
-            <param name="previous" value="head(ref[@type = ('previous', 'prev')])"/>
-            <param name="next-in-correspondence" value="ref[@type = 'next-in-correspondence']"/>
-            <param name="next" value="ref[@type = 'next']"/>
-            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light foo" role="group">
-            [[previous]]
-            [[previous-in-correspondence]]
-            [[next-in-correspondence]]
-            [[next]]
-            </ul></pb:template>
-        </model>
+                        <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
+                        <param name="previous-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'previous-in-correspondence'], &lt;ref type=&#34;previous-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+                        <param name="previous" value="head((ref[@type = ('previous', 'prev')], &lt;ref type=&#34;previous&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+                        <param name="next-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'next-in-correspondence'], &lt;ref type=&#34;next-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+                        <param name="next" value="head((ref[@type = 'next'], &lt;ref type=&#34;next&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+                        <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
+                        [[previous]]
+                        [[previous-in-correspondence]]
+                        [[next-in-correspondence]]
+                        [[next]]
+                        </ul></pb:template>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>

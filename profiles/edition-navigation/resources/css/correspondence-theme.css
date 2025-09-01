@@ -7,6 +7,11 @@
     padding: 0;
 }
 
+.unavailable {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 .correspContext pb-link:not([path*=".xml"]),
 .static .correspRef:not([href*=".xml"]) {
     display: inline-block;
