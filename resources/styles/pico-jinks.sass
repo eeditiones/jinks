@@ -33,6 +33,8 @@
     --color-alert: #D93526
     --color-resolved: #55524A
     --color-text-black: #000
+    --font-family: 'Inter', sans-serif
+    --font-size: 16px
 
 // ============================================================================
 // SASS Mixins
@@ -44,14 +46,15 @@
 // ============================================================================
 // Base Typography & Layout
 // ============================================================================
-
-body
-    font-family: 'Inter', sans-serif
+body,
+:host
+    font-family: var(--font-family)
+    font-size: var(--font-size)
     background-color: var(--pico-background-color)
     min-height: 100vh
 
 h1, h2, h3, .output > label
-    font-family: Inter, sans-serif
+    font-family: var(--font-family)
     font-weight: 200
 
 p
