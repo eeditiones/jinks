@@ -103,20 +103,39 @@ describe('index page', () => {
         .should('not.be.visible')
       // TODO(DP)
     })
-
-    // Missing test areas 
-    // generation with overwrite: force
-    // Actions panel 
-    // toolbar with generated app link icons (only visible with pre-existing apps)
-    // info pop ups and tooltips
-    // negative paths throughout the spec
-    // modify an existing app
-
-
-   
   })
+  
+  // Missing test areas 
+  // generation with overwrite: force
+  // Actions panel:
+  //   - fix-odds
+  //   - reindex
+  // toolbar with generated app link icons (only visible with pre-existing apps)
+  // info pop ups and tooltips
+  // negative paths throughout the spec
+  // modify an existing app
+
 
   describe('deployments [side-effects]', () => {
+    after(() => {
+      const appUri = 'https://e-editiones.org/apps/e2etest'
+      const repoXQuery = `repo:undeploy('${appUri}'), repo:remove('${appUri}')`
+
+      cy.request({
+        method: 'GET',
+        url: `http://localhost:8080/exist/rest/db`,
+        auth: { user: 'admin', pass: '' },
+        qs: {
+          _query: repoXQuery,
+          _wrap: 'no',
+        }
+      }).then(({ status, body }) => {
+        cy.wrap(status).should('eq', 200)
+        cy.wrap(body).should('match', /result="ok"/)
+      })
+
+      })
+
      // TP Base + Dark mode + docker
     // see #106
     it.skip('should simulate creating a custom app with selected features (dry mode)', () => {
