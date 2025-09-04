@@ -7,7 +7,7 @@
     <property name="app.build.dir" value="${build.dir}/${project.app}-${project.version}" />
     <property name="git.repo.path" value="${basedir}/.git" />
     <available file="${git.repo.path}" type="dir" property="git.present" />
-    
+
     <!-- Adjust path below to match location of your npm binary -->
     <property name="npm" value="npm" />
 
@@ -25,8 +25,21 @@
     <target name="prepare">
         <mkdir dir="${app.build.dir}" />
         <copy todir="${app.build.dir}">
-            <fileset dir="${basedir}"
-                excludes="${build.dir}/**,build.xml,README.md,.*,repo.xml.tmpl,node_modules/**,package*.json,local.node-exist.json,gulpfile.js,.devcontainer,.idea/**" />
+            <fileset dir="${basedir}">
+                <include name="**/*" />
+                <exclude name="${build.dir}/**"/>
+                <exclude name="**/.git/**"/>
+                <exclude name="**/.idea/**"/>
+                <exclude name="**/.vscode/**"/>
+                <exclude name="build.xml"/>
+                <exclude name="README.md"/>
+                <exclude name="repo.xml.tmpl"/>
+                <exclude name="node_modules/**"/>
+                <exclude name="package*.json"/>
+                <exclude name=".existdb.json"/>
+                <exclude name="gulpfile.js"/>
+                <exclude name=".devcontainer"/>
+            </fileset>
         </copy>
         <copy todir="${app.build.dir}" overwrite="true" verbose="true">
             <fileset file="*.xml.tmpl" />
