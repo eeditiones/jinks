@@ -16,6 +16,9 @@
             },
             "upload": {
                 "enabled": false
+            },
+            "iiif": {
+                "enabled": false
             }
         },
         "templating": {
@@ -52,6 +55,13 @@
     [% else %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
     [% endif %]
+    <style>
+		pb-facsimile {
+			width: 100%;
+			height:100%;
+			min-width: 20vw;
+		}
+    </style>
     [% endtemplate %]
 
     [% template scripts %]
@@ -65,10 +75,31 @@
         window.addEventListener('DOMContentLoaded', () => {
             const doc = "[[ $context?doc?path ]]";
             const baseURI = "[[ $context-path ]]";
-            
+
             initEditor(baseURI, doc);
         });
     </script>
+    [% endtemplate %]
+
+    [% template before %]
+    [% if ($features?iiif?viewer = "pb-facsimile") %]
+    [% let $facsimiles =
+        let $loc := $context?defaults?data || "/" || $context?doc?path
+        let $doc := doc($loc)
+        return array {
+            for $url in $doc//tei:facsimile/tei:surface/tei:graphic/@url
+            return $url
+        }
+      %]
+     <pb-facsimile
+         base-uri="[[ $features?iiif?base_uri ]]"
+         show-navigator="true"
+         show-navigation-control="true"
+         show-full-page-control="true"
+         show-sequence-control="true"
+         facsimiles="[[ serialize($facsimiles, map{'method': 'json'} ) ]]"></pb-facsimile>
+    [% endlet %]
+    [% endif %]
     [% endtemplate %]
 
     [% template content-top %]
