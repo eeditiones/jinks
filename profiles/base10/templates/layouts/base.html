@@ -142,9 +142,6 @@
             </button>
         </pb-dialog>
         <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
-        [% if $menu?dark-mode %]
-        <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
-        [% endif %]
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
         [% endfor %]
