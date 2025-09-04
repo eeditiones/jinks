@@ -1,4 +1,10 @@
 <template>
+    [% template script %]
+    [% if $menu?dark-mode %]
+    <script src="[[ $context-path ]]/resources/scripts/dark.js"></script>
+    [% endif %]
+    [% endtemplate %]
+
     [% template menu.toggles %]
     [% if $menu?dark-mode %]
     <li>
