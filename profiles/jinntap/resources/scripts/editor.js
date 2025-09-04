@@ -84,8 +84,68 @@ async function copyToClipboard(editor) {
     );
 }
 
+/**
+ * @param editor {HTMLElement}
+ */
+function setupFacsimileIntegration(editor) {
+    editor.addEventListener("click", (event) => {
+        /**
+         * @type {HTMLElement}
+         */
+        const clickedNode = event.target;
+        const closestPageBegin = clickedNode.closest("tei-pb");
+        if (!closestPageBegin) {
+            return;
+        }
+
+        const id = closestPageBegin.getAttribute("id");
+        const n = closestPageBegin.getAttribute("n");
+        if (!n || !id) {
+            return;
+        }
+
+        /**
+         * @type {HTMLElement}
+         */
+        const graphic = editor.document.querySelector(
+            `surface[start$=${id}] graphic`,
+        );
+        if (!graphic) {
+            return;
+        }
+
+        const url = graphic.getAttribute("url");
+        if (!url) {
+            return;
+        }
+        const urlWithoutInfoJson = url.includes("info.json")
+            ? url.substring(0, url.length - "/info.json".length)
+            : url;
+        // TODO: Any other way to integrate more cleanly with pb-components>
+        document.dispatchEvent(
+            new CustomEvent("pb-show-annotation", {
+                detail: {
+                    // Both the element and the file need to be sent in the
+                    // event. The file is checked (but ignored) and the element
+                    // is used to look up the correct facsimile
+                    element: urlWithoutInfoJson,
+                    file: urlWithoutInfoJson,
+                    order: parseInt(n, 10),
+                    key: "__default__",
+                },
+            }),
+        );
+    });
+}
+
 function initEditor(contextPath, doc) {
     const editor = document.querySelector("jinn-tap");
+    const pbFacsimile = document.querySelector("pb-facsimile");
+
+    if (pbFacsimile) {
+        setupFacsimileIntegration(editor);
+    }
+
 
     editor.addEventListener("ready", () => {
         const saveBtn = editor.querySelector(".saveBtn");
