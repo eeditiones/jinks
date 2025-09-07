@@ -21,7 +21,9 @@ import module namespace action="http://teipublisher.com/api/actions" at "api/act
 import module namespace deploy="https://teipublisher.org/api/deploy" at "api/deploy.xql";
 
 [% for $module in $context?api?* %]
+[% if $module?path %]
 import module namespace [[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";
+[% endif %]
 [% endfor %]
 
 declare option output:indent "no";

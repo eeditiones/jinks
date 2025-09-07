@@ -1,0 +1,22 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/markdown",
+    "version": "1.0.0",
+    "label": "Enable Markdown Output via ODD",
+    "description": "This enables the markdown output mode for ODDs, allowing you to render TEI documents as markdown.",
+    "order": 0,
+    "defaults": {
+        "media": ["markdown"]
+    },
+    "api": [
+        {
+            "spec": "markdown-api.json"
+        }
+    ],
+    "templating": {
+        "use": [
+            "templates/markdown-blocks.html"
+        ]
+    }
+}
