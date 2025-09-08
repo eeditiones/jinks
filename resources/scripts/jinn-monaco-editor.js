@@ -91,9 +91,9 @@ export class JinnMonacoEditor extends HTMLElement {
     }
 
     async connectedCallback() {
-        this.style.display = 'block';
+        this.style.display = 'flex';
+        this.style.flexDirection = 'column';
         if (!this.style.width) { this.style.width = '100%' };
-        if (!this.style.height) { this.style.height = '100%' };
 
         this.language = this.getAttribute('language') || 'json';
         this.schema = this.getAttribute('schema');
@@ -161,7 +161,11 @@ export class JinnMonacoEditor extends HTMLElement {
             }
         });
 
-        this.editor = monaco.editor.create(this, {
+        const editorContainer = document.createElement('div');
+        editorContainer.style.flexGrow = '1';
+        this.appendChild(editorContainer);
+
+        this.editor = monaco.editor.create(editorContainer, {
             language: this.language,
             automaticLayout: true,
             fontSize: fontSize,
