@@ -400,6 +400,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 form.querySelector('[name="id"]').value = `https://e-editiones.org/apps/${formData.get('abbrev')}`;
             }
         }
+        if (!formData.get('theme')) {
+            form.querySelector('[name="theme"]').checked = true;
+        }
         new FormData(form).forEach((value, key) => {
             if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'blueprint' && key !== 'abbrev' && key !== 'custom-odd') {
                 appConfig[key] = value;
