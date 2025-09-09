@@ -27,7 +27,7 @@
 # TODO(DP): should be 5 once jinks-templates is declared
 @test "logs show package deployment" {
   result=$(docker logs exist | grep -ow -c 'http://tei-publisher.com/library/jinks')
-  [ "$result" -eq 5 ]
+  [ "$result" -eq 6 ]
 }
 
 @test "logs are error free" {

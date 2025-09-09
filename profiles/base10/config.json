@@ -15,7 +15,21 @@
             "group": "tei",
             "password": "simple"
         },
-        "permissions": "rw-r--r--"
+        "permissions": "rw-r--r--",
+        "dependencies": [
+            {
+                "package": "http://e-editiones.org/roaster",
+                "semver": "1"
+            },
+            {
+                "package": "http://existsolutions.com/apps/tei-publisher-lib",
+                "semver": "4"
+            },
+            {
+                "package": "http://tei-publisher.com/library/jinks-templates",
+                "semver": "1"
+            }
+        ]
     },
     "templating": {
         "modules": {
