@@ -15,6 +15,8 @@
                  
                  
                  
+                 
+                 
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -29,7 +31,7 @@
         </fileDesc>
         <encodingDesc>
             <tagsDecl>
-                <rendition source="docbook.css"/>
+                <rendition source="jats.css"/>
             </tagsDecl>
         </encodingDesc>
     </teiHeader>
@@ -44,8 +46,8 @@
                 </elementSpec>
                 <elementSpec ident="title" mode="add">
                     <model predicate="$parameters?mode='toc'" behaviour="inline"/>
-                    <model predicate="parent::caption" behaviour="heading">
-            <param name="level" value="3"/>
+                    <model predicate="parent::caption or parent::abstract" behaviour="heading">
+            <param name="level" value="2"/>
             <outputRendition xml:space="preserve">
             margin-bottom: 0;
             </outputRendition>
@@ -120,9 +122,13 @@
             
             
             
+            
+            
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
+            
+            
             
             
             
@@ -305,6 +311,9 @@ padding: 0 4px;
         </model>
                 </elementSpec>
             <elementSpec ident="article" mode="add">
+                    <model predicate="$parameters?mode='metadata'" behaviour="block">
+            <param name="content" value="(front/journal-meta, front/article-meta)"/>
+        </model>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
             <param name="content" value="front/article-meta/title-group"/>
         </model>
