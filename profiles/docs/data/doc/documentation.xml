@@ -2277,7 +2277,11 @@
           <tag>outputRendition</tag> tags within the ODD is also not a good idea – it adds a lot of
         redundancy and mixes editorial responsibilities with web design concerns. </para>
       <para> The recommended solution would therefore be to use CSS classes for repeating styling
-        aspects. TEI Publisher supports linking to an external CSS stylesheet from the <code>
+        aspects. By default, all TEI Processing Model behaviours (except <option>omit</option> and
+          <option>pass-through</option>) add two CSS classes to the generated HTML element: one with
+        the name of the element (e.g. <code>tei-div</code>) and the other with the name of the element
+        suffixed with the number of the model that has been applied (e.g. <code>tei-div2</code>).
+        Publisher supports linking to an external CSS stylesheet from the <code>
           encodingDesc/tagsDecl/rendition</code> section of the ODD. Just specify a relative link in
         the <parameter>@source</parameter> attribute: </para>
       <programlisting language="xml" xml:space="preserve">
