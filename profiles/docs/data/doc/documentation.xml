@@ -2973,47 +2973,124 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
   </section>
   <section xml:id="css-styling">
-    <title>Custom CSS styling</title>
+    <title>Themes and custom CSS styling</title>
+    <para>The custom app generator enables the possibility to select different themes that will
+      determine the look and feel of the application. After generating an app, the folder
+        <code>resources/css</code> will contain all the CSS stylesheets files that are imported by
+      the different options selected when configuring a custom application.</para>
+    <para>To facilitate the modification of frequently customized styling aspects, there are several
+      styling definitions that can be be directly configured when generating/updating the
+      application, such as the logo, the colors or the fonts. Here you have the definition of the
+      default Jinks theme to illustrate the different properties that can be defined.</para>
 
-    <para> CSS stylesheet <code>resources/css/theme.css</code> defines styles used by all pages of
-      the TEI Publisher and Publisher-generated applications. Nevertheless, users <emphasis
-        role="bold">should not</emphasis> directly modify this file but create a project-specific
-      css customization file and include it alongside <code>theme.css</code> instead. </para>
-    <programlisting language="html" xml:space="preserve">
-                  &lt;link rel="stylesheet" href="resources/css/theme.css" /&gt;
-                  &lt;link rel="stylesheet" href="resources/css/my-project.css" /&gt;
+    <programlisting language="json" xml:space="preserve">
+  "theme": {
+        "colors": {
+            "palette": "neutral"
+        },
+        "logo": {
+            "light": "../images/tei-publisher-logo-contrast-color.svg",
+            "dark": "../images/tei-publisher-logo-contrast-color.svg",
+            "splash": {
+                "light": "../images/tei-publisher-logo-color.svg",
+                "dark": "../images/tei-publisher-logo-contrast-color.svg",
+                "size": "360px auto"
+            },
+            "width": "140px",
+            "height": "48px"
+        },
+        "fonts": {
+            "base": {
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "16px",
+                "line-height": "140%",
+                "weight": "400"
+            },
+            "content": {
+                "family": "JunicodeVF, Georgia, 'Times New Roman', serif",
+                "size": "1.25rem",
+                "line-height": "150%",
+                "weight": "400"
+            },
+            "heading": {
+                "family": "'Inter', 'Noto', sans-serif",
+                "size": "1.2rem",
+                "weight": "400"
+            },
+            "footnote": {
+                "size": "0.9rem"
+            },
+            "breadcrumbs": {
+                "size": "0.9rem"
+            },
+            "toc": {
+                "size": "1.125rem"
+            }
+        },
+        "hero": {
+            "background-image": "../images/jinks-images/type.jpeg",
+            "background-size": "cover",
+            "background-repeat": "no-repeat",
+            "background-color": "rgba(0, 0, 0, 0.6)",
+            "text-width": "50rem"
+        },
+        "header": {
+            "background-image": null
+        },
+        "menubar": {
+            "background-image": null,
+            "background-color": "var(--jinks-colors-500)",
+            "color": "#ffffff",
+            "font-size": "14px"
+        },
+        "texture": {
+            "background-image": "../images/jinks-images/paper.jpeg"
+        },
+        "layout": {
+            "class": "fixed-layout",
+            "before-width": "min(30vw, 356px)",
+            "after-width": "min(30vw, 356px)",
+            "max-width": "108rem"
+        }
+    }
           </programlisting>
-    <para> This approach allows to selectively overwrite certain styles and CSS variables from
-        <code> theme.css</code> while remaining on the easy upgrade path for future TEI Publisher
-      and <code> pb-components</code> updates. </para>
+    <para>In addition, when configuring a custom app, the key <code>styles</code> in
+        <filename>config.json</filename> determines the CSS stylesheets files that will be used by
+      all pages of the application. You can add here any project-specific CSS customization files.
+      This same property can also be defined at the level of a template to specify which CSS files
+      should only be applied to the set of HTML pages using that template.</para>
+    <para> This approach allows to selectively overwrite certain styles and CSS variables from the
+      default styles while remaining on the easy upgrade path for future TEI Publisher and <code>
+        pb-components</code> updates. </para>
 
     <section xml:id="css-styling-components">
       <title>Customizing web components styling</title>
-      <para>A web component completely shields its content, so it cannot be styled from outside. Web
-        component styles remain encapsulated, preventing style contamination between individual
-        components and general application context. A blessing in general, allowing components to be
-        scripted and styled without the fear of collision with other parts of the page, but poses
-        additional challenges when adjusting the look and feel of a component to fit a project's
-        theme.</para>
-      <para> For Publisher, encapsulation of web components means that definitions in
-          <code>theme.css</code> or equivalent project customization CSS files are not able to
-        directly govern web components styling. </para>
-      <para>Note that while you cannot directly change the inner appearance of a component, you can
-        style the component itself within the HTML template, e.g. to position it within the layout
-        of the page.</para>
-
+      <para>A web component completely shields its content, so it cannot easily be styled from
+        outside. Web component styles remain encapsulated, preventing style contamination between
+        individual components and general application context. A blessing in general, allowing
+        components to be scripted and styled without the fear of collision with other parts of the
+        page, but poses additional challenges when adjusting the look and feel of a component to fit
+        a project's theme.</para>
+      <para>In older versions of TEI Publisher, some aspects of component styling remained
+        unaccessible for customization. From Publisher version 6 <code>pb-components</code> certain
+        style properties are exposed to the outside world via standard CSS variables. This way
+        variables like <code>--pb-footnote-color</code> defined in <code>jinks-variables.css</code>
+        can be accessed by e.g. <code>pb-view</code> component and thus determine the color of the
+        footnote marker in the rendered transcription. The file
+          <filename>jinks-variables.css</filename> is created from the available information in
+          <filename>config.json</filename> and falls back to defaults if the variable is not defined
+        there.</para>
+      <para>The other CSS file that concretates the components properties that can be styled is
+          <filename>jinks-components.css</filename>.</para>
+      <para>Note that while you cannot directly change every aspect of the the inner appearance of a
+        component, you can style the component itself within the HTML template, e.g. to position it
+        within the layout of the page.</para>
       <para>With TEI Publisher 8, or, more precisely, version 1.43.0 of the
           <code>tei-publisher-components</code>, a very robust method of applying styles throughout
         the page is available by simply specifying a <code>theme</code> property for
           <code>pb-page</code>.</para>
       <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
 
-      <para>In older versions, some aspects of component styling remained unaccessible for
-        customization. From Publisher version 6 <code>pb-components</code> certain style properties
-        are exposed to the outside world via standard CSS variables. This way variables like
-          <code>--pb-footnote-color</code> defined in <code>theme.css</code> can be accessed by e.g.
-          <code>pb-view</code> component and thus determine the color of the footnote marker in the
-        rendered transcription. </para>
     </section>
     <section xml:id="css-styling-external">
       <title>External stylesheets</title>
