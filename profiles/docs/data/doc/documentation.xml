@@ -188,8 +188,7 @@
           powerful improvements to facets and numerous minor fixes and extensions, including
           redesign of the layout templates and ODDs for some of the examples from the Demo
           Collection.</para>
-        <!-- TODO: review this link below -->
-        <para>As showcased in the <link xlink:href="../test/F-rom.xml">Shakespeare sample</link> and
+        <para>As showcased in the <link xlink:href="../demo/F-rom.xml">Shakespeare sample</link> and
           app, TEI Publisher now supports generating <link linkend="presentation-manifests">IIIF
             presentation manifests</link> and displaying them alongside the text. Text and image
           view communicate to each other, which means that if you navigate to the next page/image in
@@ -541,8 +540,7 @@
           creates a virtual environment including everything required for the service to run. Using
           our <link xlink:show="new" xlink:href="https://hub.docker.com/r/existdb/teipublisher"
             >docker image</link>, eXist will already be set up to include both Jinks and TEI
-          Publisher. </para>
-        <!-- TODO: Add in the para above any demos that will also be included -->
+          Publisher<!-- as well as the... TODO: add here any demos that will also be included -->. </para>
         <procedure>
           <step>
             <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/">docker</link>
@@ -653,7 +651,7 @@
 
     <section xml:id="custom-app-generation">
       <title>The configuration of a custom application</title>
-    <section xml:id="jinks">
+      <section xml:id="jinks">
         <title>What is Jinks?</title>
         <para>Jinks, the application manager for TEI Publisher replaces the custom app generator
           available in earlier versions of TEI Publisher. Jinks</para>
@@ -732,7 +730,6 @@
         blueprints available in Jinks. In the following sections, we use the TEI Publisher app to
         illustrate some of the main features of TEI Publisher-based editions and we show you how you
         can use the TEI Publisher app to experiment.</para>
-      <!-- TODO: to review once the TP 10 app is stable-->
       <section xml:id="browsing">
         <title>Browsing Documents</title>
         <section xml:id="start-page">
@@ -752,20 +749,20 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <para> The usual starting point is the <emphasis role="bold">TEI Publisher Demo
-              Collection</emphasis> with which users can explore a range of <link
-              linkend="selected-use-cases">selected use cases</link>, demonstrating various genres,
-            encoding styles and presentation layouts. Various customization aspects are handled
-            using different ODDs and view templates. We suggest to have a look at each of them to
-            see what TEI Publisher can achieve out of the box. </para>
+          <para> The usual starting point is the <emphasis role="bold">Demo Collection</emphasis>
+            with which users can explore a range of <link linkend="selected-use-cases">selected use
+              cases</link>, demonstrating various genres, encoding styles and presentation layouts.
+            Various customization aspects are handled using different ODDs and view templates. We
+            suggest to have a look at each of them to see what TEI Publisher can achieve out of the
+            box. </para>
 
           <note>
             <title>Note</title>
-            <para>Documents in this collection are preinstalled with the TEI Publisher and users are
-              not allowed to write to it by default.</para>
+            <para>Documents in this collection are included with the feature <option>Demo
+                Data</option>.</para>
           </note>
 
-          <para> The <emphasis role="bold">Playground</emphasis> collection is the place to upload
+          <!-- <para> The <emphasis role="bold">Playground</emphasis> collection is the place to upload
             encoded documents and ODD files to experiment with various processing models and view
             templates. </para>
 
@@ -773,7 +770,7 @@
             documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by
             either clicking on the <code>Upload</code> button or dragging and dropping files onto
             the upload panel. Read more on this subject in the <link linkend="upload">Upload</link>
-            section. </para>
+            section. </para> -->
           <note>
             <title>Note</title>
             <para> You need to be <emphasis role="bold">logged in</emphasis> for most advanced
@@ -961,7 +958,7 @@
       </section>
 
       <section xml:id="odd-experiments">
-        <title>Experimenting with ODDs and page templates</title>
+        <title>Experimenting with ODDs</title>
         <para> All TEI Publisher's sample documents are XML files which are transformed into a HTML
           webpage for display in the browser. Two major factors determine how the final page is
           going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold"
@@ -974,7 +971,11 @@
           now it is sufficient to say this is where decisions if a TEI element should be rendered
           inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit the
             <emphasis>text</emphasis> of the document that you see rendered in your browser is an
-          effect of applying the rules from ODD file to the source document. </para>
+          effect of applying the rules from ODD file to the source document. When opening a document
+          of the Demo collection, it is possible to see in the URL the <parameter>odd</parameter>
+          parameter indicating which ODD file is being used to processed the document, e.g. <link
+            xlink:href="../demo/F-rom.xml?odd=shakespeare"
+          >demo/F-rom.xml?odd=shakespeare</link>.</para>
         <para> Nevertheless, as we demonstrated in the section on selected sample documents, in the
           application context we certainly want more than just text, however nicely typeset. From
           basic navigation controls, table of content, to facsimile display, critical apparatus,
@@ -983,7 +984,8 @@
           specialized page elements as small, reusable blocks, using the Web Components technology.
           Components can be used like common HTML elements, thus a page template is just an HTML
           fragment which organizes the building blocks needed for a specific page. </para>
-        <para> Looking more closely again at the TEI Publisher's <guibutton>Start</guibutton> page,
+        <!-- TODO: Explain templating
+       <para> Looking more closely again at the TEI Publisher's <guibutton>Start</guibutton> page,
           we can now give more detail what is happening when any of the sample documents is loaded.
           On the right hand side there is a panel listing all ODD files available. Each of the
           sample documents includes a processing instruction which specifies default ODD and page
@@ -1002,15 +1004,16 @@
           options in the <guibutton>Settings</guibutton> panel. An important caveat though is that
           not every page template makes sense for every document – after all parallel alignment can
           only be successful if there is something to align, map needs coordinates to display, page
-          view needs information about page breaks and so on. </para>
+          view needs information about page breaks and so on. </para> -->
       </section>
       <section xml:id="upload">
         <title>Uploading your own documents</title>
-        <para> If you read this, in all likelihood you already have some documents of your own you
-          might want published, whether they are in TEI, DocBook, JATS, MS Word DOCX or other XML
-          format. The first step is to upload them into the database. You need to be <emphasis
-            role="bold">logged in</emphasis> and in the Playground area to do it (check the short
-          info on the <guibutton> Start</guibutton> page for user name and password).</para>
+        <para> If you are reading this, in all likelihood you already have some documents of your
+          own you might want published, whether they are in TEI, DocBook, JATS, MS Word DOCX or
+          other XML format. The first step is to upload them into the database. You need to be
+            <emphasis role="bold">logged in</emphasis> and in the Playground area to do it (check
+          the short info on the <guibutton> Start</guibutton> page for user name and
+          password).</para>
         <para>TEI Publisher installs two default application users:</para>
         <variablelist>
           <varlistentry>
@@ -1064,7 +1067,8 @@
             etc it may be advisable to adjust this to avoid customizing all navigation, table of
             contents and so on, but it is one of very rare cases where TEI Publisher exposes any
             predilection for a particular flavour of TEI. </para>
-          <para> Similarly, the template for aligned transcription and translation is parametrized
+          <!-- TODO: review templating info
+         <para> Similarly, the template for aligned transcription and translation is parametrized
             to accept an XPath expression pointing to the location of the transcription and aligned
             translation. Likely for your documents this expression would have to be adjusted (unless
             of course you also have Latin texts with Polish translation structured in a similar
@@ -1074,7 +1078,7 @@
               <filename>Van Gogh</filename>
             </link> or <link xlink:href="templates/pages/cortez.html" role="source">
               <filename>Cortés</filename>
-            </link> letter templates for examples) </para>
+            </link> letter templates for examples) </para> -->
         </note>
       </section>
 
@@ -1127,13 +1131,13 @@
           documentation.xml</filename>. It is written in DocBook and presented via dedicated
         feature, <emphasis>Docbook support</emphasis> which includes as a default ODD <filename>
           docbook.odd</filename>.</para>
-      <para> You will notice a custom processing instruction in the source code of this document
+      <!-- TODO: review templating info
+        <para> You will notice a custom processing instruction in the source code of this document
         which specifies which ODD and template to use. Experiment changing the template and ODD via
           <guibutton> Settings</guibutton> drawer to see how much impact it has on display. </para>
-      <!-- TODO: pending review of this paragraph-->
       <programlisting language="xml" xml:space="preserve">
           &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?&gt;
-        </programlisting>
+        </programlisting>-->
     </section>
     <section xml:id="format-jats">
       <title>JATS (Journal Publishing Tag Library)</title>
@@ -1253,11 +1257,10 @@
 
       <section xml:id="docx-functions">
         <title>ODD for docx</title>
-        <!-- TODO: review links to docx ODD and sample files-->
-        <para> The ODD used for docx processing can be found in <link xlink:href="odd/docx.odd"
-            role="source">docx.odd</link>. Users are free to extend the default ODD with additional
-          heuristics. For example, a paragraph being entirely bold could also be treated as a
-          heading, or a left text indent may indicate a quote. </para>
+        <para> The ODD used for docx processing can be found in <link
+            xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>. Users are free to extend
+          the default ODD with additional heuristics. For example, a paragraph being entirely bold
+          could also be treated as a heading, or a left text indent may indicate a quote. </para>
         <para> For testing purposes there is a Word document provided in <filename>
             data/doc/test.docx</filename> which includes samples of most important features like
           headings, lists, tables, notes and embedded images. Try uploading it via upload panel as
@@ -1268,8 +1271,8 @@
         <section xml:id="docx-functions-parameters">
           <title>Parameter functions</title>
           <para> Functions below can be used to retrieve styles or other information related to a
-            current node. For more usage examples see <link xlink:href="odd/docx.odd" role="source">
-              docx.odd</link>
+            current node. For more usage examples see <link
+              xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>
           </para>
 
           <variablelist>
@@ -1356,7 +1359,9 @@
       template and adjust it. </para>
     <section xml:id="odd-customization-details">
       <title>ODD Customization</title>
-      <section xml:id="odd-customization-first-odd">
+   <!-- TODO:
+     
+     <section xml:id="odd-customization-first-odd">
         <title>Creating Your First ODD</title>
         <para> You can create a new ODD using the TEI Publisher app: <orderedlist>
             <listitem>
@@ -1386,9 +1391,9 @@
           </step>
           <step>
             <para> Open the <guibutton>Settings</guibutton> panel (rightmost toolbar button, see
-              above) and choose your ODD from the dropdown showing available ODDs. <!--TODO: You may also
+              above) and choose your ODD from the dropdown showing available ODDs. You may also
               change the used HTML template to <option>Default single text layout</option>, though
-              this is not absolutely necessary. --></para>
+              this is not absolutely necessary.</para>
           </step>
           <step>
             <para> The view should refresh and display the letter's content with only basic
@@ -1404,7 +1409,7 @@
                 ODD</guimenuitem> to open the visual ODD editor. </para>
           </step>
         </procedure>
-      </section>
+      </section> -->
       <section xml:id="modify-odd">
         <title>Modify the ODD</title>
         <para> Changing processing models in the ODD is a powerful mechanism through which you can
@@ -1465,9 +1470,9 @@
         <title>First Steps</title>
         <para> The visual ODD editor opens if you select <guimenuitem>Admin</guimenuitem> /
             <guimenuitem>Edit ODD</guimenuitem> from the menu while viewing a document.
-          Alternatively you can click on the name of an ODD in the list of ODDs on the TEI Publisher app
-          entry page. A new tab opens, showing an action panel to the left, and the title of your
-          ODD to the right. </para>
+          Alternatively you can click on the name of an ODD in the list of ODDs on the TEI Publisher
+          app entry page. A new tab opens, showing an action panel to the left, and the title of
+          your ODD to the right. </para>
         <note>
           <title>Note</title>
           <para>
@@ -2350,11 +2355,11 @@
       <para> The recommended solution would therefore be to use CSS classes for repeating styling
         aspects. By default, all TEI Processing Model behaviours (except <option>omit</option> and
           <option>pass-through</option>) add two CSS classes to the generated HTML element: one with
-        the name of the element (e.g. <code>tei-div</code>) and the other with the name of the element
-        suffixed with the number of the model that has been applied (e.g. <code>tei-div2</code>).
-        Publisher supports linking to an external CSS stylesheet from the <code>
-          encodingDesc/tagsDecl/rendition</code> section of the ODD. Just specify a relative link in
-        the <parameter>@source</parameter> attribute: </para>
+        the name of the element (e.g. <code>tei-div</code>) and the other with the name of the
+        element suffixed with the number of the model that has been applied (e.g.
+          <code>tei-div2</code>). Publisher supports linking to an external CSS stylesheet from the
+          <code> encodingDesc/tagsDecl/rendition</code> section of the ODD. Just specify a relative
+        link in the <parameter>@source</parameter> attribute: </para>
       <programlisting language="xml" xml:space="preserve">
                   &lt;rendition source="docbook.css"/&gt;
           </programlisting>
