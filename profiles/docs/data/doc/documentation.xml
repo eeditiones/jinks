@@ -46,10 +46,9 @@
         this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5
         specification and natively implemented by many browsers. Users don't need to dive into the
         details of this standard though: the selection of the desired features in Jinks will already
-        provide you with the nesessary pieces of code, that you can further customise with some
-        basic HTML knowledge. </para>
-      <para>TODO: Here, if not earlier, introduction to the concepts of blueprints, themes and
-        features with a link to the appropriate section.</para>
+        provide you with the nesessary pieces of code, that you can further customize with some
+        basic HTML knowledge. Read more about Publisher’s key concepts regarding modularity in
+        section <link linkend="modularity">Profiles: blueprints, themes and features</link></para>
       <para> Only where the available profiles, features and <link xlink:show="new"
           xlink:href="https://cdn.tei-publisher.com/api.html">components</link> are not enough, a
         new use case needs to be described and suitable features implemented but then they can be
@@ -155,7 +154,7 @@
         generated with it.</para>
       <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
         and improvements.</para>
-      <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is X.</para>
+      <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is 1.0.0.</para>
 
 
       <para> There's a long list of ideas and features we'd like to see incorporated into TEI
@@ -180,6 +179,7 @@
       <section xml:id="v10">
         <title>What's new in TEI Publisher 10.0.0</title>
         <para/>
+        <!-- TODO: maybe just add link to post about TP10 and Jinks? -->
       </section>
       <section xml:id="v9">
         <title>What's new in TEI Publisher 9.0.0</title>
@@ -349,6 +349,7 @@
         in section: <link linkend="tp">Showcase: The TEI Publisher App</link>. For getting started
         with Jinks, please see the video below and section <link linkend="jinks">Configuration of a
           custom application</link>.</para>
+      <!--      TODO: add link of demo video-->
       <mediaobject>
         <videoobject>
           <videodata fileref=""/>
@@ -650,11 +651,81 @@
       </section>
     </section>
 
+    <section xml:id="custom-app-generation">
+      <title>The configuration of a custom application</title>
     <section xml:id="jinks">
-      <title>Configuration of a custom application</title>
-      <para>TODO</para>
-    </section>
+        <title>What is Jinks?</title>
+        <para>Jinks, the application manager for TEI Publisher replaces the custom app generator
+          available in earlier versions of TEI Publisher. Jinks</para>
+        <itemizedlist>
+          <listitem>
+            <para>can not only create new custom applications, but also reconfigure them at a later
+              time</para>
+          </listitem>
+          <listitem>
+            <para>uses a hierarchy of application profiles targeted at specific use cases. A profile
+              can extend or build upon other profiles</para>
+          </listitem>
+          <listitem>
+            <para>profiles can be modular, i.e. contribute only one feature</para>
+          </listitem>
+          <listitem>
+            <para>detects local changes to files and leaves them untouched</para>
+          </listitem>
+          <listitem>
+            <para>comes with its own <link
+                xlink:href="https://github.com/eeditiones/jinks-templates" xlink:show="new"
+                >templating module</link>, which can also process plain-text files (XQuery, CSS
+              etc.)</para>
+          </listitem>
 
+        </itemizedlist>
+      </section>
+      <section xml:id="modularity">
+        <title>Profiles: blueprints, themes and features</title>
+        <para> The core concept of Jinks is the <emphasis>profile</emphasis>. Profiles can extend
+          and import each other. We distinguish three different kinds of profiles: </para>
+        <itemizedlist>
+          <listitem>
+            <para>A <emphasis>blueprint</emphasis> is a complete template for an application
+              targeted at a specific use case like a monograph, correspondence edition, dictionary
+              etc. An application generated from a blueprint is fully functional. </para>
+          </listitem>
+          <listitem>
+            <para>A <emphasis>feature</emphasis> is a functional sub-profile to be imported into
+              another profile. It adds specific functionality, e.g. docker configuration, additional
+              visualizations or pages etc. </para>
+          </listitem>
+          <listitem>
+            <para>A <emphasis>theme</emphasis> is a customization of a base profile, changing mainly
+              the look and feel, e.g. modify images, fonts or colors according to a corporate
+              identity. </para>
+          </listitem>
+        </itemizedlist>
+        <para> Each profile has a subcollection under <filename>profiles</filename> and must contain
+          at least one configuration file, <filename>config.json</filename>, which defines all the
+          variables to be used in templated files. </para>
+      </section>
+    </section>
+    <section xml:id="config">
+      <title><filename>config.json</filename></title>
+      <para>The config.json must define a property named <code>id</code> with a unique, valid URI.
+        This is the URI under which eXist's package manager will later install the application
+        package. </para>
+      <para> It may also specify a property <code>extends</code>, which should contain the names of
+        one or more profiles to extend. TEI Publisher apps will in general extend the base profile,
+        which installs the required files shared by all custom TP applications. </para>
+      <para> The extension process works as follows:</para>
+      <orderedlist>
+        <listitem>
+          <para>jinks creates a merged configuration, assembled from the configurations of all
+            profiles in the extension hierarchy</para>
+        </listitem>
+        <listitem>
+          <para>it calls the write action on every profile in sequence</para>
+        </listitem>
+      </orderedlist>
+    </section>
     <section xml:id="tp">
       <title>Showcase: The TEI Publisher App</title>
       <para>From version 10, the TEI Publisher app corresponds to one of the pre-configured
