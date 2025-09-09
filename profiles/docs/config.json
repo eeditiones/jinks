@@ -7,18 +7,29 @@
     "version": "1.0.0",
     "order": 101,
     "defaults": {
-        "data-default": ""
+        "data-default": "",
+        "landing": "browse-custom.html"
     },
     "depends": [
         "base10",
         "docbook",
-        "iiif",
         "jats",
+        "iiif",
+        "upload",
         "docx",
         "demo-data"
     ],
     "pkg": {
         "abbrev": "tei-publisher-docs"
+    },
+    "features": {
+        "browse": {
+            "read-only": false
+        },
+        "upload": {
+            "enabled": true,
+            "target": "demo"
+        }
     },
     "collection-config": {
         "doc": {

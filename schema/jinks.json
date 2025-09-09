@@ -445,6 +445,15 @@
                             "examples": [ "http://localhost:5174/" ]
                         }
                     }
+                },
+                "docs": {
+                    "type": "object",
+                    "properties": {
+                        "read-only": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "If true, upload and ODD management will be disabled"
                 }
             }
         },
