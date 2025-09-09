@@ -58,7 +58,7 @@ declare function oapi:recompile($request as map(*)) {
         else
             ($config:odd-available, $config:odd-internal)
     let $result :=
-        for $source in $odd
+        for $source in if ($odd instance of array(*)) then $odd?* else $odd
         let $odd := doc($oddRoot || "/" || $source)
         let $pi := tpu:parse-pi($odd, (), $source)
         for $module in

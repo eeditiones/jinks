@@ -34,7 +34,7 @@
         [% if exists($context?doc) %]
 		<li>
             <pb-restricted>
-                <pb-ajax subscribe="transcription" emit="transcription" url="api/odd?odd=[[ $defaults?odd ]]" method="post" event="pb-refresh"
+                <pb-ajax subscribe="transcription" emit="transcription" url="api/odd" method="post" event="pb-refresh"
                     title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                     <h3 slot="title"><pb-i18n key="menu.admin.recompile"></pb-i18n></h3>
                     <button class="light">
