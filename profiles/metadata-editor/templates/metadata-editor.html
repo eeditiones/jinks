@@ -55,12 +55,12 @@
         <fx-action event="model-construct-done" id="on-init">
             <fx-insert
                 ref="instance('date-scratchpad')/data"
-                origin="instance('default')//*:date => add-attributes(('from', 'to', 'notBefore', 'notAfter', 'when'))"
+                origin="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date => add-attributes(('from', 'to', 'notBefore', 'notAfter', 'when'))"
                 keep-values="keep-values"
             ></fx-insert>
             <fx-setvalue
                 ref="instance('date-scratchpad')/@mode"
-                value="(instance('default')//*:date/(@when, @to, @notBefore)/name(), 'when') => head()"
+                value="(instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date/(@when, @to, @notBefore)/name(), 'when') => head()"
             ></fx-setvalue>
             <fx-refresh force="true"></fx-refresh>
         </fx-action>
@@ -88,7 +88,7 @@
                                     >
                                     <fx-setvalue ref="." value="'when'"></fx-setvalue>
                                     <fx-replace
-                                        ref="instance('default')//*:date"
+                                        ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date"
                                         with="remove-attributes(instance('date-scratchpad')//*:date)"
                                     >
                                     </fx-replace>
@@ -105,7 +105,7 @@
                                     >
                                     <fx-setvalue ref="." value="'from'"></fx-setvalue>
                                     <fx-replace
-                                        ref="instance('default')//*:date"
+                                        ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date"
                                         with="remove-attributes(instance('date-scratchpad')//*:date)"
                                     >
                                     </fx-replace
@@ -122,7 +122,7 @@
                                     >
                                     <fx-setvalue ref="." value="'notBefore'"></fx-setvalue>
                                     <fx-replace
-                                        ref="instance('default')//*:date"
+                                        ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date"
                                         with="remove-attributes(instance('date-scratchpad')//*:date)"
                                     >
                                     </fx-replace
@@ -147,7 +147,7 @@
                     </fx-group>
                     <!-- Copy the date, without irrelevant attributes into the correct instance -->
                     <fx-action event="change">
-                        <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                        <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                         </fx-replace>
                         <fx-refresh force="true"/>
                         </fx-action>
@@ -176,7 +176,7 @@
                     </fieldset>
                     <!-- Copy the date, without irrelevant attributes into the correct instance -->
                     <fx-action event="change">
-                        <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                        <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                         </fx-replace>
                         <fx-refresh force="true"/>
                     </fx-action>
@@ -204,7 +204,7 @@
 
                         <!-- Copy the date, without irrelevant attributes into the correct instance -->
                         <fx-action event="change">
-                            <fx-replace ref="instance('default')//*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
+                            <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                             </fx-replace>
                             <fx-refresh force="true"/>
                         </fx-action>
@@ -216,7 +216,7 @@
             <label for="calendar-type">
                 Calendar
             </label>
-            <fx-control id="calendar-type" ref="@calendar" update-event="change" style="display: block">
+            <fx-control id="calendar-type" ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date/@calendar" update-event="change" style="display: block">
                 <select class="widget">
                     <option value="gregorian">Gregorian</option>
                     <option value="julian">Julian</option>
