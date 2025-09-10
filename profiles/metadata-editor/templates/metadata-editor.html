@@ -136,31 +136,28 @@
 
             <fx-case name="when" id="when">
                 <fieldset>
-                    <fx-group ref="instance('date-scratchpad')/*:date">
                         <label for="when">
                             When
                         </label>
-                        <fx-control id="when" style="display: block" update-event="change" ref="@when">
+                        <fx-control id="when" style="display: block" update-event="change" ref="instance('date-scratchpad')/*:date/@when">
                             <jinntap-datetime data-default-timezone="-5:00" class="widget">
                             </jinntap-datetime>
                         </fx-control>
-                    </fx-group>
                     <!-- Copy the date, without irrelevant attributes into the correct instance -->
                     <fx-action event="change">
                         <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                         </fx-replace>
-                        <fx-refresh force="true"/>
+                        <fx-refresh force="true"></fx-refresh>
                         </fx-action>
                 </fieldset>
             </fx-case>
 
             <fx-case name="notBefore" id="notBefore">
-                <fx-group ref="instance('date-scratchpad')/*:date">
                     <fieldset>
                         <label for="notBefore">
                             Not before
                         </label>
-                        <fx-control id="notBefore" style="display: block" update-event="change" ref="@notBefore">
+                        <fx-control id="notBefore" style="display: block" update-event="change" ref="instance('date-scratchpad')/*:date/@notBefore">
                             <jinntap-datetime data-default-timezone="-5:00" class="widget">
                             </jinntap-datetime>
                         </fx-control>
@@ -168,7 +165,7 @@
                         <label for="notAfter">
                             Not after
                         </label>
-                        <fx-control id="notAfter" style="display: block" update-event="change" ref="@notAfter">
+                        <fx-control id="notAfter" style="display: block" update-event="change" ref="instance('date-scratchpad')/*:date/@notAfter">
                             <jinntap-datetime data-default-timezone="-5:00" class="widget">
                             </jinntap-datetime>
                         </fx-control>
@@ -178,18 +175,16 @@
                     <fx-action event="change">
                         <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                         </fx-replace>
-                        <fx-refresh force="true"/>
+                        <fx-refresh force="true"></fx-refresh>
                     </fx-action>
-                </fx-group>
             </fx-case>
 
             <fx-case name="from" id="from">
-                <fx-group ref="instance('date-scratchpad')/*:date">
                     <fieldset>
                         <label for="from">
                             From
                         </label>
-                        <fx-control id="from" style="display: block" update-event="change" ref="@from">
+                        <fx-control id="from" style="display: block" update-event="change" ref="instance('date-scratchpad')/*:date/@from">
                            <jinntap-datetime data-default-timezone="-5:00" class="widget">
                             </jinntap-datetime>
                         </fx-control>
@@ -197,7 +192,7 @@
                         <label for="to">
                             To
                         </label>
-                        <fx-control id="to" style="display: block" update-event="change" ref="@to">
+                        <fx-control id="to" style="display: block" update-event="change" ref="instance('date-scratchpad')/*:date/@to">
                            <jinntap-datetime data-default-timezone="-5:00" class="widget">
                             </jinntap-datetime>
                         </fx-control>
@@ -206,10 +201,9 @@
                         <fx-action event="change">
                             <fx-replace ref="instance('default')/*:profileDesc/*:settingDesc/*:setting/*:date" with="remove-attributes(instance('date-scratchpad')//*:date)">
                             </fx-replace>
-                            <fx-refresh force="true"/>
+                        <fx-refresh force="true"></fx-refresh>
                         </fx-action>
                     </fieldset>
-                </fx-group>
             </fx-case>
         </fx-switch>
 		<fieldset>
