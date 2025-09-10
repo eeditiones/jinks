@@ -1,0 +1,231 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – Distributed Text Services API",
+        "description": "This is the API for the Distributed Text Services profile"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "dts",
+            "description": "Distributed Text Services"
+        }
+    ],
+    "paths": {
+        "/api/dts": {
+            "get": {
+                "summary": "Base API endpoint",
+                "description": "Returns the base path for the 3 endpoints: collection, navigation and documents",
+                "operationId": "dts:entry",
+                "tags": [
+                    "dts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Server configuration information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "@context": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "@id": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "@type": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "collection": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "documents": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "navigation": {
+                                            "type": "string",
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/collection": {
+            "get": {
+                "summary": "Navigate collection",
+                "description": "The collections endpoint is used for navigating collections. A collection contains metadata for the collection itself and an array of members. Each member is either a collection or the metadata for a document.",
+                "operationId": "dts:collection",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "nav",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "parents",
+                                "children"
+                            ],
+                            "default": "children"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Collection metadata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/document": {
+            "get": {
+                "summary": "Document endpoint",
+                "description": "The Document endpoint is used to access and modify the content of document, as opposed to metadata (which is found in collections).",
+                "operationId": "dts:documents",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "TEI/XML of the document",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/import": {
+            "get": {
+                "summary": "Import a remote resource into local database",
+                "description": "Helper operation to import a remote resource, optionally into a temporary collection",
+                "tags": [
+                    "dts"
+                ],
+                "operationId": "dts:import",
+                "x-constraints": {
+                    "groups": [
+                        "tei"
+                    ]
+                },
+                "parameters": [
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "temp",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Content was successfully imported",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string",
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}
