@@ -207,12 +207,13 @@ declare function rapi:next($type) {
         default 
             return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
-    let $last := if (count($all-ids)) then sort($all-ids)[last()] else 1
+    let $numeric-ids := for $id in $all-ids return if ($id castable as xs:integer) then $id else ()
+    let $last := if (count($all-ids)) then sort($numeric-ids)[last()] else 1
     let $next :=
             try {
                 xs:integer($last) + 1
             } catch * {
-                '_error'
+                1
             }
     
     return $config?prefix || rapi:pad($next, 6)
