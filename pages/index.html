@@ -156,11 +156,21 @@
                         skips checks on incoming files, which were not modified since last run. For a full list of updates and conflicts, use <strong>force</strong>.</small>
                 </label>
             </fieldset>
-            <fieldset class="buttons">
-                <button id="dry-run" class="secondary">Dry Run</button>
-                <button id="apply-config">Apply</button>
-                <span id="spinner" aria-busy="true">Applying configuration...</span>
-            </fieldset>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="apply-config" data-tooltip="Apply configuration">Apply</button>
+                    </li>
+                    <li>
+                        <span id="spinner" aria-busy="true">Applying configuration...</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry Run</button>
+                    </li>
+                </ul>
+            </nav>
             <details id="action-details" style="display: none;">
                 <summary>Actions</summary>
                 <nav>
