@@ -175,11 +175,11 @@
 	position: relative;
 }
 
-.fixed-layout>.page-header {
+.fixed-layout > .page-header {
     grid-area: header;
 }
 
-.fixed-layout>.content-top {
+.fixed-layout > .content-top {
     grid-area: content-top;
     overflow: auto;
 }
@@ -187,14 +187,6 @@
 .fixed-layout > footer {
     grid-area: footer;
 }
-
-/*body:has(.fixed-layout) {
-    overflow: hidden;
-}*/
-
-/* .fixed-layout > .below-content {
-    grid-area: content;
-} */
 
 .resize-handler {
     top: 0px;
