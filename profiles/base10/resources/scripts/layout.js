@@ -101,3 +101,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setUpResizeContainers();
 });
+
+document.addEventListener('click', (e) => {
+    const summary = e.target.closest('summary');
+    if (summary) {
+        // If clicking on a summary, close other details but keep current one open
+        const currentDetails = e.target.closest('details');
+        const allDetails = document.querySelectorAll('details');
+        allDetails.forEach(details => {
+            if (details !== currentDetails) {
+                details.removeAttribute('open');
+            }
+        });
+    } else if (!e.target.closest('details')) {
+        // If clicking outside any details element, close all details
+        const allDetails = document.querySelectorAll('details[open]');
+        allDetails.forEach(details => {
+            details.removeAttribute('open');
+        });
+    }
+});
