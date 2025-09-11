@@ -129,10 +129,10 @@
             </fieldset>
 
             <fieldset role="group">
-                <input type="text" class="action" name="custom-odd" placeholder="Custom ODD" pattern="[\w\-_]+\.odd"/>
+                <input type="text" class="action" name="custom-odd" placeholder="my-odd.odd" pattern="[\w\-_]+\.odd"/>
                 <button id="add-odd" class="secondary">Add</button>
             </fieldset>
-            <small>Set the filename (<code>XXX.odd</code>) for a new custom ODD for the app (if not created already).</small>
+            <small>Set the filename for a new custom ODD for the app (if not created already).</small>
         </section>
         <section id="configEditor">
             <fieldset>
@@ -152,7 +152,8 @@
                         <option value="force">Force: ignore last modified date and check every file for changes</option>
                         <option value="all">All: reinstall everything</option>
                     </select>
-                    <small>Modes default and update will never overwrite local changes</small>
+                    <small>Modes <strong>default</strong> and <strong>force</strong> will never overwrite local changes. <strong>Default</strong> mode is faster if applied repeatedly, but 
+                        skips checks on incoming files, which were not modified since last run. For a full list of updates and conflicts, use <strong>force</strong>.</small>
                 </label>
             </fieldset>
             <fieldset class="buttons">
@@ -160,10 +161,11 @@
                 <button id="apply-config">Apply</button>
                 <span id="spinner" aria-busy="true">Applying configuration...</span>
             </fieldset>
-            <details>
+            <details id="action-details" style="display: none;">
                 <summary>Actions</summary>
-                <fieldset id="actions" class="buttons">
-                </fieldset>
+                <nav>
+                    <ul id="actions" class="buttons"></ul>
+                </nav>
             </details>
         </section>
         <section id="output">
@@ -182,4 +184,5 @@
             <div class="error"></div>
         </section>
     </form>
+    <pb-message id="message-dialog"></pb-message>
 </main>

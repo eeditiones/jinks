@@ -101,14 +101,17 @@ window.addEventListener('DOMContentLoaded', () => {
             input.checked = appConfig.extends.includes(input.value);
         });
 
+        document.getElementById('action-details').style.display = 'block';
         document.getElementById('actions').innerHTML = '';
         if (app.actions) {
             app.actions.forEach((action) => {
+                const li = document.createElement('li');
                 const btn = document.createElement('button');
                 btn.dataset.action = action.name;
                 btn.dataset.tooltip = action.description;
                 btn.innerHTML = action.name;
-                document.getElementById('actions').appendChild(btn);
+                li.appendChild(btn);
+                document.getElementById('actions').appendChild(li);
 
                 btn.addEventListener('click', (ev) => {
                     ev.preventDefault();
@@ -365,6 +368,7 @@ window.addEventListener('DOMContentLoaded', () => {
             );
         });
     }
+    
     function updateConfig(updateEditor = true) {
         getConfig(appConfig).then((mergedConfig) => {
             mergedView.value = JSON.stringify(mergedConfig, null, 2);
@@ -441,7 +445,17 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!form.checkValidity()) {
             return;
         }
-        process(false);
+        const overwrite = document.querySelector('[name=overwrite]').value;
+        if (overwrite === 'all') {
+            const messageDialog = document.getElementById('message-dialog');
+            messageDialog.confirm('Warning', `This will reinstall the application. Local changes will be lost.`)
+            .then(
+                () => { process(false); },
+                () => { return; }
+            );
+        } else {
+            process(false);
+        }
     });
 
     dryRunButton.addEventListener('click', (ev) => {
@@ -460,6 +474,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('reset').addEventListener('click', (ev) => {
         appConfig = {};
+        document.getElementById('action-details').style.display = 'none';
         document.getElementById('actions').innerHTML = '';
         updateConfig(true);
     });
