@@ -3,7 +3,10 @@
     {
         "features": {
             "toolbar": {
-                "enabled": false
+                "enabled": false,
+                "progress": {
+                    "subscribe": "search"
+                }
             }
         },
         "templating": {
@@ -76,16 +79,19 @@
 
     [% template content-top %]
     <nav class="toolbar">
-        <nav aria-label="breadcrumb">
-            <ul></ul>
-        </nav>
+        <ul>
+            <li>
+                <nav aria-label="breadcrumb">
+                    <ul></ul>
+                </nav>
+            </li>
+        </ul>
         <ul>
             [% block before-document-list %][% endblock %]
             <li>
                 <pb-paginate id="paginate" per-page="10" range="5" subscribe="search" emit="search"></pb-paginate>
             </li>
         </ul>
-        <pb-progress subscribe="search" indeterminate="indeterminate" />
     </nav>
     [% endtemplate %]
 

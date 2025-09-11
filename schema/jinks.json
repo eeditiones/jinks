@@ -278,9 +278,14 @@
                             "type": "boolean",
                             "description": "If true, navigation buttons will be displayed"
                         },
-                        "parent": {
-                            "type": "boolean",
-                            "description": "If true, the go to parent collection button will be displayed"
+                        "progress": {
+                            "type": "object",
+                            "description": "The channel on which the progress bar should listen for updates",
+                            "properties": {
+                                "subscribe": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
