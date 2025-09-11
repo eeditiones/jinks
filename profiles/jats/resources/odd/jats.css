@@ -1,107 +1,21 @@
-body {
-    --pb-heading-font-family: var(--jinks-base-font-family);
-    --pb-heading-font-weight: var(--jinks-heading-font-weight);
-    --pb-color-focus: #f6a623;
-    --pb-footnote-font-size: 13px;
-}
-
 .doc-title {
     font-size: 2.488em;
 }
 
 .abstract {
-    padding-left: 16px;
     border-left: 4px solid var(--pb-color-focus);
 }
 
-figure {
-    text-align: center;
-    margin: 24px 0;
-    padding: 16px 0;
-    border-top: 1px solid #d6d7d9;
-    border-bottom: 1px solid #d6d7d9;
+.journal-meta {
+    font-size: var(--pb-footnote-font-size);
 }
 
-figure img {
-    margin: 0 auto;
-    display: block;
-    max-width: 100%;
-    height: auto;
+.journal-title+.publisher:before {
+    content: ", ";
 }
 
-figure.float-right {
-    float: right;
-    max-width: 50%;
-    margin: 0 0 8px 16px;
-    padding: 8px 0 0 8px;
-}
-
-figcaption {
-    margin-top: .5em;
-    text-align: right;
-}
-
-dt {
-    font-weight: 500;
-}
-
-.tei-procedure li>p {
-    margin-bottom: 1em;
-    margin-top: 1em;
-}
-
-li>p, dd>p {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-dd {
-    margin-bottom: .5em;
-}
-
-.code {
-    font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
-    font-size: 85%;
-}
-
-.note {
-    font-size: .85em;
-    box-shadow: none;
-    border-left: 4px solid #d07f00;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 8px;
-    margin: 0;
-}
-
-.note h4 {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.content a:link, .content a:visited {
-    text-decoration: none;
-    color: #d07f00;
-}
-
-.guibutton {
-    text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.6);
-}
-
-.flex {
-    display: flex;
-    justify-content: space-between;
-}
-
-pb-edit-xml {
-    --iron-icon-height: 16px;
-    vertical-align: top;
-    cursor: pointer;
-    color: #d07f00;
-}
-
-pb-code-highlight {
-    font-size: .85em;
+.issn:before {
+    content: ", ISSN: "
 }
 
 .footnotes {
@@ -129,7 +43,7 @@ pb-code-highlight {
         }
     }
 
-    @page:left {
+    @page: left {
         margin-left: 3cm;
         margin-right: 2cm;
 
@@ -144,7 +58,7 @@ pb-code-highlight {
         }
     }
 
-    @page:right {
+    @page: right {
         margin-left: 2cm;
         margin-right: 3cm;
 
@@ -199,12 +113,25 @@ pb-code-highlight {
         margin-bottom: 1.5em;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         break-after: avoid;
     }
 
     h1.title {
         string-set: title1 content(text);
+        break-before: page;
+    }
+
+    .journal-meta+h1.title {
+        break-before: avoid;
+    }
+
+    .journal-meta {
         break-before: page;
     }
 
