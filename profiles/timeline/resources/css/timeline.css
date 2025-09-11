@@ -4,14 +4,19 @@ pb-timeline::part(tooltip) {
 }
 
 pb-timeline {
-    margin-left: var(--pico-block-spacing-horizontal);
-    padding-left: var(--pico-block-spacing-horizontal);
+    margin-bottom: var(--s-2);
+    margin-left: var(--s0);
+    padding-left: var(--s-2);
 }
 
 pb-timeline::part(label) {
     font-size: var(--jinks-font-size-smaller);
 }
 
-.timeline {
-    margin-bottom: 1rem;
+pb-timeline::part(tooltip) {
+    color: var(--jinks-color-white);
+}
+
+.after pb-timeline::part(label) {
+    display: none;
 }
