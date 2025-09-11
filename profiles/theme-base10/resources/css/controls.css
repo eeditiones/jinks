@@ -331,7 +331,6 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .
     margin: 0.5rem 0 0 0;
     z-index: 99;
     position: absolute;
-    left: 0;
     flex-direction: column;
     width: 100%;
     min-width: fit-content;
@@ -339,6 +338,15 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .
     list-style: none;
     max-height: 80vh;
     overflow-y: auto;
+    /* Prevent clipping by page border */
+    max-width: min(100%, calc(100vw - 2rem));
+    /* Smart positioning to avoid viewport overflow */
+    left: auto;
+    right: 0;
+    /* Ensure dropdown doesn't extend beyond viewport */
+    transform: translateX(0);
+    /* Add horizontal scroll if content is too wide */
+    overflow-x: auto;
 }
 
 .dropdown-button>summary+ul li, .dropdown>summary+ul li {
