@@ -171,7 +171,7 @@ describe('index page', () => {
         'method': 'POST',
         'pathname': '**/jinks/api/generator',
         'query': {
-          overwrite: 'all',
+          overwrite: 'force',
         }
       })
         .as('e2eGenerate')
@@ -193,7 +193,7 @@ describe('index page', () => {
       cy.get('#appConfig')
         .contains('docker')
       cy.get('[name="overwrite"]')
-        .select('all')
+        .select('force')
       cy.get('#apply-config')
         .click()
       cy.wait('@e2eGenerate')
