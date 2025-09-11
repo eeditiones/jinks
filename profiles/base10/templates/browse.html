@@ -17,6 +17,14 @@
         }
     }
     ---
+    [% template styles %]
+    <style>
+        .fixed-layout main {
+            display: block;
+        }
+    </style>
+    [% endtemplate %]
+
     [% template hero %]
         [% if $context?features?hero %]
             <div class="hero">
