@@ -44,6 +44,13 @@
         <echo message="${npm.output}" />
     </target>
 
+    <target name="npm.build">
+        <exec executable="${npm}" outputproperty="npm.build.output">
+            <arg line="run build" />
+        </exec>
+        <echo message="${npm.build.output}" />
+    </target>
+
     <!-- TBD(DP): make conditional on release -->
     <target name="templates" description="process template files" depends="git.revision">
         <echo message="Apply values to .tmpl ..." />
@@ -100,7 +107,7 @@
         <echo>git commit time: ${commit-time}</echo>
     </target>
 
-    <target name="vendor" depends="clean,npm.install">
+    <target name="vendor" depends="clean,npm.install,npm.build">
         <copy todir="${basedir}/resources/css">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/css" />
         </copy>
@@ -122,7 +129,7 @@
         </copy>
     </target>
 
-    <target name="xar" depends="clean,check-release,npm.install,git.revision,templates,vendor">
+    <target name="xar" depends="clean,check-release,git.revision,templates,vendor">
         <echo message="Creating xar file..." />
         <zip basedir="${basedir}"
             destfile="${build.dir}/${project.app}.xar">
