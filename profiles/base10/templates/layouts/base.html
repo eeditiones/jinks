@@ -56,7 +56,7 @@
         [% endif %]
         [% block scripts %][% endblock %]
     </head>
-    <body>
+    <body data-theme="light">
         <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
