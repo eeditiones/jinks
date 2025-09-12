@@ -726,10 +726,10 @@
     </section>
     <section xml:id="tp">
       <title>Showcase: The TEI Publisher App</title>
-      <para>From version 10, the TEI Publisher app corresponds to one of the pre-configured
-        blueprints available in Jinks. In the following sections, we use the TEI Publisher app to
-        illustrate some of the main features of TEI Publisher-based editions and we show you how you
-        can use the TEI Publisher app to experiment.</para>
+      <para>From version 10 onwards, the TEI Publisher app corresponds to one of the pre-configured
+        blueprints available in Jinks. In the following sections, we use this app to illustrate some
+        of the main features of TEI Publisher-based editions showing how it can be used for
+        experimenting with some of Publisher’s functionalities.</para>
       <section xml:id="browsing">
         <title>Browsing Documents</title>
         <section xml:id="start-page">
@@ -1359,7 +1359,7 @@
       template and adjust it. </para>
     <section xml:id="odd-customization-details">
       <title>ODD Customization</title>
-   <!-- TODO:
+      <!-- TODO:
      
      <section xml:id="odd-customization-first-odd">
         <title>Creating Your First ODD</title>
@@ -3955,12 +3955,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           >modules/custom-api.xql</link> so that the request can be correctly resolved. </para>
       <para>The function implementation can either be added to the XQuery module <filename>
           modules/custom-api.xql</filename> or to a new module, which should be imported into this
-        file to make it known. The <filename>modules/custom-api.xql</filename> shipping with TEI
+        file to make it known. <!--The <filename>modules/custom-api.xql</filename> shipping with TEI
         Publisher already includes one custom endpoint used for the <link
           xlink:href="../encyclopedia" xlink:show="new">"Damen Conversations Lexikon"</link>: it
         returns a JSON structure for consumption by <tag>pb-split-list</tag>, displaying the list of
-        available lemmata in the encyclopedia.</para>
-      <para>In addition, it imports a separate module from <link xlink:href="modules/iiif.xql"
+        available lemmata in the encyclopedia.--></para>
+      <!--<para>In addition, it imports a separate module from <link xlink:href="modules/iiif.xql"
           role="source">modules/iiif.xql</link>, containing functions for generating a IIIF
         presentation manifest (see the <link xlink:href="../test/F-rom.xml" xlink:show="new"
           >Shakespeare example</link>):</para>
@@ -3972,7 +3972,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         prefix defined for the import. For the IIIF module import above, this would be
           <option>iiif</option>, so the operationId would read:</para>
 
-      <synopsis>"operationId": "iiif:manifest",</synopsis>
+      <synopsis>"operationId": "iiif:manifest",</synopsis> -->
 
       <para>To learn more about the Open API functionality supported by roaster and the different
         fields and parameters available through the passed in <code>$request</code> parameter, see
