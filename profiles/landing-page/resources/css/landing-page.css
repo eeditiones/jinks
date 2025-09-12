@@ -70,6 +70,9 @@ footer div {
     margin-inline: auto;
 }
 
+.landing-layout .mobile-footer {
+    display: none;
+}
 
 .column {
     display:flex;
@@ -118,6 +121,7 @@ header.row {
 .hero div {
     align-self: flex-end;
     margin-block-end: var(--s4);
+    width: 100%;
 }
 
 .explore-link {
@@ -138,14 +142,6 @@ header.row {
     content: " ->"
 }
 
-.hero h1 {
-    max-width: var(--jinks-hero-text-width);
-}
-
-/* subtitle for the hero section */
-.hero p {
-    max-width: var(--jinks-hero-text-width);
-}
 
 .section-light {
     background-color: var(--jinks-colors-light, #fff);
