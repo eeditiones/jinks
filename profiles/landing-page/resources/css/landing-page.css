@@ -52,6 +52,25 @@ footer div {
     align-items: center;
 }
 
+/* floating menu bar */
+
+.landing-layout .page-header {
+    position: absolute;
+    top: var(--s-1);
+    width: 100%;
+    background: unset;
+    z-index: 1;
+}
+
+.landing-layout .menubar {
+    border-radius: var(--s3);
+    padding-inline-start: var(--s1);
+    padding-inline-end: var(--s-1);
+    max-width: calc(var(--jinks-page-max-width) - var(--s5) - var(--s5));
+    margin-inline: auto;
+}
+
+
 .column {
     display:flex;
     flex-direction: column;
