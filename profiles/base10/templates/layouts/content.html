@@ -29,12 +29,12 @@
     [% endif %]
     [% endtemplate %]
 
-    [% block above-content %][% endblock %]
     <main>
+        [% block above-content %][% endblock %]
         <!-- Content block -->
         [% block content %][% endblock %]
+        [% block below-content %][% endblock %]
     </main>
-    [% block below-content %][% endblock %]
     [% if exists($context?doc) %]
     <pb-document id="document1" path="[[ $context?doc?path ]]" odd="[[ $context?doc?odd ]]" view="[[ $context?doc?view ]]"
         root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
