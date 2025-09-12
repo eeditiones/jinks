@@ -42,7 +42,7 @@ declare variable $config:register-root := $config:data-root || "/registers";
  : Addressing method used in the app: by id or not
  :)
 [% if map:contains($defaults, "address-by-id") %]
-    declare variable $config:address-by-id := "[[$defaults?address-by-id]]";
+    declare variable $config:address-by-id as xs:boolean := [%if $defaults?address-by-id %] true() [% else %] false() [% endif %];
 [% else %]
     declare variable $config:address-by-id := false();
 [% endif %]

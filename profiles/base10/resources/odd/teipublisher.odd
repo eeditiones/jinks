@@ -699,9 +699,15 @@
             <param name="content" value="string()"/>
         </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
-            <param name="content" value="string()"/>
-            <param name="uri" value="'..' || substring-after(document-uri(root(.)), $global:data-root)"/>
-        </model>
+                        <desc>create a link to the document, respecting address-by-id configuration</desc>
+                        <param name="content" value="string()"/>
+                        <param name="uri" value="
+                        if ($global:address-by-id) then 
+                           '../' || root(.)/descendant-or-self::TEI/@xml:id                          
+                           else     
+                           '../' || substring-after(document-uri(root(.)), $global:data-root || '/') 
+                        "/>
+                    </model>
                     <model predicate="$parameters?display='browse'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
