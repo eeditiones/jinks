@@ -1,3 +1,8 @@
+/*
+ * The styles in here overwrite the look of selected TEI Publisher webcomponents.
+ * It will be assembled by the generator into a components.css file, also including styles
+ * from controls.css, pico-components.css, jinks-variables.css and pico-ext.css.
+ */
 html {
     scroll-behavior: smooth;
     font-size: var(--jinks-base-font-size);
@@ -207,4 +212,10 @@ h4 {
     display: block;
     height: .25rem;
     border-radius: 0;
+}
+
+:host(pb-manage-odds) > .odd-container {
+    border-color: var(--jinks-form-border-color);
+    margin-bottom: var(--s-1);
+    padding-bottom: var(--s-1);
 }

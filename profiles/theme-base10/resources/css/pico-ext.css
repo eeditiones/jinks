@@ -6,6 +6,8 @@
     --pico-line-height: var(--jinks-line-height);
     --pico-background-color: var(--jinks-background-color);
     --pico-border-color: var(--jinks-border-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
 }
 
 [data-theme=light],
@@ -21,6 +23,8 @@
     --pico-h4-color: var(--jinks-h4-color);
     --pico-h5-color: var(--jinks-h5-color);
     --pico-h6-color: var(--jinks-h6-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
 }
 
 @media only screen and (prefers-color-scheme: dark) {
@@ -35,6 +39,8 @@
         --pico-h4-color: var(--jinks-h4-color);
         --pico-h5-color: var(--jinks-h5-color);
         --pico-h6-color: var(--jinks-h6-color);
+
+        --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
     }
 }
 
@@ -48,6 +54,8 @@
     --pico-h4-color: var(--jinks-h4-color);
     --pico-h5-color: var(--jinks-h5-color);
     --pico-h6-color: var(--jinks-h6-color);
+
+    --pico-card-sectioning-background-color: var(--jinks-toolbar-background-color);
 }
 
 a:link, a:visited {

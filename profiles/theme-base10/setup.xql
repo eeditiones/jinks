@@ -46,6 +46,7 @@ function teip:after-write($context as map(*), $target as xs:string) {
                 $palette,
                 "resources/css/pico-components.css",
                 "resources/css/jinks-variables.css",
+                "resources/css/pico-ext.css",
                 "resources/css/controls.css",
                 "resources/css/jinks-components.css"
             ),

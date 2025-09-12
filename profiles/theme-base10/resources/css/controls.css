@@ -378,7 +378,7 @@ dialog > article > header {
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-    color: var(--jinks-color-inverse);
+    color: var(--jinks-colors-light);
     background-color: var(--jinks-colors-500);
 }
 
@@ -388,6 +388,8 @@ dialog > article > header > [name="title"] {
     line-height: 140%;
 }
 
-dialog > article > header > button {
+dialog > article > header > button[rel="prev"] {
     background-color: transparent;
+    color: var(--jinks-colors-light);
+    opacity: 0.8;
 }
