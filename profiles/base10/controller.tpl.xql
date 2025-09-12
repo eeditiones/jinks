@@ -8,7 +8,8 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
-declare variable $landingPage := "[[ head(($context?defaults?landing, 'browse.html')) ]]";
+[# Use the first non-empty value from the defaults #]
+declare variable $landingPage := "[[ head(($context?defaults?landing, $context?defaults?browse, 'browse.html')) ]]";
 
 declare variable $allowOrigin := local:allowOriginDynamic(request:get-header("Origin"));
 
