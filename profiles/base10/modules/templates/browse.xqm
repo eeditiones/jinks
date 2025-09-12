@@ -33,7 +33,7 @@ declare function browse:document-options($doc as element()) {
     return map:merge((
         $config,
         map {
-            "relpath": config:get-relpath($doc),
+            "relpath": config:get-identifier($doc),
             "odd": head(($config?odd, $config:default-odd))
         }
     ))
