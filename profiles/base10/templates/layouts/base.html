@@ -103,6 +103,9 @@
             </aside>
 
             <header class="content-top hidden-mobile">
+                [% if $features?toolbar?progress?enabled %]
+                <pb-progress subscribe="[[ $features?toolbar?progress?subscribe ]]" indeterminate="indeterminate" />
+                [% endif %]
                 [% if $features?toolbar?enabled %]
                 [% include "templates/toolbar.html" %]
                 [% endif %]
