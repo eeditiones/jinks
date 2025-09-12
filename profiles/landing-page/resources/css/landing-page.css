@@ -43,6 +43,8 @@ footer {
     margin-block-start: 0;
     background-color: var(--jinks-colors-700);
     background-image: var(--jinks-footer-background);
+    --pico-color: var(--jinks-colors-light);
+    --pico-h2-color: var(--jinks-colors-light);
 }
 
 footer div {
@@ -95,6 +97,14 @@ header.row {
 .long-desc > * {
     flex: 50%;
 }
+
+.row:has(.two-thirds) > * {
+    flex: 33%;
+}
+.two-thirds {
+    flex: 66%;
+}
+
 
 /* hide extra elements from content pages */
 .before,
@@ -161,6 +171,12 @@ header.row {
     --pico-h2-color: var(--jinks-colors-light);
 }
 
+.section-dark .teaser {
+    background: transparent;
+    --pico-color: var(--jinks-colors-light);
+    --pico-h3-color: var(--jinks-colors-light);
+}
+
 @media (max-width: 1023px) {
     section {
         margin-top: 2rem;
@@ -204,7 +220,7 @@ header.row {
     --lg: linear-gradient(180deg, var(--Light-neutral-Gradient_top, rgba(42, 40, 36, 0.20)) 0%, var(--Light-neutral-Gradient_bottom, rgba(42, 40, 36, 0.90)) 100%);
     --card-text-color: white;
 
-    border-radius: var(--radius-24, 1.5rem);
+    border-radius: var(--pico-border-radius);
     background-image: linear-gradient(180deg, var(--Light-neutral-Gradient_top, rgba(42, 40, 36, 0.20)) 0%, var(--Light-neutral-Gradient_bottom, rgba(42, 40, 36, 0.90)) 100%);
     background-origin: border-box;
     background-size: cover;
@@ -262,7 +278,7 @@ header.row {
 .partner-logo {
     display: block;
     border: thin solid var(--jinks-border-color);
-    border-radius: 1.5rem;
+    border-radius: var(--pico-border-radius);
     background: var(--jinks-colors-100);
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.10);
     flex: 12%;
