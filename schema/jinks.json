@@ -108,6 +108,10 @@
                     "type": "string",
                     "description": "The HTML page to use as landing page. Will be renamed to index.html. Path is relative to the `templates` subdirectory."
                 },
+                "browse": {
+                    "type": "string",
+                    "description": "The HTML page to use for browse available document collections. Path is relative to the `templates` subdirectory."
+                },
                 "view": {
                     "type": "string",
                     "enum": ["div", "page", "single"]
