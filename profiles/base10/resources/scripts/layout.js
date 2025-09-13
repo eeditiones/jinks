@@ -107,7 +107,7 @@ document.addEventListener('click', (e) => {
     if (summary) {
         // If clicking on a summary, close other details but keep current one open
         const currentDetails = e.target.closest('details');
-        const allDetails = document.querySelectorAll('details');
+        const allDetails = document.querySelectorAll('details.dropdown');
         allDetails.forEach(details => {
             if (details !== currentDetails) {
                 details.removeAttribute('open');
@@ -115,7 +115,7 @@ document.addEventListener('click', (e) => {
         });
     } else if (!e.target.closest('details')) {
         // If clicking outside any details element, close all details
-        const allDetails = document.querySelectorAll('details[open]');
+        const allDetails = document.querySelectorAll('details[open].dropdown');
         allDetails.forEach(details => {
             details.removeAttribute('open');
         });
