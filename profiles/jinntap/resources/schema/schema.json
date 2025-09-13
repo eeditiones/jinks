@@ -1,0 +1,690 @@
+{
+    "attributes": {
+        "rend": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        }
+    },
+    "toolbar": {
+        "Move Up": {
+            "command": "moveUp",
+            "label": "<i class='bi bi-unindent'></i>"
+        },
+        "Clear Formatting": {
+            "command": "unsetAllMarks",
+            "label": "<i class='bi bi-eraser'></i>",
+            "order": 5
+        },
+        "choice/abbr/expan": {
+            "command": "insertSnippet",
+            "args": ["<tei-choice><tei-abbr>{abbrev}</tei-abbr><tei-expan>{expansion}</tei-expan></tei-choice>"],
+            "select": "Textcritical",
+            "label": "<i class='bi bi-three-dots'></i>"
+        },
+        "Table": {
+            "select": "Blocks",
+            "command": "insertSnippet",
+            "args": [
+                "<tei-table><tei-row><tei-cell>A</tei-cell><tei-cell>B</tei-cell></tei-row><tei-row><tei-cell>C</tei-cell><tei-cell>D</tei-cell></tei-row></tei-table>"
+            ],
+            "label": "<i class='bi bi-table'></i>"
+        },
+        "Figure": {
+            "command": "insertFigure",
+            "label": "<i class='bi bi-images'></i>",
+            "select": "Blocks"
+        },
+        "Show/Hide Code": {
+            "command": "toggleSource",
+            "label": "<i class='bi bi-filetype-xml'></i>",
+            "order": 20
+        },
+        "Debug Mode": {
+            "command": "toggleDebug",
+            "label": "<i class='bi bi-question-circle'></i>",
+            "order": 20
+        }
+    },
+    "selects": {
+        "Blocks": {
+            "label": "<i class='bi bi-text-paragraph'></i>",
+            "order": 0
+        },
+        "Textcritical": {
+            "label": "<i class='bi bi-highlighter'></i>",
+            "order": 9
+        }
+    },
+    "schema": {
+        "div": {
+            "type": "block",
+            "defining": true,
+            "content": "heading* (block | table)*",
+            "selectable": true,
+            "attributes": {
+                "type": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-e": {
+                    "attributes": {},
+                    "command": "wrapDiv"
+                }
+            },
+            "toolbar": {
+                "Division": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "command": "wrapDiv",
+                    "label": "<i class='bi bi-body-text'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^>>",
+                    "type": "wrapping"
+                }
+            ]
+        },
+        "underline": {
+            "type": "inline"
+        },
+        "rs": {
+            "type": "inline",
+            "attributes": {
+                "corresp": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "hi": {
+            "type": "inline",
+            "attributes": {
+                "rend": {
+                    "type": "string",
+                    "default": "i",
+                    "enum": ["i", "b", "u", "code"]
+                }
+            },
+            "keyboard": {
+                "Cmd-b": {
+                    "attributes": { "rend": "b" }
+                },
+                "Cmd-i": {
+                    "attributes": { "rend": "i" }
+                }
+            },
+            "toolbar": {
+                "Bold": {
+                    "attributes": { "rend": "b" },
+                    "label": "<i class='bi bi-type-bold'></i>",
+                    "order": 5
+                },
+                "Italic": {
+                    "attributes": { "rend": "i" },
+                    "label": "<i class='bi bi-type-italic'></i>",
+                    "order": 5
+                }
+            }
+        },
+        "ref": {
+            "type": "ref",
+            "attributes": {
+                "target": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Alt-Shift-r": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Reference": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-link'></i>",
+                    "order": 2
+                }
+            }
+        },
+        "title": {
+            "type": "inline",
+            "attributes": {
+                "level": {
+                    "type": "string",
+                    "enum": ["m", "s", "a"]
+                }
+            },
+            "keyboard": {
+                "Mod-Alt-t": {
+                    "attributes": { "level": "m" }
+                }
+            },
+            "toolbar": {
+                "Title": {
+                    "attributes": { "level": "m" },
+                    "label": "<i class='bi bi-quote'></i>",
+                    "select": "Textcritical",
+                    "order": 2
+                }
+            }
+        },
+        "quote": {
+            "type": "block",
+            "content": "block*"
+        },
+        "figure": {
+            "type": "block",
+            "selectable": true,
+            "content": "(graphic|figDesc|head)*"
+        },
+        "figDesc": {
+            "type": "block",
+            "content": "inline*",
+            "priority": 99
+        },
+        "graphic": {
+            "type": "graphic",
+            "attributes": {
+                "url": {
+                    "type": "string",
+                    "default": "https://placehold.co/320x200"
+                }
+            },
+            "toolbar": {
+                "Graphic": {
+                    "label": "<i class='bi bi-image'></i>",
+                    "select": "Blocks"
+                }
+            }
+        },
+        "persName": {
+            "type": "inline",
+            "attributes": {
+                "key": {
+                    "connector": {
+                        "name": "GND",
+                        "type": "person",
+                        "prefix": "gnd"
+                    },
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-p": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Person": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-person'></i>",
+                    "order": 11
+                }
+            }
+        },
+        "orgName": {
+            "type": "inline",
+            "attributes": {
+                "key": {
+                    "connector": {
+                        "name": "GND",
+                        "type": "organization",
+                        "prefix": "gnd"
+                    },
+                    "type": "string"
+                }
+            },
+            "toolbar": {
+                "Organization": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-people'></i>",
+                    "order": 11
+                }
+            }
+        },
+        "placeName": {
+            "type": "inline",
+            "attributes": {
+                "key": {
+                    "type": "string",
+                    "connector": {
+                        "name": "GeoNames",
+                        "type": "place",
+                        "prefix": "geo",
+                        "user": "existdb"
+                    }
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-h": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Place": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-geo-alt'></i>",
+                    "order": 11
+                }
+            }
+        },
+        "term": {
+            "type": "inline",
+            "attributes": {
+                "key": {
+                    "type": "string",
+                    "connector": {
+                        "name": "GND",
+                        "type": "term",
+                        "prefix": "gnd"
+                    }
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-t": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Term": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-bookmark'></i>",
+                    "order": 11
+                }
+            }
+        },
+        "date": {
+            "type": "inline",
+            "attributes": {
+                "when": {
+                    "type": "string"
+                },
+                "not-before": {
+                    "type": "string"
+                },
+                "not-after": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "toolbar": {
+                "Date": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-calendar-event'></i>",
+                    "order": 12,
+                    "select": "Textcritical"
+                }
+            }
+        },
+        "measure": {
+            "type": "inline",
+            "attributes": {
+                "quantity": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                }
+            },
+            "toolbar": {
+                "Measure": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-rulers'></i>",
+                    "order": 12,
+                    "select": "Textcritical"
+                }
+            }
+        },
+        "p": {
+            "type": "block",
+            "priority": 100,
+            "toolbar": {
+                "Paragraph": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-paragraph'></i>"
+                }
+            }
+        },
+        "head": {
+            "type": "block",
+            "group": "heading",
+            "content": "inline*",
+            "attributes": {
+                "type": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Shift-Mod-1": {
+                    "attributes": {
+                        "n": "1"
+                    }
+                }
+            },
+            "toolbar": {
+                "Head": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-type-h1'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^##",
+                    "type": "textblock"
+                }
+            ]
+        },
+        "item": {
+            "type": "listItem",
+            "selectable": true,
+            "attributes": {
+                "n": {
+                    "type": "string"
+                }
+            }
+        },
+        "list": {
+            "type": "list",
+            "content": "heading* item+",
+            "selectable": true,
+            "attributes": {
+                "rend": {
+                    "type": "string",
+                    "enum": ["ordered", "unordered"],
+                    "open": true
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-l": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "List": {
+                    "select": "Blocks",
+                    "attributes": { "rend": "unordered" },
+                    "label": "<i class='bi bi-list-ul'></i>"
+                },
+                "Numbered list": {
+                    "select": "Blocks",
+                    "attributes": { "rend": "ordered" },
+                    "label": "<i class='bi bi-list-ol'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^\\s*([-+*])\\s$",
+                    "type": "wrapping",
+                    "attributes": { "rend": "unordered" }
+                },
+                {
+                    "find": "^\\s*(\\d+)\\.\\s$",
+                    "type": "wrapping",
+                    "attributes": { "rend": "ordered" }
+                }
+            ]
+        },
+        "opener": {
+            "type": "block",
+            "content": "block*",
+            "selectable": true,
+            "toolbar": {
+                "Opener": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-envelope-open'></i>"
+                }
+            }
+        },
+        "dateline": {
+            "type": "block",
+            "content": "inline*",
+            "toolbar": {
+                "Dateline": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-calendar-date'></i>"
+                }
+            }
+        },
+        "salute": {
+            "type": "block",
+            "content": "inline*",
+            "toolbar": {
+                "Salute": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-envelope-open'></i>"
+                }
+            }
+        },
+        "closer": {
+            "type": "block",
+            "content": "block*",
+            "selectable": true,
+            "toolbar": {
+                "Closer": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-envelope'></i>"
+                }
+            }
+        },
+        "signed": {
+            "type": "block",
+            "content": "inline*",
+            "toolbar": {
+                "Signed": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-envelope-paper'></i>"
+                }
+            }
+        },
+        "listAnnotation": {
+            "type": "list",
+            "group": "",
+            "defining": true,
+            "content": "note*",
+            "keyboard": {
+                "Mod-Shift-u": {
+                    "attributes": {}
+                }
+            }
+        },
+        "note": {
+            "type": "block",
+            "group": "note",
+            "content": "p+",
+            "selectable": true,
+            "priority": 99,
+            "attributes": {
+                "target": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "string"
+                },
+                "_reference": {
+                    "type": "string"
+                }
+            }
+        },
+        "anchor": {
+            "type": "anchor",
+            "attributes": {
+                "type": {
+                    "type": "string",
+                    "default": "note"
+                }
+            },
+            "toolbar": {
+                "Footnote": {
+                    "attributes": {
+                        "type": "note",
+                        "_reference": "*"
+                    },
+                    "label": "<i class='bi bi-123'></i>",
+                    "order": 2
+                }
+            }
+        },
+        "choice": {
+            "type": "inline",
+            "content": "abbr expan",
+            "preserveSpace": true,
+            "toolbar": {
+                "Choice": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-alt'></i>"
+                }
+            }
+        },
+        "abbr": {
+            "type": "inline",
+            "toolbar": {
+                "Abbreviation": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-three-dots'></i>"
+                }
+            }
+        },
+        "expan": {
+            "type": "inline",
+            "toolbar": {
+                "Expansion": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-arrows-expand-vertical'></i>"
+                }
+            }
+        },
+        "gap": {
+            "type": "empty",
+            "label": "[...]",
+            "attributes": {
+                "unit": {
+                    "type": "string",
+                    "default": "chars",
+                    "enum": ["chars", "lines", "words"]
+                },
+                "quantity": {
+                    "type": "string"
+                }
+            },
+            "toolbar": {
+                "Gap": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-braces-asterisk'></i>"
+                }
+            }
+        },
+        "unclear": {
+            "type": "inline",
+            "attributes": {
+                "rend": { "type": "string", "default": "unclear" }
+            },
+            "toolbar": {
+                "Unclear": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-patch-question'></i>"
+                }
+            }
+        },
+        "gloss": {
+            "type": "inline",
+            "attributes": { "target": { "type": "string" } }
+        },
+        "footnote-reference": {
+            "type": "inline",
+            "attributes": { "n": { "type": "number" } }
+        },
+        "supplied": {
+            "type": "inline",
+            "attributes": {
+                "reason": { "type": "string" }
+            },
+            "toolbar": {
+                "Supplied": {
+                    "select": "Textcritical",
+                    "label": "<i class='bi bi-plus-circle-dotted'></i>"
+                }
+            }
+        },
+        "pb": {
+            "type": "empty",
+            "label": "pb",
+            "attributes": {
+                "n": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Mod-Alt-p": {
+                    "attributes": {
+                        "n": "22"
+                    }
+                }
+            },
+            "toolbar": {
+                "PageBreak": {
+                    "attributes": { "n": "22" },
+                    "label": "<i class='bi bi-file-earmark-break'></i>",
+                    "select": "Textcritical",
+                    "order": 3
+                }
+            }
+        },
+        "lb": {
+            "type": "empty",
+            "label": "&#x21B5;",
+            "attributes": {
+                "n": { "type": "string" }
+            },
+            "toolbar": {
+                "LineBreak": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-arrow-return-left'></i>",
+                    "select": "Textcritical",
+                    "order": 3
+                }
+            }
+        },
+        "cell": {
+            "type": "cell",
+            "attributes": {
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "row": {
+            "type": "row",
+            "role": {
+                "type": "string"
+            }
+        },
+        "table": {
+            "type": "table"
+        }
+    }
+}

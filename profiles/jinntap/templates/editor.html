@@ -25,7 +25,8 @@
             }
         },
         "styles": [
-            "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css",
+            "resources/css/editor-styles.css"
         ],
         "theme": {
             "layout": {
@@ -45,75 +46,9 @@
     [% template styles %]
     [% if $features?jinntap?version = "dev" %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]/jinn-tap/jinn-tap.css" />
-    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]/jinn-tap/editor-styles.css"/>
     [% else %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
-    <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/editor-styles.css"/>
     [% endif %]
-    <style>
-        :root {
-            --jinn-tap-background-color: var(--jinks-background-color-light);
-        }
-
-        [data-theme="dark"] {
-            --jinn-tap-background-color: var(--jinks-background-color-dark);
-        }
-
-        jinn-tap {
-            padding: 0 2rem;
-        }
-
-        jinn-tap .editor-area {
-            font-family: var(--jinks-base-font-family);
-            font-size: var(--jinks-base-font-size);
-        }
-
-        jinn-tap .editor-area, jinn-tap .code-area {
-            max-width: var(--pb-view-max-width);
-        }
-
-        jinn-tap .toolbar, jinn-tap .logo {
-            background: none;
-        }
-
-        jinn-tap .toolbar {
-            margin: 0;
-            padding: 1rem 0;
-        }
-
-        jinn-tap .toolbar i {
-            --jinks-base-line-height: unset;
-            font-size: var(--pb-content-font-size);
-        }
-
-        .jinn-tap-aside .logo {
-            width: auto;
-            height: 92px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            z-index: 100;
-        }
-
-        jinn-toast {
-            font-size: var(--pb-footnote-font-size);
-        }
-
-        .jinn-tap-aside .attribute-panel {
-            padding: 1.5rem;
-            margin-bottom: .5rem;
-        }
-		.table-menu {
-			margin-inline: var(--s1);
-			background-color: var( --jinn-tap-background-color);
-			box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
-			border-radius: var(--jinks-form-border-radius);
-			padding:0 var(--s0);
-			.toolbar {
-				flex-wrap: nowrap;
-			}
-		}
-    </style>
     [% endtemplate %]
 
     [% template scripts %]
@@ -163,8 +98,8 @@
 
     <main>
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
-        [% if ($features?collab?enable and $features?schema) %]
-        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="[[ $context?features?schema ]]"
+        [% if ($features?collab?enable and $features?jinntap?schema) %]
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="[[ $context?features?jinntap?schema ]]"
                   token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]" sidebar="#attributes-panel">
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
@@ -193,8 +128,8 @@
                 </a>
             </li>
         </jinn-tap>
-        [% elif $features?schema %]
-        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" schema="[[ $context?features?schema ]]" sidebar="#attributes-panel">
+        [% elif $features?jinntap?schema %]
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" schema="[[ $context?features?jinntap?schema ]]" sidebar="#attributes-panel">
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
                 <a href="#" id="saveBtn" class="toolbar-button" data-tooltip="Save" data-placement="bottom">
