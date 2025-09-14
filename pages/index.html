@@ -148,12 +148,12 @@
                 <label>
                     Overwrite mode
                     <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
-                        <option value="default">Default: overwrite files if upstream version changed</option>
-                        <option value="force">Force: ignore last modified date and check every file for changes</option>
-                        <option value="all">All: reinstall everything</option>
+                        <option value="quick">Quick: overwrite files if upstream version changed</option>
+                        <option value="all">All: ignore last modified date and check every file for changes</option>
+                        <option value="reinstall">Factory reset: reinstall everything</option>
                     </select>
-                    <small>Modes <strong>default</strong> and <strong>force</strong> will never overwrite local changes. <strong>Default</strong> mode is faster if applied repeatedly, but 
-                        skips checks on incoming files, which were not modified since last run. For a full list of updates and conflicts, use <strong>force</strong>.</small>
+                    <small>Modes <strong>quick</strong> and <strong>all</strong> will never overwrite local changes. <strong>Quick</strong> mode is faster if applied repeatedly, but 
+                        skips checks on incoming files, which were not modified since last run. For a full list of updates and conflicts, use <strong>all</strong>.</small>
                 </label>
             </fieldset>
             <nav>

@@ -12,6 +12,10 @@ import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql
 
 declare namespace expath="http://expath.org/ns/pkg";
 
+declare variable $cpy:OVERWRITE_QUICK := "quick";
+declare variable $cpy:OVERWRITE_ALL := "all";
+declare variable $cpy:OVERWRITE_REINSTALL := "reinstall";
+
 declare variable $cpy:ERROR_NOT_FOUND := xs:QName("cpy:not-found");
 declare variable $cpy:ERROR_TEMPLATE := xs:QName("cpy:template");
 declare variable $cpy:ERROR_CONFLICT := xs:QName("cpy:conflict");
@@ -202,7 +206,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
             (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
             (: Templated source files should always be updated though :)
             if (
-                $context?_overwrite != "force" and
+                $context?_overwrite != $cpy:OVERWRITE_ALL and
                 not(matches($sourcePath, $context?template-suffix)) and
                 cpy:file-exists($path) and
                 exists($context?_lastModified) and
@@ -219,7 +223,7 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
                     if (empty($currentHash) or empty($expectedHash) or $currentHash = $expectedHash) then
                         let $contentHash := cpy:hash($incomingContent, $mime)
                         return
-                            (: Still update if overwrite="update", the file was not there last time,
+                            (: Still update if overwrite="full", the file was not there last time,
                             : or the incoming content is different :)
                             if (empty($expectedHash)
                                 or $contentHash != $expectedHash) then (

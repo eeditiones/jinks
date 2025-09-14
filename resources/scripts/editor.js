@@ -239,7 +239,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     !(result.nextStep.action === 'DEPLOY' || result.config._update === false)
                 ) {
                     const li = document.createElement('li');
-                    li.innerHTML = 'No changes detected.';
+                    li.innerHTML = 'Update completed.';
                     output.appendChild(li);
                 } else {
                     result.messages.forEach((message) => {
@@ -395,7 +395,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function update(updateEditor = true) {
-        const formData = new FormData(form);
+        // Get the form data
+        let formData = new FormData(form);
         if (formData.get('abbrev') !== '') {
             if (formData.get('label') === '') {
                 form.querySelector('[name="label"]').value = formData.get('abbrev');
@@ -407,8 +408,11 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!formData.get('theme')) {
             form.querySelector('[name="theme"]').checked = true;
         }
-        new FormData(form).forEach((value, key) => {
-            if (key !== 'base' && key !== 'feature' && key !== 'theme' && key !== 'blueprint' && key !== 'abbrev' && key !== 'custom-odd') {
+
+        // Recreate the form data to get the latest values
+        formData = new FormData(form);
+        formData.forEach((value, key) => {
+            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite'].includes(key)) {
                 appConfig[key] = value;
             }
         });
@@ -446,9 +450,9 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const overwrite = document.querySelector('[name=overwrite]').value;
-        if (overwrite === 'all') {
+        if (overwrite === 'reinstall') {
             const messageDialog = document.getElementById('message-dialog');
-            messageDialog.confirm('Warning', `This will reinstall the application. Local changes will be lost.`)
+            messageDialog.confirm('Warning', `This will completely reinstall the application. Local changes will be lost.`)
             .then(
                 () => { process(false); },
                 () => { return; }
