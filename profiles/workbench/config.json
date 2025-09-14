@@ -1,0 +1,29 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "label": "Workbench",
+    "description": "A workspace for editing and annotating documents. Includes the Jinntap editor, web-based annotation editor, and an upload facility.",
+    "id": "https://e-editiones.org/apps/workbench",
+    "type": "blueprint",
+    "version": "1.0.0",
+    "depends": [
+        "base10",
+        "annotate",
+        "jinntap",
+        "upload"
+    ],
+    "skipSource": [
+        "repo.xml",
+        "expath-pkg.xml",
+        "build.xml"
+    ],
+    "defaults": {
+        "data-default": "annotate"
+    },
+    "features": {
+        "upload": {
+            "enabled": true,
+            "target": "annotate",
+            "accept": ".xml, .tei, .odd, .docx, .md, .mei"
+        }
+    }
+}
