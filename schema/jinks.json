@@ -460,6 +460,20 @@
                         }
                     }
                 },
+                "collab": {
+                    "type": "object",
+                    "description": "Configures the collaboration server for JinnTap",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "server": {
+                            "type": "string",
+                            "description": "The server to use for collaboration",
+                            "examples": [ "ws://localhost:8082" ]
+                        }
+                    }
+                },
                 "docs": {
                     "type": "object",
                     "properties": {
