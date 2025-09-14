@@ -22,9 +22,9 @@ declare function dts:entry($request as map(*)) {
             "@type": "EntryPoint",
             "@id": "/api/dts",
             "dtsVersion": "1.0.rc",
-            "collection": $base || "/collection",
-            "navigation": $base || "/navigation",
-            "document": $base || "/document"
+            "collection": $base || "/collection/{?id,page,nav}",
+            "navigation": $base || "/navigation/{?resource,ref,start,end,down,tree,page}",
+            "document": $base || "/document/{?resource,ref,start,end,tree,mediaType}"
         }
 };
 
@@ -57,6 +57,8 @@ declare function dts:collection($request as map(*)) {
                     "totalItems": $count,
                     "totalChildren": $count,
                     "totalParents": count($parentInfo),
+                    "dublinCore": $collectionInfo?dublinCore,
+                    "collection": dts:base-path() || "/collection?id=" || $collectionInfo?id || "{&amp;page,nav}",
                     "member": array { $memberResources, $memberCollections }
                 }
         else
@@ -81,24 +83,25 @@ declare %private function dts:get-members($collectionInfo as map(*), $resources 
                 map {
                     "@id": $resource?id,
                     "title": $resource?title,
+                    "dublinCore": $resource?dublinCore,
                     "@type": "Collection",
-                    "collection": dts:base-path() || "/collection?id=" || $resource?id
+                    "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
                 }
             default return
-                let $id := substring-after(document-uri(root($resource)), $collectionInfo?path || "/")
+                let $id := util:document-name($resource)
                 return
-                    map:merge((
-                        map {
-                            "@id": $collectionInfo?id || "/" || $id,
-                            "title": $id,
-                            "@type": "Resource",
-                            "totalParents": 1,
-                            "totalChildren": 0,
-                            "collection": dts:base-path() || "/collection?id=" || $collectionInfo?path || "/" || $id,
-                            "document": dts:base-path() || "/document?resource=" || $collectionInfo?path || "/" || $id
-                        },
-                        $collectionInfo?metadata(root($resource))
-                    ))
+                map:merge((
+                    map {
+                        "@id": $collectionInfo?id || "/" || $id,
+                        "title": $id,
+                        "@type": "Resource",
+                        "totalParents": 1,
+                        "totalChildren": 0,
+                        "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
+                        "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
+                    },
+                    $collectionInfo?metadata(root($resource))
+                ))
 };
 
 declare function dts:documents($request as map(*)) {
