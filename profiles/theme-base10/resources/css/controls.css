@@ -243,6 +243,16 @@ button:has(svg):not(:has(span)),
     margin: 0;
 }
 
+[role="group"] input {
+    border: none;
+    background-color: transparent;
+    margin: 0;
+}
+
+[role="group"] input:focus {
+    box-shadow: none;
+}
+
 .light,
 pb-link .btn.light a {
     background-color: var(--jinks-colors-light);
