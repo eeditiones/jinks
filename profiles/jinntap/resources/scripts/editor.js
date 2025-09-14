@@ -70,41 +70,60 @@ async function copyToClipboard(editor) {
 }
 
 function initEditor(contextPath, doc) {
-    const saveBtn = document.getElementById("saveBtn");
-    const saveDialog = document.getElementById("saveDialog");
-    const saveForm = document.querySelector('#saveDialog form');
-    const copyBtn = document.getElementById("copyBtn");
     const editor = document.querySelector('jinn-tap');
 
-    saveBtn.addEventListener("click", function () {
+    editor.addEventListener('ready', () => {
+        const saveBtn = editor.querySelector(".saveBtn");
+        const copyBtn = editor.querySelector(".copyBtn");
+        const saveDialog = document.getElementById("saveDialog");
+        const saveForm = document.querySelector('#saveDialog form');
+
+        saveBtn.addEventListener("click", function () {
+            if (doc) {
+                save(contextPath, editor);
+            } else {
+                saveDialog.showModal();
+            }
+        });
+
+        saveForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const docName = formData.get('docName').trim();
+            const docTitle = formData.get('docTitle').trim();
+
+            if (docName) {
+                editor.metadata.name = doc = docName;
+                editor.metadata.title = docTitle;
+                saveDialog.close();
+                this.reset();
+                save(contextPath, editor);
+            }
+        });
+
+        // Listen for cancel button to abort saving
+        const cancelBtn = saveDialog.querySelector('.cancel');
+        if (cancelBtn) {
+            cancelBtn.addEventListener("click", function () {
+                saveDialog.close();
+                saveForm.reset();
+                // Optionally show a message that saving was cancelled
+                document.dispatchEvent(new CustomEvent('jinn-toast', {
+                    detail: {
+                        message: 'Save cancelled',
+                        type: 'info'
+                    }
+                }));
+            });
+        }
+
+        copyBtn.addEventListener("click", function () {
+            copyToClipboard(editor);
+        });
+
+        // Set initial metadata if doc is provided
         if (doc) {
-            save(contextPath, editor);
-        } else {
-            saveDialog.showModal();
+            editor.metadata.name = doc;
         }
     });
-
-    saveForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-        const docName = formData.get('docName').trim();
-        const docTitle = formData.get('docTitle').trim();
-
-        if (docName) {
-            editor.metadata.name = doc = docName;
-            editor.metadata.title = docTitle;
-            saveDialog.close();
-            this.reset();
-            save(contextPath, editor);
-        }
-    });
-
-    copyBtn.addEventListener("click", function () {
-        copyToClipboard(editor);
-    });
-
-    // Set initial metadata if doc is provided
-    if (doc) {
-        editor.metadata.name = doc;
-    }
 }
