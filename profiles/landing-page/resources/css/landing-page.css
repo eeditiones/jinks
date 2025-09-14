@@ -41,7 +41,8 @@ footer {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: var(--jinks-colors-700);
+    background-color: color-mix(in srgb, var(--jinks-colors-700) 85%, transparent);
+    background-blend-mode: multiply;
     --pico-color: var(--jinks-colors-light);
     --pico-h2-color: var(--jinks-colors-light);
 }
@@ -260,7 +261,12 @@ header.row {
 }
 
 #bottom {
-    background-image: var(--jinks-footer-background);
+    background-image: url(../images/typewriter-on-books.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
+    background-blend-mode: multiply;
 }
 
 .partner-logos {
