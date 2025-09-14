@@ -36,9 +36,9 @@ declare function generator:profile-path($name as xs:string) {
  :
  : In the settings, property "overwrite" controls how files in an existing app are updated:
  : 
- : * "overwrite=default": check last modified date of source and if newer, check if content has changed
- : * "overwrite=force": ignore last modified date, enforce content check
- : * "overwrite=all": the entire app is regenerated and then reinstalled
+ : * "overwrite=quick": check last modified date of source and if newer, check if content has changed
+ : * "overwrite=all": ignore last modified date, enforce content check
+ : * "overwrite=reinstall": the entire app is regenerated and then reinstalled
  :   unless local modifications were applied by the user
  :
  : @param $settings general settings to control the generator
@@ -225,11 +225,11 @@ declare %private function generator:config($settings as map(*)?, $userConfig as 
             $config,
             map {
                 "target":
-                    if ($settings?overwrite = "all") then
+                    if ($settings?overwrite = $cpy:OVERWRITE_REINSTALL) then
                         $tempTarget
                     else
                         head(($installedPkg, $tempTarget)),
-                "_update": exists($installedPkg) and $settings?overwrite != "all",
+                "_update": exists($installedPkg) and $settings?overwrite != $cpy:OVERWRITE_REINSTALL,
                 "_overwrite": $settings?overwrite,
                 "_dry": $settings?dry,
                 "template-suffix": "\.tpl"
