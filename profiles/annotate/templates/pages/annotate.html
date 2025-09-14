@@ -174,12 +174,12 @@
                         </svg>
                     </pb-navigation>
                 </span>
-                <li>
-                    <span role="group">
-                        <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
-                        <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
-                    </span>
-                </li>
+            </li>
+            <li>
+                <span role="group">
+                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+                </span>
             </li>
         </ul>
         <ul>
@@ -228,7 +228,7 @@
         </pb-view-annotate>
     </main>
 
-    [% template before %]
+    [% template after %]
     <fx-fore ignore-expressions="pb-authority" class="preview edit-panel">
         <fx-model>
             <fx-instance id="i-default">

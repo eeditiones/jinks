@@ -154,7 +154,8 @@ function _reviewNext() {
             const occurrences = json[doc];
             occurrences.forEach((occur) => {
                 const li = document.createElement('li');
-                const cb = document.createElement('paper-checkbox');
+                const cb = document.createElement('input');
+                cb.type = "checkbox";
                 cb.setAttribute("checked", "checked");
                 cb.addEventListener("click", () => {
                     if (cb.checked) {

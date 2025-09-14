@@ -8,6 +8,20 @@
     display: block;
 }
 
+.toolbar {
+    justify-content: flex-start;
+}
+
+.toolbar ul {
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.toolbar ul:not(:first-child) {
+    padding-left: 0;
+}
+
 #authority-editor{
     height:auto;
 }

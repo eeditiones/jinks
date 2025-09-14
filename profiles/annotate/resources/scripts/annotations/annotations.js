@@ -251,7 +251,8 @@ document.addEventListener("pb-page-loaded", () => {
 			document.querySelector('#occurrences .messages').innerHTML = '';
 			occur.forEach((o) => {
 				const li = document.createElement("li");
-				const cb = document.createElement("paper-checkbox");
+				const cb = document.createElement("input");
+                cb.type = "checkbox";
 				cb._options = o;
 				cb._info = info;
 				if (o.annotated && o[key] === info.id) {
@@ -453,7 +454,7 @@ document.addEventListener("pb-page-loaded", () => {
 		enablePreview = false;
 		const data = form.serializeForm();
 		const checkboxes = document.querySelectorAll(
-			"#occurrences li paper-checkbox:not([checked])"
+			"#occurrences li input[type='checkbox']:not([checked])"
 		);
 		if (checkboxes.length > 0) {
 			view.saveHistory();
