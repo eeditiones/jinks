@@ -14,9 +14,22 @@ declare variable $dts-config:collections := map {
     "title": $config:expath-descriptor/expath:title/string(),
     "memberCollections": (
             map {
-                "id": "documents",
-                "title": "Document Collection",
+                "id": "serafin",
+                "title": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
                 "path": $config:data-default,
+                "dublinCore": map {
+                    "title": [
+                        map {
+                            "lang": "pl",
+                            "value": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459"
+                        }
+                    ],
+                    "creator": [
+                        "Anna Skolimowska",
+                        "Waldemar Bukowski",
+                        "Tomasz Płóciennik"
+                    ]
+                },
                 "members": function() {
                     nav:get-root((), map {
                         "leading-wildcard": "yes",
@@ -29,9 +42,9 @@ declare variable $dts-config:collections := map {
                         map:merge((
                             map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
                             map {
-                                "dts:dublincore": map {
-                                    "dc:creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
-                                    "dc:license": nav:get-metadata($properties, $doc/*, "license")
+                                "dublinCore": map {
+                                    "creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
+                                    "license": nav:get-metadata($properties, $doc/*, "license")
                                 }
                             }
                         ))
