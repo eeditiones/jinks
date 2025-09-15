@@ -42,7 +42,7 @@ footer {
     background-position: center;
     background-size: cover;
     background-color: color-mix(in srgb, var(--jinks-colors-700) 85%, transparent);
-    background-blend-mode: multiply;
+    background-blend-mode: color-burn;
     --pico-color: var(--jinks-colors-light);
     --pico-h2-color: var(--jinks-colors-light);
 }
@@ -209,11 +209,13 @@ header.row {
 }
 
 .highlight-card {
-    --lg: linear-gradient(180deg, var(--Light-neutral-Gradient_top, rgba(42, 40, 36, 0.20)) 0%, var(--Light-neutral-Gradient_bottom, rgba(42, 40, 36, 0.90)) 100%);
-    --card-text-color: white;
+    --from: color-mix(in srgb, var(--jinks-colors-700) 22%, transparent);
+    --to: color-mix(in srgb, var(--jinks-colors-700) 44%, transparent);
+    --lg: linear-gradient(180deg, var(--from), var(--to));
+    --card-text-color: var(--jinks-colors-light);
 
     border-radius: var(--pico-border-radius);
-    background-image: linear-gradient(180deg, var(--Light-neutral-Gradient_top, rgba(42, 40, 36, 0.20)) 0%, var(--Light-neutral-Gradient_bottom, rgba(42, 40, 36, 0.90)) 100%);
+    background-image: var(--lg);
     background-origin: border-box;
     background-size: cover;
     background-repeat: no-repeat;
@@ -227,7 +229,8 @@ header.row {
 }
 
 .highlight-card:hover {
-    --lg: linear-gradient(180deg, var(--Light-neutral-Gradient_top, rgba(42, 40, 36, 0.50)) 0%, var(--Light-neutral-Gradient_bottom, rgba(42, 40, 36, 1)) 100%);
+    --from: color-mix(in srgb, var(--jinks-colors-700) 33%, transparent);
+    --to: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
     transition: all 1s ease-out;
 }
 
@@ -261,14 +264,35 @@ header.row {
 }
 
 #bottom {
-    --from: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
-    --to: color-mix(in srgb, var(--jinks-colors-700) 85%, transparent);
+    --from: color-mix(in srgb, var(--jinks-colors-700) 33%, transparent);
+    --to: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
 
-    background-image: url(../images/typewriter-on-books.jpg), linear-gradient(0deg, var(--from), var(--to));
+    background-image: url(../images/typewriter-on-books.jpg), linear-gradient(180deg, var(--from), var(--to));
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-blend-mode: multiply;
+}
+
+#bottom > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#bottom div div {
+    max-width: 50%;
+    border-left: thin solid var(--jinks-color-border);
+    padding-inline-start: var(--s1);
+}
+
+#bottom a {
+    color: var(--jinks-colors-light);
+    text-decoration: none;
+}
+
+#bottom a:hover {
+    color:var(--jinks-colors-accent);
 }
 
 .partner-logos {
@@ -285,29 +309,15 @@ header.row {
     background: var(--jinks-colors-100);
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.10);
     flex: 12%;
+    width: 10vw;
 }
 
 .partner-logo img {
+    display: block;
     aspect-ratio: 4/3;
-    width: 66%;
-    margin-inline: var(--s3);
+    width: 10vw;
+    margin-inline: auto;
     margin-block: var(--s2);
-}
-
-.bottom {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.bottom a {
-    color: var(--pb-color-grey-3);
-    text-decoration: none;
-    width: auto;
-}
-
-.bottom a:hover {
-    color:#0172ad;
 }
 
 .team-members {
@@ -418,7 +428,7 @@ header.row {
 
 .label {
     display: inline-block;
-    padding: var(--s-1);
+    padding: var(--s-1) var(--s1);
     margin-block-end: var(--s2);
     justify-content: center;
     align-items: center;
@@ -448,7 +458,6 @@ header.row {
         display: block;
     }
     .partner-logo img {
-        margin-inline: var(--s0);
         margin-block: var(--s-1);
     }
 }
