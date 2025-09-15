@@ -240,9 +240,11 @@ function initializeDTSClient() {
                 const actionText = isCollection ? 'Browse Collection' : 'View Document';
                 const actionClass = isCollection ? 'browse-collection' : 'view-document';
                 const memberCollectionUrl = member.collection || '';
+                const memberDocumentUrl = member.document || '';
                 
-                // Only add collection URL data attribute if it exists
+                // Only add URL data attributes if they exist
                 const collectionUrlAttr = memberCollectionUrl ? `data-member-collection-url="${memberCollectionUrl}"` : '';
+                const documentUrlAttr = memberDocumentUrl ? `data-member-document-url="${memberDocumentUrl}"` : '';
                 
                 tableBody += `
                     <tr>
@@ -251,7 +253,7 @@ function initializeDTSClient() {
                         <td><code>${memberId}</code></td>
                         <td>${memberDescription}</td>
                         <td>
-                            <button class="dts-action-btn ${actionClass}" data-member-id="${memberId}" data-member-type="${memberType}" ${collectionUrlAttr}>
+                            <button class="dts-action-btn ${actionClass}" data-member-id="${memberId}" data-member-type="${memberType}" ${collectionUrlAttr} ${documentUrlAttr}>
                                 ${actionText}
                             </button>
                         </td>
@@ -281,6 +283,7 @@ function initializeDTSClient() {
                 const memberId = this.getAttribute('data-member-id');
                 const memberType = this.getAttribute('data-member-type');
                 const memberCollectionUrl = this.getAttribute('data-member-collection-url');
+                const memberDocumentUrl = this.getAttribute('data-member-document-url');
                 const isCollection = memberType.toLowerCase().includes('collection');
                 
                 if (isCollection) {
@@ -291,12 +294,36 @@ function initializeDTSClient() {
                         console.error('DTS Client: No collection URL available for member:', memberId);
                     }
                 } else {
-                    // For documents, we would view the document
-                    console.log('View document:', memberId);
-                    // TODO: Implement document viewing
+                    // For documents, open in new tab using the document URL
+                    if (memberDocumentUrl) {
+                        viewDocument(memberId, memberDocumentUrl);
+                    } else {
+                        console.error('DTS Client: No document URL available for member:', memberId);
+                    }
                 }
             });
         });
+    }
+
+    /**
+     * View a document in a new tab
+     */
+    function viewDocument(documentId, documentUrl) {
+        if (!documentUrl) {
+            console.error('DTS Client: No document URL provided');
+            return;
+        }
+
+        try {
+            // Expand the URI template to get the actual document URL
+            const expandedUrl = expandUriTemplate(documentUrl, { resource: documentId });
+            console.log('DTS Client: Opening document URL:', expandedUrl);
+            
+            // Open the document in a new tab
+            window.open(expandedUrl, '_blank');
+        } catch (error) {
+            console.error('DTS Client: Error opening document:', error);
+        }
     }
 
     /**
