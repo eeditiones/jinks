@@ -4,8 +4,11 @@ module namespace dts="http://teipublisher.com/api/dts";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace dts-config="http://teipublisher.com/api/dts/config" at "dts-config.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace router="http://e-editiones.org/roaster";
+
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare %private function dts:base-path() {
     let $appLink := substring-after($config:app-root, repo:get-root())
@@ -48,12 +51,8 @@ declare function dts:collection($request as map(*)) {
             $dts-config:collections
     return
         if (exists($collectionInfo)) then
-            let $resources := if (map:contains($collectionInfo, "members")) then $collectionInfo?members() else ()
             let $pageSize := xs:int(($request?parameters?per-page, $dts-config:page-size)[1])
-            let $count := count($resources)
-            let $paged := subsequence($resources, ($request?parameters?page - 1) * $pageSize + 1, $pageSize)
-            let $memberResources := dts:get-members($collectionInfo, $paged)
-            let $memberCollections := dts:get-members($collectionInfo, $collectionInfo?memberCollections)
+            let $resources := dts:get-members($collectionInfo, $request?parameters?page, $pageSize)
             let $parentInfo := 
                 if ($request?parameters?id) then
                     dts:collection-by-id($dts-config:collections, $request?parameters?id, (), true())
@@ -66,14 +65,14 @@ declare function dts:collection($request as map(*)) {
                     "@id": $collectionInfo?id,
                     "dtsVersion": "1.0.rc",
                     "title": $collectionInfo?title,
-                    "totalItems": $count,
-                    "totalChildren": $count,
+                    "totalItems": $resources?total,
+                    "totalChildren": $resources?total,
                     "totalParents": count($parentInfo),
                     "dublinCore": $collectionInfo?dublinCore,
                     "collection": dts:base-path() || "/collection?id=" || $collectionInfo?id || "{&amp;page,nav}",
-                    "member": array { $memberResources, $memberCollections }
+                    "member": array { $resources?items }
                 },
-                dts:pagination-info($collectionInfo,$request?parameters?page, $count)
+                dts:pagination-info($collectionInfo, $request?parameters?page, $resources?total)
             ))
         else
             response:set-status-code(404)
@@ -106,38 +105,51 @@ declare %private function dts:collection-by-id($collectionInfo as map(*), $id as
     if ($collectionInfo?id = $id) then
         if ($returnParent) then $parentInfo else $collectionInfo
     else
-        for $member in $collectionInfo?memberCollections
+        for $member in $collectionInfo?members?*
         return
             dts:collection-by-id($member, $id, $collectionInfo, $returnParent)
 };
 
-declare %private function dts:get-members($collectionInfo as map(*), $resources as item()*) {
-    for $resource in $resources
-    return
-        typeswitch($resource)
-            case map(*) return
-                map {
-                    "@id": $resource?id,
-                    "title": $resource?title,
-                    "dublinCore": $resource?dublinCore,
-                    "@type": "Collection",
-                    "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
-                }
-            default return
-                let $id := substring-after(document-uri(root($resource)), $config:data-root || "/")
+declare %private function dts:get-members($collectionInfo as map(*), $page as xs:int, $pageSize as xs:int) {
+    if (map:contains($collectionInfo, "members")) then
+        map {
+            "total": count($collectionInfo?members?*),
+            "items": 
+                for $resource in $collectionInfo?members?*
                 return
-                map:merge((
                     map {
-                        "@id": $collectionInfo?id || "/" || $id,
-                        "title": $id,
-                        "@type": "Resource",
-                        "totalParents": 1,
-                        "totalChildren": 0,
-                        "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
-                        "document": dts:base-path() || "/document?resource=" || encode-for-uri($id) || "{&amp;ref,start,end,tree,mediaType}"
-                    },
-                    $collectionInfo?metadata(root($resource))
-                ))
+                        "@id": $resource?id,
+                        "title": $resource?title,
+                        "dublinCore": $resource?dublinCore,
+                        "@type": "Collection",
+                        "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
+                    }
+        }
+    else
+        let $collectionPath :=
+            if (map:contains($collectionInfo, "path")) then $collectionInfo?path else $config:data-default
+        let $resources :=
+            collection($collectionPath)//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
+        return
+            map {
+                "total": count($resources),
+                "items": 
+                    for $resource in subsequence($resources, ($page - 1) * $pageSize + 1, $pageSize)
+                    let $id := util:document-name($resource)
+                    return
+                        map:merge((
+                            map {
+                                "@id": $collectionInfo?id || "/" || $id,
+                                "title": $id,
+                                "@type": "Resource",
+                                "totalParents": 1,
+                                "totalChildren": 0,
+                                "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
+                                "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
+                            },
+                            dts:metadata($resource)
+                        ))
+            }
 };
 
 (:~ 
@@ -147,11 +159,9 @@ declare %private function dts:get-members($collectionInfo as map(*), $resources 
  : @return the document information for the given resource
  :)
 declare function dts:document($request as map(*)) {
+    let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
     let $doc := 
-        if (starts-with($request?parameters?resource, "/")) then
-            doc($request?parameters?resource)
-        else
-            doc($config:data-root || "/" || $request?parameters?resource)
+            doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
     return
         if ($doc) then (
             util:declare-option("output:method", "xml"),
@@ -159,6 +169,18 @@ declare function dts:document($request as map(*)) {
             dts:check-pi($doc)
         ) else
             response:set-status-code(404)
+};
+
+declare %private function dts:metadata($doc as element()) {
+    map {
+        "title": ft:field($doc, "title"),
+        "dublinCore":
+            map {
+                "creator": ft:field($doc, "author"),
+                "date": ft:field($doc, "date"),
+                "language": ft:field($doc, "language")
+            }
+    }
 };
 
 declare %private function dts:check-pi($doc as document-node()) {
