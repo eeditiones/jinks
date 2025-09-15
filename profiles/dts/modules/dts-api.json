@@ -141,13 +141,13 @@
             "get": {
                 "summary": "Document endpoint",
                 "description": "The Document endpoint is used to access and modify the content of document, as opposed to metadata (which is found in collections).",
-                "operationId": "dts:documents",
+                "operationId": "dts:document",
                 "tags": [
                     "dts"
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "resource",
                         "in": "query",
                         "schema": {
                             "type": "string"
