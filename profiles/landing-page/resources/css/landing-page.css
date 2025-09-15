@@ -41,7 +41,7 @@ footer {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: color-mix(in srgb, var(--jinks-colors-700) 85%, transparent);
+    background-color: color-mix(in srgb, var(--jinks-colors-700) 75%, transparent);
     background-blend-mode: color-burn;
     --pico-color: var(--jinks-colors-light);
     --pico-h2-color: var(--jinks-colors-light);
@@ -321,22 +321,28 @@ header.row {
 }
 
 .team-members {
-    columns: 3;
-    column-fill: balance;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-items: flex-start;
+    align-items: stretch;
     gap: var(--s-1);
     margin: 0;
     padding: 0;
 }
 
 .member-card {
-    display: inline-block;
-    padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+    display: block;
+    padding: var(--s0) var(--s0);
     border-radius: var(--pico-border-radius);
-    background-color: linear-gradient(0deg, var(--jinks-overlay-background-color-light), var(--jinks-overlay-background-color-light));
     box-shadow: var(--pico-card-box-shadow);
     color: var(--jinks-color-primary);
-    min-width: 16rem;
+    min-width: 22rem;
+    max-width: 33%;
     margin-block-end: var(--s-1);
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 25%;
 }
 
 .member-card:hover {
