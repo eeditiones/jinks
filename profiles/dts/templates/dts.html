@@ -1,0 +1,53 @@
+<template>
+    ---json
+    {
+        "features": {
+            "toolbar": {
+                "navigation": false,
+                "progress": {
+                    "subscribe": "results"
+                }
+            },
+            "timeline": {
+                "enabled": false
+            }
+        },
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "script": {
+            "custom": [
+                "resources/scripts/dts-client.js"
+            ]
+        }
+    }
+    ---
+    [% template before %]
+    <aside id="dts-server">
+        <input type="text" id="dts-server-url" placeholder="Server URL" value="[[ $context-path ]]/api/dts"/>
+        <button id="dts-connect">Connect</button>
+        <div id="dts-server-info"></div>
+    </aside>
+    [% endtemplate %]
+    [% template breadcrumb %]
+    <nav id="dts-breadcrumbs" aria-label="breadcrumb">
+        <ul></ul>
+    </nav>
+    [% endtemplate %]
+    <main>
+        <table id="dts-collection"></table>
+        <nav id="dts-pagination" aria-label="Collection pagination" style="display: none;">
+            <ul>
+                <li><button id="dts-pagination-first" disabled="disabled">First</button></li>
+                <li><button id="dts-pagination-previous" disabled="disabled">Previous</button></li>
+                <li><span id="dts-pagination-info">Page 1 of 1</span></li>
+                <li><button id="dts-pagination-next" disabled="disabled">Next</button></li>
+                <li><button id="dts-pagination-last" disabled="disabled">Last</button></li>
+            </ul>
+        </nav>
+        <details id="dts-raw-response">
+            <summary>Raw JSON Response</summary>
+            <pre><code id="dts-raw-json"></code></pre>
+        </details>
+    </main>
+</template>
