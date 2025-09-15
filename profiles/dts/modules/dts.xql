@@ -14,6 +14,12 @@ declare %private function dts:base-path() {
         replace($path, "/+", "/")
 };
 
+(:~ 
+ : DTS Entry Endpoint
+ : @see https://distributed-text-services.github.io/specifications/entry-point/1.0rc1.html
+ : @param request The request map
+ : @return the base path for the 3 endpoints: collection, navigation and documents
+ :)
 declare function dts:entry($request as map(*)) {
     let $base := dts:base-path()
     return
@@ -28,6 +34,12 @@ declare function dts:entry($request as map(*)) {
         }
 };
 
+(:~ 
+ : DTS Collection Endpoint
+ : @see https://distributed-text-services.github.io/specifications/collection/1.0rc1.html
+ : @param request The request map
+ : @return the collection information for the given id
+ :)
 declare function dts:collection($request as map(*)) {
     let $collectionInfo :=
         if ($request?parameters?id) then
@@ -47,7 +59,7 @@ declare function dts:collection($request as map(*)) {
                     dts:collection-by-id($dts-config:collections, $request?parameters?id, (), true())
                 else
                     ()
-            return
+            return map:merge((
                 map {
                     "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
                     "@type": "Collection",
@@ -60,9 +72,33 @@ declare function dts:collection($request as map(*)) {
                     "dublinCore": $collectionInfo?dublinCore,
                     "collection": dts:base-path() || "/collection?id=" || $collectionInfo?id || "{&amp;page,nav}",
                     "member": array { $memberResources, $memberCollections }
-                }
+                },
+                dts:pagination-info($collectionInfo,$request?parameters?page, $count)
+            ))
         else
             response:set-status-code(404)
+};
+
+declare %private function dts:pagination-info($collectionInfo as map(*), $page as xs:int, $count as xs:int) {
+    if ($count > $dts-config:page-size) then
+        map {
+            "view":
+                map:merge((
+                    map {
+                        "@type": "Pagination",
+                        "@id": dts:base-path() || "/collection?id=" || $collectionInfo?id || "&amp;page=" || $page,
+                        "first": dts:base-path() || "/collection?id=" || $collectionInfo?id || "&amp;page=1",
+                        "last": dts:base-path() || "/collection?id=" || $collectionInfo?id || "&amp;page=" || ceiling($count div $dts-config:page-size)
+                    },
+                    if ($page > 1) then
+                        map:entry("previous", dts:base-path() || "/collection?id=" || $collectionInfo?id || "&amp;page=" || ($page - 1))
+                    else (),
+                    if ($page < ceiling($count div $dts-config:page-size)) then
+                        map:entry("next", dts:base-path() || "/collection?id=" || $collectionInfo?id || "&amp;page=" || ($page + 1))
+                    else ()
+                ))
+        }
+    else ()
 };
 
 declare %private function dts:collection-by-id($collectionInfo as map(*), $id as xs:string, $parentInfo as map(*)?, 
@@ -88,7 +124,7 @@ declare %private function dts:get-members($collectionInfo as map(*), $resources 
                     "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
                 }
             default return
-                let $id := util:document-name($resource)
+                let $id := substring-after(document-uri(root($resource)), $config:data-root || "/")
                 return
                 map:merge((
                     map {
@@ -98,18 +134,24 @@ declare %private function dts:get-members($collectionInfo as map(*), $resources 
                         "totalParents": 1,
                         "totalChildren": 0,
                         "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
-                        "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
+                        "document": dts:base-path() || "/document?resource=" || encode-for-uri($id) || "{&amp;ref,start,end,tree,mediaType}"
                     },
                     $collectionInfo?metadata(root($resource))
                 ))
 };
 
-declare function dts:documents($request as map(*)) {
+(:~ 
+ : DTS Documents Endpoint
+ : @see https://distributed-text-services.github.io/specifications/document/1.0rc1.html
+ : @param request The request map
+ : @return the document information for the given resource
+ :)
+declare function dts:document($request as map(*)) {
     let $doc := 
-        if (starts-with($request?parameters?id, "/")) then
-            doc($request?parameters?id)
+        if (starts-with($request?parameters?resource, "/")) then
+            doc($request?parameters?resource)
         else
-            doc($config:data-root || "/" || $request?parameters?id)
+            doc($config:data-root || "/" || $request?parameters?resource)
     return
         if ($doc) then (
             util:declare-option("output:method", "xml"),
