@@ -176,8 +176,12 @@ function initializeDTSClient() {
             currentPage = 1;
             hidePagination();
 
+            // Expand the collection template for the root collection
+            const rootCollectionUrl = expandUriTemplate(serverConfig.collection, {});
+            console.log('DTS Client: Root collection URL:', rootCollectionUrl);
+            
             // Make API call to collection endpoint
-            const response = await fetch(serverConfig.collection, {
+            const response = await fetch(rootCollectionUrl, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -193,6 +197,7 @@ function initializeDTSClient() {
             displayCollectionTable(collectionData, 'Root Collection');
             displayRawResponse(collectionData, 'Root Collection');
             handlePagination(collectionData);
+            
 
         } catch (error) {
             console.error('DTS Collection Error:', error);
@@ -234,6 +239,10 @@ function initializeDTSClient() {
                 const isCollection = memberType.toLowerCase().includes('collection');
                 const actionText = isCollection ? 'Browse Collection' : 'View Document';
                 const actionClass = isCollection ? 'browse-collection' : 'view-document';
+                const memberCollectionUrl = member.collection || '';
+                
+                // Only add collection URL data attribute if it exists
+                const collectionUrlAttr = memberCollectionUrl ? `data-member-collection-url="${memberCollectionUrl}"` : '';
                 
                 tableBody += `
                     <tr>
@@ -242,7 +251,7 @@ function initializeDTSClient() {
                         <td><code>${memberId}</code></td>
                         <td>${memberDescription}</td>
                         <td>
-                            <button class="dts-action-btn ${actionClass}" data-member-id="${memberId}" data-member-type="${memberType}">
+                            <button class="dts-action-btn ${actionClass}" data-member-id="${memberId}" data-member-type="${memberType}" ${collectionUrlAttr}>
                                 ${actionText}
                             </button>
                         </td>
@@ -271,11 +280,16 @@ function initializeDTSClient() {
             button.addEventListener('click', function() {
                 const memberId = this.getAttribute('data-member-id');
                 const memberType = this.getAttribute('data-member-type');
+                const memberCollectionUrl = this.getAttribute('data-member-collection-url');
                 const isCollection = memberType.toLowerCase().includes('collection');
                 
                 if (isCollection) {
-                    // Navigate to the subcollection
-                    navigateToCollection(memberId);
+                    if (memberCollectionUrl) {
+                        // Navigate to the subcollection using the collection URL from the member entry
+                        navigateToCollection(memberId, memberCollectionUrl);
+                    } else {
+                        console.error('DTS Client: No collection URL available for member:', memberId);
+                    }
                 } else {
                     // For documents, we would view the document
                     console.log('View document:', memberId);
@@ -288,9 +302,9 @@ function initializeDTSClient() {
     /**
      * Navigate to a specific collection
      */
-    async function navigateToCollection(collectionId) {
-        if (!collectionUriTemplate) {
-            console.error('DTS Client: No collection URI template available');
+    async function navigateToCollection(collectionId, collectionUrl = null) {
+        if (!collectionUrl) {
+            console.error('DTS Client: No collection URL provided');
             return;
         }
 
@@ -303,11 +317,13 @@ function initializeDTSClient() {
             // Update current collection ID
             currentCollectionId = collectionId;
 
-            // Construct collection URL using the template
-            const collectionUrl = constructCollectionUrl(collectionId);
+            // Expand the URI template to get the actual URL
+            // The collectionUrl already contains the correct id parameter, just expand any remaining template syntax
+            const expandedUrl = expandUriTemplate(collectionUrl, {});
+            console.log('DTS Client: Expanded collection URL:', expandedUrl);
 
             // Make API call to collection endpoint
-            const response = await fetch(collectionUrl, {
+            const response = await fetch(expandedUrl, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -332,19 +348,37 @@ function initializeDTSClient() {
     }
 
     /**
-     * Construct collection URL using the template
+     * Expand URI template according to RFC 6570
      */
-    function constructCollectionUrl(collectionId) {
-        // The collection URI template should contain {id} placeholder
-        // If it doesn't, we'll append the ID as a query parameter
-        if (collectionUriTemplate.includes('{id}')) {
-            return collectionUriTemplate.replace('{id}', encodeURIComponent(collectionId));
-        } else {
-            // Fallback: append as query parameter
-            const separator = collectionUriTemplate.includes('?') ? '&' : '?';
-            return `${collectionUriTemplate}${separator}id=${encodeURIComponent(collectionId)}`;
-        }
+    function expandUriTemplate(template, variables = {}) {
+        let url = template;
+        
+        // Handle simple variable substitution {id}
+        Object.keys(variables).forEach(key => {
+            const value = encodeURIComponent(variables[key]);
+            url = url.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+        });
+        
+        // Handle query parameter expansion {&param1,param2}
+        url = url.replace(/\{&([^}]+)\}/g, (match, params) => {
+            const paramList = params.split(',').map(p => p.trim());
+            const queryParams = [];
+            
+            paramList.forEach(param => {
+                if (variables[param] !== undefined) {
+                    queryParams.push(`${param}=${encodeURIComponent(variables[param])}`);
+                }
+            });
+            
+            return queryParams.length > 0 ? '&' + queryParams.join('&') : '';
+        });
+        
+        // Handle other template expressions by removing them if no variables provided
+        url = url.replace(/\{[^}]+\}/g, '');
+        
+        return url;
     }
+
 
     /**
      * Update breadcrumb navigation using existing nav element
@@ -509,6 +543,11 @@ function initializeDTSClient() {
         } else {
             hidePagination();
         }
+        
+        // Store the collection template for pagination
+        if (collectionData.collection) {
+            collectionUriTemplate = collectionData.collection;
+        }
     }
 
     /**
@@ -630,23 +669,20 @@ function initializeDTSClient() {
      * Construct URL for a specific page
      */
     function constructPageUrl(pageNumber) {
-        let url;
-        
-        if (currentCollectionId) {
-            // For subcollections, use the collection template with id and page
-            if (collectionUriTemplate.includes('{id}')) {
-                url = collectionUriTemplate.replace('{id}', encodeURIComponent(currentCollectionId)) + 
-                      (collectionUriTemplate.includes('?') ? '&' : '?') + `page=${pageNumber}`;
-            } else {
-                const separator = collectionUriTemplate.includes('?') ? '&' : '?';
-                url = `${collectionUriTemplate}${separator}id=${encodeURIComponent(currentCollectionId)}&page=${pageNumber}`;
-            }
-        } else {
-            // For root collection, just add page parameter
-            const separator = collectionUriTemplate.includes('?') ? '&' : '?';
-            url = `${collectionUriTemplate}${separator}page=${pageNumber}`;
+        if (!collectionUriTemplate) {
+            console.error('DTS Client: No collection template available for pagination');
+            return null;
         }
         
+        // Prepare variables for URI template expansion
+        const variables = { page: pageNumber };
+        
+        if (currentCollectionId) {
+            variables.id = currentCollectionId;
+        }
+        
+        // Use URI template expansion with the page number and collection ID
+        const url = expandUriTemplate(collectionUriTemplate, variables);
         console.log('DTS Client: Constructed URL for page', pageNumber, ':', url);
         return url;
     }

@@ -12,58 +12,41 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare variable $dts-config:collections := map {
     "id": "default",
     "title": $config:expath-descriptor/expath:title/string(),
-    "memberCollections": (
-            map {
-                "id": "serafin",
-                "title": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
-                "path": $config:data-default,
-                "dublinCore": map {
-                    "title": [
-                        map {
-                            "lang": "pl",
-                            "value": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459"
-                        }
-                    ],
-                    "creator": [
-                        "Anna Skolimowska",
-                        "Waldemar Bukowski",
-                        "Tomasz Płóciennik"
-                    ]
-                },
-                "members": function() {
-                    nav:get-root((), map {
-                        "leading-wildcard": "yes",
-                        "filter-rewrite": "yes"
-                    })
-                },
-                "metadata": function($doc as document-node()) {
-                    let $properties := tpu:parse-pi($doc, ())
-                    return
-                        map:merge((
-                            map:entry("title", nav:get-metadata($properties, $doc/*, "title")/string()),
-                            map {
-                                "dublinCore": map {
-                                    "creator": string-join(nav:get-metadata($properties, $doc/*, "author"), "; "),
-                                    "license": nav:get-metadata($properties, $doc/*, "license")
-                                }
-                            }
-                        ))
-                }
-            },
-            map {
-                "id": "odd",
-                "title": "ODD Collection",
-                "path": $config:odd-root,
-                "members": function() {
-                    collection($config:odd-root)/tei:TEI
-                },
-                "metadata": function($doc as document-node()) {
+    "members": [
+        map {
+            "id": "demo",
+            "title": "Demo Collection",
+            "path": $config:data-root || "/demo"
+        },
+        map {
+            "id": "serafin",
+            "title": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
+            "path": $config:data-root || "/letters",
+            "dublinCore": map {
+                "title": [
                     map {
-                        "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
+                        "lang": "pl",
+                        "value": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459"
                     }
+                ],
+                "creator": [
+                    "Anna Skolimowska",
+                    "Waldemar Bukowski",
+                    "Tomasz Płóciennik"
+                ]
+            }
+        },
+        map {
+            "id": "odd",
+            "title": "ODD Collection",
+            "path": $config:odd-root,
+            "metadata": function($doc as document-node()) {
+                map {
+                    "title": string-join($doc//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[not(@type)], "; ")
                 }
             }
-    )
+        }
+    ]
 };
 
 declare variable $dts-config:page-size := 10;
