@@ -120,21 +120,14 @@ function initializeDTSClient() {
      */
     function displayServerInfo(data) {
         serverInfoDiv.innerHTML = `
-            <div class="dts-server-response">
-                <h3>DTS Server Information</h3>
-                <div class="dts-server-details">
-                    <p><strong>Context:</strong> ${data['@context'] || 'N/A'}</p>
-                    <p><strong>ID:</strong> ${data['@id'] || 'N/A'}</p>
-                    <p><strong>Type:</strong> ${data['@type'] || 'N/A'}</p>
-                    <p><strong>Collection Endpoint:</strong> <a href="${data.collection || '#'}" target="_blank">${data.collection || 'N/A'}</a></p>
-                    <p><strong>Documents Endpoint:</strong> <a href="${data.documents || '#'}" target="_blank">${data.documents || 'N/A'}</a></p>
-                    <p><strong>Navigation Endpoint:</strong> <a href="${data.navigation || '#'}" target="_blank">${data.navigation || 'N/A'}</a></p>
-                </div>
-                <details>
-                    <summary>Raw JSON Response</summary>
-                    <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
-                </details>
-            </div>
+            <p><strong>Collection Endpoint:</strong> <a href="${data.collection || '#'}" target="_blank">${data.collection || 'N/A'}</a></p>
+            <p><strong>Documents Endpoint:</strong> <a href="${data.documents || '#'}" target="_blank">${data.documents || 'N/A'}</a></p>
+            <p><strong>Navigation Endpoint:</strong> <a href="${data.navigation || '#'}" target="_blank">${data.navigation || 'N/A'}</a></p>
+
+            <details>
+                <summary>Raw JSON Response</summary>
+                <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
+            </details>
         `;
     }
 
@@ -237,26 +230,21 @@ function initializeDTSClient() {
                 
                 // Determine if this is a collection or document
                 const isCollection = memberType.toLowerCase().includes('collection');
-                const actionText = isCollection ? 'Browse Collection' : 'View Document';
-                const actionClass = isCollection ? 'browse-collection' : 'view-document';
                 const memberCollectionUrl = member.collection || '';
                 const memberDocumentUrl = member.document || '';
+                const memberNavigationUrl = member.navigation || '';
                 
-                // Only add URL data attributes if they exist
-                const collectionUrlAttr = memberCollectionUrl ? `data-member-collection-url="${memberCollectionUrl}"` : '';
-                const documentUrlAttr = memberDocumentUrl ? `data-member-document-url="${memberDocumentUrl}"` : '';
+                // Generate action button for documents only
+                const actionButton = isCollection ? '' : 
+                    `<button class="dts-action-btn view-document">View Document</button>`;
                 
                 tableBody += `
                     <tr>
                         <td><span class="member-type ${isCollection ? 'collection' : 'document'}">${memberType}</span></td>
-                        <td><strong>${memberTitle}</strong></td>
+                        <td><strong class="dts-title-clickable">${memberTitle}</strong></td>
                         <td><code>${memberId}</code></td>
                         <td>${memberDescription}</td>
-                        <td>
-                            <button class="dts-action-btn ${actionClass}" data-member-id="${memberId}" data-member-type="${memberType}" ${collectionUrlAttr} ${documentUrlAttr}>
-                                ${actionText}
-                            </button>
-                        </td>
+                        <td>${actionButton}</td>
                     </tr>
                 `;
             });
@@ -269,37 +257,315 @@ function initializeDTSClient() {
         // Set table content
         collectionTable.innerHTML = tableHeader + tableBody;
 
-        // Add click handlers for action buttons
-        addCollectionActionHandlers();
+        // Add click handlers for all titles (both collections and documents)
+        addTitleClickHandlers(collectionData);
+        
+        // Add click handlers for document action buttons
+        addDocumentActionHandlers(collectionData);
     }
 
     /**
-     * Add click handlers for collection action buttons
+     * Add click handlers for all titles (collections and documents)
      */
-    function addCollectionActionHandlers() {
-        const actionButtons = collectionTable.querySelectorAll('.dts-action-btn');
-        actionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const memberId = this.getAttribute('data-member-id');
-                const memberType = this.getAttribute('data-member-type');
-                const memberCollectionUrl = this.getAttribute('data-member-collection-url');
-                const memberDocumentUrl = this.getAttribute('data-member-document-url');
-                const isCollection = memberType.toLowerCase().includes('collection');
-                
+    function addTitleClickHandlers(collectionData) {
+        const titleElements = collectionTable.querySelectorAll('.dts-title-clickable');
+        titleElements.forEach((titleElement, index) => {
+            // Get the member data from the current collection data
+            const member = collectionData.member[index];
+            if (!member) return;
+            
+            const memberType = member['@type'] || 'Unknown';
+            const memberId = member['@id'] || member.id || '';
+            const memberCollectionUrl = member.collection || '';
+            const memberDocumentUrl = member.document || '';
+            const memberNavigationUrl = member.navigation || '';
+            const isCollection = memberType.toLowerCase().includes('collection');
+            
+            titleElement.addEventListener('click', function() {
                 if (isCollection) {
+                    // For collections, navigate to the collection
                     if (memberCollectionUrl) {
-                        // Navigate to the subcollection using the collection URL from the member entry
                         navigateToCollection(memberId, memberCollectionUrl);
                     } else {
                         console.error('DTS Client: No collection URL available for member:', memberId);
                     }
                 } else {
-                    // For documents, open in new tab using the document URL
-                    if (memberDocumentUrl) {
-                        viewDocument(memberId, memberDocumentUrl);
+                    // For documents, fetch metadata
+                    if (memberNavigationUrl) {
+                        fetchDocumentMetadata(memberId, memberNavigationUrl);
                     } else {
-                        console.error('DTS Client: No document URL available for member:', memberId);
+                        console.error('DTS Client: No navigation URL available for member:', memberId);
                     }
+                }
+            });
+        });
+    }
+
+    /**
+     * Fetch document metadata using the navigation endpoint
+     */
+    async function fetchDocumentMetadata(documentId, navigationUrlTemplate) {
+        if (!navigationUrlTemplate) {
+            console.error('DTS Client: No navigation URL template provided');
+            return;
+        }
+
+        try {
+            // Clear previous navigation response
+            clearNavigationResponse();
+            
+            // Extract the resource ID from the document ID (format: collectionId/documentId)
+            const resourceId = documentId;
+            
+            // Expand the navigation URL template with the resource parameter
+            const expandedUrl = expandUriTemplate(navigationUrlTemplate, { resource: resourceId, down: 2 });
+            console.log('DTS Client: Fetching metadata from navigation URL:', expandedUrl);
+            
+            // Make API call to navigation endpoint
+            const response = await fetch(expandedUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const navigationData = await response.json();
+            
+            // Display the navigation structure in aside
+            displayDocumentStructure(navigationData);
+            
+            // Display the raw navigation response
+            displayNavigationResponse(navigationData);
+
+        } catch (error) {
+            console.error('DTS Navigation Error:', error);
+            displayDocumentMetadata({ title: `Error: ${error.message}` });
+        }
+    }
+
+    /**
+     * Display document structure in the aside element
+     */
+    function displayDocumentStructure(navigationData) {
+        const asideElement = document.getElementById('dts-aside');
+        if (!asideElement) {
+            console.error('DTS Client: dts-aside element not found');
+            return;
+        }
+
+        const resource = navigationData.resource || {};
+        const members = navigationData.member || [];
+        
+        const title = resource.title || 'Unknown Title';
+        const creator = resource.dublinCore?.creator || 'Unknown Author';
+        const date = resource.dublinCore?.date || 'Unknown Date';
+        const language = resource.dublinCore?.language || 'Unknown Language';
+
+        // Filter for CitableUnits and organize by level
+        const citableUnits = members.filter(member => 
+            member['@type'] === 'CitableUnit'
+        );
+
+        let structureHtml = '';
+        if (citableUnits.length > 0) {
+            structureHtml = `
+                <div class="document-structure">
+                    <h4>Document Structure</h4>
+                    ${buildHierarchicalStructure(citableUnits)}
+                </div>
+            `;
+        } else {
+            structureHtml = '<div class="document-structure"><p>No structure information available</p></div>';
+        }
+
+        asideElement.innerHTML = `
+            <div class="dts-document-metadata">
+                <h3>Document Information</h3>
+                <div class="metadata-item">
+                    <strong>Title:</strong> ${title}
+                </div>
+                <div class="metadata-item">
+                    <strong>Creator:</strong> ${creator}
+                </div>
+                <div class="metadata-item">
+                    <strong>Date:</strong> ${date}
+                </div>
+                <div class="metadata-item">
+                    <strong>Language:</strong> ${language}
+                </div>
+                ${structureHtml}
+            </div>
+        `;
+    }
+
+    /**
+     * Build hierarchical structure from CitableUnits
+     */
+    function buildHierarchicalStructure(citableUnits) {
+        // Group CitableUnits by level
+        const unitsByLevel = {};
+        citableUnits.forEach(unit => {
+            const level = unit.level || 1;
+            if (!unitsByLevel[level]) {
+                unitsByLevel[level] = [];
+            }
+            unitsByLevel[level].push(unit);
+        });
+
+        // Get the levels in order
+        const levels = Object.keys(unitsByLevel).map(Number).sort((a, b) => a - b);
+        
+        if (levels.length === 0) {
+            return '<p>No structure information available</p>';
+        }
+
+        // Build the structure starting from the first level
+        return buildLevelStructure(unitsByLevel, levels, 0, citableUnits);
+    }
+
+    /**
+     * Recursively build structure for a specific level
+     */
+    function buildLevelStructure(unitsByLevel, levels, levelIndex, allUnits) {
+        if (levelIndex >= levels.length) {
+            return '';
+        }
+
+        const currentLevel = levels[levelIndex];
+        const currentUnits = unitsByLevel[currentLevel] || [];
+
+        if (currentUnits.length === 0) {
+            return buildLevelStructure(unitsByLevel, levels, levelIndex + 1, allUnits);
+        }
+
+        let html = '';
+        
+        currentUnits.forEach(unit => {
+            const title = unit.dublinCore?.title || 'Untitled';
+            const identifier = unit.identifier || '';
+            
+            // Find children of this unit (units with higher level and this unit as parent)
+            const children = allUnits.filter(child => 
+                child.level > currentLevel && 
+                child.parent === identifier
+            );
+
+            if (children.length > 0) {
+                // This unit has children, create an expandable details element
+                const childrenHtml = buildLevelStructure(unitsByLevel, levels, levelIndex + 1, allUnits);
+                html += `
+                    <details class="structure-details level-${currentLevel}">
+                        <summary class="structure-summary">
+                            <span class="structure-title">${title}</span>
+                        </summary>
+                        <div class="structure-children">
+                            ${childrenHtml}
+                        </div>
+                    </details>
+                `;
+            } else {
+                // This unit has no children, create a simple div
+                html += `
+                    <div class="structure-item level-${currentLevel}">
+                        <span class="structure-title">${title}</span>
+                    </div>
+                `;
+            }
+        });
+
+        return html;
+    }
+
+    /**
+     * Clear navigation response display
+     */
+    function clearNavigationResponse() {
+        const navigationJsonElement = document.getElementById('dts-navigation-json');
+        const navigationResponseElement = document.getElementById('dts-navigation-response');
+        
+        if (navigationJsonElement && navigationResponseElement) {
+            navigationJsonElement.textContent = '';
+            navigationResponseElement.querySelector('summary').textContent = 'Navigation Response';
+            navigationResponseElement.open = false;
+        }
+    }
+
+    /**
+     * Display raw navigation response in details element
+     */
+    function displayNavigationResponse(navigationData) {
+        const navigationJsonElement = document.getElementById('dts-navigation-json');
+        const navigationResponseElement = document.getElementById('dts-navigation-response');
+        
+        if (!navigationJsonElement || !navigationResponseElement) {
+            console.error('DTS Client: Navigation response elements not found');
+            return;
+        }
+
+        // Display the raw JSON response
+        navigationJsonElement.textContent = JSON.stringify(navigationData, null, 2);
+        navigationResponseElement.querySelector('summary').textContent = 'Navigation Response';
+        navigationResponseElement.open = false; // Keep it collapsed by default
+    }
+
+    /**
+     * Display document metadata in the aside element (fallback)
+     */
+    function displayDocumentMetadata(metadata) {
+        const asideElement = document.getElementById('dts-aside');
+        if (!asideElement) {
+            console.error('DTS Client: dts-aside element not found');
+            return;
+        }
+
+        const title = metadata.title || 'Unknown Title';
+        const creator = metadata.dublinCore?.creator || 'Unknown Author';
+        const date = metadata.dublinCore?.date || 'Unknown Date';
+        const language = metadata.dublinCore?.language || 'Unknown Language';
+
+        asideElement.innerHTML = `
+            <div class="dts-document-metadata">
+                <h3>Document Metadata</h3>
+                <div class="metadata-item">
+                    <strong>Title:</strong> ${title}
+                </div>
+                <div class="metadata-item">
+                    <strong>Creator:</strong> ${creator}
+                </div>
+                <div class="metadata-item">
+                    <strong>Date:</strong> ${date}
+                </div>
+                <div class="metadata-item">
+                    <strong>Language:</strong> ${language}
+                </div>
+            </div>
+        `;
+    }
+
+    /**
+     * Add click handlers for document action buttons
+     */
+    function addDocumentActionHandlers(collectionData) {
+        const actionButtons = collectionTable.querySelectorAll('.dts-action-btn.view-document');
+        actionButtons.forEach((button, index) => {
+            // Get the member data from the current collection data
+            const member = collectionData.member[index];
+            if (!member) return;
+            
+            const memberId = member['@id'] || member.id || '';
+            const memberDocumentUrl = member.document || '';
+            
+            button.addEventListener('click', function() {
+                // For documents, open in new tab using the document URL
+                if (memberDocumentUrl) {
+                    viewDocument(memberId, memberDocumentUrl);
+                } else {
+                    console.error('DTS Client: No document URL available for member:', memberId);
                 }
             });
         });
