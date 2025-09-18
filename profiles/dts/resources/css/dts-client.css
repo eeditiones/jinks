@@ -6,3 +6,74 @@ main {
 main > details {
     overflow-x: auto;
 }
+
+/* Clickable titles (collections and documents) */
+.dts-title-clickable {
+    cursor: pointer;
+    color: #0066cc;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.dts-title-clickable:hover {
+    color: #004499;
+    text-decoration: none;
+}
+
+/* Document structure display */
+.document-structure {
+    margin-top: var(--s1);
+    padding-top: var(--s1);
+}
+
+.document-structure h4 {
+    margin-top: 0;
+    margin-bottom: var(--s0);
+    color: #333;
+    font-size: 1em;
+}
+
+.structure-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.structure-item {
+    padding: var(--s-1) 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.structure-item:last-child {
+    border-bottom: none;
+}
+
+/* Hierarchical structure with expandable details */
+.structure-details {
+    margin: var(--s-1) 0;
+}
+
+.structure-details.level-1 {
+    margin: var(--s0) 0;
+}
+
+.structure-children {
+    margin-left: var(--s1);
+    padding-left: var(--s0);
+    border-left: 1px solid #e9ecef;
+}
+
+.structure-item {
+    padding: var(--s-1) 0;
+    margin-left: var(--s1);
+}
+
+.structure-item.level-1 {
+    font-weight: 500;
+    margin-left: 0;
+}
+
+/* Navigation response details */
+#dts-navigation-response {
+    margin-top: var(--s1);
+}

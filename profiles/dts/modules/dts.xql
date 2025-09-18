@@ -4,7 +4,9 @@ module namespace dts="http://teipublisher.com/api/dts";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace dts-config="http://teipublisher.com/api/dts/config" at "dts-config.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace router="http://e-editiones.org/roaster";
 
@@ -145,7 +147,8 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
                                 "totalParents": 1,
                                 "totalChildren": 0,
                                 "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
-                                "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
+                                "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}",
+                                "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;down}"
                             },
                             dts:metadata($resource)
                         ))
@@ -169,6 +172,50 @@ declare function dts:document($request as map(*)) {
             dts:check-pi($doc)
         ) else
             response:set-status-code(404)
+};
+
+(:~ 
+ : DTS Navigation Endpoint
+ : @see https://distributed-text-services.github.io/specifications/navigation/1.0rc1.html
+ : @param request The request map
+ : @return the navigation information for the given resource
+ :)
+declare function dts:navigation($request as map(*)) {
+    let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
+    let $doc := 
+        doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
+    let $config := tpu:parse-pi(root($doc), ())
+    return
+        map {
+            "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
+            "dtsVersion": "1.0rc1",
+            "@type": "Navigation",
+            "@id": dts:base-path() || "/navigation?resource=" || $request?parameters?resource,
+            "resource":
+                let $id := util:document-name($doc)
+                return
+                    map:merge((
+                        map {
+                            "@id": $collection?id || "/" || $id,
+                            "title": $id,
+                            "@type": "Resource",
+                            "totalParents": 1,
+                            "totalChildren": 0,
+                            "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collection?id) || "{&amp;page,nav}",
+                            "document": dts:base-path() || "/document?resource=" || encode-for-uri($collection?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
+                        },
+                        dts:metadata($doc)
+                    )),
+            (: "citationTrees": [
+                map {
+                    "@type": "CitationTree",
+                    "citeStructure": [
+                        dts:cite-structure($doc//tei:body)
+                    ]
+                }
+            ], :)
+            "member": dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $request?parameters?down, 0)
+        }
 };
 
 declare %private function dts:metadata($doc as element()) {
@@ -241,4 +288,50 @@ declare function dts:import($request as map(*)) {
         )
         else
             response:set-status-code($response[1]/@status)
+};
+
+declare %private function dts:cite-structure($roots as element()*) {
+    for $root in $roots
+    return
+        map {
+            "@type": "CiteStructure",
+            "citeType": "Division",
+            "citeStructure": [
+                dts:cite-structure($root/tei:div)
+            ]
+        }
+};
+
+declare %private function dts:navigation-tree($roots as element()*, $odd as xs:string, $down as xs:int, $level as xs:int) {
+    for $root in $roots
+    return (
+        map {
+            "@type": "CitableUnit",
+            "citeType": "Division",
+            "level": count($root/ancestor::tei:div) + 1,
+            "dublinCore": map {
+                "title": dts:heading(head($root/tei:head), $odd)
+            },
+            "parent": dts:get-identifier($root/parent::tei:div),
+            "identifier": dts:get-identifier($root)
+        },
+        if ($down < 0 or $level < $down) then
+            dts:navigation-tree($root/tei:div, $odd, $down, $level + 1)
+        else
+            ()
+    )
+};
+
+declare %private function dts:heading($root as element()?, $odd as xs:string) {
+    if (empty($root)) then
+        ()
+    else
+        $pm-config:web-transform($root, map { "root": $root, "mode": "toc" }, $odd)    
+};
+
+declare %private function dts:get-identifier($node as node()?) {
+    if (empty($node)) then
+        ()
+    else
+        head(($node/@xml:id/string(), "exist:" || util:node-id($node)))
 };

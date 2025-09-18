@@ -10,6 +10,9 @@
             },
             "timeline": {
                 "enabled": false
+            },
+            "upload": {
+                "enabled": false
             }
         },
         "templating": {
@@ -53,4 +56,11 @@
             <pre><code id="dts-raw-json"></code></pre>
         </details>
     </main>
+    [% template after %]
+    <aside id="dts-aside"></aside>
+    <details id="dts-navigation-response">
+        <summary>Navigation Response</summary>
+        <pre><code id="dts-navigation-json"></code></pre>
+    </details>
+    [% endtemplate %]
 </template>

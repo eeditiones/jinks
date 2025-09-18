@@ -43,7 +43,7 @@
                     "200": {
                         "description": "Server configuration information",
                         "content": {
-                            "application/json": {
+                            "application/ld+json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
@@ -127,7 +127,7 @@
                     "200": {
                         "description": "Collection metadata",
                         "content": {
-                            "application/json": {
+                            "application/ld+json": {
                                 "schema": {
                                     "type": "object"
                                 }
@@ -161,6 +161,45 @@
                             "application/xml": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/navigation": {
+            "get": {
+                "summary": "Navigation endpoint",
+                "description": "The Navigation endpoint provides information about a Resource’s internal structures (e.g., book, chapter, line, etc.) and how they are referenced.",
+                "operationId": "dts:navigation",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "resource",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "down",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Navigation information",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -203,7 +242,7 @@
                     "201": {
                         "description": "Content was successfully imported",
                         "content": {
-                            "application/json": {
+                            "application/ld+json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
