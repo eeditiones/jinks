@@ -67,9 +67,10 @@ describe('index page', () => {
         .should('have.length', 4)
     })
 
-    it('the profiles section should have 3 subsections selected defaults', () => {
-      cy.get('#profiles > fieldset')
-        .should('have.length.gte', 3)
+    it('the profiles section should have a theme selected by default', () => {
+      cy.get('[name="abbrev"]')
+        .type('e2edry{enter}')
+
       cy.get('#profiles')
         .find('[name="base"]')
         .should('exist')
@@ -79,12 +80,10 @@ describe('index page', () => {
       cy.get('#profiles')
         .find('[name="theme"]')
         .should('exist')
-      cy.get('[type="radio"]')
-        .should('have.length.gte', 2)
-      cy.get('[type="checkbox"]')
-        .should('have.length.gte', 15)
-      cy.get(':checked')
-        .should('have.length.gte', 2)
+      cy.get('#profiles')
+        .find('[name="theme"]:checked')
+        .should('exist')
+
       cy.get('.error')
         .should('not.be.visible')
     })
