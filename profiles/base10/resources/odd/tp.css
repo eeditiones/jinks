@@ -12,10 +12,11 @@ people, places, organizations etc */
 .pb {
     float: right;
     background-color: rgba(255, 255, 255, 0.4); 
-    border-radius: 1em; 
+    border-radius: 1rem; 
     color: grey;
-    margin-left: 2em;
-    padding: 1em;
+    margin-left: 2rem;
+    padding: .5rem;
+    font-size: 1rem;
 }
 
 /* Default styles for TEI elements */
@@ -81,19 +82,25 @@ people, places, organizations etc */
     color: grey;
 }
 
-.tei-figure.figure-head {
+.tei-figure {
+    margin: 1rem 0;
+    width: fit-content;
+}
+
+.tei-figure .figure-head {
+    font-style: italic;
+    text-align: right;
+}
+
+.tei-figure .table-head {
     font-style: italic;
 }
 
-.tei-figure.table-head {
+.tei-figure .lg-head {
     font-style: italic;
 }
 
-.tei-figure.lg-head {
-    font-style: italic;
-}
-
-.tei-figure.list-head {
+.tei-figure .list-head {
     font-weight: bold;
 }
 
@@ -159,4 +166,16 @@ people, places, organizations etc */
 
 .tei-unclear::after {
     content: ' [?] ';
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.justify {
+    text-align: justify;
 }

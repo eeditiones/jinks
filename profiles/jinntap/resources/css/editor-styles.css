@@ -118,7 +118,8 @@ tei-div > tei-div > tei-div > tei-div > tei-div > tei-head {
     margin-top: 1.5rem;
 }
 
-tei-figure > tei-head {
+tei-figure > tei-head,
+tei-table > tei-head {
     font-size: 1rem;
     line-height: 1.25;
 }
@@ -205,6 +206,10 @@ tei-figure > tei-figDesc {
     display: block;
     text-align: right;
     font-size: 0.8rem;
+}
+
+tei-figure > tei-head {
+    text-align: right;
 }
 
 tei-persname {
