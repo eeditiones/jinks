@@ -356,6 +356,11 @@ declare variable $config:odd-available := $gen:odd-available;
  :)
 declare variable $config:odd-internal := $gen:odd-internal;
 
+(:~
+ : List of media types supported by the ODD files.
+ :)
+declare variable $config:odd-media := $gen:odd-media;
+
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
 
 declare variable $config:output := "transform";
