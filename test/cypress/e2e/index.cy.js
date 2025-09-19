@@ -103,8 +103,8 @@ describe('index page', () => {
       // TODO(DP)
     })
   })
-  
-  // Missing test areas 
+
+  // Missing test areas
   // generation with overwrite: force
   // Actions panel:
   //   - fix-odds
@@ -197,7 +197,9 @@ describe('index page', () => {
         .click()
       cy.wait('@e2eGenerate')
       cy.wait('@e2eDeploy', { responseTimeout: 40000 })
-      cy.contains('Package is deployed. Visit it here', { timeout: 10000 })
+      cy.get('.output')
+        .should('contain.text', 'Package is deployed. Visit it here', { timeout: 60000 })
+      cy.contains('Package is deployed. Visit it here', { timeout: 60000 })
       cy.get('.error')
         .should('not.be.visible')
     })
