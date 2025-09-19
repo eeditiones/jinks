@@ -201,6 +201,8 @@ describe('index page', () => {
       cy.get('.error')
         .should('be.empty')
       cy.contains('Package is deployed. Visit it here', { timeout: 10000 })
+
+      cy.get('#open-action').then(link => cy.request(link.prop('href')))
     })
   })
 
