@@ -163,14 +163,28 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
  :)
 declare function dts:document($request as map(*)) {
     let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
-    let $doc := 
-            doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
+    let $doc := doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
     return
-        if ($doc) then (
-            util:declare-option("output:method", "xml"),
-            util:declare-option("output:media-type", "application/tei+xml"),
-            dts:check-pi($doc)
-        ) else
+        if ($doc) then
+            let $xml := dts:resolve-fragment($doc, $request?parameters?ref)
+            return
+                if ($xml instance of document-node()) then (
+                    util:declare-option("output:method", "xml"),
+                    util:declare-option("output:media-type", "application/tei+xml"),
+                    dts:check-pi(root($xml))
+                ) else if ($xml instance of element()) then
+                    document {
+                        <TEI xmlns="http://www.tei-c.org/ns/1.0">
+                            <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
+                                {$xml}
+                            </dts:wrapper>
+                        </TEI>
+                    }
+                else if ($xml instance of attribute()) then
+                    $xml
+                else
+                    response:set-status-code(404)
+        else
             response:set-status-code(404)
 };
 
@@ -334,4 +348,16 @@ declare %private function dts:get-identifier($node as node()?) {
         ()
     else
         head(($node/@xml:id/string(), "exist:" || util:node-id($node)))
+};
+
+declare %private function dts:resolve-fragment($doc as document-node(), $ref as xs:string?) {
+    if (empty($ref)) then
+        $doc
+    else
+        let $xml := $doc/id($ref)
+        return
+            if ($xml) then
+                $xml
+            else
+                util:node-by-id($doc, substring-after($ref, "exist:"))
 };
