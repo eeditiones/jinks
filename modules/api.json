@@ -956,6 +956,19 @@
                                             "type": "string"
                                         }
                                     }
+        "/api/dts/list": {
+            "get": {
+                "operationId": "api:dts-servers",
+                "tags": [
+                    "dts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
                                 }
                             }
                         }
