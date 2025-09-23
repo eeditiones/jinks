@@ -271,6 +271,22 @@ declare %private function api:resolve-conflicts($appId as xs:string, $paths as x
             ()
 };
 
+declare function api:dts-servers($request as map(*)) {
+    array {
+        for $collection in xmldb:get-child-collections(repo:get-root())
+        let $config := generator:load-json(repo:get-root() || "/" || $collection || "/config.json", map {})
+        where "dts" = $config?extends
+        let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $collection, "api", "dts"), "/")
+        let $base := replace($path, "/+", "/")
+        return
+            map {
+                "entry": $base,
+                "title": $config?label,
+                "description": $config?description
+            }
+    }
+};
+
 let $lookup := function($name as xs:string) {
     try {
         function-lookup(xs:QName($name), 1)
