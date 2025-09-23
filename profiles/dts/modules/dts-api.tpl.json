@@ -159,13 +159,58 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "mediaType",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "application/tei+xml",
+                                "application/pdf; media=latex",
+                                "application/pdf; media=fo",
+                                "application/epub+zip; media=epub",
+                                "text/markdown",
+                                "text/html; charset=utf-8; media=print",
+                                "text/html; charset=utf-8"
+                            ],
+                            "default": "application/tei+xml"
+                        },
+                        "description": "The media type of the document to return"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "TEI/XML of the document",
                         "content": {
-                            "application/xml": {
+                            "application/tei+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application/epub+zip": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/markdown": {
                                 "schema": {
                                     "type": "string"
                                 }

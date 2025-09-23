@@ -7,7 +7,7 @@
 function initializeDTSClient() {
     // Get DOM elements with error checking
     const connectButton = document.getElementById('dts-connect');
-    const serverUrlInput = document.getElementById('dts-server-url');
+    const serverListSelect = document.getElementById('dts-server-list');
     const serverInfoDiv = document.getElementById('dts-server-info');
     const collectionTable = document.getElementById('dts-collection');
     const rawResponseDetails = document.getElementById('dts-raw-response');
@@ -22,7 +22,7 @@ function initializeDTSClient() {
     const breadcrumbsList = breadcrumbsNav ? breadcrumbsNav.querySelector('ul') : null;
 
     // Check for missing core elements
-    if (!connectButton || !serverUrlInput || !serverInfoDiv || !collectionTable || !rawResponseDetails || !rawJsonCode) {
+    if (!connectButton || !serverListSelect || !serverInfoDiv || !collectionTable || !rawResponseDetails || !rawJsonCode) {
         console.error('DTS Client: Core elements not found in DOM');
         return;
     }
@@ -56,27 +56,72 @@ function initializeDTSClient() {
         connectToDTS();
     });
 
-    // Also allow Enter key in the URL input
-    serverUrlInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            connectToDTS();
-        }
-    });
-
     // Add pagination event handlers
     paginationFirst.addEventListener('click', () => navigateToPage(1));
     paginationPrevious.addEventListener('click', () => navigateToPage(currentPage - 1));
     paginationNext.addEventListener('click', () => navigateToPage(currentPage + 1));
     paginationLast.addEventListener('click', () => navigateToPage(getLastPageNumber()));
 
+    // Load available DTS servers on initialization
+    loadDTSServers();
+
+    /**
+     * Load available DTS servers from the API
+     */
+    async function loadDTSServers() {
+        try {
+            const response = await fetch('../jinks/api/dts/list', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const servers = await response.json();
+            populateServerList(servers);
+        } catch (error) {
+            console.error('DTS Client: Failed to load server list:', error);
+            // Add a default option indicating no servers available
+            serverListSelect.innerHTML = '<option value="">No servers available</option>';
+        }
+    }
+
+    /**
+     * Populate the server list select element
+     */
+    function populateServerList(servers) {
+        // Clear existing options
+        serverListSelect.innerHTML = '';
+        
+        // Add default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select a DTS server...';
+        serverListSelect.appendChild(defaultOption);
+        
+        // Add server options
+        servers.forEach(server => {
+            const option = document.createElement('option');
+            option.value = server.entry;
+            option.textContent = server.title;
+            serverListSelect.appendChild(option);
+        });
+    }
+
     /**
      * Connect to DTS Entry Endpoint and display server information
      */
     async function connectToDTS() {
-        const serverUrl = serverUrlInput.value.trim();
+        // Get server URL from the dropdown selection
+        const serverUrl = serverListSelect.value;
         
         if (!serverUrl) {
-            displayError('Please enter a server URL');
+            displayError('Please select a server from the dropdown');
             return;
         }
 
@@ -121,7 +166,7 @@ function initializeDTSClient() {
     function displayServerInfo(data) {
         serverInfoDiv.innerHTML = `
             <p><strong>Collection Endpoint:</strong> <a href="${data.collection || '#'}" target="_blank">${data.collection || 'N/A'}</a></p>
-            <p><strong>Documents Endpoint:</strong> <a href="${data.documents || '#'}" target="_blank">${data.documents || 'N/A'}</a></p>
+            <p><strong>Documents Endpoint:</strong> <a href="${data.document || '#'}" target="_blank">${data.documents || 'N/A'}</a></p>
             <p><strong>Navigation Endpoint:</strong> <a href="${data.navigation || '#'}" target="_blank">${data.navigation || 'N/A'}</a></p>
 
             <details>
@@ -199,6 +244,62 @@ function initializeDTSClient() {
     }
 
     /**
+     * Generate action buttons based on supported media types
+     */
+    function generateActionButtons(member) {
+        const mediaTypes = member.mediaTypes || [];
+        let buttons = '';
+        
+        // Default XML/TEI button
+        buttons += `<button class="dts-action-btn view-document" data-media-type="application/tei+xml" title="View as TEI/XML">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-xml" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z"/>
+            </svg>
+        </button>`;
+        
+        // Check for PDF support
+        const hasPdfLatex = mediaTypes.includes('application/pdf; media=latex');
+        const hasPdfFo = mediaTypes.includes('application/pdf; media=fo');
+        
+        if (hasPdfLatex || hasPdfFo) {
+            const pdfMediaType = hasPdfLatex ? 'application/pdf; media=latex' : 'application/pdf; media=fo';
+            buttons += `<button class="dts-action-btn view-document" data-media-type="${pdfMediaType}" title="Download as PDF">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                    <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.716 5.716 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.791.024.081.047.158.068.245z"/>
+                </svg>
+            </button>`;
+        }
+        
+        // Check for EPUB support
+        if (mediaTypes.includes('application/epub+zip; media=epub')) {
+            buttons += `<button class="dts-action-btn view-document" data-media-type="application/epub+zip; media=epub" title="Download as EPUB">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                </svg>
+            </button>`;
+        }
+        
+        // Check for HTML support
+        const hasHtmlWeb = mediaTypes.includes('text/html; charset=utf-8');
+        const hasHtmlPrint = mediaTypes.includes('text/html; charset=utf-8; media=print');
+        
+        if (hasHtmlWeb || hasHtmlPrint) {
+            const htmlMediaType = hasHtmlWeb ? 'text/html; charset=utf-8' : 'text/html; charset=utf-8; media=print';
+            const htmlTitle = hasHtmlWeb ? 'View as HTML' : 'View as HTML (Print)';
+            buttons += `<button class="dts-action-btn view-document" data-media-type="${htmlMediaType}" title="${htmlTitle}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-code" viewBox="0 0 16 16">
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                    <path d="M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                    <path d="M8.646 6.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 9 8.646 7.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 9l1.647-1.646a.5.5 0 0 0 0-.708z"/>
+                </svg>
+            </button>`;
+        }
+        
+        return buttons;
+    }
+
+    /**
      * Display collection data in the table
      */
     function displayCollectionTable(collectionData, collectionTitle = 'Collection') {
@@ -211,8 +312,6 @@ function initializeDTSClient() {
                 <tr>
                     <th>Type</th>
                     <th>Title</th>
-                    <th>ID</th>
-                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -230,21 +329,18 @@ function initializeDTSClient() {
                 
                 // Determine if this is a collection or document
                 const isCollection = memberType.toLowerCase().includes('collection');
-                const memberCollectionUrl = member.collection || '';
-                const memberDocumentUrl = member.document || '';
-                const memberNavigationUrl = member.navigation || '';
                 
-                // Generate action button for documents only
-                const actionButton = isCollection ? '' : 
-                    `<button class="dts-action-btn view-document">View Document</button>`;
+                // Generate action buttons for documents only
+                const actionButtons = isCollection ? '' : generateActionButtons(member);
                 
                 tableBody += `
                     <tr>
                         <td><span class="member-type ${isCollection ? 'collection' : 'document'}">${memberType}</span></td>
-                        <td><strong class="dts-title-clickable">${memberTitle}</strong></td>
-                        <td><code>${memberId}</code></td>
-                        <td>${memberDescription}</td>
-                        <td>${actionButton}</td>
+                        <td>
+                            <strong class="dts-title-clickable">${memberTitle}</strong><br>
+                            <code>${memberId}</code>
+                        </td>
+                        <td>${actionButtons}</td>
                     </tr>
                 `;
             });
@@ -344,7 +440,7 @@ function initializeDTSClient() {
 
         } catch (error) {
             console.error('DTS Navigation Error:', error);
-            displayDocumentMetadata({ title: `Error: ${error.message}` });
+            displayError(`Failed to fetch document metadata: ${error.message}`);
         }
     }
 
@@ -362,9 +458,7 @@ function initializeDTSClient() {
         const members = navigationData.member || [];
         
         const title = resource.title || 'Unknown Title';
-        const creator = resource.dublinCore?.creator || 'Unknown Author';
-        const date = resource.dublinCore?.date || 'Unknown Date';
-        const language = resource.dublinCore?.language || 'Unknown Language';
+        const dublinCore = resource.dublinCore || {};
 
         // Filter for CitableUnits and organize by level
         const citableUnits = members.filter(member => 
@@ -383,21 +477,22 @@ function initializeDTSClient() {
             structureHtml = '<div class="document-structure"><p>No structure information available</p></div>';
         }
 
+        // Generate metadata items for all non-null dublinCore fields
+        const metadataItems = Object.entries(dublinCore)
+            .filter(([key, value]) => value !== null && value !== undefined && value !== '')
+            .map(([key, value]) => `
+                <div class="metadata-item">
+                    <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}
+                </div>
+            `).join('');
+
         asideElement.innerHTML = `
             <div class="dts-document-metadata">
                 <h3>Document Information</h3>
                 <div class="metadata-item">
                     <strong>Title:</strong> ${title}
                 </div>
-                <div class="metadata-item">
-                    <strong>Creator:</strong> ${creator}
-                </div>
-                <div class="metadata-item">
-                    <strong>Date:</strong> ${date}
-                </div>
-                <div class="metadata-item">
-                    <strong>Language:</strong> ${language}
-                </div>
+                ${metadataItems}
                 ${structureHtml}
             </div>
         `;
@@ -509,61 +604,37 @@ function initializeDTSClient() {
 
         // Display the raw JSON response
         navigationJsonElement.textContent = JSON.stringify(navigationData, null, 2);
-        navigationResponseElement.querySelector('summary').textContent = 'Navigation Response';
+        navigationResponseElement.querySelector('summary').textContent = 'RAW JSON Response';
         navigationResponseElement.open = false; // Keep it collapsed by default
     }
 
-    /**
-     * Display document metadata in the aside element (fallback)
-     */
-    function displayDocumentMetadata(metadata) {
-        const asideElement = document.getElementById('dts-aside');
-        if (!asideElement) {
-            console.error('DTS Client: dts-aside element not found');
-            return;
-        }
-
-        const title = metadata.title || 'Unknown Title';
-        const creator = metadata.dublinCore?.creator || 'Unknown Author';
-        const date = metadata.dublinCore?.date || 'Unknown Date';
-        const language = metadata.dublinCore?.language || 'Unknown Language';
-
-        asideElement.innerHTML = `
-            <div class="dts-document-metadata">
-                <h3>Document Metadata</h3>
-                <div class="metadata-item">
-                    <strong>Title:</strong> ${title}
-                </div>
-                <div class="metadata-item">
-                    <strong>Creator:</strong> ${creator}
-                </div>
-                <div class="metadata-item">
-                    <strong>Date:</strong> ${date}
-                </div>
-                <div class="metadata-item">
-                    <strong>Language:</strong> ${language}
-                </div>
-            </div>
-        `;
-    }
 
     /**
      * Add click handlers for document action buttons
      */
     function addDocumentActionHandlers(collectionData) {
         const actionButtons = collectionTable.querySelectorAll('.dts-action-btn.view-document');
-        actionButtons.forEach((button, index) => {
+        actionButtons.forEach((button) => {
+            // Find the parent row to get the member index
+            const row = button.closest('tr');
+            if (!row) return;
+            
+            // Get all rows in the table body
+            const rows = collectionTable.querySelectorAll('tbody tr');
+            const rowIndex = Array.from(rows).indexOf(row);
+            
             // Get the member data from the current collection data
-            const member = collectionData.member[index];
+            const member = collectionData.member[rowIndex];
             if (!member) return;
             
             const memberId = member['@id'] || member.id || '';
             const memberDocumentUrl = member.document || '';
+            const mediaType = button.getAttribute('data-media-type') || 'application/tei+xml';
             
             button.addEventListener('click', function() {
-                // For documents, open in new tab using the document URL
+                // For documents, open in new tab using the document URL with media type
                 if (memberDocumentUrl) {
-                    viewDocument(memberId, memberDocumentUrl);
+                    viewDocument(memberId, memberDocumentUrl, mediaType);
                 } else {
                     console.error('DTS Client: No document URL available for member:', memberId);
                 }
@@ -574,15 +645,18 @@ function initializeDTSClient() {
     /**
      * View a document in a new tab
      */
-    function viewDocument(documentId, documentUrl) {
+    function viewDocument(documentId, documentUrl, mediaType = 'application/tei+xml') {
         if (!documentUrl) {
             console.error('DTS Client: No document URL provided');
             return;
         }
 
         try {
-            // Expand the URI template to get the actual document URL
-            const expandedUrl = expandUriTemplate(documentUrl, { resource: documentId });
+            // Expand the URI template to get the actual document URL with media type
+            const expandedUrl = expandUriTemplate(documentUrl, { 
+                resource: documentId, 
+                mediaType: mediaType 
+            });
             console.log('DTS Client: Opening document URL:', expandedUrl);
             
             // Open the document in a new tab

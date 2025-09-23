@@ -138,6 +138,7 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
                 "items": 
                     for $resource in subsequence($resources, ($page - 1) * $pageSize + 1, $pageSize)
                     let $id := util:document-name($resource)
+                    let $config := tpu:parse-pi(root($resource), ())
                     return
                         map:merge((
                             map {
@@ -148,7 +149,19 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
                                 "totalChildren": 0,
                                 "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
                                 "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}",
-                                "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;down}"
+                                "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;down}",
+                                "mediaTypes": array {
+                                    "application/xml",
+                                    for $media in $config?media
+                                    return
+                                        switch ($media)
+                                            case "latex" return "application/pdf; media=latex"
+                                            case "fo" return "application/pdf; media=fo"
+                                            case "epub" return "application/epub+zip; media=epub"
+                                            case "markdown" return "text/markdown"
+                                            case "print" return "text/html; charset=utf-8; media=print"
+                                            default return "text/html; charset=utf-8"
+                                }
                             },
                             dts:metadata($resource)
                         ))
@@ -164,14 +177,22 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
 declare function dts:document($request as map(*)) {
     let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
     let $doc := doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
+    let $mediaType := $request?parameters?mediaType
     return
         if ($doc) then
             let $xml := dts:resolve-fragment($doc, $request?parameters?ref)
             return
                 if ($xml instance of document-node()) then (
-                    util:declare-option("output:method", "xml"),
-                    util:declare-option("output:media-type", "application/tei+xml"),
-                    dts:check-pi(root($xml))
+                    util:declare-option("output:media-type", $mediaType),
+                    let $config := tpu:parse-pi($xml, ())
+                    return
+                        switch ($mediaType)
+                            case "text/html; charset=utf-8" return $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "text/html; charset=utf-8; media=print" return $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "application/pdf; media=latex" return $pm-config:latex-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "application/pdf; media=fo" return $pm-config:fo-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "application/epub+zip; media=epub" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
+                            default return dts:check-pi(root($xml))
                 ) else if ($xml instance of element()) then
                     document {
                         <TEI xmlns="http://www.tei-c.org/ns/1.0">
