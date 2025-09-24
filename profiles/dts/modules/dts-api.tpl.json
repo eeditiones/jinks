@@ -166,7 +166,7 @@
                         "schema": {
                             "type": "string",
                             "enum": [
-                                "application/tei+xml",
+                                "application/xml",
                                 "application/pdf; media=latex",
                                 "application/pdf; media=fo",
                                 "application/epub+zip; media=epub",
@@ -174,7 +174,7 @@
                                 "text/html; charset=utf-8; media=print",
                                 "text/html; charset=utf-8"
                             ],
-                            "default": "application/tei+xml"
+                            "default": "application/xml"
                         },
                         "description": "The media type of the document to return"
                     },
@@ -190,7 +190,7 @@
                     "200": {
                         "description": "TEI/XML of the document",
                         "content": {
-                            "application/tei+xml": {
+                            "application/xml": {
                                 "schema": {
                                     "type": "string"
                                 }
