@@ -248,7 +248,7 @@ function initializeDTSClient() {
      */
     function generateActionButtons(member) {
         const mediaTypes = member.mediaTypes || [];
-        let buttons = '';
+        let buttons = '<span role="group">';
         
         // Default XML/TEI button
         buttons += `<button class="dts-action-btn view-document" data-media-type="application/xml" title="View as TEI/XML">
@@ -296,7 +296,7 @@ function initializeDTSClient() {
             </button>`;
         }
         
-        return buttons;
+        return buttons + '</span>';
     }
 
     /**
@@ -459,6 +459,9 @@ function initializeDTSClient() {
         
         const title = resource.title || 'Unknown Title';
         const dublinCore = resource.dublinCore || {};
+        
+        // Store the document URL template for fragment requests
+        window.currentDocumentUrlTemplate = resource.document;
 
         // Filter for CitableUnits and organize by level
         const citableUnits = members.filter(member => 
@@ -557,6 +560,7 @@ function initializeDTSClient() {
                     <details class="structure-details level-${currentLevel}">
                         <summary class="structure-summary">
                             <span class="structure-title">${title}</span>
+                            ${identifier ? `<span class="structure-identifier" onclick="requestDocumentFragment('${identifier}')" title="Click to view fragment">${identifier}</span>` : ''}
                         </summary>
                         <div class="structure-children">
                             ${childrenHtml}
@@ -568,6 +572,7 @@ function initializeDTSClient() {
                 html += `
                     <div class="structure-item level-${currentLevel}">
                         <span class="structure-title">${title}</span>
+                        ${identifier ? `<span class="structure-identifier" onclick="requestDocumentFragment('${identifier}')" title="Click to view fragment">${identifier}</span>` : ''}
                     </div>
                 `;
             }
@@ -665,6 +670,47 @@ function initializeDTSClient() {
             console.error('DTS Client: Error opening document:', error);
         }
     }
+
+    /**
+     * Request a document fragment using the ref parameter
+     */
+    window.requestDocumentFragment = function(identifier) {
+        if (!window.currentDocumentUrlTemplate) {
+            console.error('DTS Client: No document URL template available');
+            return;
+        }
+
+        if (!identifier) {
+            console.error('DTS Client: No identifier provided');
+            return;
+        }
+
+        try {
+            // Extract the resource ID from the current document URL template
+            // The template should be in format: /api/dts/document?resource={resource}{&ref,start,end,tree,mediaType}
+            const resourceMatch = window.currentDocumentUrlTemplate.match(/resource=([^&{]+)/);
+            if (!resourceMatch) {
+                console.error('DTS Client: Could not extract resource ID from document template');
+                return;
+            }
+            
+            const resourceId = resourceMatch[1];
+            
+            // Expand the URI template to get the actual document URL with ref parameter
+            const expandedUrl = expandUriTemplate(window.currentDocumentUrlTemplate, { 
+                resource: resourceId,
+                ref: identifier,
+                mediaType: 'application/xml'
+            });
+            
+            console.log('DTS Client: Requesting document fragment:', expandedUrl);
+            
+            // Open the document fragment in a new tab
+            window.open(expandedUrl, '_blank');
+        } catch (error) {
+            console.error('DTS Client: Error requesting document fragment:', error);
+        }
+    };
 
     /**
      * Navigate to a specific collection

@@ -16,14 +16,36 @@
     ],
     "features": {
         "dts": {
-            "collections": [
+            "member": [
+                {
+                    "id": "bible",
+                    "type": "collection",
+                    "title": "Bibel",
+                    "path": "bible",
+                    "dublinCore": {
+                        "title": [
+                            {
+                                "lang": "de",
+                                "value": "Bibel"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "barth",
+                    "type": "collection",
+                    "title": "Karl Barth: Predigten 1915",
+                    "path": "barth"
+                },
                 {
                     "id": "demo",
+                    "type": "collection",
                     "title": "Demo Collection",
                     "path": "demo"
                 },
                 {
                     "id": "serafin",
+                    "type": "collection",
                     "title": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
                     "path": "letters",
                     "dublinCore": {

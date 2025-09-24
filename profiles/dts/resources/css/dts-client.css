@@ -86,6 +86,25 @@ main > details {
     margin-left: 0;
 }
 
+/* Structure identifier styling */
+.structure-identifier {
+    cursor: pointer;
+    color: #0066cc;
+    font-size: 0.85em;
+    margin-left: var(--s-1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.structure-identifier:hover {
+    color: #004499;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
 /* Navigation response details */
 #dts-navigation-response {
     margin-top: var(--s1);

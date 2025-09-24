@@ -48,22 +48,21 @@ declare function dts:entry($request as map(*)) {
 declare function dts:collection($request as map(*)) {
     let $collectionInfo :=
         if ($request?parameters?id) then
-            dts:collection-by-id($dts-config:collections, $request?parameters?id, (), $request?parameters?nav = "parents")
+            dts:collection-by-id($dts-config:members, $request?parameters?id, (), $request?parameters?nav = "parents")
         else
-            $dts-config:collections
+            $dts-config:members
     return
         if (exists($collectionInfo)) then
             let $pageSize := xs:int(($request?parameters?per-page, $dts-config:page-size)[1])
             let $resources := dts:get-members($collectionInfo, $request?parameters?page, $pageSize)
             let $parentInfo := 
                 if ($request?parameters?id) then
-                    dts:collection-by-id($dts-config:collections, $request?parameters?id, (), true())
+                    dts:collection-by-id($dts-config:members, $request?parameters?id, (), true())
                 else
                     ()
             return map:merge((
                 map {
                     "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
-                    "@type": "Collection",
                     "@id": $collectionInfo?id,
                     "dtsVersion": "1.0.rc",
                     "title": $collectionInfo?title,
@@ -175,16 +174,16 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
  : @return the document information for the given resource
  :)
 declare function dts:document($request as map(*)) {
-    let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
+    let $collection := dts:collection-by-id($dts-config:members, substring-before($request?parameters?resource, "/"), (), false())
     let $doc := doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
     let $mediaType := $request?parameters?mediaType
+    let $parsedMediaType := tokenize($mediaType, ";")
     return
         if ($doc) then
             let $xml := dts:resolve-fragment($doc, $request?parameters?ref)
             return
                 if ($xml instance of document-node()) then (
                     let $config := tpu:parse-pi($xml, ())
-                    let $parsedMediaType := tokenize($mediaType, ";")
                     let $output :=
                         switch ($parsedMediaType[1])
                             case "text/html" return
@@ -203,15 +202,21 @@ declare function dts:document($request as map(*)) {
                         router:response(200, $parsedMediaType[1], $output)
                 ) else if ($xml instance of element()) then
                     let $output :=
-                        document {
-                            <TEI xmlns="http://www.tei-c.org/ns/1.0">
-                                <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
-                                    {$xml}
-                                </dts:wrapper>
-                            </TEI>
-                        }
+                        switch ($parsedMediaType[1])
+                            case "text/html" return
+                                 let $config := tpu:parse-pi(root($xml), ())
+                                 return
+                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                            default return
+                                document {
+                                    <TEI xmlns="http://www.tei-c.org/ns/1.0">
+                                        <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
+                                            {$xml}
+                                        </dts:wrapper>
+                                    </TEI>
+                                }
                     return
-                        router:response(200, "application/xml", $output)
+                        router:response(200, if ($parsedMediaType[1] = "text/html") then "text/html" else "application/xml", $output)
                 else
                     router:response(404, "text/text", "Fragment not found")
         else
@@ -225,7 +230,7 @@ declare function dts:document($request as map(*)) {
  : @return the navigation information for the given resource
  :)
 declare function dts:navigation($request as map(*)) {
-    let $collection := dts:collection-by-id($dts-config:collections, substring-before($request?parameters?resource, "/"), (), false())
+    let $collection := dts:collection-by-id($dts-config:members, substring-before($request?parameters?resource, "/"), (), false())
     let $doc := 
         doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
     let $config := tpu:parse-pi(root($doc), ())
@@ -354,7 +359,7 @@ declare %private function dts:navigation-tree($roots as element()*, $odd as xs:s
             "citeType": "Division",
             "level": count($root/ancestor::tei:div) + 1,
             "dublinCore": map {
-                "title": dts:heading(head($root/tei:head), $odd)
+                "title": dts:heading(head(($root/tei:head, $root/@n)), $odd)
             },
             "parent": dts:get-identifier($root/parent::tei:div),
             "identifier": dts:get-identifier($root)
@@ -366,11 +371,15 @@ declare %private function dts:navigation-tree($roots as element()*, $odd as xs:s
     )
 };
 
-declare %private function dts:heading($root as element()?, $odd as xs:string) {
+declare %private function dts:heading($root as item()?, $odd as xs:string) {
     if (empty($root)) then
         ()
-    else
-        $pm-config:web-transform($root, map { "root": $root, "mode": "toc" }, $odd)    
+    else 
+        typeswitch ($root)
+            case attribute() | text() | xs:string return
+                $root/string()
+            default return
+                $pm-config:web-transform($root, map { "root": $root, "mode": "toc" }, $odd)
 };
 
 declare %private function dts:get-identifier($node as node()?) {
