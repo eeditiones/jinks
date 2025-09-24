@@ -105,11 +105,9 @@ declare function dts:documents($request as map(*)) {
         else
             doc($config:data-root || "/" || $request?parameters?id)
     return
-        if ($doc) then (
-            util:declare-option("output:method", "xml"),
-            util:declare-option("output:media-type", "application/tei+xml"),
+        if ($doc) then
             dts:check-pi($doc)
-        ) else
+        else
             response:set-status-code(404)
 };
 

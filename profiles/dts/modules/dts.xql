@@ -183,30 +183,39 @@ declare function dts:document($request as map(*)) {
             let $xml := dts:resolve-fragment($doc, $request?parameters?ref)
             return
                 if ($xml instance of document-node()) then (
-                    util:declare-option("output:media-type", $mediaType),
                     let $config := tpu:parse-pi($xml, ())
-                    return
-                        switch ($mediaType)
-                            case "text/html; charset=utf-8" return $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "text/html; charset=utf-8; media=print" return $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "application/pdf; media=latex" return $pm-config:latex-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "application/pdf; media=fo" return $pm-config:fo-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "application/epub+zip; media=epub" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
+                    let $parsedMediaType := tokenize($mediaType, ";")
+                    let $output :=
+                        switch ($parsedMediaType[1])
+                            case "text/html" return
+                                if ($parsedMediaType[3] = "media=print") then
+                                    $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
+                                else
+                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "application/pdf" return
+                                if ($parsedMediaType[3] = "media=latex") then
+                                    $pm-config:latex-transform($xml, map { "root": root($xml) }, $config?odd)
+                                else
+                                    $pm-config:fo-transform($xml, map { "root": root($xml) }, $config?odd)
+                            case "application/epub+zip" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
                             default return dts:check-pi(root($xml))
+                    return
+                        router:response(200, $parsedMediaType[1], $output)
                 ) else if ($xml instance of element()) then
-                    document {
-                        <TEI xmlns="http://www.tei-c.org/ns/1.0">
-                            <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
-                                {$xml}
-                            </dts:wrapper>
-                        </TEI>
-                    }
-                else if ($xml instance of attribute()) then
-                    $xml
+                    let $output :=
+                        document {
+                            <TEI xmlns="http://www.tei-c.org/ns/1.0">
+                                <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
+                                    {$xml}
+                                </dts:wrapper>
+                            </TEI>
+                        }
+                    return
+                        router:response(200, "application/xml", $output)
                 else
-                    response:set-status-code(404)
+                    router:response(404, "text/text", "Fragment not found")
         else
-            response:set-status-code(404)
+            router:response(404, "text/text", "Resource not found")
 };
 
 (:~ 
