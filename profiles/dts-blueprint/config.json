@@ -1,0 +1,45 @@
+{
+  "label": "DTS (Distributed Text Services) Demo",
+  "id": "https://e-editiones.org/apps/dts-blueprint",
+  "description": "Showcase for DTS (Distributed Text Services) using Karl Barth's Predigten 1915",
+  "type": "blueprint",
+  "version": "1.0.0",
+  "depends": [
+    "base10",
+    "theme-base10",
+    "dts"
+  ],
+  "defaults": {
+    "data-default": "barth",
+    "odd": "barth.odd"
+  },
+  "odds": [
+    "barth.odd"
+  ],
+  "features": {
+    "dts": {
+        "member": [
+            {
+                "id": "bible",
+                "type": "collection",
+                "title": "Bibel",
+                "path": "bible",
+                "dublinCore": {
+                    "title": [
+                        {
+                            "lang": "de",
+                            "value": "Bibel"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "barth",
+                "type": "collection",
+                "title": "Karl Barth: Predigten 1915",
+                "path": "barth"
+            }
+        ]
+    }
+  }
+}
