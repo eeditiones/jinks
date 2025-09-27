@@ -38,7 +38,7 @@ declare function action:fix-odds($request as map(*)) {
 };
 
 declare %private function action:generate-pm-config() {
-    let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root)
+    let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
     let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
     return map {
         "type": "action:fix-odds",
