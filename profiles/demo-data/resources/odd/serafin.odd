@@ -2,28 +2,32 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Serafin Letters
-                 <desc>15th c. manuscript correspondence with parallel translation</desc>
+                <title>Serafin Letters <desc>15th c. manuscript correspondence with parallel
+                        translation</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
                 <publisher>eXistSolutions GmbH</publisher>
                 <availability>
-                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
-                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions GmbH</ref>
+                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under
+                        GNU General Public License</licence>
+                    <p>Copyright 2017 <ref target="http://existsolutions.com">eXistSolutions
+                            GmbH</ref>
                     </p>
-                    <p>This program is free software: you can redistribute it and/or modify
-                        it under the terms of the GNU General Public License as published by
-                        the Free Software Foundation, either version 3 of the License, or
-                        (at your option) any later version.</p>
-                    <p>This program is distributed in the hope that it will be useful,
-                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.</p>
+                    <p>This program is free software: you can redistribute it and/or modify it under
+                        the terms of the GNU General Public License as published by the Free
+                        Software Foundation, either version 3 of the License, or (at your option)
+                        any later version.</p>
+                    <p>This program is distributed in the hope that it will be useful, but WITHOUT
+                        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+                        FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+                        more details.</p>
                 </availability>
             </publicationStmt>
             <sourceDesc>
-                <p>Created for Mikołaj Serafin edition with <ref target="http://tei-publisher.com">TEI Publisher</ref></p>
+                <p>Created for Mikołaj Serafin edition with <ref target="http://tei-publisher.com"
+                        >TEI Publisher</ref>
+                </p>
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
@@ -44,35 +48,80 @@
             <change when="2018-08-31+02:00">Initial version</change>
         </revisionDesc>
     </teiHeader>
-    <text xmlns="http://www.tei-c.org/ns/1.0">
+    <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd">
-                <elementSpec ident="TEI" mode="change"/>
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="parent::person or parent::place" behaviour="inline"/>
                     <model predicate="ancestor::listAnnotation" behaviour="inline">
-                        <desc>notes stored in the standOff section, therefore they just need to be rendered inline 
-                        when pulled from corresponding anchor element via the target attribute </desc>
+                        <desc>notes stored in the standOff section, therefore they just need to be
+                            rendered inline when pulled from corresponding anchor element via the
+                            target attribute </desc>
                     </model>
                     <model behaviour="note"/>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
+                    <model output="plain" behaviour="inline"/>
                     <model output="latex" behaviour="inline">
                         <pb:template xmlns="" xml:space="preserve">\pstart [[content]] \pend</pb:template>
                     </model>
                     <model predicate="@corresp" behaviour="webcomponent" useSourceRendition="true">
                         <param name="name" value="'pb-highlight'"/>
-                        <param name="key" value="replace(@corresp, &#34;^#\w\.(.*)$&#34;, &#34;$1&#34;)"/>
+                        <param name="key"
+                            value="replace(@corresp, &#34;^#\w\.(.*)$&#34;, &#34;$1&#34;)"/>
                         <param name="highlight-self" value="true()"/>
                     </model>
                     <model behaviour="webcomponent" useSourceRendition="true">
                         <param name="name" value="'pb-highlight'"/>
-                        <param name="key" value="replace(@xml:id, &#34;^\w\.(.*)$&#34;, &#34;$1&#34;)"/>
+                        <param name="key"
+                            value="replace(@xml:id, &#34;^\w\.(.*)$&#34;, &#34;$1&#34;)"/>
                         <param name="highlight-self" value="true()"/>
                     </model>
+                </elementSpec>
+                <elementSpec ident="TEI" mode="change">
+                    <modelSequence output="plain">
+                        <model behaviour="heading">
+                            <param name="content" value="'Source'"/>
+                            <param name="level" value="1"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value=".//text[@type='source']/node()"/>
+                        </model>
+                        <model behaviour="heading">
+                            <param name="content" value="'Translation'"/>
+                            <param name="level" value="1"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value=".//text[@type='translation']/node()"/>
+                        </model>
+                    </modelSequence>
+                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+                        <param name="content" value="teiHeader"/>
+                    </model>
+                    <model predicate="$parameters?mode='edition-navigation' and descendant::correspContext" behaviour="pass-through">
+                        <desc>process correspContext to provide in-edition navigation buttons to move between documents</desc>
+                        <param name="content" value="descendant::correspContext"/>
+                    </model>
+                    <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
+                        <desc>Output register data if register profile is enabled</desc>
+                        <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="register">
+<h3>People</h3>
+<ul>
+[[people]]
+</ul>
+
+<h3>Places</h3>
+<ul>
+[[places]]
+</ul>
+</div></pb:template>
+                    </model>
+                    <model behaviour="document"/>
                 </elementSpec>
             </schemaSpec>
         </body>

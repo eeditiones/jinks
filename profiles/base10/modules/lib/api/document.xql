@@ -368,13 +368,12 @@ declare function dapi:pdf($request as map(*)) {
 declare function dapi:markdown($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $doc := config:get-document($id)
-    let $_ := util:log("info", "to markdown: " || $id)
     return
         if (exists($doc)) then
             let $config := tpu:parse-pi(root($doc), ())
             let $markdown := $pm-config:markdown-transform($doc, map { "root": $doc }, $config?odd)
             return
-                router:response(200, "text/markdown", string-join($markdown, ""))
+                router:response(200, "text/markdown; charset=utf-8", string-join($markdown, ""))
         else
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
