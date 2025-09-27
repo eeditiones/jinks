@@ -73,7 +73,7 @@
     },
     "generator": {
         "templates": {
-            "config-odd-available": "xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][. != 'teipublisher_odds.odd']"
+            "config-odd-available": "xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][not(. = ('teipublisher_odds.odd', 'teilite.odd'))]"
         }
     },
     "api": [
