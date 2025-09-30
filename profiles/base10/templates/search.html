@@ -7,6 +7,9 @@
                 "progress": {
                     "subscribe": "results"
                 }
+            },
+            "upload": {
+                "enabled": false
             }
         },
         "templating": {
@@ -54,7 +57,7 @@
     <pb-search id="search-form" subscribe="search"
         value="[[ page:parameter($context, 'query', '') ]]"
         submit-on-load="submit-on-load" subforms=".facets">
-        <div class="targets">
+        <!-- <div class="targets">
             <label>
                 <input type="checkbox" name="field" value="text"/>
                 Search sections
@@ -63,7 +66,7 @@
                 <input type="checkbox" name="field" value="head"/>
                 Search headings
             </label>
-        </div>
+        </div> -->
         <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
     </pb-search>
     <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
