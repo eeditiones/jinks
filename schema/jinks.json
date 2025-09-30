@@ -485,7 +485,7 @@
                 }
             }
         },
-        "theme": {
+        "theme": { 
             "type": "object",
             "properties": {
                 "logo": {
@@ -599,6 +599,16 @@
                                     "type": "string"
                                 }
                             }
+                        }
+                    }
+                },
+                "breadcrumbs": {
+                    "type": "object",
+                    "properties": {
+                        "max": {
+                            "type": "string",
+                            "description": "max length of the breadcrumbs in the toolbar",
+                            "examples": [ "40ch"]
                         }
                     }
                 },

@@ -438,7 +438,7 @@ aside nav[aria-label="breadcrumb"] ul li a {
 }
 
 nav[aria-label="breadcrumb"] ul li {
-    max-width: 32ch;
+    max-width: var(--jinks-breadcrumbs-max);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
