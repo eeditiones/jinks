@@ -45,6 +45,7 @@ declare variable $config:odd-available :=
 ( [[string-join($odds?*[not(. = $defaults?odd-internal?*)] ! ('"' || . || '"'), ", ")]] )
 [% endblock %];
 
+declare variable $config:odd-media := ([[string-join($defaults?media?* ! ('"' || . || '"'), ", ")]]);
 
 (:
     Determine the application root collection from the current module load path.

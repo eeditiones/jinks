@@ -365,6 +365,19 @@ declare function dapi:pdf($request as map(*)) {
             ()
 };
 
+declare function dapi:markdown($request as map(*)) {
+    let $id := xmldb:decode($request?parameters?id)
+    let $doc := config:get-document($id)
+    return
+        if (exists($doc)) then
+            let $config := tpu:parse-pi(root($doc), ())
+            let $markdown := $pm-config:markdown-transform($doc, map { "root": $doc }, $config?odd)
+            return
+                router:response(200, "text/markdown; charset=utf-8", string-join($markdown, ""))
+        else
+            error($errors:NOT_FOUND, "Document " || $id || " not found")
+};
+
 declare function dapi:epub($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
     let $work := config:get-document($id)

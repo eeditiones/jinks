@@ -3,6 +3,7 @@ sleep 10
 
 cd $(dirname "$0")/..
 npm install -g @existdb/xst
+npm install -g @teipublisher/jinks-cli
 ant
 for XAR in build/*.xar; do
     echo Installing $XAR

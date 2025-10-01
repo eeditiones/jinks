@@ -67,7 +67,7 @@ declare function local:generate-code($collection as xs:string) {
         if ($pi?output) then
             tokenize($pi?output)
         else
-            ("web", "print", "latex", "epub", "fo")
+            $config:odd-media
     for $file in pmu:process-odd (
         (:    $odd as document-node():)
         odd:get-compiled($collection || "/resources/odd" , $source),
@@ -100,6 +100,6 @@ sm:chmod(xs:anyURI($target || "/modules/lib/api-dba.xql"), "rwxr-Sr-x"),
 local:mkcol($target, "transform"),
 local:generate-code($target),
 local:create-data-collection(),
-let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root)
+let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
 return
     xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")

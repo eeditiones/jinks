@@ -1057,6 +1057,64 @@
 				}
 			}
 		},
+        "/api/document/{id}/md": {
+            "get": {
+                "summary": "Retrieve document content as markdown",
+                "tags": [
+                    "documents"
+                ],
+                "operationId": "dapi:markdown",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "test/F-rom.xml"
+                        }
+                    },
+                    {
+                        "name": "odd",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "shakespeare.odd"
+                        }
+                    },
+                    {
+                        "name": "base",
+                        "description": "Base URI to use for resolving links and images",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the entire document as markdown",
+                        "content": {
+                            "text/markdown": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
 		"/api/document/{id}/pdf": {
 			"get": {
 				"summary": "Retrieve document content as PDF",
