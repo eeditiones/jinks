@@ -13,3 +13,17 @@ By default, both are injected into `collection.xconf` as given in `templates/tim
 <field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
 <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
 ```
+
+### Configuration
+
+```json
+"features": {
+    "timeline": {
+        "enabled": true,
+        "document-view": false
+    }
+}
+```
+
+* `enabled`: enables the timeline when browsing documents.
+* `document-view`: show timeline also in single document view. Only works for correspondence and expects a `<correspContext>` containing pointers to the next and/or previous letter.
