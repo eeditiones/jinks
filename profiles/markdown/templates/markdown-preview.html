@@ -7,7 +7,8 @@
         "features": {
             "toolbar": {
                 "enabled": true,
-                "navigation": false
+                "navigation": false,
+                "zoom": false
             },
             "register": {
                 "enabled": false
@@ -31,13 +32,19 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/[[ $menu?items?*[?id = 'people']?url ]]">Markdown Preview</a>
+                <li>
+                    <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">
+                        <pb-i18n key="breadcrumb.document-root">Documents</pb-i18n>
+                    </a>
                 </li>
-                <li>[[ $doc?path ]]</li>
+                <li>
+                    <a href="[[ $context-path ]]/[[ $doc?path ]]">[[ $doc?path ]]</a>
+                </li>
             </ul>
         </nav>
     </li>
     [% endtemplate %]
+
     <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md"
         emit="transcription"></pb-markdown>
 </main>
