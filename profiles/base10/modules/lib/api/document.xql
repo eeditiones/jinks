@@ -101,11 +101,11 @@ declare function dapi:print($request as map(*)) {
 declare %private function dapi:generate-html($request as map(*), $outputMode as xs:string) {
     let $doc := xmldb:decode($request?parameters?id)
     let $addStyles :=
-        for $href in $request?parameters?style
+        for $href in $request?parameters?style?*
         return
             <link rel="Stylesheet" href="{$href}"/>
     let $addScripts :=
-        for $src in $request?parameters?script
+        for $src in $request?parameters?script?*
         return
             <script src="{$src}"></script>
     return

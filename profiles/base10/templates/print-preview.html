@@ -5,7 +5,10 @@
             "toolbar": {
                 "enabled": false
             },
-            "menubar": false
+            "menubar": false,
+            "progress": {
+                "subscribe": "preview"
+            }
         },
         "styles": ["resources/css/print-preview.css"],
         "templating": {
@@ -31,16 +34,16 @@
                     </button>
                 </li>
                 <li>
-                    <button>
-                        <input id="preview-toggle" type="checkbox" role="switch" />
-                        <span>Preview</span>
+                    <button id="copy-action">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><rect x="128" y="128" width="336" height="336" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M383.5 128l.5-24a56.16 56.16 0 00-56-56H112a64.19 64.19 0 00-64 64v216a56.16 56.16 0 0056 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                        <span>Copy URL</span>
                     </button>
                 </li>
                 <li>
-                    <button id="copy-action">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><rect x="128" y="128" width="336" height="336" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M383.5 128l.5-24a56.16 56.16 0 00-56-56H112a64.19 64.19 0 00-64 64v216a56.16 56.16 0 0056 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                        <span>Copy to clipboard</span>
-                    </button>
+                    <label>
+                        <input id="preview-toggle" type="checkbox" checked="checked" role="switch" />
+                        <span>Page Preview</span>
+                    </label>
                 </li>
             </ul>
         </nav>
@@ -67,7 +70,7 @@
 
             const previewToggle = document.getElementById('preview-toggle');
             previewToggle.addEventListener('change', function(ev) {
-                const checked = previewToggle.checked;
+                const checked = ev.target.checked;
                 preview.raw = !checked;
                 preview.refresh();
             });

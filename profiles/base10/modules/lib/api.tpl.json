@@ -1020,16 +1020,24 @@
 						"name": "style",
 						"description": "Additional CSS stylesheet URLs to be loaded",
 						"in": "query",
+                        "style": "form",
 						"schema": {
-							"type": "string"
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
 						}
 					},
 					{
 						"description": "Additional script URLs to be loaded",
 						"name": "script",
 						"in": "query",
+                        "style": "form",
 						"schema": {
-							"type": "string"
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
 						}
 					}
 				],
