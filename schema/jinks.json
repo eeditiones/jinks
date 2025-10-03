@@ -297,6 +297,20 @@
                         }
                     }
                 },
+                "toolbar-toggles": {
+                    "type": "object",
+                    "description": "Properties for the toolbar toggles",
+                    "properties": { 
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the toolbar toggles will be displayed"
+                        },
+                        "toggle-reading": {
+                            "type": "boolean",
+                            "description": "If true, the toggle to switch on the reading version will be enabled (very plain edited text)"
+                        }
+                    }
+                },
                 "hero": {
                     "type": "boolean"
                 },
