@@ -1,6 +1,6 @@
 <template>
     [% template toolbar %]
-        [% if exists($context?doc) %]
+        [% if exists($context?doc) and $features?toolbar-toggles?enabled %]
             [% if $features?toolbar-toggles?toggle-reading %]
             <li>
                 <pb-toggle-feature name="toggle-reading" selector=".tei-foreign,pb-highlight,pb-popover"
