@@ -69,15 +69,17 @@ declare function browse:show-hits($context as map(*), $doc as element()) {
         for $field in ft:highlight-field-matches($doc, query:field-prefix($doc) || $fieldName)
         let $matches := $field//exist:match
         return
-            <div class="matches">
-                <div class="count"><pb-i18n key="browse.items" options='{{"count": {count($matches)}}}'></pb-i18n></div>
-                {
-                    for $match in subsequence($matches, 1, 5)
-                    let $config := <config width="60" table="no"/>
-                    return
-                        kwic:get-summary($field, $match, $config)
-                }
-            </div>
+            if (count($matches)) then 
+                <div class="matches">
+                    <div class="count"><pb-i18n key="browse.items" options='{{"count": {count($matches)}}}'></pb-i18n></div>
+                    {
+                        for $match in subsequence($matches, 1, 5)
+                        let $config := <config width="60" table="no"/>
+                        return
+                            kwic:get-summary($field, $match, $config)
+                    }
+                </div>
+            else ()
     else
         ()
 };
