@@ -13,6 +13,7 @@
                  
                  
                   
+                 
                  <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
@@ -882,6 +883,7 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
+                    <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
@@ -911,6 +913,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
+                    <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
@@ -938,6 +941,8 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))/placeName[@type='main']/string()"/>
         </model>

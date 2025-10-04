@@ -3,7 +3,7 @@
         <fileDesc>
             <titleStmt>
                 <title>Serafin Letters 
-                 <desc>15th c. manuscript correspondence with parallel
+                   <desc>15th c. manuscript correspondence with parallel
                         translation</desc>
                 </title>
             </titleStmt>
@@ -81,6 +81,9 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
+                    <model output="fo" behaviour="document">
+            <param name="content" value="(.//text[@type='source'], .//text[@type='translation'])"/>
+        </model>
                     <model output="print" behaviour="document">
             <param name="content" value="(.//text[@type='source'], .//text[@type='translation'])"/>
         </model>
