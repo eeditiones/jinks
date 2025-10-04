@@ -86,3 +86,9 @@ pb-geolocation small:has(*)::after {
     color: #1565c0;
     text-decoration: none;
 }
+
+@media print {
+    section {
+        break-after: page;
+    }
+}

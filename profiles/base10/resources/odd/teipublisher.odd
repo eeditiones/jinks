@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -12,7 +12,8 @@
                  
                  
                  
-                  <desc>Base ODD from which all other ODDs inherit</desc>
+                  
+                 <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
             </titleStmt>
@@ -333,11 +334,11 @@
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
                     <model predicate="desc" behaviour="inline"/>
-                    <model predicate="@extent or @quantity" behaviour="inline" output="plain">
-                        <outputRendition xml:space="preserve" scope="before">
-                        content: "[.. ..]";
-                        </outputRendition>
-                    </model>
+                    <model output="plain" predicate="@extent or @quantity" behaviour="inline">
+            <outputRendition xml:space="preserve" scope="before">
+            content: "[.. ..]";
+            </outputRendition>
+        </model>
                     <model predicate="@extent or @quantity" behaviour="inline">
             <param name="extent" value="head((@extent, @quantity))"/>
             <param name="unit" value="@unit"/>
@@ -548,15 +549,15 @@
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="@subtype='placeholder'" behaviour="pass-through">
-                        <desc>placeholder for unavailable next/prev links</desc>
-                        <param name="type" value="if (@type='prev') then 'previous' else @type"/>
-                        <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
-                        <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
+            <desc>placeholder for unavailable next/prev links</desc>
+            <param name="type" value="if (@type='prev') then 'previous' else @type"/>
+            <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
+            <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
                                             <svg class="icon">
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
                                             </svg>
                             </li></pb:template>
-                    </model>
+        </model>
                     <model predicate="parent::correspContext and @type" behaviour="pass-through">
             <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus; 
                             type attribute is used to determine what navigation structure it is: known values are 
@@ -704,15 +705,10 @@
             <param name="content" value="string()"/>
         </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
-                        <desc>create a link to the document, respecting address-by-id configuration</desc>
-                        <param name="content" value="string()"/>
-                        <param name="uri" value="
-                        if ($global:address-by-id) then 
-                           '../' || root(.)/descendant-or-self::TEI/@xml:id                          
-                           else     
-                           '../' || substring-after(document-uri(root(.)), $global:data-root || '/') 
-                        "/>
-                    </model>
+            <desc>create a link to the document, respecting address-by-id configuration</desc>
+            <param name="content" value="string()"/>
+            <param name="uri" value="                         if ($global:address-by-id) then                             '../' || root(.)/descendant-or-self::TEI/@xml:id                                                      else                                 '../' || substring-after(document-uri(root(.)), $global:data-root || '/')                          "/>
+        </model>
                     <model predicate="$parameters?display='browse'" behaviour="heading">
             <param name="level" value="5"/>
         </model>
@@ -886,6 +882,7 @@
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="persName" mode="add">
+                    <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
         </model>
@@ -914,6 +911,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="placeName" mode="add">
+                    <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
         </model>
@@ -1026,18 +1024,18 @@
                         </pb:template>
         </model>
                     <model behaviour="pass-through">
-                        <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
-                        <param name="previous-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'previous-in-correspondence'], &lt;ref type=&#34;previous-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
-                        <param name="previous" value="head((ref[@type = ('previous', 'prev')], &lt;ref type=&#34;previous&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
-                        <param name="next-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'next-in-correspondence'], &lt;ref type=&#34;next-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
-                        <param name="next" value="head((ref[@type = 'next'], &lt;ref type=&#34;next&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
-                        <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
+            <desc>Outputs links to next/previous letter within entire corpus and current correspondence</desc>
+            <param name="previous-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'previous-in-correspondence'], &lt;ref type=&#34;previous-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+            <param name="previous" value="head((ref[@type = ('previous', 'prev')], &lt;ref type=&#34;previous&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+            <param name="next-in-correspondence" value="if ($parameters?in-correspondence = 'true') then head((ref[@type = 'next-in-correspondence'], &lt;ref type=&#34;next-in-correspondence&#34; subtype=&#34;placeholder&#34;/&gt;)) else ()"/>
+            <param name="next" value="head((ref[@type = 'next'], &lt;ref type=&#34;next&#34; subtype=&#34;placeholder&#34;/&gt;))"/>
+            <pb:template xmlns="" xml:space="preserve"><ul class="correspContext light" role="group">
                         [[previous]]
                         [[previous-in-correspondence]]
                         [[next-in-correspondence]]
                         [[next]]
                         </ul></pb:template>
-                    </model>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
