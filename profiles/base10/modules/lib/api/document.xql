@@ -207,15 +207,15 @@ declare %private function dapi:webcomponents($components as xs:string?) {
     if ($components) then (
         <style rel="stylesheet" type="text/css">
         a[rel=footnote] {{
-            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-            font-family: var(--pb-footnote-font-family, var(--pb-content-font-family));
+            font-size: var(--jinks-footnote-font-size, var(--jinks-content-font-size, 75%));
+            font-family: var(--jinks-footnote-font-family, var(--jinks-content-font-family));
             vertical-align: super;
             text-decoration: none;
-            padding: var(--pb-footnote-padding, 0 0 0 .25em);
+            padding: var(--jinks-footnote-padding);
         }}
         .footnote .fn-number {{
             float: left;
-            font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+            font-size: var(--jinks-footnote-font-size, var(--jinks-content-font-size, 75%));
         }}
         </style>,
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"></script>,
