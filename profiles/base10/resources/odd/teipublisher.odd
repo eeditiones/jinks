@@ -455,7 +455,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
-                    <model predicate="parent::person or parent::place" behaviour="inline"/>
+                    <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
             <param name="place" value="@place"/>
