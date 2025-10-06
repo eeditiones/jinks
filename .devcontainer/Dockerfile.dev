@@ -1,7 +1,8 @@
 FROM mcr.microsoft.com/devcontainers/java:8-bullseye
 
 ARG EXIST_VERSION=6.4.0
-ARG PUBLISHER_LIB_VERSION=6.0.0
+ARG PUBLISHER_LIB_VERSION=6.0.1
+ARG JINKS_TEMPLATES_VERSION=1.2.0
 ARG ROUTER_VERSION=1.10.0
 ARG EDITOR_VERSION=1.0.1
 ARG JWT_VERSION=2.0.0
@@ -73,11 +74,7 @@ RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
         curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
     fi
 
-RUN git clone https://github.com/eeditiones/jinks-templates.git \
-    && cd jinks-templates \
-    && ant \
-    && cp build/*.xar /usr/local/exist/autodeploy;
-
+RUN curl -L -o /usr/local/exist/autodeploy/jinks-templates-${JINKS_TEMPLATES_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/jinks-templates-${JINKS_TEMPLATES_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
