@@ -969,8 +969,8 @@
             "type": "object",
             "properties": {
                 "$replace": {
-                    "type": "boolean",
-                    "description": "If true, the object will not be merged with inherited configurations, but simply replace all of them."
+                    "type": ["boolean", "array"],
+                    "description": "If true, the object will not be merged with inherited configurations, but simply replace all of them. If an array, only the specified keys will be replaced, the rest merged."
                 }
             },
             "additionalProperties": true

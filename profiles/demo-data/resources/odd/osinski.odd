@@ -5,6 +5,7 @@
             <titleStmt>
                 <title>Bogactwa mowy polskiej 
                   
+                 
                  <desc>Polish dictionary example</desc>
                 </title>
             </titleStmt>
@@ -77,7 +78,7 @@
                 <param name="content" value="profileDesc"/>
             </model>
         </modelSequence>
-                    <model behaviour="omit"/>
+                    <model output="print" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="entryFree" mode="add">
                     <model behaviour="block"/>

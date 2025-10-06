@@ -14,9 +14,11 @@
     ],
     "order": 11,
     "defaults": {
+        "$replace": [ "media" ],
         "data-default": "letters",
         "template": "serafin.html",
-        "odd": "serafin.odd"
+        "odd": "serafin.odd",
+        "media": ["web", "print", "fo", "epub"]
     },
     "i18n": [
         "serafin"
