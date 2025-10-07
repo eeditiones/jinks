@@ -57,7 +57,7 @@
     },
     "static": {
         "collections": {
-            "letters": {
+            "": {
                 "path-prefix": "letters",
                 "index": "single",
                 "template": "static/templates/index.html",
@@ -67,11 +67,31 @@
                     "parts": [
                         {
                             "odd": "serafin.odd",
+                            "view": "single",
+                            "xpath": "//text[@type = 'source']"
+                        },
+                        {
+                            "id": "translation",
+                            "xpath": "//text[@type = 'translation']",
+                            "odd": "serafin.odd",
                             "view": "single"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "view": "single",
+                            "odd": "serafin.odd",
+                            "user.mode": "breadcrumb"
                         }
                     ]
                 }
             }
-        }
+        },
+        "redirect": {
+            "": "1/index.html"
+        },
+        "styles": [
+            "resources/css/static.css",
+            "transform/serafin.css"
+        ]
     }
 }

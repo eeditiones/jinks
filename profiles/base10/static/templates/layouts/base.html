@@ -51,6 +51,7 @@
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
             unresolved="unresolved" class="[[ $context?theme?layout?class ]]"
             theme="resources/css/components.css">
+            
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
@@ -62,7 +63,9 @@
             </header>
             [% block hero %][% endblock %]
             <nav class="before-top">
-                <ul></ul>
+                <ul>
+                    [% block before-top %][% endblock %]
+                </ul>
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".before">
@@ -76,9 +79,14 @@
                 </ul>
             </nav>
             <aside class="before">
+                [% block before.top %][% endblock %]
                 [% block before %][% endblock %]
+                [% block before.bottom %][% endblock %]
             </aside>
             <header class="content-top">
+                [% if $features?toolbar?enabled %]
+                [% include "templates/toolbar.html" %]
+                [% endif %]
                 [% block content-top %][% endblock %]
             </header>
             [% block content %][% endblock %]
@@ -96,7 +104,9 @@
                 </ul>
             </nav>
             <aside class="after">
+                [% block after.top %][% endblock %]
                 [% block after %][% endblock %]
+                [% block after.bottom %][% endblock %]
             </aside>
         </pb-page>
         <div class="splash"/>

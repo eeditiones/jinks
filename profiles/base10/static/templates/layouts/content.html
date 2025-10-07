@@ -17,16 +17,10 @@
     [% endif %]
     [% endtemplate %]
 
-    [% template content-top %]
-    [% if $features?toolbar?enabled %]
-    [% include "static/templates/toolbar.html" %]
-    [% endif %]
-    [% endtemplate %]
-
-    [% block above-content %][% endblock %]
     <main>
+        [% block above-content %][% endblock %]
         <!-- Content block -->
         [% block content %][% endblock %]
+        [% block below-content %][% endblock %]
     </main>
-    [% block below-content %][% endblock %]
 </template>
