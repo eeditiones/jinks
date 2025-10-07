@@ -83,8 +83,9 @@ nav.menubar ul:last-of-type {
     border: thin solid transparent;
 }
 
-.menubar pb-search::part(input)::placeholder {
-    color: #E1E1E1;
+.menubar pb-search::part(input)::placeholder,
+.menubar input[type="search"]::placeholder {
+    color: var(--jinks-colors-medium);
 }
 
 .menubar .dropdown {

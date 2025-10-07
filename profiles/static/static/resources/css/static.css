@@ -1,29 +1,16 @@
-[aria-label=breadcrumb] .content {
-    font-size: var(--pb-base-font-size);
-}
-
-.menubar input[type="search"] {
-    height: 2.25rem;
-    padding: 0px 12px 0px 1.875rem;
-}
-.menubar input[type="search"]::placeholder {
-    color: var(--jinks-color-lighter);
-}
-
-main {
-    gap: 2rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
-}
-
-main > .content {
+main > * {
+    margin: 0 1rem;
+    padding-top: 1rem;
     flex: 1;
-    flex-grow: 1;
+}
+
+[aria-label=breadcrumb] .content {
+    font-size: var(--jinks-breadcrumbs-font-size);
 }
 
 .content a[rel="footnote"] {
-    font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
-    font-family: var(--pb-footnote-font-family, var(--pb-content-font-family));
+    font-size: var(--jinks-footnote-font-size, var(--jinks-content-font-size, 75%));
+    font-family: var(--jinks-content-font-family);
     vertical-align: super;
     color: var(--pb-footnote-color, var(--jinks-color-primary, #333333));
     text-decoration: none;
@@ -33,17 +20,13 @@ main > .content {
 
 .footnote .fn-number {
     float: left;
-    font-size: var(--pb-footnote-font-size, var(--pb-content-font-size, 75%));
+    font-size: var(--jinks-footnote-font-size, var(--pb-content-font-size, 75%));
 }
 
 .content, .footnotes {
-    font-family: var(--pb-content-font-family);
-    font-size: var(--pb-content-font-size);
+    font-family: var(--jinks-content-font-family);
+    font-size: var(--jinks-content-font-size);
     max-width: var(--pb-view-max-width);
-}
-
-.footnotes {
-    font-size: 0.875em;
 }
 
 .grid.nav {
