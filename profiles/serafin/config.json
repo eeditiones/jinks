@@ -13,6 +13,9 @@
         "timeline"
     ],
     "order": 11,
+    "odds": [
+        "serafin.odd"
+    ],
     "defaults": {
         "$replace": [ "media" ],
         "data-default": "letters",
@@ -50,6 +53,25 @@
     "theme": {
         "colors": {
             "palette": "green"
+        }
+    },
+    "static": {
+        "collections": {
+            "letters": {
+                "path-prefix": "letters",
+                "index": "single",
+                "template": "static/templates/index.html",
+                "paginate": {
+                    "template": "static/templates/serafin.html",
+                    "toc": false,
+                    "parts": [
+                        {
+                            "odd": "serafin.odd",
+                            "view": "single"
+                        }
+                    ]
+                }
+            }
         }
     }
 }
