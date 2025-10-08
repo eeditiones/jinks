@@ -53,7 +53,7 @@
     </target>
 
     <!-- TBD(DP): make conditional on release -->
-    <target name="templates" description="process template files" depends="git.revision">
+    <target name="templates" description="process template files" if="is-release">
         <echo message="Apply values to .tmpl ..." />
         <copy todir="${basedir}" overwrite="true" verbose="true">
             <fileset file="*.xml.tmpl" />
@@ -76,7 +76,7 @@
         </copy>
     </target>
 
-    <target name="git.revision" description="Store git revision in ${commit-id}" if="git.present">
+    <target name="git.revision" description="Store git revision in ${commit-id}" if="is-release" depends="check-release">
         <exec executable="git" outputproperty="git.revision" failifexecutionfails="false"
             errorproperty="">
             <arg value="--git-dir=${git.repo.path}" />
