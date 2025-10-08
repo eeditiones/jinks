@@ -65,7 +65,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             const doc = "[[ $context?doc?path ]]";
             const baseURI = "[[ $context-path ]]";
-            
+
             initEditor(baseURI, doc);
         });
     </script>
@@ -97,6 +97,7 @@
     [% endtemplate %]
 
     [% template after %]
+	[% block metadata-editor %][% endblock %]
     <div id="attributes-panel"></div>
     [% endtemplate %]
 
