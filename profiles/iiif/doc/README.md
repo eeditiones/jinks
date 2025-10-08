@@ -68,3 +68,7 @@ When using the IIIF viewer, you may want to adjust the layout to accommodate the
 ```
 
 This allocates 33% of the viewport width to the sidebar area, leaving more space for the main content area where the IIIF viewer will be displayed.
+
+## Integration with Jinntap editor profile
+
+This profile can integrate with the Jinntap profile. It extracts the facsimile locations from the TEI XML, and links the `pb` elements to the facsimile viewer. It requires using the pb-facsimile viewer, the pb-tify viewer is not supported.
