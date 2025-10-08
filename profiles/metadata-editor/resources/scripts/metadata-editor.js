@@ -139,6 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     const metadataPanel = document.getElementById("metadata-panel");
+    // Hide the panel initially
+    metadataPanel.classList.add("hidden");
 
     const metadataEditor = new MetadataEditor(editors[0], metadataPanel);
 });

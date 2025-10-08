@@ -1,0 +1,23 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/metadata-editor-page",
+    "label": "Stand-alone Metadata Editor",
+    "description": "Edit the metadata of TEI documents, on their own page",
+    "version": "1.0.0",
+    "pkg": {
+        "dependencies": [
+        ]
+    },
+    "depends": [
+		"metadata-editor"
+    ],
+	"script": {
+       "fore": "2.6.0"
+	},
+    "templating": {
+        "use": [ "templates/metadata-blocks.html" ]
+    },
+    "features": {
+    }
+}
