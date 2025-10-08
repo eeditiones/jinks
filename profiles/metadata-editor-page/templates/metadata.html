@@ -1,0 +1,43 @@
+<template>
+    ---json
+    {
+        "features": {
+            "toolbar": {
+                "enabled": false
+            },
+            "toc": {
+                "enabled": false
+            },
+            "register": {
+                "enabled": false
+            },
+            "metadata-editor": {
+    "enabled": true,
+	"standalone": true
+            },
+            "upload": {
+                "enabled": false
+            }
+        },
+        "templating": {
+            "extends": "templates/layouts/base.html"
+        },
+        "styles": [
+        ],
+        "theme": {
+        },
+        "script": {
+        },
+        "menu": {
+            "login": true
+        }
+    }
+    ---
+	<main>
+
+	  [% block metadata-editor %][% endblock %]
+
+	<jinn-toast></jinn-toast>
+	</main>
+
+</template>
