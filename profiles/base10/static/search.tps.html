@@ -1,4 +1,4 @@
-<div class="container">
+<main>
     ---json
     {
         "templating": {
@@ -17,27 +17,34 @@
         }
     }
     ---
-    <main class="search">
-        <aside>
-            <form id="search-form">
-                <input type="search" name="query" id="search-input" placeholder="Search" autocomplete="off" />
-                <fieldset>
-                    <legend>Field</legend>
-                    [% for $field in $static?fields?index?* %]
-                    <label>
-                        <input type="checkbox" name="field" value="[[$field]]" checked="checked"/> <pb-i18n
-                            key="static.search.field-[[ $field ]]">[[ $field ]]</pb-i18n>
-                    </label>
-                    [% endfor %]
-                </fieldset>
-                [% for $facet in $static?facets?* %]
-                <fieldset class="facet [[ $facet ]]">
-                    <legend><pb-i18n key="static.search.facet-[[ $facet ]]">[[ $facet ]]</pb-i18n></legend>
-                    <div></div>
-                </fieldset>
-                [% endfor %]
-            </form>
-        </aside>
-        <div id="results"></div>
-    </main>
-</div>
+    [% template breadcrumb %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/1/index.html">Search</a></li>
+            </ul>
+        </nav>
+    </li>
+    [% endtemplate %]
+    [% template before %]
+    <form id="search-form">
+        <input type="search" name="query" id="search-input" placeholder="Search" autocomplete="off" />
+        <fieldset>
+            <legend>Field</legend>
+            [% for $field in $static?fields?index?* %]
+            <label>
+                <input type="checkbox" name="field" value="[[$field]]" checked="checked"/> <pb-i18n
+                    key="static.search.field-[[ $field ]]">[[ $field ]]</pb-i18n>
+            </label>
+            [% endfor %]
+        </fieldset>
+        [% for $facet in $static?facets?* %]
+        <fieldset class="facet [[ $facet ]]">
+            <legend><pb-i18n key="static.search.facet-[[ $facet ]]">[[ $facet ]]</pb-i18n></legend>
+            <div></div>
+        </fieldset>
+        [% endfor %]
+    </form>
+    [% endtemplate %]
+    <div id="results"></div>
+</main>

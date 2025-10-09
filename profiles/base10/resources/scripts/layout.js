@@ -93,12 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // hide/expand mobile menu
     const mobileMenuToggle = document.querySelector(".mobile.trigger button");
-    mobileMenuToggle.addEventListener("click", function () {
-        const target = this.dataset.toggle;
-        const targetElement = document.querySelector(target);
-        targetElement.classList.toggle("hidden");
-    });
-
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener("click", function () {
+            const target = this.dataset.toggle;
+            const targetElement = document.querySelector(target);
+            targetElement.classList.toggle("hidden");
+        });
+    }
     setUpResizeContainers();
 });
 
