@@ -190,7 +190,7 @@ declare function static:compute-key($params as map(*)) {
 };
 
 (:~
- : Load a resource from a URL and store it in the database.
+ : Load a resource from a URL and return the content.
  :
  : The function sends a GET request to the given URL and returns the content.
  :
@@ -201,14 +201,15 @@ declare function static:load($url as xs:string) {
 };
 
 (:~
- : Load a resource from a URL and store it in the database.
+ : Load a resource from a URL and either returns the content or stores it in the database.
  :
  : The function sends a GET request to the given URL and stores the response in the database. The target path
  : is determined by the $target parameter. If no target is specified, the function will return the response content.
  :
  : @param $context The context map used to resolve relative URLs
  : @param $url The URL of the resource to load
- : @param $target The target path in the database. If relative, it will be resolved against context?target.
+ : @param $target The target path in the database. If relative, it will be resolved against context?target. If empty, the function will return the content.
+ : @return The content of the resource or the target path if $target is specified.
  :)
 declare function static:load($context as map(*)?, $url as xs:string, $target as xs:string?) {
     let $request := 
@@ -478,7 +479,11 @@ declare function static:prepare($jsonConfig as map(*)) {
                 "force-overwrite": true(),
                 "context-path": request:get-context-path() || "/apps/" || $staticTarget,
                 "target": repo:get-root() || "/" || $staticTarget,
-                "languages": json-doc($pkgTarget || "/resources/i18n/languages.json")
+                "languages": json-doc($pkgTarget || "/resources/i18n/languages.json"),
+                "templating": map:merge((
+                    $jsonConfig?templating,
+                    map:entry("use", $jsonConfig?static?templating?use)
+                ))
             }
         ))
     let $_ := (
@@ -493,11 +498,18 @@ declare %private function static:generate-collections-from-config($context as ma
     map:for-each($context?static?collections, function($collection, $config) {
         let $pathPrefix := head(($config?path-prefix, "documents"))
         let $link := path:resolve-path($context?context-path, $pathPrefix)
-        let $docs := 
+        let $docsAll := 
             if ($collection = "") then
                 static:load($context?base-uri || "/api/documents?link=" || $link)
             else
                 static:load($context?base-uri || "/api/documents/" || $collection || "?link=" || $link)
+        let $docs :=
+            if (map:contains($config, "include") and $config?include instance of array(*)) then
+                array:filter($docsAll, function($doc) {
+                    $doc?path = $config?include
+                })
+            else
+                $docsAll
         let $_ := util:log("INFO", ("<static> Processing " || count($docs?*) || " documents in collection ", $collection))
         return (
             (: Create search index :)

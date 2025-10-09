@@ -55,6 +55,11 @@
         }
     },
     "static": {
+        "templating": {
+            "use": [
+                "static/templates/register-static-blocks.html"
+            ]
+        },
         "collections": {
             "": {
                 "path-prefix": "letters",
