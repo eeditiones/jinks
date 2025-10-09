@@ -879,6 +879,12 @@
                             "path-prefix": {
                                 "type": "string"
                             },
+                            "include": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
                             "paginate": {
                                 "type": "object",
                                 "properties": {
@@ -947,6 +953,18 @@
                                 "type": "string",
                                 "description": "Optional filter to apply when copying files"
                             }
+                        }
+                    }
+                },
+                "templating": {
+                    "type": "object",
+                    "properties": {
+                        "use": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of template definitions to consult when expanding blocks"
                         }
                     }
                 }

@@ -1,0 +1,31 @@
+<template>
+    [% template after %]
+    [% if map:contains($context, "parts") %]
+    <div class="content">[[ $context?parts?register?content ]]</div>
+    <pb-leaflet-map id="map" zoom="11" subscribe="map">
+        <pb-map-layer show="" base="" label="OpenTopo Map"
+            url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19"
+            attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
+    </pb-leaflet-map>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template scripts %]
+    [% if $context?features?register?enabled %]
+    [% if $script?webcomponents = 'dev' %]
+    <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
+    [% elif $script?webcomponents = 'local' %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/pb-leaflet-map.js"></script>
+    [% elif $script?webcomponents = '' %]
+    [% else %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-leaflet-map.js"></script>
+    [% endif %]
+    [% endif %]
+    [% endtemplate %]
+
+    [% template styles %]
+    [% if $context?features?register?enabled %]
+    <link rel="stylesheet" href="[[ $context-path ]]/resources/css/registers-theme.css" />
+    [% endif %]
+    [% endtemplate %]
+</template>
