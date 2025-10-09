@@ -41,52 +41,9 @@
             "prefix": "rview",
             "path": "registers-api.xql",
             "id": "http://teipublisher.com/api/registers/view"
-        },
-        {
-            "prefix": "ridx",
-            "path": "registers-static-index.xql",
-            "id": "http://tei-publisher.com/jinks/registers/index"
         }
     ],
     "i18n": [
         "registers"
-    ],
-    "static": {
-        "collections": {
-            "": {
-                "path-prefix": "letters",
-                "index": "single",
-                "template": "static/templates/index.html",
-                "paginate": {
-                    "template": "static/templates/registers.html",
-                    "toc": false,
-                    "parts": [
-                        {
-                            "id": "metadata",
-                            "view": "single",
-                            "odd": "serafin.odd",
-                            "user.mode": "metadata"
-                        },
-                        {
-                            "id": "register",
-                            "odd": "serafin.odd",
-                            "user.mode": "register"
-                        }
-                    ]
-                }
-            }
-        },
-        "redirect": {
-            "": "1/index.html"
-        },
-        "styles": [
-            "resources/css/static.css",
-            "transform/teipublisher.css"
-        ],
-        "fields": {
-            "index": ["content", "translation", "commentary"],
-            "store": ["content", "translation", "commentary", "title", "link", "places"]
-        },
-        "facets": ["places"]
-    }
+    ]
 }

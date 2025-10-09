@@ -1,12 +1,18 @@
 xquery version "3.1";
 
-module namespace ridx="http://tei-publisher.com/jinks/registers/index";
+module namespace ridx="http://tei-publisher.com/jinks/serafin/index";
 
 import module namespace nlp="http://teipublisher.com/api/nlp" at "lib/api/nlp.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+(:~
+ : Overwrite the indexes for a single document entry.
+ :
+ : @param $request The request map
+ : @return The index entry
+ :)
 declare function ridx:entry($request as map(*)) {
     let $path := xmldb:decode($request?parameters?id)
     let $pathPrefix := $request?parameters?prefix

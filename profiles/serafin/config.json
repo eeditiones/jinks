@@ -7,7 +7,6 @@
     "version": "1.0.0",
     "depends": [
         "base10",
-        "demo-data",
         "registers",
         "edition-navigation",
         "timeline"
@@ -81,6 +80,11 @@
                             "view": "single",
                             "odd": "serafin.odd",
                             "user.mode": "breadcrumb"
+                        },
+                        {
+                            "id": "register",
+                            "odd": "serafin.odd",
+                            "user.mode": "register"
                         }
                     ]
                 }
@@ -89,9 +93,34 @@
         "redirect": {
             "": "1/index.html"
         },
+        "fields": {
+            "index": [
+                "content",
+                "translation",
+                "commentary"
+            ],
+            "store": [
+                "content",
+                "translation",
+                "commentary",
+                "title",
+                "link",
+                "places"
+            ]
+        },
+        "facets": [
+            "places"
+        ],
         "styles": [
             "resources/css/static.css",
             "transform/serafin.css"
         ]
-    }
+    },
+    "api": [
+        {
+            "prefix": "ridx",
+            "path": "serafin-static-index.xql",
+            "id": "http://tei-publisher.com/jinks/serafin/index"
+        }
+    ]
 }
