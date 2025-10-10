@@ -15,7 +15,7 @@
             <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
             [% endif %]
         [% endfor %]
-
+        [% block styles %][% endblock %]
         <style>
             :root {
                 --jinks-layout-before-width: [[$context?theme?layout?before-width]];
@@ -85,7 +85,7 @@
             </aside>
             <header class="content-top">
                 [% if $features?toolbar?enabled %]
-                [% include "templates/toolbar.html" %]
+                [% include "static/templates/toolbar.html" %]
                 [% endif %]
                 [% block content-top %][% endblock %]
             </header>
