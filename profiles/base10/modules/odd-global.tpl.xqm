@@ -39,6 +39,15 @@ declare variable $config:app-root :=
 declare variable $config:register-root := $config:data-root || "/registers";
 
 (:~
+ : The default data collection.
+ :)
+[% if map:contains($defaults, "data-default") %]
+  declare variable $config:data-default as xs:string :=   $config:data-root || "/[[ $defaults?data-default ]]";
+[% else %]
+  declare variable $config:data-default as xs:string :=  $config:data-root;
+[% endif %]
+
+(:~
  : Addressing method used in the app: by id or not
  :)
 [% if map:contains($defaults, "address-by-id") %]
