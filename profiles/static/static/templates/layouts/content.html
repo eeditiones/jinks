@@ -6,6 +6,10 @@
         }
     }
     ---
+    [% template styles %]
+    <link rel="stylesheet" href="[[ $context-path ]]/transform/[[ replace($context?parts?default?odd, '\.odd$', '.css') ]]" />
+    [% endtemplate %]
+
     [% template before %]
     [% if $context?features?toc?enabled %]
     <div class="toc">
@@ -14,6 +18,20 @@
         </h5>
         [[ $context?table-of-contents ]]
     </div>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template breadcrumb %]
+    [% if map:contains($context, "parts") and map:contains($context?parts, "breadcrumb") %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ $path-prefix ]]/1/index.html"><pb-i18n
+                            key="breadcrumb.document-root"></pb-i18n></a></li>
+                <li>[[ $context?parts?breadcrumb?content ]]</li>
+            </ul>
+        </nav>
+    </li>
     [% endif %]
     [% endtemplate %]
 
