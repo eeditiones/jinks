@@ -895,9 +895,10 @@
                 <elementSpec ident="persName" mode="add">
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
-                    <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-persons'))/persName[@type='main']/string()"/>
-        </model>
+                    <model predicate="@key or @ref and $parameters?mode='register-details'" behaviour="link">
+                        <param name="uri" value="head((@key, @ref))"/>
+                        <param name="target" value="'_blank'"/>
+                    </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
@@ -911,6 +912,9 @@
                         </pb-popover>
                         </a></pb:template>
         </model>
+                    <model predicate="$parameters?mode='register-overview'" behaviour="inline">
+                        <desc>When filtering/browsing the register, persons mentioned in descriptions, etc. are inlined</desc>
+                    </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::person" behaviour="inline"/>
                     <model predicate="ancestor::correspContext" behaviour="inline">
