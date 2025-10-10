@@ -478,6 +478,7 @@ declare function static:prepare($jsonConfig as map(*)) {
                 "base-uri": $baseUri,
                 "force-overwrite": true(),
                 "context-path": request:get-context-path() || "/apps/" || $staticTarget,
+                "path-prefix": $jsonConfig?static?path-prefix,
                 "target": repo:get-root() || "/" || $staticTarget,
                 "languages": json-doc($pkgTarget || "/resources/i18n/languages.json"),
                 "templating": map:merge((
