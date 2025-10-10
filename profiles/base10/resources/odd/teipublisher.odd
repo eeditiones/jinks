@@ -882,6 +882,16 @@
             </model>
         </modelSequence>
                 </elementSpec>
+                <elementSpec ident="rs" mode="add">
+                    <model output="fo" behaviour="inline"/>
+                    <model output="print" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'toc', 'register', 'register-details')" behaviour="inline"/>
+                    <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+                    </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="persName" mode="add">
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
