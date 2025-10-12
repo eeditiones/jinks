@@ -240,9 +240,21 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="birth" mode="add">
+                    <model behaviour="inline" predicate="parent::person">
+                        <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
+                    </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="occupation" mode="add">
+                    <model behaviour="pass-through" predicate="$parameters?mode='register-details'">
+                        <pb:template xmlns="" xml:space="preserve"><button class="occupation">[[content]]</button></pb:template>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="death" mode="add">
+                    <model behaviour="inline" predicate="parent::person">
+                        <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="region" mode="add">
@@ -792,15 +804,19 @@
             <desc>Register details view</desc>
             <model behaviour="pass-through">
                 <desc>Heading with full name and dates</desc>
-                <param name="content" value="persName[@type=('main', 'full')]/node()"/>
-                <param name="dates" value="(birth, death)"/>
-                <pb:template xmlns="" xml:space="preserve"><h3>[[content]] <span class="dates">[[dates]]</span></h3></pb:template>
+                <param name="name" value="(persName[@type!='variant'])[1]"/>
+                <param name="birth" value="birth"/>
+                <param name="death" value="death"/>
+                <pb:template xmlns="" xml:space="preserve"><div><h3>[[name]]</h3>
+                    <h4><span class="dates">[[birth]]</span></h4>
+                    <h4><span class="dates">[[death]]</span></h4>
+                </div></pb:template>
             </model>
             <model behaviour="block">
                 <desc>Variant names</desc>
                 <param name="content" value="persName[@type='variant']"/>
             </model>
-            <model behaviour="block">
+            <model behaviour="block" predicate="$parameters?mode='register-details'">
                 <desc>Images</desc>
                 <param name="content" value="figure"/>
             </model>
@@ -811,6 +827,10 @@
             <model behaviour="list">
                 <desc>Links to wikidata, wikipedia etc.</desc>
                 <param name="content" value="ptr"/>
+            </model>
+            <model behaviour="block" predicate="$parameters?mode='register-details'">
+                <desc>Occupation</desc>
+                <param name="content" value="occupation"/>
             </model>
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of documents (from data-default collection), where references occur;
