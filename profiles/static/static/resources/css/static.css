@@ -39,7 +39,34 @@ pb-geolocation svg {
     width: 16px;
 }
 
+.static [role="group"] a {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .static [role="group"] svg {
     width: 1rem;
     height: 1rem;
+}
+
+.two-column .cb {
+    break-before: column;
+}
+
+main > .two-column {
+    column-count: 2;
+}
+
+.content {
+    font-size: clamp(calc(var(--pb-content-font-size, 1rem) * var(--pb-min-zoom, 0.5)),
+            calc(var(--pb-content-font-size, 1rem) * var(--pb-zoom-factor)),
+            calc(var(--pb-content-font-size, 1rem) * var(--pb-max-zoom, 3.0)));
+    line-height: calc(var(--pb-content-line-height, 1.5) * var(--pb-zoom-factor));
+}
+
+.two-column .footnotes {
+    column-span: all;
 }

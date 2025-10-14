@@ -877,7 +877,8 @@
                                 "type": ["string", "boolean"]
                             },
                             "path-prefix": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Optional prefix to prepend to the output path before the relative collection path"
                             },
                             "include": {
                                 "type": "array",

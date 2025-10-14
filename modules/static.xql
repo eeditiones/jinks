@@ -227,7 +227,11 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
                     let $targetPath := 
                         if (exists($context)) then path:resolve-path($context?target, $target) else $target
                     return
-                        xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
+                        switch ($contentType)
+                            case "application/json" return
+                                xmldb:store-as-binary(path:parent($targetPath), path:basename($targetPath), xs:base64Binary($response[2]))[2]
+                            default return
+                                xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
                 ) else
                     switch ($contentType)
                         case "application/json" return
@@ -498,7 +502,7 @@ declare function static:prepare($jsonConfig as map(*)) {
 declare %private function static:generate-collections-from-config($context as map(*)) {
     map:for-each($context?static?collections, function($collection, $config) {
         let $pathPrefix := head(($config?path-prefix, "documents"))
-        let $link := path:resolve-path($context?context-path, $pathPrefix)
+        let $link := path:resolve-path(($context?context-path, $collection), $pathPrefix)
         let $docsAll := 
             if ($collection = "") then
                 static:load($context?base-uri || "/api/documents?link=" || $link)
@@ -532,7 +536,7 @@ declare %private function static:generate-collections-from-config($context as ma
                 }
             ))
             let $docName := path:basename($doc?path)
-            return
+            return (
                 static:paginate(
                     $docContext,
                     array {
@@ -545,7 +549,8 @@ declare %private function static:generate-collections-from-config($context as ma
                         path:resolve-path(($pathPrefix, $collection, $docName), $n)
                     }
                 ),
-                ()
+                static:fetch($context, $config, $doc)
+            )
         )
     })
 };
@@ -585,4 +590,22 @@ declare function static:copy($context as map(*)) {
     for $operation in $context?static?copy?*
     return
         cpy:copy-collection($context, $operation?from, $operation?to, $operation?filter)
+};
+
+declare function static:fetch($context as map(*), $collectionConfig as map(*), $doc as map(*)) {
+    for $fetch in $collectionConfig?fetch?*
+    let $url := static:expand-parameter($fetch?url, map:merge(($context, map:entry("doc", $doc))))
+    let $target := static:expand-parameter($fetch?target, map:merge(($context, map:entry("doc", $doc))))
+    let $log := util:log("INFO", ("<static> Fetching ", $url, " to ", $target))
+    return
+        static:load($context, $url, $target)
+};
+
+declare function static:expand-parameter($parameter as xs:string, $context as map(*)) {
+    tmpl:process($parameter, $context,
+        map {
+            "plainText": true(),
+            "resolver": cpy:resource-as-string($context, ?)
+        }
+    )
 };

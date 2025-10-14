@@ -87,6 +87,11 @@
     ],
     "static": {
         "$replace": true,
+        "templating": {
+            "use": [
+                "templates/iiif-blocks.html"
+            ]
+        },
         "collections": {
             "doc": {
                 "path-prefix": "",
@@ -100,16 +105,41 @@
                             "odd": "docbook.odd"
                         },
                         {
-                            "id": "breadcrumbs",
-                            "user.mode": "breadcrumbs",
+                            "id": "breadcrumb",
+                            "user.mode": "breadcrumb",
                             "odd": "docbook.odd"
                         }
                     ]
                 }
+            },
+            "demo": {
+                "path-prefix": "",
+                "index": false,
+                "include": ["demo/F-rom.xml"],
+                "template": "static/templates/index.html",
+                "fetch": [
+                    {
+                        "url": "[[$context?base-uri]]/api/iiif/[[$doc?path]]",
+                        "target": "[[$doc?path]]/manifest.json"
+                    }
+                ],
+                "paginate": {
+                    "template": "static/templates/facsimile.html",
+                    "toc": false,
+                    "parts": [
+                        {
+                            "odd": "shakespeare.odd",
+                            "view": "page"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "user.mode": "breadcrumb",
+                            "odd": "shakespeare.odd",
+                            "view": "single"
+                        }
+                    ]
+                }
             }
-        },
-        "redirect": {
-            "": "1/index.html"
         },
         "styles": [
             "resources/css/static.css",
