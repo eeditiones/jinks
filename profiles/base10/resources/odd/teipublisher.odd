@@ -276,12 +276,12 @@
             <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
             <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
-<h3><i18n key="register-details.people">ppl</i18n></h3>
+<h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>
 [[people]]
 </ul>
 
-<h3><i18n key="register-details.places">pl</i18n></h3>
+<h3><pb-i18n key="register-details.places">pl</pb-i18n></h3>
 <ul>
 [[places]]
 </ul>
