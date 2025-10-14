@@ -6,7 +6,7 @@
     [% endif %]
     [% endtemplate %]
 
-    [% template after %]
+    [% template after-third %]
     [% if exists($context?doc) and $context?features?iiif?enabled %]
         [% if $context?features?iiif?viewer = "pb-tify" %]
         <pb-tify subscribe="transcription" emit="transcription"></pb-tify>

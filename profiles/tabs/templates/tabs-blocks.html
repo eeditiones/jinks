@@ -1,0 +1,26 @@
+<template>
+    [% template after %]
+    [% if exists($context?doc) and $features?tabs?enabled %]
+    <pb-tabs>
+        <paper-tab slot="tab"><button>Metadata</button></paper-tab>
+
+        <paper-tab slot="tab"><button>Registers</button></paper-tab>
+		<paper-tab slot="tab"><button>Facsimile</button></paper-tab>
+
+        <div slot="page">
+            Show metadata
+            [% block after-first %][% endblock %]
+        </div>
+        <div slot="page">
+            Show registers
+            [% block after-second %][% endblock %]
+        </div>
+        <div slot="page">
+            Show facsimile
+            [% block after-third %][% endblock %]
+        </div>
+    </pb-tabs>
+    [% endif %]
+    [% endtemplate %]
+
+</template>
