@@ -802,17 +802,21 @@
         </model>
                     <modelSequence predicate="parent::listPerson">
             <desc>Register details view</desc>
-            <model behaviour="pass-through">
+            <model behaviour="heading">
                 <desc>Heading with full name and dates</desc>
-                <param name="name" value="(persName[@type!='variant'])[1]"/>
+                <param name="content" value="(persName[@type!='variant'])[1]"/>
+                <param name="level" value="2"/>
+            </model>
+            <model behaviour="pass-through" predicate="$parameters?mode='register-details'">
+                <desc>Dates</desc>
                 <param name="birth" value="birth"/>
                 <param name="death" value="death"/>
-                <pb:template xmlns="" xml:space="preserve"><div><h3>[[name]]</h3>
+                <pb:template xmlns="" xml:space="preserve"><div>
                     <h4><span class="dates">[[birth]]</span></h4>
                     <h4><span class="dates">[[death]]</span></h4>
                 </div></pb:template>
             </model>
-            <model behaviour="block">
+            <model behaviour="block" predicate="$parameters?mode='register-details'">
                 <desc>Variant names</desc>
                 <param name="content" value="persName[@type='variant']"/>
             </model>
@@ -820,9 +824,13 @@
                 <desc>Images</desc>
                 <param name="content" value="figure"/>
             </model>
-            <model behaviour="paragraph">
+            <model behaviour="block">
+                <desc>Short bio note</desc>
+                <param name="content" value="note[@type='bio']"/>
+            </model>
+            <model behaviour="block" predicate="$parameters?mode='register-details'">
                 <desc>Additional notes</desc>
-                <param name="content" value="note"/>
+                <param name="content" value="note[@type!='bio']"/>
             </model>
             <model behaviour="list">
                 <desc>Links to wikidata, wikipedia etc.</desc>
@@ -923,7 +931,7 @@
                         <param name="target" value="'_blank'"/>
                     </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
-                    <model predicate="$parameters?mode='register'" behaviour="pass-through">
+        <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="content" value="."/>
             <param name="alternate" value="parent::person/note"/>
