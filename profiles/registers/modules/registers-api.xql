@@ -55,7 +55,7 @@ declare function rview:people-categories($request as map(*)){
                         "filter-rewrite": "yes"
                     })]
     let $byKey := for-each($people, function($person as element()) {
-        let $label := head((ft:field($person, "sort-name"), $person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])) => string()       
+        let $label := ft:field($person, "sort-name")
         return
             [lower-case($label), $label, $person]
     })
