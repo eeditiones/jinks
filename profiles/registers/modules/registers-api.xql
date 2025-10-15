@@ -50,9 +50,12 @@ declare function rview:people-categories($request as map(*)){
             if ($search and $search != '') then
                 collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., 'name:(' || $search || '*)')]
             else
-                collection($config:register-root)/id($config:register-map?person?id)//tei:person
+                collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., '*', map {
+                        "leading-wildcard": "yes",
+                        "filter-rewrite": "yes"
+                    })]
     let $byKey := for-each($people, function($person as element()) {
-        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1] => string()
+        let $label := head((ft:field($person, "sort-name"), $person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])) => string()       
         return
             [lower-case($label), $label, $person]
     })
