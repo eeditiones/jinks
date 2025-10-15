@@ -34,15 +34,15 @@
 
     /* menubar, toolbar, drawer */
 
-    [% if $theme?menubar?background-image %]
-        --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
+    [% if $theme?colors?menubar?background-image %]
+        --jinks-menubar-background-image: url("[[ $theme?colors?menubar?background-image ]]");
     [% else %]
         --jinks-menubar-background-image: none;
     [% endif %]
 
-    --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
+    --jinks-menubar-background-color: [[ $theme?colors?menubar?background-color ]];
     --jinks-menubar-color: var(--jinks-colors-light);
-    --jinks-menubar-font-size: [[ $theme?menubar?font-size ]];
+    --jinks-menubar-font-size: [[ $theme?fonts?menubar?size ]];
     --jinks-menubar-button-color: rgba(165, 165, 165, 0.4);
     --jinks-toolbar-background-color: var(--jinks-colors-accent);
     --jinks-toolbar-color: var(--jinks-color-primary);

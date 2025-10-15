@@ -8,7 +8,12 @@
     "version": "1.0.0",
     "theme": {
         "colors": {
-            "palette": "neutral"
+            "palette": "neutral",
+            "menubar": {
+                "background-image": null,
+                "background-color": "var(--jinks-colors-500)",
+                "color": "#ffffff"
+            }
         },
         "logo": {
             "light": "../images/tei-publisher-logo-contrast-color.svg",
@@ -45,6 +50,9 @@
             "breadcrumbs": {
                 "size": "0.9rem"
             },
+            "menubar": {
+                "size": "14px"
+            },
             "toc": {
                 "size": "1.125rem"
             }
@@ -58,12 +66,6 @@
         },
         "header": {
             "background-image": null
-        },
-        "menubar": {
-            "background-image": null,
-            "background-color": "var(--jinks-colors-500)",
-            "color": "#ffffff",
-            "font-size": "14px"
         },
         "breadcrumbs": {
             "max": "40ch"
