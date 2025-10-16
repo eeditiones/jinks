@@ -802,10 +802,11 @@
         </model>
                     <modelSequence predicate="parent::listPerson">
             <desc>Register details view</desc>
-            <model behaviour="heading">
+            <model behaviour="pass-through">
                 <desc>Heading with full name and dates</desc>
                 <param name="content" value="(persName[@type!='variant'])[1]"/>
-                <param name="level" value="2"/>
+                <param name="uri" value="'people/'||@xml:id"/>
+                <pb:template xmlns="" xml:space="preserve"><h2><a href="[[uri]]" target="_blank">[[content]]</a></h2></pb:template>
             </model>
             <model behaviour="pass-through" predicate="$parameters?mode='register-details'">
                 <desc>Dates</desc>
