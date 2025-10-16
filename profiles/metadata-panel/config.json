@@ -1,0 +1,16 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "id": "https://e-editiones.org/app/tei-publisher/metadata-panel",
+    "label": "Metadata section",
+    "description": "Profile for a metadata section in the sidebar",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "templating": {
+        "use": [
+            "templates/metadata-blocks.html"
+        ]
+    }
+}
