@@ -930,6 +930,17 @@
                             },
                             "template": {
                                 "type": "string"
+                            },
+                            "fetch": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
                         },
                         "required": [

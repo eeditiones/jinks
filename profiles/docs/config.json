@@ -86,7 +86,6 @@
         }
     ],
     "static": {
-        "$replace": true,
         "templating": {
             "use": [
                 "templates/iiif-blocks.html"
@@ -128,13 +127,13 @@
                     "toc": false,
                     "parts": [
                         {
-                            "odd": "shakespeare.odd",
-                            "view": "page"
+                            "id": "default",
+                            "view": "page",
+                            "odd": "shakespeare.odd"
                         },
                         {
                             "id": "breadcrumb",
                             "user.mode": "breadcrumb",
-                            "odd": "shakespeare.odd",
                             "view": "single"
                         }
                     ]

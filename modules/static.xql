@@ -147,10 +147,10 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
             map:entry($param, $params($param))
     ))
     let $urlParams := static:params-to-query($mergedParams)
-    let $_ := util:log("INFO", ("<static> load part: ", $urlParams))
     let $request := 
         <http:request method="GET" 
             href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?wrap=false&amp;{$urlParams}"/>
+    let $_ := util:log("INFO", ("<static> load part: ", $request/@href/string()))
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
@@ -161,6 +161,7 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
                 map {
                     "content": parse-xml-fragment($json?content),
                     "footnotes": parse-xml-fragment($json?footnotes),
+                    "path": $path,
                     "key": static:compute-key($mergedParams)
                 }
             ))
