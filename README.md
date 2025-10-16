@@ -94,3 +94,21 @@ Once the application has been installed, users may call the manager again with a
 Unless `overwrite=all`, jinks will **never** overwrite files which have been changed by the user since they were installed from the profile. To track changes, an SHA-256 key is computed for every file and stored in the `.generator.json` file in the target app.
 
 Conflicting files will be reported by the `generator:process` function.
+
+
+## Acknowledgements
+
+Jinks has been funded and supported by a number of research and cultural heritage organizations, as well as through individual contributions.
+
+We would like to particularly acknowledge substantial support from the following institutions:
+
+### [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
+
+![dhlab](../../../resources/images/dhlab.svg)
+
+### [Office of the Historian, Shared Knowledge Services, Bureau of Administration, United States Department of State](https://history.state.gov/)
+
+### [Tadeusz Manteuffel Institute of History, Polish Academy of Sciences](https://ihpan.edu.pl/en/)
+
+![ihpan](../../../resources/images/ihpan.svg)
+

@@ -27,3 +27,9 @@ Appropriate processing model rules are largely already contained in `teipublishe
 ```
 
 To enable in-edition navigation in your app, set `toolbar-toggles/enabled` to `true` together with selected toggle switch either in your `config.json` or the frontmatter of an HTML template, as in the example above. 
+
+## Credits
+
+This feature has been primarily funded via [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
+
+![dhlab](../../../resources/images/dhlab.svg)

@@ -68,3 +68,10 @@ When using the IIIF viewer, you may want to adjust the layout to accommodate the
 ```
 
 This allocates 33% of the viewport width to the sidebar area, leaving more space for the main content area where the IIIF viewer will be displayed.
+
+
+## Credits
+
+This feature has been primarily funded via [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
+
+![dhlab](../../../resources/images/dhlab.svg)

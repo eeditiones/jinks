@@ -65,3 +65,9 @@ Two fields must be defined in the index configuration, as above:
 #### Browse pages for registers
 
 To control the number of columns in browse pages, set the css variable ` --pb-categorized-list-columns` in `resources/css/registers-theme.css`. By default it uses two-column layout.
+
+## Credits
+
+This feature has been primarily funded via [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
+
+![dhlab](../../../resources/images/dhlab.svg)

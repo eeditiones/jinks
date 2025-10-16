@@ -58,3 +58,9 @@ In [`profiles/docs/templates/pages/facsimile.html`](https://github.com/eeditione
 <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
 [% endtemplate %]
 ```
+
+## Credits
+
+This feature has been primarily funded via [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
+
+![dhlab](../../../resources/images/dhlab.svg)
