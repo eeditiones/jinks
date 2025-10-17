@@ -55,13 +55,17 @@
                     <model behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
-                    <model predicate="parent::person or parent::place" behaviour="inline"/>
                     <model predicate="ancestor::listAnnotation" behaviour="inline">
-            <desc>notes stored in the standOff section, therefore they just need to be
+                        <desc>SERAFIN: notes stored in the standOff section, therefore they just need to be
                             rendered inline when pulled from corresponding anchor element via the
                             target attribute </desc>
-        </model>
-                    <model behaviour="note"/>
+                    </model>
+                    <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
+                    <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
+                    <model behaviour="note">
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
                     <model output="print" behaviour="inline"/>
@@ -70,11 +74,13 @@
             <pb:template xmlns="" xml:space="preserve">\pstart [[content]] \pend</pb:template>
         </model>
                     <model predicate="@corresp" behaviour="webcomponent" useSourceRendition="true">
+                        <desc>SERAFIN</desc>
             <param name="name" value="'pb-highlight'"/>
             <param name="key" value="replace(@corresp, &#34;^#\w\.(.*)$&#34;, &#34;$1&#34;)"/>
             <param name="highlight-self" value="true()"/>
         </model>
                     <model behaviour="webcomponent" useSourceRendition="true">
+                        <desc>SERAFIN</desc>
             <param name="name" value="'pb-highlight'"/>
             <param name="key" value="replace(@xml:id, &#34;^\w\.(.*)$&#34;, &#34;$1&#34;)"/>
             <param name="highlight-self" value="true()"/>
@@ -82,12 +88,15 @@
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
                     <model output="fo" behaviour="document">
+                        <desc>SERAFIN</desc>
             <param name="content" value="(.//text[@type='source'], .//text[@type='translation'])"/>
         </model>
                     <model output="print" behaviour="document">
+                        <desc>SERAFIN</desc>
             <param name="content" value="(.//text[@type='source'], .//text[@type='translation'])"/>
         </model>
                     <modelSequence output="plain">
+                        <desc>SERAFIN</desc>
             <model behaviour="heading">
                 <param name="content" value="'Source'"/>
                 <param name="level" value="1"/>
