@@ -51,8 +51,21 @@
         }
     },
     "theme": {
+        "logo": {
+            "width": "48px",
+            "dark": "../images/base_icon_transparent_background.svg",
+            "splash": {
+                "dark": "../images/animation_serafin.gif",
+                "light": "../images/animation_serafin.gif"
+            },
+            "light": "../images/base_icon_transparent_background.svg"
+        },
+        "layout": {
+            "search": "before",
+            "before-width": "min(30vw, 420px)"
+        },
         "colors": {
-            "palette": "green"
+            "palette": "dark"
         }
     },
     "static": {

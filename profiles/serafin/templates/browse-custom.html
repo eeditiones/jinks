@@ -1,0 +1,24 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/browse.html"
+        }
+    }
+    ---
+    [% template styles %]
+    <style>
+        .logo-text {
+            display: block;
+            margin-top: var(--s1);
+            margin-bottom: var(--s1);
+            margin-right: var(--s2);
+        }
+    </style>
+    [% endtemplate %]
+    [% template before-top %]
+    <li>
+        <img class="logo-text" src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg" alt="Serafin" />
+    </li>
+    [% endtemplate %]
+</template>

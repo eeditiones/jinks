@@ -137,7 +137,7 @@
     --jinks-h6-color: var(--jinks-colors-600);
 
     /* form controls */
-    --jinks-form-background-color: #EFEEE9;
+    --jinks-form-background-color: var(--jinks-colors-50);
     --jinks-form-border-color: var(--jinks-colors-accent);
     --jinks-form-border-radius: 90px;
     --jinks-form-border-radius-full: 999px;
@@ -208,4 +208,6 @@
     --pb-popover-line-height: 1.2;
     --pb-popover-placement: "bottom";
     --pb-popover-fallback-placement: "top right left";
+
+    --pb-highlight-color: var(--jinks-color-highlight);
 }

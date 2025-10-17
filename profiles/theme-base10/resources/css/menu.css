@@ -36,8 +36,14 @@
  * that misalignes items on the right of the
  * menubar
  */
-nav.menubar ul:last-of-type {
-    margin-inline-end: 0;
+nav.menubar ul:last-of-type,
+nav.toolbar ul:last-of-type {
+    margin-right: 0;
+}
+
+nav.menubar ul:first-of-type,
+nav.toolbar ul:first-of-type {
+    margin-left: 0;
 }
 
 .menubar ul:nth-child(1) {

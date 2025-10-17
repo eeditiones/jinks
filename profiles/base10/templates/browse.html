@@ -17,6 +17,11 @@
                 "resources/scripts/facets.js",
                 "resources/scripts/browse.js"
             ]
+        },
+        "theme": {
+            "layout": {
+                "toggle-before": false
+            }
         }
     }
     ---
@@ -36,6 +41,7 @@
         [% endif %]
     [% endtemplate %]
     [% template before-top %]
+    [% if $context?theme?layout?search = 'before-top' %]
     <li>
         <pb-search subscribe="search" value="[[ $request?parameters?query ]]"
             subforms=".facets,.options" submit-on-load="submit-on-load">
@@ -43,6 +49,7 @@
             <input type="hidden" name="field" value="text"/>
         </pb-search>
     </li>
+    [% endif %]
     [% endtemplate %]
     [% template before %]
     <pb-search class="mobile" subscribe="search" value="[[ $request?parameters?query ]]"
@@ -50,6 +57,14 @@
         <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
         <input type="hidden" name="field" value="text"/>
     </pb-search>
+    [% if $context?theme?layout?search = 'before' %]
+    <pb-search subscribe="search" value="[[ $request?parameters?query ]]" subforms=".facets,.options"
+        submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text" />
+    </pb-search>
+    [% endif %]
+    
     <pb-custom-form class="options">
         <fieldset>
             <label for="search.sort"><pb-i18n key="browse.sort"></pb-i18n>:</label>

@@ -656,6 +656,16 @@
                             "examples": [
                                 "min(30vw, 356px)"
                             ]
+                        },
+                        "toggle-before": {
+                            "type": "boolean",
+                            "description": "If true, add a toggle button to the before sidebar to collapse and expand"
+                        },
+                        "search": {
+                            "type": "string",
+                            "description": "Position of the search input on the browse page",
+                            "enum": ["before-top", "before"],
+                            "default": "before-top"
                         }
                     }
                 }
