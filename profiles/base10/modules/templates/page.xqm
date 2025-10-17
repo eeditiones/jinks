@@ -50,7 +50,7 @@ declare function page:collection-breadcrumbs($context as map(*)) {
         return
             if (count($components) = 1) then
                 <li>
-                    <a href="{$context?context-path}/browse.html?collection=">
+                    <a href="{$context?context-path}/{$context?defaults?browse}?collection=">
                         <pb-i18n key="breadcrumb.document-root">
                             Home
                         </pb-i18n>
@@ -60,7 +60,7 @@ declare function page:collection-breadcrumbs($context as map(*)) {
                 for $i in 1 to count($components) - 1
                 return
                     <li>
-                        <a href="{$context?context-path}/browse.html?collection={string-join(subsequence($components, 1, $i), '/')}">
+                        <a href="{$context?context-path}/{$context?defaults?browse}?collection={string-join(subsequence($components, 1, $i), '/')}">
                             <pb-i18n key="breadcrumb.{string-join(subsequence($components, 1, $i), '.')}">
                                 {$components[$i]}
                             </pb-i18n>
