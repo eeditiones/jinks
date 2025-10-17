@@ -1,0 +1,44 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/layouts/base.html"
+        }
+    }
+    ---
+    [% template styles %]
+    <link rel="stylesheet" href="[[ $context-path ]]/transform/[[ replace($context?parts?default?odd, '\.odd$', '.css') ]]" />
+    [% endtemplate %]
+
+    [% template before %]
+    [% if $context?features?toc?enabled %]
+    <div class="toc">
+        <h5>
+            <pb-i18n key="document.contents">Contents</pb-i18n>
+        </h5>
+        [[ $context?table-of-contents ]]
+    </div>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template breadcrumb %]
+    [% if map:contains($context, "parts") and map:contains($context?parts, "breadcrumb") %]
+    <li>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="[[ $context-path ]]/[[ replace($context?parts?breadcrumb?path, '^([^/]+)/.*$' , '$1') ]]/1/index.html"><pb-i18n
+                            key="breadcrumb.document-root"></pb-i18n></a></li>
+                <li>[[ $context?parts?breadcrumb?content ]]</li>
+            </ul>
+        </nav>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+
+    <main>
+        [% block above-content %][% endblock %]
+        <!-- Content block -->
+        [% block content %][% endblock %]
+        [% block below-content %][% endblock %]
+    </main>
+</template>

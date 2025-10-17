@@ -17,19 +17,15 @@ function teip:setup($context as map(*)) {
 declare 
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
-    (: teip:change-landing($context, $target), :)
     teip:custom-odd-install($context, $target)
 };
 
-declare %private function teip:change-landing($context as map(*), $target as xs:string) {
-    (: rename the landing page to index.html :)
-    if (map:contains($context?defaults, "landing") and
-        $context?defaults?landing != "index.html") then
-        xmldb:copy-resource($target || "/templates", $context?defaults?landing, $target || "/templates", "index.html")
-    else
-        ()
-};
-
+(:~
+ : Checks if all referenced ODDs are available. Creates an empty ODD from template if not.
+ :
+ : @param $context the context map
+ : @param $target the target path
+ :)
 declare %private function teip:custom-odd-install($context as map(*), $target as xs:string) {
     if (map:contains($context, "odds")) then
         for $odd in $context?odds?*

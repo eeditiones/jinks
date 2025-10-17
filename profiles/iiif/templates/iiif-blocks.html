@@ -1,13 +1,21 @@
 <template>
     [# import pb-tify if we're in document view and pb-tify is enabled %]
     [% template scripts %]
-    [% if exists($context?doc) and $context?features?iiif?enabled and $context?features?iiif?viewer = "pb-tify" %]
-    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled and $context?features?iiif?viewer = "pb-tify" %]
+    
+        [% if $script?webcomponents = 'dev' %]
+        <script type="module" src="[[$script?cdn]]/src/pb-tify.js"></script>
+        [% elif $script?webcomponents = 'local' %]
+        <script type="module" src="[[ $context-path ]]/resources/lib/pb-tify.js"></script>
+        [% elif $script?webcomponents = '' %]
+        [% else %]
+        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
+        [% endif %]
     [% endif %]
     [% endtemplate %]
 
     [% template after %]
-    [% if exists($context?doc) and $context?features?iiif?enabled %]
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled %]
         [% if $context?features?iiif?viewer = "pb-tify" %]
         <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
         [% else %]

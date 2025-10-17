@@ -1,0 +1,26 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "static/templates/basic.html",
+            "use": [
+                "templates/iiif-blocks.html"
+            ]
+        },
+        "features": {
+            "toc": {
+                "enabled": false
+            },
+            "iiif": {
+                "viewer": "pb-tify",
+                "enabled": true
+            }
+        },
+        "theme": {
+            "layout": {
+                "after-width": "33vw"
+            }
+        }
+    }
+    ---
+</template>

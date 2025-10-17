@@ -41,32 +41,6 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="shakespare" source="teipublisher.odd">
-                <elementSpec ident="pb" mode="change">
-                    <model output="print" behaviour="omit"/>
-                    <model behaviour="webcomponent" cssClass="facs">
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="content" value="@n"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
-            <param name="facs" value="'api/iiif/' || substring-after(document-uri(root($parameters?root)), $global:data-root || '/')"/>
-            <outputRendition xml:space="preserve">
-            
-            
-            
-            font-size: 16px;
-color: #888888;
-cursor: pointer;
-display: inline;
-display: block;
-margin-right: -32px;
-float: right;
-            
-            
-            
-            </outputRendition>
-        </model>
-                </elementSpec>
                 <elementSpec ident="lb" mode="change">
                     <model predicate="not(parent::p)" behaviour="omit"/>
                     <model behaviour="omit" useSourceRendition="true">

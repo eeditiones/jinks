@@ -147,10 +147,10 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
             map:entry($param, $params($param))
     ))
     let $urlParams := static:params-to-query($mergedParams)
-    let $_ := util:log("INFO", ("<static> load part: ", $urlParams))
     let $request := 
         <http:request method="GET" 
             href="{$context?base-uri}/api/parts/{encode-for-uri($path)}/json?wrap=false&amp;{$urlParams}"/>
+    let $_ := util:log("INFO", ("<static> load part: ", $request/@href/string()))
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
@@ -161,6 +161,7 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
                 map {
                     "content": parse-xml-fragment($json?content),
                     "footnotes": parse-xml-fragment($json?footnotes),
+                    "path": $path,
                     "key": static:compute-key($mergedParams)
                 }
             ))
@@ -190,7 +191,7 @@ declare function static:compute-key($params as map(*)) {
 };
 
 (:~
- : Load a resource from a URL and store it in the database.
+ : Load a resource from a URL and return the content.
  :
  : The function sends a GET request to the given URL and returns the content.
  :
@@ -201,14 +202,15 @@ declare function static:load($url as xs:string) {
 };
 
 (:~
- : Load a resource from a URL and store it in the database.
+ : Load a resource from a URL and either returns the content or stores it in the database.
  :
  : The function sends a GET request to the given URL and stores the response in the database. The target path
  : is determined by the $target parameter. If no target is specified, the function will return the response content.
  :
  : @param $context The context map used to resolve relative URLs
  : @param $url The URL of the resource to load
- : @param $target The target path in the database. If relative, it will be resolved against context?target.
+ : @param $target The target path in the database. If relative, it will be resolved against context?target. If empty, the function will return the content.
+ : @return The content of the resource or the target path if $target is specified.
  :)
 declare function static:load($context as map(*)?, $url as xs:string, $target as xs:string?) {
     let $request := 
@@ -226,7 +228,11 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
                     let $targetPath := 
                         if (exists($context)) then path:resolve-path($context?target, $target) else $target
                     return
-                        xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
+                        switch ($contentType)
+                            case "application/json" return
+                                xmldb:store-as-binary(path:parent($targetPath), path:basename($targetPath), xs:base64Binary($response[2]))[2]
+                            default return
+                                xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
                 ) else
                     switch ($contentType)
                         case "application/json" return
@@ -477,8 +483,13 @@ declare function static:prepare($jsonConfig as map(*)) {
                 "base-uri": $baseUri,
                 "force-overwrite": true(),
                 "context-path": request:get-context-path() || "/apps/" || $staticTarget,
+                "path-prefix": $jsonConfig?static?path-prefix,
                 "target": repo:get-root() || "/" || $staticTarget,
-                "languages": json-doc($pkgTarget || "/resources/i18n/languages.json")
+                "languages": json-doc($pkgTarget || "/resources/i18n/languages.json"),
+                "templating": map:merge((
+                    $jsonConfig?templating,
+                    map:entry("use", $jsonConfig?static?templating?use)
+                ))
             }
         ))
     let $_ := (
@@ -492,12 +503,19 @@ declare function static:prepare($jsonConfig as map(*)) {
 declare %private function static:generate-collections-from-config($context as map(*)) {
     map:for-each($context?static?collections, function($collection, $config) {
         let $pathPrefix := head(($config?path-prefix, "documents"))
-        let $link := path:resolve-path($context?context-path, $pathPrefix)
-        let $docs := 
+        let $link := path:resolve-path(($context?context-path, $collection), $pathPrefix)
+        let $docsAll := 
             if ($collection = "") then
                 static:load($context?base-uri || "/api/documents?link=" || $link)
             else
                 static:load($context?base-uri || "/api/documents/" || $collection || "?link=" || $link)
+        let $docs :=
+            if (map:contains($config, "include") and $config?include instance of array(*)) then
+                array:filter($docsAll, function($doc) {
+                    $doc?path = $config?include
+                })
+            else
+                $docsAll
         let $_ := util:log("INFO", ("<static> Processing " || count($docs?*) || " documents in collection ", $collection))
         return (
             (: Create search index :)
@@ -519,7 +537,7 @@ declare %private function static:generate-collections-from-config($context as ma
                 }
             ))
             let $docName := path:basename($doc?path)
-            return
+            return (
                 static:paginate(
                     $docContext,
                     array {
@@ -532,7 +550,8 @@ declare %private function static:generate-collections-from-config($context as ma
                         path:resolve-path(($pathPrefix, $collection, $docName), $n)
                     }
                 ),
-                ()
+                static:fetch($context, $config, $doc)
+            )
         )
     })
 };
@@ -572,4 +591,22 @@ declare function static:copy($context as map(*)) {
     for $operation in $context?static?copy?*
     return
         cpy:copy-collection($context, $operation?from, $operation?to, $operation?filter)
+};
+
+declare function static:fetch($context as map(*), $collectionConfig as map(*), $doc as map(*)) {
+    for $fetch in $collectionConfig?fetch?*
+    let $url := static:expand-parameter($fetch?url, map:merge(($context, map:entry("doc", $doc))))
+    let $target := static:expand-parameter($fetch?target, map:merge(($context, map:entry("doc", $doc))))
+    let $log := util:log("INFO", ("<static> Fetching ", $url, " to ", $target))
+    return
+        static:load($context, $url, $target)
+};
+
+declare function static:expand-parameter($parameter as xs:string, $context as map(*)) {
+    tmpl:process($parameter, $context,
+        map {
+            "plainText": true(),
+            "resolver": cpy:resource-as-string($context, ?)
+        }
+    )
 };
