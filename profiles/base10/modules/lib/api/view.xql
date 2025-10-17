@@ -127,12 +127,17 @@ declare function vapi:view($request as map(*)) {
                 })
 };
 
-declare %private function vapi:transform-helper($content as node()*, $parameters as map(*)?, $odd as xs:string?) {
-    let $params :=
+declare function vapi:transform-helper($content as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    let $params := map:merge((
         if (map:contains($parameters, "root")) then
             $parameters
         else
-            map:put($parameters, "root", $content)
+            map:put($parameters, "root", $content),
+        map { 
+            "webcomponents": 7,
+            "context-path": $config:context-path
+        }
+    ))
     return
         $pm-config:web-transform($content, $params, $odd)
 };

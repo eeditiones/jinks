@@ -410,10 +410,13 @@
                     <model behaviour="block" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="licence" mode="add">
-                    <model predicate="@target" behaviour="link" cssClass="licence">
-            <param name="content" value="'Licence'"/>
-            <param name="uri" value="@target"/>
-        </model>
+                    <model predicate="@target" behaviour="block" cssClass="licence">
+                        <param name="content" value="'Licence'"/>
+                        <param name="uri" value="@target"/>
+                        <pb:template xmlns="" xml:space="preserve"><a class="licence" href="[[uri]]">
+                            <pb-i18n key="odd.licence"/>
+                            </a></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
                     <model behaviour="break" useSourceRendition="true">
@@ -434,6 +437,7 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="bibl" mode="add">
+                    <model predicate="ancestor::sourceDesc and $parameters?mode='metadata-panel'" behaviour="listItem"/>
                     <modelSequence predicate="$parameters?mode='register-details'">
             <desc>Register details view</desc>
             <model behaviour="block">
@@ -564,6 +568,33 @@
         </model>
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="idno" mode="add">
+                    <model predicate="@type='ISBN'" behaviour="pass-through">
+                        <param name="type" value="@type"/>
+
+                        <pb:template xmlns="" xml:space="preserve"><div>
+                            <b>[[type]]</b>: [[content]]
+                        </div></pb:template>
+        </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="sourceDesc" mode="add">
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
+                        <pb:template xmlns="" xml:space="preserve"><div>
+                            <h3><pb-i18n key="odd.sources"/></h3>
+                            <ul>
+                                [[content]]
+                            </ul>
+                        </div></pb:template>
+        </model>
+                    <model behaviour="pass-through"/>
+                </elementSpec>
+                <elementSpec ident="msDesc" mode="add">
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="listItem"/>
+                </elementSpec>
+                <elementSpec ident="publisher" mode="add">
+                    <model behaviour="block"/>
+                </elementSpec>
                 <elementSpec ident="q" mode="change">
                     <model predicate="l" behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
                     <model predicate="ancestor::p or ancestor::cell or ancestor::cit" behaviour="inline" cssClass="inline-quote" useSourceRendition="true">
@@ -679,13 +710,13 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
-                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="revisionDesc" mode="change">
-                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="encodingDesc" mode="change">
-                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='metadata-panel'" behaviour="omit"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
@@ -693,11 +724,15 @@
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
         </model>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through"/>
                     <model predicate="$parameters?display='browse'" behaviour="block"/>
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+            <param name="content" value="teiHeader"/>
+        </model>
+        <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
             <param name="content" value="teiHeader"/>
         </model>
                     <model predicate="$parameters?mode='edition-navigation' and descendant::correspContext" behaviour="pass-through">
@@ -730,6 +765,7 @@
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
             <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
             <param name="content" value="string()"/>
@@ -761,7 +797,12 @@
             <desc>for breadcrumbs, pick only the first title</desc>
             <param name="content" value="title[1]"/>
         </model>
-                    <modelSequence output="web" predicate="$parameters?display='browse'">
+        <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+            <desc>List of letters in register detail view</desc>
+            <param name="content" value="head((title[@type='main'], title))"/>
+        </model>
+        <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
+        <modelSequence output="web" predicate="$parameters?display='browse'">
             <desc>Display short metadata in document lists in the browse view</desc>
             <model predicate="$parameters?static" behaviour="link">
                 <param name="content" value="title[1]"/>
@@ -778,10 +819,7 @@
                 <param name="content" value="author"/>
             </model>
         </modelSequence>
-                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
-            <desc>List of letters in register detail view</desc>
-            <param name="content" value="head((title[@type='main'], title))"/>
-        </model>
+                    
                     <model output="web" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="trailer" mode="change">
@@ -818,10 +856,11 @@
         </model>
                     <modelSequence predicate="parent::listPerson">
             <desc>Register details view</desc>
-            <model behaviour="heading">
+            <model behaviour="pass-through">
                 <desc>Heading with full name and dates</desc>
                 <param name="content" value="(persName[@type!='variant'])[1]"/>
-                <param name="level" value="2"/>
+                <param name="uri" value="'people/'||@xml:id"/>
+                <pb:template xmlns="" xml:space="preserve"><h2><a href="[[uri]]" target="_blank">[[content]]</a></h2></pb:template>
             </model>
             <model behaviour="pass-through" predicate="$parameters?mode='register-details'">
                 <desc>Dates</desc>
@@ -859,13 +898,12 @@
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
-                <pb:template xmlns="" xml:space="preserve"><div>
-  <h2><pb-i18n key="register-details.document-list"/></h2>
-  <ul>
-  [[content]]
-  </ul>
-</div></pb:template>
+                    <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
+                    <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
             </model>
         </modelSequence>
                 </elementSpec>

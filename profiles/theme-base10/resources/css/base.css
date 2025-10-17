@@ -14,7 +14,6 @@
 
     --pb-color: var(--jinks-color-primary, var(--pico-color));
     --jinks-logo: var(--jinks-logo-light);
-    --pb-highlight-color: var(--pb-highlight-color-light);
     --jinks-background-color: var(--jinks-background-color-light);
     --jinks-splash-background: var(--jinks-splash-background-light);
     --jinks-color-inverse: var(--jinks-background-color-dark);
@@ -118,8 +117,8 @@ pb-page[unresolved]~.splash {
 }
 
 .toolbar ul {
-    padding-left: var(--s1);
-    padding-right: var(--s1);
+    padding-left: var(--s-2);
+    padding-right: var(--s-2);
 }
 
 .toolbar li {
@@ -481,7 +480,7 @@ nav.before-top > ul:first-child > li {
     width: 100%;
 }
 
-.before pb-search.mobile {
+.before pb-search {
     margin-bottom: var(--s-1);
 }
 
@@ -511,4 +510,8 @@ main {
 .container > :not(.resize-handler) {
   padding: 10px;
   overflow: auto;
+}
+
+.metadata-panel {
+    margin-block-start: 1rem;
 }

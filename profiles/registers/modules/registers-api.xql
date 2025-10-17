@@ -127,8 +127,8 @@ declare function rview:detail-html($request as map(*)) {
             "id": $id,
             "root": $entry,
             "letters": $mentions,
-            "transform": $pm-config:web-transform(?, ?, $config?odd),
-            "transform-with": $pm-config:web-transform
+            "transform": vapi:transform-helper(?, ?, $config?odd),
+            "transform-with": vapi:transform-helper#3
         }
     }
     return

@@ -84,6 +84,7 @@
                 <ul>
                     [% block before-top %][% endblock %]
                 </ul>
+                [% if $context?theme?layout?toggle-before %]
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".before">
@@ -95,6 +96,7 @@
                         </a>
                     </li>
                 </ul>
+                [% endif %]
             </nav>
             <aside class="before hidden-mobile">
                 [% block before.top %][% endblock %]
@@ -103,13 +105,13 @@
             </aside>
 
             <header class="content-top hidden-mobile">
-                [% if $features?toolbar?progress?enabled %]
-                <pb-progress subscribe="[[ $features?toolbar?progress?subscribe ]]" indeterminate="indeterminate" />
-                [% endif %]
                 [% if $features?toolbar?enabled %]
                 [% include "templates/toolbar.html" %]
                 [% endif %]
                 [% block content-top %][% endblock %]
+                [% if $features?toolbar?progress?enabled %]
+                <pb-progress subscribe="[[ $features?toolbar?progress?subscribe ]]" indeterminate="indeterminate" />
+                [% endif %]
             </header>
 
             [% block content %][% endblock %]
