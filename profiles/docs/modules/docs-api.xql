@@ -35,13 +35,13 @@ declare function api:lemmata($request as map(*)) {
     let $entries :=
         if ($search and $search != '')
         then
-            doc($config:data-root || "/demo/DamenConvLex-1834.xml")//tei:entry[ft:query(., 'lemma:(' || $search || '*)', map {
+            doc($config:data-root || "/demo/Kirchner-Michaelis-1907.xml")//tei:entry[ft:query(., 'lemma:(' || $search || '*)', map {
                 "leading-wildcard": "yes",
                 "filter-rewrite": "yes",
                 "fields": "lemma"
             })]
         else
-            doc($config:data-root || "/demo/DamenConvLex-1834.xml")//tei:entry[ft:query(., 'lemma:*', map {
+            doc($config:data-root || "/demo/Kirchner-Michaelis-1907.xml")//tei:entry[ft:query(., 'lemma:*', map {
                 "leading-wildcard": "yes",
                 "filter-rewrite": "yes",
                 "fields": "lemma"
