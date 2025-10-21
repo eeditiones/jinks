@@ -20,7 +20,7 @@
     --jinks-hero-background-size: [[ $theme?hero?background-size ]];
     --jinks-hero-background-repeat: [[ $theme?hero?background-repeat ]];
     --jinks-hero-background-color: [[ $theme?hero?background-color ]];
-    --jinks-hero-text-width: 50rem;
+    --jinks-hero-text-width: [[ $theme?hero?text-width ]];
     --jinks-hero-height: auto;
     --jinks-hero-min-height: 60vh;
     --jinks-hero-padding: 2rem 1rem 2rem 6rem;
@@ -57,7 +57,6 @@
 
     /* Typography */
 
-    --jinks-hero-text-width: [[ $theme?hero?text-width ]];
 
     --jinks-base-font-family: [[ $theme?fonts?base?family ]];
     --jinks-base-font-size: [[ $theme?fonts?base?size ]];
