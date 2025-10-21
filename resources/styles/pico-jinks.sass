@@ -15,26 +15,64 @@
     "utilities/reduce-motion": false
   )
 );
+@import "../../profiles/theme-base10/resources/css/palette-teal.css";
 
 // ============================================================================
 // CSS Custom Properties
 // ============================================================================
 :root
-    --text-light: #333333
-    --text-dark: white
-    --color-highlight: #F6A623
-    --color-menu-bg: #35424b
-    --color-submenu: #FADCA1
-    --color-appbar: #D1D5DB
-    --pico-header-background: var(--color-menu-bg)
-    --color-splash-bg: #0f0f0f
-    --color-border-light: #ced4da
-    --color-success: #2C6C0C
-    --color-alert: #D93526
-    --color-resolved: #55524A
-    --color-text-black: #000
+    --jinks-menubar-background-color: var(--jinks-colors-500)
+    --jinks-menubar-color: var(--jinks-colors-light)
+    --jinks-layout-before-width: min(30vw, 192px)
+    --jinks-layout-after-width: 40vw
+    --jinks-logo-light: url("../images/tei-publisher-logo-contrast-color.svg")
+    --jinks-logo-image-width: 140px
+    --jinks-logo-image-height: 48px
+
+    --text-light: var(--jinks-colors-700)
+    --text-dark: var(--jinks-colors-50)
+    --pico-header-background: var(--jinks-menubar-background-color)
+    --color-border-light: var(--jinks-colors-dark)
+    --color-success: var(--jinks-colors-500)
+    --color-alert: var(--jinks-colors-accent)
+    --pico-form-element-invalid-border-color: var(--jinks-colors-accent)
+    --pico-form-element-invalid-focus-color: var(--jinks-colors-accent)
+    --pico-form-element-valid-border-color: var(--jinks-colors-500)
+    --pico-form-element-valid-focus-color: var(--jinks-colors-500)
+    --pico-ins-color: var(--jinks-colors-500)
+    --color-resolved: var(--jinks-colors-dark)
+    --color-text-black: var(--jinks-colors-700)
     --font-family: 'Inter', sans-serif
     --font-size: 16px
+    --pico-border-radius: 90px
+
+// ============================================================================
+// Tab Navigation Styles
+// ============================================================================
+.tabs
+    margin-top: .5rem
+    ul
+        display: flex
+        list-style: none
+        margin: 0
+        padding: 0
+        
+        li
+            margin: 0
+            border-bottom: 1px solid transparent
+            
+            a
+                display: block
+                padding: 0.75rem 1.5rem
+                text-decoration: none
+                color: var(--jinks-colors-700)
+                transition: all 0.2s ease
+                
+                &:hover
+                    color: var(--jinks-colors-accent)
+
+        li:has(a.active)
+            border-bottom: 1px solid var(--jinks-colors-accent)
 
 // ============================================================================
 // SASS Mixins
@@ -46,6 +84,9 @@
 // ============================================================================
 // Base Typography & Layout
 // ============================================================================
+html
+    font-size: var(--font-size)
+
 body,
 :host
     font-family: var(--font-family)
@@ -57,13 +98,53 @@ h1, h2, h3, .output > label
     font-family: var(--font-family)
     font-weight: 200
 
+.content-top h3,
+.after-top h3
+    padding: var(--pico-spacing)
+    font-size: 1rem
+    font-weight: 600
+    margin: 0
+
 p
     margin-top: 0
+
+button:has(svg + span),
+button:has(span + svg)
+    display: flex
+    align-items: center
+    column-gap: 0.5rem
+    /* Card_shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10)
 
 // ============================================================================
 // Header & Navigation
 // ============================================================================
-header
+.page-header
+    padding-block-start: 0
+    background-image: var(--jinks-header-background-image)
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: top
+    background-color: var(--jinks-menubar-background-color)
+    padding-inline: var(--s0)
+
+.logo
+    background-image: var(--jinks-logo-light)
+    background-repeat: no-repeat
+    background-size: 100% 100%
+    background-position: left center
+    width: var(--jinks-logo-image-width)
+    height: var(--jinks-logo-image-height)
+    margin-right: var(--jinks-logo-margin-right)
+    cursor: pointer
+
+.logo a
+    display: block
+    width: 100%
+    height: 100%
+    opacity: 0
+
+.page-header
     --pico-nav-element-spacing-vertical: 0
     --pico-primary: var(--text-dark)
     --pico-primary-hover: var(--text-dark)
@@ -77,17 +158,13 @@ header nav
 header nav svg
     @include icon-size(1.5rem)
 
-header .toolbar
-    background-color: var(--color-appbar)
-    margin-bottom: 1rem
-
 nav details
-    --pico-form-element-background-color: var(--color-menu-bg)
-    --pico-form-element-border-color: var(--color-menu-bg)
-    --pico-form-element-focus-color: var(--color-menu-bg)
+    --pico-form-element-background-color: var(--jinks-menubar-background-color)
+    --pico-form-element-border-color: var(--jinks-menubar-background-color)
+    --pico-form-element-focus-color: var(--jinks-menubar-background-color)
     --pico-form-element-placeholder-color: var(--pico-primary)
-    --pico-form-element-active-background-color: var(--color-menu-bg)
-    --pico-form-element-active-border-color: var(--color-menu-bg)
+    --pico-form-element-active-background-color: var(--jinks-menubar-background-color)
+    --pico-form-element-active-border-color: var(--jinks-menubar-background-color)
 
 nav ul
     &:last-of-type
@@ -112,7 +189,7 @@ pb-login [role="button"]
     height: 36px
     padding: 0
     color: var(--text-dark)
-    background-color: var(--color-menu-bg)
+    background-color: var(--jinks-menubar-background-color)
     font-size: var(--jinks-menubar-font-size)
     text-decoration: none
 
@@ -120,49 +197,13 @@ pb-login::part(label)
     display: none
 
 // ============================================================================
-// Layout Components
-// ============================================================================
-pb-page.container-fluid
-    display: block
-    padding-left: 0
-    padding-right: 0
-
-.splash
-    position: fixed
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
-    z-index: 3
-    background-color: var(--color-splash-bg)
-    background-image: url("../images/logo.png")
-    background-position: center center
-    background-size: auto auto
-    background-repeat: no-repeat
-    transition: visibility 0s linear 300ms, opacity 300ms
-
-.logo
-    background-image: url("../images/tei-publisher-logo-contrast-color.svg")
-    height: 64px
-    width: 140px
-    background-size: auto auto
-    background-position: left center
-    background-repeat: no-repeat
-
-// ============================================================================
 // Editor & Forms
 // ============================================================================
-.editor
-    grid-column-gap: 3rem
-
-.editor.grid
-    grid-template-columns: auto 1fr
-
-.editor form
-    padding: 1rem var(--pico-spacing)
+.fixed-layout > main.editor
+    padding: 1rem calc(var(--pico-spacing) + 2rem)
     display: grid
-    grid-template-columns: minmax(auto,24rem) minmax(auto,24rem) 1fr
-    grid-template-areas: "form form form" "output output output"
+    grid-template-columns: 60% 40%
+    grid-template-areas: "form json"
     grid-column-gap: 2rem
 
 .templating
@@ -170,6 +211,9 @@ pb-page.container-fluid
     grid-template-columns: 1fr minmax(220px, 480px)
     column-gap: 1rem
     padding: 1rem var(--pico-spacing)
+
+fieldset legend
+    font-weight: bold
 
 fieldset ul
     list-style: none
@@ -188,19 +232,48 @@ dialog footer button
 #eval
     min-width: fit-content
 
+#configEditor
+    grid-area: json
+
+#appConfig
+    height: 80vh
+
+form
+    grid-area: form
+
 // ============================================================================
 // Output & Content
 // ============================================================================
-#output
-    grid-area: output
+pb-dialog h3
+    margin-bottom: 0
 
+:host(pb-dialog) > dialog > article > header
+    margin-bottom: 0
+
+:host(pb-dialog) > dialog > article
+    display: grid
+    grid-template-rows: auto 1fr auto
+    overflow: hidden
+
+:host(pb-dialog[wide]) dialog article
+    min-width: 80vw
+
+:host(pb-dialog) > dialog > article > footer
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: 1rem
+
+#output
+    overflow: auto
 .output
-    margin-top: 1rem
-    padding: 0 var(--pico-spacing)
+    overflow: auto
+    margin-top: var(--pico-spacing)
+    padding: 0
     line-height: 2
 
 .output > label
-    color: var(--color-highlight)
+    color: var(--jinks-colors-highlight)
 
 .output li jinn-monaco-diff
     height: 40vh
@@ -221,7 +294,7 @@ ul.output li
     padding-left: 1rem
 
 jinn-monaco-editor
-    max-height: 40vh
+    max-height: 80vh
     min-height: 460px
     font-size: 1rem
 
@@ -288,7 +361,17 @@ details pb-markdown
 // ============================================================================
 // Installed Components
 // ============================================================================
+.apps-aside
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: .5rem
+    overflow: auto
+
 .installed
+    display: flex
+    flex-direction: column
+    align-items: center
     padding: .5rem
     max-width: 100%
     overflow: auto
@@ -299,9 +382,18 @@ details pb-markdown
     display: flex
     column-gap: .5rem
     color: var(--color-text-black)
+    transition: all 0.2s ease
 
 .installed li > div
     padding-top: .5rem
+    cursor: pointer
+    transition: all 0.2s ease
+
+.installed li.selected
+    border: 1px solid var(--jinks-colors-300)
+
+.installed li.selected > div
+    color: var(--pico-primary)
 
 .installed .actions
     display: flex
@@ -327,6 +419,11 @@ details pb-markdown
     width: 64px
     margin-bottom: .5rem
 
+button[type="reset"]
+    width: calc(100%)
+    background-color: var(--pico-muted-color)
+    border-color: var(--pico-muted-border-color)
+
 // ============================================================================
 // Messages & Errors
 // ============================================================================
@@ -339,19 +436,62 @@ details pb-markdown
     min-height: 100px
 
 // ============================================================================
-// Responsive Design
+// Color Scheme Picker
 // ============================================================================
-@media (min-width: 1024px)
-    .is-fixed-above-lg
-        z-index: 6
-        position: sticky
-        top: 0
-        background-color: var(--pico-header-background)
-        transition: border-top-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out
-    .is-fixed
-        border-bottom-color: var(--pico-header-border-color)
-        box-shadow: var(--pico-card-box-shadow)
+.color-scheme-picker
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    gap: 1rem
+    margin-top: 1rem
 
-@media (min-width: 1536px)
-    :root
-        --pico-font-size: 100%
+.color-scheme-option
+    border: 2px solid var(--pico-muted-border-color)
+    border-radius: var(--pico-border-radius)
+    padding: 1rem
+    cursor: pointer
+    transition: all 0.2s ease, transform 0.1s ease
+    background: var(--pico-background-color)
+
+    &:hover
+        border-color: var(--pico-primary)
+        box-shadow: 0 0 0 1px var(--pico-primary)
+
+    &[data-selected="true"]
+        border-color: var(--pico-primary)
+        background: var(--pico-primary-background)
+        box-shadow: 0 0 0 1px var(--pico-primary)
+
+    label
+        display: flex
+        align-items: center
+        gap: 0.5rem
+        margin: 0
+        cursor: pointer
+        font-weight: 500
+
+        input[type="radio"]
+            margin: 0
+
+.color-preview
+    display: flex
+    gap: 2px
+    margin-bottom: 0.75rem
+    border-radius: var(--pico-border-radius)
+    overflow: hidden
+    border: 1px solid var(--pico-muted-border-color)
+
+.color-swatch
+    flex: 1
+    height: 24px
+    min-width: 0
+
+@media (max-width: 768px)
+    .color-scheme-picker
+        grid-template-columns: 1fr
+        gap: 0.75rem
+
+    .color-scheme-option
+        padding: 0.75rem
+
+    .color-swatch
+        height: 20px

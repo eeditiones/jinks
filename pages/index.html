@@ -9,10 +9,39 @@
         }
     }
     ---
+    [% template before %]
+    <div class="apps-aside">
+        <nav>
+            <ul>
+                <li>
+                    <button id="reset" type="reset">
+                        <svg class="icon"><use href="#icon-new"></use></svg>
+                        <span>New Config</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <ul class="installed"></ul>
+    </div>
+    [% endtemplate %]
+
+    [% template after-top-heading %]
+    <li><h3>JSON Configuration</h3></li>
+    [% endtemplate %]
+
+    [% template content-top %]
+    <nav class="tabs">
+        <ul>
+            <li><a href="#config">Application Configuration</a></li>
+            <li><a href="#profiles">Profiles</a></li>
+            <li><a href="#theming">Theming</a></li>
+        </ul>
+    </nav>
+    [% endtemplate %]
+
     <form id="config">
-        <section id="configMeta">
+        <section id="configMeta" data-tab="config">
             <fieldset>
-                <h3>Application Configuration</h3>
                 <label>
                     Abbreviation
                     <input type="text" name="abbrev" placeholder="Abbreviation" required="" pattern="[\w\-_]+"/>
@@ -29,10 +58,50 @@
                     <small>Unique URL to identify the app</small>
                 </label>
             </fieldset>
-            <fieldset class="buttons">
-                <button id="reset" type="reset">New Configuration</button>
-            </fieldset>
 
+            <fieldset role="group">
+                <input type="text" class="action" name="custom-odd" placeholder="my-odd.odd" pattern="[\w\-_]+\.odd" />
+                <button id="add-odd" class="secondary">Add</button>
+            </fieldset>
+            <small>Set the filename for a new custom ODD for the app.</small>
+
+            <fieldset>
+                <label>
+                    Operation mode
+                    <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
+                        <option value="quick">Quick update</option>
+                        <option value="all">All: check every file for changes</option>
+                        <option value="reinstall">Factory reset: reinstall everything</option>
+                    </select>
+                    <small>Modes <strong>quick</strong> and <strong>all</strong> will never overwrite local changes.
+                        <strong>Quick</strong> mode is faster if applied repeatedly, but
+                        skips checks on incoming files, which were not modified since last run. For a full list of updates and
+                        conflicts, use <strong>all</strong>.</small>
+                </label>
+            </fieldset>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="apply-config" data-tooltip="Apply configuration">Apply</button>
+                    </li>
+                    <!--li>
+                        <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry
+                            Run</button>
+                    </li-->
+                    <li>
+                        <span id="spinner" aria-busy="true">Applying configuration...</span>
+                    </li>
+                </ul>
+            </nav>
+            <details id="action-details" style="display: none;">
+                <summary>Actions</summary>
+                <nav>
+                    <ul id="actions" class="buttons"></ul>
+                </nav>
+            </details>
+            <hr/>
+        </section>
+        <section id="profiles" class="profiles" data-tab="profiles">
             <fieldset>
                 <legend>Blueprints</legend>
                 <ul>
@@ -52,8 +121,6 @@
                     [% endfor %]
                 </ul>
             </fieldset>
-        </section>
-        <section id="profiles" class="profiles">
             <fieldset>
                 <legend>Base Profile</legend>
                 <ul>
@@ -83,33 +150,6 @@
             </fieldset>
 
             <fieldset>
-                <legend>Themes</legend>
-                <ul>
-                [% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
-                [% for $profile in $themeProfiles %]
-                <li>
-                    <label data-tooltip="[[ $profile?description ]]"
-                        data-placement="right">
-                        [% if $profile?path = tail($themeProfiles)?path %]
-                        <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
-                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                        [% else %]
-                        <input type="checkbox" name="theme" value="[[ $profile?path ]]"
-                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                        [% endif %]
-                        [[ $profile?label ]]
-                    </label>
-                    <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
-                        <svg class="icon">
-                            <use href="#icon-information"></use>
-                            </svg>
-                    </a>
-                </li>
-                [% endfor %]
-                [% endlet %]
-                </ul>
-            </fieldset>
-            <fieldset>
                 <legend>Features</legend>
                 <ul>
                 [% for $profile in filter($context?profiles, function($p) { $p?type = "feature"}) %]
@@ -127,70 +167,69 @@
                 [% endfor %]
                 </ul>
             </fieldset>
+        </section>
 
-            <fieldset role="group">
-                <input type="text" class="action" name="custom-odd" placeholder="my-odd.odd" pattern="[\w\-_]+\.odd"/>
-                <button id="add-odd" class="secondary">Add</button>
-            </fieldset>
-            <small>Set the filename for a new custom ODD for the app (if not created already).</small>
-        </section>
-        <section id="configEditor">
+        <section data-tab="theming">
             <fieldset>
-                <h3>Configuration</h3>
-                <jinn-monaco-editor id="appConfig" value="{}"
-                    schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
-            </fieldset>
-            <details>
-                <summary>Merged Configuration</summary>
-                <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
-            </details>
-            <fieldset>
-                <label>
-                    Overwrite mode
-                    <select id="overwrite" name="overwrite" placeholder="Overwrite mode">
-                        <option value="quick">Quick: overwrite files if upstream version changed</option>
-                        <option value="all">All: ignore last modified date and check every file for changes</option>
-                        <option value="reinstall">Factory reset: reinstall everything</option>
-                    </select>
-                    <small>Modes <strong>quick</strong> and <strong>all</strong> will never overwrite local changes. <strong>Quick</strong> mode is faster if applied repeatedly, but 
-                        skips checks on incoming files, which were not modified since last run. For a full list of updates and conflicts, use <strong>all</strong>.</small>
-                </label>
-            </fieldset>
-            <nav>
+                <legend>Themes</legend>
                 <ul>
+                    [% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
+                    [% for $profile in $themeProfiles %]
                     <li>
-                        <button id="apply-config" data-tooltip="Apply configuration">Apply</button>
-                    </li>
-                    <li>
-                        <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry Run</button>
-                    </li>
-                    <li>
-                        <span id="spinner" aria-busy="true">Applying configuration...</span>
-                    </li>
-                </ul>
-            </nav>
-            <details id="action-details" style="display: none;">
-                <summary>Actions</summary>
-                <nav>
-                    <ul id="actions" class="buttons"></ul>
-                </nav>
-            </details>
-        </section>
-        <section id="output">
-            <nav>
-                <ul>
-                    <li>
-                        <a id="resolve-all" href="#" data-tooltip="Mark all conflicts as resolved" style="display: none;">
+                        <label data-tooltip="[[ $profile?description ]]" data-placement="right">
+                            [% if $profile?path = tail($themeProfiles)?path %]
+                            <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                            [% else %]
+                            <input type="checkbox" name="theme" value="[[ $profile?path ]]"
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
+                            [% endif %]
+                            [[ $profile?label ]]
+                        </label>
+                        <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
                             <svg class="icon">
-                                <use href="#icon-resolve"></use>
+                                <use href="#icon-information"></use>
                             </svg>
                         </a>
                     </li>
+                    [% endfor %]
+                    [% endlet %]
                 </ul>
-            </nav>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Color Scheme</legend>
+                <div class="color-scheme-picker" id="color-scheme-picker">
+                    <!-- Dynamically populated -->
+                </div>
+            </fieldset>
+        </section>
+    </form>
+    <section id="configEditor">
+        <jinn-monaco-editor id="appConfig" value="{}"
+            schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
+        <details>
+            <summary>Merged Configuration</summary>
+            <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
+        </details>
+    </section>
+    [% template dialogs %]
+    <pb-message id="message-dialog"></pb-message>
+    <pb-dialog id="output-dialog">
+        <h3 slot="title">Command Output</h3>
+        <section id="output">
             <ul class="output"></ul>
             <div class="error"></div>
         </section>
-    </form>
-    <pb-message id="message-dialog"></pb-message>
+        <button slot="footer" id="resolve-all" href="#" data-tooltip="Mark all conflicts as resolved" data-placement="right">
+            <svg class="icon">
+                <use href="#icon-resolve"></use>
+            </svg>
+            <span>Resolve All</span>
+        </button>
+        <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
+            <pb-i18n key="dialogs.close">Close</pb-i18n>
+        </button>
+    </pb-dialog>
+    [% endtemplate %]
 </main>
