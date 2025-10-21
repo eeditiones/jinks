@@ -32,7 +32,7 @@
 
     [% template hero %]
     <header class="hero">
-        <div class="center-l row">
+        <div class="center-l [[ $context?theme?hero?class ]]">
             <h1><pb-i18n key="hero.main"/> <strong><pb-i18n key="hero.main2"/></strong></h1>
             <p>
                 <pb-i18n key="hero.sub"></pb-i18n><br/>

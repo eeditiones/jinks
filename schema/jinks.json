@@ -633,6 +633,18 @@
                         }
                     }
                 },
+                "hero": {
+                    "type": "object",
+                    "properties": {
+                        "class": {
+                            "type": "string",
+                            "description": "Class to add to the hero element of the page",
+                            "examples": [
+                                "row", "column"
+                            ]
+                        }
+                    }
+                },
                 "layout": {
                     "type": "object",
                     "properties": {
