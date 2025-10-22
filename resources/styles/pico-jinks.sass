@@ -86,11 +86,11 @@
 html
     font-size: var(--font-size)
 
-body,
 :host
     font-family: var(--font-family)
     font-size: var(--font-size)
     background-color: var(--pico-background-color)
+body
     min-height: 100vh
 
 h1, h2, h3, .output > label
@@ -224,8 +224,12 @@ fieldset ul
 
 fieldset ul li
     display: flex
-    justify-content: space-between
+    justify-content: flex-start
     align-items: center
+    column-gap: 1rem
+
+fieldset ul li label
+    margin: 0
 
 dialog footer button
     padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
@@ -327,7 +331,7 @@ details pb-markdown
     margin-bottom: 4px
     --pico-spacing: 0
 
-[data-tooltip]:not(a,button,input)
+[data-tooltip]:not(a,button,input,[role=button])
     border-bottom: none
 
 // ============================================================================
@@ -498,3 +502,8 @@ button[type="reset"]
 
     .color-swatch
         height: 20px
+
+/* Documentation styles */
+
+pb-code-highlight
+    margin-bottom: 1rem
