@@ -463,6 +463,16 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function update(updateEditor = true) {
+        // Temporarily show all tab sections to ensure all form data is collected
+        const tabSections = document.querySelectorAll('[data-tab]');
+        const originalDisplayStates = new Map();
+        
+        // Store original display states and show all sections
+        tabSections.forEach(section => {
+            originalDisplayStates.set(section, section.style.display);
+            section.style.display = 'block';
+        });
+
         // Get the form data
         let formData = new FormData(form);
         if (formData.get('abbrev') !== '') {
@@ -479,6 +489,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Recreate the form data to get the latest values
         formData = new FormData(form);
+        
+        // Restore original display states
+        tabSections.forEach(section => {
+            section.style.display = originalDisplayStates.get(section);
+        });
         formData.forEach((value, key) => {
             if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette'].includes(key)) {
                 appConfig[key] = value;
