@@ -57,6 +57,15 @@
         [% block scripts %][% endblock %]
     </head>
     <body data-theme="light">
+        <pb-dialog id="downloadDialog">
+            <h2 slot="title">
+                <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
+            </h2>
+            <p><pb-i18n key="dialogs.downloadMessage"></pb-i18n></p>
+            <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
+                <pb-i18n key="dialogs.close">Close</pb-i18n>
+            </button>
+        </pb-dialog>
         <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
@@ -137,15 +146,6 @@
             [% include 'templates/footer-mobile.html' %]
         </pb-page>
         <div class="splash"/>
-        <pb-dialog id="downloadDialog">
-            <h2 slot="title">
-                <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
-            </h2>
-            <p><pb-i18n key="dialogs.downloadMessage"></pb-i18n></p>
-            <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
-                <pb-i18n key="dialogs.close">Close</pb-i18n>
-            </button>
-        </pb-dialog>
         <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
