@@ -494,7 +494,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // Add color palette configuration
         const colorPalette = formData.get('color-palette');
-        if (colorPalette && colorPalette !== 'neutral') {
+        if (colorPalette) {
             if (!appConfig.theme) {
                 appConfig.theme = {};
             }
