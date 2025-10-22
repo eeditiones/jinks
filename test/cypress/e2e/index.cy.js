@@ -59,33 +59,59 @@ describe('index page', () => {
   })
 
   describe('content area', () => {
-    it('should have 4 sections with 2 headers', () => {
-      cy.get('h3')
-        .should('have.length', 2)
-        .contains('Configuration')
-      cy.get('#config > section')
-        .should('have.length', 4)
+    it('should have the config tab selected by default', () => {
+      cy.get('nav.tabs > ul > li > a')
+        .contains('Application Configuration')
+        .should('have.class', 'active')
+      cy.get('section[data-tab="config"]')
+        .should('be.visible')
     })
 
-    it('the profiles section should have a theme selected by default', () => {
+    it('should have abbrev filled in', () => {
       cy.get('[name="abbrev"]')
         .type('e2edry{enter}')
+    })
 
+    it('should have the profiles tab', () => {
+      cy.get('nav.tabs > ul > li > a[href="#profiles"]')
+        .should('not.have.class', 'active')
+        .click()
+      cy.get('section[data-tab="profiles"]')
+        .should('be.visible')
       cy.get('#profiles')
         .find('[name="base"]')
         .should('exist')
       cy.get('#profiles')
         .find('[name="feature"]')
         .should('exist')
-      cy.get('#profiles')
-        .find('[name="theme"]')
-        .should('exist')
-      cy.get('#profiles')
+    })
+
+    it('should have the theming tab', () => {
+      cy.get('nav.tabs > ul > li > a[href="#theming"]')
+        .should('not.have.class', 'active')
+        .click()
+      cy.get('section[data-tab="theming"]')
+        .should('be.visible')
+    })
+      
+    it('theming tab should have a theme selected by default', () => {
+      cy.get('nav.tabs > ul > li > a[href="#theming"]')
+      .click()
+      cy.get('section[data-tab="theming"]')
+        .should('be.visible')
         .find('[name="theme"]:checked')
         .should('exist')
+      cy.get('.color-scheme-picker')
+        .find('[name="color-palette"][value="neutral"]')
+        .should('exist')
+    })
 
-      cy.get('.error')
-        .should('not.be.visible')
+    it('theming tab should have color palettes loaded', () => {
+      cy.get('nav.tabs > ul > li > a[href="#theming"]')
+        .click()
+      cy.get('.color-scheme-picker')
+        .find('[name="color-palette"][value="neutral"]')
+        .should('exist')
     })
 
     it('the custom ODD picker should modify config', () => {
@@ -187,10 +213,24 @@ describe('index page', () => {
         .type(' application')
       cy.get('[name="id"]')
       cy.contains('https://e-editiones.org/apps/e2etest')
+
+      cy.get('nav.tabs > ul > li > a[href="#profiles"]')
+        .should('not.have.class', 'active')
+        .click()
+      cy.get('section[data-tab="profiles"]')
+        .should('be.visible')
+
       cy.get('[type="checkbox"]')
         .check('docker')
       cy.get('#appConfig')
         .contains('docker')
+      
+      cy.get('nav.tabs > ul > li > a[href="#config"]')
+        .should('not.have.class', 'active')
+        .click()
+      cy.get('section[data-tab="config"]')
+        .should('be.visible')
+
       cy.get('[name="overwrite"]')
         .select('all')
       cy.get('#apply-config')

@@ -44,7 +44,6 @@
     --color-text-black: var(--jinks-colors-700)
     --font-family: 'Inter', sans-serif
     --font-size: 16px
-    --pico-border-radius: 90px
 
 // ============================================================================
 // Tab Navigation Styles
@@ -206,11 +205,14 @@ pb-login::part(label)
     grid-template-areas: "form json"
     grid-column-gap: 2rem
 
+.fixed-layout > main:has(.templating)
+    display: block
+    padding: 1rem var(--pico-spacing)
+
 .templating
     display: grid
     grid-template-columns: 1fr minmax(220px, 480px)
     column-gap: 1rem
-    padding: 1rem var(--pico-spacing)
 
 fieldset legend
     font-weight: bold
@@ -372,7 +374,7 @@ details pb-markdown
     display: flex
     flex-direction: column
     align-items: center
-    padding: .5rem
+    padding-left: 0
     max-width: 100%
     overflow: auto
     column-gap: 1rem
@@ -391,6 +393,7 @@ details pb-markdown
 
 .installed li.selected
     border: 1px solid var(--jinks-colors-300)
+    border-radius: .75rem
 
 .installed li.selected > div
     color: var(--pico-primary)

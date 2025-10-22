@@ -1,4 +1,4 @@
-<template>
+<main>
     ---json
     {
         "scripts": ["resources/scripts/templating.js"],
@@ -7,7 +7,7 @@
         }
     }
     ---
-    <main class="grid templating">
+    <div class="grid templating">
         <div>
             <h1>Template</h1>
             <jinn-monaco-editor id="template" language="html">
@@ -39,7 +39,7 @@
                 </div>
             </jinn-monaco-editor>
         </div>
-    </main>
+    </div>
     <div id="errorMsg" class="output hidden"></div>
     <div class="output hidden">
         <label>HTML Output</label>
@@ -57,4 +57,4 @@
         <label>Abstract Syntax Tree (AST)</label>
         <jinn-monaco-editor id="ast" language="html" readonly=""></jinn-monaco-editor>
     </div>
-</template>
+</main>
