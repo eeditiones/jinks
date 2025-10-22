@@ -6,6 +6,7 @@
     <meta charset="utf-8"/>
     <title>[[$title]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="[[ $config:context-path ]]/profiles/theme-base10/resources/css/layouts.css" />
     <link rel="stylesheet" href="[[ $config:context-path ]]/resources/styles/pico-jinks.css" />
     <link rel="stylesheet" href="[[$config:context-path]]/resources/scripts/dist/jinn-monaco.css"/>
     [% block styles %][% endblock %]
@@ -18,16 +19,55 @@
     [% endfor %]
 </head>
 <body>
-    <pb-page class="container-fluid" endpoint="[[$config:context-path]]" api-version="1.0"
+    <pb-page class="fixed-layout" endpoint="[[$config:context-path]]" api-version="1.0"
         theme="resources/styles/pico-jinks.css">
-        <header class="is-fixed-above-lg">
+        <header class="page-header">
+            <div>
             [% include "pages/menu.html" %]
-            <nav class="toolbar">
-                <ul class="installed"></ul>
-            </nav>
+            </div>
+        </header>
+        <nav class="before-top hidden-mobile">
+            <ul>
+                [% block before-top %][% endblock %]
+            </ul>
+            <ul>
+                <li>
+                    <a class="aside-toggle" title="Hide" data-toggle=".before">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <aside class="before hidden-mobile">
+            [% block before %][% endblock %]
+        </aside>
+        <header class="content-top">
+            [% block content-top %][% endblock %]
         </header>
         [% block content %][% endblock %]
+        <nav class="after-top hidden-mobile">
+            <ul>
+                <li>
+                    <a class="aside-toggle" title="Hide" data-toggle=".after">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+            <ul>[% block after-top-heading %][% endblock %]</ul>
+        </nav>
+        <aside class="after">
+            [% block after %][% endblock %]
+        </aside>
     </pb-page>
+    [% block dialogs %][% endblock %]
     [% include "resources/images/icons.svg" %]
 </body>
 </html>

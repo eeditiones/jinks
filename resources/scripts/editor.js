@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
+    let colorPalettes = {};
 
     let editor = document.getElementById('appConfig');
     const mergedView = document.getElementById('mergedConfig');
@@ -11,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
     spinner.style.display = 'none';
 
     const applyConfigButton = document.getElementById('apply-config');
-    const dryRunButton = document.getElementById('dry-run');
+    // const dryRunButton = document.getElementById('dry-run');
 
     const resolveAllButton = document.getElementById('resolve-all');
 
@@ -51,10 +52,21 @@ window.addEventListener('DOMContentLoaded', () => {
             const apps = await response.json();
             const nav = document.querySelector('.installed');
 			nav.innerHTML = '';
-            apps.forEach((app) => {
+
+            await loadColorPalettes(apps);
+
+            apps.forEach(async (app) => {
+                if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
+                    // Load color palettes from profile
+                    Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
+                        colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
+                    });
+                }
+
                 if (app.type !== 'installed') {
                     return;
                 }
+
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <div>
@@ -76,13 +88,19 @@ window.addEventListener('DOMContentLoaded', () => {
                 const clickable = li.querySelector('div');
                 clickable.addEventListener('click', (ev) => {
                     ev.preventDefault();
+                    // Remove selected class from all installed items
+                    document.querySelectorAll('.installed li').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    // Add selected class to clicked item
+                    li.classList.add('selected');
                     loadApp(app);
                 });
                 if (id === app.config.id) {
+                    li.classList.add('selected');
                     loadApp(app);
                 }
             });
-
         } catch (error) {
             console.log(error);
         }
@@ -100,6 +118,17 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
+        // Load color palette selection
+        if (appConfig.theme?.colors?.palette) {
+            const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${appConfig.theme?.colors?.palette}"]`);
+            if (colorPaletteInput) {
+                colorPaletteInput.checked = true;
+                updateColorPickerSelection();
+            }
+        } else {
+            form.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
+            updateColorPickerSelection();
+        }
 
         document.getElementById('action-details').style.display = 'block';
         document.getElementById('actions').innerHTML = '';
@@ -140,12 +169,12 @@ window.addEventListener('DOMContentLoaded', () => {
         // A double-click on deploying can cause a deadlock. Prevent double-clicks at least from the front-end.
         isProcessing = true;
         applyConfigButton.disabled = true;
-        dryRunButton.disabled = true;
+        // dryRunButton.disabled = true;
         try {
             return await callback()
         } finally {
             applyConfigButton.disabled = false;
-            dryRunButton.disabled = false;
+            // dryRunButton.disabled = false;
             isProcessing = false;
         }
     }
@@ -251,7 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         li.dataset.path = message.path;
                         li.innerHTML = `
                         <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
-                        ${message.path} ${message.source ? ' from ' + message.source : ''}`;
+                        ${message.path} ${message.source ? ' from ' + message.source.substring('/db/apps/jinks/'.length) : ''}`;
                         if (message.type === 'conflict' && message.incoming) {
                             const copyButton = document.createElement('a');
                             copyButton.href = '#';
@@ -274,12 +303,14 @@ window.addEventListener('DOMContentLoaded', () => {
                             li.appendChild(cmpButton);
                             cmpButton.addEventListener('click', (ev) => {
                                 ev.preventDefault();
+                                document.getElementById('output-dialog').setAttribute('wide', '');
                                 let diff = li.querySelector('jinn-monaco-diff');
                                 if (diff) {
                                     diff.close();
                                     return;
                                 }
                                 diff = document.createElement('jinn-monaco-diff');
+                                diff.style.width = '100%';
                                 li.appendChild(diff);
                                 const url = new URL(`api/source?path=${encodeURIComponent(message.source)}`, window.location);
                                 fetch(url)
@@ -290,6 +321,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                     return response.text();
                                 })
                                 .then((text) => {
+                                    console.log(text);
                                     diff.diff(text, message.incoming, message.mime);
                                 });
                             });
@@ -331,6 +363,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 loadApps(result.config.id);
             }
             output.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+            
+            // Show the output dialog after the update process completes
+            const outputDialog = document.getElementById('output-dialog');
+            if (outputDialog) {
+                outputDialog.openDialog();
+            }
         });
     }
 
@@ -366,14 +404,44 @@ window.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             );
+            
+            // Show the output dialog after the action completes
+            const outputDialog = document.getElementById('output-dialog');
+            if (outputDialog) {
+                outputDialog.openDialog();
+            }
         });
     }
     
     function updateConfig(updateEditor = true) {
-        getConfig(appConfig).then((mergedConfig) => {
-            mergedView.value = JSON.stringify(mergedConfig, null, 2);
+        getConfig(appConfig).then(async (config) => {
+            mergedView.value = JSON.stringify(config, null, 2);
+
+            document.querySelectorAll('.color-scheme-option').forEach((option) => {
+                option.style.display = 'none';
+            });
+            Object.keys(config.theme?.colors?.palettes || {}).forEach((palette) => {
+                const colorPaletteInput = form.querySelector(`.color-scheme-option[data-palette="${palette}"]`);
+                if (colorPaletteInput) {
+                    colorPaletteInput.style.display = 'block';
+                }
+            });
+
+            if (config.theme?.colors?.palette) {
+                const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${config.theme?.colors?.palette}"]`);
+                if (colorPaletteInput) {
+                    colorPaletteInput.checked = true;
+                    updateColorPickerSelection();
+                }
+            } else {
+                const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
+                if (neutralPalette) {
+                    neutralPalette.checked = true;
+                    updateColorPickerSelection();
+                }
+            }
         });
-        if (updateEditor) {
+        if (updateEditor && editor) {
             editor.value = JSON.stringify(appConfig, null, 2);
         }
     }
@@ -412,7 +480,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Recreate the form data to get the latest values
         formData = new FormData(form);
         formData.forEach((value, key) => {
-            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite'].includes(key)) {
+            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette'].includes(key)) {
                 appConfig[key] = value;
             }
         });
@@ -423,6 +491,18 @@ window.addEventListener('DOMContentLoaded', () => {
             .concat(formData.getAll('feature'))
             .concat(formData.getAll('theme'))
             .concat(formData.getAll('blueprint'));
+        
+        // Add color palette configuration
+        const colorPalette = formData.get('color-palette');
+        if (colorPalette && colorPalette !== 'neutral') {
+            if (!appConfig.theme) {
+                appConfig.theme = {};
+            }
+            if (!appConfig.theme.colors) {
+                appConfig.theme.colors = {};
+            }
+            appConfig.theme.colors.palette = colorPalette;
+        }
         
         validateForm();
         updateConfig(updateEditor);
@@ -441,6 +521,24 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
         update();
+    }
+
+    function reset(updateEditor = true) {
+        appConfig = {};
+        document.getElementById('action-details').style.display = 'none';
+        document.getElementById('actions').innerHTML = '';
+
+        form.reset();
+        form.querySelector('[name="theme"]').checked = true;
+        update(updateEditor);
+
+        const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
+        if (neutralPalette) {
+            neutralPalette.checked = true;
+            updateColorPickerSelection();
+        }
+
+        document.querySelector('.installed li.selected')?.classList.remove('selected');
     }
 
     applyConfigButton.addEventListener('click', (ev) => {
@@ -462,14 +560,14 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    dryRunButton.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        validateForm();
-        if (!form.checkValidity()) {
-            return;
-        }
-        process(true);
-    });
+    // dryRunButton.addEventListener('click', (ev) => {
+    //     ev.preventDefault();
+    //     validateForm();
+    //     if (!form.checkValidity()) {
+    //         return;
+    //     }
+    //     process(true);
+    // });
 
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
@@ -477,10 +575,8 @@ window.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {
-        appConfig = {};
-        document.getElementById('action-details').style.display = 'none';
-        document.getElementById('actions').innerHTML = '';
-        updateConfig(true);
+        ev.preventDefault();
+        reset();
     });
 
     document.getElementById('add-odd').addEventListener('click', (ev) => {
@@ -516,5 +612,239 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Color scheme picker functionality
+    let colorPickerInitialized = false;
+
+    // Initialize color picker with event delegation
+    function initializeColorPicker() {
+        const paletteContainer = document.getElementById('color-scheme-picker');
+        if (!paletteContainer || colorPickerInitialized) {
+            return;
+        }
+
+        // Use event delegation for dynamically created elements
+        paletteContainer.addEventListener('click', (e) => {
+            const option = e.target.closest('.color-scheme-option');
+            if (option && e.target.type !== 'radio') {
+                const radio = option.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                    updateColorPickerSelection();
+                    update();
+                }
+            }
+        });
+
+        paletteContainer.addEventListener('change', (e) => {
+            if (e.target.name === 'color-palette') {
+                updateColorPickerSelection();
+                update();
+            }
+        });
+
+        paletteContainer.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
+        updateColorPickerSelection();
+
+        colorPickerInitialized = true;
+    }
+
+    // CSS Parser function to extract color values from palette CSS files
+    async function parsePaletteCSS(cssUrl) {
+        const response = await fetch(cssUrl);
+        const cssText = await response.text();
+        
+        // Extract color values using regex
+        const colors = {};
+        const colorRegex = /--jinks-colors-(700|500|200|50):\s*([^;]+);/g;
+        let match;
+        
+        // Extract base color from comment for fallback
+        const baseColorMatch = cssText.match(/Base color:\s*(#[0-9A-Fa-f]{6})/);
+        const baseColor = baseColorMatch ? baseColorMatch[1] : null;
+        
+        while ((match = colorRegex.exec(cssText)) !== null) {
+            const level = match[1];
+            const value = match[2].trim();
+            
+            if (value.startsWith('#')) {
+                // Direct hex value
+                colors[level] = value;
+            } else if (value.startsWith('hsl')) {
+                // For HSL values, we need to compute them
+                // Extract HSL values and compute the color
+                const hslMatch = value.match(/hsl\(([^,]+),\s*([^,]+),\s*([^)]+)\)/);
+                if (hslMatch) {
+                    const h = hslMatch[1].trim();
+                    const s = hslMatch[2].trim();
+                    const l = hslMatch[3].trim();
+                    
+                    // If it's a CSS variable, we need to extract the actual value
+                    if (h.includes('var(') || s.includes('var(') || l.includes('var(')) {
+                        // Extract base HSL values from CSS
+                        const baseHueMatch = cssText.match(/--base-hue:\s*([^;]+);/);
+                        const baseSatMatch = cssText.match(/--base-saturation:\s*([^;]+);/);
+                        const baseLightMatch = cssText.match(/--base-lightness:\s*([^;]+);/);
+                        
+                        if (baseHueMatch && baseSatMatch && baseLightMatch) {
+                            const baseHue = baseHueMatch[1].trim();
+                            const baseSat = baseSatMatch[1].trim();
+                            const baseLight = baseLightMatch[1].trim();
+                            
+                            // Parse the lightness value (remove % if present)
+                            const lightnessValue = l.replace('%', '');
+                            
+                            // Create computed HSL color
+                            const computedHsl = `hsl(${baseHue}, ${baseSat}, ${lightnessValue}%)`;
+                            colors[level] = computedHsl;
+                        } else if (baseColor && level === '500') {
+                            // Fallback to base color for 500 level
+                            colors[level] = baseColor;
+                        }
+                    } else {
+                        // Direct HSL value
+                        colors[level] = value;
+                    }
+                }
+            }
+        }
+        
+        return colors;
+    }
+
+    // Create dynamic HTML for color scheme options
+    function createColorSchemeOption(paletteName, colors) {
+        const option = document.createElement('div');
+        option.className = 'color-scheme-option';
+        option.setAttribute('data-palette', paletteName);
+        
+        const preview = document.createElement('div');
+        preview.className = 'color-preview';
+        
+        ['700', '500', '200', '50'].forEach(level => {
+            if (colors[level]) {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.background = colors[level];
+                preview.appendChild(swatch);
+            }
+        });
+        
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'color-palette';
+        input.value = paletteName;
+        
+        const labelText = document.createTextNode(
+            paletteName.charAt(0).toUpperCase() + paletteName.slice(1)
+        );
+        
+        label.appendChild(input);
+        label.appendChild(labelText);
+        
+        option.appendChild(preview);
+        option.appendChild(label);
+        
+        return option;
+    }
+
+    // Load available color palettes from configurations
+    async function loadColorPalettes(apps) {
+        colorPalettes = {};
+        apps.forEach(async (app) => {
+            if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
+                // Load color palettes from profile
+                Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
+                    colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
+                });
+            }
+        });
+
+        const paletteContainer = document.getElementById('color-scheme-picker');
+        if (!paletteContainer) {
+            return;
+        }
+        paletteContainer.innerHTML = ''; // Clear existing content
+        for (const [name, cssPath] of Object.entries(colorPalettes)) {
+            try {
+                const colors = await parsePaletteCSS(cssPath);
+                const option = createColorSchemeOption(name, colors);
+                paletteContainer.appendChild(option);
+            } catch (error) {
+                console.error(`Failed to load palette ${name}:`, error);
+            }
+        }
+        
+        // Re-initialize color picker after dynamic loading
+        initializeColorPicker();
+    }
+
+    function updateColorPickerSelection() {
+        const colorSchemeOptions = document.querySelectorAll('.color-scheme-option');
+        colorSchemeOptions.forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio && radio.checked) {
+                option.setAttribute('data-selected', 'true');
+                // Add visual feedback for selected option
+                option.style.transform = 'scale(1.02)';
+            } else {
+                option.removeAttribute('data-selected');
+                option.style.transform = 'scale(1)';
+            }
+        });
+    }
+
+    // Tab functionality
+    function initializeTabs() {
+        const tabLinks = document.querySelectorAll('.tabs a[href^="#"]');
+        const tabSections = document.querySelectorAll('[data-tab]');
+        
+        // Hide all tab sections initially
+        tabSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show the first tab by default
+        if (tabSections.length > 0) {
+            const firstTab = tabSections[0];
+            const firstTabId = firstTab.getAttribute('data-tab');
+            showTab(firstTabId);
+        }
+        
+        // Add click handlers to tab links
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetTab = link.getAttribute('href').substring(1); // Remove the #
+                showTab(targetTab);
+            });
+        });
+    }
+    
+    function showTab(tabId) {
+        // Hide all tab sections
+        const tabSections = document.querySelectorAll('[data-tab]');
+        tabSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show the selected tab section
+        const targetSection = document.querySelector(`[data-tab="${tabId}"]`);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+        
+        // Update active tab link
+        const tabLinks = document.querySelectorAll('.tabs a[href^="#"]');
+        tabLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${tabId}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
     loadApps();
+    reset(false);
+    initializeTabs();
 });
