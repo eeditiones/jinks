@@ -56,6 +56,10 @@ h4 {
     line-height: var(--jinks-content-line-height);
 }
 
+:host(pb-view) #view:has(.margin-note) {
+    margin-right: 200px;
+}
+
 :host(pb-view) details > summary {
     margin-bottom: 1rem;
 }
