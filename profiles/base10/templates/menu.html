@@ -44,7 +44,7 @@
                     </li>
                     [% if empty($context?media) or "print" = $context?media %]
                     <li>
-                        <a href="[[ $context-path ]]/print/[[ $context?doc?path ]]" target="_blank">Print CSS</a>
+                        <a href="[[ $context-path ]]/print/[[ $context?doc?path ]]?odd=[[$context?doc?odd]]" target="_blank">Print CSS</a>
                     </li>
                     [% endif %]
                     [% if empty($context?media) or "latex" = $context?media %]
