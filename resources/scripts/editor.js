@@ -462,19 +462,78 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function update(updateEditor = true) {
-        // Temporarily show all tab sections to ensure all form data is collected
-        const tabSections = document.querySelectorAll('[data-tab]');
-        const originalDisplayStates = new Map();
+    /**
+     * Collects form data similar to FormData but includes elements with display: none
+     * @param {HTMLFormElement} formElement - The form element to collect data from
+     * @param {Object} options - Options for data collection
+     * @param {boolean} options.includeHidden - Whether to include hidden elements (default: true)
+     * @param {boolean} options.includeDisabled - Whether to include disabled elements (default: false)
+     * @param {boolean} options.includeDisplayNone - Whether to include elements with display: none (default: true)
+     * @returns {FormData} FormData object with all collected data
+     */
+    function collectFormData(formElement, options = {}) {
+        const {
+            includeHidden = true,
+            includeDisabled = false,
+            includeDisplayNone = true
+        } = options;
         
-        // Store original display states and show all sections
-        tabSections.forEach(section => {
-            originalDisplayStates.set(section, section.style.display);
-            section.style.display = 'block';
+        const formData = new FormData();
+        
+        // Get all form elements
+        const elements = formElement.querySelectorAll('input, select, textarea, button');
+        
+        elements.forEach(element => {
+            const name = element.name;
+            const type = element.type;
+            
+            // Skip if no name
+            if (!name) return;
+            
+            // Check if element should be included
+            const isHidden = element.type === 'hidden';
+            const isDisabled = element.disabled;
+            const hasDisplayNone = window.getComputedStyle(element).display === 'none';
+            
+            // Skip based on options
+            if (!includeHidden && isHidden) return;
+            if (!includeDisabled && isDisabled) return;
+            if (!includeDisplayNone && hasDisplayNone) return;
+            
+            // Handle different input types
+            if (type === 'checkbox' || type === 'radio') {
+                if (element.checked) {
+                    formData.append(name, element.value);
+                }
+            } else if (type === 'file') {
+                // Handle file inputs
+                if (element.files && element.files.length > 0) {
+                    for (let i = 0; i < element.files.length; i++) {
+                        formData.append(name, element.files[i]);
+                    }
+                }
+            } else if (type === 'select-multiple') {
+                // Handle multi-select
+                const selectedOptions = Array.from(element.selectedOptions);
+                selectedOptions.forEach(option => {
+                    formData.append(name, option.value);
+                });
+            } else {
+                // Handle text, number, email, password, etc.
+                formData.append(name, element.value);
+            }
         });
+        
+        return formData;
+    }
 
-        // Get the form data
-        let formData = new FormData(form);
+    function update(updateEditor = true) {
+        // Get the form data including hidden elements
+        let formData = collectFormData(form, {
+            includeHidden: true,
+            includeDisabled: false,
+            includeDisplayNone: true
+        });
         if (formData.get('abbrev') !== '') {
             if (formData.get('label') === '') {
                 form.querySelector('[name="label"]').value = formData.get('abbrev');
@@ -490,10 +549,6 @@ window.addEventListener('DOMContentLoaded', () => {
         // Recreate the form data to get the latest values
         formData = new FormData(form);
         
-        // Restore original display states
-        tabSections.forEach(section => {
-            section.style.display = originalDisplayStates.get(section);
-        });
         formData.forEach((value, key) => {
             if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette'].includes(key)) {
                 appConfig[key] = value;
