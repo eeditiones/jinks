@@ -547,7 +547,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         // Recreate the form data to get the latest values
-        formData = new FormData(form);
+        formData = new collectFormData(form, {
+            includeHidden: true,
+            includeDisabled: false,
+            includeDisplayNone: true
+        });
         
         formData.forEach((value, key) => {
             if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette'].includes(key)) {
@@ -680,6 +684,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 badge.innerText = 'overwrite';
             });
         }
+    });
+
+    editor.addEventListener('change', (e) => {
+        appConfig = JSON.parse(e.target.value);
     });
 
     // Color scheme picker functionality
