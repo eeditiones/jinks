@@ -4,7 +4,7 @@
         <details class="dropdown-button">
             <summary><pb-i18n key="document.selectODD">Select ODD</pb-i18n></summary>
             <ul>
-                [% for $odd in $config:odd-available %]
+                [% for $odd in sort($config:odd-available) %]
                 <li><a href="?odd=[[$odd]]">[[$odd]]</a></li>
                 [% endfor %]
             </ul>
