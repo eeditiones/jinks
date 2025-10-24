@@ -7,6 +7,7 @@ declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
 
+import module namespace tmpl="http://e-editiones.org/xquery/templates";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
@@ -154,46 +155,21 @@ declare function oapi:delete-odd($request as map(*)) {
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };
 
-declare %private function oapi:parse-template($nodes as node()*, $odd as xs:string, $title as xs:string?) {
-    for $node in $nodes
+declare %private function oapi:parse-template($template as xs:string, $title as xs:string?) {
+    let $context := map {
+        "label": $title
+    }
     return
-        typeswitch ($node)
-            case document-node()
-                return
-                    oapi:parse-template($node/node(), $odd, $title)
-            case element(schemaSpec)
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        attribute ident {$odd},
-                        oapi:parse-template($node/node(), $odd, $title)
-                    }
-            case element(title)
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        $title
-                    }
-            case element(change)
-                return
-                    element {node-name($node)} {
-                        attribute when {current-date()},
-                        "Initial version"
-                    }
-            case element()
-                return
-                    element {node-name($node)} {
-                        $node/@*,
-                        oapi:parse-template($node/node(), $odd, $title)
-                    }
-            default
-                return
-                    $node
+        tmpl:process($template, $context, map {
+            "plainText": false(),
+            "ignoreImports": true(),
+            "ignoreUse": true()
+        })
 };
 
 declare function oapi:create-odd($request as map(*)) {
-    let $template := doc($config:odd-root || "/template.odd.xml")
-    let $parsed := document {oapi:parse-template($template, $request?parameters?odd, $request?parameters?title)}
+    let $template := doc($config:odd-root || "/template.odd.xml") => serialize()
+    let $parsed := document { oapi:parse-template($template, $request?parameters?title) }
     let $stored := xmldb:store($config:odd-root, $request?parameters?odd || ".odd", $parsed, "text/xml")
     return (
         oapi:compile($request?parameters?odd),
