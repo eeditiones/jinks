@@ -35,5 +35,10 @@
         "templates": {
             "config-odd-available": "xmldb:get-child-resources($config:odd-root)[ends-with(., '.odd')][not(. = ('teipublisher_odds.odd', 'teilite.odd'))]"
         }
+    },
+    "templating": {
+        "use": [
+            "templates/playground-blocks.html"
+        ]
     }
 }

@@ -39,9 +39,9 @@
     margin-inline: auto;
 }
 
-.fixed-layout > .before-top li,
-.fixed-layout > .after-top li,
-.fixed-layout > .content-top li {
+.fixed-layout > .before-top nav > ul > li,
+.fixed-layout > .after-top nav > ul > li,
+.fixed-layout > .content-top nav > ul > li {
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -185,7 +185,7 @@
 
 .fixed-layout > .content-top {
     grid-area: content-top;
-    overflow: auto;
+    overflow: visible;
 }
 
 .fixed-layout > footer {
