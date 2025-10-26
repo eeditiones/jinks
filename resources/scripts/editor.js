@@ -279,8 +279,15 @@ window.addEventListener('DOMContentLoaded', () => {
                         const li = document.createElement('li');
                         li.classList.add(message.type);
                         li.dataset.path = message.path;
+
                         li.innerHTML = `
-                        <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
+                        <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'
+                            data-tooltip="${message.type === 'conflict' ?
+                                'This file was modified since it was installed. No update was applied.' :
+                                'The file was updated with the incoming version.'}"
+                            data-placement="right">
+                            ${message.type}
+                        </span> 
                         ${message.path} ${message.source ? ' from ' + message.source.substring('/db/apps/jinks/'.length) : ''}`;
                         if (message.type === 'conflict' && message.incoming) {
                             document.querySelector('#output-dialog').querySelector('.apply-config').style.display = 'flex';
