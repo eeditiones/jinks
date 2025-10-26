@@ -151,21 +151,26 @@
 
             <fieldset>
                 <legend>Features</legend>
-                <ul>
-                [% for $profile in filter($context?profiles, function($p) { $p?type = "feature"}) %]
-                <li>
-                    <label data-tooltip="[[ $profile?description ]]"
-                        data-placement="right">
-                        <input type="checkbox" name="feature" value="[[ $profile?path ]]"
-                            data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                        [[ $profile?label ]]
-                    </label>
-                    <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
-                        <svg class="icon"><use href="#icon-information"></use></svg>
-                    </a>
-                </li>
+                [% for $category in sort(distinct-values(for-each($context?profiles, function($p) { $p?category })))  %]
+                <div>
+                    <h4><pb-i18n key="categories.[[ $category ]]">[[ $category ]]</pb-i18n></h4>
+                    <ul>
+                    [% for $profile in filter($context?profiles, function($p) { $p?type = "feature" and $p?category = $category }) %]
+                    <li>
+                        <label data-tooltip="[[ $profile?description ]]"
+                            data-placement="right">
+                            <input type="checkbox" name="feature" value="[[ $profile?path ]]"
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
+                            [[ $profile?label ]]
+                        </label>
+                        <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                            <svg class="icon"><use href="#icon-information"></use></svg>
+                        </a>
+                    </li>
+                    [% endfor %]
+                    </ul>
+                </div>
                 [% endfor %]
-                </ul>
             </fieldset>
         </section>
 

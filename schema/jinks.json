@@ -14,6 +14,11 @@
             "enum": ["base", "feature", "theme", "blueprint", "disabled"],
             "completionDetail": "Type of the profile"
         },
+        "category": {
+            "type": "string",
+            "description": "Category of the profile",
+            "enum": ["data", "input", "output", "workflow", "development", "components", "static"]
+        },
         "label": {
             "type": "string",
             "description": "A short title describing the application or profile"

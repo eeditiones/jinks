@@ -20,7 +20,7 @@
 </head>
 <body>
     <pb-page class="fixed-layout" endpoint="[[$config:context-path]]" api-version="1.0"
-        theme="resources/styles/pico-jinks.css">
+        theme="resources/styles/pico-jinks.css" locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app">
         <header class="page-header">
             <div>
             [% include "pages/menu.html" %]

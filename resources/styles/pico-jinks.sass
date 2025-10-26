@@ -231,6 +231,16 @@ fieldset ul li
 fieldset ul li label
     margin: 0
 
+[data-tab="profiles"] fieldset div
+    margin-bottom: 1.5rem
+
+[data-tab="profiles"] fieldset div h4
+    font-size: 1rem
+    font-weight: normal
+    font-style: italic
+    color: var(--jinks-colors-accent)
+    margin-bottom: .5rem
+
 dialog footer button
     padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
     margin: 0
@@ -452,20 +462,20 @@ button[type="reset"]
     margin-top: 1rem
 
 .color-scheme-option
-    border: 2px solid var(--pico-muted-border-color)
+    border: 2px solid var(--jinks-colors-accent)
     border-radius: var(--pico-border-radius)
-    padding: 1rem
+    padding: .25rem .5rem
     cursor: pointer
     transition: all 0.2s ease, transform 0.1s ease
-    background: var(--pico-background-color)
+    background: var(--jinks-colors-light)
 
     &:hover
-        border-color: var(--pico-primary)
+        border-color: var(--jinks-colors-highlight)
         box-shadow: 0 0 0 1px var(--pico-primary)
 
     &[data-selected="true"]
-        border-color: var(--pico-primary)
-        background: var(--pico-primary-background)
+        border-color: var(--jinks-colors-accent)
+        background: var(--jinks-colors-100)
         box-shadow: 0 0 0 1px var(--pico-primary)
 
     label
@@ -482,10 +492,8 @@ button[type="reset"]
 .color-preview
     display: flex
     gap: 2px
-    margin-bottom: 0.75rem
-    border-radius: var(--pico-border-radius)
+    margin-bottom: 0.5rem
     overflow: hidden
-    border: 1px solid var(--pico-muted-border-color)
 
 .color-swatch
     flex: 1
