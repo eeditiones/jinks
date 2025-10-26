@@ -171,6 +171,10 @@ nav ul
     &:first-of-type
         margin-left: 0
 
+nav li button, 
+nav li select
+    padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
+
 // ============================================================================
 // Login Component
 // ============================================================================
@@ -279,6 +283,9 @@ pb-dialog h3
     justify-content: space-between
     align-items: center
     gap: 1rem
+
+pb-dialog > nav
+    width: 100%
 
 #output
     overflow: auto

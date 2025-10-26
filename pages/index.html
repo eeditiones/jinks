@@ -73,16 +73,21 @@
                         <option value="all">All: check every file for changes</option>
                         <option value="reinstall">Factory reset: reinstall everything</option>
                     </select>
-                    <small>Modes <strong>quick</strong> and <strong>all</strong> will never overwrite local changes.
-                        <strong>Quick</strong> mode is faster if applied repeatedly, but
-                        skips checks on incoming files, which were not modified since last run. For a full list of updates and
+                    <small>Modes <strong>quick update</strong> and <strong>all</strong> will never overwrite local changes.
+                        <strong>Quick update</strong> mode is faster if applied repeatedly, but
+                        won't list local changes unless they conflict with incoming updates. For a full list of updates and
                         conflicts, use <strong>all</strong>.</small>
                 </label>
             </fieldset>
             <nav>
                 <ul>
                     <li>
-                        <button id="apply-config" data-tooltip="Apply configuration">Apply</button>
+                        <button class="apply-config" data-tooltip="Apply configuration">
+                            <svg class="icon">
+                                <use href="#icon-refresh"></use>
+                            </svg>
+                            <span>Apply</span>
+                        </button>
                     </li>
                     <!--li>
                         <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry
@@ -226,15 +231,36 @@
             <ul class="output"></ul>
             <div class="error"></div>
         </section>
-        <button slot="footer" id="resolve-all" href="#" data-tooltip="Mark all conflicts as resolved" data-placement="right">
-            <svg class="icon">
-                <use href="#icon-resolve"></use>
-            </svg>
-            <span>Resolve All</span>
-        </button>
-        <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
-            <pb-i18n key="dialogs.close">Close</pb-i18n>
-        </button>
+        <nav slot="footer">
+            <ul>
+                <li>
+                    <button id="resolve-all" data-tooltip="Mark all conflicts as resolved" data-placement="right">
+                        <svg class="icon">
+                            <use href="#icon-resolve"></use>
+                        </svg>
+                        <span>Resolve All</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="apply-config" data-tooltip="Apply configuration" style="display: none;">
+                        <svg class="icon">
+                            <use href="#icon-refresh"></use>
+                        </svg>
+                        <span>Re-Apply</span>
+                    </button>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <button autofocus="autofocus" rel="prev" aria-label="Close">
+                        <svg class="icon">
+                            <use href="#icon-close"></use>
+                        </svg>
+                        <span><pb-i18n key="dialogs.close">Close</pb-i18n></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </pb-dialog>
     [% endtemplate %]
 </main>

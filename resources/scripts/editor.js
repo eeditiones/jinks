@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const spinner = document.getElementById('spinner');
     spinner.style.display = 'none';
 
-    const applyConfigButton = document.getElementById('apply-config');
+    const applyConfigButtons = document.querySelectorAll('.apply-config');
     // const dryRunButton = document.getElementById('dry-run');
 
     const resolveAllButton = document.getElementById('resolve-all');
@@ -168,12 +168,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         // A double-click on deploying can cause a deadlock. Prevent double-clicks at least from the front-end.
         isProcessing = true;
-        applyConfigButton.disabled = true;
+        applyConfigButtons.forEach(button => button.disabled = true);
         // dryRunButton.disabled = true;
         try {
             return await callback()
         } finally {
-            applyConfigButton.disabled = false;
+            applyConfigButtons.forEach(button => button.disabled = false);
             // dryRunButton.disabled = false;
             isProcessing = false;
         }
@@ -220,6 +220,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         output.innerHTML = '';
                         errors.innerHTML = '';
                         resolveAllButton.style.display = 'none';
+                        document.querySelector('#output-dialog').querySelector('.apply-config').style.display = 'none';
 
                         const overwrite = document.querySelector('[name=overwrite]').value;
                         const config = JSON.parse(editor.value);
@@ -282,6 +283,8 @@ window.addEventListener('DOMContentLoaded', () => {
                         <span class='badge ${message.type === 'conflict' ? 'alert' : ''}'>${message.type}</span> 
                         ${message.path} ${message.source ? ' from ' + message.source.substring('/db/apps/jinks/'.length) : ''}`;
                         if (message.type === 'conflict' && message.incoming) {
+                            document.querySelector('#output-dialog').querySelector('.apply-config').style.display = 'flex';
+
                             const copyButton = document.createElement('a');
                             copyButton.href = '#';
                             copyButton.dataset.tooltip = 'Copy incoming version to clipboard';
@@ -347,7 +350,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                     delete resolveConflicts[message.path];
                                 }
                             });
-                            resolveAllButton.style.display = 'block';
+                            resolveAllButton.style.display = 'flex';
                         }
                         output.appendChild(li);
                     });
@@ -615,23 +618,29 @@ window.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.installed li.selected')?.classList.remove('selected');
     }
 
-    applyConfigButton.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        validateForm();
-        if (!form.checkValidity()) {
-            return;
-        }
-        const overwrite = document.querySelector('[name=overwrite]').value;
-        if (overwrite === 'reinstall') {
-            const messageDialog = document.getElementById('message-dialog');
-            messageDialog.confirm('Warning', `This will completely reinstall the application. Local changes will be lost.`)
-            .then(
-                () => { process(false); },
-                () => { return; }
-            );
-        } else {
-            process(false);
-        }
+    applyConfigButtons.forEach(button => {
+        button.addEventListener('click', (ev) => {
+            ev.preventDefault();
+
+            const outputDialog = document.getElementById('output-dialog');
+            outputDialog.closeDialog();
+
+            validateForm();
+            if (!form.checkValidity()) {
+                return;
+            }
+            const overwrite = document.querySelector('[name=overwrite]').value;
+            if (overwrite === 'reinstall') {
+                const messageDialog = document.getElementById('message-dialog');
+                messageDialog.confirm('Warning', `This will completely reinstall the application. Local changes will be lost.`)
+                .then(
+                    () => { process(false); },
+                    () => { return; }
+                );
+            } else {
+                process(false);
+            }
+        });
     });
 
     // dryRunButton.addEventListener('click', (ev) => {
