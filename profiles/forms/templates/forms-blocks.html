@@ -1,0 +1,21 @@
+<template>
+    [% template scripts %]
+    [% if $features?forms?enabled %]
+    [% if $features?forms?fore?version = "local" %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/fore.js"></script>
+    [% else %]
+    <script type="module" src="[[ $features?forms?fore?cdn ]]@[[ $features?forms?fore?version ]]/dist/fore.js"></script>
+    [% endif %]
+    [% endif %]
+    [% endtemplate %]
+
+    [% template styles %]
+    [% if $features?forms?enabled %]
+    [% if $features?forms?fore?version = "local" %]
+    <link rel="stylesheet" href="[[ $context-path ]]/resources/lib/fore.css"/>
+    [% else %]
+    <link rel="stylesheet" href="[[ $features?forms?fore?cdn ]]@[[ $features?forms?fore?version ]]/resources/fore.css"/>
+    [% endif %]
+    [% endif %]
+    [% endtemplate %]
+</template>
