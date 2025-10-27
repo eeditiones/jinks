@@ -115,7 +115,7 @@
                         <label data-tooltip="[[ $profile?description ]]" data-placement="right">
                             <input type="checkbox" name="blueprint" value="[[ $profile?path ]]"
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                            [[ $profile?label ]]
+                            <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                         </label>
                         <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
                             <svg class="icon">
@@ -141,7 +141,7 @@
                         <input type="radio" name="base" value="[[ $profile?path ]]" 
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                         [% endif %]
-                        [[ $profile?label ]]
+                        <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                     </label>
                     <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
                         <svg class="icon">
@@ -166,7 +166,7 @@
                             data-placement="right">
                             <input type="checkbox" name="feature" value="[[ $profile?path ]]"
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                            [[ $profile?label ]]
+                            <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                         </label>
                         <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
                             <svg class="icon"><use href="#icon-information"></use></svg>
@@ -194,7 +194,7 @@
                             <input type="checkbox" name="theme" value="[[ $profile?path ]]"
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
                             [% endif %]
-                            [[ $profile?label ]]
+                            <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                         </label>
                         <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
                             <svg class="icon">
