@@ -47,13 +47,6 @@
         [% endfor %]
         [% endif %]
 
-        [% if $script?fore %]
-            [% if $script?webcomponents = "local" %]
-            <script type="module" src="[[ $context-path ]]/resources/lib/fore.js"></script>
-            [% else %]
-            <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
-            [% endif %]
-        [% endif %]
         [% block scripts %][% endblock %]
     </head>
     <body data-theme="light">
