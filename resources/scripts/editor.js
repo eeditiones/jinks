@@ -628,30 +628,46 @@ window.addEventListener('DOMContentLoaded', () => {
         showTab('config');
     }
 
+    // Function to handle apply config action
+    function handleApplyConfig() {
+        const outputDialog = document.getElementById('output-dialog');
+        outputDialog.closeDialog();
+
+        showTab('config');
+        
+        validateForm();
+        if (!form.checkValidity()) {
+            return;
+        }
+        const overwrite = document.querySelector('[name=overwrite]').value;
+        if (overwrite === 'reinstall') {
+            const messageDialog = document.getElementById('message-dialog');
+            messageDialog.confirm('Warning', `This will completely reinstall the application. Local changes will be lost.`)
+            .then(
+                () => { process(false); },
+                () => { return; }
+            );
+        } else {
+            process(false);
+        }
+    }
+
     applyConfigButtons.forEach(button => {
         button.addEventListener('click', (ev) => {
             ev.preventDefault();
-
-            const outputDialog = document.getElementById('output-dialog');
-            outputDialog.closeDialog();
-
-            validateForm();
-            if (!form.checkValidity()) {
-                return;
-            }
-            const overwrite = document.querySelector('[name=overwrite]').value;
-            if (overwrite === 'reinstall') {
-                const messageDialog = document.getElementById('message-dialog');
-                messageDialog.confirm('Warning', `This will completely reinstall the application. Local changes will be lost.`)
-                .then(
-                    () => { process(false); },
-                    () => { return; }
-                );
-            } else {
-                process(false);
-            }
+            handleApplyConfig();
         });
     });
+
+    // Add keyboard shortcut for apply config (Cmd-Shift-s on Mac, Ctrl-Shift-s on Windows/Linux)
+    if (typeof window.hotkeys !== 'undefined') {
+        applyConfigButtons.forEach(button => {
+            window.hotkeys(button.dataset.shortcut, (ev) => {
+                ev.preventDefault();
+                handleApplyConfig();
+            });
+        });
+    }
 
     // dryRunButton.addEventListener('click', (ev) => {
     //     ev.preventDefault();
@@ -915,6 +931,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 const targetTab = link.getAttribute('href').substring(1); // Remove the #
                 showTab(targetTab);
             });
+            if (typeof window.hotkeys !== 'undefined') {
+                window.hotkeys(link.dataset.shortcut, (ev) => {
+                    ev.preventDefault();
+                    const targetTab = link.getAttribute('href').substring(1); // Remove the #
+                    showTab(targetTab);
+                });
+            }
         });
     }
     
@@ -940,6 +963,18 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Display configured keyboard shortcuts on mouseover
+    document.querySelectorAll('[data-shortcut]').forEach((elem) => {
+        const shortcut = elem.dataset.shortcut;
+        const keys = shortcut.split(/\s*,\s*/);
+        let output = keys[0];
+        if (navigator.userAgent.indexOf('Mac OS X') === -1) {
+            output = keys[1];
+        }
+        const title = elem.dataset.tooltip || '';
+        elem.dataset.tooltip = `${title} [${output.replaceAll('+', ' ')}]`;
+    });
 
     loadApps();
     reset(false);

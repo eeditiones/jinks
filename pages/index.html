@@ -32,9 +32,9 @@
     [% template content-top %]
     <nav class="tabs">
         <ul>
-            <li><a href="#config">Application Configuration</a></li>
-            <li><a href="#profiles">Profiles</a></li>
-            <li><a href="#theming">Theming</a></li>
+            <li><a href="#config" data-shortcut="ctrl+1,alt+1">Application Configuration</a></li>
+            <li><a href="#profiles" data-shortcut="ctrl+2,alt+2">Profiles</a></li>
+            <li><a href="#theming" data-shortcut="ctrl+3,alt+3">Theming</a></li>
         </ul>
     </nav>
     [% endtemplate %]
@@ -82,7 +82,7 @@
             <nav>
                 <ul>
                     <li>
-                        <button class="apply-config" data-tooltip="Apply configuration">
+                        <button class="apply-config" data-tooltip="Apply configuration" data-shortcut="cmd+shift+s,ctrl+shift+s">
                             <svg class="icon">
                                 <use href="#icon-refresh"></use>
                             </svg>
@@ -242,7 +242,7 @@
                     </button>
                 </li>
                 <li>
-                    <button class="apply-config" data-tooltip="Re-apply configuration after resolving conflicts" style="display: none;">
+                    <button class="apply-config" data-tooltip="Re-apply configuration after resolving conflicts" data-shortcut="cmd+shift+s,ctrl+shift+s" style="display: none;">
                         <svg class="icon">
                             <use href="#icon-refresh"></use>
                         </svg>
