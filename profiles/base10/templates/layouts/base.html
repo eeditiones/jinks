@@ -139,6 +139,11 @@
             [% include 'templates/footer-mobile.html' %]
         </pb-page>
         <div class="splash"/>
+        
+        [% for $icons in $context?theme?icons?* %]
+        [% include "resources/css/" || $icons %]
+        [% endfor %]
+        
         <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
