@@ -4,24 +4,28 @@
     "id": "https://e-editiones.org/app/tei-publisher/metadata-editor",
     "label": "Metadata Editor",
     "category": "workflow",
-    "description": "Edit the metadata of TEI documents, right from the JinnTap editor",
-    "version": "1.0.0",
-    "pkg": {
-        "dependencies": [
-        ]
-    },
+    "description": "Edit the teiHeader of TEI documents using a form-based editor",
+    "version": "0.2.0",
     "depends": [
         "base10",
-		"jinntap"
+        "forms"
     ],
     "templating": {
         "use": [
-            "templates/metadata-editor.html"
+            "templates/metadata-editor-blocks.html"
         ]
 	},
-	"script": {
-       "fore": "2.6.0"
-	},
-    "features": {
+    "api": [
+        {
+            "spec": "metadata-editor-api.json",
+            "prefix": "meta",
+            "path": "metadata-editor-api.xql",
+            "id": "http://teipublisher.com/api/metadata-editor"
+        }
+    ],
+    "theme": {
+        "icons": [
+            "metadata-editor-icons.svg"
+        ]
     }
 }
