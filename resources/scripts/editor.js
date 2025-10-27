@@ -623,6 +623,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         document.querySelector('.installed li.selected')?.classList.remove('selected');
+
+        // Switch to config tab
+        showTab('config');
     }
 
     applyConfigButtons.forEach(button => {
