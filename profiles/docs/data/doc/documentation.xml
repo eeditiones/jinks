@@ -15,48 +15,14 @@
     <title>Introduction</title>
 
     <section xml:id="introduction-explainer">
-      <title>What TEI Publisher does ...</title>
-      <para> The motivation behind TEI Publisher was to provide a tool which enables scholars and
-        editors to publish their materials without becoming programmers, but also does not force
-        them into a one-size-fits-all framework. The possibility to create very sophisticated
-        editions by choosing sensible, well-thought-out defaults has been drastically enhanced with
-        the introduction of the application manager Jinks. In addition, experienced developers will
-        benefit as well by writing less code, avoiding redundancy, improve maintenance and
-        interoperability – to just name a few. TEI Publisher is all about <emphasis role="bold"
-          >standards</emphasis>, <emphasis role="bold">modularity</emphasis>, <emphasis role="bold"
-          >reusability</emphasis> and <emphasis role="bold">sustainability</emphasis>! </para>
-      <para>In Publisher, it all starts with your source documents – regardless if they are in TEI
-        or other form of XML: DocBook, MS Word (DOCX) or JATS. No matter how the source material has
-        been encoded, it can be easily transformed into a range of output formats for publication -
-        from a modern web page that you can open on your laptop or mobile device, to an ebook, a PDF
-        file or its LaTeX source.</para>
-      <para> TEI Publisher derives its name from TEI and the TEI Processing Model (PM). Processing
-        Model is a part of the TEI vocabulary and TEI ODD specification format, described in the
-          <link xlink:show="new"
-          xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPM">TEI P5
-          guidelines</link> as well as further chapters here. It defines how a TEI document should
-        be rendered in different output formats and lies at the heart of TEI Publisher. </para>
-      <para>However, online editions require more than just a text transformation: the text needs to
-        be embedded into an application context, adding navigation, pagination, search, facsimile
-        display and so on. The larger part of TEI Publisher deals with those aspects, providing all
-        the necessary building blocks for an online edition.</para>
-      <para> Staying true to the spirit of code reuse and interoperability, TEI Publisher implements
-        its functionalities as small ”lego” blocks (<emphasis>features</emphasis>) to be freely
-        arranged and recombined within several <emphasis>profiles</emphasis>. The technology making
-        this possible is called <emphasis>Web Components</emphasis>. It is part of the HTML5
-        specification and natively implemented by many browsers. Users don't need to dive into the
-        details of this standard though: the selection of the desired features in Jinks will already
-        provide you with the nesessary pieces of code, that you can further customize with some
-        basic HTML knowledge. Read more about Publisher’s key concepts regarding modularity in
-        section <link linkend="modularity">Profiles: blueprints, themes and features</link></para>
-      <para> Only where the available profiles, features and <link xlink:show="new"
-          xlink:href="https://cdn.tei-publisher.com/api.html">components</link> are not enough, a
-        new use case needs to be described and suitable features implemented but then they can be
-        incorporated into existing feature pool for everyone else to use. After all, our mantra is
-        reuse, reuse, reuse and we want to turn TEI Publisher into a box of tools the entire
-        community can benefit from. </para>
-      <para>Despite the elegant simplicity of this approach, various projects we realized in the
-        past prove that TEI Publisher is:</para>
+      <para>TEI Publisher provides a toolbox which enables scholars and editors to publish their
+        materials without becoming programmers, but also does not force them into a
+        one-size-fits-all framework. Our mantra is reuse, reuse, reuse. Stop reinventing the wheel
+        with every new digital edition project. Instead, reuse what others have already built and
+        help to improve it by adding what's missing. TEI Publisher tries to be as flexible and
+        extensible as possible while still providing a smooth and fast entry path for users with
+        little technical experience.</para>
+      <para>The many projects realized with TEI Publisher prove that it is:</para>
       <orderedlist>
         <listitem>
           <para>powerful enough to cover complex transformation needs</para>
@@ -75,13 +41,106 @@
             DocBook!)</para>
         </listitem>
       </orderedlist>
-      <para>As the project matured, it became very clear that, apart from publishing the XML sources
-        curated through other tools and platforms, our user community is desperately wishing for
-        some aids to convert and incorporate data from other formats as well as to enrich and
-        annotate documents, ideally without angle brackets in sight. Answering these needs, first
-        the capacity to handle <link linkend="docx">Word DOCX</link> and Markdown, and later two
-        user friendly <link linkend="web-annotations">annotation editors</link> have been added as
-        described in relevant sections. </para>
+      <title>Overview of version 10 and later ...</title>
+      <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves it
+        to the next level: instead of having one central application from which custom applications
+        are generated, the core of TEI Publisher itself is now decomposed into a set of small,
+        modular profiles, which can be customized and recombined to compose concrete applications.
+        Each profile covers a particular aspect of a digital edition, e.g. support for a certain
+        input format, the integration of facsimiles via IIIF, or functional features tailored to a
+        specific edition type, such as navigation between letters of a correspondence.</para>
+      <para>An actual application is then created by combining different profiles and their
+        configuration. This is done through a central configuration file, to which each profile
+        contributes its parameters. This simplifies the development process, especially for users
+        with little technical experience.</para>
+      <para>Profiles can also extend each other, so one profile can inherit from one or more other
+        profiles. At the top of such a hierarchy sits what we call a "blueprint", which is
+        essentially a template for a complete application targeting a specific use case, e.g. a
+        correspondence edition or dictionary. In the simplest case, a blueprint is just a
+        configuration, which customizes the composition of profiles it extends.</para>
+      <para>Also, creating an application is no longer a one-time process, but can be repeated
+        iteratively: new profiles can be added, existing ones modified or removed again. TEI
+        Publisher 10 comes with a central application manager, Jinks, which manages all profiles and
+        the applications from them.</para>
+      <para>It also takes care of updating profiles and their dependencies. Updates can largely be
+        carried out automatically when individual profiles change as new versions are released. Gone
+        are the days when users had to manually read through update instructions to migrate to a new
+        version of TEI Publisher. With version 10, the number of necessary manual interventions
+        should be reduced to a minimum and most updates can be applied with a single click.</para>
+      <para>To help you understand the different new parts in version 10 and how they fit together,
+        let us summarize some key concepts, which will be used in the rest of this
+        documentation:</para>
+      <variablelist>
+        <varlistentry>
+          <term>TEI Publisher</term>
+          <listitem>
+            <para>denotes the software package as a whole, i.e. the entire toolbox, comprising all profiles and libraries</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Jinks</term>
+          <listitem>
+            <para>the central application manager, which generates applications and manages updates</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>TEI Publisher Documentation and Demo</term>
+          <listitem>
+            <para>refers to the application containing this documentation and a selection of demos. It mimics the old monolithic TEI Publisher application, but is now generated from a blueprint.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Profile</term>
+          <listitem>
+            <para>a small, modular building block for a TEI Publisher application. Profiles can extend other profiles and can be combined to create applications. We distinguish three different kinds of profiles:</para>
+            <variablelist>
+              <varlistentry>
+                <term>Blueprint</term>
+                <listitem>
+                  <para>a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary etc.</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>Base</term>
+                <listitem>
+                  <para>a profile providing the core server-side API of TEI Publisher and basic page layout without styling</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>Feature</term>
+                <listitem>
+                  <para>a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>Theme</term>
+                <listitem>
+                  <para>provides a particular look and feel. Without this, you only get unstyled HTML</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>TEI Processing Model</term>
+          <listitem>
+            <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD spcification format, it defines how documents are transformed into different output formats.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Webcomponents</term>
+          <listitem>
+            <para>the interactive user interface building blocks of TEI Publisher, which can be freely combined and rearranged to integrate TEI content and related features into an HTML page. Part of the HTML5 specification and natively implemented by modern browsers.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Jinks Templates</term>
+          <listitem>
+            <para>a templating language used by Jinks during application generation as well as within profiles to fill placeholders with content.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      
     </section>
     <section xml:id="e-editiones">
       <title>e-editiones.org</title>
