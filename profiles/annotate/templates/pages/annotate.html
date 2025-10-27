@@ -1,9 +1,8 @@
-<div class="annotate-root">
+<template>
     ---json
     {
         "templating": {
-            "extends": "templates/layouts/base.html",
-            "strip-root": true
+            "extends": "templates/layouts/base.html"
         },
         "styles": [
             "resources/css/annotate.css"
@@ -27,11 +26,11 @@
             "layout": {
                 "before-width": "33vw",
                 "after-width": "33vw"
-            }
+            },
+            "icons": [ "annotate-icons.svg" ]
         }
     }
     ---
-    [% include "resources/images/icons.svg" %]
     [% template content-top %]
     <nav class="toolbar">
         <ul>
@@ -641,4 +640,4 @@
         </article>
     </dialog>
 
-</div>
+</template>
