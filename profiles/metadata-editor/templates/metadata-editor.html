@@ -13,38 +13,33 @@
         }
     }
 }
-  ---
+---
   <fx-fore xmlns:tei="http://www.tei-c.org/ns/1.0" create-nodes="create-nodes" id="metadata-panel"
            ignore-expressions="fx-function">
     <fx-model>
       <!-- This will be filled with the teiHeader element -->
       <fx-instance id="default" src="[[ $context-path ]]/api/metadata/[[ $context?doc?path ]]"></fx-instance>
-
-	  [% if $context?features?metadata-editor?standalone %]
-
-	  <fx-instance id="default" src="[[ $context-path || '/api/document/' || $context?doc?path ]]"></fx-instance>
-
-	  <fx-instance id="save-result"></fx-instance>
-	  [% else %]
-	  <!-- This will be filled with the TEI element -->
-	  <fx-instance id="default"></fx-instance>
-	  [% endif %]
-
-	  [% if $context?features?metadata-editor?standalone %]
-	  <fx-submission
-		id="save"
-		url="[[ $context-path || '/api/document/' || $context?doc?path ]]"
-		method="PUT"
-		replace="instance"
-		instance="save-result"
-		>
-		<fx-message event="submit">Going to Save</fx-message>
-		<fx-message event="submit-done">Saved</fx-message>
-		<fx-message event="submit-error">An error occured while saving this document</fx-message>
-	  </fx-submission>
-	  [% endif %]
-	</fx-model>
+      <fx-submission id="save" method="PUT" url="[[ $context-path ]]/api/metadata/[[ $context?doc?path ]]" replace="instance">
+        <fx-action event="submit-done">
+          <fx-message>Metadata saved</fx-message>
+        </fx-action>
+        <fx-action event="submit-error">
+          <fx-message>Failed to save metadata</fx-message>
+        </fx-action>
+      </fx-submission>
+    </fx-model>
 
     [% include "templates/form.html" %]
+
+	<fieldset>
+	  <fx-trigger >
+		<button href="#" class="icon" data-tooltip="Save" data-placement="bottom">
+		  Save
+		</button>
+		<fx-send submission="save"></fx-send>
+	  </fx-trigger>
+	</fieldset>
+	[% endif %]
   </fx-fore>
 </template>
+>>>>>>> a6b9ee7 (fix(metadata-editor): add save submission)
