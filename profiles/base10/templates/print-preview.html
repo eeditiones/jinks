@@ -16,7 +16,7 @@
         }
     }
     ---
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    <pb-document id="print-preview-document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:app-root ]]"/>
     <aside>
         <nav>
@@ -51,7 +51,7 @@
     <pb-progress subscribe="preview"></pb-progress>
 
     <main>
-        <pb-print-preview src="document1" styles="[[$context-path]]/resources/fonts/font.css,[[$context-path]]/resources/css/jinks-variables.css,[[$context-path]]/resources/css/print.css" emit="preview"></pb-print-preview>
+        <pb-print-preview src="print-preview-document1" styles="[[$context-path]]/resources/fonts/font.css,[[$context-path]]/resources/css/jinks-variables.css,[[$context-path]]/resources/css/print.css" emit="preview"></pb-print-preview>
     </main>
 
     [% template scripts %]

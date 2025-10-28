@@ -216,13 +216,13 @@
     </nav>
     [% endtemplate %]
 
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    <pb-document id="annotate-document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"></pb-document>
     <main>
-        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
+        <pb-view id="title-view1" src="annotate-document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
             <pb-param name="header" value="short"></pb-param>
         </pb-view>
-        <pb-view-annotate id="view1" src="document1" odd="annotations" key="key" append-footnotes="append-footnotes"
+        <pb-view-annotate id="view1" src="annotate-document1" odd="annotations" key="key" append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
         </pb-view-annotate>
