@@ -41,106 +41,107 @@
             DocBook!)</para>
         </listitem>
       </orderedlist>
-      <title>Overview of version 10 and later ...</title>
-      <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves it
-        to the next level: instead of having one central application from which custom applications
-        are generated, the core of TEI Publisher itself is now decomposed into a set of small,
-        modular profiles, which can be customized and recombined to compose concrete applications.
-        Each profile covers a particular aspect of a digital edition, e.g. support for a certain
-        input format, the integration of facsimiles via IIIF, or functional features tailored to a
-        specific edition type, such as navigation between letters of a correspondence.</para>
-      <para>An actual application is then created by combining different profiles and their
-        configuration. This is done through a central configuration file, to which each profile
-        contributes its parameters. This simplifies the development process, especially for users
-        with little technical experience.</para>
-      <para>Profiles can also extend each other, so one profile can inherit from one or more other
-        profiles. At the top of such a hierarchy sits what we call a "blueprint", which is
-        essentially a template for a complete application targeting a specific use case, e.g. a
-        correspondence edition or dictionary. In the simplest case, a blueprint is just a
-        configuration, which customizes the composition of profiles it extends.</para>
-      <para>Also, creating an application is no longer a one-time process, but can be repeated
-        iteratively: new profiles can be added, existing ones modified or removed again. TEI
-        Publisher 10 comes with a central application manager, Jinks, which manages all profiles and
-        the applications from them.</para>
-      <para>It also takes care of updating profiles and their dependencies. Updates can largely be
-        carried out automatically when individual profiles change as new versions are released. Gone
-        are the days when users had to manually read through update instructions to migrate to a new
-        version of TEI Publisher. With version 10, the number of necessary manual interventions
-        should be reduced to a minimum and most updates can be applied with a single click.</para>
-      <para>To help you understand the different new parts in version 10 and how they fit together,
-        let us summarize some key concepts, which will be used in the rest of this
-        documentation:</para>
-      <variablelist>
-        <varlistentry>
-          <term>TEI Publisher</term>
-          <listitem>
-            <para>denotes the software package as a whole, i.e. the entire toolbox, comprising all profiles and libraries</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>Jinks</term>
-          <listitem>
-            <para>the central application manager, which generates applications and manages updates</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>TEI Publisher Documentation and Demo</term>
-          <listitem>
-            <para>refers to the application containing this documentation and a selection of demos. It mimics the old monolithic TEI Publisher application, but is now generated from a blueprint.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>Profile</term>
-          <listitem>
-            <para>a small, modular building block for a TEI Publisher application. Profiles can extend other profiles and can be combined to create applications. We distinguish three different kinds of profiles:</para>
-            <variablelist>
-              <varlistentry>
-                <term>Blueprint</term>
-                <listitem>
-                  <para>a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary etc.</para>
-                </listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>Base</term>
-                <listitem>
-                  <para>a profile providing the core server-side API of TEI Publisher and basic page layout without styling</para>
-                </listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>Feature</term>
-                <listitem>
-                  <para>a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.</para>
-                </listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>Theme</term>
-                <listitem>
-                  <para>provides a particular look and feel. Without this, you only get unstyled HTML</para>
-                </listitem>
-              </varlistentry>
-            </variablelist>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>TEI Processing Model</term>
-          <listitem>
-            <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD spcification format, it defines how documents are transformed into different output formats.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>Webcomponents</term>
-          <listitem>
-            <para>the interactive user interface building blocks of TEI Publisher, which can be freely combined and rearranged to integrate TEI content and related features into an HTML page. Part of the HTML5 specification and natively implemented by modern browsers.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>Jinks Templates</term>
-          <listitem>
-            <para>a templating language used by Jinks during application generation as well as within profiles to fill placeholders with content.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      
+      <section xml:id="introVersion10">
+        <title>Overview of version 10 and later ...</title>
+        <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves it
+          to the next level: instead of having one central application from which custom applications
+          are generated, the core of TEI Publisher itself is now decomposed into a set of small,
+          modular profiles, which can be customized and recombined to compose concrete applications.
+          Each profile covers a particular aspect of a digital edition, e.g. support for a certain
+          input format, the integration of facsimiles via IIIF, or functional features tailored to a
+          specific edition type, such as navigation between letters of a correspondence.</para>
+        <para>An actual application is then created by combining different profiles and their
+          configuration. This is done through a central configuration file, to which each profile
+          contributes its parameters. This simplifies the development process, especially for users
+          with little technical experience.</para>
+        <para>Profiles can also extend each other, so one profile can inherit from one or more other
+          profiles. At the top of such a hierarchy sits what we call a "blueprint", which is
+          essentially a template for a complete application targeting a specific use case, e.g. a
+          correspondence edition or dictionary. In the simplest case, a blueprint is just a
+          configuration, which customizes the composition of profiles it extends.</para>
+        <para>Also, creating an application is no longer a one-time process, but can be repeated
+          iteratively: new profiles can be added, existing ones modified or removed again. TEI
+          Publisher 10 comes with a central application manager, Jinks, which manages all profiles and
+          the applications from them.</para>
+        <para>It also takes care of updating profiles and their dependencies. Updates can largely be
+          carried out automatically when individual profiles change as new versions are released. Gone
+          are the days when users had to manually read through update instructions to migrate to a new
+          version of TEI Publisher. With version 10, the number of necessary manual interventions
+          should be reduced to a minimum and most updates can be applied with a single click.</para>
+        <para>To help you understand the different new parts in version 10 and how they fit together,
+          let us summarize some key concepts, which will be used in the rest of this
+          documentation:</para>
+        <variablelist>
+          <varlistentry>
+            <term>TEI Publisher</term>
+            <listitem>
+              <para>denotes the software package as a whole, i.e. the entire toolbox, comprising all profiles and libraries</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Jinks</term>
+            <listitem>
+              <para>the central application manager, which generates applications and manages updates</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>TEI Publisher Documentation and Demo</term>
+            <listitem>
+              <para>refers to the application containing this documentation and a selection of demos. It mimics the old monolithic TEI Publisher application, but is now generated from a blueprint.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Profile</term>
+            <listitem>
+              <para>a small, modular building block for a TEI Publisher application. Profiles can extend other profiles and can be combined to create applications. We distinguish three different kinds of profiles:</para>
+              <variablelist>
+                <varlistentry>
+                  <term>Blueprint</term>
+                  <listitem>
+                    <para>a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary etc.</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>Base</term>
+                  <listitem>
+                    <para>a profile providing the core server-side API of TEI Publisher and basic page layout without styling</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>Feature</term>
+                  <listitem>
+                    <para>a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>Theme</term>
+                  <listitem>
+                    <para>provides a particular look and feel. Without this, you only get unstyled HTML</para>
+                  </listitem>
+                </varlistentry>
+              </variablelist>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>TEI Processing Model</term>
+            <listitem>
+              <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD spcification format, it defines how documents are transformed into different output formats.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Webcomponents</term>
+            <listitem>
+              <para>the interactive user interface building blocks of TEI Publisher, which can be freely combined and rearranged to integrate TEI content and related features into an HTML page. Part of the HTML5 specification and natively implemented by modern browsers.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Jinks Templates</term>
+            <listitem>
+              <para>a templating language used by Jinks during application generation as well as within profiles to fill placeholders with content.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
     </section>
     <section xml:id="e-editiones">
       <title>e-editiones.org</title>
@@ -205,221 +206,13 @@
         </listitem>
       </orderedlist>
     </section>
-    <section xml:id="versions">
-      <title>Versions</title>
-      <para>TEI Publisher has been under active development since 2015. Once or twice a year a new
-        major version is released, bringing important new features. In 2025 the TEI Publisher app
-        manager Jinks was released, which facilitates the upgrade of any custom app that has been
-        generated with it.</para>
-      <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
-        and improvements.</para>
-      <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is 1.0.0.</para>
-
-
-      <para> There's a long list of ideas and features we'd like to see incorporated into TEI
-        Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
-        support, to various editing workflows and support for efficient hosting and maintenance of
-        multiple editions. These ideas are in various stages of development – some already advanced,
-        some in conceptual phase, some waiting for funding and implementation. Coordination of
-        future work is primarily conducted by <link xlink:show="new"
-          xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
-
-      <figure>
-        <title>Image by <link xlink:show="new"
-            xlink:href="https://pixabay.com/users/mabelamber-1377835">Mabel Amber</link> from <link
-            xlink:show="new" xlink:href="https://pixabay.com">Pixabay</link>
-        </title>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="nine-3095449_640.jpg" width="500px"/>
-          </imageobject>
-        </mediaobject>
-      </figure>
-      <section xml:id="v10">
-        <title>What's new in TEI Publisher 10.0.0</title>
-        <para/>
-        <!-- TODO: maybe just add link to post about TP10 and Jinks? -->
-      </section>
-      <section xml:id="v9">
-        <title>What's new in TEI Publisher 9.0.0</title>
-        <para>Version 9 has seen a major rework of the annotation facilities and introduced local
-          authority registers for people, places and organizations. There have been small but
-          powerful improvements to facets and numerous minor fixes and extensions, including
-          redesign of the layout templates and ODDs for some of the examples from the Demo
-          Collection.</para>
-        <para>As showcased in the <link xlink:href="../demo/F-rom.xml">Shakespeare sample</link> and
-          app, TEI Publisher now supports generating <link linkend="presentation-manifests">IIIF
-            presentation manifests</link> and displaying them alongside the text. Text and image
-          view communicate to each other, which means that if you navigate to the next page/image in
-          either of the two, the other reacts accordingly. While there are external tools for
-          creating IIIF manifests, the Shakespeare sample auto-generates them from the TEI header
-          and the page breaks in the document.</para>
-        <para>The URL routing features introduced with version 8 have been substantially improved,
-          introducing <link linkend="client-side-urls">configurable URL templates</link> also on the
-          client side. This means you can construct URLs which are really completely independent of
-          the underlying data organisation, while making sure the user always sees the page in a
-          consistent state.</para>
-        <para>Furthermore it became easier to select less frequent <link linkend="facets"
-            >facets</link> when browsing or searching: previously only the most frequent facets
-          where shown by default and you had to browse through a potentially long list if you wanted
-          to find a not so common one. Now you can display a combo box in addition to the list,
-          allowing users to type in a string and see matching facets.</para>
-        <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD,
-          previously the source ODD for the <code>teipublisher</code> ODD. Models from the
-          SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD.
-          This is a first step on the road for the extended and rationalized base ODD, a project
-          inspired by the TEI Vanilla meetups of yore and now undertaken by e-editiones in
-          cooperation with the TEI consortium.</para>
-        <para>The new <link linkend="web-annotations">annotation editor</link> boasts a new, more
-          user friendly and ergonomic layout with additional capacity to add or edit registry
-          entries from within the editor. Furthermore, a function to find potential matches for the
-          current annotation and review them on the spot is the long awaited feature, which promises
-          to speed up the editing process without compromising quality or consistency.</para>
-        <para>A default set up for local registers of places, people and organizations allows
-          editors to curate these resources under the same roof and at the same time as they
-          annotate the sources. As usual, our registers provide a firm base for extensions and
-          customizations.</para>
-        <para>Since the release of the previous version there was a new major version of the
-            <code>tei-publisher-lib</code> and numerous releases of TEI Publisher's
-            <code>webcomponents</code> library.</para>
-        <para>See chapter on <link linkend="updating">Updating</link> for information how to update
-          your app to the newest version.</para>
-      </section>
-      <section xml:id="v8">
-        <title>What's new in TEI Publisher 8.0.0</title>
-        <para>Version 8 has been focused on a major rework of the URL handling and redesign of
-          search facilities. A number of further examples gives a better idea of the projects
-          already using TEI Publisher for their editions. There have also been significant changes
-          to connected resources: the tei-publisher-lib, webcomponents library and roaster.</para>
-        <para>See chapter on <link linkend="updating">Updating</link> for information how to update
-          your app to the newest version.</para>
-      </section>
-      <section xml:id="v7">
-        <title>What's new in TEI Publisher 7.0.0</title>
-        <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app,
-          particularly regarding the server-side modules.</para>
-        <para> TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
-            xlink:show="new">API specification</link> following the <link xlink:show="new"
-            xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
-          used in TEI Publisher by client-side UI components but can be equally well utilized by
-          independent software which harnesses functionality exposed via the API without being
-          forced to rely on Publisher's client-side components. </para>
-        <para> On the server a new package, <filename>oas-router</filename>, reads the API
-          specification and uses it to map HTTP requests to XQuery functions which perform actual
-          API operations. Other packages, particularly UI web components (
-            <filename>pb-components</filename>) and TEI Processing Model library (
-            <filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
-          the new API as well as retain full backwards compatibility. </para>
-
-        <para>Beyond the structural changes a number of reported issues has been fixed and broader
-          test coverage for all packages introduced. A sophisticated CI setup based on Docker has
-          been created. Extensive test suite has been prepared for individual components.
-          Furthermore, every API operation is independently tested against the specification, to
-          assure that e.g. parameter and response types correspond exactly to the definition.</para>
-
-        <para> Thanks to community contributions via <link xlink:show="new"
-            xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
-          available in 20 languages. </para>
-
-        <para> See chapter on <link linkend="updating">Updating</link> for information how to update
-          your app to take advantage of these developments. </para>
-      </section>
-      <section xml:id="v6">
-        <title>What's new in TEI Publisher 6.0.0</title>
-        <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app libraries
-          along with new specialized components and use case examples.</para>
-        <orderedlist>
-          <listitem>
-            <para> Web components overhaul: migration to <link xlink:show="new"
-                xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
-              npm library </para>
-            <para>While invisible to users, this redesign greatly improves the modularity of
-              Publisher-based applications. With Publisher web component releases published on npm,
-              updating the user interface for all Publisher-based apps is just a question of
-              changing a single variable in the configuration file.</para>
-            <para> Furthermore, Publisher's library of web components – true to the basic idea of
-                <link xlink:show="new"
-                xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
-                Components Standard</link> can be included in any HTML webpage e.g. can be embedded
-              into existing CMS or any other publishing solution, even if it's not running eXist-db. </para>
-            <para> Similarly, if you prefer to write your own application using any of the popular
-              frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
-                <code> pb-components</code> package from npm and use it directly in your project. </para>
-            <para>As a final consequence, this change decouples the component library from the TEI
-              Publisher app. It is now possible to host multiple applications, which depend on
-              different versions of the component library, without conflict within the same eXist-db
-              instance, a point of importance for institutions with numerous projects.</para>
-          </listitem>
-          <listitem>
-            <para>Redesigned and simplified CSS styling customization</para>
-            <para> Encapsulation of styles offered by web components can be a mixed blessing and
-              poses some challenges when customizing the aesthetics of components to fit a project.
-              While some aspects of component styling remained unaccessible for customization in
-              previous versions, Publisher 6 exposes majority of styling properties via standard CSS
-              files and theme variables. Stylesheets can also be specified within the ODD, as
-              previously, or through <code>pb-view</code> component configuration attributes.
-            </para>
-          </listitem>
-          <listitem>
-            <para>Extended internationalization</para>
-            <para>I18n support has been extended to cover not only the labels in HTML templates but
-              also within web components. A mechanism for project specific language files extending
-              the default Publisher label collection has been added.</para>
-            <para> Thanks to community contributions via <link xlink:show="new"
-                xlink:href="https://crwd.in/tei-publisher">Crowdin</link> a number of new languages
-              has been added and existing ones updated. </para>
-          </listitem>
-          <listitem>
-            <para>Subcorpora – new TEI Publisher data organization</para>
-            <para> Publisher's pre-populated data collection is now split into
-                <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
-                collection</emphasis> areas which illustrate how this mechanism could be used to
-              host multiple subcorpora within single TEI Publisher application. </para>
-          </listitem>
-          <listitem>
-            <para>New and improved web components</para>
-            <para>
-              <code>pb-select-feature</code> and <code>pb-toggle-feature</code> components have been
-              extended to allow for interactive changing of display parameters (like switching
-              between regularized or original spelling) which can be then processed client or
-              server-side. </para>
-            <para>New components have been created to handle MEI music notation as well as for web
-              component API documentation and demo pages.</para>
-          </listitem>
-          <listitem>
-            <para>User interface of the ODD editor has been improved.</para>
-          </listitem>
-          <listitem>
-            <para>Experimental incremental scroll mode has been introduced to improve performance
-              for very long documents presented in single page mode.</para>
-          </listitem>
-        </orderedlist>
-      </section>
-
-    </section>
+    
   </section>
   <section xml:id="quickstart">
     <title>Quickstart</title>
-    <section xml:id="jinks-demo">
-      <title>Creating a custom app with Jinks: demo </title>
-      <para>From TEI Publisher 10 onwards, the TEI Publisher app itself is generated with the app
-        manager Jinks. This quickstart highlights some of the features of TEI Publisher-based apps
-        in section: <link linkend="tp">Showcase: The TEI Publisher App</link>. For getting started
-        with Jinks, please see the video below and section <link linkend="jinks">Configuration of a
-          custom application</link>.</para>
-      <!--      TODO: add link of demo video-->
-      <mediaobject>
-        <videoobject>
-          <videodata fileref=""/>
-        </videoobject>
-      </mediaobject>
-      <para>Please find learning materials about Jinks, TEI Publisher, and related technologies in
-        this <link xlink:show="new" xlink:href="https://github.com/eeditiones/workshop">Github
-          repository</link>.</para>
-    </section>
     <section xml:id="installation">
       <title>Installation</title>
-      <para> TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org"
+      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org"
           >eXist XML database</link> to operate. It is distributed as an eXist application package,
         making it easy to install on any eXist database instance – either on your local machine or
         any remote server. </para>
@@ -459,7 +252,7 @@
         <section xml:id="mac-installation">
           <title>Mac installation</title>
           <para> On a Mac download the file with the <command>.dmg</command> extension, e.g. "
-              <filename> eXist-db-5.x.x.dmg</filename> ". </para>
+              <filename> eXist-db-6.x.x.dmg</filename> ". </para>
 
 
           <para> Double clicking the downloaded <command>.dmg</command> file should install eXist on
@@ -473,7 +266,7 @@
         <section xml:id="windows-installation">
           <title>Windows installation</title>
           <para> On Windows download the file with the <command>.jar</command> extension, e.g. "
-              <filename> exist-installer-5.x.x.jar</filename> ". </para>
+              <filename> exist-installer-6.x.x.jar</filename> ". </para>
 
           <para> Double clicking the <command>.jar</command> should install eXist on your local
             system. It will launch an installer to guide you through basic settings. The default
@@ -485,7 +278,7 @@
               needs to be in your <envar>%PATH%</envar> environment. </para>
             <para>You can also try to manually start the installer by opening a command prompt,
               changing to the directory where you downloaded the distribution and typing:</para>
-            <synopsis>java -jar exist-installer-5.x.x.jar</synopsis>
+            <synopsis>java -jar exist-installer-6.x.x.jar</synopsis>
           </note>
 
           <para>Once the installation is completed, you should find an eXist-db shortcut to launch
@@ -495,7 +288,7 @@
         <section xml:id="unix-installation">
           <title>Unix installation</title>
           <para> Download the file with the <command>.jar</command> extension, e.g. " <filename>
-              exist-installer-5.x.x.jar</filename> ". </para>
+              exist-installer-6.x.x.jar</filename> ". </para>
 
           <para> Double clicking the <command>.jar</command> should install eXist on your local
             system. It will launch an installer to guide you through basic settings. Default
@@ -564,26 +357,56 @@
         </section>
 
         <section xml:id="packageManager">
-          <title>Installing Jinks and TEI Publisher</title>
-          <para> Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open a
+          <title>Installing Jinks and TEI Publisher Documentation/Demo</title>
+          <para>Starting with version 10, TEI Publisher no longer comes as a single application. To get started, you want to install two packages:</para>
+          <variablelist>
+            <varlistentry>
+              <term>Jinks</term>
+              <listitem>
+                <para>The central application manager from which every other application is generated</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>TEI Publisher Documentation and Demo</term>
+              <listitem>
+                <para>Contains the documentation for TEI Publisher as well as a few demonstration pages for various features. This mimics the old TEI Publisher application
+                in that it allows you to explore the possibilities, upload documents and experiment with ODDs. The app is generated from the <emphasis>Documentation + Demo</emphasis>
+                blueprint in <productname>Jinks</productname>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open a
             browser and display eXist's Dashboard: the central administrative hub for the database.
             Alternatively – e.g. when you chose the manual installation on Linux – you can also open
             a browser window and navigate to: <link xlink:show="new"
               xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
-          <para> Log into the dashboard using the admin account and the password you chose during
+          <para>Log into the dashboard using the admin account and the password you chose during
             the installation (it will be empty by default). Use the left sidebar to navigate to the
               <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists
             the application packages currently installed, the second can be used to install
-            additional packages from eXist's public application repository. </para>
+            additional packages from eXist's public application repository.</para>
+          <note>
+            <para>Should you encounter any issues with the login, try via a different app (they share logins):</para>
+            <procedure>
+              <step>
+                <para>From the dashboard, open the <productname>monex</productname> application.</para>
+              </step>
+              <step>
+                <para>If you are not logged in yet, this should present you with a login dialog. Provide your credentials and sign in.</para>
+              </step>
+              <step>
+                <para>Go back to the <productname>dashboard</productname>. The display should change and you should see the admin view.</para>
+              </step>
+            </procedure>
+          </note>
           <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for
-            Jinks. Once you find it, click on the little install icon. You can also search for TEI
+            <productname>Jinks</productname>. Once you find it, click on the little install icon. You can also search for TEI
             Publisher and install the app so you can play around with the provided demos and
             showcases. </para>
-          <para>After installing, you will find Jinks (and TEI Publisher, if pertinent) in the tab
+          <para>After installing, you will find <productname>Jinks</productname> (and <productname>TEI Publisher Documentation and Demo</productname>, if pertinent) in the tab
             showing installed apps. Click on the icon to open the app.</para>
           <figure>
-            <title> Installing <emphasis>Jinks</emphasis> and <emphasis>TEI Publisher</emphasis>
-              from the Package Manager </title>
+            <title>The Package Manager </title>
             <mediaobject>
               <imageobject>
                 <imagedata fileref="eXistDashboard.png" width="640px"/>
@@ -1145,7 +968,7 @@
 
 
   </section>
-
+  
   <section xml:id="supported-input-formats">
     <title>Supported XML vocabularies</title>
     <para>TEI Publisher started as a publishing toolbox for TEI but the principles of the TEI
@@ -8279,5 +8102,196 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       </procedure>
     </section>
   </section>
-
+  <section xml:id="versions">
+    <title>Versions</title>
+    <para>TEI Publisher has been under active development since 2015. Once or twice a year a new
+      major version is released, bringing important new features. In 2025 the TEI Publisher app
+      manager Jinks was released, which facilitates the upgrade of any custom app that has been
+      generated with it.</para>
+    <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
+      and improvements.</para>
+    <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is 1.0.0.</para>
+    
+    
+    <para> There's a long list of ideas and features we'd like to see incorporated into TEI
+      Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
+      support, to various editing workflows and support for efficient hosting and maintenance of
+      multiple editions. These ideas are in various stages of development – some already advanced,
+      some in conceptual phase, some waiting for funding and implementation. Coordination of
+      future work is primarily conducted by <link xlink:show="new"
+        xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
+    
+    <figure>
+      <title>Image by <link xlink:show="new"
+          xlink:href="https://pixabay.com/users/mabelamber-1377835">Mabel Amber</link> from <link
+            xlink:show="new" xlink:href="https://pixabay.com">Pixabay</link>
+      </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="nine-3095449_640.jpg" width="500px"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <section xml:id="v10">
+      <title>What's new in TEI Publisher 10.0.0</title>
+      <para/>
+      <!-- TODO: maybe just add link to post about TP10 and Jinks? -->
+    </section>
+    <section xml:id="v9">
+      <title>What's new in TEI Publisher 9.0.0</title>
+      <para>Version 9 has seen a major rework of the annotation facilities and introduced local
+        authority registers for people, places and organizations. There have been small but
+        powerful improvements to facets and numerous minor fixes and extensions, including
+        redesign of the layout templates and ODDs for some of the examples from the Demo
+        Collection.</para>
+      <para>As showcased in the <link xlink:href="../demo/F-rom.xml">Shakespeare sample</link> and
+        app, TEI Publisher now supports generating <link linkend="presentation-manifests">IIIF
+          presentation manifests</link> and displaying them alongside the text. Text and image
+        view communicate to each other, which means that if you navigate to the next page/image in
+        either of the two, the other reacts accordingly. While there are external tools for
+        creating IIIF manifests, the Shakespeare sample auto-generates them from the TEI header
+        and the page breaks in the document.</para>
+      <para>The URL routing features introduced with version 8 have been substantially improved,
+        introducing <link linkend="client-side-urls">configurable URL templates</link> also on the
+        client side. This means you can construct URLs which are really completely independent of
+        the underlying data organisation, while making sure the user always sees the page in a
+        consistent state.</para>
+      <para>Furthermore it became easier to select less frequent <link linkend="facets"
+          >facets</link> when browsing or searching: previously only the most frequent facets
+        where shown by default and you had to browse through a potentially long list if you wanted
+        to find a not so common one. Now you can display a combo box in addition to the list,
+        allowing users to type in a string and see matching facets.</para>
+      <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD,
+        previously the source ODD for the <code>teipublisher</code> ODD. Models from the
+        SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD.
+        This is a first step on the road for the extended and rationalized base ODD, a project
+        inspired by the TEI Vanilla meetups of yore and now undertaken by e-editiones in
+        cooperation with the TEI consortium.</para>
+      <para>The new <link linkend="web-annotations">annotation editor</link> boasts a new, more
+        user friendly and ergonomic layout with additional capacity to add or edit registry
+        entries from within the editor. Furthermore, a function to find potential matches for the
+        current annotation and review them on the spot is the long awaited feature, which promises
+        to speed up the editing process without compromising quality or consistency.</para>
+      <para>A default set up for local registers of places, people and organizations allows
+        editors to curate these resources under the same roof and at the same time as they
+        annotate the sources. As usual, our registers provide a firm base for extensions and
+        customizations.</para>
+      <para>Since the release of the previous version there was a new major version of the
+        <code>tei-publisher-lib</code> and numerous releases of TEI Publisher's
+        <code>webcomponents</code> library.</para>
+      <para>See chapter on <link linkend="updating">Updating</link> for information how to update
+        your app to the newest version.</para>
+    </section>
+    <section xml:id="v8">
+      <title>What's new in TEI Publisher 8.0.0</title>
+      <para>Version 8 has been focused on a major rework of the URL handling and redesign of
+        search facilities. A number of further examples gives a better idea of the projects
+        already using TEI Publisher for their editions. There have also been significant changes
+        to connected resources: the tei-publisher-lib, webcomponents library and roaster.</para>
+      <para>See chapter on <link linkend="updating">Updating</link> for information how to update
+        your app to the newest version.</para>
+    </section>
+    <section xml:id="v7">
+      <title>What's new in TEI Publisher 7.0.0</title>
+      <para>Version 7 brought another major refactoring and restructuring of TEI Publisher app,
+        particularly regarding the server-side modules.</para>
+      <para> TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
+          xlink:show="new">API specification</link> following the <link xlink:show="new"
+            xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
+        used in TEI Publisher by client-side UI components but can be equally well utilized by
+        independent software which harnesses functionality exposed via the API without being
+        forced to rely on Publisher's client-side components. </para>
+      <para> On the server a new package, <filename>oas-router</filename>, reads the API
+        specification and uses it to map HTTP requests to XQuery functions which perform actual
+        API operations. Other packages, particularly UI web components (
+        <filename>pb-components</filename>) and TEI Processing Model library (
+        <filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
+        the new API as well as retain full backwards compatibility. </para>
+      
+      <para>Beyond the structural changes a number of reported issues has been fixed and broader
+        test coverage for all packages introduced. A sophisticated CI setup based on Docker has
+        been created. Extensive test suite has been prepared for individual components.
+        Furthermore, every API operation is independently tested against the specification, to
+        assure that e.g. parameter and response types correspond exactly to the definition.</para>
+      
+      <para> Thanks to community contributions via <link xlink:show="new"
+          xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
+        available in 20 languages. </para>
+      
+      <para> See chapter on <link linkend="updating">Updating</link> for information how to update
+        your app to take advantage of these developments. </para>
+    </section>
+    <section xml:id="v6">
+      <title>What's new in TEI Publisher 6.0.0</title>
+      <para>Version 6 brought a major refactoring and restructuring of TEI Publisher app libraries
+        along with new specialized components and use case examples.</para>
+      <orderedlist>
+        <listitem>
+          <para> Web components overhaul: migration to <link xlink:show="new"
+              xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
+            npm library </para>
+          <para>While invisible to users, this redesign greatly improves the modularity of
+            Publisher-based applications. With Publisher web component releases published on npm,
+            updating the user interface for all Publisher-based apps is just a question of
+            changing a single variable in the configuration file.</para>
+          <para> Furthermore, Publisher's library of web components – true to the basic idea of
+            <link xlink:show="new"
+              xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
+              Components Standard</link> can be included in any HTML webpage e.g. can be embedded
+            into existing CMS or any other publishing solution, even if it's not running eXist-db. </para>
+          <para> Similarly, if you prefer to write your own application using any of the popular
+            frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
+            <code> pb-components</code> package from npm and use it directly in your project. </para>
+          <para>As a final consequence, this change decouples the component library from the TEI
+            Publisher app. It is now possible to host multiple applications, which depend on
+            different versions of the component library, without conflict within the same eXist-db
+            instance, a point of importance for institutions with numerous projects.</para>
+        </listitem>
+        <listitem>
+          <para>Redesigned and simplified CSS styling customization</para>
+          <para> Encapsulation of styles offered by web components can be a mixed blessing and
+            poses some challenges when customizing the aesthetics of components to fit a project.
+            While some aspects of component styling remained unaccessible for customization in
+            previous versions, Publisher 6 exposes majority of styling properties via standard CSS
+            files and theme variables. Stylesheets can also be specified within the ODD, as
+            previously, or through <code>pb-view</code> component configuration attributes.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Extended internationalization</para>
+          <para>I18n support has been extended to cover not only the labels in HTML templates but
+            also within web components. A mechanism for project specific language files extending
+            the default Publisher label collection has been added.</para>
+          <para> Thanks to community contributions via <link xlink:show="new"
+              xlink:href="https://crwd.in/tei-publisher">Crowdin</link> a number of new languages
+            has been added and existing ones updated. </para>
+        </listitem>
+        <listitem>
+          <para>Subcorpora – new TEI Publisher data organization</para>
+          <para> Publisher's pre-populated data collection is now split into
+            <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
+              collection</emphasis> areas which illustrate how this mechanism could be used to
+            host multiple subcorpora within single TEI Publisher application. </para>
+        </listitem>
+        <listitem>
+          <para>New and improved web components</para>
+          <para>
+            <code>pb-select-feature</code> and <code>pb-toggle-feature</code> components have been
+            extended to allow for interactive changing of display parameters (like switching
+            between regularized or original spelling) which can be then processed client or
+            server-side. </para>
+          <para>New components have been created to handle MEI music notation as well as for web
+            component API documentation and demo pages.</para>
+        </listitem>
+        <listitem>
+          <para>User interface of the ODD editor has been improved.</para>
+        </listitem>
+        <listitem>
+          <para>Experimental incremental scroll mode has been introduced to improve performance
+            for very long documents presented in single page mode.</para>
+        </listitem>
+      </orderedlist>
+    </section>
+    
+  </section>
 </article>
