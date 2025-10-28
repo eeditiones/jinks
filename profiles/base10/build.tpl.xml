@@ -4,17 +4,15 @@
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="${package(abbrev)}"/>
     <property name="build.dir" value="build"/>
-    <property name="app.build.dir" value="${build.dir}/${project.app}-${project.version}" />
-    <property name="git.repo.path" value="${basedir}/.git" />
-    <available file="${git.repo.path}" type="dir" property="git.present" />
+    <property name="app.build.dir" value="${build.dir}/${project.app}-${project.version}"/>
+    <property name="git.repo.path" value="${basedir}/.git"/>
+    <property name="scripts.dir" value="${basedir}/node_modules/@teipublisher/pb-components/dist" />
+    <available file="${git.repo.path}" type="dir" property="git.present"/>
 
     <!-- Adjust path below to match location of your npm binary -->
-    <property name="npm" value="npm" />
+    <property name="npm" value="npm"/>
 
-    <!-- no clean -->
-    <target name="all" depends="[[ if ($script?webcomponents = 'local') then 'xar-local' else 'xar' ]]" />
-
-    <target name="rebuild" depends="clean,all" />
+    <target name="all" depends="clean,prepare,xar" description="main target, create xar file in build folder"/>
 
     <target name="clean">
         <delete includeemptydirs="true" failonerror="false">
@@ -22,23 +20,29 @@
         </delete>
     </target>
 
-    <target name="prepare">
-        <mkdir dir="${app.build.dir}" />
+    <target name="prepare" depends="git.revision" description="create build dir, assembly and filter resources">
+        <mkdir dir="${app.build.dir}"/>
         <copy todir="${app.build.dir}">
             <fileset dir="${basedir}">
-                <include name="**/*" />
+                <include name="**/*"/>
                 <exclude name="${build.dir}/**"/>
+                <exclude name="*.code-workspace" />
+                <exclude name=".devcontainer/**" />
                 <exclude name="**/.git/**"/>
+                <exclude name=".github/**" />
                 <exclude name="**/.idea/**"/>
-                <exclude name="**/.vscode/**"/>
+                <exclude name=".vscode/**" />
+                <exclude name="*.tmpl" />
+                <exclude name="*.properties" />
                 <exclude name="build.xml"/>
                 <exclude name="README.md"/>
-                <exclude name="repo.xml.tmpl"/>
                 <exclude name="node_modules/**"/>
                 <exclude name="package*.json"/>
                 <exclude name=".existdb.json"/>
                 <exclude name="gulpfile.js"/>
                 <exclude name=".devcontainer"/>
+                <exclude name="test/cypress/screenshots/**" />
+                <exclude name="test/cypress/videos/**" />
             </fileset>
         </copy>
         <copy todir="${app.build.dir}" overwrite="true" verbose="true">
@@ -62,17 +66,22 @@
         </copy>
     </target>
 
-    <target name="xar" depends="git.revision,prepare">
-        <zip basedir="${app.build.dir}"
-            destfile="${build.dir}/${project.app}-${project.version}.xar" />
+    <target name="xar" depends="git.revision,prepare" description="create XAR file of folder ${app.build.dir}">
+        <zip basedir="${app.build.dir}" destfile="${build.dir}/${project.app}-${project.version}.xar"/>
     </target>
 
-    <target name="xar-local" depends="clean,git.revision,npm.install, prepare">
+    <target name="xar-local" depends="clean,git.revision,npm.install,prepare" description="run 'npm install' and run 'build' target">
         <copy todir="${app.build.dir}/resources/styles" file="node_modules/@picocss/pico/css/pico.min.css"/>
         <copy todir="${app.build.dir}/resources/images">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/images">
-                <include name="leaflet/*" />
-                <include name="openseadragon/*" />
+                <include name="leaflet/*"/>
+                <include name="openseadragon/*"/>
+            </fileset>
+        </copy>
+        <copy todir="${app.build.dir}/resources/scripts">
+            <fileset dir="${scripts.dir}">
+                <include name="*.js" />
+                <include name="*.map" />
             </fileset>
         </copy>
         <copy todir="${app.build.dir}/resources/css">
@@ -99,32 +108,30 @@
     </target>
 
     <target name="git.revision" description="Store git revision in ${commit-id}" if="git.present">
-        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false"
-            errorproperty="">
-            <arg value="--git-dir=${git.repo.path}" />
-            <arg value="rev-parse" />
-            <arg value="HEAD" />
+        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+            <arg value="--git-dir=${git.repo.path}"/>
+            <arg value="rev-parse"/>
+            <arg value="HEAD"/>
         </exec>
         <condition property="commit-id" value="${git.revision}" else="">
             <and>
-                <isset property="git.revision" />
-                <length string="${git.revision}" trim="yes" length="0" when="greater" />
+                <isset property="git.revision"/>
+                <length string="${git.revision}" trim="yes" length="0" when="greater"/>
             </and>
         </condition>
         <echo>git commit id: ${commit-id}</echo>
-        <exec executable="git" outputproperty="git.time" failifexecutionfails="false"
-            errorproperty="">
-            <arg value="--git-dir=${git.repo.path}" />
-            <arg value="show" />
-            <arg value="-s" />
-            <arg value="--format=%ct" />
-            <arg value="${git.revision}" />
+        <exec executable="git" outputproperty="git.time" failifexecutionfails="false" errorproperty="">
+            <arg value="--git-dir=${git.repo.path}"/>
+            <arg value="show"/>
+            <arg value="-s"/>
+            <arg value="--format=%ct"/>
+            <arg value="${git.revision}"/>
         </exec>
 
         <condition property="commit-time" value="${git.time}" else="">
             <and>
-                <isset property="git.time" />
-                <length string="${git.time}" trim="yes" length="0" when="greater" />
+                <isset property="git.time"/>
+                <length string="${git.time}" trim="yes" length="0" when="greater"/>
             </and>
         </condition>
         <echo>git commit time: ${commit-time}</echo>
@@ -132,8 +139,8 @@
 
     <target name="npm.install">
         <exec executable="${npm}" outputproperty="npm.output">
-            <arg line="install" />
+            <arg line="install"/>
         </exec>
-        <echo message="${npm.output}" />
+        <echo message="${npm.output}"/>
     </target>
 </project>
