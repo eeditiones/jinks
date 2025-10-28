@@ -1,7 +1,7 @@
 <template>
     [% template after %]
     [% if exists($context?features?register) and $context?features?register?enabled and exists($context?doc)%]
-    <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
+    <pb-view src="content-document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
         <pb-param name="mode" value="register" />
     </pb-view>
     <pb-leaflet-map id="map" zoom="11" subscribe="map">
