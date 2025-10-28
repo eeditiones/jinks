@@ -62,12 +62,12 @@
     [% endtemplate %]
 
     [% template after %]
-    <pb-view src="document1" view="single"></pb-view>
+    <pb-view src="tei-lex-document1" view="single"></pb-view>
     [% endtemplate %]
 
-    <pb-view id="view" src="document1" subscribe="detail" view="other"
+    <pb-view id="view" src="tei-lex-document1" subscribe="detail" view="other"
         map="encyclopedia" append-footnotes="">
     </pb-view>
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    <pb-document id="tei-lex-document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
         root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
 </template>
