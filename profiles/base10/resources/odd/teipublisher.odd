@@ -494,6 +494,7 @@
                             assumes that facs attribute starts with 'iiif' prefix, use the trailing part as a
                             link to the IIIF image; fits pb-facsimile viewer</desc>
             <param name="name" value="'pb-facs-link'"/>
+            <param name="trigger" value="'click'"/>
             <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
             <param name="subscribe" value="'transcription'" />
             <param name="content" value="'Page ' || @n"/>
@@ -505,11 +506,11 @@
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
+            <param name="trigger" value="'click'"/>
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
             <param name="subscribe" value="'transcription'" />
             <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="$parameters?context-path || &#34;/&#34; || substring-after(document-uri(root($parameters?root)), $global:data-root || '/') || '/manifest.json'"/>
         </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
@@ -518,11 +519,11 @@
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
+            <param name="trigger" value="'click'"/>
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
             <param name="subscribe" value="'transcription'" />
             <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="let $ref := if ($global:address-by-id)                          then                              root($parameters?root)/descendant-or-self::TEI/@xml:id                          else                              substring-after(document-uri(root($parameters?root)), $global:data-root || '/')                         return 'api/iiif/' || $ref"/>
         </model>
                     <model behaviour="break" cssClass="pb" useSourceRendition="true">
