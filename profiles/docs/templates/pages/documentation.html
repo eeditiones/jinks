@@ -2,28 +2,48 @@
     ---json
     {
         "templating": {
-            "extends": "templates/pages/basic.html"
+            "extends": "templates/layouts/base.html"
         },
         "styles": [
             "resources/css/documentation.css"
         ],
-        "defaults": {
-            "base": "doc/documentation.xml"
+        "features": {
+            "edition-navigation": {
+                "navigation": false
+            },
+            "register": {
+                "enabled": false
+            },
+            "timeline": {
+                "document-view": false,
+                "enabled": false
+            }
         },
         "urls": {
             "template": "documentation/:id?",
             "ignore": "odd,view,path"
-        },
-        "features": {
-            "toc": {
-                "enabled": true
-            }
         }
     }
     ---
-    [% template! breadcrumb %]
-    <pb-view class="breadcrumbs" src="document1" subscribe="transcription" disable-history="" on-update="">
-        <pb-param name="mode" value="breadcrumb"/>
-    </pb-view>
+    [% template content-top %]
+    <!-- pb-document for documentation page -->
+    <pb-document id="content-document1" path="doc/documentation.xml" odd="docbook" view="div" root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"/>
+    [% endtemplate %]
+
+    [% template before %]
+    <!-- Table of Contents on left side -->
+    <h5>
+        <pb-i18n key="document.contents">Contents</pb-i18n>
+    </h5>
+    <pb-load class="toc" url="api/document/doc%2Fdocumentation.xml/contents?target=transcription&amp;icons=true" expand="expand" src="content-document1" auto="" load-once="load-once" fix-links="fix-links">
+        <pb-i18n key="dialogs.loading">Loading</pb-i18n>
+    </pb-load>
+    [% endtemplate %]
+
+    [% template content %]
+    <!-- Main content -->
+    <main>
+        <pb-view src="content-document1" subscribe="transcription" emit="transcription" fix-links="fix-links"/>
+    </main>
     [% endtemplate %]
 </template>
