@@ -68,6 +68,11 @@ h4 {
     line-height: 1;
 }
 
+:host(pb-view) [aria-label="breadcrumb"] li {
+    padding: 0;
+    font-size: var(--jinks-base-font-size);
+}
+
 :host(pb-zoom) svg {
     width: 1rem;
     height: 1rem;
