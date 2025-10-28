@@ -86,6 +86,7 @@
                 <elementSpec ident="form" mode="add">
                     <model predicate="$parameters?iiif-viewer='pb-facsimile'" behaviour="webcomponent">
             <param name="name" value="'pb-facs-link'"/>
+            <param name="trigger" value="'click'"/>
             <param name="facs" value="replace(@facs, '^iiif:([^/]+).*$', '$1')"/>
             <param name="content" value="."/>
             <param name="coordinates" value="('[' || replace(@facs, '^iiif:[^/]+/(.*)$', '$1') || ']')"/>
