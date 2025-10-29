@@ -139,7 +139,7 @@
         [% block menu.toggles %][% endblock %]
         [% if $menu?login and not($context?isStatic) %]
         <li class="hidden-mobile">
-            <pb-login id="login" group="[[ $pkg?user?group ]]"/>
+            <pb-login id="menu-login" group="[[ $pkg?user?group ]]"/>
         </li>
         [% endif %]
         <li class="mobile trigger">

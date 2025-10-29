@@ -2,7 +2,7 @@
     [% template toolbar %]
     [% if exists($context?doc) and $features?edition-navigation?navigation %]
     <li id="edition-navigation">
-        <pb-view class="correspondence" src="document1"
+        <pb-view class="correspondence" src="content-document1"
             subscribe="transcription" emit="transcription"
             view="single" load-css="resources/css/correspondence-theme.css">
             <pb-param name="mode" value="edition-navigation"/>

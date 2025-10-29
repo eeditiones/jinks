@@ -80,6 +80,17 @@ Cypress.Commands.add('validateJsonSchema', (ajv, schema, data, filePath) => {
   }
 })
 
+Cypress.Commands.add('logout', () => {
+  cy.request({
+    method: 'POST',
+    url: '/api/login',
+    qs: { logout: 'true' },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    failOnStatusCode: false
+  })
+  cy.clearCookies()
+})
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })

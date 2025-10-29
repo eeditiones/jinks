@@ -31,9 +31,9 @@
     </li>
     [% endtemplate %]
     <div class="list">
-        <pb-custom-form id="options" auto-submit="input" emit="transcription">
-            <input id="query" type="search" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
+        <pb-custom-form id="people-options" auto-submit="input" emit="transcription">
+            <input id="people-query" type="search" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
         </pb-custom-form>
-        <pb-split-list url="api/people" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
+        <pb-split-list url="api/people" subforms="#people-options" selected="A" emit="transcription" subscribe="transcription"/>
     </div>
 </div>

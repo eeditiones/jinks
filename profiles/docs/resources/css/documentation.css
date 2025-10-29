@@ -16,3 +16,28 @@ pb-view.breadcrumbs::part(content) {
         max-width: 60vw;
     }
 }
+
+/* Hide edition-navigation in toolbar for documentation pages */
+nav.toolbar #edition-navigation {
+    display: none;
+}
+
+/* Hide timeline, register, and map in right sidebar for documentation pages */
+aside.after pb-timeline,
+aside.after pb-leaflet-map,
+aside.after pb-view[data-param-mode="register"] {
+    display: none;
+}
+
+/* Hide the entire right sidebar for documentation */
+body nav.after-top.hidden-mobile,
+body aside.after.hidden-mobile {
+    display: none !important;
+}
+
+/* Keep left sidebar (ToC) visible on desktop for documentation */
+@media (min-width: 1024px) {
+    aside.before.hidden-mobile {
+        display: block !important;
+    }
+}

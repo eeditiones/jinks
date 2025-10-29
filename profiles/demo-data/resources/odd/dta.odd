@@ -57,11 +57,12 @@
             color: #CCC;
             </outputRendition>
         </model>
-                    <model behaviour="webcomponent">
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="facs" value="let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``"/>
-        </model>
+            <model behaviour="webcomponent">
+                <param name="name" value="'pb-facs-link'"/>
+                <param name="emit" value="'transcription'"/>
+                <param name="trigger" value="'click'"/>
+                <param name="facs" value="let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``"/>
+            </model>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
                     <model output="print" predicate="@place='top'" behaviour="inline" cssClass="running">
