@@ -144,6 +144,7 @@
       </section>
     </section>
     <section xml:id="e-editiones">
+      <!-- TODO: move section after quickstart? -->
       <title>e-editiones.org</title>
       <para> Since its first incarnation in 2015, TEI Publisher has gained substantial following
         with numerous academic and commercial projects around the globe using it for their editorial
@@ -530,98 +531,28 @@
         </section>
       </section>
     </section>
-
-    <section xml:id="custom-app-generation">
-      <title>The configuration of a custom application</title>
-      <section xml:id="jinks">
-        <title>What is Jinks?</title>
-        <para>Jinks, the application manager for TEI Publisher replaces the custom app generator
-          available in earlier versions of TEI Publisher. Jinks</para>
-        <itemizedlist>
-          <listitem>
-            <para>can not only create new custom applications, but also reconfigure them at a later
-              time</para>
-          </listitem>
-          <listitem>
-            <para>uses a hierarchy of application profiles targeted at specific use cases. A profile
-              can extend or build upon other profiles</para>
-          </listitem>
-          <listitem>
-            <para>profiles can be modular, i.e. contribute only one feature</para>
-          </listitem>
-          <listitem>
-            <para>detects local changes to files and leaves them untouched</para>
-          </listitem>
-          <listitem>
-            <para>comes with its own <link
-                xlink:href="https://github.com/eeditiones/jinks-templates" xlink:show="new"
-                >templating module</link>, which can also process plain-text files (XQuery, CSS
-              etc.)</para>
-          </listitem>
-
-        </itemizedlist>
-      </section>
-      <section xml:id="modularity">
-        <title>Profiles: blueprints, themes and features</title>
-        <para> The core concept of Jinks is the <emphasis>profile</emphasis>. Profiles can extend
-          and import each other. We distinguish three different kinds of profiles: </para>
-        <itemizedlist>
-          <listitem>
-            <para>A <emphasis>blueprint</emphasis> is a complete template for an application
-              targeted at a specific use case like a monograph, correspondence edition, dictionary
-              etc. An application generated from a blueprint is fully functional. </para>
-          </listitem>
-          <listitem>
-            <para>A <emphasis>feature</emphasis> is a functional sub-profile to be imported into
-              another profile. It adds specific functionality, e.g. docker configuration, additional
-              visualizations or pages etc. </para>
-          </listitem>
-          <listitem>
-            <para>A <emphasis>theme</emphasis> is a customization of a base profile, changing mainly
-              the look and feel, e.g. modify images, fonts or colors according to a corporate
-              identity. </para>
-          </listitem>
-        </itemizedlist>
-        <para> Each profile has a subcollection under <filename>profiles</filename> and must contain
-          at least one configuration file, <filename>config.json</filename>, which defines all the
-          variables to be used in templated files. </para>
-      </section>
-    </section>
-    <section xml:id="config">
-      <title><filename>config.json</filename></title>
-      <para>The config.json must define a property named <code>id</code> with a unique, valid URI.
-        This is the URI under which eXist's package manager will later install the application
-        package. </para>
-      <para> It may also specify a property <code>extends</code>, which should contain the names of
-        one or more profiles to extend. TEI Publisher apps will in general extend the base profile,
-        which installs the required files shared by all custom TP applications. </para>
-      <para> The extension process works as follows:</para>
-      <orderedlist>
-        <listitem>
-          <para>jinks creates a merged configuration, assembled from the configurations of all
-            profiles in the extension hierarchy</para>
-        </listitem>
-        <listitem>
-          <para>it calls the write action on every profile in sequence</para>
-        </listitem>
-      </orderedlist>
-    </section>
     <section xml:id="tp">
-      <title>Showcase: The TEI Publisher App</title>
-      <para>From version 10 onwards, the TEI Publisher app corresponds to one of the pre-configured
-        blueprints available in Jinks. In the following sections, we use this app to illustrate some
-        of the main features of TEI Publisher-based editions showing how it can be used for
-        experimenting with some of Publisher’s functionalities.</para>
+      <title>TEI Publisher Documentation + Demo</title>
+      <para>For a first overview we recommend to start with the <productname>TEI Publisher
+          Documentation and Demo</productname> application. This includes the documentation,
+        provides a few selected demos, and also allows you to upload your own documents to the
+          <filename>demo</filename> collection as well as to play around with different ODDs or
+        create your own.</para>
+      <note>
+        <para>From version 10 onwards, the <productname>TEI Publisher Documentation and
+            Demo</productname> app corresponds to one of the pre-configured blueprints available in
+          Jinks, which you'll find under the name <guimenuitem>Documentation + Demo</guimenuitem> on
+          the <guimenuitem>Profiles</guimenuitem> tab in Jinks. </para>
+      </note>
       <section xml:id="browsing">
         <title>Browsing Documents</title>
         <section xml:id="start-page">
           <title>The Start Page</title>
-          <para>The start page of TEI Publisher serves as an entry point to explore and
-            experiment.</para>
-          <para>On a newly installed TEI Publisher the main application panel offers the choice
-            between browsing local collections directly or using DTS API to access remote resources.
-            Left side panel presents search and filtering options. Another panel to the right
-            displays the list of ODD files provided with the TEI Publisher.</para>
+          <para>The start page of <productname>TEI Publisher Documentation and Demo</productname>
+            serves as an entry point to explore and experiment.</para>
+          <para>The left side panel presents search and filtering options. The central panel lists
+            the available collections or – if you browse into a collection – the documents within.
+            Another panel to the right shows the list of ODD files provided by the app.</para>
 
           <figure>
             <title>First options in the start page collection listing</title>
@@ -631,62 +562,14 @@
               </imageobject>
             </mediaobject>
           </figure>
-          <para> The usual starting point is the <emphasis role="bold">Demo Collection</emphasis>
+          <para>The usual starting point is the <emphasis role="bold">Demo Collection</emphasis>
             with which users can explore a range of <link linkend="selected-use-cases">selected use
               cases</link>, demonstrating various genres, encoding styles and presentation layouts.
             Various customization aspects are handled using different ODDs and view templates. We
             suggest to have a look at each of them to see what TEI Publisher can achieve out of the
-            box. </para>
-
-          <note>
-            <title>Note</title>
-            <para>Documents in this collection are included with the feature <option>Demo
-                Data</option>.</para>
-          </note>
-
-          <!-- <para> The <emphasis role="bold">Playground</emphasis> collection is the place to upload
-            encoded documents and ODD files to experiment with various processing models and view
-            templates. </para>
-
-          <para> Unlike the Demo collection, the Playground features an upload box to import new
-            documents. You can upload your own XML and ODD (e.g. TEI, DocBook or DOCX) documents by
-            either clicking on the <code>Upload</code> button or dragging and dropping files onto
-            the upload panel. Read more on this subject in the <link linkend="upload">Upload</link>
-            section. </para> -->
-          <note>
-            <title>Note</title>
-            <para> You need to be <emphasis role="bold">logged in</emphasis> for most advanced
-              actions like creating or editing ODDs. The login button to the right of the menu bar
-              allows you to log in. By default, there's a user named <parameter>tei-demo</parameter>
-              with password <parameter>demo</parameter>, and a user <parameter>tei</parameter> with
-              password <parameter>simple</parameter>. </para>
-          </note>
-          <para>You will find other collections lower down, each showcasing a different encoding
-            scheme, like JATS or Markdown or a special use case scenario, like <link
-              linkend="web-annotations">Annotations</link>.</para>
+            box.</para>
         </section>
         <section xml:id="demo-collection">
-          <title>TEI Publisher Demo collection</title>
-          <para> Experiment with browsing, faceting, filtering and sorting features of TEI
-            Publisher. This page consists of several main areas: <orderedlist>
-              <listitem>
-                <para>the facets panel</para>
-              </listitem>
-              <listitem>
-                <para>the list of documents currently installed with sorting and filtering
-                  controls</para>
-              </listitem>
-              <listitem>
-                <para>a panel showing the ODD files known to the application</para>
-              </listitem>
-              <listitem>
-                <para>an upload box to upload new documents</para>
-              </listitem>
-            </orderedlist>
-          </para>
-
-          <para>Have a look at documents showcased here to get a sense of possibilities that TEI
-            Publisher offers. Click on document title to proceed to the Document View</para>
           <figure>
             <title>Browsing Demo collection</title>
             <mediaobject>
@@ -736,40 +619,17 @@
               presenting samples of:</para>
             <itemizedlist>
               <listitem>
-                <para> A 15th century manuscript letter to <emphasis role="bold">Mikołaj
-                    Orlik</emphasis> demonstrating alignment between Latin original and parallel
-                  Polish translation.</para>
-              </listitem>
-              <listitem>
                 <para> A 16th century manuscript letter of <emphasis role="bold">Hernán
                     Cortés</emphasis> showcasing parallel transcription/translation and facsimile
                   view and transcription enhanced with commentaries and explicitly encoded
                   transcriptional features.</para>
               </listitem>
               <listitem>
-                <para> A 16th century manuscript letter of <emphasis role="bold">Mauritius
-                    Ferber</emphasis> with a collapsible metadata panel in addition to the parallel
-                  transcription and facsimile view.</para>
-              </listitem>
-              <listitem>
-                <para> An early 19th century letter of a Polish historian <emphasis role="bold"
-                    >Joachim Lelewel</emphasis> to his brother showcases possibly the simplest way
-                  of encoding and displaying facsimiles: with complete URLs given in
-                    <code>pb/@facs</code> attribute. It also demonstrates how TEI encoding of
-                  hyphenated words could be processed for display in diplomatic vs normalized
-                  view.</para>
-              </listitem>
-              <listitem>
                 <para> A letter from <emphasis role="bold">Van Gogh</emphasis> to Paul Gauguin
                   written in 1888. This intentionally reproduces the flexible column layout
                   pioneered by the <link xlink:show="new" xlink:href="http://vangoghletters.org"
                     >Vincent Van Gogh Letters</link> online edition, which is a model example for
-                  correspondence. </para>
-              </listitem>
-              <listitem>
-                <para> A 20th century manuscript letter from <emphasis>Robert Graves</emphasis>
-                  where emphasis has been put on visualizing rich encoding of semantic information
-                  in the letter, in particular geographic and prosopographical data. </para>
+                  correspondence.</para>
               </listitem>
             </itemizedlist>
           </listitem>
@@ -785,18 +645,22 @@
                   microstructure.</para>
               </listitem>
               <listitem>
-                <para> A printed bibliography where TEI encoding aims to provide a basic
-                  researchable structure to somewhat idiosyncratic attitude of the 19th century
-                  scholar.</para>
+                <para> An encyclopedia of philosophic terms by Friedrich Kirchner and Carl Michaëlis, published in 1907: <emphasis>Wörterbuch der Philosophischen Grundbegriffe</emphasis>.
+                This is based on the Lex-0 customization of TEI and provides a sidebar to browse the available lemmata.</para>
               </listitem>
             </itemizedlist>
           </listitem>
         </itemizedlist>
+      </section>
+      <section>
         <note>
           <title>Note</title>
-          <para>The list of samples is expected to grow and we'd like to encourage contributions
-            illustrating other genres and perspectives.</para>
-          <para> We'd like to stress that preparing showcases above has been only possible thanks to
+          <para>You may notice that the list of included samples is more limited in version 10. Some
+            examples have been moved into separate profiles (see the <emphasis>Serafin</emphasis>
+            blueprint for a correspondence edition), the rest has been condensed and streamlined.
+            The base ODD now covers many more TEI features out of the box, so less samples are
+            needed.</para>
+          <para>We'd like to stress that preparing showcases above has been only possible thanks to
             numerous projects releasing their sources openly, in particular the <link
               xlink:show="new" xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First
               Folio</link>, <link xlink:show="new" xlink:href="http://www.deutschestextarchiv.de"
@@ -841,12 +705,12 @@
 
       <section xml:id="odd-experiments">
         <title>Experimenting with ODDs</title>
-        <para> All TEI Publisher's sample documents are XML files which are transformed into a HTML
+        <para>All TEI Publisher's sample documents are XML files which are transformed into a HTML
           webpage for display in the browser. Two major factors determine how the final page is
           going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold"
             >page template</emphasis>. </para>
 
-        <para> We have already mentioned in the very first section that the TEI Processing Model
+        <para>We have already mentioned in the very first section that the TEI Processing Model
           lies at the heart of the Publisher – the ODD file associated with a document defines the
           rules of transformation of the XML source file into HTML. Detailed discussion of the
           Processing Model can be found in <link linkend="pm-syntax">following chapters</link>, for
@@ -858,7 +722,7 @@
           parameter indicating which ODD file is being used to processed the document, e.g. <link
             xlink:href="../demo/F-rom.xml?odd=shakespeare"
           >demo/F-rom.xml?odd=shakespeare</link>.</para>
-        <para> Nevertheless, as we demonstrated in the section on selected sample documents, in the
+        <para>Nevertheless, as we demonstrated in the section on selected sample documents, in the
           application context we certainly want more than just text, however nicely typeset. From
           basic navigation controls, table of content, to facsimile display, critical apparatus,
           glossaries and maps – all of this and much more could be included in the final webpage.
@@ -966,7 +830,81 @@
 
     </section>
 
-
+    <section xml:id="custom-app-generation">
+      <title>The configuration of a custom application</title>
+      <section xml:id="jinks">
+        <title>What is Jinks?</title>
+        <para>Jinks, the application manager for TEI Publisher replaces the custom app generator
+          available in earlier versions of TEI Publisher. Jinks</para>
+        <itemizedlist>
+          <listitem>
+            <para>can not only create new custom applications, but also reconfigure them at a later
+              time</para>
+          </listitem>
+          <listitem>
+            <para>uses a hierarchy of application profiles targeted at specific use cases. A profile
+              can extend or build upon other profiles</para>
+          </listitem>
+          <listitem>
+            <para>profiles can be modular, i.e. contribute only one feature</para>
+          </listitem>
+          <listitem>
+            <para>detects local changes to files and leaves them untouched</para>
+          </listitem>
+          <listitem>
+            <para>comes with its own <link
+                xlink:href="https://github.com/eeditiones/jinks-templates" xlink:show="new"
+                >templating module</link>, which can also process plain-text files (XQuery, CSS
+              etc.)</para>
+          </listitem>
+          
+        </itemizedlist>
+      </section>
+      <section xml:id="modularity">
+        <title>Profiles: blueprints, themes and features</title>
+        <para> The core concept of Jinks is the <emphasis>profile</emphasis>. Profiles can extend
+          and import each other. We distinguish three different kinds of profiles: </para>
+        <itemizedlist>
+          <listitem>
+            <para>A <emphasis>blueprint</emphasis> is a complete template for an application
+              targeted at a specific use case like a monograph, correspondence edition, dictionary
+              etc. An application generated from a blueprint is fully functional. </para>
+          </listitem>
+          <listitem>
+            <para>A <emphasis>feature</emphasis> is a functional sub-profile to be imported into
+              another profile. It adds specific functionality, e.g. docker configuration, additional
+              visualizations or pages etc. </para>
+          </listitem>
+          <listitem>
+            <para>A <emphasis>theme</emphasis> is a customization of a base profile, changing mainly
+              the look and feel, e.g. modify images, fonts or colors according to a corporate
+              identity. </para>
+          </listitem>
+        </itemizedlist>
+        <para>Each profile has a subcollection under <filename>profiles</filename> and must contain
+          at least one configuration file, <filename>config.json</filename>, which defines all the
+          variables to be used in templated files. </para>
+      </section>
+    </section>
+    <section xml:id="config">
+      <title><filename>config.json</filename></title>
+      <para>The config.json must define a property named <code>id</code> with a unique, valid URI.
+        This is the URI under which eXist's package manager will later install the application
+        package. </para>
+      <para> It may also specify a property <code>extends</code>, which should contain the names of
+        one or more profiles to extend. TEI Publisher apps will in general extend the base profile,
+        which installs the required files shared by all custom TP applications. </para>
+      <para> The extension process works as follows:</para>
+      <orderedlist>
+        <listitem>
+          <para>jinks creates a merged configuration, assembled from the configurations of all
+            profiles in the extension hierarchy</para>
+        </listitem>
+        <listitem>
+          <para>it calls the write action on every profile in sequence</para>
+        </listitem>
+      </orderedlist>
+    </section>
   </section>
   
   <section xml:id="supported-input-formats">
