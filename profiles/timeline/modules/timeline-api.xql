@@ -40,6 +40,7 @@ declare function timeline:correspondence-entries($request as map(*)) {
         map:merge(
             for $entry in $docs
             group by $date := timeline:get-date($entry//tei:correspDesc/tei:correspAction[@type = 'sent']/tei:date)
+            where exists($date)
             return
                 map:entry(format-date($date, "[Y0001]-[M01]-[D01]"), map {
                     "count": count($entry),
