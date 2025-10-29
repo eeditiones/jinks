@@ -11,4 +11,26 @@
         </details>
     </li>
     [% endtemplate %]
+
+    [% template after 1 %]
+    <div class="alert" xml:space="preserve">
+        <p><pb-i18n key="browse.login-1">Log in as</pb-i18n> "tei" <pb-i18n key="browse.login-2">with password</pb-i18n>
+            "simple" <pb-i18n key="browse.login-3">to experiment with your own files and ODDs</pb-i18n></p>
+    </div>
+    [% endtemplate %]
+    
+    [% template after 3 %]
+    <div>
+        <h3><pb-i18n key="odd.files">ODDs</pb-i18n></h3>
+        <pb-manage-odds id="manage-odds" target="document-list" emit="search"></pb-manage-odds>
+    </div>
+    [% endtemplate %]
+
+    [% template styles %]
+    <style>
+        .alert {
+            margin-top: 0;
+        }
+    </style>
+    [% endtemplate %]
 </template>

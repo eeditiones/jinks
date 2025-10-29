@@ -602,6 +602,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 input.checked = target.checked;
+                toggleFeature(input);
             });
         }
         update();
