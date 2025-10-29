@@ -1,6 +1,6 @@
-build
+build/
 transform
-node_modules
+node_modules/
 resources/scripts/*.map
 resources/lib/
 resources/css/leaflet/
@@ -8,3 +8,7 @@ resources/css/prismjs
 resources/images/openseadragon
 resources/images/leaflet
 resources/i18n/common
+test/cypress/screenshots/
+test/cypress/videos/
+test/cypress/downloads/
+.DS_Store
