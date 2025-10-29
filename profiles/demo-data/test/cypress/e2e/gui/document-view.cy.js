@@ -4,11 +4,7 @@
 
 describe('TEI-Publisher Document View', () => {
   beforeEach(() => {
-    
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/demo/kant_rvernunft_1781.TEI-P5.xml?view=page&odd=dta')
     
     // Wait for page to stabilize
