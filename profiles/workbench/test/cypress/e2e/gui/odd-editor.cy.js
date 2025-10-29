@@ -4,12 +4,9 @@
 
 describe('TEI-Publisher ODD Editor', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
-    // Intercept ODD API calls
-    cy.intercept('GET', '/api/odd**').as('oddApi')
-    cy.intercept('POST', '/api/odd**').as('oddSaveApi')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Setup ODD-specific intercepts
+    cy.setupOddIntercepts()
     
     // ODD editor requires authentication
     cy.login()

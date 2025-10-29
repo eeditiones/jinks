@@ -16,7 +16,12 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-// Silence logs for xhr and fetch requests
-// beforeEach(() => {
-//   cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
-// })
+// Universal intercepts for all GUI tests
+// These stubs prevent hanging on API calls that aren't relevant to most tests
+beforeEach(() => {
+  // Stub login attempts to prevent authentication popups in non-auth tests
+  cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
+  
+  // Stub timeline API to prevent hanging when timeline component tries to load
+  cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
+})

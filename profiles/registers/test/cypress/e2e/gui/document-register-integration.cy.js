@@ -4,13 +4,9 @@
 
 describe('TEI-Publisher Document-Register Integration', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
-    // Intercept register API calls for sidebar content
-    cy.intercept('GET', '/api/people**').as('peopleApi')
-    cy.intercept('GET', '/api/places**').as('placesApi')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Setup register-specific intercepts for sidebar content
+    cy.setupRegisterIntercepts(['people', 'places'])
     
     // Visit a document page (with register feature enabled)
     cy.visit('/demo/kant_rvernunft_1781.TEI-P5.xml?view=page&odd=dta')

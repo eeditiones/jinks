@@ -10,9 +10,11 @@
 
 describe('Custom E2E Tests', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Use helper commands for feature-specific intercepts:
+    // cy.setupRegisterIntercepts(['people'])
+    // cy.setupSearchIntercepts()
+    // cy.setupNavigationIntercepts()
     
     // Visit your custom page or set up test state
     // cy.visit('/your-custom-page')

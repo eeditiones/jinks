@@ -4,13 +4,9 @@
 
 describe('TEI-Publisher Search', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
-    // Intercept search API calls
-    cy.intercept('GET', '/api/search**').as('searchApi')
-    cy.intercept('GET', '/api/search/facets**').as('facetsApi')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Setup search-specific intercepts
+    cy.setupSearchIntercepts()
     
     cy.visit('/browse.html?collection=demo')
     
