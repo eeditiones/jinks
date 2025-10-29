@@ -268,11 +268,12 @@ header.row {
     --from: color-mix(in srgb, var(--jinks-colors-700) 33%, transparent);
     --to: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
 
-    background-image: url(../images/typewriter-on-books.jpg), linear-gradient(180deg, var(--from), var(--to));
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-position: center;    
     background-blend-mode: multiply;
+    background-image: var(--jinks-bottom-background-image), linear-gradient(180deg, var(--from), var(--to));
+    background-size: var(--jinks-bottom-background-size);
+    background-repeat: var(--jinks-bottom-background-repeat);
+    background-color: var(--jinks-bottom-background-color);
 }
 
 #bottom > div {

@@ -25,6 +25,15 @@
     --jinks-hero-min-height: 60vh;
     --jinks-hero-padding: 2rem 1rem 2rem 6rem;
 
+    /* Bottom section */
+    --jinks-bottom-background-image: url("[[ $theme?bottom?background-image ]]");
+    --jinks-bottom-background-size: [[ $theme?bottom?background-size ]];
+    --jinks-bottom-background-repeat: [[ $theme?bottom?background-repeat ]];
+    --jinks-bottom-background-color: [[ $theme?bottom?background-color ]];
+    --jinks-bottom-height: auto;
+    --jinks-bottom-min-height: 30vh;
+    --jinks-bottom-padding: 2rem 1rem 2rem 6rem;
+
     /* Header section */
     [% if $theme?header?background-image %]
         --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
