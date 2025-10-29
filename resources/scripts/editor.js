@@ -118,17 +118,8 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        // Load color palette selection
-        if (appConfig.theme?.colors?.palette) {
-            const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${appConfig.theme?.colors?.palette}"]`);
-            if (colorPaletteInput) {
-                colorPaletteInput.checked = true;
-                updateColorPickerSelection();
-            }
-        } else {
-            form.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
-            updateColorPickerSelection();
-        }
+
+        updateColorPaletteSelection();
 
         document.getElementById('action-details').style.display = 'block';
         document.getElementById('actions').innerHTML = '';
@@ -437,19 +428,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (config.theme?.colors?.palette) {
-                const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${config.theme?.colors?.palette}"]`);
-                if (colorPaletteInput) {
-                    colorPaletteInput.checked = true;
-                    updateColorPickerSelection();
-                }
-            } else {
-                const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
-                if (neutralPalette) {
-                    neutralPalette.checked = true;
-                    updateColorPickerSelection();
-                }
-            }
+            updateColorPaletteSelection(config);
         });
         if (updateEditor && editor) {
             editor.value = JSON.stringify(appConfig, null, 2);
@@ -578,7 +557,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // Add color palette configuration
         const colorPalette = formData.get('color-palette');
-        if (colorPalette) {
+        if (colorPalette && colorPalette !== 'neutral') {
             if (!appConfig.theme) {
                 appConfig.theme = {};
             }
@@ -756,7 +735,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        paletteContainer.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
+        const palette = appConfig.theme?.colors?.palette || 'neutral';
+        paletteContainer.querySelector(`input[name="color-palette"][value="${palette}"]`).checked = true;
+
         updateColorPickerSelection();
 
         colorPickerInitialized = true;
@@ -906,6 +887,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 option.style.transform = 'scale(1)';
             }
         });
+    }
+
+    function updateColorPaletteSelection(config = appConfig) {
+        // Load color palette selection
+        const palette = config.theme?.colors?.palette || 'neutral';
+        const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${palette}"]`);
+        if (colorPaletteInput) {
+            colorPaletteInput.checked = true;
+            updateColorPickerSelection();
+        }
     }
 
     // Tab functionality
