@@ -4,13 +4,9 @@
 
 describe('TEI-Publisher Edition Navigation', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
-    // Intercept document API calls for navigation
-    cy.intercept('GET', '/api/parts/**').as('partsApi')
-    cy.intercept('GET', '/api/view/**').as('viewApi')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Setup navigation-specific intercepts
+    cy.setupNavigationIntercepts()
     
     // Navigate to a document that supports navigation
     cy.visit('/demo/kant_rvernunft_1781.TEI-P5.xml?view=page&odd=dta')

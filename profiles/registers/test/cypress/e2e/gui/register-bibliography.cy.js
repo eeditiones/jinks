@@ -4,12 +4,9 @@
 
 describe('TEI-Publisher Bibliography Register', () => {
   beforeEach(() => {
-    // Intercept and stub problematic API calls that cause hanging
-    cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-    cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
-    
-    // Intercept bibliography API calls
-    cy.intercept('GET', '/api/bibliography**').as('bibliographyApi')
+    // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
+    // Setup register-specific intercepts
+    cy.setupRegisterIntercepts(['bibliography'])
     
     cy.visit('/bibliography')
     

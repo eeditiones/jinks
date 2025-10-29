@@ -117,15 +117,52 @@ Cypress.Commands.add('validateJsonSchema', (ajv, schema, data, filePath) => {
   }
 })
 
-Cypress.Commands.add('logout', () => {
-  cy.request({
-    method: 'POST',
-    url: '/api/login',
-    qs: { logout: 'true' },
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    failOnStatusCode: false
+// Helper commands for feature-specific intercepts
+
+/**
+ * Setup intercepts for register API calls
+ * @param {string[]} registers - Array of register names (default: ['people', 'places', 'bibliography'])
+ * @example
+ * cy.setupRegisterIntercepts(['people', 'places'])
+ * cy.setupRegisterIntercepts() // uses defaults
+ */
+Cypress.Commands.add('setupRegisterIntercepts', (registers = ['people', 'places', 'bibliography']) => {
+  registers.forEach(register => {
+    cy.intercept('GET', `/api/${register}**`).as(`${register}Api`)
   })
-  cy.clearCookies()
+})
+
+/**
+ * Setup intercepts for search API calls
+ * @example
+ * cy.setupSearchIntercepts()
+ */
+Cypress.Commands.add('setupSearchIntercepts', () => {
+  cy.intercept('GET', '/api/search**').as('searchApi')
+  cy.intercept('GET', '/api/search/facets**').as('facetsApi')
+})
+
+/**
+ * Setup intercepts for document navigation API calls
+ * @example
+ * cy.setupNavigationIntercepts()
+ */
+Cypress.Commands.add('setupNavigationIntercepts', () => {
+  cy.intercept('GET', '/api/document/parts**').as('partsApi')
+  cy.intercept('GET', '/api/document/view**').as('viewApi')
+  // Also intercept shorter paths if used
+  cy.intercept('GET', '/api/parts**').as('partsApi')
+  cy.intercept('GET', '/api/view**').as('viewApi')
+})
+
+/**
+ * Setup intercepts for ODD editor API calls
+ * @example
+ * cy.setupOddIntercepts()
+ */
+Cypress.Commands.add('setupOddIntercepts', () => {
+  cy.intercept('GET', '/api/odd**').as('oddApi')
+  cy.intercept('POST', '/api/odd**').as('oddSaveApi')
 })
 
 //
