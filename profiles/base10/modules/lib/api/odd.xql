@@ -405,8 +405,9 @@ declare function oapi:update($nodes as node()*, $data as document-node(), $orig 
                 }
             case element(TEI) return
                     element { node-name($node) } {
-                        for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                        for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                         let $namespace := namespace-uri-for-prefix($prefix, $node)
+                        where $namespace != "http://www.tei-c.org/ns/1.0"
                         return
                             namespace { $prefix } { $namespace }
                         ,
@@ -470,8 +471,9 @@ declare %private function oapi:normalize-ns($nodes as node()*) {
                 document { oapi:normalize-ns($node/node()) }
             case element(TEI) return
                 element { node-name($node) } {
-                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                     let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    where $namespace != "http://www.tei-c.org/ns/1.0"
                     return
                         namespace { $prefix } { $namespace },
                     $node/@*,
@@ -483,7 +485,7 @@ declare %private function oapi:normalize-ns($nodes as node()*) {
                     oapi:normalize-ns($node/node())
                 }
             case element(pb:template) return
-                <pb:template xmlns="" xml:space="preserve">
+                <pb:template xml:space="preserve">
                 { $node/node() }
                 </pb:template>
             case element() return
@@ -505,8 +507,9 @@ declare function oapi:add-tags-decl($nodes as node()*) {
                 }
             case element(TEI) return
                 element { node-name($node) } {
-                    for $prefix in in-scope-prefixes($node)[. != "http://www.tei-c.org/ns/1.0"][. != ""]
+                    for $prefix in in-scope-prefixes($node)[. != ""][. != "xml"][. != "xmlns"]
                     let $namespace := namespace-uri-for-prefix($prefix, $node)
+                    where $namespace != "http://www.tei-c.org/ns/1.0"
                     return
                         namespace { $prefix } { $namespace },
                     $node/@*,

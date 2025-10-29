@@ -356,12 +356,22 @@
         },
         "/api/login": {
 			"post": {
-				"summary": "Login the user",
-				"description": "Login the given user",
+				"summary": "Login or logout the user",
+				"description": "Login the given user or logout current user",
 				"tags": ["user"],
 				"operationId": "auth:login",
+				"parameters": [
+					{
+						"name": "logout",
+						"in": "query",
+						"description": "Set to 'true' to logout current user",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
 				"requestBody": {
-                    "required": true,
+                    "required": false,
                     "content": {
                         "multipart/form-data": {
                             "schema": {
@@ -399,7 +409,7 @@
                 },
 				"responses": {
 					"200": {
-						"description": "OK",
+						"description": "OK - Login successful or logout completed",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -426,7 +436,7 @@
 						}
 					},
 					"401": {
-						"description": "Wrong user or password"
+						"description": "Wrong user or password, or logout when not logged in"
 					}
 				}
 			}
