@@ -2,7 +2,7 @@
 @use "../../node_modules/@picocss/pico/scss/pico" with (
   $enable-semantic-container: true,
   $enable-classes: true,
-  $theme-color: "sand",
+  $theme-color: "cyan",
   $modules: (
     "content/code": false,
     "forms/input-color": false,
@@ -14,8 +14,8 @@
     "components/dropdown": true,
     "utilities/reduce-motion": false
   )
-);
-@import "../../profiles/theme-base10/resources/css/palette-teal.css";
+)
+@import "../../profiles/theme-base10/resources/css/palette-teal.css"
 
 // ============================================================================
 // CSS Custom Properties
@@ -28,9 +28,10 @@
     --jinks-logo-light: url("../images/tei-publisher-logo-contrast-color.svg")
     --jinks-logo-image-width: 140px
     --jinks-logo-image-height: 48px
+    --jinks-tabs-color: var(--jinks-colors-700)
 
-    --text-light: var(--jinks-colors-700)
     --text-dark: var(--jinks-colors-50)
+
     --pico-header-background: var(--jinks-menubar-background-color)
     --color-border-light: var(--jinks-colors-dark)
     --color-success: var(--jinks-colors-500)
@@ -41,7 +42,6 @@
     --pico-form-element-valid-focus-color: var(--jinks-colors-500)
     --pico-ins-color: var(--jinks-colors-500)
     --color-resolved: var(--jinks-colors-dark)
-    --color-text-black: var(--jinks-colors-700)
     --font-family: 'Inter', sans-serif
     --font-size: 16px
 
@@ -64,9 +64,9 @@
                 display: block
                 padding: 0.75rem 1.5rem
                 text-decoration: none
-                color: var(--jinks-colors-700)
                 transition: all 0.2s ease
-                
+                color: var(--jinks-tabs-color)
+
                 &:hover
                     color: var(--jinks-colors-accent)
 
@@ -80,6 +80,26 @@
     width: $size
     height: $size
 
+@mixin dark-mode-theme()
+    --pico-color: var(--jinks-colors-light)
+    --pico-primary: var(--jinks-colors-light)
+    --pico-h3-color: var(--jinks-colors-light)
+    --jinks-tabs-color: var(--jinks-colors-100)
+    --pico-del-color: var(--jinks-colors-200)
+
+    .fixed-layout >.before:not(:empty),
+    .fixed-layout >.before-top:not(:empty)
+        background-color: var(--jinks-colors-600)
+    
+    .color-scheme-option
+        background-color: var(--jinks-colors-dark)
+
+        &[data-selected="true"]
+            background-color: var(--jinks-colors-200)
+
+            label
+                color: var(--jinks-colors-dark)
+
 // ============================================================================
 // Base Typography & Layout
 // ============================================================================
@@ -92,6 +112,8 @@ html
     background-color: var(--pico-background-color)
 body
     min-height: 100vh
+    background-color: var(--pico-background-color)
+    color: var(--pico-color)
 
 h1, h2, h3, .output > label
     font-family: var(--font-family)
@@ -409,7 +431,6 @@ details pb-markdown
 .installed li
     display: flex
     column-gap: .5rem
-    color: var(--color-text-black)
     transition: all 0.2s ease
 
 .installed li > div
@@ -438,7 +459,6 @@ details pb-markdown
     font-size: .875rem
     text-align: center
     margin-bottom: 0
-    color: var(--text-light)
 
 .installed img, .installed li > label
     display: block
@@ -527,3 +547,13 @@ button[type="reset"]
 
 pb-code-highlight
     margin-bottom: 1rem
+
+@media only screen and (prefers-color-scheme: dark)
+    :root:not(:has([data-theme])),
+    :host:not(:has([data-theme]))
+        @include dark-mode-theme()
+
+/* Dark color scheme (Forced) */
+/* Enabled if forced with data-theme="dark" */
+[data-theme="dark"]
+    @include dark-mode-theme()
