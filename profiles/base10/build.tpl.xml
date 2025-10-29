@@ -12,7 +12,24 @@
     <!-- Adjust path below to match location of your npm binary -->
     <property name="npm" value="npm"/>
 
-    <target name="all" depends="clean,prepare,xar" description="main target, create xar file in build folder"/>
+    <!-- Only calculate git for releases -->
+    <condition property="is-release">
+        <equals arg1="${release}" arg2="true" />
+    </condition>
+
+    <target name="release.true" if="is-release">
+        <echo>Calculating git revision info for release</echo>
+    </target>
+
+    <target name="release.false" unless="is-release">
+        <echo>Not a release, moving on ...</echo>
+    </target>
+
+    <target name="check-release" depends="release.true, release.false">
+    </target>
+
+
+    <target name="all" depends="clean,npm.install,prepare,xar" description="main target, create xar file in build folder"/>
 
     <target name="clean">
         <delete includeemptydirs="true" failonerror="false">
@@ -107,7 +124,7 @@
         <antcall target="xar" />
     </target>
 
-    <target name="git.revision" description="Store git revision in ${commit-id}" if="git.present">
+    <target name="git.revision" description="Store git revision in ${commit-id}" if="is-release" depends="check-release">
         <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
             <arg value="--git-dir=${git.repo.path}"/>
             <arg value="rev-parse"/>
