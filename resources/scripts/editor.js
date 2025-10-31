@@ -745,8 +745,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // CSS Parser function to extract color values from palette CSS files
     async function parsePaletteCSS(cssUrl) {
-        const response = await fetch(cssUrl);
-        const cssText = await response.text();
+        let cssText;
+        try {
+            // Use relative path directly, just like other API calls in this file
+            const response = await fetch(cssUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch CSS: ${response.status} ${response.statusText}`);
+            }
+            cssText = await response.text();
+        } catch (error) {
+            // If fetch fails, try with absolute URL constructed from current location
+            const pathname = window.location.pathname;
+            const dirPath = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+            const absoluteUrl = window.location.origin + dirPath + cssUrl;
+            const response = await fetch(absoluteUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch CSS: ${response.status} ${response.statusText}`);
+            }
+            cssText = await response.text();
+        }
         
         // Extract color values using regex
         const colors = {};
@@ -847,7 +864,7 @@ window.addEventListener('DOMContentLoaded', () => {
     async function loadColorPalettes(apps) {
         colorPalettes = {};
         apps.forEach(async (app) => {
-            if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
+            if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
                 // Load color palettes from profile
                 Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
                     colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
@@ -866,7 +883,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const option = createColorSchemeOption(name, colors);
                 paletteContainer.appendChild(option);
             } catch (error) {
-                console.error(`Failed to load palette ${name}:`, error);
+                console.error(`Failed to load palette ${name} from ${cssPath}:`, error);
             }
         }
         
