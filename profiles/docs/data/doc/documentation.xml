@@ -5399,6 +5399,9 @@ declare variable $config:webcomponents := "0.9.11";</programlisting>
       considerations regarding index configuration to take into account.</para>
     <section xml:id="data-collection">
       <title>Data collection</title>
+      <note role="todo">
+        <para>Configuration should now be done in config.json</para>
+      </note>
       <para> Two variables in <filename>config.xqm</filename> are used to configure location of the
         data collection. <code>$config:data-root</code> specifies where in the collection hierarchy
         the data is stored. Only the top level collection needs to be specified. </para>
