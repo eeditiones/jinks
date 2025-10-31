@@ -144,8 +144,10 @@
       </section>
     </section>
     <section xml:id="e-editiones">
-      <!-- TODO: move section after quickstart? -->
       <title>e-editiones.org</title>
+      <note role="todo">
+        <para>move section after quickstart?</para>
+      </note>
       <para> Since its first incarnation in 2015, TEI Publisher has gained substantial following
         with numerous academic and commercial projects around the globe using it for their editorial
         and publishing needs. Grass-roots user initiative led in 2020 to the foundation of an
@@ -674,6 +676,9 @@
 
       <section xml:id="document-view">
         <title>Document View</title>
+        <note role="todo">
+          <para>Needs review. Changing templates no longer possible. ODD selection button in toolbar.</para>
+        </note>
         <para>The document view can vary, depending on the sample document you are looking at.
           Nevertheless some default functionality will be shared:</para>
         <itemizedlist>
@@ -722,35 +727,31 @@
           parameter indicating which ODD file is being used to processed the document, e.g. <link
             xlink:href="../demo/F-rom.xml?odd=shakespeare"
           >demo/F-rom.xml?odd=shakespeare</link>.</para>
+        <para>Most demos come with their own ODD. However, all of them – at least if they deal with TEI – extend
+          the base ODD, <filename>teipublisher.odd</filename>.</para>
+        <note role="todo">
+          <para>Should we describe here how to create your own ODD? Or add this to the section about processing model and reference from here?</para>
+        </note>
         <para>Nevertheless, as we demonstrated in the section on selected sample documents, in the
           application context we certainly want more than just text, however nicely typeset. From
           basic navigation controls, table of content, to facsimile display, critical apparatus,
           glossaries and maps – all of this and much more could be included in the final webpage.
-          Following <emphasis>divide and conquer</emphasis> approach the TEI Publisher defines such
-          specialized page elements as small, reusable blocks, using the Web Components technology.
-          Components can be used like common HTML elements, thus a page template is just an HTML
-          fragment which organizes the building blocks needed for a specific page. </para>
-        <!-- TODO: Explain templating
-       <para> Looking more closely again at the TEI Publisher's <guibutton>Start</guibutton> page,
-          we can now give more detail what is happening when any of the sample documents is loaded.
-          On the right hand side there is a panel listing all ODD files available. Each of the
-          sample documents includes a processing instruction which specifies default ODD and page
-          template for this document. You can check what they are in <guibutton>Settings</guibutton>
-          panel. For the Graves letter it would be <parameter>Graves' Letters</parameter> ODD and
-            <parameter>Letter with map/facets</parameter> template. </para>
-        <figure>
-          <title>The Settings Panel for the Graves Letter</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="odd-page-template-settings.png" width="512px"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-        <para> It is easy to experiment with different page templates and ODDs just changing these
-          options in the <guibutton>Settings</guibutton> panel. An important caveat though is that
-          not every page template makes sense for every document – after all parallel alignment can
-          only be successful if there is something to align, map needs coordinates to display, page
-          view needs information about page breaks and so on. </para> -->
+          There are two additional concepts coming into play here:</para>
+        <variablelist>
+          <varlistentry>
+            <term>Page templates</term>
+            <listitem>
+              <para>Compose the HTML of the page, i.e. the overall layout of sections or panels on the page</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Web Components</term>
+            <listitem>
+              <para>All dynamic parts of the page, i.e. the text display, navigation buttons etc., are defined as small, reusable blocks, 
+                using the Web Components technology. Components can be used like common HTML elements. </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
       </section>
       <section xml:id="upload">
         <title>Uploading your own documents</title>
@@ -789,11 +790,11 @@
             </imageobject>
           </mediaobject>
         </figure>
-        <para> Congratulations, now you can view your documents! Try to experiment and find the ODD
-          and page template that best fits your needs and use it as a starting point for your own
-          customization, if necessary. Once you are ready with these you can <link
-            linkend="create-app">generate your own application</link> for your documents only, which
-          packs just what is needed for publishing into a standalone application package. </para>
+        <para>Congratulations, now you can view your documents! This will use the base ODD.
+          For most text-centric TEI, the default rendition should already produce a readable result, but you'll certainly
+        find aspects to improve. Quite often the need for customization will be limited to a hand full of elements.
+        Therefore the next step would be to learn about ODDs and the Processing Model and apply the modifications needed.
+        This will be covered <link linkend="odd-customization">below</link>.</para>
         <para> If you attempt to upload a Microsoft Word document, the upload will automatically
           trigger upconversion of Word to TEI, using a custom ODD for the tranformation. Please note
           that the focus of this conversion is to preserve textual content, structure and basic
@@ -813,28 +814,20 @@
             etc it may be advisable to adjust this to avoid customizing all navigation, table of
             contents and so on, but it is one of very rare cases where TEI Publisher exposes any
             predilection for a particular flavour of TEI. </para>
-          <!-- TODO: review templating info
-         <para> Similarly, the template for aligned transcription and translation is parametrized
-            to accept an XPath expression pointing to the location of the transcription and aligned
-            translation. Likely for your documents this expression would have to be adjusted (unless
-            of course you also have Latin texts with Polish translation structured in a similar
-            way). Furthermore, to correctly display corresponding translation fragment a custom
-            mapping function may need to be passed to the translation view (cf. <link
-              xlink:href="templates/pages/vangogh.html" role="source">
-              <filename>Van Gogh</filename>
-            </link> or <link xlink:href="templates/pages/cortez.html" role="source">
-              <filename>Cortés</filename>
-            </link> letter templates for examples) </para> -->
         </note>
       </section>
 
     </section>
 
     <section xml:id="custom-app-generation">
-      <title>The configuration of a custom application</title>
+      <title>Generating your own application</title>
       <section xml:id="jinks">
         <title>What is Jinks?</title>
-        <para>Jinks, the application manager for TEI Publisher replaces the custom app generator
+        <para>As mentioned in the introduction, TEI Publisher is no longer a single application, but
+          rather a toolbox with which you can generate applications. The <productname>TEI Publisher 
+          Documentation + Demo</productname> app we looked at in the previous chapter is such a generated
+          application. The tool from which it was generated is called <productname>Jinks</productname>.</para>
+        <para>Jinks is the central application manager for TEI Publisher and replaces the custom app generator
           available in earlier versions of TEI Publisher. Jinks</para>
         <itemizedlist>
           <listitem>
@@ -846,10 +839,11 @@
               can extend or build upon other profiles</para>
           </listitem>
           <listitem>
-            <para>profiles can be modular, i.e. contribute only one feature</para>
+            <para>profiles can be modular, i.e. contribute only one feature. Or they can be a custom 
+              composition of other profiles.</para>
           </listitem>
           <listitem>
-            <para>detects local changes to files and leaves them untouched</para>
+            <para>handles updates while detecting and respecting local changes</para>
           </listitem>
           <listitem>
             <para>comes with its own <link
@@ -857,7 +851,6 @@
                 >templating module</link>, which can also process plain-text files (XQuery, CSS
               etc.)</para>
           </listitem>
-          
         </itemizedlist>
       </section>
       <section xml:id="modularity">
@@ -881,10 +874,20 @@
               identity. </para>
           </listitem>
         </itemizedlist>
-        <para>Each profile has a subcollection under <filename>profiles</filename> and must contain
-          at least one configuration file, <filename>config.json</filename>, which defines all the
-          variables to be used in templated files. </para>
+        <note role="todo">
+          <para>Following should go into separate chapter explaining how profiles work:</para>
+          <para>Each profile has a subcollection under <filename>profiles</filename> and must contain
+            at least one configuration file, <filename>config.json</filename>, which defines all the
+            variables to be used in templated files. </para>
+        </note>
       </section>
+    </section>
+    <section xml:id="using-jinks">
+      <title>Using Jinks</title>
+      <note role="todo">
+        <para>Extend with a step by step description of how to configure an application in Jinks.</para>
+        <para>Show how to download the generated app and how to continue working with it.</para>
+      </note>
     </section>
     <section xml:id="config">
       <title><filename>config.json</filename></title>
@@ -905,264 +908,25 @@
         </listitem>
       </orderedlist>
     </section>
+    <section>
+      <title>Updating an application</title>
+      <note role="todo">
+        <para>Explain concept of local and upstream changes</para>
+        <para>Explain what happens when you regenerate an app and upstream has changes</para>
+      </note>
+    </section>
+    <section>
+      <title>Actions</title>
+      <note role="todo">
+        <para>Explain the default actions: reindex and fix-odds.</para>
+        <para>Point out that fix-odds needs to be called whenever you add an ODD to the application via jinks</para>
+        <para>Also, if you update an app via jinks and there were changes to ODDs in upstream, you 
+          must use fix-odds to see the changes – unless you reinstalled the app</para>
+        <para>reindex should be called after changing the collection.xconf</para>
+      </note>
+    </section>
   </section>
   
-  <section xml:id="supported-input-formats">
-    <title>Supported XML vocabularies</title>
-    <para>TEI Publisher started as a publishing toolbox for TEI but the principles of the TEI
-      Processing Model were never limited to a single vocabulary. Publisher very quickly extended
-      support to other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported out
-      of the box (DOCX via automated conversion to TEI on upload).</para>
-    <para> Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are listed
-      below, while <emphasis>DOCX</emphasis> is discussed at length in the following section. </para>
-    <section xml:id="format-tei">
-      <title>TEI</title>
-      <para>In principle, any TEI document will be supported by any TEI Publisher-based app, and can
-        be displayed with any of the pre-configured blueprints and profiles.</para>
-      <para>Nevertheless, certain assumptions are made about encoding of the basic structure of the
-        TEI documents for the purpose of navigation:</para>
-      <itemizedlist>
-        <listitem>
-          <para> page beginnings are encoded with <tag>pb</tag>
-          </para>
-        </listitem>
-        <listitem>
-          <para> column beginnings are encoded with <tag>cb</tag>
-          </para>
-        </listitem>
-        <listitem>
-          <para> structural divisions in the document are encoded with <tag>div</tag> elements
-          </para>
-        </listitem>
-      </itemizedlist>
-      <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
-          <tag>milestone</tag> element or specialized numbered division elements like
-          <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
-        displayed as specified in the ODD, it is only for the sake of navigation or division-based
-        full text search that we had to assume certain conventions to be able to decide what to show
-        as the next page, column or division. </para>
-      <para> We believe our choice represents the most common way of using TEI but, for those who
-        followed the path less travelled, the chapter on <link linkend="new-vocabulary-navigation">
-          customization</link> briefly discusses how to change relevant functionalities. </para>
-    </section>
-    <section xml:id="format-docbook">
-      <title>DocBook</title>
-      <para> DocBook support is demonstrated by this very document you are now reading, <filename>
-          documentation.xml</filename>. It is written in DocBook and presented via dedicated
-        feature, <emphasis>Docbook support</emphasis> which includes as a default ODD <filename>
-          docbook.odd</filename>.</para>
-      <!-- TODO: review templating info
-        <para> You will notice a custom processing instruction in the source code of this document
-        which specifies which ODD and template to use. Experiment changing the template and ODD via
-          <guibutton> Settings</guibutton> drawer to see how much impact it has on display. </para>
-      <programlisting language="xml" xml:space="preserve">
-          &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?&gt;
-        </programlisting>-->
-    </section>
-    <section xml:id="format-jats">
-      <title>JATS (Journal Publishing Tag Library)</title>
-      <para> The <emphasis>Jats support</emphasis> feature includes the JATS ODD, which currently
-        supports <link xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO JATS
-          Version 1.2</link>. It covers many elements commonly used for journal articles in the
-        humanities, and can be easily customized for more specific use cases or encoding
-        flavours.</para>
-      <!-- TODO:  <para>By default, all documents in collection <filename>data/jats</filename> are associated
-        with the JATS ODD (see <varname>config:collection-config</varname> in
-          <filename>modules/config.xqm</filename>.</para> -->
-    </section>
-
-    <section xml:id="docx">
-      <title>MS Word DOCX format conversion</title>
-      <para> Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
-        available to allow for ingesting documents in <emphasis>docx</emphasis> format. The goal of
-        this module is to provide a way to import Word documents, preserving their textual content,
-        structure and basic semantics of the text, not to provide an authoritative mapping of
-        complete set of MS Word features to TEI. </para>
-      <para>Docx format is relatively flat, thus reconstructing logical document structure like
-        divisions, lists and similar can be only based on certain heuristics. Likewise it is
-        impossible to deduce semantics attributed to certain formatting decisions. For that reason
-        TEI Publisher by intention ignores many style properties — trying to preserve as much as
-        possible would likely just add unnecessary "noise" and result in low-quality TEI. </para>
-
-
-      <section xml:id="docx-intro">
-        <title>A word about Word</title>
-
-        <para> A Word document is essentially a zip archive of several different XML files. These
-          files store various parts – the text content, styles, embedded media files etc.
-          Information most relevant for the import process have been extracted into a map, which is
-          passed as a parameter to the ODD, so it is available for every element. Thus information
-          about numbering styles can be accessed via <code>$parameters?nstyle(.)</code> function and
-          testing if a list is bulleted could be done checking the value of <code>
-            $parameters?nstyle(.)/numFmt/@w:val</code>. Full list of available functions and some
-          hints how to customize default conversion ODD are provided at the <link
-            linkend="docx-functions">end of this chapter</link>. </para>
-        <figure>
-          <title>MS Word archive structure</title>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="wordStructure.png" width="212px"/>
-            </imageobject>
-          </mediaobject>
-        </figure>
-
-        <variablelist>
-          <varlistentry>
-            <term>Named tei:* styles</term>
-            <listitem>
-              <para> Named styles can be strong indicators for the semantics of the text fragment.
-                Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
-                with the same name. If a character sequence uses a style called
-                  <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
-                element in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
-                  Goethe&lt;/persName&gt;</code>. A place name should be marked with a style <code>
-                  tei:placeName</code> and reconstructed text could be encoded by applying a style
-                  <code> tei:supplied</code>. </para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Headings and divisions</term>
-            <listitem>
-              <para> Since Word does not have a concept for text division, instead storing just flat
-                lists of paragraphs, so the only way to reconstruct the logical structure is to use
-                Word headings and outline level associated with these to determine division
-                boundaries. </para>
-              <para> In the first pass, all paragraph styles starting with <code>heading</code>,
-                  <code> title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
-                element. The outline level assigned to the heading is recorded as well. </para>
-              <para> Subsequently, in a second pass through the generated output, divisions are
-                generated based on the outline level: a <tag>div</tag> spans all text from the
-                heading to the next heading on the same outline level and the process is repeated
-                for all headings within the division on a lower outline level. </para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Lists</term>
-            <listitem>
-              <para> Lists structure needs to be reconstructed, very much like divisions, taking
-                into consideration the list level associated with every item which can be accessed
-                via a call to <code>$parameters?pstyle(.)//outlineLvl/@w:val</code>. </para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term> Foot- and endnotes</term>
-            <listitem>
-              <para> Footnotes are translated into TEI note elements. Endnotes are also supported
-                and transformed into <code>&lt;note type="endnote"&gt;</code>. </para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Tables</term>
-            <listitem>
-              <para> Processing of simple tables works very well as well as cells spanning multiple
-                colums. Row spans are not implemented yet. </para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Images</term>
-            <listitem>
-              <para> Embedded images are stored into a subcollection starting with the name of the
-                docx file being processed and suffixed with <code>.media</code>, eg.
-                  <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
-              </para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-      </section>
-
-      <section xml:id="docx-functions">
-        <title>ODD for docx</title>
-        <para> The ODD used for docx processing can be found in <link
-            xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>. Users are free to extend
-          the default ODD with additional heuristics. For example, a paragraph being entirely bold
-          could also be treated as a heading, or a left text indent may indicate a quote. </para>
-        <para> For testing purposes there is a Word document provided in <filename>
-            data/doc/test.docx</filename> which includes samples of most important features like
-          headings, lists, tables, notes and embedded images. Try uploading it via upload panel as
-          described in the <link linkend="upload">upload section</link> and check the conversion
-          results. Behaviour of the conversion mostly follows the approach used in TEI Stylesheets
-          docx-to-tei transformation module and has been tested on test files included there. </para>
-
-        <section xml:id="docx-functions-parameters">
-          <title>Parameter functions</title>
-          <para> Functions below can be used to retrieve styles or other information related to a
-            current node. For more usage examples see <link
-              xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>
-          </para>
-
-          <variablelist>
-            <varlistentry>
-              <term>cstyle</term>
-              <listitem>
-                <para>phrase level (characters, words or phrases) styles associated with the current
-                  node</para>
-                <para> Returns: <code>w:style</code>
-                </para>
-                <para> Usage example: <code>$parameters?cstyle(.)/name[starts-with(@w:val,
-                    'tei:')]</code>
-                </para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>endnote</term>
-              <listitem>
-                <para>content of the endnote</para>
-                <para> Returns: <code>w:endnote/w:p</code>
-                </para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>footnote</term>
-              <listitem>
-                <para>content of the footnote</para>
-                <para> Returns: <code>w:footnote/w:p</code>
-                </para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>link</term>
-              <listitem>
-                <para>external link</para>
-                <para> Returns: <code>rel:Relationship</code>
-                </para>
-                <para> Usage example: <code>$parameters?link(.)/@Target</code>
-                </para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>nstyle</term>
-              <listitem>
-                <para>list style information associated with the current node</para>
-                <para> Returns: <code>w:lvl</code>
-                </para>
-                <para> Usage example: <code>$parameters?nstyle(.)/numFmt</code>
-                </para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>pstyle</term>
-              <listitem>
-                <para>paragraph level styles associated with the current node</para>
-                <para> Returns: <code>w:style</code>
-                </para>
-                <para> Usage example: <code>$parameters?pstyle(.)/name[matches(@w:val, 'quote';,
-                    'i')]</code>
-                </para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
-        </section>
-      </section>
-    </section>
-  </section>
   <section xml:id="odd-customization">
     <title>Processing Model transformations</title>
     <para>While the custom app generator already provides various profiles and features targeting
@@ -2868,8 +2632,314 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
+  <section>
+    <title>Anatomy of a profile</title>
+    <note role="todo">
+      <itemizedlist>
+        <listitem>
+          <para>Profiles and the applications generated from them have a specific directory layout</para>
+        </listitem>
+        <listitem>
+          <para>When creating an application, it will have the same layout and users can add or overwrite 
+            files as needed for the custom application</para>
+        </listitem>
+        <listitem>
+          <para>Describe what a profile can contribute to an application: HTML templates, CSS styles, API endpoints.
+          Cover each type in a separate subsection.</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </section>
+  <section>
+    <title>HTML templates</title>
+    <note role="todo">
+      <itemizedlist>
+        <listitem>
+          <para>Describe the jinks templating library with a short introduction to its syntax.</para>
+        </listitem>
+        <listitem>
+          <para>Describe template inheritance using basic.html as example: extends content.html, which extends base.html.</para>
+        </listitem>
+        <listitem>
+          <para>Explain how frontmatter configuration is merged on each level</para>
+        </listitem>
+        <listitem>
+          <para>Explain the concept of [% block %] and [% template %] and how they are used in the template inheritance tree</para>
+        </listitem>
+        <listitem>
+          <para>Describe the default page layout areas (one center column with two sidebars left and right) as given in base.html</para>
+        </listitem>
+        <listitem>
+          <para>Explain how to use [% template %] to inject content into any of the page layout areas</para>
+        </listitem>
+        <listitem>
+          <para>Explain how some profiles use template-only HTML files to add specific panels to an arbitrary page, e.g.
+            see profiles/iiif/templates/iiif-blocks.html.</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </section>
+  <section xml:id="supported-input-formats">
+    <title>Supported XML vocabularies</title>
+    <para>TEI Publisher started as a publishing toolbox for TEI but the principles of the TEI
+      Processing Model were never limited to a single vocabulary. Publisher very quickly extended
+      support to other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are supported out
+      of the box (DOCX via automated conversion to TEI on upload).</para>
+    <para> Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are listed
+      below, while <emphasis>DOCX</emphasis> is discussed at length in the following section. </para>
+    <section xml:id="format-tei">
+      <title>TEI</title>
+      <para>In principle, any TEI document will be supported by any TEI Publisher-based app, and can
+        be displayed with any of the pre-configured blueprints and profiles.</para>
+      <para>Nevertheless, certain assumptions are made about encoding of the basic structure of the
+        TEI documents for the purpose of navigation:</para>
+      <itemizedlist>
+        <listitem>
+          <para> page beginnings are encoded with <tag>pb</tag>
+          </para>
+        </listitem>
+        <listitem>
+          <para> column beginnings are encoded with <tag>cb</tag>
+          </para>
+        </listitem>
+        <listitem>
+          <para> structural divisions in the document are encoded with <tag>div</tag> elements
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
+        <tag>milestone</tag> element or specialized numbered division elements like
+        <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
+        displayed as specified in the ODD, it is only for the sake of navigation or division-based
+        full text search that we had to assume certain conventions to be able to decide what to show
+        as the next page, column or division. </para>
+      <para> We believe our choice represents the most common way of using TEI but, for those who
+        followed the path less travelled, the chapter on <link linkend="new-vocabulary-navigation">
+          customization</link> briefly discusses how to change relevant functionalities. </para>
+    </section>
+    <section xml:id="format-docbook">
+      <title>DocBook</title>
+      <para> DocBook support is demonstrated by this very document you are now reading, <filename>
+          documentation.xml</filename>. It is written in DocBook and presented via dedicated
+        feature, <emphasis>Docbook support</emphasis> which includes as a default ODD <filename>
+          docbook.odd</filename>.</para>
+      <!-- TODO: review templating info
+        <para> You will notice a custom processing instruction in the source code of this document
+        which specifies which ODD and template to use. Experiment changing the template and ODD via
+          <guibutton> Settings</guibutton> drawer to see how much impact it has on display. </para>
+      <programlisting language="xml" xml:space="preserve">
+          &lt;?teipublisher odd="docbook.odd" template="documentation.html" depth="3"?&gt;
+        </programlisting>-->
+    </section>
+    <section xml:id="format-jats">
+      <title>JATS (Journal Publishing Tag Library)</title>
+      <para> The <emphasis>Jats support</emphasis> feature includes the JATS ODD, which currently
+        supports <link xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO JATS
+          Version 1.2</link>. It covers many elements commonly used for journal articles in the
+        humanities, and can be easily customized for more specific use cases or encoding
+        flavours.</para>
+      <!-- TODO:  <para>By default, all documents in collection <filename>data/jats</filename> are associated
+        with the JATS ODD (see <varname>config:collection-config</varname> in
+          <filename>modules/config.xqm</filename>.</para> -->
+    </section>
+    
+    <section xml:id="docx">
+      <title>MS Word DOCX format conversion</title>
+      <para> Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
+        available to allow for ingesting documents in <emphasis>docx</emphasis> format. The goal of
+        this module is to provide a way to import Word documents, preserving their textual content,
+        structure and basic semantics of the text, not to provide an authoritative mapping of
+        complete set of MS Word features to TEI. </para>
+      <para>Docx format is relatively flat, thus reconstructing logical document structure like
+        divisions, lists and similar can be only based on certain heuristics. Likewise it is
+        impossible to deduce semantics attributed to certain formatting decisions. For that reason
+        TEI Publisher by intention ignores many style properties — trying to preserve as much as
+        possible would likely just add unnecessary "noise" and result in low-quality TEI. </para>
+      
+      
+      <section xml:id="docx-intro">
+        <title>A word about Word</title>
+        
+        <para> A Word document is essentially a zip archive of several different XML files. These
+          files store various parts – the text content, styles, embedded media files etc.
+          Information most relevant for the import process have been extracted into a map, which is
+          passed as a parameter to the ODD, so it is available for every element. Thus information
+          about numbering styles can be accessed via <code>$parameters?nstyle(.)</code> function and
+          testing if a list is bulleted could be done checking the value of <code>
+            $parameters?nstyle(.)/numFmt/@w:val</code>. Full list of available functions and some
+          hints how to customize default conversion ODD are provided at the <link
+            linkend="docx-functions">end of this chapter</link>. </para>
+        <figure>
+          <title>MS Word archive structure</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="wordStructure.png" width="212px"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        
+        <variablelist>
+          <varlistentry>
+            <term>Named tei:* styles</term>
+            <listitem>
+              <para> Named styles can be strong indicators for the semantics of the text fragment.
+                Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
+                with the same name. If a character sequence uses a style called
+                <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
+                element in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
+                  Goethe&lt;/persName&gt;</code>. A place name should be marked with a style <code>
+                    tei:placeName</code> and reconstructed text could be encoded by applying a style
+                <code> tei:supplied</code>. </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Headings and divisions</term>
+            <listitem>
+              <para> Since Word does not have a concept for text division, instead storing just flat
+                lists of paragraphs, so the only way to reconstruct the logical structure is to use
+                Word headings and outline level associated with these to determine division
+                boundaries. </para>
+              <para> In the first pass, all paragraph styles starting with <code>heading</code>,
+                <code> title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
+                element. The outline level assigned to the heading is recorded as well. </para>
+              <para> Subsequently, in a second pass through the generated output, divisions are
+                generated based on the outline level: a <tag>div</tag> spans all text from the
+                heading to the next heading on the same outline level and the process is repeated
+                for all headings within the division on a lower outline level. </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Lists</term>
+            <listitem>
+              <para> Lists structure needs to be reconstructed, very much like divisions, taking
+                into consideration the list level associated with every item which can be accessed
+                via a call to <code>$parameters?pstyle(.)//outlineLvl/@w:val</code>. </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term> Foot- and endnotes</term>
+            <listitem>
+              <para> Footnotes are translated into TEI note elements. Endnotes are also supported
+                and transformed into <code>&lt;note type="endnote"&gt;</code>. </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Tables</term>
+            <listitem>
+              <para> Processing of simple tables works very well as well as cells spanning multiple
+                colums. Row spans are not implemented yet. </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Images</term>
+            <listitem>
+              <para> Embedded images are stored into a subcollection starting with the name of the
+                docx file being processed and suffixed with <code>.media</code>, eg.
+                <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      
+      <section xml:id="docx-functions">
+        <title>ODD for docx</title>
+        <para> The ODD used for docx processing can be found in <link
+            xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>. Users are free to extend
+          the default ODD with additional heuristics. For example, a paragraph being entirely bold
+          could also be treated as a heading, or a left text indent may indicate a quote. </para>
+        <para> For testing purposes there is a Word document provided in <filename>
+            data/doc/test.docx</filename> which includes samples of most important features like
+          headings, lists, tables, notes and embedded images. Try uploading it via upload panel as
+          described in the <link linkend="upload">upload section</link> and check the conversion
+          results. Behaviour of the conversion mostly follows the approach used in TEI Stylesheets
+          docx-to-tei transformation module and has been tested on test files included there. </para>
+        
+        <section xml:id="docx-functions-parameters">
+          <title>Parameter functions</title>
+          <para> Functions below can be used to retrieve styles or other information related to a
+            current node. For more usage examples see <link
+              xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>
+          </para>
+          
+          <variablelist>
+            <varlistentry>
+              <term>cstyle</term>
+              <listitem>
+                <para>phrase level (characters, words or phrases) styles associated with the current
+                  node</para>
+                <para> Returns: <code>w:style</code>
+                </para>
+                <para> Usage example: <code>$parameters?cstyle(.)/name[starts-with(@w:val,
+                    'tei:')]</code>
+                </para>
+              </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+              <term>endnote</term>
+              <listitem>
+                <para>content of the endnote</para>
+                <para> Returns: <code>w:endnote/w:p</code>
+                </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>footnote</term>
+              <listitem>
+                <para>content of the footnote</para>
+                <para> Returns: <code>w:footnote/w:p</code>
+                </para>
+              </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+              <term>link</term>
+              <listitem>
+                <para>external link</para>
+                <para> Returns: <code>rel:Relationship</code>
+                </para>
+                <para> Usage example: <code>$parameters?link(.)/@Target</code>
+                </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>nstyle</term>
+              <listitem>
+                <para>list style information associated with the current node</para>
+                <para> Returns: <code>w:lvl</code>
+                </para>
+                <para> Usage example: <code>$parameters?nstyle(.)/numFmt</code>
+                </para>
+              </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+              <term>pstyle</term>
+              <listitem>
+                <para>paragraph level styles associated with the current node</para>
+                <para> Returns: <code>w:style</code>
+                </para>
+                <para> Usage example: <code>$parameters?pstyle(.)/name[matches(@w:val, 'quote';,
+                    'i')]</code>
+                </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+    </section>
+  </section>
   <section xml:id="css-styling">
     <title>Themes and custom CSS styling</title>
+    <note role="todo">
+      <para>Extend with examples.</para>
+    </note>
     <para>The custom app generator enables the possibility to select different themes that will
       determine the look and feel of the application. After generating an app, the folder
         <code>resources/css</code> will contain all the CSS stylesheets files that are imported by
@@ -2961,6 +3031,10 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
     <section xml:id="css-styling-components">
       <title>Customizing web components styling</title>
+      <note role="todo">
+        <para>Move into top section "Anatomy of a profile"?</para>
+        <para>Needs review and examples</para>
+      </note>
       <para>A web component completely shields its content, so it cannot easily be styled from
         outside. Web component styles remain encapsulated, preventing style contamination between
         individual components and general application context. A blessing in general, allowing
@@ -2990,6 +3064,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
     <section xml:id="css-styling-external">
       <title>External stylesheets</title>
+      <note role="todo">
+        <para>Should go into processing model section?</para>
+      </note>
       <para> ODD specification allows for explicit declaration of an external CSS file which may
         define styles and CSS classes to be applied to tranformed sources (in <code>
           encodingDesc/tagsDecl/rendition</code>), e.g. </para>
@@ -3014,7 +3091,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   </section>
 
   <section xml:id="webcomponents">
-    <title>Page templates and pb-components</title>
+    <title>Web Components</title>
+    <note role="todo">
+      <para>Needs review: concentrate on web components. HTML templates were discussed earlier.</para>
+      <para>Explain changes between version 2 of web components (TP 9) and 3 (TP 10): v3 drops polymer in most places
+        and outputs pure HTML with only minimal styling.</para>
+    </note>
     <para> As described earlier, the various sample documents included in the TEI Publisher Demo
       collection differ not only in the ODD they use, but also concerning the general layout and
       composition of the page. They are based on different HTML templates, which can be found in the
@@ -3031,8 +3113,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       component.</para>
     <section xml:id="webcomponents-intro">
       <title>Web Components</title>
-
-
       <para> The technology enabling this Lego-like modular approach is a W3C standard called
           <emphasis>Web Components</emphasis>. It is already built into many browsers and support is
         improving quickly, reducing the need for external frameworks. There's a growing collection
@@ -4197,6 +4277,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
   <section xml:id="appgen">
     <title>Creating applications with the App Generator</title>
+    <note role="todo">
+      <para>Drop this section, but preserve multiple-odds-collection elsewhere?</para>
+    </note>
     <para>Once you are happy with a certain ODD and HTML template customization, you can easily
       create a complete, standalone application. Such application can be tailored further to fit
       your needs. The generated app can be downloaded as a portable xar package, to be installed
@@ -4685,6 +4768,10 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
 
   <section xml:id="updating">
     <title>Updating Applications</title>
+    <note role="todo">
+      <para>Drop this section entirely? Add a note to intro that TP 9 and earlier apps cannot be updated without
+        recreating them.</para>
+    </note>
     <para>Custom applications are created from a specific version of TEI Publisher and may need to
       be updated over time to benefit from bug fixes and new features. If you followed the <link
         linkend="customization-best-practice">best practice recommendations</link>, you can always
