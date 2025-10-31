@@ -5,6 +5,18 @@ body {
     --pb-footnote-font-size: 13px;
 }
 
+address,
+blockquote,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+    /* override pico color for these elements */
+    color: inherit !important;
+}
+
 .doc-title {
     font-size: 2.488em;
 }
