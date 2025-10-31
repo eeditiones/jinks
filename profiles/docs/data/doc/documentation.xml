@@ -3344,168 +3344,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>Common properties and methods accepted by many TEI Publisher components are defined in
         the class PbMixin.</para>
     </section>
-
-    <section xml:id="webcomponents-page-templates">
-      <title>Page Templates</title>
-      <para> TEI Publisher currently includes several different page templates, which combine the
-        building blocks described above with off-the-shelf components to achieve a certain page
-        layout and composition. If you look at the HTML code, you'll see a mix of
-          <parameter>pb-</parameter> elements and <parameter>app-</parameter>,
-          <parameter>paper-</parameter>, <parameter>iron-</parameter> elements. The last three
-        belong to the <emphasis>Polymer</emphasis> collection and you can find them documented in
-        the public <link xlink:href="https://www.webcomponents.org/">webcomponent registry</link>.
-        TEI Publisher components are not yet available there, though we may move some of the general
-        purpose components there later. </para>
-      <para>To avoid redundancy, the page template files use eXist's templating feature to drag in
-        some repeating parts which are the same for all pages, for example, the toolbar and the
-        menu. You'll find these files in the corresponding sub-collection:</para>
-      <programlisting xml:space="preserve">&lt;app-toolbar data-template="lib:include" data-template-path="templates/menu.html"/&gt;
-&lt;app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"/&gt;</programlisting>
-      <para>The following page templates are currently available in TEI Publisher:</para>
-      <variablelist>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/view.html" role="source">view.html</link>
-          </term>
-          <listitem>
-            <para>the default template showing a single text view at the center</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/facsimile.html" role="source">facsimile.html</link>
-          </term>
-          <listitem>
-            <para>a template featuring a facsimile view to the right, retrieving images from a IIIF
-              server</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/letter.html" role="source">letter.html</link>
-          </term>
-          <listitem>
-            <para>used for Graves' letter, this template displays an additional map to the right and
-              a list of places, people and organizations</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/translation.html" role="source"
-              >translation.html</link>
-          </term>
-          <listitem>
-            <para> shows a transcription and its translation side by side. Both are contained in the
-              same TEI document and extracted via an XPath expression passed to <tag>pb-view</tag>
-            </para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/cortez-with-translation.html" role="source">
-              cortez-with-translation.html</link>
-          </term>
-          <listitem>
-            <para> similar to <filename>translation.html</filename> but the alignment between
-              transcription and translation is more complex as the translation contains no page
-              breaks. The part of the translation corresponding to a given fragment of the
-              transcription thus needs to be computed dynamically for each page, using an XQuery
-              function (defined by the <parameter>map</parameter> on <tag>pb-view</tag>. </para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/cortez" role="source">cortez.html</link>
-          </term>
-          <listitem>
-            <para>like above but with additional facsimile panel</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/vangogh.html" role="source">vangogh.html</link>
-          </term>
-          <listitem>
-            <para>demonstrates three columns by default: a metadata column, a transcription which
-              can be switched to a diplomatic view including line endings, and a translation. Other
-              columns, e.g. facsimile or commentary can be added dynamically.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/dantiscus.html" role="source">dantiscus.html</link>
-          </term>
-          <listitem>
-            <para> builds upon <code>facsimile.html</code> adding a collapsible
-                <code>pb-drawer</code> element to display metadata from
-                <emphasis>teiHeader</emphasis> section. </para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <link xlink:href="templates/pages/osinski.html" role="source">osinski.html</link>
-          </term>
-          <listitem>
-            <para> similarly builds upon <code>facsimile.html</code> but a collapsible metadata
-              section is realized with a <code>pb-collapse</code> element. </para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      <note>
-        <title>Important Note</title>
-        <para>The page templates are meant as examples to be copied and modified by users. They were
-          written to match the concrete example and do not intend to be universal. TEI is too
-          heterogenous to provide a one-size-fits-all solution. We thus believe that providing a
-          wide range of practical examples is the best way to help users realize their own
-          project.</para>
-        <para> Only the generic template, <filename>view.html</filename> should work with all
-          example TEI documents. </para>
-      </note>
-    </section>
-
-    <section xml:id="customizing-page-template">
-      <title>Create your own Template</title>
-      <para>To create your own template</para>
-      <orderedlist>
-        <listitem>
-          <para>open one of the existing templates in e.g. eXide (by clicking the links in the list
-            above)</para>
-        </listitem>
-        <listitem>
-          <para> adjust <code>content</code> attribute in <code>meta</code> tag to a label that fits
-            your template </para>
-          <programlisting language="html" xml:space="preserve">
-                  &lt;meta name="description" content="XYZ edition project" /&gt;
-              </programlisting>
-
-        </listitem>
-        <listitem>
-          <para> save the file under a different name into the same collection (<filename>
-              templates/pages</filename>) </para>
-        </listitem>
-      </orderedlist>
-
-      <para>Now reload the document you'd like the template to apply to and you'll be able to switch
-        to your new template, either by</para>
-
-
-      <itemizedlist>
-        <listitem>
-          <para> using the <guibutton>Template</guibutton> dropdown in the
-              <guibutton>Settings</guibutton> panel </para>
-        </listitem>
-        <listitem>
-          <para> adding a parameter <parameter>template=mytemplate.html</parameter> to the URL
-            showed by the browser </para>
-        </listitem>
-        <listitem>
-          <para> adding a <link linkend="pi-config">processing instruction</link> to a TEI document
-            to make a specific template the default: </para>
-          <programlisting language="html" xml:space="preserve">&lt;?teipublisher template="translation.html" odd="dantiscus.odd" view="page"?&gt;</programlisting>
-        </listitem>
-      </itemizedlist>
-    </section>
-
     <section xml:id="alignment">
       <title>Handling Complex Alignments</title>
       <para> It is often desirable to show two or more views of a document at the same time, for
@@ -3564,6 +3402,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>
     <section xml:id="facsimiles">
       <title>Facsimiles and other images</title>
+      <note role="todo">
+        <para>Move into profile docs for IIIF profile and just link from the documentation where mentioned?</para>
+      </note>
       <para>While you can use the <parameter>graphic</parameter> behaviour in the ODD to embed
         simple images, high-resolution images will usually be served by a separate IIIF service
         (running outside eXist/TEI Publisher). As of version 8.1.0 of TEI Publisher, two web
@@ -3766,6 +3607,11 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     </section>-->
     <section xml:id="api-endpoints">
       <title>API endpoint groups</title>
+      <note role="todo">
+        <para>Endpoints are now contributed by the profiles. Core API endpoints provided by base10.</para>
+        <para>Explain how a profile/app can register its own API spec and implementation in config.json.</para>
+        <para>Use of custom-api.xql should be discouraged. Use the proper mechanism instead and register your own spec/implementation.</para>
+      </note>
       <para>TEI Publisher 7 groups server-side functionality into several main sections:</para>
       <variablelist>
         <varlistentry>
