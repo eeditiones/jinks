@@ -2,23 +2,22 @@
 
 # jinks - Application Manager for TEI Publisher
 
-Replaces the custom app generator in earlier versions of TEI Publisher. The idea is to create a more powerful tool for creating, updating and maintaining a custom application. **jinks**
+Replaces the custom app generator in earlier versions of TEI Publisher. The idea is to create a more powerful tool for creating, updating and maintaining a custom application. This tool:
 
 * can not only create new custom applications, but also reconfigure them at a later time
-* uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles
-* profiles can be modular, i.e. contribute only one feature
+* uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles. It can be modular, i.e., contribute only one feature
 * detects local changes to files and leaves them untouched
-* comes with its own [templating module](https://github.com/eeditiones/jinks-templates), which can also process plain-text files (XQuery, CSS etc.)
+* comes with its own [templating module](https://github.com/eeditiones/jinks-templates), which can also process plain-text files (XQuery, CSS, etc.)
 
-## Profiles: blueprints, themes and features
+## Profiles: Blueprints, themes and features
 
 The core concept of jinks is the *profile*. Profiles can extend and import each other. We distinguish three different kinds of profiles:
 
-A *blueprint* is a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary etc. An application generated from a blueprint is fully functional.
+A *blueprint* is a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary, etc. An application generated from a blueprint is fully functional.
 
-A *feature* is a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.
+A *feature* is a functional sub-profile to be imported into another profile. It adds specific functionality, e.g., docker configuration, additional visualizations, pages, etc.
 
-A *theme* is a customization of a base profile, changing mainly the look and feel, e.g. modify images, fonts or colors according to a corporate identity.
+A *theme* is a customization of a base profile, changing mainly the look and feel, e.g., modify images, fonts, or colors according to a corporate identity.
 
 Each profile has a subcollection under `profiles` and must contain at least one configuration file, `config.json`, which defines all the variables to be used in templated files.
 
@@ -104,11 +103,11 @@ We would like to particularly acknowledge substantial support from the following
 
 ### [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
 
-![dhlab](../../../resources/images/dhlab.svg)
+![dhlab](./resources/images/dhlab.svg)
 
 ### [Office of the Historian, Shared Knowledge Services, Bureau of Administration, United States Department of State](https://history.state.gov/)
 
 ### [Tadeusz Manteuffel Institute of History, Polish Academy of Sciences](https://ihpan.edu.pl/en/)
 
-![ihpan](../../../resources/images/ihpan.svg)
+![ihpan](./resources/images/ihpan.svg)
 
