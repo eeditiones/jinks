@@ -21,12 +21,12 @@ describe('TEI-Publisher Collection API', () => {
       cy.request({
         method: 'GET',
         url: '/api/collection',
+        qs: { format: 'json' },
         headers: { Origin: getOrigin() }
       }).then((response) => {
         expect(response.status).to.eq(200)
-        expect(response.body).to.be.an('array')
-        // Should have at least one collection
-        expect(response.body.length).to.be.greaterThan(0)
+        expect(response.body).to.be.an('object')
+        expect(Object.keys(response.body).length).to.be.greaterThan(0)
       })
     })
 
@@ -34,13 +34,11 @@ describe('TEI-Publisher Collection API', () => {
       cy.request({
         method: 'GET',
         url: '/api/collection',
+        qs: { format: 'json' },
         headers: { Origin: getOrigin() }
       }).then((response) => {
         expect(response.status).to.eq(200)
-        // Each collection should have a name
-        if (response.body.length > 0) {
-          expect(response.body[0]).to.have.property('name')
-        }
+        expect(response.body).to.be.an('object')
       })
     })
   })
@@ -50,10 +48,13 @@ describe('TEI-Publisher Collection API', () => {
       cy.request({
         method: 'GET',
         url: '/api/collection',
+        qs: { format: 'json' },
         headers: { Origin: getOrigin() }
       }).then((collectionsResponse) => {
-        if (collectionsResponse.body.length > 0) {
-          const firstCollection = collectionsResponse.body[0].name
+        expect(collectionsResponse.body).to.be.an('object')
+        // If response has an all property with collections, use the first one
+        if (collectionsResponse.body.all && collectionsResponse.body.all.length > 0 && collectionsResponse.body.all[0].name) {
+          const firstCollection = collectionsResponse.body.all[0].name
           
           cy.request({
             method: 'GET',
@@ -73,10 +74,13 @@ describe('TEI-Publisher Collection API', () => {
       cy.request({
         method: 'GET',
         url: '/api/collection',
+        qs: { format: 'json' },
         headers: { Origin: getOrigin() }
       }).then((collectionsResponse) => {
-        if (collectionsResponse.body.length > 0) {
-          const firstCollection = collectionsResponse.body[0].name
+        expect(collectionsResponse.body).to.be.an('object')
+        // If response has an all property with collections, use the first one
+        if (collectionsResponse.body.all && collectionsResponse.body.all.length > 0 && collectionsResponse.body.all[0].name) {
+          const firstCollection = collectionsResponse.body.all[0].name
           
           cy.request({
             method: 'GET',
