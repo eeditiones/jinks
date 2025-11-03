@@ -4,6 +4,9 @@
 
 describe('TEI-Publisher Pagination', () => {
   beforeEach(() => {
+    // Set desktop viewport to ensure all elements are visible
+    cy.viewport(1280, 720)
+    
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/browse.html?collection=demo')
     
@@ -53,7 +56,9 @@ describe('TEI-Publisher Pagination', () => {
         .find('span.found[part="count"]')
         .invoke('text')
         .then((foundText) => {
-          const foundNumber = parseInt(foundText.trim(), 10)
+          // Extract number from text like "Found 7 items"
+          const match = foundText.match(/\d+/)
+          const foundNumber = match ? parseInt(match[0], 10) : 0
           
           cy.get('@totalDocuments').then((total) => {
             const totalNumber = parseInt(total, 10)
@@ -172,18 +177,29 @@ describe('TEI-Publisher Pagination', () => {
           const perPage = parseInt(perPageStr, 10)
           
           if (perPage > 0) {
-            // Count documents on current page
+            // Count documents on current page - count visible li elements in ul.documents
+            // Only visible documents count toward the per-page limit
             cy.get('main')
-              .find('.tei-fileDesc3, .collection-item, [class*="document"]')
+              .find('ul.documents li:visible', { timeout: 10000 })
+              .should('have.length.at.least', 1)
               .its('length')
-              .should('be.at.most', perPage)
-              .and('be.at.least', 1)
+              .then((count) => {
+                expect(count).to.be.at.most(perPage)
+              })
           }
         })
     })
 
-    it('verifies pagination math consistency', () => {
+    it('verifies pagination calculates page count correctly', () => {
+      // Wait for total attribute to be set and greater than 0
       cy.get('pb-paginate')
+        .should(($el) => {
+          const total = $el.attr('total')
+          expect(total).to.exist
+          expect(total).to.not.be.empty
+          const totalNum = parseInt(total, 10)
+          expect(totalNum).to.be.greaterThan(0)
+        })
         .invoke('attr', 'total')
         .as('total')
       
@@ -196,15 +212,31 @@ describe('TEI-Publisher Pagination', () => {
         
         cy.get('@perPage').then((perPageStr) => {
           const perPage = parseInt(perPageStr, 10)
+          
+          // Ensure perPage is valid
+          expect(perPage).to.be.greaterThan(0)
+          expect(total).to.be.greaterThan(0)
+          
+          // Calculate expected page count
           const modulo = total % perPage
           const expectedPages = modulo === 0 ? total / perPage : Math.floor(total / perPage) + 1
           
-          // Verify page count is reasonable
+          // Verify expected page count is at least 1
           expect(expectedPages).to.be.greaterThan(0)
           
-          // Verify total matches modulo calculation
-          const calculatedTotal = (expectedPages - 1) * perPage + (modulo === 0 ? perPage : modulo)
-          expect(calculatedTotal).to.equal(total)
+          // Verify that the first page shows documents (if total > 0, there should be at least 1 document on page 1)
+          cy.get('main')
+            .find('ul.documents li:visible', { timeout: 10000 })
+            .should('have.length.at.least', 1)
+            .and('have.length.at.most', perPage)
+          
+          // If there are multiple pages, verify pagination controls reflect this
+          if (expectedPages > 1) {
+            // Pagination should show page numbers or next/last buttons
+            cy.get('pb-paginate')
+              .find('span.active, button, a')
+              .should('exist')
+          }
         })
       })
     })
