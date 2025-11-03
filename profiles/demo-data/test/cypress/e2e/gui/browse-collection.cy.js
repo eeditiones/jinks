@@ -4,6 +4,9 @@
 
 describe('TEI-Publisher Browse Collection', () => {
   beforeEach(() => {
+    // Set desktop viewport to ensure sidebar is visible
+    cy.viewport(1280, 720)
+    
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/browse.html?collection=demo')
     
@@ -43,7 +46,7 @@ describe('TEI-Publisher Browse Collection', () => {
   describe('Collection Search and Filtering', () => {
     it('displays search functionality', () => {
       // Check for search input
-      cy.get('input[type="text"]').should('exist')
+      cy.get('input#search').should('be.visible')
     })
 
     it('shows sorting options', () => {
