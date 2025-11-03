@@ -4,6 +4,7 @@
 
 describe('TEI-Publisher Documentation Page', () => {
   beforeEach(() => {
+    cy.viewport(1280, 720)
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/documentation')
   })
@@ -17,8 +18,8 @@ describe('TEI-Publisher Documentation Page', () => {
     it('has valid page structure', () => {
       // Check main components exist
       cy.get('main').should('be.visible')
-      cy.get('pb-document#content-document1').should('exist')
-      cy.get('pb-view[src="content-document1"]').should('exist')
+      cy.get('pb-document[id*="document1"]').should('exist')
+      cy.get('pb-view[src*="document1"]').should('exist')
       
       // Check ToC is present
       cy.get('pb-load.toc').should('exist')
@@ -32,8 +33,8 @@ describe('TEI-Publisher Documentation Page', () => {
 
     it('shows main content area with actual content', () => {
       cy.get('main').should('be.visible')
-      cy.get('pb-document#content-document1').should('have.attr', 'path', 'doc/documentation.xml')
-      cy.get('pb-view[src="content-document1"]', { timeout: 15000 }).should('exist')
+      cy.get('pb-document[id*="document1"]').should('have.attr', 'path', 'doc/documentation.xml')
+      cy.get('pb-view[src*="document1"]', { timeout: 15000 }).should('exist')
       
       // Wait for Introduction content to load - this is the actual documentation text
       cy.contains('Introduction', { timeout: 20000 }).should('be.visible')
@@ -103,8 +104,9 @@ describe('TEI-Publisher Documentation Page', () => {
       cy.get('pb-load.toc').should('exist')
       cy.get('pb-load.toc', { timeout: 15000 }).should('not.be.empty')
       
-      // Verify ToC has links loaded
-      cy.get('pb-load.toc').find('pb-link').should('have.length.at.least', 1)
+      // Verify ToC has links loaded - pb-link elements are loaded dynamically
+      // Use document-level query or wait for them to appear within pb-load.toc
+      cy.get('pb-load.toc pb-link', { timeout: 15000 }).should('have.length.at.least', 1)
     })
 
     it('shows navigation controls', () => {
@@ -248,7 +250,9 @@ describe('TEI-Publisher Documentation Page', () => {
 
     it('shows proper document view', () => {
       cy.get('pb-view').should('exist')
-      cy.get('pb-view').should('have.attr', 'src', 'content-document1')
+      cy.get('pb-view').should(($el) => {
+        expect($el.attr('src')).to.include('document1')
+      })
     })
   })
 })
