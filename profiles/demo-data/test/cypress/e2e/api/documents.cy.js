@@ -71,3 +71,18 @@ describe('/api/document/{id}/print', () => {
   })
 })
 
+describe.skip('/api/document/{id}/tex', () => {
+  // Some setups require authentication to access LaTeX transformation
+  // TODO(DP): see #186
+  it('retrieves as LaTeX', () => {
+    cy.api({
+      method: 'GET',
+      url: '/api/document/test%2Flet695.xml/tex',
+      qs: { source: 'true' },
+      headers: { Accept: 'application/x-latex' }
+    }).should((response) => {
+      expect(response.status).to.eq(200)
+      expect(response.headers['content-type']).to.eq('application/x-latex')
+    })
+  })
+})
