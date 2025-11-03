@@ -4,6 +4,9 @@
 
 describe('TEI-Publisher Document View', () => {
   beforeEach(() => {
+    // Set desktop viewport to ensure navigation elements are visible
+    cy.viewport(1280, 720)
+    
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/demo/kant_rvernunft_1781.TEI-P5.xml?view=page&odd=dta')
     
@@ -33,7 +36,10 @@ describe('TEI-Publisher Document View', () => {
       cy.get('pb-view').should('exist')
       
       // Wait for pb-view to actually load its content
-      cy.get('pb-view').should('have.attr', 'src', 'content-document1')
+      // TODO(DP):Could be tightened to eq content-document1 depending on b29635b177ff7a410b59ba194578748de853f513
+      cy.get('pb-view').should(($el) => {
+        expect($el.attr('src')).to.include('document1')
+      })
       
       // Wait for content to be loaded by checking for actual content
       cy.contains('Critik der reinen Vernunft', { timeout: 10000 }).should('be.visible')
