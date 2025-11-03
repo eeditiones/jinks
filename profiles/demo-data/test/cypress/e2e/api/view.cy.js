@@ -4,10 +4,10 @@
 
 describe('/{doc}', () => {
   it('Should retrieve matching view template', () => {
-    cy.request('/letters%2Fserafin32.xml')
+    cy.request('/demo%2Flet695.xml')
       .its('status').should('eq', 200)
 
-    cy.request('/letters%2Fserafin32.xml').then(({ body }) => {
+    cy.request('/demo%2Flet695.xml').then(({ body }) => {
       const doc = new DOMParser().parseFromString(body, 'text/html')
       // Check for basic HTML structure instead of specific meta tags
       expect(doc.querySelector('html')).to.not.be.null
