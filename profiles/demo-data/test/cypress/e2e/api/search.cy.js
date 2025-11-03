@@ -58,10 +58,10 @@ describe('TEI-Publisher Search API', () => {
     let cookieHeader
 
     it('runs a search and retrieves facet counts for search results', () => {
-      cy.api({ method: 'GET', url: '/api/search', qs: { query: 'serafin' } }).then(({ status, headers, body }) => {
+      cy.api({ method: 'GET', url: '/api/search', qs: { query: 'Kant' } }).then(({ status, headers, body }) => {
         expect(status).to.eq(200)
-        expect(headers['pb-total']).to.eq('1')
-        expect(body).to.include('<div class="count">1</div>')
+        expect(headers['pb-total']).to.eq('7')
+        expect(body).to.include('<div class="count">7</div>')
         const setCookie = headers['set-cookie']
         if (Array.isArray(setCookie) && setCookie.length) {
           cy.wrap(setCookie).its('0').then(cookie => {
@@ -73,7 +73,7 @@ describe('TEI-Publisher Search API', () => {
 
     it('get facets', () => {
       // Seed the session with a search so facets can read hits from session
-      cy.api({ method: 'GET', url: '/api/search', qs: { query: 'serafin' } })
+      cy.api({ method: 'GET', url: '/api/search', qs: { query: 'Kant' } })
         .then(({ headers }) => {
           const setCookie = headers['set-cookie']
           if (Array.isArray(setCookie) && setCookie.length) {
