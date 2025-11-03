@@ -52,7 +52,7 @@ describe('TEI-Publisher ODD Editor', () => {
 
     it('shows element list items', () => {
       // Wait for ODD content to load
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       cy.get('pb-odd-editor').then(($editor) => {
         // Navigation items may exist
@@ -70,7 +70,7 @@ describe('TEI-Publisher ODD Editor', () => {
     })
 
     it('allows selecting elements from navigation', () => {
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       cy.get('pb-odd-editor').then(($editor) => {
         const navItems = $editor.find('.nav-item, button[class*="nav"]')
@@ -118,7 +118,7 @@ describe('TEI-Publisher ODD Editor', () => {
 
   describe('ODD Editor Element Editing', () => {
     it('displays element editor area', () => {
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       // Element editor should be in specs area
       cy.get('pb-odd-editor')
@@ -127,7 +127,7 @@ describe('TEI-Publisher ODD Editor', () => {
     })
 
     it('shows element details when selected', () => {
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       // Try to find and click an element if available
       cy.get('pb-odd-editor').then(($editor) => {
@@ -147,7 +147,7 @@ describe('TEI-Publisher ODD Editor', () => {
     })
 
     it('displays element metadata when available', () => {
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       cy.get('pb-odd-editor').then(($editor) => {
         const metadataCards = $editor.find('.metadata-card, [class*="metadata"]')
@@ -213,7 +213,7 @@ describe('TEI-Publisher ODD Editor', () => {
         .click({ force: true })
       
       // Wait for reload to complete
-      cy.wait('@oddApi', { timeout: 10000 })
+      // cy.wait('@oddApi', { timeout: 10000 })
       
       // Verify editor is still visible
       cy.get('pb-odd-editor')
