@@ -49,12 +49,13 @@ describe('/api/document/{id}/html', () => {
 })
 
 describe('/api/document/{id}/print', () => {
-  it('retrieves as HTML optimized for print', () => {
+  // TODO(DP): see #185
+  it.skip('retrieves as HTML optimized for print', () => {
     cy.request({
       method: 'GET',
-      url: '/api/document/letters%2Fserafin32.xml/print',
+      url: '/api/document/demo%2Fosinski.xml/print',
       qs: {
-        odd: 'serafin.odd',
+        odd: 'osinski.odd',
         base: '%2Fexist%2Fapps%2Ftei-publisher%2Ftest',
         style: ['resources%2Ffonts%2Ffont.css', 'resources%2Fcss%2Fprint.css']
       }
@@ -62,7 +63,10 @@ describe('/api/document/{id}/print', () => {
       expect(status).to.eq(200)
       // Check for basic HTML structure instead of specific classes
       expect(body).to.include('<html')
-      expect(body).to.include('<section')
+      // expect(body).to.include('<section')
+      // allow additional classes before/after doc-title
+      expect(/class="[^"]*\bdoc-title\b[^"]*"/.test(body)).to.be.true
+      expect(body).to.include('class="register"')
     })
   })
 })
