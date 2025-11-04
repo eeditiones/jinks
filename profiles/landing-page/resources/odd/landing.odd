@@ -102,7 +102,19 @@
     </div>
 </div></pb:template>
         </model>
-                    <model predicate="@type='about'" behaviour="inline">
+                    <model predicate="@type='team'" behaviour="pass-through">
+            <param name="header" value="* except (listOrg|listPerson)"/>
+            <param name="content" value="(listOrg|listPerson)/*"/>
+            <param name="label" value="@n"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+  <span class="label">[[label]]</span>
+  <header class="row"><!-- horizontal alignment by default change by adding class="header-left" -->
+  [[header]]
+  </header>
+  <div class="team-members">[[content]]</div>
+</div></pb:template>
+        </model>
+                    <model predicate="@type='about'" behaviour="pass-through">
             <param name="label" value="@n"/>
             <param name="header" value="(head, p[1])"/>
             <param name="content" value="p[position() &gt; 1]"/>
@@ -127,6 +139,129 @@
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
+                </elementSpec>
+            <elementSpec ident="org" mode="add">
+                    <model behaviour="pass-through">
+            <desc>An organisation inside the teams section</desc>
+            <param name="logo" value="ptr[@type='logo']/@target"/>
+            <param name="label" value="@n"/>
+            <param name="name" value="orgName"/>
+            <param name="role" value="roleName"/>
+            <param name="content" value="note/node()"/>
+            <param name="email" value="ptr[@type='email']/@target"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="member-card">
+  <div class="member-card--top">
+    <div class="label">[[label]]</div>
+    <img src="[[logo]]" alt="[[name]]" class="member-logo"/>
+  </div>
+  <div class="member-card--middle">
+      <header>
+          <h3 class="member-name">[[name]]</h3>
+          <p class="title">[[role]]</p>
+      </header>
+      <div class="contact-links">
+          <a class="email" href="[[email]]"/>
+      </div>
+  </div>
+  <div class="member-card--description">
+    [[content]]
+  </div>
+</div></pb:template>
+        </model>
+                </elementSpec>
+                <elementSpec ident="person" mode="change">
+                    <model behaviour="pass-through">
+            <param name="label" value="@n"/>
+            <param name="name" value="persName"/>
+            <param name="role" value="occupation"/>
+            <param name="email" value="ptr[@type='email']/@target"/>
+            <param name="content" value="note/node()"/>
+            <param name="avatar" value="ptr[@type='avatar']/@target"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="member-card">
+  <div class="member-card--top">
+    <div class="label">[[label]]</div>
+    <img src="[[avatar]]" alt="[[name]]" class="avatar"/>
+  </div>
+  <div class="member-card--middle">
+      <header>
+          <h3 class="member-name">[[name]]</h3>
+          <p class="title">[[role]]</p>
+      </header>
+      <div class="contact-links">
+          <a class="email" href="[[email]]"/>
+      </div>
+  </div>
+  <div class="member-card--description">
+    [[content]]
+  </div>
+</div></pb:template>
+        </model>
+                    <model predicate="parent::listPerson and $parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
+            <param name="description" value="note[@type='bio']"/>
+            <pb:template xmlns="" xml:space="preserve"><header>
+    <a href="people/[[ id ]]">[[ label ]]</a>
+</header>
+<p>[[ description ]]</p></pb:template>
+        </model>
+                    <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
+            <desc>Register sidebar</desc>
+            <param name="content" value="persName[@type=('main', 'full')]"/>
+        </model>
+                    <modelSequence predicate="parent::listPerson">
+            <desc>Register details view</desc>
+            <model behaviour="pass-through">
+                <desc>Heading with full name and dates</desc>
+                <param name="content" value="(persName[@type!='variant'])[1]"/>
+                <param name="uri" value="'people/'||@xml:id"/>
+                <pb:template xmlns="" xml:space="preserve"><h2><a href="[[uri]]" target="_blank">[[content]]</a></h2></pb:template>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
+                <desc>Dates</desc>
+                <param name="birth" value="birth"/>
+                <param name="death" value="death"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+                    <h4><span class="dates">[[birth]]</span></h4>
+                    <h4><span class="dates">[[death]]</span></h4>
+                </div></pb:template>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Variant names</desc>
+                <param name="content" value="persName[@type='variant']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Images</desc>
+                <param name="content" value="figure"/>
+            </model>
+            <model behaviour="block">
+                <desc>Short bio note</desc>
+                <param name="content" value="note[@type='bio']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Additional notes</desc>
+                <param name="content" value="note[@type!='bio']"/>
+            </model>
+            <model behaviour="list">
+                <desc>Links to wikidata, wikipedia etc.</desc>
+                <param name="content" value="ptr"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Occupation</desc>
+                <param name="content" value="occupation"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>List of documents (from data-default collection), where references occur;
+                    (shown in register details view only); trying to match by key or ref attributes</desc>
+                <param name="uri" value="$parameters?context-path || '/browse.html?facet-person-id=' || @xml:id"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
+            </model>
+        </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>

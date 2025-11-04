@@ -50,8 +50,11 @@
     </section>
     
     [% include "templates/sections/highlights.html" %]
+
+    <section id="team" class="section-light">
+        [[ page:transform($doc//tei:div[@type='team'], (), "landing.odd") ]]
+    </section>
     [% include "templates/sections/team.html" %]
-    
     <section class="section-dark">
         [[ page:transform($doc//tei:div[@type='section'], (), "landing.odd") ]]
     </section>
