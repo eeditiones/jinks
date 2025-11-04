@@ -130,6 +130,7 @@ header.row {
     background-size: var(--jinks-hero-background-size);
     background-repeat: var(--jinks-hero-background-repeat);
     background-color: var(--jinks-hero-background-color);
+    background-position: var(--jinks-hero-background-position);
 }
 
 .hero div {
@@ -142,6 +143,7 @@ header.row {
 .explore-link {
     display: inline-block;
     padding: var(--s-1, 0.5rem) var(--s1, 1rem);
+    margin: var(--s-1, 0.5rem);
     border-radius: 40rem;
     border: 1px solid var(--jinks-colors-light);
     background-color: var(--jinks-colors-light);
@@ -242,7 +244,7 @@ header.row {
 
 .highlight-card .desc {
     backdrop-filter: blur(10px);
-    padding: var(--s1);
+    padding: calc(var(--s1)*0.5);
 }
 
 .highlight-card .desc a {
