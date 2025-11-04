@@ -10,13 +10,25 @@
     <style>
         .logo-text {
             display: block;
-            margin-top: var(--s1);
             margin-bottom: var(--s1);
             margin-right: var(--s2);
         }
+
+        /* Custom layout: before starts below header and before-top is hidden */
+        .fixed-layout {
+            grid-template-areas: "header header header"
+                                 "before content-top after-top"
+                                 "before content after"
+                                 "footer footer footer";
+            grid-template-columns: 0.001fr 1fr 0.001fr;
+        }
+
+        .fixed-layout > .before-top {
+            display: none;
+        }
     </style>
     [% endtemplate %]
-    [% template before-top %]
+    [% template before 1 %]
     <li>
         <img class="logo-text" src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg" alt="Serafin" />
     </li>

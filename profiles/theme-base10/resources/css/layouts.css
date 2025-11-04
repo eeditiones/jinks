@@ -179,6 +179,13 @@
 	position: relative;
 }
 
+.fixed-layout > .after,
+.fixed-layout > .before {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s1);
+}
+
 .fixed-layout > .page-header {
     grid-area: header;
 }

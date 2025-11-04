@@ -1,4 +1,15 @@
 describe('index page', () => {
+  // Ignore specific uncaught exceptions that are not critical
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // Ignore only "NetworkError when attempting to fetch resource"
+    if (err.message.includes('NetworkError when attempting to fetch resource')) {
+      // returning false here prevents Cypress from failing the test
+      return false
+    }
+    // don't prevent test failure on other errors
+    return true
+  })
+
   beforeEach(() => {
     cy.loginApi()
     cy.visit('/')

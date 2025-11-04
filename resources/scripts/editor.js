@@ -118,17 +118,8 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        // Load color palette selection
-        if (appConfig.theme?.colors?.palette) {
-            const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${appConfig.theme?.colors?.palette}"]`);
-            if (colorPaletteInput) {
-                colorPaletteInput.checked = true;
-                updateColorPickerSelection();
-            }
-        } else {
-            form.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
-            updateColorPickerSelection();
-        }
+
+        updateColorPaletteSelection();
 
         document.getElementById('action-details').style.display = 'block';
         document.getElementById('actions').innerHTML = '';
@@ -437,19 +428,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (config.theme?.colors?.palette) {
-                const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${config.theme?.colors?.palette}"]`);
-                if (colorPaletteInput) {
-                    colorPaletteInput.checked = true;
-                    updateColorPickerSelection();
-                }
-            } else {
-                const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
-                if (neutralPalette) {
-                    neutralPalette.checked = true;
-                    updateColorPickerSelection();
-                }
-            }
+            updateColorPaletteSelection(config);
         });
         if (updateEditor && editor) {
             editor.value = JSON.stringify(appConfig, null, 2);
@@ -578,7 +557,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // Add color palette configuration
         const colorPalette = formData.get('color-palette');
-        if (colorPalette) {
+        if (colorPalette && colorPalette !== 'neutral') {
             if (!appConfig.theme) {
                 appConfig.theme = {};
             }
@@ -602,6 +581,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 input.checked = target.checked;
+                toggleFeature(input);
             });
         }
         update();
@@ -755,7 +735,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        paletteContainer.querySelector(`input[name="color-palette"][value="neutral"]`).checked = true;
+        const palette = appConfig.theme?.colors?.palette || 'neutral';
+        paletteContainer.querySelector(`input[name="color-palette"][value="${palette}"]`).checked = true;
+
         updateColorPickerSelection();
 
         colorPickerInitialized = true;
@@ -763,8 +745,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // CSS Parser function to extract color values from palette CSS files
     async function parsePaletteCSS(cssUrl) {
-        const response = await fetch(cssUrl);
-        const cssText = await response.text();
+        let cssText;
+        try {
+            // Use relative path directly, just like other API calls in this file
+            const response = await fetch(cssUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch CSS: ${response.status} ${response.statusText}`);
+            }
+            cssText = await response.text();
+        } catch (error) {
+            // If fetch fails, try with absolute URL constructed from current location
+            const pathname = window.location.pathname;
+            const dirPath = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+            const absoluteUrl = window.location.origin + dirPath + cssUrl;
+            const response = await fetch(absoluteUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch CSS: ${response.status} ${response.statusText}`);
+            }
+            cssText = await response.text();
+        }
         
         // Extract color values using regex
         const colors = {};
@@ -865,7 +864,7 @@ window.addEventListener('DOMContentLoaded', () => {
     async function loadColorPalettes(apps) {
         colorPalettes = {};
         apps.forEach(async (app) => {
-            if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
+            if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
                 // Load color palettes from profile
                 Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
                     colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
@@ -884,7 +883,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 const option = createColorSchemeOption(name, colors);
                 paletteContainer.appendChild(option);
             } catch (error) {
-                console.error(`Failed to load palette ${name}:`, error);
+                console.error(`Failed to load palette ${name} from ${cssPath}:`, error);
             }
         }
         
@@ -905,6 +904,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 option.style.transform = 'scale(1)';
             }
         });
+    }
+
+    function updateColorPaletteSelection(config = appConfig) {
+        // Load color palette selection
+        const palette = config.theme?.colors?.palette || 'neutral';
+        const colorPaletteInput = form.querySelector(`input[name="color-palette"][value="${palette}"]`);
+        if (colorPaletteInput) {
+            colorPaletteInput.checked = true;
+            updateColorPickerSelection();
+        }
     }
 
     // Tab functionality

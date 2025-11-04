@@ -2,7 +2,7 @@
 @use "../../node_modules/@picocss/pico/scss/pico" with (
   $enable-semantic-container: true,
   $enable-classes: true,
-  $theme-color: "sand",
+  $theme-color: "cyan",
   $modules: (
     "content/code": false,
     "forms/input-color": false,
@@ -14,34 +14,102 @@
     "components/dropdown": true,
     "utilities/reduce-motion": false
   )
-);
-@import "../../profiles/theme-base10/resources/css/palette-teal.css";
+)
+@import "../../profiles/theme-base10/resources/css/palette-teal.css"
 
 // ============================================================================
-// CSS Custom Properties
+// SASS Mixins
 // ============================================================================
-:root
-    --jinks-menubar-background-color: var(--jinks-colors-500)
-    --jinks-menubar-color: var(--jinks-colors-light)
-    --jinks-layout-before-width: min(30vw, 192px)
-    --jinks-layout-after-width: 40vw
-    --jinks-logo-light: url("../images/tei-publisher-logo-contrast-color.svg")
-    --jinks-logo-image-width: 140px
-    --jinks-logo-image-height: 48px
+@mixin icon-size($size: 1.5rem)
+    width: $size
+    height: $size
 
-    --text-light: var(--jinks-colors-700)
-    --text-dark: var(--jinks-colors-50)
-    --pico-header-background: var(--jinks-menubar-background-color)
-    --color-border-light: var(--jinks-colors-dark)
-    --color-success: var(--jinks-colors-500)
-    --color-alert: var(--jinks-colors-accent)
+@mixin dark-mode-theme()
+    --pico-color: var(--jinks-colors-light)
+    --pico-primary: var(--jinks-colors-light)
+    --pico-primary-background: var(--jinks-colors-700)
+    --pico-primary-hover-background: var(--jinks-colors-400)
+    --pico-secondary-background: var(--jinks-colors-500)
+    --pico-secondary-hover-background: var(--jinks-colors-300)
+    --pico-muted-color: var(--jinks-colors-500)
+    --pico-muted-border-color: var(--jinks-colors-600)
     --pico-form-element-invalid-border-color: var(--jinks-colors-accent)
     --pico-form-element-invalid-focus-color: var(--jinks-colors-accent)
     --pico-form-element-valid-border-color: var(--jinks-colors-500)
     --pico-form-element-valid-focus-color: var(--jinks-colors-500)
     --pico-ins-color: var(--jinks-colors-500)
     --color-resolved: var(--jinks-colors-dark)
-    --color-text-black: var(--jinks-colors-700)
+    --pico-h3-color: var(--jinks-colors-light)
+    --jinks-tabs-color: var(--jinks-colors-100)
+    --pico-del-color: var(--jinks-colors-200)
+    --color-border-light: var(--jinks-colors-dark)
+    --color-success: var(--jinks-colors-500)
+    --color-alert: var(--jinks-colors-accent)
+    --jinks-menubar-background-color: var(--jinks-colors-500)
+    --jinks-menubar-color: var(--jinks-colors-light)
+
+    .fixed-layout >.before:not(:empty),
+    .fixed-layout >.before-top:not(:empty)
+        background-color: var(--jinks-colors-600)
+    
+    .color-scheme-option
+        background-color: var(--jinks-colors-dark)
+
+        &[data-selected="true"]
+            background-color: var(--jinks-colors-200)
+
+            label
+                color: var(--jinks-colors-dark)
+
+// ============================================================================
+// Color Scheme Styles
+// ============================================================================
+[data-theme=light],
+:root:not(:has([data-theme=dark])),
+:host:not(:has([data-theme=dark]))
+    --pico-primary-background: var(--jinks-colors-700)
+    --pico-primary-hover-background: var(--jinks-colors-400)
+    --pico-secondary-background: var(--jinks-colors-500)
+    --pico-secondary-hover-background: var(--jinks-colors-300)
+    --pico-muted-color: var(--jinks-colors-500)
+    --pico-muted-border-color: var(--jinks-colors-600)
+    --jinks-menubar-background-color: var(--jinks-colors-500)
+    --jinks-menubar-color: var(--jinks-colors-light)
+    --jinks-tabs-color: var(--jinks-colors-700)
+
+    --pico-header-background: var(--jinks-menubar-background-color)
+    --text-dark: var(--jinks-colors-50)
+    --color-border-light: var(--jinks-colors-dark)
+    --color-success: var(--jinks-colors-500)
+    --color-alert: var(--jinks-colors-accent)
+
+    --pico-form-element-invalid-border-color: var(--jinks-colors-accent)
+    --pico-form-element-invalid-focus-color: var(--jinks-colors-accent)
+    --pico-form-element-valid-border-color: var(--jinks-colors-500)
+    --pico-form-element-valid-focus-color: var(--jinks-colors-500)
+    --pico-ins-color: var(--jinks-colors-500)
+    --color-resolved: var(--jinks-colors-dark)
+    
+
+@media only screen and (prefers-color-scheme: dark)
+    :root:not(:has([data-theme])),
+    :host:not(:has([data-theme]))
+        @include dark-mode-theme()
+
+/* Dark color scheme (Forced) */
+/* Enabled if forced with data-theme="dark" */
+[data-theme="dark"]
+    @include dark-mode-theme()
+
+// ============================================================================
+// CSS Custom Properties
+// ============================================================================
+:root
+    --jinks-layout-before-width: min(30vw, 192px)
+    --jinks-layout-after-width: 40vw
+    --jinks-logo-light: url("../images/tei-publisher-logo-contrast-color.svg")
+    --jinks-logo-image-width: 140px
+    --jinks-logo-image-height: 48px
     --font-family: 'Inter', sans-serif
     --font-size: 16px
 
@@ -58,27 +126,20 @@
         
         li
             margin: 0
-            border-bottom: 1px solid transparent
+            border-bottom: 2px solid transparent
             
             a
                 display: block
                 padding: 0.75rem 1.5rem
                 text-decoration: none
-                color: var(--jinks-colors-700)
                 transition: all 0.2s ease
-                
+                color: var(--jinks-tabs-color)
+
                 &:hover
                     color: var(--jinks-colors-accent)
 
         li:has(a.active)
-            border-bottom: 1px solid var(--jinks-colors-accent)
-
-// ============================================================================
-// SASS Mixins
-// ============================================================================
-@mixin icon-size($size: 1.5rem)
-    width: $size
-    height: $size
+            border-bottom: 2px solid var(--jinks-colors-accent)
 
 // ============================================================================
 // Base Typography & Layout
@@ -92,6 +153,8 @@ html
     background-color: var(--pico-background-color)
 body
     min-height: 100vh
+    background-color: var(--pico-background-color)
+    color: var(--pico-color)
 
 h1, h2, h3, .output > label
     font-family: var(--font-family)
@@ -171,7 +234,7 @@ nav ul
     &:first-of-type
         margin-left: 0
 
-nav li button, 
+nav li button,
 nav li select
     padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
 
@@ -409,7 +472,6 @@ details pb-markdown
 .installed li
     display: flex
     column-gap: .5rem
-    color: var(--color-text-black)
     transition: all 0.2s ease
 
 .installed li > div
@@ -438,7 +500,6 @@ details pb-markdown
     font-size: .875rem
     text-align: center
     margin-bottom: 0
-    color: var(--text-light)
 
 .installed img, .installed li > label
     display: block

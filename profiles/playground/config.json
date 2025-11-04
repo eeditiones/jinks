@@ -12,15 +12,14 @@
     ],
     "defaults": {
         "data-default": "playground",
-        "template": "basic.html",
-        "browse": "browse-custom.html"
+        "template": "basic.html"
     },
     "features": {
+        "playground": {
+            "enabled": false
+        },
         "toc": {
             "enabled": true
-        },
-        "edition-navigation": {
-            "navigation": true
         },
         "upload": {
             "enabled": true
