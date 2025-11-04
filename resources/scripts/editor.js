@@ -556,8 +556,11 @@ window.addEventListener('DOMContentLoaded', () => {
             .concat(formData.getAll('blueprint'));
         
         // Add color palette configuration
+        const prevPalette = appConfig.theme?.colors?.palette;
         const colorPalette = formData.get('color-palette');
-        if (colorPalette && colorPalette !== 'neutral') {
+        if (
+            (colorPalette && colorPalette !== 'neutral') || 
+            (prevPalette && prevPalette !== 'neutral')) {
             if (!appConfig.theme) {
                 appConfig.theme = {};
             }
