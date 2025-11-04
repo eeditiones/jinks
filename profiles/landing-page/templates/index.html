@@ -32,20 +32,31 @@
 
     [% template hero %]
     <header class="hero">
-        <div class="center-l [[ $context?theme?hero?class ]]">
-            <h1><pb-i18n key="hero.main"/> <strong><pb-i18n key="hero.main2"/></strong></h1>
+        [% let $doc = config:get-document("landing/landing.xml") %]
+        [[ page:transform($doc//tei:div[@type='hero'], (), "landing.odd") ]]
+        [% endlet %]
+
+            <!--h1><pb-i18n key="hero.main"/> <strong><pb-i18n key="hero.main2"/></strong></h1>
             <p>
                 <pb-i18n key="hero.sub"></pb-i18n><br/>
                 <a class="explore-link" href="[[ $context?defaults?browse ]]"><pb-i18n key="hero.explore"></pb-i18n></a>
-            </p>
-        </div>
+            </p-->
     </header>
     [% endtemplate %]
 
-    [% include "templates/sections/about.html" %]
+    [% let $doc = config:get-document("landing/landing.xml") %]
+    <section id="about"><!-- control bleed / transparent by default -->
+    [[ page:transform($doc//tei:div[@type='about'], (), "landing.odd") ]]
+    </section>
+    
     [% include "templates/sections/highlights.html" %]
     [% include "templates/sections/team.html" %]
-    [% include "templates/sections/section.html" %]
+    
+    <section class="section-dark">
+        [[ page:transform($doc//tei:div[@type='section'], (), "landing.odd") ]]
+    </section>
+    [% endlet %]
+
     [% include "templates/sections/partners.html" %]
     [% include "templates/sections/bottom.html" %]
 
