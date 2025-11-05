@@ -22,8 +22,8 @@ module namespace teis="http://www.tei-c.org/tei-simple/query/tei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xqm";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xqm";
 
 declare function teis:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
     $sortBy as xs:string*) {

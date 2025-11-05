@@ -15,10 +15,10 @@ xquery version "3.1";
 module namespace epub = "http://exist-db.org/xquery/epub";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xqm";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xqm";
 import module namespace counter="http://exist-db.org/xquery/counter" at "java:org.exist.xquery.modules.counter.CounterModule";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";

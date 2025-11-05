@@ -18,11 +18,11 @@ xquery version "3.1";
 
 module namespace query="http://www.tei-c.org/tei-simple/query";
 
-import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "query-tei.xql";
-import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "query-db.xql";
-import module namespace jats-query="http://www.tei-c.org/tei-simple/query/jats" at "query-jats.xql";
+import module namespace tei-query="http://www.tei-c.org/tei-simple/query/tei" at "query-tei.xqm";
+import module namespace docbook-query="http://www.tei-c.org/tei-simple/query/docbook" at "query-db.xqm";
+import module namespace jats-query="http://www.tei-c.org/tei-simple/query/jats" at "query-jats.xqm";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xqm";
 
 declare variable $query:QUERY_OPTIONS := map {
     "leading-wildcard": "yes",

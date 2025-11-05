@@ -2,10 +2,10 @@ xquery version "3.1";
 
 module namespace idx="http://tei-publisher.com/jinks/static/index";
 
-import module namespace nlp="http://teipublisher.com/api/nlp" at "lib/api/nlp.xql";
+import module namespace nlp="http://teipublisher.com/api/nlp" at "lib/api/nlp.xqm";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

@@ -5,7 +5,7 @@ module namespace action="http://teipublisher.com/api/actions";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace pmc="http://www.tei-c.org/tei-simple/xquery/config";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xqm";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
@@ -39,10 +39,10 @@ declare function action:fix-odds($request as map(*)) {
 
 declare %private function action:generate-pm-config() {
     let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
-    let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
+    let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xqm", $pmuConfig, "application/xquery")
     return map {
         "type": "action:fix-odds",
-        "message": "recreated pm-config.xql"
+        "message": "recreated pm-config.xqm"
     }
 };
 

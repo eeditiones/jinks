@@ -6,7 +6,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace rutil="http://e-editiones.org/roaster/util";
-import module namespace oapi="http://teipublisher.com/api/odd" at "api/odd.xql";
+import module namespace oapi="http://teipublisher.com/api/odd" at "api/odd.xqm";
 
 let $lookup := function($name as xs:string) {
     try {

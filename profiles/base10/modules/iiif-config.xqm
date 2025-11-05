@@ -3,8 +3,8 @@
  :)
 module namespace iiifc="https://e-editiones.org/api/iiif/config";
 
-import module namespace iiif="https://e-editiones.org/api/iiif" at "lib/api/iiif.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
+import module namespace iiif="https://e-editiones.org/api/iiif" at "lib/api/iiif.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

@@ -4,12 +4,12 @@ module namespace capi="http://teipublisher.com/api/collection";
 
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace vapi="http://teipublisher.com/api/view" at "view.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xqm";
+import module namespace vapi="http://teipublisher.com/api/view" at "view.xqm";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xqm";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xqm";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 

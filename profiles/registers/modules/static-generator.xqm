@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace sg="http://tei-publisher.com/static/generate";
 
-import module namespace static="http://tei-publisher.com/jinks/static" at "xmldb:exist:///db/apps/jinks/modules/static.xql";
+import module namespace static="http://tei-publisher.com/jinks/static" at "xmldb:exist:///db/apps/jinks/modules/static.xqm";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
 declare function sg:generate-static($request as map(*)) {

@@ -5,7 +5,7 @@
  :)
 module namespace mapping="http://www.tei-c.org/tei-simple/components/map";
 
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

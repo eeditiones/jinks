@@ -4,7 +4,7 @@ import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace pmc="http://www.tei-c.org/tei-simple/xquery/config";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xqm";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
@@ -94,12 +94,12 @@ declare function local:generate-code($collection as xs:string) {
 };
 
 (: API needs dba rights for LaTeX :)
-sm:chgrp(xs:anyURI($target || "/modules/lib/api-dba.xql"), "dba"),
-sm:chmod(xs:anyURI($target || "/modules/lib/api-dba.xql"), "rwxr-Sr-x"),
+sm:chgrp(xs:anyURI($target || "/modules/lib/api-dba.xq"), "dba"),
+sm:chmod(xs:anyURI($target || "/modules/lib/api-dba.xq"), "rwxr-Sr-x"),
 
 local:mkcol($target, "transform"),
 local:generate-code($target),
 local:create-data-collection(),
 let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
 return
-    xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
+    xmldb:store($config:app-root || "/modules", "pm-config.xqm", $pmuConfig, "application/xquery")

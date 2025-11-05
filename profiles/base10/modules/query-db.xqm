@@ -22,8 +22,8 @@ module namespace dbs="http://www.tei-c.org/tei-simple/query/docbook";
 declare namespace db="http://docbook.org/ns/docbook";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xqm";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xqm";
 
 declare variable $dbs:FIELD_PREFIX := "dbk.";
 

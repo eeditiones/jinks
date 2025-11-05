@@ -32,7 +32,7 @@ sm:chgrp(xs:anyURI($target), "[[ $pkg?user?group]]"),
 sm:chown(xs:anyURI($target), "[[ $pkg?user?name]]"),
 
 (: store the app files :)
-xdb:store-files-from-pattern($target, $dir, 'index.xql'),
+xdb:store-files-from-pattern($target, $dir, 'index.xqm'),
 (: store the collection configuration :)
 local:mkcol("/db/system/config", $target),
 xdb:store-files-from-pattern(concat("/system/config", $target), $dir, "*.xconf")

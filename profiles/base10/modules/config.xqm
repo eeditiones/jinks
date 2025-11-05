@@ -6,10 +6,10 @@ xquery version "3.1";
  :)
 module namespace config="http://www.tei-c.org/tei-simple/config";
 
-import module namespace gen="https://e-editiones.org/tei-publisher/generator/config" at "generated-config.xql";
+import module namespace gen="https://e-editiones.org/tei-publisher/generator/config" at "generated-config.xqm";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xqm";
 import module namespace util="http://exist-db.org/xquery/util";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 
@@ -345,8 +345,8 @@ declare variable $config:default-odd := $gen:default-odd;
 
 (:~
  : Complete list of ODD files used by the app. If you add another ODD to this list,
- : make sure to run modules/generate-pm-config.xql to update the main configuration
- : module for transformations (modules/pm-config.xql).
+ : make sure to run modules/generate-pm-config.xq to update the main configuration
+ : module for transformations (modules/pm-config.xqm).
  :)
 declare variable $config:odd-available := $gen:odd-available;
 

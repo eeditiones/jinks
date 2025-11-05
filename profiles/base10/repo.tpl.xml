@@ -8,7 +8,7 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>[[$pkg?abbrev]]</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>post-install.xql</finish>
+    <prepare>pre-install.xq</prepare>
+    <finish>post-install.xq</finish>
     <permissions user="[[$pkg?user?name]]" group="[[$pkg?user?group]]" password="[[$pkg?user?password]]" mode="rw-rw-r--" />
 </meta>

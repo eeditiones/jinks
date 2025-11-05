@@ -2,7 +2,7 @@
     <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dbk="http://docbook.org/ns/docbook">
         <fulltext default="none" attributes="false"/>
         <lucene>
-            <module uri="http://teipublisher.com/index" prefix="nav" at="index.xql"/>
+            <module uri="http://teipublisher.com/index" prefix="nav" at="index.xqm"/>
             <analyzer class="org.exist.indexing.lucene.analyzers.NoDiacriticsStandardAnalyzer">
                 <param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"/>
             </analyzer>

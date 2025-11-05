@@ -5,4 +5,4 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
 return
-    xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
+    xmldb:store($config:app-root || "/modules", "pm-config.xqm", $pmuConfig, "application/xquery")

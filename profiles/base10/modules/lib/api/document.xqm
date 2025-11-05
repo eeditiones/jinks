@@ -5,18 +5,18 @@ module namespace dapi="http://teipublisher.com/api/documents";
 import module namespace router="http://e-editiones.org/roaster";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
-import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../../navigation-tei.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../../navigation.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "../../query.xql";
-import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../../map.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../../pm-config.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xqm";
+import module namespace nav-tei="http://www.tei-c.org/tei-simple/navigation/tei" at "../../navigation-tei.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../../navigation.xqm";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../../query.xqm";
+import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../../map.xqm";
 import module namespace process="http://exist-db.org/xquery/process" at "java:org.exist.xquery.modules.process.ProcessModule";
 import module namespace xslfo="http://exist-db.org/xquery/xslfo" at "java:org.exist.xquery.modules.xslfo.XSLFOModule";
-import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xql";
+import module namespace epub="http://exist-db.org/xquery/epub" at "../epub.xqm";
 import module namespace docx="http://existsolutions.com/teipublisher/docx";
-import module namespace cutil="http://teipublisher.com/api/cache" at "caching.xql";
+import module namespace cutil="http://teipublisher.com/api/cache" at "caching.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

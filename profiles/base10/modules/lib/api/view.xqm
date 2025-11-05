@@ -3,12 +3,12 @@ xquery version "3.1";
 module namespace vapi="http://teipublisher.com/api/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xqm";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
-import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xql";
+import module namespace custom="http://teipublisher.com/api/custom" at "../../custom-api.xqm";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 import module namespace roaster="http://e-editiones.org/roaster";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xqm";
 
 (:
 : We have to provide a lookup function to templates:apply to help it

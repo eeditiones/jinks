@@ -20,9 +20,9 @@ xquery version "3.1";
 module namespace nav="http://www.tei-c.org/tei-simple/navigation";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
-import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xql";
-import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xql";
+import module namespace tei-nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xqm";
+import module namespace jats-nav="http://www.tei-c.org/tei-simple/navigation/jats" at "navigation-jats.xqm";
+import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/docbook" at "navigation-dbk.xqm";
 
 declare %private function nav:dispatch($config as map(*), $function as xs:string, $args as array(*)) {
     let $fn := function-lookup(xs:QName($config?type || "-nav:" || $function), array:size($args))

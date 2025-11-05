@@ -37,7 +37,7 @@ if ($exist:path eq '') then
     </dispatch>
 
 else if ($exist:path eq "/") then
-    (: forward root path to index.xql :)
+    (: forward root path to landing page :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{$landingPage}"/>
     </dispatch>
@@ -79,11 +79,11 @@ else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
 else
     let $main :=
         if (matches($exist:path, "^/+api/+(?:odd|lint)")) then 
-            "api-odd.xql" 
+            "api-odd.xq" 
         else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex)$")) then
-            "api-dba.xql"
+            "api-dba.xq"
         else 
-            "api.xql"
+            "api.xq"
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/modules/lib/{$main}">

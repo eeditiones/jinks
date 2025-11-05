@@ -3,9 +3,9 @@ xquery version "3.1";
 module namespace rview="http://teipublisher.com/api/registers/view";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
-import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xqm";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xqm";
+import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

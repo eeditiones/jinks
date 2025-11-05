@@ -5,11 +5,11 @@ module namespace api="http://teipublisher.com/api/documentation-and-demo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
-import module namespace dapi="http://teipublisher.com/api/documents" at "lib/api/document.xql";
+import module namespace dapi="http://teipublisher.com/api/documents" at "lib/api/document.xqm";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace rutil="http://e-editiones.org/roaster/util";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xqm";
 import module namespace roaster="http://e-editiones.org/roaster";
 
 declare function api:lookup($name as xs:string, $arity as xs:integer) {
