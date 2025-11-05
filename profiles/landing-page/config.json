@@ -24,5 +24,13 @@
             }
         ],
         "login": true
+    },
+    "templating": {
+        "modules": {
+            "http://teipublisher.com/ns/templates/landing-page": {
+                "prefix": "landing",
+                "at": "modules/templates/landing-page.xqm"
+            }
+        }
     }
 }
