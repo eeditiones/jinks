@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace demo="https://tei-publisher.com/jinks/xquery/demo";
 
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
 
 declare function demo:sysinfo($title as xs:string) {
     <ul>

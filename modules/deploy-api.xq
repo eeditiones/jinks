@@ -2,11 +2,11 @@ declare namespace dep="http://tei-publisher.com/library/generator/deploy-api";
 
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace auth="http://e-editiones.org/roaster/auth";
-import module namespace path="http://tei-publisher.com/jinks/path" at "./paths.xql";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xqm";
 
-import module namespace deploy = "http://exist-db.org/xquery/deployment" at "deployment.xql";
-import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace deploy = "http://exist-db.org/xquery/deployment" at "deployment.xqm";
+import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xqm";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

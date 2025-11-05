@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace tu="http://e-editiones.org/jinks/templates/util";
 
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
 
 declare function tu:scan-collection($relPath as xs:string) {
     tu:scan-collection($relPath, ())

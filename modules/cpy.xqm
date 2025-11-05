@@ -6,9 +6,9 @@ xquery version "3.1";
  :)
 module namespace cpy="http://tei-publisher.com/library/generator/copy";
 
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
-import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xqm";
 
 declare namespace expath="http://expath.org/ns/pkg";
 

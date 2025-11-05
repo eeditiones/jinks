@@ -7,10 +7,10 @@ module namespace generator="http://tei-publisher.com/library/generator";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
-import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
+import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xqm";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
-import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xqm";
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";
@@ -104,7 +104,7 @@ declare %private function generator:filter-conflicts($messages as map(*)*) {
 
 (:~
  : Prepare the configuration by merging all profile configurations, then for each profile, 
- : call the function annotated with "prepare" in the setup.xql, merging in any changes or additions
+ : call the function annotated with "prepare" in the setup.xqm, merging in any changes or additions
  : returned by that function.
  :
  : @param $settings general settings to control the generator
@@ -167,8 +167,8 @@ declare function generator:after-write($context as map(*), $result as map(*)*, $
 
 declare %private function generator:find-callback($collection as xs:string, $type as xs:string) {
     let $funcs :=
-        if (util:binary-doc-available($collection || "/setup.xql")) then
-            inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
+        if (util:binary-doc-available($collection || "/setup.xqm")) then
+            inspect:module-functions(xs:anyURI($collection || "/setup.xqm"))
         else
             ()
     return
@@ -192,8 +192,8 @@ declare %private function generator:find-callback($collection as xs:string, $typ
 };
 
 declare function generator:find-setup($collection as xs:string) {
-    if (util:binary-doc-available($collection || "/setup.xql")) then
-        inspect:module-functions(xs:anyURI($collection || "/setup.xql"))
+    if (util:binary-doc-available($collection || "/setup.xqm")) then
+        inspect:module-functions(xs:anyURI($collection || "/setup.xqm"))
     else
         ()
 };
@@ -237,7 +237,7 @@ declare %private function generator:config($settings as map(*)?, $userConfig as 
         )
     return
         map:merge(($config, map { 
-            "skip": array { distinct-values(($config?skip?*, "setup.xql", "config.json")) }
+            "skip": array { distinct-values(($config?skip?*, "setup.xqm", "config.json")) }
         }))
 };
 

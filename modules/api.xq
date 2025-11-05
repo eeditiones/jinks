@@ -4,9 +4,9 @@ declare namespace api="https://tei-publisher.com/xquery/api";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace expath="http://expath.org/ns/pkg";
 
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
-import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
-import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
+import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xqm";
+import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xqm";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace auth="http://e-editiones.org/roaster/auth";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
@@ -60,7 +60,7 @@ declare function api:expand-template($request as map(*)) {
                 "modules": map {
                     "https://tei-publisher.com/generator/xquery/config": map {
                         "prefix": "config",
-                        "at": "modules/config.xql"
+                        "at": "modules/config.xqm"
                     }
                 }
             })
@@ -157,7 +157,7 @@ declare function api:page($request as map(*)) {
                 "modules": map {
                     "https://tei-publisher.com/generator/xquery/config": map {
                         "prefix": "config",
-                        "at": "modules/config.xql"
+                        "at": "modules/config.xqm"
                     }
                 }
             })
@@ -183,7 +183,7 @@ declare function api:profile-documentation($request as map(*)) {
             "modules": map {
                 "http://e-editiones.org/jinks/templates/util": map {
                     "prefix": "tu",
-                    "at": "modules/template-utils.xql"
+                    "at": "modules/template-utils.xqm"
                 }
             }
         }
@@ -195,7 +195,7 @@ declare function api:profile-documentation($request as map(*)) {
             "modules": map {
                 "https://tei-publisher.com/generator/xquery/config": map {
                     "prefix": "config",
-                    "at": "modules/config.xql"
+                    "at": "modules/config.xqm"
                 }
             },
             "ignoreUse": true()
@@ -219,7 +219,7 @@ declare function api:doc($request as map(*)) {
                 "modules": map {
                     "https://tei-publisher.com/generator/xquery/config": map {
                         "prefix": "config",
-                        "at": "modules/config.xql"
+                        "at": "modules/config.xqm"
                     }
                 }
             })

@@ -4,7 +4,7 @@ module namespace deploy = "http://exist-db.org/xquery/deployment";
 
 declare namespace expath="http://expath.org/ns/pkg";
 
-import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xqm";
 
 declare variable $deploy:ERROR_PERMISSION := xs:QName("deploy:permission-denied");
 
