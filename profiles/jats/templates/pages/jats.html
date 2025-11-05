@@ -18,8 +18,8 @@
             --jinks-toc-font-size: var(--pb-base-font-size);
         }
 
-        .before pb-view {
-            --jinks-content-font-size: var(--pb-base-font-size);
+        .before pb-view::part(content) {
+            --pb-content-font-size: var(--pb-base-font-size);
         }
     </style>
     [% endtemplate %]
