@@ -54,9 +54,12 @@
     <section class="section-dark">
         [[ landing:section($context, 'section', $doc) ]]
     </section>
+    
+    <section id="project-partners" class="section-light">
+        [[ landing:section($context, 'partners', $doc) ]]
+    </section>
     [% endlet %]
-
-    [% include "templates/sections/partners.html" %]
+    
     [% include "templates/sections/bottom.html" %]
 
     [% include "templates/footer.html" %]

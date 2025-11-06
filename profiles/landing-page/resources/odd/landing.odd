@@ -63,6 +63,15 @@
                     <model behaviour="inline" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
+                    <model predicate="@type='partners'" behaviour="pass-through">
+            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+  <span class="label"><pb-i18n key="partners.label"/></span>
+  <header class="row">
+    [[header]]
+  </header>
+  [[content]]
+</div></pb:template>
+        </model>
                     <model predicate="@type='highlights'" behaviour="pass-through">
             <desc>Outputs the project highlights in a grid</desc>
             <param name="title" value="head"/>
