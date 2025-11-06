@@ -2,11 +2,11 @@ xquery version "3.1";
 
 module namespace browse="http://teipublisher.com/ns/templates/browse";
 
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xqm";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
-import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xqm";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";

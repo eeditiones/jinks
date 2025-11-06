@@ -32,9 +32,9 @@ The extension process works as follows:
 1. jinks creates a merged configuration, assembled from the configurations of all profiles in the extension hierarchy
 2. it calls the *write action* on every profile in sequence
 
-### `setup.xql`
+### `setup.xqm`
 
-The profile may also include an XQuery module called `setup.xql`. If present, jinks will inspect the functions defined in this module, searching for functions with the annotations `%generator:prepare` and `%generator:write`. They represent different stages in the generation process:
+The profile may also include an XQuery module called `setup.xqm`. If present, jinks will inspect the functions defined in this module, searching for functions with the annotations `%generator:prepare` and `%generator:write`. They represent different stages in the generation process:
 
 * `%generator:prepare`: receives the merged configuration map - including all changes applied by previous calls to prepare - and may return a modified map. Use this to compute and set custom properties needed by your profile
 * `%generator:write`: performs the actual installation
@@ -44,7 +44,7 @@ The profile may also include an XQuery module called `setup.xql`. If present, ji
 
 `%generator:after-write` receives the target collection in which the application is installed as first parameter, the current context as second.  
 
-If no `setup.xql` is present or no `%generator:write` function is defined, the default action is to call
+If no `setup.xqm` is present or no `%generator:write` function is defined, the default action is to call
 
 ```xquery
 cpy:copy-collection($context)
@@ -66,7 +66,7 @@ Convenient configuration forms will be added later once the basic profiles reach
 
 After installing the jinks application package via the dashboard, open http://localhost:8080/exist/apps/tei-publisher-jinks/api.html in your browser. The `/api/generator/{profile}` provides the main API entry point.
 
-The main entry point into jinks is provided by the module [`modules/generator.xql`](modules/generator.xql), which exposes the function:
+The main entry point into jinks is provided by the module [`modules/generator.xqm`](modules/generator.xqm), which exposes the function:
 
 ```xquery
 declare function generator:process($profile as xs:string, $settings as map(*)?, $config as map(*)?)

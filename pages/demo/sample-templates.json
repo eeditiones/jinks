@@ -66,7 +66,7 @@
     },
     {
         "description": "Using imported module functions",
-        "template": "[% import \"https://tei-publisher.com/jinks/xquery/demo\" as \"demo\" at \"modules/demo.xql\" %]\n\n[# call function in imported demo module #]\n<section>[[demo:sysinfo($title)]]</section>",
+        "template": "[% import \"https://tei-publisher.com/jinks/xquery/demo\" as \"demo\" at \"modules/demo.xqm\" %]\n\n[# call function in imported demo module #]\n<section>[[demo:sysinfo($title)]]</section>",
         "params": {
             "title": "My great new application"
         },
@@ -88,7 +88,7 @@
     },
     {
         "description": "Other templating parameters in frontmatter",
-        "template": "---json\n{\n  \"templating\": {\n    \"extends\": \"pages/demo/base.html\",\n    \"namespaces\": {\n      \"tei\": \"http://www.tei-c.org/ns/1.0\"\n    },\n    \"modules\": {\n      \"https://tei-publisher.com/jinks/xquery/demo\": {\n        \"prefix\": \"demo\",\n        \"at\": \"modules/demo.xql\"\n      }\n    }\n  },\n  \"author\": \"Heinz\"\n}\n---\n\n[% let $data = demo:tei() %]\n<h1>[[ $data//tei:title/text() ]]</h1>\n\n<p>[[ $data//tei:body/tei:p/text() ]]</p>\n\n<footer>Published [[format-date(current-dateTime(), \"[MNn] [D], [Y]\", \"en\", (), ())]] by [[$author]].</footer>\n[% endlet %]",
+        "template": "---json\n{\n  \"templating\": {\n    \"extends\": \"pages/demo/base.html\",\n    \"namespaces\": {\n      \"tei\": \"http://www.tei-c.org/ns/1.0\"\n    },\n    \"modules\": {\n      \"https://tei-publisher.com/jinks/xquery/demo\": {\n        \"prefix\": \"demo\",\n        \"at\": \"modules/demo.xqm\"\n      }\n    }\n  },\n  \"author\": \"Heinz\"\n}\n---\n\n[% let $data = demo:tei() %]\n<h1>[[ $data//tei:title/text() ]]</h1>\n\n<p>[[ $data//tei:body/tei:p/text() ]]</p>\n\n<footer>Published [[format-date(current-dateTime(), \"[MNn] [D], [Y]\", \"en\", (), ())]] by [[$author]].</footer>\n[% endlet %]",
         "params": {
             "author": "Rudi"
         },

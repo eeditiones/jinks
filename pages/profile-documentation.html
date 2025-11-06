@@ -147,7 +147,7 @@
     </article>
     [% endif %]
 
-    [% let $files = tu:scan-collection($path || "/modules", "^.*\.xql$") %]
+    [% let $files = tu:scan-collection($path || "/modules", "^.*\.xqm?$") %]
     [% if exists($files) %]
     <article>
         <h3>XQuery Modules</h3>
