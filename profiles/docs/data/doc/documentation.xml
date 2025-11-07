@@ -2649,35 +2649,455 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </listitem>
       </itemizedlist>
     </note>
+    <para>Everything in TEI Publisher 10 is a profile, which also includes any application you
+      generate with jinks. Applications follow the same structure and hierarchical organization as
+      other profiles. The difference is only that an application includes the merged content of all
+      the profiles it extends. When you update an application, changes contributed by the various
+      dependant profiles will be injected into the correct place within the collection hierarchy. To
+      customize an application, it is therefore helpful to know the basic anatomy. It is also vital
+      to respect the naming scheme where one is documented to avoid conflicts and guarantee smooth
+      updates.</para>
+    <para>The most important locations inside the application hierarchy are:</para>
+    <variablelist>
+      <varlistentry>
+        <term>config.json</term>
+        <listitem>
+          <para>Contains the configuration for the profile or application and declares its dependencies on other profiles</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>.jinks.json</term>
+        <listitem>
+          <para>This file is maintained by jinks to keep track of changes and avoid that local changes are overwritten by updates.
+          You should not need to modify it by hand. However, it is important that this file is present. Do not remove it and make
+          sure it is available in the root collection of your application when installed, e.g. if you deploy from a xar package.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>modules</term>
+        <listitem>
+          <para>The actual application code, written in XQuery, can be found here. Files below the <filename>lib</filename>
+          collection should in general not be touched.</para>
+          <para>However, profiles can contribute additional XQuery files. Likewise your application may need functionality not 
+            available out of the box. In general, there are two main areas in which a profile or application may contribute XQuery
+            code:</para>
+          <variablelist>
+            <varlistentry>
+              <term>API endpoints</term>
+              <listitem>
+                <para>Those always come combined with a JSON definition of the endpoint (using the Open API standard), and the 
+                  naming convention is <filename>[profile-or-app]-api.xql</filename> and <filename>[profile-or-app]-api.json</filename>.
+                For example, the registers profile installs <filename>registers-api.xql</filename> and <filename>registers-api.json</filename>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Templating function modules</term>
+              <listitem>
+                <para>include helper or utility functions to be used in HTML templates and should go
+                  into <filename>modules/templates</filename>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>templates</term>
+        <listitem>
+          <para>HTML templates come in two flavours:</para>
+          <variablelist>
+            <varlistentry>
+              <term>page templates</term>
+              <listitem>
+                <para>contribute a custom HTML page to the application, e.g. a document view for a
+                  particular type of edition (see <option>serafin</option> blueprint) adding special
+                  features, or a custom browse or landing page. They will usually extend and inherit
+                  from one of the base templates.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>template blocks</term>
+              <listitem>
+                <para>provide fragments of HTML to be injected into other views. For example, the
+                    <option>iiif</option> profile is only adding a IIIF viewer into the right
+                  sidebar.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>resources</term>
+        <listitem>
+          <para>this collection/directory contains CSS stylesheets, Javascript files, i18n
+            translation files and most important: ODD files.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>For most of the files mentioned above, defined extension points exist in
+        <filename>config.json</filename>. This means you have to register the added resource in the
+      appropriate location within <filename>config.json</filename>. We'll discuss this in the
+      sections below.</para>
+    <para>Every profile or application may also add its own configuration parameters to
+        <filename>config.json</filename>. By convention those should go into an object below the
+        <option>features</option> property. For example, the <option>iiif</option> profile reads its
+      configuration items from <code>features.iiif</code>:</para>
+    <programlisting language="json" xml:space="preserve"><![CDATA["features": {
+  "iiif": {
+      "viewer": "pb-tify",
+      "base_uri": "https://apps.existsolutions.com/cantaloupe/iiif/2/",
+      "enabled": false
+  }
+}]]>
+    </programlisting>
   </section>
   <section>
-    <title>HTML templates</title>
-    <note role="todo">
+    <title>Templates</title>
+    <para>Templates are a key building block of TEI Publisher 10 and appear in two different contexts:</para>
+    <orderedlist>
+      <listitem>
+        <para>at generation time to expand the files contributed by the different profiles</para>
+      </listitem>
+      <listitem>
+        <para>at runtime to dynamically render the HTML pages of an application</para>
+      </listitem>
+    </orderedlist>
+    <para>Templates in TEI Publisher 10 use the <link
+        xlink:href="https://github.com/eeditiones/jinks-templates">jinks-templates</link> library,
+      which provides a powerful templating system with inheritance, blocks, and XQuery integration.
+      Templates are processed server-side. Unlike the templating in earlier TEI Publisher version,
+        <productname>jinks-templates</productname> can operate on XML as well as plain text files,
+      i.e. the processor can deal with (X)HTML as well as CSS, Javascript or XQuery code. However, the following sections
+    will concentrate on HTML templates, because those are the files user will be most interested in changing.</para>
+    <section>
+      <title>Templating Syntax</title>
+      <para>The jinks-templates library uses a simple but powerful syntax:</para>
       <itemizedlist>
         <listitem>
-          <para>Describe the jinks templating library with a short introduction to its syntax.</para>
+          <para><code>[% ... %]</code> - Template directives for control structures, includes, blocks, and templates</para>
         </listitem>
         <listitem>
-          <para>Describe template inheritance using basic.html as example: extends content.html, which extends base.html.</para>
+          <para><code>[[ ... ]]</code> - Variable interpolation using XQuery expressions</para>
         </listitem>
         <listitem>
-          <para>Explain how frontmatter configuration is merged on each level</para>
-        </listitem>
-        <listitem>
-          <para>Explain the concept of [% block %] and [% template %] and how they are used in the template inheritance tree</para>
-        </listitem>
-        <listitem>
-          <para>Describe the default page layout areas (one center column with two sidebars left and right) as given in base.html</para>
-        </listitem>
-        <listitem>
-          <para>Explain how to use [% template %] to inject content into any of the page layout areas</para>
-        </listitem>
-        <listitem>
-          <para>Explain how some profiles use template-only HTML files to add specific panels to an arbitrary page, e.g.
-            see profiles/iiif/templates/iiif-blocks.html.</para>
+          <para><code>---json</code> - Frontmatter markers for configuration (between <code>---json</code> and <code>---</code>)</para>
         </listitem>
       </itemizedlist>
-    </note>
+      <para>Template directives support common control structures like <code>[% if %]</code>,
+          <code>[% for %]</code>, <code>[% include %]</code>, and more. Variable interpolation
+        allows you to embed XQuery expressions directly in your templates, with access to the full
+        context map and any imported XQuery modules.</para>
+      <para>For a full documentation of directives, please refer to the <link
+          xlink:href="https://github.com/eeditiones/jinks-templates">jinks-templating
+        README</link>.</para>
+    </section>
+    <section>
+      <title>The Context Map</title>
+      <para>Every template receives a context map (a JSON object), which it can use to look up configuration parameters. The context map is
+        populated from two sources:</para>
+      <itemizedlist>
+        <listitem>
+          <para>the merged <filename>config.json</filename> of the application and all profiles it extends. You can see this context
+            in jinks itself if you expand the corresponding <guimenuitem>Merged Configuration</guimenuitem> panel below the current application's
+            configuration editor.</para>
+        </listitem>
+        <listitem>
+          <para>frontmatter given in the template and any other template it inherits from</para>
+        </listitem>
+      </itemizedlist>
+      <para>Template inheritance and context merging are central concepts in TEI Publisher 10: 
+        most profiles contribute just a few little fragments to the application, determined by configuration variables received
+        in the context. In the simplest case, a page template may only contain frontmatter, i.e. it just reconfigures the various
+        features and content blocks coming from inherited templates or profiles.</para>
+    </section>
+    <section>
+      <title>Template Inheritance</title>
+      <para>Templates can extend other templates, creating an inheritance chain. This allows you to
+        build complex page layouts by composing simpler templates. The inheritance is specified in
+        the JSON frontmatter using the <code>extends</code> directive.</para>
+      <para>For example, the inheritance chain for the documentation page you're currently reading is as follows:</para>
+      <itemizedlist>
+        <listitem>
+          <para><filename>templates/pages/documentation.html</filename> – Is loaded first, but
+            contains only frontmatter and one block to overwrite how breadcrumbs are shown.
+            Everything else is inherited via the extended <filename>basic.html</filename>.</para>
+        </listitem>
+        <listitem>
+          <para>
+            <filename>templates/pages/basic.html</filename> – Adds the main text view into the
+            central content area</para>
+        </listitem>
+        <listitem>
+          <para>
+            <filename>templates/layouts/content.html</filename> - Contributes content-specific
+            layout with breadcrumbs and table of contents</para>
+        </listitem>
+        <listitem>
+          <para>
+            <filename>templates/layouts/base.html</filename> - The root template, defines the overall page structure with HTML head, body, and layout areas</para>
+        </listitem>
+      </itemizedlist>
+      <para>The template processor will walk through the entire chain, in the order shown above,
+        expanding each template on the way. The initial template at the start of the chain,
+          <filename>templates/pages/documentation.html</filename>, looks like this:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/pages/basic.html"
+        },
+        "styles": [
+            "resources/css/documentation.css"
+        ],
+        "defaults": {
+            "base": "doc/documentation.xml"
+        },
+        "urls": {
+            "template": "documentation/:id?",
+            "ignore": "odd,view,path"
+        },
+        "features": {
+            "toc": {
+                "enabled": true
+            }
+        }
+    }
+    ---
+    [% template! breadcrumb %]
+    <li>
+        <pb-view class="breadcrumbs" src="document1" subscribe="transcription" disable-history="" on-update="">
+            <pb-param name="mode" value="breadcrumb"/>
+        </pb-view>
+    </li>
+    [% endtemplate %]
+</template>
+]]></programlisting>
+      <para>As you can see, it mainly adds to the configuration, this way changing how inherited templates up the chain will 
+        process, e.g. by indicating that a table of contents should be shown (by default there won't be any).</para>
+      <para>There is one template expression, <code>[% template! breadcrumb %]</code>, which overrides the default HTML
+        for the breadcrumbs in the toolbar: for the documentation we would like to see hierarchical breadcrumbs and we would
+        like to output those via the ODD – hence the <tag>pb-view</tag> webcomponent.</para>
+    </section>
+
+    <section>
+      <title>Frontmatter Configuration Merging</title>
+      <para>As we just learned, each template in the inheritance chain can include JSON frontmatter
+        (between <code>---json</code> and <code>---</code> markers). These configurations are merged
+        recursively as the inheritance chain is processed. Initially the configuration (passed to
+        the first template in the chain) corresponds to the <filename>config.json</filename> of the
+        root application, merged with all the <filename>config.json</filename> of the profiles it
+        extends.</para>
+      <para>It is therefore important to understand how the merging works:</para>
+      <itemizedlist>
+        <listitem>
+          <para><emphasis>Atomic values</emphasis> (strings, numbers, booleans) - Later templates
+            overwrite values from earlier templates</para>
+        </listitem>
+        <listitem>
+          <para><emphasis>Maps/Objects</emphasis> - Maps will be processed recursively by merging 
+            the properties of each incoming into the outgoing map.</para>
+        </listitem>
+        <listitem>
+          <para><emphasis>Arrays</emphasis> - Values are appended with duplicates removed. For
+            arrays of maps, deduplication uses the <code>id</code> property if present.</para>
+        </listitem>
+      </itemizedlist>
+      <para>This merging behavior allows child templates to extend or override configuration from
+        parent templates. For example, a child template can append additional stylesheets to the
+          <code>styles</code> array. Existing array items coming from inherited templates or
+        profiles are preserved.</para>
+      <para>We can also override a single property in a nested configuration entry. For example, to
+        disable the navigation buttons in the toolbar, we can use:</para>
+      <programlisting language="json" xml:space="preserve">---json
+{
+    "features": {
+        "toolbar": {
+            "navigation": false
+        }
+    }
+}
+---</programlisting>
+      <para>This will be recursively merged into the initial <code>features.toolbar</code> entry, resulting in:</para>
+      <programlisting language="json" xml:space="preserve">---json
+{
+    "features": {
+        "toolbar": {
+            "enabled": true,
+            "zoom": true,
+            "navigation": false,
+            "progress": {
+                "enabled": true,
+                "subscribe": "transcription"
+            }
+        }
+    }
+}
+---</programlisting>
+      <para>For sure there will be edge cases when this kind of property merging is not desirable.
+        The jinks-templates library provides <link
+          xlink:href="https://github.com/eeditiones/jinks-templates?tab=readme-ov-file#how-context-maps-are-merged"
+          >special properties</link> for that (see <code>"$replace"</code>).</para>
+    </section>
+
+    <section>
+      <title>Blocks and Templates</title>
+      <para>To make template inheritance really useful, we need a way for templates further down the inheritance chain to
+        contribute content to defined locations or placeholders within the inherited templates.
+        The template system uses two complementary concepts for content composition:</para>
+      <variablelist>
+        <varlistentry>
+          <term><code>[% block name %]</code></term>
+          <listitem>
+            <para>Defines a placeholder in a parent template where content can be injected. Blocks
+              are typically empty in the base template and get filled by child templates. Multiple
+              templates in the inheritance chain can contribute content to the same block, which
+              will be concatenated.</para>
+            <para>If a block is not empty, its content will be used as a fallback in case no other 
+              template is provided.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><code>[% template name %]</code></term>
+          <listitem>
+            <para>Defines content that will be injected into a corresponding <code>[% block name
+                %]</code> placeholder. When a template defines a template with a matching name, its
+              content fills that block. Multiple templates can contribute to the same block, and
+              their content will be concatenated in the order they appear in the inheritance
+              hierarchy.</para>
+            <para>You may append an additional integer to the template directive to change the position
+            at which the content will appear in the block if there's more than one template, e.g.:</para>
+            <synopsis>[% template after 1 %]</synopsis>
+            <para>The integer is used for ordering: templates defining an order number will be output first, 
+              sorted by the given number. Other templates will come after in the order they appear.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><code>[% template! name %]</code></term>
+          <listitem>
+            <para>The exclamation mark indicates an override. This replaces any content provided by
+              earlier templates in the inheritance chain for this block, rather than appending to
+              it. The last <code>[% template! %]</code> always wins and replaces other templates occurring before.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>For example, in <filename>templates/layouts/base.html</filename>, you'll find various block placeholders like 
+        in this snippet:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<aside class="before hidden-mobile">
+    [% block before %][% endblock %]
+</aside>
+
+<header class="content-top hidden-mobile">
+    [% if $features?toolbar?enabled %]
+    [% include "templates/toolbar.html" %]
+    [% endif %]
+    [% block content-top %][% endblock %]
+    [% if $features?toolbar?progress?enabled %]
+    <pb-progress subscribe="[[ $features?toolbar?progress?subscribe ]]" indeterminate="indeterminate" />
+    [% endif %]
+</header>
+
+[% block content %][% endblock %]]]></programlisting>
+      <para>This defines three blocks for: the left sidebar, the top of the content area and the
+        main content area itself. The content block is treated specially in that it will be filled
+        by all remaining content not associated with another block. So to add something into the
+        left sidebar as well as some main content, we can use the following child template:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<template>
+  [% template before %]
+  <h1>About this document</h1>
+  [% endtemplate %]
+  
+  <p>This is the main content of the document.</p>
+</template>]]></programlisting>
+    </section>
+    <section>
+      <title>Template-Only Files for Dynamic Content Injection</title>
+      <para>Some profiles use template-only HTML files to add specific panels or components to pages without modifying the base templates. These files are wrapped in a <tag>template</tag> element and contain only <code>[% template %]</code> definitions, no page structure.</para>
+      <para>These template-only files are loaded using the <code>use</code> directive in the profile's <filename>config.json</filename>. When a profile specifies files in the <code>use</code> array, those templates are automatically loaded and their template definitions become available to any page that has the corresponding block placeholders.</para>
+      <para>For example, the <option>iiif</option> profile uses this pattern to inject a IIIF viewer into the right sidebar. The profile's <filename>config.json</filename> includes:</para>
+      <programlisting language="json" xml:space="preserve"><![CDATA["templating": {
+    "use": [
+        "templates/iiif-blocks.html"
+    ]
+}]]></programlisting>
+      <para>And <filename>templates/iiif-blocks.html</filename> contains:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<template>
+    [% template scripts %]
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled and $context?features?iiif?viewer = "pb-tify" %]
+    <script type="module" src="..."></script>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template after %]
+    [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled %]
+        [% if $context?features?iiif?viewer = "pb-tify" %]
+        <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+        [% else %]
+        <pb-facsimile .../>
+        [% endif %]
+    [% endif %]
+    [% endtemplate %]
+</template>]]></programlisting>
+      <para>When the IIIF feature is enabled, this template automatically injects the IIIF viewer component into the <code>after</code> block (right sidebar) and adds necessary scripts to the <code>scripts</code> block, without requiring any changes to the base templates. This pattern allows features to be added or removed by simply enabling or disabling them in the configuration, making the system highly modular.</para>
+      <para>Other profiles that use this pattern include <option>dark-mode</option>, <option>timeline</option>, <option>metadata-panel</option>, and <option>annotate</option>, each adding their own specific functionality to pages through template-only files.</para>
+    </section>
+  </section>
+    <section>
+      <title>Default Page Layout Areas</title>
+      <para>The base template (<filename>templates/layouts/base.html</filename>) defines a three-column layout structure:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Left Sidebar (<code>before</code>)</term>
+          <listitem>
+            <para>Contains blocks for the left sidebar area:
+              <itemizedlist>
+                <listitem><para><code>before-top</code> - Navigation items above the sidebar</para></listitem>
+                <listitem><para><code>before</code> - Main sidebar content (commonly used for table of contents)</para></listitem>
+              </itemizedlist>
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Center Column (<code>content</code>)</term>
+          <listitem>
+            <para>Contains blocks for the main content area:
+              <itemizedlist>
+                <listitem><para><code>content-top</code> - Header area above main content (often contains toolbar)</para></listitem>
+                <listitem><para><code>above-content</code> - Content above the main content block</para></listitem>
+                <listitem><para><code>content</code> - The main content area (this is where document views are typically rendered)</para></listitem>
+                <listitem><para><code>below-content</code> - Content below the main content block</para></listitem>
+              </itemizedlist>
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Right Sidebar (<code>after</code>)</term>
+          <listitem>
+            <para>Contains blocks for the right sidebar area:
+              <itemizedlist>
+                <listitem><para><code>after-top</code> - Navigation items above the sidebar</para></listitem>
+                <listitem><para><code>after</code> - Main sidebar content (commonly used for facsimiles, metadata, or other supplementary content)</para></listitem>
+              </itemizedlist>
+            </para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Additionally, there are blocks for the page header (<code>header</code>, <code>hero</code>) and for adding styles and scripts to the HTML head (<code>styles</code>, <code>scripts</code>).</para>
+
+    <section>
+      <title>Injecting Content into Layout Areas</title>
+      <para>To inject content into any of the layout areas, child templates use the <code>[% template %]</code> directive with the appropriate block name. The content defined in the template will be inserted into the corresponding <code>[% block %]</code> placeholder in the parent template.</para>
+      <para>For example, <filename>templates/layouts/content.html</filename> injects a table of contents into the left sidebar by defining a template for the <code>before</code> block:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[[% template before %]
+[% if $context?features?toc?enabled and exists($context?doc)%]
+<h5>
+    <pb-i18n key="document.contents">Contents</pb-i18n>
+</h5>
+<pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" .../>
+[% endif %]
+[% endtemplate %]]]></programlisting>
+      <para>This content will appear in the left sidebar defined in <filename>base.html</filename> at the location where <code>[% block before %][% endblock %]</code> is placed.</para>
+      <para>Similarly, <filename>templates/pages/basic.html</filename> injects the main document view into the <code>content</code> block by placing the <tag>pb-view</tag> element directly in the template body (content outside of any <code>[% template %]</code> directive goes into the <code>content</code> block by default).</para>
+      <para>Multiple templates in the inheritance chain can contribute to the same block. Their content will be concatenated in the order they appear in the inheritance hierarchy, allowing you to build up content incrementally.</para>
+    </section>
   </section>
   <section xml:id="supported-input-formats">
     <title>Supported XML vocabularies</title>
