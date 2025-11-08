@@ -121,9 +121,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
         updateColorPaletteSelection();
 
-        document.getElementById('action-details').style.display = 'block';
-        document.getElementById('actions').innerHTML = '';
+        const ul = document.getElementById('actions');
+        ul.style.display = 'block';
+        ul.innerHTML = '';
         if (app.actions) {
+            const label = document.createElement('li');
+            label.innerHTML = '<span>Actions:</span>';
+            ul.appendChild(label);
+
             app.actions.forEach((action) => {
                 const li = document.createElement('li');
                 const btn = document.createElement('button');
@@ -131,7 +136,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 btn.dataset.tooltip = action.description;
                 btn.innerHTML = action.name;
                 li.appendChild(btn);
-                document.getElementById('actions').appendChild(li);
+                ul.appendChild(li);
 
                 btn.addEventListener('click', (ev) => {
                     ev.preventDefault();
@@ -592,8 +597,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function reset(updateEditor = true) {
         appConfig = {};
-        document.getElementById('action-details').style.display = 'none';
-        document.getElementById('actions').innerHTML = '';
+        const ul = document.getElementById('actions');
+        ul.style.display = 'none';
+        ul.innerHTML = '';
 
         form.reset();
         form.querySelector('[name="theme"]').checked = true;

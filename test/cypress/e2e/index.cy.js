@@ -244,7 +244,7 @@ describe('index page', () => {
 
       cy.get('[name="overwrite"]')
         .select('all')
-        cy.get('[data-tab="config"] .apply-config')
+      cy.get('footer .apply-config')
         .click()
       cy.wait('@e2eGenerate')
       cy.wait('@e2eDeploy', { responseTimeout: 40000 })

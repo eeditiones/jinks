@@ -181,6 +181,9 @@ button:has(span + svg)
 // ============================================================================
 // Header & Navigation
 // ============================================================================
+.fixed-layout
+    grid-template-areas: "header header header" "before-top content-top after-top" "before content after" "before footer footer"
+
 .page-header
     padding-block-start: 0
     background-image: var(--jinks-header-background-image)
@@ -237,6 +240,10 @@ nav ul
 nav li button,
 nav li select
     padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal)
+
+footer
+    background-color: var(--jinks-colors-200)
+    box-shadow: 0 -2px 8px 0 rgba(0,0,0,0.04), 0 2px 10px 0 rgba(0,0,0,0.12)
 
 // ============================================================================
 // Login Component

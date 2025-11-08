@@ -39,6 +39,30 @@
     </nav>
     [% endtemplate %]
 
+    [% template footer %]
+    <nav>
+        <ul>
+            <li>
+                <button class="apply-config" data-tooltip="Apply configuration" data-placement="right"
+                    data-shortcut="cmd+shift+s,ctrl+shift+s">
+                    <svg class="icon">
+                        <use href="#icon-refresh"></use>
+                    </svg>
+                    <span>Apply</span>
+                </button>
+            </li>
+            <!--li>
+                            <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry
+                                Run</button>
+                        </li-->
+            <li>
+                <span id="spinner" aria-busy="true">Applying configuration...</span>
+            </li>
+        </ul>
+        <ul id="actions" class="buttons"></ul>
+    </nav>
+    [% endtemplate %]
+
     <form id="config">
         <section id="configMeta" data-tab="config">
             <fieldset>
@@ -79,31 +103,6 @@
                         conflicts, use <strong>all</strong>.</small>
                 </label>
             </fieldset>
-            <nav>
-                <ul>
-                    <li>
-                        <button class="apply-config" data-tooltip="Apply configuration" data-placement="right" data-shortcut="cmd+shift+s,ctrl+shift+s">
-                            <svg class="icon">
-                                <use href="#icon-refresh"></use>
-                            </svg>
-                            <span>Apply</span>
-                        </button>
-                    </li>
-                    <!--li>
-                        <button id="dry-run" class="secondary" data-tooltip="Dry run: show changes without applying them">Dry
-                            Run</button>
-                    </li-->
-                    <li>
-                        <span id="spinner" aria-busy="true">Applying configuration...</span>
-                    </li>
-                </ul>
-            </nav>
-            <details id="action-details" style="display: none;">
-                <summary>Actions</summary>
-                <nav>
-                    <ul id="actions" class="buttons"></ul>
-                </nav>
-            </details>
         </section>
         <section id="profiles" class="profiles" data-tab="profiles">
             <fieldset>
