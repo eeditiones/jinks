@@ -133,8 +133,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 const btn = document.createElement('button');
                 btn.dataset.action = action.name;
-                btn.dataset.tooltip = action.description;
-                btn.innerHTML = action.name;
+                btn.dataset.tooltip = action.name;
+                btn.innerHTML = action.description;
                 li.appendChild(btn);
                 ul.appendChild(li);
 
