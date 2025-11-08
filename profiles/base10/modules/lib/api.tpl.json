@@ -1416,6 +1416,15 @@
 							"example": "test/kant_rvernunft_1781.TEI-P5.xml"
 						}
 					},
+                    {
+                        "name": "collapse",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "description": "If true, the table of contents will be collapsed"
+                    },
 					{
 						"name": "odd",
 						"in": "query",
