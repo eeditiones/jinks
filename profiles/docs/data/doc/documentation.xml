@@ -2647,6 +2647,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <para>Describe what a profile can contribute to an application: HTML templates, CSS styles, API endpoints.
           Cover each type in a separate subsection.</para>
         </listitem>
+        <listitem>
+          <para>Explain external profiles and how to create them</para>
+        </listitem>
       </itemizedlist>
     </note>
     <para>Everything in TEI Publisher 10 is a profile, which also includes any application you
@@ -2750,7 +2753,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 }]]>
     </programlisting>
   </section>
-  <section>
+  <section xml:id="templates">
     <title>Templates</title>
     <para>Templates are a key building block of TEI Publisher 10 and appear in two different contexts:</para>
     <orderedlist>
@@ -2938,7 +2941,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           >special properties</link> for that (see <code>"$replace"</code>).</para>
     </section>
 
-    <section>
+    <section xml:id="templates-blocks-and-templates">
       <title>Blocks and Templates</title>
       <para>To make template inheritance really useful, we need a way for templates further down the inheritance chain to
         contribute content to defined locations or placeholders within the inherited templates.
@@ -3040,12 +3043,31 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>Other profiles that use this pattern include <option>dark-mode</option>, <option>timeline</option>, <option>metadata-panel</option>, and <option>annotate</option>, each adding their own specific functionality to pages through template-only files.</para>
     </section>
   </section>
-    <section>
+    <section xml:id="layout">
       <title>Default Page Layout Areas</title>
-      <para>The base template (<filename>templates/layouts/base.html</filename>) defines a three-column layout structure:</para>
+    <para>In TEI Publisher 10, HTML templates and styling are covered by different profiles.
+      Templates are always part of the profile they functionally belong to. The
+        <option>base10</option> profile contains the root templates, which create the general layout
+      of the page, while other profiles contribute the views targeted at a particular use case or
+      feature. </para>
+    <para>Styling, on the other hand, is entirely handled by the selected theme profile. By default
+      this is <option>theme-base10</option>. If you remove the dependency on this profile from your
+      app, you'll get an unstyled page with just raw HTML.</para>
+      <para>To achieve a consistent look and feel across the generated website, the root template in
+        <option>base10</option> imposes a certain logical structure in the form of predefined areas,
+      which can be filled with content. The assumption is that most pages will obviously need a
+      header (for the page menu), a content area, and two areas before and after the central view
+      for auxiliary information. Each of the main areas may also need some kind of header (e.g. for
+      breadcrumbs or a toolbar).</para>
+    <para>However, the base profile does not state how those areas should be laid out on the page.
+      This is the responsibility of the theme, which by default renders the areas in a three-column
+      layout.</para>
+    <para>In detail, the base template (<filename>templates/layouts/base.html</filename>) defines
+      the following areas, each corresponding to a templating block, which can be populated by
+      templates:</para>
       <variablelist>
         <varlistentry>
-          <term>Left Sidebar (<code>before</code>)</term>
+          <term>Before Sidebar (<code>before</code>)</term>
           <listitem>
             <para>Contains blocks for the left sidebar area:
               <itemizedlist>
@@ -3056,20 +3078,20 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term>Center Column (<code>content</code>)</term>
+          <term>Main Content (<code>content</code>)</term>
           <listitem>
             <para>Contains blocks for the main content area:
               <itemizedlist>
                 <listitem><para><code>content-top</code> - Header area above main content (often contains toolbar)</para></listitem>
-                <listitem><para><code>above-content</code> - Content above the main content block</para></listitem>
+                <listitem><para><code>above-content</code> - Content directly above the main content block</para></listitem>
                 <listitem><para><code>content</code> - The main content area (this is where document views are typically rendered)</para></listitem>
-                <listitem><para><code>below-content</code> - Content below the main content block</para></listitem>
+                <listitem><para><code>below-content</code> - Content directly below the main content block</para></listitem>
               </itemizedlist>
             </para>
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term>Right Sidebar (<code>after</code>)</term>
+          <term>After Sidebar (<code>after</code>)</term>
           <listitem>
             <para>Contains blocks for the right sidebar area:
               <itemizedlist>
@@ -3082,9 +3104,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </variablelist>
       <para>Additionally, there are blocks for the page header (<code>header</code>, <code>hero</code>) and for adding styles and scripts to the HTML head (<code>styles</code>, <code>scripts</code>).</para>
 
-    <section>
+    <section xml:id="layout-injecting-content">
       <title>Injecting Content into Layout Areas</title>
-      <para>To inject content into any of the layout areas, child templates use the <code>[% template %]</code> directive with the appropriate block name. The content defined in the template will be inserted into the corresponding <code>[% block %]</code> placeholder in the parent template.</para>
+      <para>As described in the section on <link linkend="templates-blocks-and-templates">templates</link>, child templates use the <code>[% template
+          %]</code> directive with the appropriate block name to inject content into any of the
+        layout areas. The content defined in the template will be inserted into the corresponding
+          <code>[% block %]</code> placeholder in the parent template.</para>
       <para>For example, <filename>templates/layouts/content.html</filename> injects a table of contents into the left sidebar by defining a template for the <code>before</code> block:</para>
       <programlisting language="html" xml:space="preserve"><![CDATA[[% template before %]
 [% if $context?features?toc?enabled and exists($context?doc)%]
@@ -3096,7 +3121,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 [% endtemplate %]]]></programlisting>
       <para>This content will appear in the left sidebar defined in <filename>base.html</filename> at the location where <code>[% block before %][% endblock %]</code> is placed.</para>
       <para>Similarly, <filename>templates/pages/basic.html</filename> injects the main document view into the <code>content</code> block by placing the <tag>pb-view</tag> element directly in the template body (content outside of any <code>[% template %]</code> directive goes into the <code>content</code> block by default).</para>
-      <para>Multiple templates in the inheritance chain can contribute to the same block. Their content will be concatenated in the order they appear in the inheritance hierarchy, allowing you to build up content incrementally.</para>
+      <para>Multiple templates in the inheritance chain can contribute to the same block as
+        explained in the previous section.</para>
     </section>
   </section>
   <section xml:id="supported-input-formats">
