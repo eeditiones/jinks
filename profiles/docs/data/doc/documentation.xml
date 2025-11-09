@@ -43,13 +43,14 @@
       </orderedlist>
       <section xml:id="introVersion10">
         <title>Overview of version 10 and later ...</title>
-        <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves it
-          to the next level: instead of having one central application from which custom applications
-          are generated, the core of TEI Publisher itself is now decomposed into a set of small,
-          modular profiles, which can be customized and recombined to compose concrete applications.
-          Each profile covers a particular aspect of a digital edition, e.g. support for a certain
-          input format, the integration of facsimiles via IIIF, or functional features tailored to a
-          specific edition type, such as navigation between letters of a correspondence.</para>
+        <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves
+          it to the next level: instead of having one central application from which custom
+          applications are generated, the core of TEI Publisher itself is now decomposed into a set
+          of small, modular profiles, which can be customized and recombined to compose concrete
+          applications. Each profile covers a particular aspect of a digital edition, e.g. support
+          for a certain input format, the integration of facsimiles via IIIF, or functional features
+          tailored to a specific edition type, such as navigation between letters of a
+          correspondence.</para>
         <para>An actual application is then created by combining different profiles and their
           configuration. This is done through a central configuration file, to which each profile
           contributes its parameters. This simplifies the development process, especially for users
@@ -61,62 +62,74 @@
           configuration, which customizes the composition of profiles it extends.</para>
         <para>Also, creating an application is no longer a one-time process, but can be repeated
           iteratively: new profiles can be added, existing ones modified or removed again. TEI
-          Publisher 10 comes with a central application manager, Jinks, which manages all profiles and
-          the applications from them.</para>
+          Publisher 10 comes with a central application manager, Jinks, which manages all profiles
+          and the applications from them.</para>
         <para>It also takes care of updating profiles and their dependencies. Updates can largely be
-          carried out automatically when individual profiles change as new versions are released. Gone
-          are the days when users had to manually read through update instructions to migrate to a new
-          version of TEI Publisher. With version 10, the number of necessary manual interventions
-          should be reduced to a minimum and most updates can be applied with a single click.</para>
-        <para>To help you understand the different new parts in version 10 and how they fit together,
-          let us summarize some key concepts, which will be used in the rest of this
+          carried out automatically when individual profiles change as new versions are released.
+          Gone are the days when users had to manually read through update instructions to migrate
+          to a new version of TEI Publisher. With version 10, the number of necessary manual
+          interventions should be reduced to a minimum and most updates can be applied with a single
+          click.</para>
+        <para>To help you understand the different new parts in version 10 and how they fit
+          together, let us summarize some key concepts, which will be used in the rest of this
           documentation:</para>
         <variablelist>
           <varlistentry>
             <term>TEI Publisher</term>
             <listitem>
-              <para>denotes the software package as a whole, i.e. the entire toolbox, comprising all profiles and libraries</para>
+              <para>denotes the software package as a whole, i.e. the entire toolbox, comprising all
+                profiles and libraries</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Jinks</term>
             <listitem>
-              <para>the central application manager, which generates applications and manages updates</para>
+              <para>the central application manager, which generates applications and manages
+                updates</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>TEI Publisher Documentation and Demo</term>
             <listitem>
-              <para>refers to the application containing this documentation and a selection of demos. It mimics the old monolithic TEI Publisher application, but is now generated from a blueprint.</para>
+              <para>refers to the application containing this documentation and a selection of
+                demos. It mimics the old monolithic TEI Publisher application, but is now generated
+                from a blueprint.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Profile</term>
             <listitem>
-              <para>a small, modular building block for a TEI Publisher application. Profiles can extend other profiles and can be combined to create applications. We distinguish three different kinds of profiles:</para>
+              <para>a small, modular building block for a TEI Publisher application. Profiles can
+                extend other profiles and can be combined to create applications. We distinguish
+                three different kinds of profiles:</para>
               <variablelist>
                 <varlistentry>
                   <term>Blueprint</term>
                   <listitem>
-                    <para>a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary etc.</para>
+                    <para>a complete template for an application targeted at a specific use case
+                      like a monograph, correspondence edition, dictionary etc.</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
                   <term>Base</term>
                   <listitem>
-                    <para>a profile providing the core server-side API of TEI Publisher and basic page layout without styling</para>
+                    <para>a profile providing the core server-side API of TEI Publisher and basic
+                      page layout without styling</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
                   <term>Feature</term>
                   <listitem>
-                    <para>a functional sub-profile to be imported into another profile. It adds specific functionality, e.g. docker configuration, additional visualizations or pages etc.</para>
+                    <para>a functional sub-profile to be imported into another profile. It adds
+                      specific functionality, e.g. docker configuration, additional visualizations
+                      or pages etc.</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
                   <term>Theme</term>
                   <listitem>
-                    <para>provides a particular look and feel. Without this, you only get unstyled HTML</para>
+                    <para>provides a particular look and feel. Without this, you only get unstyled
+                      HTML</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
@@ -125,19 +138,25 @@
           <varlistentry>
             <term>TEI Processing Model</term>
             <listitem>
-              <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD spcification format, it defines how documents are transformed into different output formats.</para>
+              <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD
+                spcification format, it defines how documents are transformed into different output
+                formats.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Webcomponents</term>
             <listitem>
-              <para>the interactive user interface building blocks of TEI Publisher, which can be freely combined and rearranged to integrate TEI content and related features into an HTML page. Part of the HTML5 specification and natively implemented by modern browsers.</para>
+              <para>the interactive user interface building blocks of TEI Publisher, which can be
+                freely combined and rearranged to integrate TEI content and related features into an
+                HTML page. Part of the HTML5 specification and natively implemented by modern
+                browsers.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Jinks Templates</term>
             <listitem>
-              <para>a templating language used by Jinks during application generation as well as within profiles to fill placeholders with content.</para>
+              <para>a templating language used by Jinks during application generation as well as
+                within profiles to fill placeholders with content.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -209,16 +228,16 @@
         </listitem>
       </orderedlist>
     </section>
-    
+
   </section>
   <section xml:id="quickstart">
     <title>Quickstart</title>
     <section xml:id="installation">
       <title>Installation</title>
-      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org"
-          >eXist XML database</link> to operate. It is distributed as an eXist application package,
-        making it easy to install on any eXist database instance – either on your local machine or
-        any remote server. </para>
+      <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org">eXist
+          XML database</link> to operate. It is distributed as an eXist application package, making
+        it easy to install on any eXist database instance – either on your local machine or any
+        remote server. </para>
       <para> You can install eXist and TEI Publisher manually, as described below. Alternatively use
         the provided <link linkend="docker">docker image</link>. </para>
 
@@ -361,20 +380,24 @@
 
         <section xml:id="packageManager">
           <title>Installing Jinks and TEI Publisher Documentation/Demo</title>
-          <para>Starting with version 10, TEI Publisher no longer comes as a single application. To get started, you want to install two packages:</para>
+          <para>Starting with version 10, TEI Publisher no longer comes as a single application. To
+            get started, you want to install two packages:</para>
           <variablelist>
             <varlistentry>
               <term>Jinks</term>
               <listitem>
-                <para>The central application manager from which every other application is generated</para>
+                <para>The central application manager from which every other application is
+                  generated</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term>TEI Publisher Documentation and Demo</term>
               <listitem>
-                <para>Contains the documentation for TEI Publisher as well as a few demonstration pages for various features. This mimics the old TEI Publisher application
-                in that it allows you to explore the possibilities, upload documents and experiment with ODDs. The app is generated from the <emphasis>Documentation + Demo</emphasis>
-                blueprint in <productname>Jinks</productname>.</para>
+                <para>Contains the documentation for TEI Publisher as well as a few demonstration
+                  pages for various features. This mimics the old TEI Publisher application in that
+                  it allows you to explore the possibilities, upload documents and experiment with
+                  ODDs. The app is generated from the <emphasis>Documentation + Demo</emphasis>
+                  blueprint in <productname>Jinks</productname>.</para>
               </listitem>
             </varlistentry>
           </variablelist>
@@ -383,31 +406,36 @@
             Alternatively – e.g. when you chose the manual installation on Linux – you can also open
             a browser window and navigate to: <link xlink:show="new"
               xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
-          <para>Log into the dashboard using the admin account and the password you chose during
-            the installation (it will be empty by default). Use the left sidebar to navigate to the
+          <para>Log into the dashboard using the admin account and the password you chose during the
+            installation (it will be empty by default). Use the left sidebar to navigate to the
               <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs: the first one lists
             the application packages currently installed, the second can be used to install
             additional packages from eXist's public application repository.</para>
           <note>
-            <para>Should you encounter any issues with the login, try via a different app (they share logins):</para>
+            <para>Should you encounter any issues with the login, try via a different app (they
+              share logins):</para>
             <procedure>
               <step>
-                <para>From the dashboard, open the <productname>monex</productname> application.</para>
+                <para>From the dashboard, open the <productname>monex</productname>
+                  application.</para>
               </step>
               <step>
-                <para>If you are not logged in yet, this should present you with a login dialog. Provide your credentials and sign in.</para>
+                <para>If you are not logged in yet, this should present you with a login dialog.
+                  Provide your credentials and sign in.</para>
               </step>
               <step>
-                <para>Go back to the <productname>dashboard</productname>. The display should change and you should see the admin view.</para>
+                <para>Go back to the <productname>dashboard</productname>. The display should change
+                  and you should see the admin view.</para>
               </step>
             </procedure>
           </note>
           <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list for
-            <productname>Jinks</productname>. Once you find it, click on the little install icon. You can also search for TEI
-            Publisher and install the app so you can play around with the provided demos and
-            showcases. </para>
-          <para>After installing, you will find <productname>Jinks</productname> (and <productname>TEI Publisher Documentation and Demo</productname>, if pertinent) in the tab
-            showing installed apps. Click on the icon to open the app.</para>
+              <productname>Jinks</productname>. Once you find it, click on the little install icon.
+            You can also search for TEI Publisher and install the app so you can play around with
+            the provided demos and showcases. </para>
+          <para>After installing, you will find <productname>Jinks</productname> (and
+              <productname>TEI Publisher Documentation and Demo</productname>, if pertinent) in the
+            tab showing installed apps. Click on the icon to open the app.</para>
           <figure>
             <title>The Package Manager </title>
             <mediaobject>
@@ -647,8 +675,10 @@
                   microstructure.</para>
               </listitem>
               <listitem>
-                <para> An encyclopedia of philosophic terms by Friedrich Kirchner and Carl Michaëlis, published in 1907: <emphasis>Wörterbuch der Philosophischen Grundbegriffe</emphasis>.
-                This is based on the Lex-0 customization of TEI and provides a sidebar to browse the available lemmata.</para>
+                <para> An encyclopedia of philosophic terms by Friedrich Kirchner and Carl
+                  Michaëlis, published in 1907: <emphasis>Wörterbuch der Philosophischen
+                    Grundbegriffe</emphasis>. This is based on the Lex-0 customization of TEI and
+                  provides a sidebar to browse the available lemmata.</para>
               </listitem>
             </itemizedlist>
           </listitem>
@@ -677,7 +707,8 @@
       <section xml:id="document-view">
         <title>Document View</title>
         <note role="todo">
-          <para>Needs review. Changing templates no longer possible. ODD selection button in toolbar.</para>
+          <para>Needs review. Changing templates no longer possible. ODD selection button in
+            toolbar.</para>
         </note>
         <para>The document view can vary, depending on the sample document you are looking at.
           Nevertheless some default functionality will be shared:</para>
@@ -715,22 +746,23 @@
           going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis role="bold"
             >page template</emphasis>. </para>
 
-        <para>We have already mentioned in the very first section that the TEI Processing Model
-          lies at the heart of the Publisher – the ODD file associated with a document defines the
-          rules of transformation of the XML source file into HTML. Detailed discussion of the
-          Processing Model can be found in <link linkend="pm-syntax">following chapters</link>, for
-          now it is sufficient to say this is where decisions if a TEI element should be rendered
-          inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit the
+        <para>We have already mentioned in the very first section that the TEI Processing Model lies
+          at the heart of the Publisher – the ODD file associated with a document defines the rules
+          of transformation of the XML source file into HTML. Detailed discussion of the Processing
+          Model can be found in <link linkend="pm-syntax">following chapters</link>, for now it is
+          sufficient to say this is where decisions if a TEI element should be rendered inline, with
+          a tooltip, or as a marginal note, are made. Simplifying things a bit the
             <emphasis>text</emphasis> of the document that you see rendered in your browser is an
           effect of applying the rules from ODD file to the source document. When opening a document
           of the Demo collection, it is possible to see in the URL the <parameter>odd</parameter>
           parameter indicating which ODD file is being used to processed the document, e.g. <link
             xlink:href="../demo/F-rom.xml?odd=shakespeare"
           >demo/F-rom.xml?odd=shakespeare</link>.</para>
-        <para>Most demos come with their own ODD. However, all of them – at least if they deal with TEI – extend
-          the base ODD, <filename>teipublisher.odd</filename>.</para>
+        <para>Most demos come with their own ODD. However, all of them – at least if they deal with
+          TEI – extend the base ODD, <filename>teipublisher.odd</filename>.</para>
         <note role="todo">
-          <para>Should we describe here how to create your own ODD? Or add this to the section about processing model and reference from here?</para>
+          <para>Should we describe here how to create your own ODD? Or add this to the section about
+            processing model and reference from here?</para>
         </note>
         <para>Nevertheless, as we demonstrated in the section on selected sample documents, in the
           application context we certainly want more than just text, however nicely typeset. From
@@ -741,14 +773,16 @@
           <varlistentry>
             <term>Page templates</term>
             <listitem>
-              <para>Compose the HTML of the page, i.e. the overall layout of sections or panels on the page</para>
+              <para>Compose the HTML of the page, i.e. the overall layout of sections or panels on
+                the page</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Web Components</term>
             <listitem>
-              <para>All dynamic parts of the page, i.e. the text display, navigation buttons etc., are defined as small, reusable blocks, 
-                using the Web Components technology. Components can be used like common HTML elements. </para>
+              <para>All dynamic parts of the page, i.e. the text display, navigation buttons etc.,
+                are defined as small, reusable blocks, using the Web Components technology.
+                Components can be used like common HTML elements. </para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -790,11 +824,12 @@
             </imageobject>
           </mediaobject>
         </figure>
-        <para>Congratulations, now you can view your documents! This will use the base ODD.
-          For most text-centric TEI, the default rendition should already produce a readable result, but you'll certainly
-        find aspects to improve. Quite often the need for customization will be limited to a hand full of elements.
-        Therefore the next step would be to learn about ODDs and the Processing Model and apply the modifications needed.
-        This will be covered <link linkend="odd-customization">below</link>.</para>
+        <para>Congratulations, now you can view your documents! This will use the base ODD. For most
+          text-centric TEI, the default rendition should already produce a readable result, but
+          you'll certainly find aspects to improve. Quite often the need for customization will be
+          limited to a hand full of elements. Therefore the next step would be to learn about ODDs
+          and the Processing Model and apply the modifications needed. This will be covered <link
+            linkend="odd-customization">below</link>.</para>
         <para> If you attempt to upload a Microsoft Word document, the upload will automatically
           trigger upconversion of Word to TEI, using a custom ODD for the tranformation. Please note
           that the focus of this conversion is to preserve textual content, structure and basic
@@ -824,11 +859,12 @@
       <section xml:id="jinks">
         <title>What is Jinks?</title>
         <para>As mentioned in the introduction, TEI Publisher is no longer a single application, but
-          rather a toolbox with which you can generate applications. The <productname>TEI Publisher 
-          Documentation + Demo</productname> app we looked at in the previous chapter is such a generated
-          application. The tool from which it was generated is called <productname>Jinks</productname>.</para>
-        <para>Jinks is the central application manager for TEI Publisher and replaces the custom app generator
-          available in earlier versions of TEI Publisher. Jinks</para>
+          rather a toolbox with which you can generate applications. The <productname>TEI Publisher
+            Documentation + Demo</productname> app we looked at in the previous chapter is such a
+          generated application. The tool from which it was generated is called
+            <productname>Jinks</productname>.</para>
+        <para>Jinks is the central application manager for TEI Publisher and replaces the custom app
+          generator available in earlier versions of TEI Publisher. Jinks</para>
         <itemizedlist>
           <listitem>
             <para>can not only create new custom applications, but also reconfigure them at a later
@@ -839,7 +875,7 @@
               can extend or build upon other profiles</para>
           </listitem>
           <listitem>
-            <para>profiles can be modular, i.e. contribute only one feature. Or they can be a custom 
+            <para>profiles can be modular, i.e. contribute only one feature. Or they can be a custom
               composition of other profiles.</para>
           </listitem>
           <listitem>
@@ -876,16 +912,17 @@
         </itemizedlist>
         <note role="todo">
           <para>Following should go into separate chapter explaining how profiles work:</para>
-          <para>Each profile has a subcollection under <filename>profiles</filename> and must contain
-            at least one configuration file, <filename>config.json</filename>, which defines all the
-            variables to be used in templated files. </para>
+          <para>Each profile has a subcollection under <filename>profiles</filename> and must
+            contain at least one configuration file, <filename>config.json</filename>, which defines
+            all the variables to be used in templated files. </para>
         </note>
       </section>
     </section>
     <section xml:id="using-jinks">
       <title>Using Jinks</title>
       <note role="todo">
-        <para>Extend with a step by step description of how to configure an application in Jinks.</para>
+        <para>Extend with a step by step description of how to configure an application in
+          Jinks.</para>
         <para>Show how to download the generated app and how to continue working with it.</para>
       </note>
     </section>
@@ -919,14 +956,15 @@
       <title>Actions</title>
       <note role="todo">
         <para>Explain the default actions: reindex and fix-odds.</para>
-        <para>Point out that fix-odds needs to be called whenever you add an ODD to the application via jinks</para>
-        <para>Also, if you update an app via jinks and there were changes to ODDs in upstream, you 
+        <para>Point out that fix-odds needs to be called whenever you add an ODD to the application
+          via jinks</para>
+        <para>Also, if you update an app via jinks and there were changes to ODDs in upstream, you
           must use fix-odds to see the changes – unless you reinstalled the app</para>
         <para>reindex should be called after changing the collection.xconf</para>
       </note>
     </section>
   </section>
-  
+
   <section xml:id="odd-customization">
     <title>Processing Model transformations</title>
     <para>While the custom app generator already provides various profiles and features targeting
@@ -2632,20 +2670,21 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
-  <section>
+  <section xml:id="anatomy">
     <title>Anatomy of a profile</title>
     <note role="todo">
       <itemizedlist>
         <listitem>
-          <para>Profiles and the applications generated from them have a specific directory layout</para>
+          <para>Profiles and the applications generated from them have a specific directory
+            layout</para>
         </listitem>
         <listitem>
-          <para>When creating an application, it will have the same layout and users can add or overwrite 
-            files as needed for the custom application</para>
+          <para>When creating an application, it will have the same layout and users can add or
+            overwrite files as needed for the custom application</para>
         </listitem>
         <listitem>
-          <para>Describe what a profile can contribute to an application: HTML templates, CSS styles, API endpoints.
-          Cover each type in a separate subsection.</para>
+          <para>Describe what a profile can contribute to an application: HTML templates, CSS
+            styles, API endpoints. Cover each type in a separate subsection.</para>
         </listitem>
         <listitem>
           <para>Explain external profiles and how to create them</para>
@@ -2665,32 +2704,38 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <varlistentry>
         <term>config.json</term>
         <listitem>
-          <para>Contains the configuration for the profile or application and declares its dependencies on other profiles</para>
+          <para>Contains the configuration for the profile or application and declares its
+            dependencies on other profiles</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>.jinks.json</term>
         <listitem>
-          <para>This file is maintained by jinks to keep track of changes and avoid that local changes are overwritten by updates.
-          You should not need to modify it by hand. However, it is important that this file is present. Do not remove it and make
-          sure it is available in the root collection of your application when installed, e.g. if you deploy from a xar package.</para>
+          <para>This file is maintained by jinks to keep track of changes and avoid that local
+            changes are overwritten by updates. You should not need to modify it by hand. However,
+            it is important that this file is present. Do not remove it and make sure it is
+            available in the root collection of your application when installed, e.g. if you deploy
+            from a xar package.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>modules</term>
         <listitem>
-          <para>The actual application code, written in XQuery, can be found here. Files below the <filename>lib</filename>
-          collection should in general not be touched.</para>
-          <para>However, profiles can contribute additional XQuery files. Likewise your application may need functionality not 
-            available out of the box. In general, there are two main areas in which a profile or application may contribute XQuery
-            code:</para>
+          <para>The actual application code, written in XQuery, can be found here. Files below the
+              <filename>lib</filename> collection should in general not be touched.</para>
+          <para>However, profiles can contribute additional XQuery files. Likewise your application
+            may need functionality not available out of the box. In general, there are two main
+            areas in which a profile or application may contribute XQuery code:</para>
           <variablelist>
             <varlistentry>
               <term>API endpoints</term>
               <listitem>
-                <para>Those always come combined with a JSON definition of the endpoint (using the Open API standard), and the 
-                  naming convention is <filename>[profile-or-app]-api.xql</filename> and <filename>[profile-or-app]-api.json</filename>.
-                For example, the registers profile installs <filename>registers-api.xql</filename> and <filename>registers-api.json</filename>.</para>
+                <para>Those always come combined with a JSON definition of the endpoint (using the
+                  Open API standard), and the naming convention is
+                    <filename>[profile-or-app]-api.xql</filename> and
+                    <filename>[profile-or-app]-api.json</filename>. For example, the registers
+                  profile installs <filename>registers-api.xql</filename> and
+                    <filename>registers-api.json</filename>.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -2735,6 +2780,24 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             translation files and most important: ODD files.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>doc</term>
+        <listitem>
+          <para>contains documentation for the profile. This will be shown within jinks if users
+            click on the "I" information icon next to a profile.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>static</term>
+        <listitem>
+          <para>some profiles allow the application to be transformed into a static snapshot, which
+            does not require a database or any other server-side logic. Those profiles usually need
+            to provide customized templates for this static version, replacing dynamic functionality
+            with static counterparts where possible.</para>
+          <para>The collection hierarchy below <filename>static</filename> otherwise mirrors the
+            structure described in this chapter.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
     <para>For most of the files mentioned above, defined extension points exist in
         <filename>config.json</filename>. This means you have to register the added resource in the
@@ -2752,10 +2815,21 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   }
 }]]>
     </programlisting>
+    <section xml:id="anatomy-templates">
+      <title>Templated Source Files</title>
+      <para>If you browse through the source code of the profiles shipping with Jinks, you will also
+        note a bunch of files having <filename>.tpl</filename> in their name, e.g.
+          <filename>profiles/theme-base10/resources/css/jinks-variables.tpl.css</filename>.</para>
+      <para>Those are templated files and Jinks will automatically process and expand them while
+        copying files. You may rename any file to match the pattern <filename>.tpl.suffix</filename>
+        to have it expanded upon installation. What templates are and how you use them is described
+        in the next section.</para>
+    </section>
   </section>
   <section xml:id="templates">
     <title>Templates</title>
-    <para>Templates are a key building block of TEI Publisher 10 and appear in two different contexts:</para>
+    <para>Templates are a key building block of TEI Publisher 10 and appear in two different
+      contexts:</para>
     <orderedlist>
       <listitem>
         <para>at generation time to expand the files contributed by the different profiles</para>
@@ -2769,20 +2843,23 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       which provides a powerful templating system with inheritance, blocks, and XQuery integration.
       Templates are processed server-side. Unlike the templating in earlier TEI Publisher version,
         <productname>jinks-templates</productname> can operate on XML as well as plain text files,
-      i.e. the processor can deal with (X)HTML as well as CSS, Javascript or XQuery code. However, the following sections
-    will concentrate on HTML templates, because those are the files user will be most interested in changing.</para>
-    <section>
+      i.e. the processor can deal with (X)HTML as well as CSS, Javascript or XQuery code. However,
+      the following sections will concentrate on HTML templates, because those are the files user
+      will be most interested in changing.</para>
+    <section xml:id="templates-syntax">
       <title>Templating Syntax</title>
       <para>The jinks-templates library uses a simple but powerful syntax:</para>
       <itemizedlist>
         <listitem>
-          <para><code>[% ... %]</code> - Template directives for control structures, includes, blocks, and templates</para>
+          <para><code>[% ... %]</code> - Template directives for control structures, includes,
+            blocks, and templates</para>
         </listitem>
         <listitem>
           <para><code>[[ ... ]]</code> - Variable interpolation using XQuery expressions</para>
         </listitem>
         <listitem>
-          <para><code>---json</code> - Frontmatter markers for configuration (between <code>---json</code> and <code>---</code>)</para>
+          <para><code>---json</code> - Frontmatter markers for configuration (between
+              <code>---json</code> and <code>---</code>)</para>
         </listitem>
       </itemizedlist>
       <para>Template directives support common control structures like <code>[% if %]</code>,
@@ -2793,31 +2870,55 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           xlink:href="https://github.com/eeditiones/jinks-templates">jinks-templating
         README</link>.</para>
     </section>
-    <section>
+    <section xml:id="templates-context-map">
       <title>The Context Map</title>
-      <para>Every template receives a context map (a JSON object), which it can use to look up configuration parameters. The context map is
-        populated from two sources:</para>
+      <para>Every template receives a context map (a JSON object), which it can use to look up
+        configuration parameters. The context map is populated from two sources:</para>
       <itemizedlist>
         <listitem>
-          <para>the merged <filename>config.json</filename> of the application and all profiles it extends. You can see this context
-            in jinks itself if you expand the corresponding <guimenuitem>Merged Configuration</guimenuitem> panel below the current application's
+          <para>the merged <filename>config.json</filename> of the application and all profiles it
+            extends. You can see this context in jinks itself if you expand the corresponding
+              <guimenuitem>Merged Configuration</guimenuitem> panel below the current application's
             configuration editor.</para>
         </listitem>
         <listitem>
           <para>frontmatter given in the template and any other template it inherits from</para>
         </listitem>
       </itemizedlist>
-      <para>Template inheritance and context merging are central concepts in TEI Publisher 10: 
-        most profiles contribute just a few little fragments to the application, determined by configuration variables received
-        in the context. In the simplest case, a page template may only contain frontmatter, i.e. it just reconfigures the various
-        features and content blocks coming from inherited templates or profiles.</para>
+      <para>Template inheritance and context merging are central concepts in TEI Publisher 10: most
+        profiles contribute just a few little fragments to the application, determined by
+        configuration variables received in the context. In the simplest case, a page template may
+        only contain frontmatter, i.e. it just reconfigures the various features and content blocks
+        coming from inherited templates or profiles.</para>
+      <section xml:id="templates-context-map-access">
+        <title>Accessing the Context</title>
+        <para>Within template expressions, the context map can be accessed in two ways:</para>
+        <orderedlist>
+          <listitem>
+            <para>via the <code>$context</code> variable – this is an XQuery map and you can use the
+              lookup operator "?" to query for keys, nested maps and arrays. For example, to check
+              if the table of contents is enabled, you can write:</para>
+            <synopsis>[% if $context?features?toc?enabled %]</synopsis>
+          </listitem>
+          <listitem>
+            <para>via variable mapping – each top level property in the context map is also
+              available as a local variable, so above expression could be shortened to:</para>
+            <synopsis>[% if $features?toc?enabled %]</synopsis>
+          </listitem>
+        </orderedlist>
+        <para>Note that the second approach will result in an XQuery error if there's no property
+          called <option>features</option> in the current context map. Therefore, if you are not
+          absolutely sure that the property will always be there, use approach 1, which will never
+          fail.</para>
+      </section>
     </section>
-    <section>
+    <section xml:id="templates-inheritance">
       <title>Template Inheritance</title>
       <para>Templates can extend other templates, creating an inheritance chain. This allows you to
         build complex page layouts by composing simpler templates. The inheritance is specified in
         the JSON frontmatter using the <code>extends</code> directive.</para>
-      <para>For example, the inheritance chain for the documentation page you're currently reading is as follows:</para>
+      <para>For example, the inheritance chain for the documentation page you're currently reading
+        is as follows:</para>
       <itemizedlist>
         <listitem>
           <para><filename>templates/pages/documentation.html</filename> – Is loaded first, but
@@ -2836,7 +2937,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </listitem>
         <listitem>
           <para>
-            <filename>templates/layouts/base.html</filename> - The root template, defines the overall page structure with HTML head, body, and layout areas</para>
+            <filename>templates/layouts/base.html</filename> - The root template, defines the
+            overall page structure with HTML head, body, and layout areas</para>
         </listitem>
       </itemizedlist>
       <para>The template processor will walk through the entire chain, in the order shown above,
@@ -2874,14 +2976,16 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     [% endtemplate %]
 </template>
 ]]></programlisting>
-      <para>As you can see, it mainly adds to the configuration, this way changing how inherited templates up the chain will 
-        process, e.g. by indicating that a table of contents should be shown (by default there won't be any).</para>
-      <para>There is one template expression, <code>[% template! breadcrumb %]</code>, which overrides the default HTML
-        for the breadcrumbs in the toolbar: for the documentation we would like to see hierarchical breadcrumbs and we would
-        like to output those via the ODD – hence the <tag>pb-view</tag> webcomponent.</para>
+      <para>As you can see, it mainly adds to the configuration, this way changing how inherited
+        templates up the chain will process, e.g. by indicating that a table of contents should be
+        shown (by default there won't be any).</para>
+      <para>There is one template expression, <code>[% template! breadcrumb %]</code>, which
+        overrides the default HTML for the breadcrumbs in the toolbar: for the documentation we
+        would like to see hierarchical breadcrumbs and we would like to output those via the ODD –
+        hence the <tag>pb-view</tag> webcomponent.</para>
     </section>
 
-    <section>
+    <section xml:id="templates-frontmatter-merging">
       <title>Frontmatter Configuration Merging</title>
       <para>As we just learned, each template in the inheritance chain can include JSON frontmatter
         (between <code>---json</code> and <code>---</code> markers). These configurations are merged
@@ -2896,7 +3000,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             overwrite values from earlier templates</para>
         </listitem>
         <listitem>
-          <para><emphasis>Maps/Objects</emphasis> - Maps will be processed recursively by merging 
+          <para><emphasis>Maps/Objects</emphasis> - Maps will be processed recursively by merging
             the properties of each incoming into the outgoing map.</para>
         </listitem>
         <listitem>
@@ -2919,7 +3023,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     }
 }
 ---</programlisting>
-      <para>This will be recursively merged into the initial <code>features.toolbar</code> entry, resulting in:</para>
+      <para>This will be recursively merged into the initial <code>features.toolbar</code> entry,
+        resulting in:</para>
       <programlisting language="json" xml:space="preserve">---json
 {
     "features": {
@@ -2943,9 +3048,10 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
     <section xml:id="templates-blocks-and-templates">
       <title>Blocks and Templates</title>
-      <para>To make template inheritance really useful, we need a way for templates further down the inheritance chain to
-        contribute content to defined locations or placeholders within the inherited templates.
-        The template system uses two complementary concepts for content composition:</para>
+      <para>To make template inheritance really useful, we need a way for templates further down the
+        inheritance chain to contribute content to defined locations or placeholders within the
+        inherited templates. The template system uses two complementary concepts for content
+        composition:</para>
       <variablelist>
         <varlistentry>
           <term><code>[% block name %]</code></term>
@@ -2954,7 +3060,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
               are typically empty in the base template and get filled by child templates. Multiple
               templates in the inheritance chain can contribute content to the same block, which
               will be concatenated.</para>
-            <para>If a block is not empty, its content will be used as a fallback in case no other 
+            <para>If a block is not empty, its content will be used as a fallback in case no other
               template is provided.</para>
           </listitem>
         </varlistentry>
@@ -2966,11 +3072,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
               content fills that block. Multiple templates can contribute to the same block, and
               their content will be concatenated in the order they appear in the inheritance
               hierarchy.</para>
-            <para>You may append an additional integer to the template directive to change the position
-            at which the content will appear in the block if there's more than one template, e.g.:</para>
+            <para>You may append an additional integer to the template directive to change the
+              position at which the content will appear in the block if there's more than one
+              template, e.g.:</para>
             <synopsis>[% template after 1 %]</synopsis>
-            <para>The integer is used for ordering: templates defining an order number will be output first, 
-              sorted by the given number. Other templates will come after in the order they appear.</para>
+            <para>The integer is used for ordering: templates defining an order number will be
+              output first, sorted by the given number. Other templates will come after in the order
+              they appear.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -2978,12 +3086,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <listitem>
             <para>The exclamation mark indicates an override. This replaces any content provided by
               earlier templates in the inheritance chain for this block, rather than appending to
-              it. The last <code>[% template! %]</code> always wins and replaces other templates occurring before.</para>
+              it. The last <code>[% template! %]</code> always wins and replaces other templates
+              occurring before.</para>
           </listitem>
         </varlistentry>
       </variablelist>
-      <para>For example, in <filename>templates/layouts/base.html</filename>, you'll find various block placeholders like 
-        in this snippet:</para>
+      <para>For example, in <filename>templates/layouts/base.html</filename>, you'll find various
+        block placeholders like in this snippet:</para>
       <programlisting language="html" xml:space="preserve"><![CDATA[<aside class="before hidden-mobile">
     [% block before %][% endblock %]
 </aside>
@@ -3011,11 +3120,18 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   <p>This is the main content of the document.</p>
 </template>]]></programlisting>
     </section>
-    <section>
+    <section xml:id="templates-templates-only-files">
       <title>Template-Only Files for Dynamic Content Injection</title>
-      <para>Some profiles use template-only HTML files to add specific panels or components to pages without modifying the base templates. These files are wrapped in a <tag>template</tag> element and contain only <code>[% template %]</code> definitions, no page structure.</para>
-      <para>These template-only files are loaded using the <code>use</code> directive in the profile's <filename>config.json</filename>. When a profile specifies files in the <code>use</code> array, those templates are automatically loaded and their template definitions become available to any page that has the corresponding block placeholders.</para>
-      <para>For example, the <option>iiif</option> profile uses this pattern to inject a IIIF viewer into the right sidebar. The profile's <filename>config.json</filename> includes:</para>
+      <para>Some profiles use template-only HTML files to add specific panels or components to pages
+        without modifying the base templates. These files are wrapped in a <tag>template</tag>
+        element and contain only <code>[% template %]</code> definitions, no page structure.</para>
+      <para>These template-only files are loaded using the <code>use</code> directive in the
+        profile's <filename>config.json</filename>. When a profile specifies files in the
+          <code>use</code> array, those templates are automatically loaded and their template
+        definitions become available to any page that has the corresponding block
+        placeholders.</para>
+      <para>For example, the <option>iiif</option> profile uses this pattern to inject a IIIF viewer
+        into the right sidebar. The profile's <filename>config.json</filename> includes:</para>
       <programlisting language="json" xml:space="preserve"><![CDATA["templating": {
     "use": [
         "templates/iiif-blocks.html"
@@ -3039,40 +3155,89 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     [% endif %]
     [% endtemplate %]
 </template>]]></programlisting>
-      <para>When the IIIF feature is enabled, this template automatically injects the IIIF viewer component into the <code>after</code> block (right sidebar) and adds necessary scripts to the <code>scripts</code> block, without requiring any changes to the base templates. This pattern allows features to be added or removed by simply enabling or disabling them in the configuration, making the system highly modular.</para>
-      <para>Other profiles that use this pattern include <option>dark-mode</option>, <option>timeline</option>, <option>metadata-panel</option>, and <option>annotate</option>, each adding their own specific functionality to pages through template-only files.</para>
+      <para>When the IIIF feature is enabled, this template automatically injects the IIIF viewer
+        component into the <code>after</code> block (right sidebar) and adds necessary scripts to
+        the <code>scripts</code> block, without requiring any changes to the base templates. This
+        pattern allows features to be added or removed by simply enabling or disabling them in the
+        configuration, making the system highly modular.</para>
+      <para>Other profiles that use this pattern include <option>dark-mode</option>,
+          <option>timeline</option>, <option>metadata-panel</option>, and <option>annotate</option>,
+        each adding their own specific functionality to pages through template-only files.</para>
+    </section>
+    <section xml:id="templates-importing-helper-functions">
+      <title>Importing Helper Functions</title>
+      <para>Templates can call XQuery functions from custom modules to perform complex operations or
+        access application-specific logic. To make XQuery modules available to templates, you need
+        to register them in the profile's <filename>config.json</filename> file under the
+          <code>templating.modules</code> property.</para>
+      <para>Within a profile, helper modules should be placed in the
+          <filename>modules/templates</filename> directory. For example, the <option>base10</option>
+        profile includes two helper modules: <filename>modules/templates/page.xqm</filename> and
+          <filename>modules/templates/browse.xqm</filename>.</para>
+      <para>To register a module, add an entry to the <code>templating.modules</code> object in
+          <filename>config.json</filename>. Each module entry uses the module's namespace URI as the
+        key, and specifies a <code>prefix</code> (used to call functions in templates) and an
+          <code>at</code> path (the location of the module file relative to the profile
+        root):</para>
+      <programlisting language="json" xml:space="preserve"><![CDATA["templating": {
+    "modules": {
+        "http://teipublisher.com/ns/templates/page": {
+            "prefix": "page",
+            "at": "modules/templates/page.xqm"
+        },
+        "http://teipublisher.com/ns/templates/browse": {
+            "prefix": "browse",
+            "at": "modules/templates/browse.xqm"
+        }
+    }
+}]]></programlisting>
+      <para>Once registered, functions from these modules can be called directly in templates using
+        the prefix. For example, the <code>page:parameter()</code> function from
+          <filename>page.xqm</filename> can be used to reliably look up a request parameter:</para>
+      <programlisting language="html" xml:space="preserve"><![CDATA[<input name="query" type="search" value="[[ page:parameter($context, 'query', ()) ]]"/>]]></programlisting>
+      <para>While not required, it is good practice to pass the template's <code>$context</code> map
+        to the helper functions as first parameter, giving them access to all configuration values,
+        request parameters, and other context data. This allows them to perform operations that
+        would be difficult or impossible to express directly in template syntax, such as complex
+        data transformations, permission checks, or API calls.</para>
     </section>
   </section>
-    <section xml:id="layout">
-      <title>Default Page Layout Areas</title>
+  <section xml:id="themes-and-styling">
+    <title>Layout, Themes and Styling</title>
     <para>In TEI Publisher 10, HTML templates and styling are covered by different profiles.
       Templates are always part of the profile they functionally belong to. The
         <option>base10</option> profile contains the root templates, which create the general layout
       of the page, while other profiles contribute the views targeted at a particular use case or
-      feature. </para>
+      feature.</para>
     <para>Styling, on the other hand, is entirely handled by the selected theme profile. By default
       this is <option>theme-base10</option>. If you remove the dependency on this profile from your
       app, you'll get an unstyled page with just raw HTML.</para>
+    <section xml:id="layout">
+      <title>Default Page Layout Areas</title>
       <para>To achieve a consistent look and feel across the generated website, the root template in
-        <option>base10</option> imposes a certain logical structure in the form of predefined areas,
-      which can be filled with content. The assumption is that most pages will obviously need a
-      header (for the page menu), a content area, and two areas before and after the central view
-      for auxiliary information. Each of the main areas may also need some kind of header (e.g. for
-      breadcrumbs or a toolbar).</para>
-    <para>However, the base profile does not state how those areas should be laid out on the page.
-      This is the responsibility of the theme, which by default renders the areas in a three-column
-      layout.</para>
-    <para>In detail, the base template (<filename>templates/layouts/base.html</filename>) defines
-      the following areas, each corresponding to a templating block, which can be populated by
-      templates:</para>
+          <option>base10</option> imposes a certain logical structure in the form of predefined
+        areas, which can be filled with content. The assumption is that most pages will obviously
+        need a header (for the page menu), a content area, and two areas before and after the
+        central view for auxiliary information. Each of the main areas may also need some kind of
+        header (e.g. for breadcrumbs or a toolbar).</para>
+      <para>However, the base profile does not state how those areas should be laid out on the page.
+        This is the responsibility of the theme, which by default renders the areas in a
+        three-column layout.</para>
+      <para>In detail, the base template (<filename>templates/layouts/base.html</filename>) defines
+        the following areas, each corresponding to a templating block, which can be populated by
+        templates:</para>
       <variablelist>
         <varlistentry>
           <term>Before Sidebar (<code>before</code>)</term>
           <listitem>
-            <para>Contains blocks for the left sidebar area:
-              <itemizedlist>
-                <listitem><para><code>before-top</code> - Navigation items above the sidebar</para></listitem>
-                <listitem><para><code>before</code> - Main sidebar content (commonly used for table of contents)</para></listitem>
+            <para>Contains blocks for the left sidebar area: <itemizedlist>
+                <listitem>
+                  <para><code>before-top</code> - Navigation items above the sidebar</para>
+                </listitem>
+                <listitem>
+                  <para><code>before</code> - Main sidebar content (commonly used for table of
+                    contents)</para>
+                </listitem>
               </itemizedlist>
             </para>
           </listitem>
@@ -3080,12 +3245,23 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varlistentry>
           <term>Main Content (<code>content</code>)</term>
           <listitem>
-            <para>Contains blocks for the main content area:
-              <itemizedlist>
-                <listitem><para><code>content-top</code> - Header area above main content (often contains toolbar)</para></listitem>
-                <listitem><para><code>above-content</code> - Content directly above the main content block</para></listitem>
-                <listitem><para><code>content</code> - The main content area (this is where document views are typically rendered)</para></listitem>
-                <listitem><para><code>below-content</code> - Content directly below the main content block</para></listitem>
+            <para>Contains blocks for the main content area: <itemizedlist>
+                <listitem>
+                  <para><code>content-top</code> - Header area above main content (often contains
+                    toolbar)</para>
+                </listitem>
+                <listitem>
+                  <para><code>above-content</code> - Content directly above the main content
+                    block</para>
+                </listitem>
+                <listitem>
+                  <para><code>content</code> - The main content area (this is where document views
+                    are typically rendered)</para>
+                </listitem>
+                <listitem>
+                  <para><code>below-content</code> - Content directly below the main content
+                    block</para>
+                </listitem>
               </itemizedlist>
             </para>
           </listitem>
@@ -3093,25 +3269,34 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varlistentry>
           <term>After Sidebar (<code>after</code>)</term>
           <listitem>
-            <para>Contains blocks for the right sidebar area:
-              <itemizedlist>
-                <listitem><para><code>after-top</code> - Navigation items above the sidebar</para></listitem>
-                <listitem><para><code>after</code> - Main sidebar content (commonly used for facsimiles, metadata, or other supplementary content)</para></listitem>
+            <para>Contains blocks for the right sidebar area: <itemizedlist>
+                <listitem>
+                  <para><code>after-top</code> - Navigation items above the sidebar</para>
+                </listitem>
+                <listitem>
+                  <para><code>after</code> - Main sidebar content (commonly used for facsimiles,
+                    metadata, or other supplementary content)</para>
+                </listitem>
               </itemizedlist>
             </para>
           </listitem>
         </varlistentry>
       </variablelist>
-      <para>Additionally, there are blocks for the page header (<code>header</code>, <code>hero</code>) and for adding styles and scripts to the HTML head (<code>styles</code>, <code>scripts</code>).</para>
+      <para>Additionally, there are blocks for the page header (<code>header</code>,
+          <code>hero</code>) and for adding styles and scripts to the HTML head
+        (<code>styles</code>, <code>scripts</code>).</para>
 
-    <section xml:id="layout-injecting-content">
-      <title>Injecting Content into Layout Areas</title>
-      <para>As described in the section on <link linkend="templates-blocks-and-templates">templates</link>, child templates use the <code>[% template
-          %]</code> directive with the appropriate block name to inject content into any of the
-        layout areas. The content defined in the template will be inserted into the corresponding
-          <code>[% block %]</code> placeholder in the parent template.</para>
-      <para>For example, <filename>templates/layouts/content.html</filename> injects a table of contents into the left sidebar by defining a template for the <code>before</code> block:</para>
-      <programlisting language="html" xml:space="preserve"><![CDATA[[% template before %]
+      <section xml:id="layout-injecting-content">
+        <title>Injecting Content into Layout Areas</title>
+        <para>As described in the section on <link linkend="templates-blocks-and-templates"
+            >templates</link>, child templates use the <code>[% template %]</code> directive with
+          the appropriate block name to inject content into any of the layout areas. The content
+          defined in the template will be inserted into the corresponding <code>[% block %]</code>
+          placeholder in the parent template.</para>
+        <para>For example, <filename>templates/layouts/content.html</filename> injects a table of
+          contents into the left sidebar by defining a template for the <code>before</code>
+          block:</para>
+        <programlisting language="html" xml:space="preserve"><![CDATA[[% template before %]
 [% if $context?features?toc?enabled and exists($context?doc)%]
 <h5>
     <pb-i18n key="document.contents">Contents</pb-i18n>
@@ -3119,10 +3304,241 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 <pb-load class="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true" .../>
 [% endif %]
 [% endtemplate %]]]></programlisting>
-      <para>This content will appear in the left sidebar defined in <filename>base.html</filename> at the location where <code>[% block before %][% endblock %]</code> is placed.</para>
-      <para>Similarly, <filename>templates/pages/basic.html</filename> injects the main document view into the <code>content</code> block by placing the <tag>pb-view</tag> element directly in the template body (content outside of any <code>[% template %]</code> directive goes into the <code>content</code> block by default).</para>
-      <para>Multiple templates in the inheritance chain can contribute to the same block as
-        explained in the previous section.</para>
+        <para>This content will appear in the left sidebar defined in <filename>base.html</filename>
+          at the location where <code>[% block before %][% endblock %]</code> is placed.</para>
+        <para>Similarly, <filename>templates/pages/basic.html</filename> injects the main document
+          view into the <code>content</code> block by placing the <tag>pb-view</tag> element
+          directly in the template body (content outside of any <code>[% template %]</code>
+          directive goes into the <code>content</code> block by default).</para>
+        <para>Multiple templates in the inheritance chain can contribute to the same block as
+          explained in the previous section.</para>
+      </section>
+    </section>
+    <section xml:id="css-styling">
+      <title>Themes and custom CSS styling</title>
+      <para>In TEI Publisher 10, all styling is done by one or more <emphasis>theme</emphasis>
+        profiles, optionally combined with additional styles required by other profiles for the user
+        interface fragments they contribute. After generating an app, the folder
+          <code>resources/css</code> will contain all the CSS stylesheets files.</para>
+      <para>Out of the box, TEI Publisher 10 comes with a single default theme, <emphasis>theme-base10</emphasis>, carefully prepared by a professional designer.
+        The future will bring additional themes and users are invited to develop and contribute their own.</para>
+      <para>To facilitate the modification of frequently customized styling aspects, there are
+        several styling definitions that can be be directly configured in
+          <filename>config.json</filename> when generating/updating the application, such as the
+        logo, the color palette or the fonts. Here you have the definition of the default Jinks theme to
+        illustrate the different properties that can be defined.</para>
+      
+      <programlisting language="json" xml:space="preserve">
+"theme": {
+  "colors": {
+      "palette": "neutral",
+      "menubar": {
+          "background-image": null,
+          "background-color": "var(--jinks-colors-500)",
+          "color": "#ffffff"
+      },
+      "palettes": {
+          "blue": "palette-blue.css",
+          "green": "palette-green.css",
+          "beige": "palette-beige.css",
+          "neutral": "palette-neutral.css",
+          "teal": "palette-teal.css"
+      }
+  },
+  "logo": {
+      "light": "../images/tei-publisher-logo-contrast-color.svg",
+      "dark": "../images/tei-publisher-logo-contrast-color.svg",
+      "splash": {
+          "light": "../images/tei-publisher-logo-color.svg",
+          "dark": "../images/tei-publisher-logo-contrast-color.svg",
+          "size": "360px auto"
+      },
+      "width": "140px",
+      "height": "48px"
+  },
+  "fonts": {
+      "base": {
+          "family": "'Inter', 'Noto', sans-serif",
+          "size": "16px",
+          "line-height": "140%",
+          "weight": "400"
+      },
+      "content": {
+          "family": "JunicodeVF, Georgia, 'Times New Roman', serif",
+          "size": "1.25rem",
+          "line-height": "150%",
+          "weight": "400"
+      },
+      "heading": {
+          "family": "'Inter', 'Noto', sans-serif",
+          "size": "1.2rem",
+          "weight": "400"
+      },
+      "footnote": {
+          "size": "0.9em"
+      },
+      "breadcrumbs": {
+          "size": "0.9rem"
+      },
+      "menubar": {
+          "size": "14px"
+      },
+      "toc": {
+          "size": "1.125rem"
+      }
+  },
+  "hero": {
+      "background-image": "../images/typewriter.jpg",
+      "background-size": "cover",
+      "background-position": "center",
+      "background-repeat": "no-repeat",
+      "background-color": "rgba(0, 0, 0, 0.6)",
+      "text-width": "50rem",
+      "class": "row"
+  },
+  "bottom": {
+      "background-image": "../images/typewriter-on-books.jpg",
+      "background-size": "cover",
+      "background-repeat": "no-repeat",
+      "background-color": "rgba(0, 0, 0, 0.4)"
+  },
+  "header": {
+      "background-image": null
+  },
+  "breadcrumbs": {
+      "max": "40ch"
+  },
+  "texture": {
+      "background-image": "../images/jinks-images/paper.jpeg"
+  },
+  "layout": {
+      "class": "fixed-layout",
+      "before-width": "min(30vw, 356px)",
+      "after-width": "min(30vw, 356px)",
+      "max-width": "108rem",
+      "search": "before-top",
+      "toggle-before": true
+  }
+}</programlisting>
+      <para>Note that this list is not exhaustive and likely to change over time.</para>
+      <para>You can overwrite any styling property using the JSON configuration editor
+        in Jinks (or by directly editing the <filename>config.json</filename> of your generated application.
+        For example, the <emphasis>serafin</emphasis> blueprint changes the styles as follows:</para>
+      <programlisting language="json" xml:space="preserve"><![CDATA["theme": {
+        "logo": {
+            "width": "48px",
+            "dark": "../images/base_icon_transparent_background.svg",
+            "splash": {
+                "dark": "../images/animation_serafin.gif",
+                "light": "../images/animation_serafin.gif"
+            },
+            "light": "../images/base_icon_transparent_background.svg"
+        },
+        "layout": {
+            "search": "before",
+            "before-width": "min(30vw, 420px)"
+        },
+        "colors": {
+            "palettes": {
+                "dark": "palette-dark.css"
+            },
+            "palette": "dark"
+        }
+    }]]></programlisting>
+      <para>This snippet changes the logo, the splash screen, the width of the left sidebar and the color palette.
+        Note that we avoid using color codes, but instead refer to a color palette, which has a balanced selection of
+        matching colors. In the example above, a new palette named <option>dark</option> is added via 
+        <code>colors.palettes</code>.</para>
+      
+      <section xml:id="themes-and-styling-custom-css">
+        <title>Adding CSS Stylesheets</title>
+        <para>While some styling aspects can be customized via configuration only, you will likely
+          encounter cases for which you would like to add your own CSS. We strongly recommend to not
+          change any of the default stylesheets coming from the theme or other profiles. Instead,
+          create your own CSS stylesheet and overwrite the default styles where necessary. Not doing
+          so will very likely result in conflicts during future updates.</para>
+        <para>You can register additional stylesheets by adding them to the top-level
+            <option>styles</option> property, which is a JSON array. This can be done directly in
+            <filename>config.json</filename>, or via frontmatter. The latter, adding styles via
+          frontmatter, has the advantage that the styles will only be loaded for this particular
+          view and not pollute the styling of other pages.</para>
+        <para>For example, the <emphasis>Documentation + Demo</emphasis> profile does this as
+          follows:</para>
+        <programlisting language="json" xml:space="preserve"><![CDATA[<template>
+  ---json
+  {
+      "templating": {
+          "extends": "templates/pages/basic.html"
+      },
+      "styles": [
+          "resources/css/documentation.css"
+      ],
+      …
+  }
+  ---
+  …
+  </template>]]></programlisting>
+      </section>
+      
+      <section xml:id="css-styling-components">
+        <title>Customizing web components styling</title>
+        <note role="todo">
+          <para>Move into top section "Anatomy of a profile"?</para>
+          <para>Needs review and examples</para>
+        </note>
+        <para>A web component completely shields its content, so it cannot easily be styled from
+          outside. Web component styles remain encapsulated, preventing style contamination between
+          individual components and general application context. A blessing in general, allowing
+          components to be scripted and styled without the fear of collision with other parts of the
+          page, but poses additional challenges when adjusting the look and feel of a component to fit
+          a project's theme.</para>
+        <para>In older versions of TEI Publisher, some aspects of component styling remained
+          unaccessible for customization. From Publisher version 6 <code>pb-components</code> certain
+          style properties are exposed to the outside world via standard CSS variables. This way
+          variables like <code>--pb-footnote-color</code> defined in <code>jinks-variables.css</code>
+          can be accessed by e.g. <code>pb-view</code> component and thus determine the color of the
+          footnote marker in the rendered transcription. The file
+          <filename>jinks-variables.css</filename> is created from the available information in
+          <filename>config.json</filename> and falls back to defaults if the variable is not defined
+          there.</para>
+        <para>The other CSS file that concretates the components properties that can be styled is
+          <filename>jinks-components.css</filename>.</para>
+        <para>Note that while you cannot directly change every aspect of the the inner appearance of a
+          component, you can style the component itself within the HTML template, e.g. to position it
+          within the layout of the page.</para>
+        <para>With TEI Publisher 8, or, more precisely, version 1.43.0 of the
+          <code>tei-publisher-components</code>, a very robust method of applying styles throughout
+          the page is available by simply specifying a <code>theme</code> property for
+          <code>pb-page</code>.</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
+        
+      </section>
+      <section xml:id="css-styling-external">
+        <title>External stylesheets</title>
+        <note role="todo">
+          <para>Should go into processing model section?</para>
+        </note>
+        <para> ODD specification allows for explicit declaration of an external CSS file which may
+          define styles and CSS classes to be applied to tranformed sources (in <code>
+            encodingDesc/tagsDecl/rendition</code>), e.g. </para>
+        <programlisting language="xml" xml:space="preserve">
+                  &lt;rendition source="docbook.css"/&gt;
+          </programlisting>
+        <para> Styles and classes from that file are loaded into <code>pb-view</code> component and
+          thus accessible for its content. </para>
+        <para> External stylesheets for <code>pb-view</code> can also be specified via
+          <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
+          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file
+          to be applied, otherwise both methods are functionally equivalent. </para>
+        
+        <programlisting language="html" xml:space="preserve">
+                  &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
+          </programlisting>
+        
+        <para> Broader discussion of using <tag>rendition</tag> for custom styles can be found in
+          <link linkend="external-css">this section</link>. </para>
+        <!-- shall we discuss CSS shadow part? somewhere -->
+      </section>
     </section>
   </section>
   <section xml:id="supported-input-formats">
@@ -3154,8 +3570,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </listitem>
       </itemizedlist>
       <para>We acknowledge that TEI offers other ways to encode these features, e.g. generic
-        <tag>milestone</tag> element or specialized numbered division elements like
-        <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
+          <tag>milestone</tag> element or specialized numbered division elements like
+          <tag>div1</tag>, <tag>div2</tag>. TEI documents using alternative encodings will be still
         displayed as specified in the ODD, it is only for the sake of navigation or division-based
         full text search that we had to assume certain conventions to be able to decide what to show
         as the next page, column or division. </para>
@@ -3188,7 +3604,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         with the JATS ODD (see <varname>config:collection-config</varname> in
           <filename>modules/config.xqm</filename>.</para> -->
     </section>
-    
+
     <section xml:id="docx">
       <title>MS Word DOCX format conversion</title>
       <para> Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
@@ -3201,11 +3617,11 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         impossible to deduce semantics attributed to certain formatting decisions. For that reason
         TEI Publisher by intention ignores many style properties — trying to preserve as much as
         possible would likely just add unnecessary "noise" and result in low-quality TEI. </para>
-      
-      
+
+
       <section xml:id="docx-intro">
         <title>A word about Word</title>
-        
+
         <para> A Word document is essentially a zip archive of several different XML files. These
           files store various parts – the text content, styles, embedded media files etc.
           Information most relevant for the import process have been extracted into a map, which is
@@ -3223,7 +3639,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             </imageobject>
           </mediaobject>
         </figure>
-        
+
         <variablelist>
           <varlistentry>
             <term>Named tei:* styles</term>
@@ -3231,14 +3647,14 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
               <para> Named styles can be strong indicators for the semantics of the text fragment.
                 Styles whose name starts with <code>tei:</code> are thus recognized as TEI elements
                 with the same name. If a character sequence uses a style called
-                <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
+                  <code>tei:persName</code>, it will be wrapped into a TEI <tag>persName</tag>
                 element in the output, e.g. <code>&lt;persName&gt;Johann Wolfgang
                   Goethe&lt;/persName&gt;</code>. A place name should be marked with a style <code>
-                    tei:placeName</code> and reconstructed text could be encoded by applying a style
-                <code> tei:supplied</code>. </para>
+                  tei:placeName</code> and reconstructed text could be encoded by applying a style
+                  <code> tei:supplied</code>. </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>Headings and divisions</term>
             <listitem>
@@ -3247,7 +3663,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 Word headings and outline level associated with these to determine division
                 boundaries. </para>
               <para> In the first pass, all paragraph styles starting with <code>heading</code>,
-                <code> title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
+                  <code> title</code> or <code>subtitle</code> generate a <tag>tei:head</tag>
                 element. The outline level assigned to the heading is recorded as well. </para>
               <para> Subsequently, in a second pass through the generated output, divisions are
                 generated based on the outline level: a <tag>div</tag> spans all text from the
@@ -3255,7 +3671,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 for all headings within the division on a lower outline level. </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>Lists</term>
             <listitem>
@@ -3264,7 +3680,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 via a call to <code>$parameters?pstyle(.)//outlineLvl/@w:val</code>. </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term> Foot- and endnotes</term>
             <listitem>
@@ -3272,7 +3688,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 and transformed into <code>&lt;note type="endnote"&gt;</code>. </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>Tables</term>
             <listitem>
@@ -3280,19 +3696,19 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 colums. Row spans are not implemented yet. </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>Images</term>
             <listitem>
               <para> Embedded images are stored into a subcollection starting with the name of the
                 docx file being processed and suffixed with <code>.media</code>, eg.
-                <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
+                  <code>&lt;graphic url="test.docx.media/image1.png"/&gt;</code>
               </para>
             </listitem>
           </varlistentry>
         </variablelist>
       </section>
-      
+
       <section xml:id="docx-functions">
         <title>ODD for docx</title>
         <para> The ODD used for docx processing can be found in <link
@@ -3305,14 +3721,14 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           described in the <link linkend="upload">upload section</link> and check the conversion
           results. Behaviour of the conversion mostly follows the approach used in TEI Stylesheets
           docx-to-tei transformation module and has been tested on test files included there. </para>
-        
+
         <section xml:id="docx-functions-parameters">
           <title>Parameter functions</title>
           <para> Functions below can be used to retrieve styles or other information related to a
             current node. For more usage examples see <link
               xlink:href="../odd-editor.html?odd=docx.odd">docx.odd</link>
           </para>
-          
+
           <variablelist>
             <varlistentry>
               <term>cstyle</term>
@@ -3326,7 +3742,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 </para>
               </listitem>
             </varlistentry>
-            
+
             <varlistentry>
               <term>endnote</term>
               <listitem>
@@ -3343,7 +3759,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 </para>
               </listitem>
             </varlistentry>
-            
+
             <varlistentry>
               <term>link</term>
               <listitem>
@@ -3364,7 +3780,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                 </para>
               </listitem>
             </varlistentry>
-            
+
             <varlistentry>
               <term>pstyle</term>
               <listitem>
@@ -3381,167 +3797,15 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
     </section>
   </section>
-  <section xml:id="css-styling">
-    <title>Themes and custom CSS styling</title>
-    <note role="todo">
-      <para>Extend with examples.</para>
-    </note>
-    <para>The custom app generator enables the possibility to select different themes that will
-      determine the look and feel of the application. After generating an app, the folder
-        <code>resources/css</code> will contain all the CSS stylesheets files that are imported by
-      the different options selected when configuring a custom application.</para>
-    <para>To facilitate the modification of frequently customized styling aspects, there are several
-      styling definitions that can be be directly configured when generating/updating the
-      application, such as the logo, the colors or the fonts. Here you have the definition of the
-      default Jinks theme to illustrate the different properties that can be defined.</para>
-
-    <programlisting language="json" xml:space="preserve">
-  "theme": {
-        "colors": {
-            "palette": "neutral"
-        },
-        "logo": {
-            "light": "../images/tei-publisher-logo-contrast-color.svg",
-            "dark": "../images/tei-publisher-logo-contrast-color.svg",
-            "splash": {
-                "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg",
-                "size": "360px auto"
-            },
-            "width": "140px",
-            "height": "48px"
-        },
-        "fonts": {
-            "base": {
-                "family": "'Inter', 'Noto', sans-serif",
-                "size": "16px",
-                "line-height": "140%",
-                "weight": "400"
-            },
-            "content": {
-                "family": "JunicodeVF, Georgia, 'Times New Roman', serif",
-                "size": "1.25rem",
-                "line-height": "150%",
-                "weight": "400"
-            },
-            "heading": {
-                "family": "'Inter', 'Noto', sans-serif",
-                "size": "1.2rem",
-                "weight": "400"
-            },
-            "footnote": {
-                "size": "0.9rem"
-            },
-            "breadcrumbs": {
-                "size": "0.9rem"
-            },
-            "toc": {
-                "size": "1.125rem"
-            }
-        },
-        "hero": {
-            "background-image": "../images/jinks-images/type.jpeg",
-            "background-size": "cover",
-            "background-repeat": "no-repeat",
-            "background-color": "rgba(0, 0, 0, 0.6)",
-            "text-width": "50rem"
-        },
-        "header": {
-            "background-image": null
-        },
-        "menubar": {
-            "background-image": null,
-            "background-color": "var(--jinks-colors-500)",
-            "color": "#ffffff",
-            "font-size": "14px"
-        },
-        "texture": {
-            "background-image": "../images/jinks-images/paper.jpeg"
-        },
-        "layout": {
-            "class": "fixed-layout",
-            "before-width": "min(30vw, 356px)",
-            "after-width": "min(30vw, 356px)",
-            "max-width": "108rem"
-        }
-    }
-          </programlisting>
-    <para>In addition, when configuring a custom app, the key <code>styles</code> in
-        <filename>config.json</filename> determines the CSS stylesheets files that will be used by
-      all pages of the application. You can add here any project-specific CSS customization files.
-      This same property can also be defined at the level of a template to specify which CSS files
-      should only be applied to the set of HTML pages using that template.</para>
-    <para> This approach allows to selectively overwrite certain styles and CSS variables from the
-      default styles while remaining on the easy upgrade path for future TEI Publisher and <code>
-        pb-components</code> updates. </para>
-
-    <section xml:id="css-styling-components">
-      <title>Customizing web components styling</title>
-      <note role="todo">
-        <para>Move into top section "Anatomy of a profile"?</para>
-        <para>Needs review and examples</para>
-      </note>
-      <para>A web component completely shields its content, so it cannot easily be styled from
-        outside. Web component styles remain encapsulated, preventing style contamination between
-        individual components and general application context. A blessing in general, allowing
-        components to be scripted and styled without the fear of collision with other parts of the
-        page, but poses additional challenges when adjusting the look and feel of a component to fit
-        a project's theme.</para>
-      <para>In older versions of TEI Publisher, some aspects of component styling remained
-        unaccessible for customization. From Publisher version 6 <code>pb-components</code> certain
-        style properties are exposed to the outside world via standard CSS variables. This way
-        variables like <code>--pb-footnote-color</code> defined in <code>jinks-variables.css</code>
-        can be accessed by e.g. <code>pb-view</code> component and thus determine the color of the
-        footnote marker in the rendered transcription. The file
-          <filename>jinks-variables.css</filename> is created from the available information in
-          <filename>config.json</filename> and falls back to defaults if the variable is not defined
-        there.</para>
-      <para>The other CSS file that concretates the components properties that can be styled is
-          <filename>jinks-components.css</filename>.</para>
-      <para>Note that while you cannot directly change every aspect of the the inner appearance of a
-        component, you can style the component itself within the HTML template, e.g. to position it
-        within the layout of the page.</para>
-      <para>With TEI Publisher 8, or, more precisely, version 1.43.0 of the
-          <code>tei-publisher-components</code>, a very robust method of applying styles throughout
-        the page is available by simply specifying a <code>theme</code> property for
-          <code>pb-page</code>.</para>
-      <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
-
-    </section>
-    <section xml:id="css-styling-external">
-      <title>External stylesheets</title>
-      <note role="todo">
-        <para>Should go into processing model section?</para>
-      </note>
-      <para> ODD specification allows for explicit declaration of an external CSS file which may
-        define styles and CSS classes to be applied to tranformed sources (in <code>
-          encodingDesc/tagsDecl/rendition</code>), e.g. </para>
-      <programlisting language="xml" xml:space="preserve">
-                  &lt;rendition source="docbook.css"/&gt;
-          </programlisting>
-      <para> Styles and classes from that file are loaded into <code>pb-view</code> component and
-        thus accessible for its content. </para>
-      <para> External stylesheets for <code>pb-view</code> can also be specified via
-          <code>load-css</code> component configuration attribute. In this scenario, unlike with ODD
-          <code>rendition</code>, regenerating the ODD is not required for changes to the CSS file
-        to be applied, otherwise both methods are functionally equivalent. </para>
-
-      <programlisting language="html" xml:space="preserve">
-                  &lt;pb-view id="view1" src="document1" load-css="odd/docbook.css"/&gt;
-          </programlisting>
-
-      <para> Broader discussion of using <tag>rendition</tag> for custom styles can be found in
-          <link linkend="external-css">this section</link>. </para>
-      <!-- shall we discuss CSS shadow part? somewhere -->
-    </section>
-  </section>
+  
 
   <section xml:id="webcomponents">
     <title>Web Components</title>
     <note role="todo">
-      <para>Needs review: concentrate on web components. HTML templates were discussed earlier.</para>
-      <para>Explain changes between version 2 of web components (TP 9) and 3 (TP 10): v3 drops polymer in most places
-        and outputs pure HTML with only minimal styling.</para>
+      <para>Needs review: concentrate on web components. HTML templates were discussed
+        earlier.</para>
+      <para>Explain changes between version 2 of web components (TP 9) and 3 (TP 10): v3 drops
+        polymer in most places and outputs pure HTML with only minimal styling.</para>
     </note>
     <para> As described earlier, the various sample documents included in the TEI Publisher Demo
       collection differ not only in the ODD they use, but also concerning the general layout and
@@ -3849,7 +4113,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     <section xml:id="facsimiles">
       <title>Facsimiles and other images</title>
       <note role="todo">
-        <para>Move into profile docs for IIIF profile and just link from the documentation where mentioned?</para>
+        <para>Move into profile docs for IIIF profile and just link from the documentation where
+          mentioned?</para>
       </note>
       <para>While you can use the <parameter>graphic</parameter> behaviour in the ODD to embed
         simple images, high-resolution images will usually be served by a separate IIIF service
@@ -4054,9 +4319,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     <section xml:id="api-endpoints">
       <title>API endpoint groups</title>
       <note role="todo">
-        <para>Endpoints are now contributed by the profiles. Core API endpoints provided by base10.</para>
-        <para>Explain how a profile/app can register its own API spec and implementation in config.json.</para>
-        <para>Use of custom-api.xql should be discouraged. Use the proper mechanism instead and register your own spec/implementation.</para>
+        <para>Endpoints are now contributed by the profiles. Core API endpoints provided by
+          base10.</para>
+        <para>Explain how a profile/app can register its own API spec and implementation in
+          config.json.</para>
+        <para>Use of custom-api.xql should be discouraged. Use the proper mechanism instead and
+          register your own spec/implementation.</para>
       </note>
       <para>TEI Publisher 7 groups server-side functionality into several main sections:</para>
       <variablelist>
@@ -4147,7 +4415,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           >modules/custom-api.xql</link> so that the request can be correctly resolved. </para>
       <para>The function implementation can either be added to the XQuery module <filename>
           modules/custom-api.xql</filename> or to a new module, which should be imported into this
-        file to make it known. <!--The <filename>modules/custom-api.xql</filename> shipping with TEI
+        file to make it known.
+        <!--The <filename>modules/custom-api.xql</filename> shipping with TEI
         Publisher already includes one custom endpoint used for the <link
           xlink:href="../encyclopedia" xlink:show="new">"Damen Conversations Lexikon"</link>: it
         returns a JSON structure for consumption by <tag>pb-split-list</tag>, displaying the list of
@@ -5061,8 +5330,8 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
   <section xml:id="updating">
     <title>Updating Applications</title>
     <note role="todo">
-      <para>Drop this section entirely? Add a note to intro that TP 9 and earlier apps cannot be updated without
-        recreating them.</para>
+      <para>Drop this section entirely? Add a note to intro that TP 9 and earlier apps cannot be
+        updated without recreating them.</para>
     </note>
     <para>Custom applications are created from a specific version of TEI Publisher and may need to
       be updated over time to benefit from bug fixes and new features. If you followed the <link
@@ -8431,20 +8700,20 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     <para>Minor versions are released at shorter intervals and offer bug fixes, minor new features
       and improvements.</para>
     <para>The current major version of the TEI Publisher is 10.0.0, and of Jinks is 1.0.0.</para>
-    
-    
+
+
     <para> There's a long list of ideas and features we'd like to see incorporated into TEI
       Publisher: from wider coverage of input and output formats (e.g. InDesign), CQL and DTS
       support, to various editing workflows and support for efficient hosting and maintenance of
       multiple editions. These ideas are in various stages of development – some already advanced,
-      some in conceptual phase, some waiting for funding and implementation. Coordination of
-      future work is primarily conducted by <link xlink:show="new"
-        xlink:href="https://e-editiones.org">e-editiones.org</link>. </para>
-    
+      some in conceptual phase, some waiting for funding and implementation. Coordination of future
+      work is primarily conducted by <link xlink:show="new" xlink:href="https://e-editiones.org"
+        >e-editiones.org</link>. </para>
+
     <figure>
       <title>Image by <link xlink:show="new"
           xlink:href="https://pixabay.com/users/mabelamber-1377835">Mabel Amber</link> from <link
-            xlink:show="new" xlink:href="https://pixabay.com">Pixabay</link>
+          xlink:show="new" xlink:href="https://pixabay.com">Pixabay</link>
       </title>
       <mediaobject>
         <imageobject>
@@ -8460,54 +8729,53 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     <section xml:id="v9">
       <title>What's new in TEI Publisher 9.0.0</title>
       <para>Version 9 has seen a major rework of the annotation facilities and introduced local
-        authority registers for people, places and organizations. There have been small but
-        powerful improvements to facets and numerous minor fixes and extensions, including
-        redesign of the layout templates and ODDs for some of the examples from the Demo
-        Collection.</para>
+        authority registers for people, places and organizations. There have been small but powerful
+        improvements to facets and numerous minor fixes and extensions, including redesign of the
+        layout templates and ODDs for some of the examples from the Demo Collection.</para>
       <para>As showcased in the <link xlink:href="../demo/F-rom.xml">Shakespeare sample</link> and
         app, TEI Publisher now supports generating <link linkend="presentation-manifests">IIIF
-          presentation manifests</link> and displaying them alongside the text. Text and image
-        view communicate to each other, which means that if you navigate to the next page/image in
-        either of the two, the other reacts accordingly. While there are external tools for
-        creating IIIF manifests, the Shakespeare sample auto-generates them from the TEI header
-        and the page breaks in the document.</para>
+          presentation manifests</link> and displaying them alongside the text. Text and image view
+        communicate to each other, which means that if you navigate to the next page/image in either
+        of the two, the other reacts accordingly. While there are external tools for creating IIIF
+        manifests, the Shakespeare sample auto-generates them from the TEI header and the page
+        breaks in the document.</para>
       <para>The URL routing features introduced with version 8 have been substantially improved,
         introducing <link linkend="client-side-urls">configurable URL templates</link> also on the
         client side. This means you can construct URLs which are really completely independent of
         the underlying data organisation, while making sure the user always sees the page in a
         consistent state.</para>
       <para>Furthermore it became easier to select less frequent <link linkend="facets"
-          >facets</link> when browsing or searching: previously only the most frequent facets
-        where shown by default and you had to browse through a potentially long list if you wanted
-        to find a not so common one. Now you can display a combo box in addition to the list,
-        allowing users to type in a string and see matching facets.</para>
+          >facets</link> when browsing or searching: previously only the most frequent facets where
+        shown by default and you had to browse through a potentially long list if you wanted to find
+        a not so common one. Now you can display a combo box in addition to the list, allowing users
+        to type in a string and see matching facets.</para>
       <para>This edition has also brought the demise of the <code>teiSimplePrint</code> ODD,
         previously the source ODD for the <code>teipublisher</code> ODD. Models from the
         SimplePrint, after thorough review, have been merged into the default TEI Publisher ODD.
         This is a first step on the road for the extended and rationalized base ODD, a project
-        inspired by the TEI Vanilla meetups of yore and now undertaken by e-editiones in
-        cooperation with the TEI consortium.</para>
-      <para>The new <link linkend="web-annotations">annotation editor</link> boasts a new, more
-        user friendly and ergonomic layout with additional capacity to add or edit registry
-        entries from within the editor. Furthermore, a function to find potential matches for the
-        current annotation and review them on the spot is the long awaited feature, which promises
-        to speed up the editing process without compromising quality or consistency.</para>
-      <para>A default set up for local registers of places, people and organizations allows
-        editors to curate these resources under the same roof and at the same time as they
-        annotate the sources. As usual, our registers provide a firm base for extensions and
+        inspired by the TEI Vanilla meetups of yore and now undertaken by e-editiones in cooperation
+        with the TEI consortium.</para>
+      <para>The new <link linkend="web-annotations">annotation editor</link> boasts a new, more user
+        friendly and ergonomic layout with additional capacity to add or edit registry entries from
+        within the editor. Furthermore, a function to find potential matches for the current
+        annotation and review them on the spot is the long awaited feature, which promises to speed
+        up the editing process without compromising quality or consistency.</para>
+      <para>A default set up for local registers of places, people and organizations allows editors
+        to curate these resources under the same roof and at the same time as they annotate the
+        sources. As usual, our registers provide a firm base for extensions and
         customizations.</para>
       <para>Since the release of the previous version there was a new major version of the
-        <code>tei-publisher-lib</code> and numerous releases of TEI Publisher's
-        <code>webcomponents</code> library.</para>
+          <code>tei-publisher-lib</code> and numerous releases of TEI Publisher's
+          <code>webcomponents</code> library.</para>
       <para>See chapter on <link linkend="updating">Updating</link> for information how to update
         your app to the newest version.</para>
     </section>
     <section xml:id="v8">
       <title>What's new in TEI Publisher 8.0.0</title>
-      <para>Version 8 has been focused on a major rework of the URL handling and redesign of
-        search facilities. A number of further examples gives a better idea of the projects
-        already using TEI Publisher for their editions. There have also been significant changes
-        to connected resources: the tei-publisher-lib, webcomponents library and roaster.</para>
+      <para>Version 8 has been focused on a major rework of the URL handling and redesign of search
+        facilities. A number of further examples gives a better idea of the projects already using
+        TEI Publisher for their editions. There have also been significant changes to connected
+        resources: the tei-publisher-lib, webcomponents library and roaster.</para>
       <para>See chapter on <link linkend="updating">Updating</link> for information how to update
         your app to the newest version.</para>
     </section>
@@ -8517,27 +8785,27 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         particularly regarding the server-side modules.</para>
       <para> TEI Publisher now exposes a well-defined, clear <link xlink:href="../api.html"
           xlink:show="new">API specification</link> following the <link xlink:show="new"
-            xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
+          xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>. This API is
         used in TEI Publisher by client-side UI components but can be equally well utilized by
-        independent software which harnesses functionality exposed via the API without being
-        forced to rely on Publisher's client-side components. </para>
+        independent software which harnesses functionality exposed via the API without being forced
+        to rely on Publisher's client-side components. </para>
       <para> On the server a new package, <filename>oas-router</filename>, reads the API
-        specification and uses it to map HTTP requests to XQuery functions which perform actual
-        API operations. Other packages, particularly UI web components (
-        <filename>pb-components</filename>) and TEI Processing Model library (
-        <filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
+        specification and uses it to map HTTP requests to XQuery functions which perform actual API
+        operations. Other packages, particularly UI web components (
+          <filename>pb-components</filename>) and TEI Processing Model library (
+          <filename>tei-publisher-lib</filename>) underwent necessary changes to communicate with
         the new API as well as retain full backwards compatibility. </para>
-      
+
       <para>Beyond the structural changes a number of reported issues has been fixed and broader
-        test coverage for all packages introduced. A sophisticated CI setup based on Docker has
-        been created. Extensive test suite has been prepared for individual components.
-        Furthermore, every API operation is independently tested against the specification, to
-        assure that e.g. parameter and response types correspond exactly to the definition.</para>
-      
+        test coverage for all packages introduced. A sophisticated CI setup based on Docker has been
+        created. Extensive test suite has been prepared for individual components. Furthermore,
+        every API operation is independently tested against the specification, to assure that e.g.
+        parameter and response types correspond exactly to the definition.</para>
+
       <para> Thanks to community contributions via <link xlink:show="new"
-          xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now
-        available in 20 languages. </para>
-      
+          xlink:href="https://crwd.in/tei-publisher">Crowdin</link>, TEI Publisher is now available
+        in 20 languages. </para>
+
       <para> See chapter on <link linkend="updating">Updating</link> for information how to update
         your app to take advantage of these developments. </para>
     </section>
@@ -8548,20 +8816,20 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       <orderedlist>
         <listitem>
           <para> Web components overhaul: migration to <link xlink:show="new"
-              xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the
-            npm library </para>
+              xlink:href="https://lit-element.polymer-project.org/">LitElement</link> and to the npm
+            library </para>
           <para>While invisible to users, this redesign greatly improves the modularity of
             Publisher-based applications. With Publisher web component releases published on npm,
-            updating the user interface for all Publisher-based apps is just a question of
-            changing a single variable in the configuration file.</para>
+            updating the user interface for all Publisher-based apps is just a question of changing
+            a single variable in the configuration file.</para>
           <para> Furthermore, Publisher's library of web components – true to the basic idea of
-            <link xlink:show="new"
+              <link xlink:show="new"
               xlink:href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web
               Components Standard</link> can be included in any HTML webpage e.g. can be embedded
             into existing CMS or any other publishing solution, even if it's not running eXist-db. </para>
           <para> Similarly, if you prefer to write your own application using any of the popular
             frameworks like <emphasis>angular, vue or react</emphasis> you can easily import the
-            <code> pb-components</code> package from npm and use it directly in your project. </para>
+              <code> pb-components</code> package from npm and use it directly in your project. </para>
           <para>As a final consequence, this change decouples the component library from the TEI
             Publisher app. It is now possible to host multiple applications, which depend on
             different versions of the component library, without conflict within the same eXist-db
@@ -8569,13 +8837,12 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         </listitem>
         <listitem>
           <para>Redesigned and simplified CSS styling customization</para>
-          <para> Encapsulation of styles offered by web components can be a mixed blessing and
-            poses some challenges when customizing the aesthetics of components to fit a project.
-            While some aspects of component styling remained unaccessible for customization in
-            previous versions, Publisher 6 exposes majority of styling properties via standard CSS
-            files and theme variables. Stylesheets can also be specified within the ODD, as
-            previously, or through <code>pb-view</code> component configuration attributes.
-          </para>
+          <para> Encapsulation of styles offered by web components can be a mixed blessing and poses
+            some challenges when customizing the aesthetics of components to fit a project. While
+            some aspects of component styling remained unaccessible for customization in previous
+            versions, Publisher 6 exposes majority of styling properties via standard CSS files and
+            theme variables. Stylesheets can also be specified within the ODD, as previously, or
+            through <code>pb-view</code> component configuration attributes. </para>
         </listitem>
         <listitem>
           <para>Extended internationalization</para>
@@ -8589,17 +8856,16 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         <listitem>
           <para>Subcorpora – new TEI Publisher data organization</para>
           <para> Publisher's pre-populated data collection is now split into
-            <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo
-              collection</emphasis> areas which illustrate how this mechanism could be used to
-            host multiple subcorpora within single TEI Publisher application. </para>
+              <emphasis>Playground</emphasis> and <emphasis>TEI Publisher demo collection</emphasis>
+            areas which illustrate how this mechanism could be used to host multiple subcorpora
+            within single TEI Publisher application. </para>
         </listitem>
         <listitem>
           <para>New and improved web components</para>
           <para>
             <code>pb-select-feature</code> and <code>pb-toggle-feature</code> components have been
-            extended to allow for interactive changing of display parameters (like switching
-            between regularized or original spelling) which can be then processed client or
-            server-side. </para>
+            extended to allow for interactive changing of display parameters (like switching between
+            regularized or original spelling) which can be then processed client or server-side. </para>
           <para>New components have been created to handle MEI music notation as well as for web
             component API documentation and demo pages.</para>
         </listitem>
@@ -8607,11 +8873,11 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           <para>User interface of the ODD editor has been improved.</para>
         </listitem>
         <listitem>
-          <para>Experimental incremental scroll mode has been introduced to improve performance
-            for very long documents presented in single page mode.</para>
+          <para>Experimental incremental scroll mode has been introduced to improve performance for
+            very long documents presented in single page mode.</para>
         </listitem>
       </orderedlist>
     </section>
-    
+
   </section>
 </article>
