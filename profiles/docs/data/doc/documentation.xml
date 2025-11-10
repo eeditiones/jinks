@@ -2825,6 +2825,43 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         to have it expanded upon installation. What templates are and how you use them is described
         in the next section.</para>
     </section>
+    <section xml:id="anatomy-setup">
+      <title>XQuery Callbacks</title>
+      <para>Whenever generating or updating an application, Jinks will check each profile for an
+        XQuery module named <filename>setup.xql</filename>. This module controls the generation or
+        update process for the profile. It consists of one or more annotated XQuery functions, which
+        are called during the different stages of the process:</para>
+      <variablelist>
+        <varlistentry>
+          <term>%generator:prepare</term>
+          <listitem>
+            <para>receives the merged configuration map - including all changes applied by other
+              profiles earlier in the extension chain - and may return a modified map. Use this to compute and set custom
+              properties needed by your profile.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>%generator:write</term>
+          <listitem>
+            <para>performs the actual installation. Receives the configuration map as only parameter.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>%generator:after-write</term>
+          <listitem>
+            <para>is called after the application has been updated (or installed if it was not generated before).
+            Receives the configuration map as first, the path to the root of the target application as second
+            parameter.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>If a profile does not have a setup.xql, the default behavious is to recursively copy
+        everything in the profile's source folder to the destination, expanding templates on the
+        way.</para>
+      <para>In TEI Publisher 10, only two profiles: <emphasis>base10</emphasis> and
+          <emphasis>theme-base10</emphasis> need a <filename>setup.xql</filename>. Both plug into <code>%generator:after-write</code>
+      to perform additional post-processing steps.</para>
+    </section>
   </section>
   <section xml:id="templates">
     <title>Templates</title>
@@ -3481,11 +3518,17 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       </section>
       
       <section xml:id="css-styling-components">
-        <title>Customizing web components styling</title>
+        <title>Web Components Styling</title>
         <note role="todo">
           <para>Move into top section "Anatomy of a profile"?</para>
           <para>Needs review and examples</para>
         </note>
+        <para>Older versions of TEI Publisher used Google Material Design for most controls (text inputs, 
+          selects, radio buttons etc.). The look and feel of those web components was fixed and could not
+          be changed easily. TEI Publisher 10 comes with a new version of its web components (see <link
+            linkend="web-components">below</link>). This version largely drops Google Material Design in favour of
+          unstyled HTML. This means that without further styling, all controls will look as the browser
+          renders them by default.</para>
         <para>A web component completely shields its content, so it cannot easily be styled from
           outside. Web component styles remain encapsulated, preventing style contamination between
           individual components and general application context. A blessing in general, allowing
