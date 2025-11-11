@@ -4,11 +4,11 @@
     </head>
 <body>
 
-<fx-fore class="authority-editor" ignore-expressions="pb-leaflet-map">
+<fx-fore id="place-editor" class="authority-editor" ignore-expressions="pb-leaflet-map">
 
     <fx-model id="model-1">
 
-        <fx-instance id="default" src="[[ $context-path]]/api/forms/template/place-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="authority-default" src="[[ $context-path]]/api/forms/template/place-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
         </fx-instance>
 
         <fx-instance id="i-template" src="[[ $context-path]]/api/forms/template/place-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
@@ -22,8 +22,8 @@
         <fx-submission id="load" method="GET" replace="instance">
             <fx-action event="submit-done">
                 <!-- setting selection we got from user as default -->
-                <fx-action if="instance()/@xml:id = 'place-NEW'">
-                    <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"/>
+                <fx-action if="instance('authority-default')/@xml:id = 'place-NEW'">
+                    <fx-setvalue ref="instance('authority-default')/*[1][@type='main']" value="query()"/>
                 </fx-action>
             </fx-action>
         </fx-submission>
@@ -56,7 +56,7 @@
     -->
     <header>
         <h1>Place</h1>
-        <div>
+        <div class="horizontal-buttons">
             <fx-trigger>
                 <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
                 <fx-call action="saveAction"/>
@@ -74,7 +74,7 @@
     <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()" class="col-2">
+        <fx-group id="general" ref="instance('authority-default')" class="col-2">
             <h2>Place ID:
                 <fx-output ref="@xml:id"/>
             </h2>
@@ -96,7 +96,7 @@
             </fx-control>
         </fx-group>
 
-        <fx-group id="note" ref="instance()" class="col-2">
+        <fx-group id="note" ref="instance('authority-default')" class="col-2">
             <h2>Note</h2>
             <fx-control ref="note" as="node" update-event="blur">
                 <jinn-xml-editor unwrap="unwrap" class="widget" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/annotations/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
@@ -114,14 +114,14 @@
         <!-- // end section general -->
 
         <!-- begin section name variants -->
-        <fx-group>
+        <fx-group ref="instance('authority-default')">
             <header>Name variants ({count(//placeName[@type='variant'])})
                 <fx-trigger class="add-button">
                     <button data-i18n="[title]annotations.add.roles"><iron-icon icon="icons:add"/></button>
-                    <fx-insert context="//place" ref="placeName" origin="instance('i-template')//placeName[@type='variant']"/>
+                    <fx-insert context="instance('authority-default')" ref="placeName" origin="instance('i-template')//placeName[@type='variant']"/>
                 </fx-trigger>
             </header>
-            <fx-repeat id="r-nameVariant" ref="//placeName[@type='variant']" class="two-col">
+            <fx-repeat id="r-nameVariant" ref="placeName[@type='variant']" class="two-col">
                 <template>
                     <fx-control ref=".">
                         <label>Name</label>
@@ -135,9 +135,9 @@
             </fx-repeat>
         </fx-group>
         <!-- // end section name variants -->
-        <fx-group>
+        <fx-group ref="instance('authority-default')">
             <header>Location</header>
-            <fx-control ref="//location/geo" update-event="change">
+            <fx-control ref="location/geo" update-event="change">
                 <label>Latitude and longitude</label>
                 <fx-hint/>
                 <fx-action event="value-changed">
@@ -146,11 +146,11 @@
                     </fx-dispatch>
                 </fx-action>
             </fx-control>
-            <fx-control ref="//country">
+            <fx-control ref="country">
                 <label>Country</label>
                 <fx-hint>Cracow</fx-hint>
             </fx-control>
-            <fx-control ref="//region">
+            <fx-control ref="region">
                 <label>Region</label>
                 <fx-hint>małopolska</fx-hint>
             </fx-control>
@@ -160,7 +160,7 @@
             </pb-leaflet-map>
         </fx-group>
     </main>
-    <fx-trigger>
+    <fx-trigger class="saveBtnBottom">
         <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
         <fx-call action="saveAction"/>
     </fx-trigger>
@@ -183,9 +183,9 @@
 
     <fx-action event="pb-geocode">
         <fx-message value="event('name')"/>
-        <fx-setvalue ref="instance()//location/geo" value="event('coordinates')?latitude || ' ' || event('coordinates')?longitude"/>
-        <fx-setvalue ref="instance()//country" value="event('properties')?address?country"/>
-        <fx-setvalue ref="instance()//region" value="event('properties')?address?state"/>
+        <fx-setvalue ref="instance()/location/geo" value="event('coordinates')?latitude || ' ' || event('coordinates')?longitude"/>
+        <fx-setvalue ref="instance()/country" value="event('properties')?address?country"/>
+        <fx-setvalue ref="instance()/region" value="event('properties')?address?state"/>
     </fx-action>
 </fx-fore>
 
