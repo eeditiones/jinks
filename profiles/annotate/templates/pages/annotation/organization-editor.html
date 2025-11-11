@@ -4,10 +4,10 @@
 </head>
 <body>
 
-<fx-fore class="authority-editor">
+<fx-fore id="organisation-editor" class="authority-editor">
     <fx-model id="model-1">
 
-        <fx-instance id="default" src="[[ $context-path]]/api/forms/template/organization-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="authority-default" src="[[ $context-path]]/api/forms/template/organization-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
         </fx-instance>
 
         <fx-instance id="i-template" src="[[ $context-path]]/api/forms/template/organization-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
@@ -17,16 +17,16 @@
         <fx-submission id="load" method="GET" replace="instance">
             <fx-action event="submit-done">
                 <!-- setting selection we got from user as default -->
-                <fx-action if="instance()/@xml:id = 'organization-NEW'">
-                    <fx-setvalue ref="instance()/*[1][@type='main']" value="query()"/>
+                <fx-action if="instance('authority-default')/@xml:id = 'organization-NEW'">
+                    <fx-setvalue ref="instance('authority-default')/orgName[1][@type='main']" value="query()"/>
                 </fx-action>
             </fx-action>
         </fx-submission>
         <fx-submission id="save" method="PUT" replace="instance">
             <fx-action event="submit-done">
-                <fx-message>Organization saved with ID {instance()/@xml:id/string()}</fx-message>
+                <fx-message>Organization saved with ID {instance('authority-default')/@xml:id/string()}</fx-message>
                 <fx-dispatch name="authority-created">
-                    <fx-property name="ref" expr="instance()/@xml:id/string()"/>
+                    <fx-property name="ref" expr="instance('authority-default')/@xml:id/string()"/>
                 </fx-dispatch>
             </fx-action>
             <fx-action event="submit-error">
@@ -51,7 +51,7 @@
     -->
     <header>
         <h1>Organization '{instance('default')/*[1][@type='main']}'</h1>
-        <div>
+        <div class="horizontal-buttons">
             <fx-trigger>
                 <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
                 <fx-call action="saveAction"/>
@@ -68,7 +68,7 @@
     <!-- ### main   -->
     <main>
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()" class="col-2">
+        <fx-group id="general" ref="instance('authority-default')" class="col-2">
             <h2>Organization ID:
                 <fx-output ref="@xml:id"/>
             </h2>
@@ -85,7 +85,7 @@
 
         <!-- Basic name forms -->
 
-        <fx-group id="note" ref="instance()" class="col-2">
+        <fx-group id="note" ref="instance('authority-default')" class="col-2">
             <h2>Note</h2>
             <fx-control ref="note" as="node" update-event="blur">
                 <jinn-xml-editor unwrap="unwrap" class="widget" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/annotations/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
@@ -102,16 +102,16 @@
 
         <!-- // end section general -->
         <!-- begin section name variants -->
-        <fx-group>
+        <fx-group ref="instance('authority-default')">
             <header>
                 Name variants ({count(//orgName[@type='variant'])})
                 <fx-trigger class="add-button">
                     <button data-i18n="[title]annotations.add.authority"><iron-icon icon="icons:add"/></button>
-                    <fx-insert context="//org" ref="orgName" origin="instance('i-template')//orgName[@type='variant']"/>
+                    <fx-insert context="org" ref="orgName" origin="instance('i-template')//orgName[@type='variant']"/>
                 </fx-trigger>
             </header>
 
-            <fx-repeat id="r-nameVariant" ref="//orgName[@type='variant']" class="two-col">
+            <fx-repeat id="r-nameVariant" ref="orgName[@type='variant']" class="two-col">
                 <template>
                     <fx-control ref=".">
                         <label>Variant form</label>
@@ -127,13 +127,13 @@
         </fx-group>
 
     </main>
-    <fx-trigger>
+    <fx-trigger class="saveBtnBottom">
         <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
         <fx-call action="saveAction"/>
     </fx-trigger>
 
     <fx-action event="ready" if="string-length(getRef()) = 0">
-        <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/NEW"/>
+        <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/organization-NEW"/>
     </fx-action>
     <fx-action event="ready" if="string-length(getRef()) != 0">
         <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/{getRef()}"/>
