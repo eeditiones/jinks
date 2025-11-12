@@ -29,15 +29,6 @@
 
     [% template after %]
     [% if exists($context?doc) and $context?features?metadata-editor?enabled and $context?features?jinntap?enabled %]
-    <style>
-        /* Make sure Fore actually hides irrelevant stuff */
-        #metadata-panel.hidden,
-        fx-case:not(.selected-case),
-        .deselected-case
-        [nonrelevant] {
-            display: none;
-        }
-    </style>
     <fx-fore xmlns:tei="http://www.tei-c.org/ns/1.0" create-nodes="create-nodes" id="metadata-panel" ignore-expressions="fx-function" class="hidden">
         <fx-model>
             <!-- This will be filled with the teiHeader element -->
