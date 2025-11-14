@@ -6,35 +6,59 @@ describe('TEI-Publisher Authentication UI', () => {
   beforeEach(() => {
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     // Note: loginStub is used in this test to verify unauthenticated access
-    cy.visit('/browse-custom.html')
+
+    // Set desktop viewport to ensure all elements are visible
+    cy.viewport(1280, 720)
+
+    cy.visit('/browse.html')
     
     // Wait for page to stabilize
     cy.get('body').should('be.visible')
   })
 
   describe('Login UI Elements', () => {
-    it('displays login prompt with credentials', () => {
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('"tei"').should('be.visible')
-      cy.contains('"simple"').should('be.visible')
+    it('displays login prompt with form fields', () => {
+      // Click login button to open dialog
+      cy.get('#login')
+        .should('be.visible')
+        .click()
+      
+      // Wait for login dialog to open and verify form elements
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      cy.contains('Login').should('be.visible')
+      cy.contains('User').should('be.visible')
+      cy.contains('Password').should('be.visible')
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
+      cy.get('button').contains('Login').should('be.visible')
     })
 
     it('shows login link', () => {
-      cy.get('body').then(($body) => {
-        if ($body.text().includes('login.login')) {
-          cy.contains('login.login').should('be.visible')
-        }
-      })
+      // Login link should be visible in the UI
+      cy.get('#login').should('be.visible')
     })
 
-    it('displays login context information', () => {
-      cy.contains('to experiment with your own files and ODDs').should('be.visible')
+    it('displays login form correctly', () => {
+      // Click login button to open dialog
+      cy.get('#login').should('be.visible').click()
+      
+      // Wait for dialog and verify form structure
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
+      cy.get('button').contains('Login').should('be.visible')
     })
 
-    it('shows login instructions clearly', () => {
-      // Check that login instructions are visible and clear
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('with password').should('be.visible')
+    it('shows login form fields clearly', () => {
+      // Click login button to open dialog
+      cy.get('#login').should('be.visible').click()
+      
+      // Wait for dialog and check that form fields are visible and labeled
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      cy.contains('User').should('be.visible')
+      cy.contains('Password').should('be.visible')
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
     })
   })
 
@@ -77,40 +101,80 @@ describe('TEI-Publisher Authentication UI', () => {
     it('adapts login UI to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
       
-      // Login prompt should still be visible on mobile
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('"tei"').should('be.visible')
-      cy.contains('"simple"').should('be.visible')
+      // On mobile, login is in the mobile menu - open it first
+      cy.get('button[data-toggle=".mobile.menubar"]').should('be.visible').click()
+      
+      // Wait for mobile menu to open and find login link in shadow DOM
+      cy.get('.mobile.menubar:not(.hidden)', { timeout: 5000 }).should('be.visible')
+      cy.get('.mobile.menubar:not(.hidden) pb-login#login, .mobile.menubar:not(.hidden) #login', { timeout: 5000 })
+        .should('exist')
+        .shadow()
+        .find('a', { includeShadowDom: false })
+        .should('be.visible')
+        .click()
+      
+      // Wait for login dialog to open and verify it's visible on mobile
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).first().should('be.visible')
+      cy.get('pb-dialog[open], dialog[open]').first().within(() => {
+        cy.contains('Login').should('be.visible')
+      })
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
     })
 
     it('adapts login UI to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
       
-      // Login prompt should be visible on tablet
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('"tei"').should('be.visible')
-      cy.contains('"simple"').should('be.visible')
+      // On tablet, login may be in the mobile menu - open it first
+      cy.get('button[data-toggle=".mobile.menubar"]').should('be.visible').click()
+      
+      // Wait for mobile menu to open and find login link in shadow DOM
+      cy.get('.mobile.menubar:not(.hidden)', { timeout: 5000 }).should('be.visible')
+      cy.get('.mobile.menubar:not(.hidden) pb-login#login, .mobile.menubar:not(.hidden) #login', { timeout: 5000 })
+        .should('exist')
+        .shadow()
+        .find('a', { includeShadowDom: false })
+        .should('be.visible')
+        .click()
+      
+      // Wait for login dialog to open and verify it's visible on tablet
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      // On tablet, dialog content might be clipped, so check for elements directly
+      cy.contains('Login', { timeout: 5000 }).should('exist')
+      cy.get('input[name="user"]', { timeout: 5000 }).should('exist')
+      cy.get('input[name="password"]', { timeout: 5000 }).should('exist')
     })
   })
 
   describe('Authentication UI Accessibility', () => {
-    it('has accessible login instructions', () => {
-      // Check that login instructions are accessible
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('"tei"').should('be.visible')
-      cy.contains('"simple"').should('be.visible')
+    it('has accessible login form', () => {
+      // Click login button to open dialog
+      cy.get('#login').should('be.visible').click()
       
-      // Check for proper heading structure
-      cy.get('h1, h2, h3, h4, h5, h6').should('have.length.at.least', 1)
+      // Wait for dialog and check that form is accessible
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      cy.contains('Login').should('be.visible')
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
+      
+      // Check for proper form labels
+      cy.contains('User').should('be.visible')
+      cy.contains('Password').should('be.visible')
     })
 
-    it('provides clear authentication context', () => {
-      // Check that authentication context is clear and accessible
-      cy.contains('to experiment with your own files and ODDs').should('be.visible')
+    it('provides clear form labels and structure', () => {
+      // Click login button to open dialog
+      cy.get('#login').should('be.visible').click()
       
-      // Should provide clear instructions
-      cy.contains('Log in as').should('be.visible')
-      cy.contains('with password').should('be.visible')
+      // Wait for dialog and check that form has clear labels
+      cy.get('pb-dialog[open], dialog[open]', { timeout: 5000 }).should('be.visible')
+      cy.contains('User').should('be.visible')
+      cy.contains('Password').should('be.visible')
+      
+      // Verify form inputs are properly labeled
+      cy.get('input[name="user"]').should('be.visible')
+      cy.get('input[name="password"]').should('be.visible')
+      cy.get('button').contains('Login').should('be.visible')
     })
   })
 })

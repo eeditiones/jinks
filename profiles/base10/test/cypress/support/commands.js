@@ -138,8 +138,10 @@ Cypress.Commands.add('setupRegisterIntercepts', (registers = ['people', 'places'
  * cy.setupSearchIntercepts()
  */
 Cypress.Commands.add('setupSearchIntercepts', () => {
+  // Intercept search API calls - pb-search may trigger collection API or search API
   cy.intercept('GET', '/api/search**').as('searchApi')
   cy.intercept('GET', '/api/search/facets**').as('facetsApi')
+  cy.intercept('GET', '/api/collection**').as('collectionApi')
 })
 
 /**
