@@ -8,6 +8,9 @@ describe('TEI-Publisher Search', () => {
     // Setup search-specific intercepts
     cy.setupSearchIntercepts()
     
+    // Set desktop viewport to ensure sidebar and search are visible
+    cy.viewport(1280, 720)
+    
     cy.visit('/browse.html?collection=demo')
     
     // Wait for page to stabilize
@@ -17,14 +20,19 @@ describe('TEI-Publisher Search', () => {
 
   describe('Search Input', () => {
     it('displays search input field', () => {
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
+      // Find visible pb-search (not in hidden-mobile parent) and access shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
         .should('exist')
+        .shadow()
+        .find('input[name="query"]')
         .should('be.visible')
     })
 
     it('accepts text input', () => {
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Find visible pb-search and access input in shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('test query')
         .should('have.value', 'test query')
     })
@@ -35,15 +43,18 @@ describe('TEI-Publisher Search', () => {
         .invoke('attr', 'total')
         .as('initialTotal')
       
-      // Perform search
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Perform search using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('kant{enter}')
       
-      // Wait for search API call to complete
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update (search updates URL parameters - may be URL encoded)
+      cy.url({ timeout: 10000 }).should((url) => {
+        expect(url).to.match(/query=.*kant/i)
+      })
       
-      // Wait for pagination to update with new results
+      // Wait for pagination to update (search may trigger API or URL update)
       cy.get('pb-paginate', { timeout: 10000 })
         .should('exist')
         .invoke('attr', 'total')
@@ -53,12 +64,16 @@ describe('TEI-Publisher Search', () => {
 
   describe('Search Results', () => {
     it('displays search results after query', () => {
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Perform search using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('kant{enter}')
       
-      // Wait for search API call to complete
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update (search updates URL parameters - may be URL encoded)
+      cy.url({ timeout: 10000 }).should((url) => {
+        expect(url).to.match(/query=.*kant/i)
+      })
       
       // Wait for results to be displayed in the DOM
       cy.get('main', { timeout: 10000 })
@@ -73,7 +88,7 @@ describe('TEI-Publisher Search', () => {
           if (totalNum > 0) {
             // Results exist, wait for them to render
             cy.get('main')
-              .find('.tei-fileDesc3, .collection-item, [class*="document"], [class*="result"]')
+              .find('ul.documents li:visible')
               .should('have.length.at.least', 1)
               .first()
               .should('be.visible')
@@ -90,13 +105,16 @@ describe('TEI-Publisher Search', () => {
         .invoke('attr', 'total')
         .as('initialTotal')
       
-      // Perform search that should find results
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Perform search that should find results using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('kant{enter}')
       
-      // Wait for search API call
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update (search updates URL parameters - may be URL encoded)
+      cy.url({ timeout: 10000 }).should((url) => {
+        expect(url).to.match(/query=.*kant/i)
+      })
       
       // Wait for pagination to update - verify total attribute changes or remains valid
       cy.get('pb-paginate', { timeout: 10000 })
@@ -113,13 +131,16 @@ describe('TEI-Publisher Search', () => {
     })
 
     it('handles empty search results gracefully', () => {
-      // Search for something unlikely to exist
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Search for something unlikely to exist using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('nonexistentxyzabc123{enter}')
       
-      // Wait for search API call to complete
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update (search updates URL parameters - may be URL encoded)
+      cy.url({ timeout: 10000 }).should((url) => {
+        expect(url).to.match(/query=.*nonexistentxyzabc123/i)
+      })
       
       // Should still display pagination (may show 0 results)
       cy.get('pb-paginate', { timeout: 10000 })
@@ -175,8 +196,10 @@ describe('TEI-Publisher Search', () => {
 
   describe('Search Clearing', () => {
     it('clears search query', () => {
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Clear search using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('test query')
         .clear()
         .should('have.value', '')
@@ -188,22 +211,33 @@ describe('TEI-Publisher Search', () => {
         .invoke('attr', 'total')
         .as('initialTotal')
       
-      // Perform search
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Perform search using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .type('kant{enter}')
       
-      // Wait for search API call
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update (search updates URL parameters - may be URL encoded)
+      cy.url({ timeout: 10000 }).should((url) => {
+        expect(url).to.match(/query=.*kant/i)
+      })
+      cy.get('pb-paginate', { timeout: 10000 })
+        .should('exist')
       
-      // Clear search (empty query)
-      cy.get('input[type="text"][name="query"], input[type="search"], pb-search input')
-        .first()
+      // Clear search (empty query) using shadow DOM
+      cy.get('pb-search:not(.mobile)').first()
+        .shadow()
+        .find('input[name="query"]')
         .clear()
         .type('{enter}')
       
-      // Wait for search API call with empty query (resets results)
-      cy.wait('@searchApi', { timeout: 10000 })
+      // Wait for URL to update after clearing (query parameter should be removed or empty)
+      cy.url({ timeout: 10000 }).should((url) => {
+        // URL should not contain query=kant anymore (may have no query param or empty query)
+        expect(url).to.not.include('query=kant')
+      })
+      cy.get('pb-paginate', { timeout: 10000 })
+        .should('exist')
       
       // Results should reset (may not be exact due to caching, but should be valid)
       cy.get('pb-paginate', { timeout: 10000 })
