@@ -145,6 +145,67 @@ Cypress.Commands.add('setupSearchIntercepts', () => {
 })
 
 /**
+ * Wait for pb-paginate component to exist (may not be visible if there are 0 results)
+ * This is a lightweight wait that doesn't validate attributes to avoid failing entire specs
+ * @example
+ * cy.waitForPaginate()
+ * cy.waitForPaginate({ timeout: 15000 })
+ */
+Cypress.Commands.add('waitForPaginate', (options = {}) => {
+  const timeout = options.timeout || 10000
+  cy.get('pb-paginate', { timeout: timeout })
+    .should('exist')
+})
+
+/**
+ * Wait for pb-paginate to have valid attributes (total and per-page)
+ * Use this in individual tests when you need to ensure attributes are populated
+ * @example
+ * cy.waitForPaginateAttributes()
+ */
+Cypress.Commands.add('waitForPaginateAttributes', (options = {}) => {
+  const timeout = options.timeout || 10000
+  cy.get('pb-paginate', { timeout: timeout })
+    .should('exist')
+    .then(($el) => {
+      // Check total attribute exists and is valid (can be 0 for empty results)
+      const total = $el.attr('total')
+      expect(total).to.exist
+      expect(total).to.not.be.empty
+      const totalNum = parseInt(total, 10)
+      expect(totalNum).to.be.at.least(0)
+      
+      // Check per-page attribute exists and is valid
+      const perPage = $el.attr('per-page')
+      expect(perPage).to.exist
+      expect(perPage).to.not.be.empty
+      const perPageNum = parseInt(perPage, 10)
+      expect(perPageNum).to.be.greaterThan(0)
+      
+      // Return the element to preserve the chain
+      return $el
+    })
+})
+
+/**
+ * Get pagination attributes (total, per-page) as aliases for use in tests
+ * This also ensures attributes are valid before returning them
+ * @example
+ * cy.getPaginationAttrs()
+ * cy.get('@total').then((total) => { ... })
+ * cy.get('@perPage').then((perPage) => { ... })
+ */
+Cypress.Commands.add('getPaginationAttrs', () => {
+  cy.waitForPaginateAttributes()
+  cy.get('pb-paginate')
+    .invoke('attr', 'total')
+    .as('total')
+  cy.get('pb-paginate')
+    .invoke('attr', 'per-page')
+    .as('perPage')
+})
+
+/**
  * Setup intercepts for document navigation API calls
  * @example
  * cy.setupNavigationIntercepts()
