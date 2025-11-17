@@ -249,6 +249,12 @@
     .hidden-mobile {
         display: none;
     }
+    
+    /* Ensure .before sidebar is hidden on mobile when it has hidden-mobile class */
+    /* This overrides the more specific .fixed-layout > .before { display: flex; } rule */
+    .fixed-layout > .before.hidden-mobile {
+        display: none !important;
+    }
 }
 @media (min-width: 1024px) {
     .mobile,
