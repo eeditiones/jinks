@@ -177,8 +177,21 @@ describe('TEI-Publisher Documentation Page', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
       
-      cy.get('main').should('be.visible')
+      // Reload page to ensure layout adjusts to new viewport
+      cy.reload()
+      
+      // Wait for page to stabilize
       cy.get('body').should('be.visible')
+      
+      // Wait for documentation content to load (check for pb-view which loads the content)
+      cy.get('pb-view').should('exist')
+      
+      // On mobile, main content should be visible and ToC should be hidden by default
+      cy.get('main').should('be.visible')
+      
+      // ToC should be hidden on mobile (has hidden-mobile class)
+      // Note: This may expose a bug if ToC is visible when it shouldn't be
+      cy.get('aside.before.hidden-mobile').should('have.css', 'display', 'none')
       
       // Mobile navigation should be available
       cy.get('.mobile.menubar').should('exist')
@@ -187,8 +200,17 @@ describe('TEI-Publisher Documentation Page', () => {
     it('adapts to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
       
-      cy.get('main').should('be.visible')
+      // Reload page to ensure layout adjusts to new viewport
+      cy.reload()
+      
+      // Wait for page to stabilize
       cy.get('body').should('be.visible')
+      
+      // Wait for documentation content to load (check for pb-view which loads the content)
+      cy.get('pb-view').should('exist')
+      
+      // Wait for main to become visible - layout should adjust once content is loaded
+      cy.get('main').should('be.visible')
       
       // Check that page structure is responsive
       cy.get('nav').should('be.visible')
