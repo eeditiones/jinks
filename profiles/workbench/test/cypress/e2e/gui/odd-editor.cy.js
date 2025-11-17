@@ -92,26 +92,34 @@ describe('TEI-Publisher ODD Editor', () => {
 
   describe('ODD Editor Toolbar', () => {
     it('displays toolbar buttons', () => {
+      // Buttons are in Shadow DOM as paper-icon-button
       cy.get('pb-odd-editor')
-        .find('pb-icon-button, button[title*="save"], button[title*="reload"], button[title*="edit"]')
-        .should('have.length.at.least', 0)
+        .shadow()
+        .find('paper-icon-button, button')
+        .should('have.length.at.least', 1)
     })
 
     it('shows save button', () => {
+      // Save button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="save"], button[title*="save"], button[title*="Save"]')
+        .shadow()
+        .find('paper-icon-button[icon="save"], button[title*="save"], button[title*="Save"]')
         .should('exist')
     })
 
     it('shows reload button', () => {
+      // Reload button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="refresh"], button[title*="reload"], button[title*="Reload"]')
+        .shadow()
+        .find('paper-icon-button[icon="refresh"], button[title*="reload"], button[title*="Reload"]')
         .should('exist')
     })
 
     it('shows edit source button', () => {
+      // Edit source button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-edit-xml, pb-icon-button[icon="code"], button[title*="source"]')
+        .shadow()
+        .find('paper-icon-button[icon="code"], button[title*="source"], button[title*="ODD Source"]')
         .should('exist')
     })
   })
@@ -165,14 +173,20 @@ describe('TEI-Publisher ODD Editor', () => {
 
   describe('ODD Editor Add Element', () => {
     it('displays add element input', () => {
+      // Add element input - try multiple selectors including label-based
       cy.get('pb-odd-editor')
-        .find('#identNew, input[name="ident-new"], input[placeholder*="add"], input[placeholder*="element"]')
+        .contains('Add Element')
+        .parent()
+        .find('input')
         .should('exist')
     })
 
     it('accepts input for new element name', () => {
+      // Add element input - find via label text
       cy.get('pb-odd-editor')
-        .find('#identNew, input[name="ident-new"]')
+        .contains('Add Element')
+        .parent()
+        .find('input')
         .first()
         .type('testElement')
         .should('have.value', 'testElement')
@@ -182,9 +196,10 @@ describe('TEI-Publisher ODD Editor', () => {
 
   describe('ODD Editor Save Functionality', () => {
     it('save button is enabled when logged in', () => {
-      // Since we're logged in, save should be enabled
+      // Save button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="save"], button[title*="save"]')
+        .shadow()
+        .find('paper-icon-button[icon="save"], button[title*="save"]')
         .should('exist')
         .should('not.be.disabled')
     })
@@ -192,24 +207,30 @@ describe('TEI-Publisher ODD Editor', () => {
     it('can trigger save action', () => {
       // Note: We don't actually save to avoid modifying test data
       // Just verify the button exists and is clickable
+      // Save button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="save"]')
+        .shadow()
+        .find('paper-icon-button[icon="save"]')
         .should('exist')
     })
   })
 
   describe('ODD Editor Reload', () => {
     it('reload button is accessible', () => {
+      // Reload button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="refresh"]')
+        .shadow()
+        .find('paper-icon-button[icon="refresh"]')
         .should('exist')
         .should('be.visible')
     })
 
     it('can trigger reload action', () => {
       // Click reload - this should refresh the ODD content
+      // Reload button is in Shadow DOM
       cy.get('pb-odd-editor')
-        .find('pb-icon-button[icon="refresh"]')
+        .shadow()
+        .find('paper-icon-button[icon="refresh"]')
         .click({ force: true })
       
       // Wait for reload to complete
