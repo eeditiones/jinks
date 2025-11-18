@@ -56,20 +56,83 @@ declare function dapi:delete($request as map(*)) {
             error($errors:NOT_FOUND, "Document " || $id || " not found")
 };
 
-declare function dapi:save($request as map(*)) {
+declare %private variable $dapi:repoxml := (
+    let $uri := doc($config:app-root || "/expath-pkg.xml")/*/@name
+    let $repo := util:binary-to-string(repo:get-resource($uri, "repo.xml"))
+    return parse-xml($repo)
+);
+
+declare %private function dapi:mkcol-recursive ($collection, $components) {
+    if (exists($components)) then
+        let $newColl := concat($collection, "/", $components[1])
+        return (
+            if (
+                not(
+                    xmldb:collection-available(
+                        $collection || "/" || $components[1]
+                    )
+                )
+            ) then
+                let $created := xmldb:create-collection(
+                    $collection,
+                    $components[1]
+                )
+                return (
+                    sm:chown(
+                        xs:anyURI($created),
+                        $dapi:repoxml//repo:permissions/@user
+                    ),
+                    sm:chgrp(
+                        xs:anyURI($created),
+                        $dapi:repoxml//repo:permissions/@group
+                    ),
+                    sm:chmod(
+                        xs:anyURI($created),
+                        replace(
+                            $dapi:repoxml//repo:permissions/@mode,
+                            "(..).(..).(..).",
+                            "$1x$2x$3x"
+                        )
+                    )
+                )
+            else (
+            ),
+            dapi:mkcol-recursive($newColl, subsequence($components, 2))
+        )
+    else (
+    )
+};
+
+(: Helper function to recursively create a collection hierarchy. :)
+declare %private function dapi:mkcol ($collection, $path) {
+    dapi:mkcol-recursive($collection, tokenize($path, "/"))
+};
+
+declare function dapi:save ($request as map(*)) {
     let $id := $request?parameters?id
+    let $path := if ($id => contains("/")) then (
+        (: the id is actually a path, like `demo/subcollection/my-doc.xml`. Split it up and remove the last part :)
+        tokenize($id, "/")[position() < last()] => string-join("/")
+    ) else (
+        ()
+    )
+    (: Again, the ID might be a whole path. :)
+    let $resource-name := tokenize($id, "/")[last()]
+    (: Ensure the collection exists :)
+    let $_ := dapi:mkcol($config:data-default, $path)
     let $body := $request?body
-    return
-        try {
-            let $path := xmldb:store($config:data-default, $id, $body)
-            return
-                router:response(200, "application/json", map {
-                    "status": "ok",
-                    "path": config:get-relpath(doc($path))
-                })
-        } catch * {
-            error($errors:BAD_REQUEST, $err:description)
-        }
+    return try {
+        let $path := xmldb:store(
+            string-join(($config:data-default, $path), "/"),
+            $resource-name,
+            $body
+        )
+        return router:response(
+            200,
+            "application/json",
+            map {"status": "ok", "path": config:get-relpath(doc($path))}
+        )
+    } catch * { error($errors:BAD_REQUEST, $err:description) }
 };
 
 declare function dapi:source($request as map(*)) {
@@ -114,7 +177,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
-                    let $out := 
+                    let $out :=
                         if ($outputMode = 'print') then
                             $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                         else
@@ -173,7 +236,7 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
             case element(body) return
                 let $content := (
                     dapi:postprocess($node/node(), $styles, $scripts, $base, $components),
-                    let $footnotes := 
+                    let $footnotes :=
                         for $fn in root($node)//*[@class = "footnote"]
                         return
                             element { node-name($fn) } {
@@ -350,7 +413,7 @@ declare function dapi:pdf($request as map(*)) {
                             let $output := xslfo:render($fo, "application/pdf", (), $config:fop-config)
                             return
                                 typeswitch($output)
-                                    case xs:base64Binary return 
+                                    case xs:base64Binary return
                                         if ($useCache) then
                                             let $path := dapi:cache($name, $output)
                                             return
@@ -385,13 +448,13 @@ declare function dapi:epub($request as map(*)) {
         if (exists($work)) then
             let $entries := dapi:work2epub($request, $id, $work, $request?parameters?lang)
             return
-                ( 
+                (
                     if ($request?parameters?token) then
                         response:set-cookie("simple.token", $request?parameters?token)
                     else
                         (),
                     response:set-header("Content-Disposition", concat("attachment; filename=", concat($id, '.epub'))),
-                    response:stream-binary( 
+                    response:stream-binary(
                         compression:zip( $entries, true() ),
                         'application/epub+zip',
                         concat($id, '.epub')
@@ -413,8 +476,8 @@ declare %private function dapi:work2epub($request as map(*), $id as xs:string, $
     let $oddName := replace($odd, "^([^/\.]+).*$", "$1")
     let $cssDefault := util:binary-to-string(util:binary-doc($config:output-root || "/" || $oddName || ".css"))
     let $cssEpub := util:binary-to-string(util:binary-doc($config:app-root || "/resources/css/epub.css"))
-    let $css := $cssDefault || 
-        "&#10;/* styles imported from epub.css */&#10;" || 
+    let $css := $cssDefault ||
+        "&#10;/* styles imported from epub.css */&#10;" ||
         $cssEpub
     return
         epub:generate-epub($config, $work/*, $css, $id)
@@ -424,11 +487,11 @@ declare function dapi:get-fragment($request as map(*)) {
     let $path := xmldb:decode-uri($request?parameters?doc)
     let $docs := config:get-document($path)
     return
-        if($docs) 
+        if($docs)
         then (
             cutil:check-last-modified($request, $docs, dapi:get-fragment(?, ?, $path))
         ) else (
-            router:response(404, "text/text", $path)    
+            router:response(404, "text/text", $path)
         )
 };
 
@@ -529,7 +592,7 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                                         util:node-id($prev)
                                     else
                                         (),
-                                "nextId": 
+                                "nextId":
                                     if ($next) then
                                         $next/@xml:id/string()
                                     else (),
@@ -617,7 +680,7 @@ declare function dapi:table-of-contents($request as map(*)) {
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
                 })
         ) else (
-            router:response(404, "text/text", $doc)        
+            router:response(404, "text/text", $doc)
         )
 };
 
