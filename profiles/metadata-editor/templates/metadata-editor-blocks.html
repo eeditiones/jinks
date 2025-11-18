@@ -34,6 +34,9 @@
             <!-- This will be filled with the teiHeader element -->
             <fx-instance id="default"></fx-instance>
         </fx-model>
+		<fx-action id="on-init">
+		  <fx-refresh force="true"></fx-refresh>
+		</fx-action>
 
         [% include "templates/form.html" %]
 
