@@ -128,7 +128,13 @@ Cypress.Commands.add('validateJsonSchema', (ajv, schema, data, filePath) => {
  */
 Cypress.Commands.add('setupRegisterIntercepts', (registers = ['people', 'places', 'bibliography']) => {
   registers.forEach(register => {
-    cy.intercept('GET', `/api/${register}**`).as(`${register}Api`)
+    // Intercept register API calls - match URLs like /api/places?search=&category=A
+    // Use RouteMatcher with url pattern that matches query parameters
+    // The ** pattern in minimatch matches any characters including query strings
+    cy.intercept({
+      method: 'GET',
+      url: `**/api/${register}**`
+    }).as(`${register}Api`)
   })
 })
 
@@ -226,6 +232,39 @@ Cypress.Commands.add('setupNavigationIntercepts', () => {
 Cypress.Commands.add('setupOddIntercepts', () => {
   cy.intercept('GET', '/api/odd**').as('oddApi')
   cy.intercept('POST', '/api/odd**').as('oddSaveApi')
+})
+
+/**
+ * Setup register test fixtures - uploads test document and register data
+ * This ensures register tests work in isolation without depending on demo data
+ * @param {Object} options - Configuration options
+ * @param {string} options.documentPath - Path where test document should be uploaded (default: 'test-register/test-document.xml')
+ * @param {string} options.collection - Collection name for test document (default: 'test-register')
+ * @example
+ * cy.setupRegisterTestFixtures()
+ * cy.setupRegisterTestFixtures({ documentPath: 'test-register/test-document.xml' })
+ */
+Cypress.Commands.add('setupRegisterTestFixtures', (options = {}) => {
+  const documentPath = options.documentPath || 'test-register/test-document.xml'
+  const collection = options.collection || 'test-register'
+  
+  // Upload test document
+  cy.fixture('test-document.xml', 'utf8').then((docXml) => {
+    cy.uploadXml('/api/odd/upload', 'test-document.xml', docXml, { failOnStatusCode: false })
+  })
+  
+  // Upload test register persons
+  cy.fixture('test-register-persons.xml', 'utf8').then((personsXml) => {
+    cy.uploadXml('/api/odd/upload', 'test-register-persons.xml', personsXml, { failOnStatusCode: false })
+  })
+  
+  // Upload test register places
+  cy.fixture('test-register-places.xml', 'utf8').then((placesXml) => {
+    cy.uploadXml('/api/odd/upload', 'test-register-places.xml', placesXml, { failOnStatusCode: false })
+  })
+  
+  // Return the document path for use in tests
+  return cy.wrap(documentPath)
 })
 
 //

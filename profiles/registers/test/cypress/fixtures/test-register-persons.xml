@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="pb-persons">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Test Person Register</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Test fixture for register profile tests</p>
+            </publicationStmt>
+        </fileDesc>
+    </teiHeader>
+    <standOff>
+        <listPerson>
+            <person xml:id="test-person-1">
+                <persName type="main">Test Person One</persName>
+                <persName type="sort">Person One, Test</persName>
+                <note type="bio">Test person for register integration tests</note>
+            </person>
+            <person xml:id="test-person-2">
+                <persName type="main">Test Person Two</persName>
+                <persName type="sort">Person Two, Test</persName>
+                <note type="bio">Another test person for register integration tests</note>
+            </person>
+        </listPerson>
+    </standOff>
+</TEI>
+

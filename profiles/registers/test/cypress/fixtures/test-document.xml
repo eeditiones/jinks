@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="test-register-doc">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Test Document for Register Integration</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Test fixture for register profile tests</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Minimal test document with register entity references</p>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <textClass>
+                <catRef scheme="#feature" target="#register"/>
+            </textClass>
+            <correspDesc>
+                <correspAction type="sent">
+                    <persName key="test-person-1">Test Person One</persName>
+                    <placeName key="test-place-1">Test Place One</placeName>
+                    <date when="2024-01-01">January 1, 2024</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName key="test-person-2">Test Person Two</persName>
+                </correspAction>
+            </correspDesc>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <p>This is a test document that references <persName key="test-person-1">Test Person One</persName> 
+                and mentions <placeName key="test-place-1">Test Place One</placeName>.</p>
+                <p>It also references <persName key="test-person-2">Test Person Two</persName> 
+                and <placeName key="test-place-2">Test Place Two</placeName>.</p>
+            </div>
+        </body>
+    </text>
+</TEI>
+
