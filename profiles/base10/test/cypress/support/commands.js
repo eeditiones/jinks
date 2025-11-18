@@ -267,6 +267,34 @@ Cypress.Commands.add('setupRegisterTestFixtures', (options = {}) => {
   return cy.wrap(documentPath)
 })
 
+/**
+ * Setup timeline API intercept with test fixture data
+ * This provides sample timeline data for timeline component tests
+ * @param {Object} options - Configuration options
+ * @param {string} options.fixturePath - Path to timeline fixture file (default: 'timeline-data.json')
+ * @example
+ * cy.setupTimelineFixture()
+ * cy.setupTimelineFixture({ fixturePath: 'custom-timeline.json' })
+ */
+Cypress.Commands.add('setupTimelineFixture', (options = {}) => {
+  const fixturePath = options.fixturePath || 'timeline-data.json'
+  
+  // Load timeline fixture and intercept API calls to return it
+  cy.fixture(fixturePath).then((timelineData) => {
+    // Intercept timeline API calls and return fixture data
+    cy.intercept({
+      method: 'GET',
+      url: '**/api/timeline**'
+    }, (req) => {
+      // Return fixture data for any timeline API call
+      req.reply({
+        statusCode: 200,
+        body: timelineData
+      })
+    }).as('timelineApi')
+  })
+})
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
