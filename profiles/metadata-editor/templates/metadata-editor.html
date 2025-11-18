@@ -19,7 +19,7 @@
     <fx-model>
       <!-- This will be filled with the teiHeader element -->
       <fx-instance id="default" src="[[ $context-path ]]/api/metadata/[[ $context?doc?path ]]"></fx-instance>
-      <fx-submission id="save" method="PUT" url="[[ $context-path ]]/api/metadata/[[ $context?doc?path ]]" replace="instance">
+      <fx-submission id="save" method="PUT" url="[[ $context-path ]]/api/metadata/[[ $context?doc?path ]]" replace="none">
         <fx-action event="submit-done">
           <fx-message>Metadata saved</fx-message>
         </fx-action>
