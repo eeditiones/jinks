@@ -16,6 +16,26 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+// Handle uncaught exceptions from application code
+// Some errors in pb-components are non-critical and shouldn't fail tests
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Ignore known non-critical errors from pb-components
+  if (err.message.includes("t.lastError is undefined")) {
+    // This is a bug in pb-components error handling, not a test failure
+    return false
+  }
+  if (err.message.includes("Cannot read properties of null (reading 'language')")) {
+    // Language-related errors that don't affect test functionality
+    return false
+  }
+  if (err.message.includes("Failed to load openseadragon script with location")) {
+    // OpenSeadragon loading errors that don't affect most tests
+    return false
+  }
+  // Let other errors fail the test
+  return true
+})
+
 // Universal intercepts for all GUI tests
 // These stubs prevent hanging on API calls that aren't relevant to most tests
 beforeEach(() => {

@@ -12,7 +12,7 @@ module.exports = defineConfig({
       });
       return config;
     },
-    baseUrl: 'http://localhost:8080/exist/apps/jinks',
+    baseUrl: 'http://localhost:8080/exist/apps/tei-publisher',
     viewportWidth: 1280,
     viewportHeight: 720,
     trashAssetsBeforeRuns: true,
@@ -25,3 +25,4 @@ module.exports = defineConfig({
     downloadsFolder: 'test/cypress/downloads'
   },
 });
+
