@@ -124,7 +124,6 @@ export class MetadataEditor {
         const metadata = document.documentElement;
 
         this._instance.setInstanceData(metadata);
-        this._fore.refresh(true);
         this._fore.querySelector("#on-init").perform();
     }
 
