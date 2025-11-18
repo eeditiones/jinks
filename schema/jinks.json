@@ -466,6 +466,9 @@
                 "jinntap": {
                     "type": "object",
                     "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string",
                             "description": "The version of Jinntap",
@@ -505,6 +508,39 @@
                         }
                     },
                     "description": "If true, upload and ODD management will be disabled"
+                },
+                "metadata-editor": {
+                    "type": "object",
+                    "description": "Configures the metadata editor integration",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "forms": {
+                    "type": "object",
+                    "description": "Configures the forms framework ('fore') integration",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "fore": {
+                            "type": "object",
+                            "properties": {
+                                "cdn": {
+                                    "type": "string",
+                                    "description": "The CDN URL for Fore",
+                                    "examples": [ "https://cdn.jsdelivr.net/npm/@jinntec/fore" ]
+                                },
+                                "version": {
+                                    "type": "string",
+                                    "description": "The version of Fore to use",
+                                    "examples": [ "1.9.0", "local" ]
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -692,6 +728,13 @@
                             "default": "before-top"
                         }
                     }
+                },
+                "icons": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of icon files to include in the theme. Path should be relative to resources/css."
                 }
             }
         },
