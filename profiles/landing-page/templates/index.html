@@ -32,21 +32,34 @@
 
     [% template hero %]
     <header class="hero">
-        <div class="center-l [[ $context?theme?hero?class ]]">
-            <h1><pb-i18n key="hero.main"/> <strong><pb-i18n key="hero.main2"/></strong></h1>
-            <p>
-                <pb-i18n key="hero.sub"></pb-i18n><br/>
-                <a class="explore-link" href="[[ $context?defaults?browse ]]"><pb-i18n key="hero.explore"></pb-i18n></a>
-            </p>
-        </div>
+        [% let $doc = config:get-document("landing/landing.xml") %]
+        [[ landing:section($context, 'hero', $doc) ]]
+        [% endlet %]
     </header>
     [% endtemplate %]
 
-    [% include "templates/sections/about.html" %]
-    [% include "templates/sections/highlights.html" %]
-    [% include "templates/sections/team.html" %]
-    [% include "templates/sections/section.html" %]
-    [% include "templates/sections/partners.html" %]
+    [% let $doc = config:get-document("landing/landing.xml") %]
+    <section id="about"><!-- control bleed / transparent by default -->
+    [[ landing:section($context, 'about', $doc) ]]
+    </section>
+    
+    <section id="highlights" class="section-highlight">
+        [[ landing:section($context, 'highlights', $doc) ]]
+    </section>
+
+    <section id="team" class="section-light">
+        [[ landing:section($context, 'team', $doc) ]]
+    </section>
+
+    <section class="section-dark">
+        [[ landing:section($context, 'section', $doc) ]]
+    </section>
+    
+    <section id="project-partners" class="section-light">
+        [[ landing:section($context, 'partners', $doc) ]]
+    </section>
+    [% endlet %]
+    
     [% include "templates/sections/bottom.html" %]
 
     [% include "templates/footer.html" %]

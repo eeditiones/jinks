@@ -3,6 +3,7 @@ xquery version "3.1";
 module namespace page="http://teipublisher.com/ns/templates/page";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 
@@ -67,4 +68,19 @@ declare function page:collection-breadcrumbs($context as map(*)) {
                         </a>
                     </li>
     else ()
+};
+
+declare function page:transform($nodes as node()*) {
+    page:transform($nodes, (), ())
+};
+
+declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    let $odd := head(($odd, $config:default-odd))
+    for $node in $nodes
+    let $params := map:merge((
+        $parameters,
+        map { "webcomponents": 7, "context-path": $config:context-path, "root": $node }
+    ))
+    return
+        $pm-config:web-transform($node, $params, $odd)
 };
