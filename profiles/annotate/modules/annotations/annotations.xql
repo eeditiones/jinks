@@ -11,7 +11,7 @@ import module namespace annocfg = "http://teipublisher.com/api/annotations/confi
 
 declare function anno:find-references($request as map(*)) {
     map:merge(
-        for $id in $request?parameters?id
+        for $id in $request?parameters?id?*
         let $matches := annocfg:occurrences($request?parameters?register, $id)
         where count($matches) > 0
         return
@@ -572,5 +572,6 @@ declare function anno:wrap($annotation as map(*), $content as function(*)) {
 
 (: TODO: Move to registers:)
 declare function anno:form-template($request as map(*)) {
+    util:log("info", ("form-template: " || $request?parameters?id, collection($config:register-forms)/id($request?parameters?id)/child::*)),
     collection($config:register-forms)/id($request?parameters?id)/child::*
 };

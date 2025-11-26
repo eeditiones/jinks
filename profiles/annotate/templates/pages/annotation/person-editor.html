@@ -4,11 +4,11 @@
 </head>
 <body>
 
-<fx-fore class="authority-editor">
+<fx-fore id="person-editor" class="authority-editor">
 
     <fx-model id="model-1">
 
-        <fx-instance id="default" src="[[ $context-path]]/api/forms/template/person-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="authority-default" src="[[ $context-path]]/api/forms/template/person-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
         </fx-instance>
 
         <fx-instance id="i-template" src="[[ $context-path ]]/api/forms/template/person-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
@@ -52,7 +52,7 @@
     -->
     <header>
         <h1>Person '{instance('default')/*[1][@type='main']}'</h1>
-        <div>
+        <div class="horizontal-buttons">
             <fx-trigger>
                 <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
                 <fx-call action="saveAction"/>
@@ -68,8 +68,9 @@
 
     <!-- ### main   -->
     <main>
+
         <!-- begin section general -->
-        <fx-group id="general" ref="instance()" class="col-2">
+        <fx-group id="general" ref="instance('authority-default')" class="col-2">
             <h2>Person ID:
                 <fx-output ref="@xml:id"/>
             </h2>
@@ -84,18 +85,18 @@
             </fx-control>
             <fx-control ref="gender/@value">
                 <label>Gender</label>
+                <fx-hint>M, F or U</fx-hint>
                 <select class="widget">
                     <option value="M">Male</option>
                     <option value="F">Female</option>
                     <option value="U">Unknown</option>
                 </select>
-                <fx-hint>M, F or U</fx-hint>
             </fx-control>
         </fx-group>
 
         <!-- Basic name forms -->
 
-        <fx-group id="note" ref="instance()" class="col-2">
+        <fx-group id="note" ref="instance('authority-default')" class="col-2">
             <h2>Note</h2>
             <fx-control ref="note[@type='bio']" as="node" update-event="blur">
                 <jinn-xml-editor unwrap="unwrap" class="widget" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/annotations/tei.json" schema-root="note" namespace="http://www.tei-c.org/ns/1.0">
@@ -110,7 +111,7 @@
             </fx-control>
         </fx-group>
 
-        <fx-group id="birth" ref="//person/birth" class="col-2">
+        <fx-group id="birth" ref="instance('authority-default')/birth" class="col-2">
             <h2>Birth</h2>
             <fx-control ref="date/@when">
                 <label>Date normalized (YYYY-MM-DD)</label>
@@ -126,7 +127,7 @@
             </fx-control>
         </fx-group>
 
-        <fx-group id="birth" ref="//person/death" class="col-2">
+        <fx-group id="birth" ref="instance('authority-default')/death" class="col-2">
             <h2>Death</h2>
             <fx-control ref="date/@when">
                 <label>Date normalized (YYYY-MM-DD)</label>
@@ -145,17 +146,17 @@
 
         <!-- // end section general -->
         <!-- begin section name variants -->
-        <fx-group>
+        <fx-group ref="instance('authority-default')">
             <header>
                 Name variants ({count(//persName[@type='variant'])})
                 <fx-trigger class="add-button">
                     <!--                        <button>add</button>-->
                     <button data-i18n="[title]annotations.add.authority"><iron-icon icon="icons:add"/></button>
-                    <fx-insert context="//person" ref="persName" origin="instance('i-template')//persName[@type='variant']"/>
+                    <fx-insert context="person" ref="persName" origin="instance('i-template')//persName[@type='variant']"/>
                 </fx-trigger>
             </header>
 
-            <fx-repeat id="r-nameVariant" ref="//persName[@type='variant']" class="two-col">
+            <fx-repeat id="r-nameVariant" ref="persName[@type='variant']" class="two-col">
                 <template>
                     <fx-control ref=".">
                         <label>Variant form</label>
@@ -171,16 +172,16 @@
         </fx-group>
 
         <!-- begin section professions -->
-        <fx-group>
+        <fx-group ref="instance('authority-default')">
             <header>
                 Professions and roles ({count(//occupation)})
                 <fx-trigger class="add-button">
                     <button data-i18n="[title]annotations.add.roles"><iron-icon icon="icons:add"/></button>
-                    <fx-insert context="//person" ref="name" origin="instance('i-template')//occupation"/>
+                    <fx-insert context="instance('authority-default')" ref="name" origin="instance('i-template')/occupation"/>
                 </fx-trigger>
             </header>
 
-            <fx-repeat id="r-occupation" ref="//occupation" class="two-col">
+            <fx-repeat id="r-occupation" ref="occupation" class="two-col">
                 <template>
                     <fx-control ref=".">
                         <label>Profession</label>
@@ -193,9 +194,8 @@
                 </template>
             </fx-repeat>
         </fx-group>
-
     </main>
-    <fx-trigger>
+    <fx-trigger class="saveBtnBottom">
         <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"/></button>
         <fx-call action="saveAction"/>
     </fx-trigger>

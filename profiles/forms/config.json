@@ -1,0 +1,25 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "category": "workflow",
+    "id": "https://e-editiones.org/app/tei-publisher/forms",
+    "label": "Forms Integration",
+    "description": "Integrates a forms framework ('fore') into the application",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "templating": {
+        "use": [
+            "templates/forms-blocks.html"
+        ]
+    },
+    "features": {
+        "forms": {
+            "fore": {
+                "version": "2.6.0",
+                "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/fore"
+            }
+        }
+    }
+}

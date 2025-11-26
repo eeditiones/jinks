@@ -209,7 +209,7 @@ button:has(svg):not(:has(span)),
 }
 
 /* Group of buttons, e.g. navigate left/right */
-[role="group"] {
+:not(fx-group)[role="group"] {
     list-style-type: none;
     display: inline-flex;
     align-items: center;
@@ -227,32 +227,32 @@ button:has(svg):not(:has(span)),
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
-[role="group"] a {
+:not(fx-group)[role="group"] a {
     color: inherit;
     text-decoration: none;
     margin: 0;
     padding: 0;
 }
 
-[role="group"] button {
+:not(fx-group)[role="group"] button {
     box-shadow: none;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-[role="group"] li {
+:not(fx-group)[role="group"] li {
     display: inline-block;
     padding: 0;
     margin: 0;
 }
 
-[role="group"] input {
+:not(fx-group)[role="group"] input {
     border: none;
     background-color: transparent;
     margin: 0;
 }
 
-[role="group"] input:focus {
+:not(fx-group)[role="group"] input:focus {
     box-shadow: none;
 }
 
@@ -267,9 +267,9 @@ pb-link .btn.accent a {
     color: var(--jinks-colors-light);
 }
 
-[role="group"] pb-zoom,
-[role="group"] pb-navigation,
-[role="group"] pb-link {
+:not(fx-group)[role="group"] pb-zoom,
+:not(fx-group)[role="group"] pb-navigation,
+:not(fx-group)[role="group"] pb-link {
     width: 1.5rem;
     height: 1.5rem;
     display: inline-flex;
@@ -277,7 +277,7 @@ pb-link .btn.accent a {
     justify-content: center;
 }
 
-button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .btn svg {
+button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg, button svg, .btn svg {
     width: 1rem;
     height: 1rem;
 }
