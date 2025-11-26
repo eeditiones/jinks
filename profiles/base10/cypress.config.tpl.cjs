@@ -13,6 +13,8 @@ module.exports = defineConfig({
       return config;
     },
     baseUrl: 'http://localhost:8080/exist/apps/[[ $pkg?abbrev ]]',
+    viewportWidth: 1280,
+    viewportHeight: 720,
     trashAssetsBeforeRuns: true,
     includeShadowDom: true,
     supportFile: 'test/cypress/support/e2e.js', 
