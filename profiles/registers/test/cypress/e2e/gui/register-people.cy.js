@@ -94,10 +94,11 @@ describe('TEI-Publisher People Register', () => {
         .clear()
         .type('Dantiscus{enter}')
       
-      // Wait for filtered API call
-      cy.wait('@peopleApi', { timeout: 10000 })
+      // Search navigates to search.html page with query parameter
+      cy.url({ timeout: 10000 }).should('include', '/search.html')
+      cy.url().should('include', 'query=Dantiscus')
       
-      // Verify search filtered results
+      // Verify search results page loaded
       cy.get('body', { timeout: 10000 })
         .should('be.visible')
     })
@@ -111,7 +112,9 @@ describe('TEI-Publisher People Register', () => {
         .clear()
         .type('nonexistentxyz123{enter}')
       
-      cy.wait('@peopleApi', { timeout: 10000 })
+      // Search navigates to search.html page
+      cy.url({ timeout: 10000 }).should('include', '/search.html')
+      cy.url().should('include', 'query=')
       
       // Page should still be visible even with no results
       cy.get('body').should('be.visible')
