@@ -30,9 +30,6 @@
         "toc": {
             "enabled": false
         },
-        "timeline": {
-            "document-view": true
-        },
         "browse": {
             "sort": {
                 "default": "date",
@@ -45,6 +42,19 @@
                 ]
             }
         }
+    },
+    "collection-config": {
+        "auxiliary": {
+            "template": "basic.html"
+        }
+    },
+    "menu": {
+        "items": [
+            {
+                "id": "about",
+                "url": "auxiliary/about.xml"
+            }
+        ]
     },
     "theme": {
         "logo": {
