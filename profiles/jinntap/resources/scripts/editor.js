@@ -98,29 +98,11 @@ function setupFacsimileIntegration(editor) {
             return;
         }
 
-        const id = closestPageBegin.getAttribute("id");
-        const n = closestPageBegin.getAttribute("n");
-        if (!n || !id) {
+        const facs = closestPageBegin.getAttribute("facs");
+        if (!facs) {
             return;
         }
 
-        /**
-         * @type {HTMLElement}
-         */
-        const graphic = editor.document.querySelector(
-            `surface[start$=${id}] graphic`,
-        );
-        if (!graphic) {
-            return;
-        }
-
-        const url = graphic.getAttribute("url");
-        if (!url) {
-            return;
-        }
-        const urlWithoutInfoJson = url.includes("info.json")
-            ? url.substring(0, url.length - "/info.json".length)
-            : url;
         // TODO: Any other way to integrate more cleanly with pb-components>
         document.dispatchEvent(
             new CustomEvent("pb-show-annotation", {
@@ -128,8 +110,8 @@ function setupFacsimileIntegration(editor) {
                     // Both the element and the file need to be sent in the
                     // event. The file is checked (but ignored) and the element
                     // is used to look up the correct facsimile
-                    element: urlWithoutInfoJson,
-                    file: urlWithoutInfoJson,
+                    element: facs,
+                    file: facs,
                     order: parseInt(n, 10),
                     key: "__default__",
                 },
