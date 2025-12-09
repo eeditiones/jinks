@@ -91,8 +91,12 @@
     [% let $facsimiles =
         let $doc := $context?doc?content
         return array {
-            for $url in $doc//tei:facsimile/tei:surface/tei:graphic/@url
-            return string($url)
+            for $url in $doc//tei:text//tei:pb/@facs
+            return
+                if (starts-with($url, 'iiif:')) then
+                    substring-after('iiif:', $url)
+                else
+                    string($url)
         }
     %]
     <pb-facsimile
