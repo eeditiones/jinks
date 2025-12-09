@@ -89,14 +89,13 @@
     [% template before %]
     [% if ($features?iiif?viewer = "pb-facsimile") %]
     [% let $facsimiles =
-        let $loc := $context?defaults?data || "/" || $context?doc?path
-        let $doc := doc($loc)
+        let $doc := $context?doc?content
         return array {
             for $url in $doc//tei:facsimile/tei:surface/tei:graphic/@url
-            return $url
+            return string($url)
         }
-      %]
-     <pb-facsimile
+    %]
+    <pb-facsimile
          base-uri="[[ $features?iiif?base_uri ]]"
          show-navigator="true"
          show-navigation-control="true"
