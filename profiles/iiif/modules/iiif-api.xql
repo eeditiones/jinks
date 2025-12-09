@@ -14,7 +14,7 @@
  :)
 module namespace iiif="https://e-editiones.org/api/iiif";
 
-import module namespace iiifc="https://e-editiones.org/api/iiif/config" at "../../iiif-config.xqm";
+import module namespace iiifc="https://e-editiones.org/api/iiif/config" at "iiif-config.xqm";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 

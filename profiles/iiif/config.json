@@ -15,10 +15,23 @@
             "templates/iiif-blocks.html"
         ]
     },
+    "api": [
+        {
+            "spec": "iiif-api.json",
+            "prefix": "iiif",
+            "path": "iiif-api.xql",
+            "id": "https://e-editiones.org/api/iiif"
+        }
+    ],
     "features": {
         "iiif": {
             "viewer": "pb-tify",
             "base_uri": "https://apps.existsolutions.com/cantaloupe/iiif/2/",
+            "milestone_xpath": "//tei:pb",
+            "replace_facs": {
+                "regex": "^[^:]+:(.*)",
+                "replace": "$1"
+            },
             "enabled": false
         }
     }

@@ -17,7 +17,7 @@
     [% template after %]
     [% if ($context?isStatic or exists($context?doc)) and $context?features?iiif?enabled %]
         [% if $context?features?iiif?viewer = "pb-tify" %]
-        <pb-tify subscribe="transcription" emit="transcription"></pb-tify>
+        <pb-tify subscribe="transcription" emit="transcription" style="height: 100%"></pb-tify>
         [% else %]
         <pb-facsimile base-uri="[[ $context?features?iiif?base_uri ]]" default-zoom-level="0"
             type="[[ $context?features?iiif?type ]]"

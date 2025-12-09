@@ -431,6 +431,28 @@
                             "type": "string",
                             "description": "Type of the source of the images: either 'iiif' or 'image' (for simple image links not served via IIIF).",
                             "enum": ["iiif", "image"]
+                        },
+                        "base_uri": {
+                            "type": "string",
+                            "description": "Base URI of the IIIF image API service"
+                        },
+                        "milestone_xpath": {
+                            "type": "string",
+                            "description": "XPath expression to select the milestone elements pointing to images"
+                        },
+                        "replace_facs": {
+                            "type": "object",
+                            "description": "Regular expression applied to the facs attribute of the milestone elements to extract the image identifier",
+                            "properties": {
+                                "regex": {
+                                    "type": "string",
+                                    "description": "Regular expression to match the facs attribute"
+                                },
+                                "replace": {
+                                    "type": "string",
+                                    "description": "Replacement string for the facs attribute"
+                                }
+                            }
                         }
                     }
                 },
