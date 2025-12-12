@@ -342,7 +342,8 @@ button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .
     border-radius: 0.5rem;
     padding: 0.5rem;
     margin: 0.5rem 0 0 0;
-    z-index: 99;
+    /* z-index value higher than elements in timeline */
+    z-index: 999;
     position: absolute;
     flex-direction: column;
     width: 100%;
