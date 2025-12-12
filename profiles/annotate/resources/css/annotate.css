@@ -40,8 +40,7 @@ fx-fore .actions{
     padding:0.25rem 0.5rem;
 }
 fx-fore button{
-    padding:0.5rem 1rem;
-
+    padding:0.5rem;
 }
 fx-fore fx-group{
     padding:1rem 0.5rem;
@@ -83,7 +82,7 @@ body {
 }
 #authority-editor main,
 #authority-editor fx-group{
-    margin:0 0 1rem 0;
+    /*margin:0 0 1rem 0;*/
     padding: 0;
     position: relative;
 }
@@ -98,7 +97,7 @@ body {
 }
 
 fx-group#general{
-    padding-top:2.5rem;
+    padding-top:1rem;
 }
 
 #authority-editor input.widget{
@@ -140,10 +139,10 @@ fx-trigger.insert-auth-form{
 }
 
 fx-trigger:has(button) {
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
+    margin:0 0.1rem;
 }
 
 .annotation-editor {
@@ -273,7 +272,9 @@ pb-view, pb-view-annotate{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    /*height: 3rem;*/
+    padding:1rem 0.75rem;
+    }
 
 .preview header .toolbar {
     flex-wrap: nowrap;
@@ -617,4 +618,18 @@ fx-control select:focus {
 
 fx-control, label{
     display:block;
+}
+
+.authority-editor h1{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+.authority-editor .horizontal-buttons{
+    display:flex;
+    justify-content: space-between;
+}
+.authority-editor fx-trigger.saveBtnBottom {
+    margin: 0.5rem;
 }
