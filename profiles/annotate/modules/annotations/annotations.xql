@@ -11,7 +11,7 @@ import module namespace annocfg = "http://teipublisher.com/api/annotations/confi
 
 declare function anno:find-references($request as map(*)) {
     map:merge(
-        for $id in $request?parameters?id
+        for $id in $request?parameters?id?*
         let $matches := annocfg:occurrences($request?parameters?register, $id)
         where count($matches) > 0
         return
