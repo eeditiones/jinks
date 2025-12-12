@@ -1,6 +1,6 @@
 <template>
     [% template after %]
-    [% if map:contains($context, "parts") %]
+    [% if $context?parts?register?content %]
     <div class="content">[[ $context?parts?register?content ]]</div>
     <pb-leaflet-map id="map" zoom="11" subscribe="map">
         <pb-map-layer show="" base="" label="OpenTopo Map"

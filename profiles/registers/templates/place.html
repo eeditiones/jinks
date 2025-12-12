@@ -14,6 +14,9 @@
             },
             "upload": {
                 "enabled": false
+            },
+            "register": {
+                "enabled": true
             }
         },
         "script": {
@@ -46,7 +49,7 @@
     </li>
     [% endtemplate %]
     [% template after %]
-    <pb-leaflet-map id="map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
+    <pb-leaflet-map id="map" class="details-map" subscribe="map" emit="map" zoom="5" cluster="" latitude="51.856614" longitude="21.3522219">
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
     [% endtemplate %]
