@@ -128,7 +128,7 @@
 .fixed-layout > .after.hidden {
     visibility: hidden;
     /* Make sure this is actually hidden and takes no more width */
-    width: 0px !important;
+    width: auto !important;
     padding: 0;
 }
 
@@ -136,7 +136,7 @@
 .fixed-layout > .before-top.hidden {
     background-color: inherit;
     border: none;
-    width: auto;
+    width: auto !important;
 }
 
 .fixed-layout > main {

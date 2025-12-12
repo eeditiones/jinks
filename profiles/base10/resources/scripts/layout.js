@@ -61,12 +61,12 @@ function setUpResizeContainers() {
     const container = document.body.querySelector("pb-page");
     // Setup for left
     const [beforeTop, before] = container.querySelectorAll(
-        ".before-top,.before",
+        ".fixed-layout > .before-top,.fixed-layout > .before",
     );
 
     addResizeHandler(before, [beforeTop, before], "left");
 
-    const [afterTop, after] = container.querySelectorAll(".after-top,.after");
+    const [afterTop, after] = container.querySelectorAll(".fixed-layout > .after-top,.fixed-layout > .after");
     addResizeHandler(after, [afterTop, after], "right");
 }
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (mobileToggle) {
                 document.querySelector('.fixed-layout > main').classList.toggle(hiddenClass);
             }
-            const topPanel = this.closest(".before-top,.after-top");
+            const topPanel = this.closest(".fixed-layout > .before-top,.fixed-layout > .after-top");
             if (topPanel) {
                 topPanel.classList.toggle(hiddenClass);
             }
