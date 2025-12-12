@@ -3450,11 +3450,16 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   },
   "layout": {
       "class": "fixed-layout",
-      "before-width": "min(30vw, 356px)",
-      "after-width": "min(30vw, 356px)",
       "max-width": "108rem",
       "search": "before-top",
-      "toggle-before": true
+      "before": {
+          "toggle": true,
+          "width": "min(30vw, 356px)"
+      },
+      "after": {
+          "toggle": true,
+          "width": "min(30vw, 356px)"
+      }
   }
 }</programlisting>
       <para>Note that this list is not exhaustive and likely to change over time.</para>
@@ -3473,7 +3478,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         },
         "layout": {
             "search": "before",
-            "before-width": "min(30vw, 420px)"
+            "before": {
+                "width": "min(30vw, 420px)"
+            }
         },
         "colors": {
             "palettes": {

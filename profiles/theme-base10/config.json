@@ -90,11 +90,18 @@
         },
         "layout": {
             "class": "fixed-layout",
-            "before-width": "min(30vw, 356px)",
-            "after-width": "min(30vw, 356px)",
             "max-width": "108rem",
             "search": "before-top",
-            "toggle-before": true
+            "before": {
+                "hidden": false,
+                "toggle": true,
+                "width": "min(30vw, 356px)"
+            },
+            "after": {
+                "hidden": false,
+                "toggle": true,
+                "width": "min(30vw, 356px)"
+            }
         }
     },
     "styles": [

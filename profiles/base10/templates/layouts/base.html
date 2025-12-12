@@ -21,8 +21,8 @@
 
         <style>
             :root {
-                --jinks-layout-before-width: [[$context?theme?layout?before-width]];
-                --jinks-layout-after-width: [[$context?theme?layout?after-width]];
+                --jinks-layout-before-width: [[$context?theme?layout?before?width]];
+                --jinks-layout-after-width: [[$context?theme?layout?after?width]];
             }
         </style>
         [% block styles %][% endblock %]
@@ -89,11 +89,11 @@
             </header>
 
             [% block hero %][% endblock %]
-            <nav class="before-top hidden-mobile">
+            <nav class="before-top hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
                 <ul>
                     [% block before-top %][% endblock %]
                 </ul>
-                [% if $context?theme?layout?toggle-before %]
+                [% if $context?theme?layout?before?toggle %]
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".before">
@@ -107,7 +107,7 @@
                 </ul>
                 [% endif %]
             </nav>
-            <aside class="before hidden-mobile">
+            <aside class="before hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
                 [% block before %][% endblock %]
             </aside>
 
@@ -123,7 +123,8 @@
 
             [% block content %][% endblock %]
 
-            <nav class="after-top hidden-mobile">
+            <nav class="after-top hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]]">
+                [% if $context?theme?layout?after?toggle %]
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".after">
@@ -135,8 +136,9 @@
                         </a>
                     </li>
                 </ul>
+                [% endif %]
             </nav>
-            <aside class="after hidden-mobile">
+            <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]]">
                 [% block after %][% endblock %]
             </aside>
             [% include 'templates/footer-mobile.html' %]

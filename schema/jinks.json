@@ -682,20 +682,6 @@
                                 "fixed-layout"
                             ]
                         },
-                        "before-width": {
-                            "type": "string",
-                            "description": "Width of the left sidebar",
-                            "examples": [
-                                "min(30vw, 356px)"
-                            ]
-                        },
-                        "after-width": {
-                            "type": "string",
-                            "description": "Width of the right sidebar",
-                            "examples": [
-                                "min(30vw, 356px)"
-                            ]
-                        },
                         "max-width": {
                             "type": "string",
                             "description": "Width of the landing page content column",
@@ -703,15 +689,51 @@
                                 "1200px"
                             ]
                         },
-                        "toggle-before": {
-                            "type": "boolean",
-                            "description": "If true, add a toggle button to the before sidebar to collapse and expand"
-                        },
                         "search": {
                             "type": "string",
                             "description": "Position of the search input on the browse page",
                             "enum": ["before-top", "before"],
                             "default": "before-top"
+                        },
+                        "before": {
+                            "type": "object",
+                            "properties": {
+                                "toggle": {
+                                    "type": "boolean",
+                                    "description": "If true, add a toggle button to the before sidebar to collapse and expand"
+                                },
+                                "hidden": {
+                                    "type": "boolean",
+                                    "description": "If true, the before sidebar will be initially hidden"
+                                },
+                                "width": {
+                                    "type": "string",
+                                    "description": "Width of the before sidebar",
+                                    "examples": [
+                                        "min(30vw, 356px)"
+                                    ]
+                                }
+                            }
+                        },
+                        "after": {
+                            "type": "object",
+                            "properties": {
+                                "toggle": {
+                                    "type": "boolean",
+                                    "description": "If true, add a toggle button to the after sidebar to collapse and expand"
+                                },
+                                "hidden": {
+                                    "type": "boolean",
+                                    "description": "If true, the after sidebar will be initially hidden"
+                                },
+                                "width": {
+                                    "type": "string",
+                                    "description": "Width of the after sidebar",
+                                    "examples": [
+                                        "min(30vw, 356px)"
+                                    ]
+                                }
+                            }
                         }
                     }
                 }
