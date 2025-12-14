@@ -8,8 +8,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function landing:section($context as map(*), $name as xs:string, $root as node()) {
     let $lang := page:parameter($context, 'lang')
-    let $divs := $root//tei:div[@type=$name][@xml:lang=$lang]
-    let $nodes := if (exists($divs)) then $divs else $root//tei:div[@type=$name][@xml:lang='en']
+    let $nodes := head(($root//tei:div[@type=$name][@xml:lang=$lang], $root//tei:div[@type=$name]))
     return
         page:transform($nodes, map { "browse-url": $context?defaults?browse }, "landing.odd")
 };
