@@ -3,9 +3,9 @@ xquery version "3.1";
 module namespace static="http://tei-publisher.com/jinks/static";
 
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
-import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
+import module namespace cpy="http://tei-publisher.com/library/generator/copy";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
-import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
+import module namespace path="http://tei-publisher.com/jinks/path";
 
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 
