@@ -302,8 +302,7 @@
                 </elementSpec>
                 <elementSpec ident="ex" mode="change">
                     <model predicate="ancestor::expan" behaviour="inline">
-            <param name="content" value="('(', ., ')')"/>
-        </model>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="figure" mode="change">
                     <model predicate="head or @rendition='simple:display'" behaviour="block"/>

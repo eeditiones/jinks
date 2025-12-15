@@ -120,6 +120,14 @@ people, places, organizations etc */
     font-weight: bold;
 }
 
+.tei-ex::before {
+    content: '(';
+}
+
+.tei-ex::after {                   
+    content: ')';
+}
+
 .tei-sic.sic::before {
     content: '{';
 }
