@@ -980,7 +980,7 @@
                 <elementSpec ident="persName" mode="add">
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
-                    <model predicate="@key or @ref and $parameters?mode='register-details'" behaviour="link">
+                    <model predicate="(@key or @ref) and $parameters?mode='register-details'" behaviour="link">
                         <param name="uri" value="head((@key, @ref))"/>
                         <param name="target" value="'_blank'"/>
                     </model>
