@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
     let colorPalettes = {};
+    let appOrder = {};
 
     let editor = document.getElementById('appConfig');
     const mergedView = document.getElementById('mergedConfig');
@@ -49,6 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(response.status);
             }
+            appOrder = {};
             const apps = await response.json();
             const nav = document.querySelector('.installed');
 			nav.innerHTML = '';
@@ -56,6 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
             await loadColorPalettes(apps);
 
             apps.forEach(async (app) => {
+                appOrder[app.profile] = app.config.order;
                 if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
                     // Load color palettes from profile
                     Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
@@ -66,6 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (app.type !== 'installed') {
                     return;
                 }
+
 
                 const li = document.createElement('li');
                 li.innerHTML = `
@@ -555,10 +559,24 @@ window.addEventListener('DOMContentLoaded', () => {
         appConfig.pkg = {
             abbrev: formData.get('abbrev')
         };
-        appConfig.extends = formData.getAll('base')
+        const extend = formData.getAll('base')
             .concat(formData.getAll('feature'))
             .concat(formData.getAll('theme'))
             .concat(formData.getAll('blueprint'));
+        appConfig.extends = extend.sort((a, b) => {
+            const orderA = appOrder[a];
+            const orderB = appOrder[b];
+            if (orderA !== undefined && orderB !== undefined) {
+                return orderA - orderB;
+            }
+            if (orderA !== undefined) {
+                return -1;
+            }
+            if (orderB !== undefined) {
+                return 1;
+            }
+            return 0;
+        });
         
         // Add color palette configuration
         const prevPalette = appConfig.theme?.colors?.palette;
