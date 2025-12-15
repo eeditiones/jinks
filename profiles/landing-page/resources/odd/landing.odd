@@ -205,16 +205,16 @@
             <param name="label" value="@n"/>
             <param name="content" value="note/node()"/>
             <param name="image" value="ptr[@type='image']/@target"/>
-            <param name="url" value="if (ref/@target != '#') then ref/@target else $parameters?browse-url"/>
-            <param name="explore-label" value="ref/node()"/>
+            <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
             <param name="title" value="desc"/>
+            <param name="action-button" value="ref"/>
             <pb:template xmlns="" xml:space="preserve"><article class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
     <span class="label label-dark">[[label]]</span>
     <div class="desc">
         <h3><a href="[[url]]">[[title]]</a></h3>
         <p>
             [[content]]<br/>
-            <a class="explore-link" href="[[url]]"><pb-i18n key="landing.explore"/></a>
+            [[action-button]]
         </p> 
     </div>
 </article></pb:template>
@@ -222,6 +222,17 @@
                     <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
+                    <model predicate="ancestor::div[@type='highlights'] and parent::item" behaviour="pass-through">
+                        <desc>Output a ref button</desc>
+                        <param name="url" value="if (@target != '#') then @target else $parameters?browse-url"/>
+                        <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'landing.explore'"/>
+                            <pb:template xmlns="" xml:space="preserve">
+                            <a class="explore-link" href="[[url]]">
+                            <pb-i18n key="[[explore-label]]">[[explore-label]]</pb-i18n>
+                            </a>
+                            </pb:template>
+                    </model>
+               
                     <model predicate="@target='#'" behaviour="link">
             <param name="uri" value="$parameters?browse-url"/>
         </model>
