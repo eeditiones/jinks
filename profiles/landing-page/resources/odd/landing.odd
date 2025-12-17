@@ -64,14 +64,20 @@
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
                     <model predicate="@type='partners'" behaviour="pass-through">
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
-  <span class="label"><pb-i18n key="menu.partners"/></span>
-  <header class="row">
-    [[header]]
-  </header>
-  [[content]]
-</div></pb:template>
-        </model>
+                        <param name="content" value="list"/>
+                        <param name="header" value="head"/>
+                        <param name="desc" value="p"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <span class="label"><pb-i18n key="menu.partners"/></span>
+            <header class="center-l row">
+                [[header]]
+                [[desc]]
+            </header>
+            <div class="center-l row">
+            [[content]]
+            </div>
+            </div></pb:template>
+                    </model>
                     <model predicate="@type='highlights'" behaviour="pass-through">
             <desc>Outputs the project highlights in a grid</desc>
             <param name="title" value="head"/>
@@ -218,6 +224,12 @@
         </p> 
     </div>
 </article></pb:template>
+        </model>
+        <model predicate="parent::list[@rend='partner-logos']" behaviour="pass-through">
+            <desc>Output a logo card</desc>
+            <param name="image" value="ref/graphic/@url"/>
+            <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
+            <pb:template xmlns="" xml:space="preserve"><a href="[[url]]" class="partner-logo"><img src="[[image]]"/></a></pb:template>
         </model>
                     <model behaviour="listItem"/>
                 </elementSpec>
