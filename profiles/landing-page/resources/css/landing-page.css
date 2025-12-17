@@ -243,8 +243,19 @@ header.row {
 }
 
 .highlight-card .desc {
+    padding: calc(var(--s1)*0.5);
+}
+
+.highlight-card .desc  h3 {
     backdrop-filter: blur(10px);
     padding: calc(var(--s1)*0.5);
+    border-radius: 10px;
+    width: fit-content;
+}
+.highlight-card .desc  p {
+    backdrop-filter: blur(10px);
+    padding: calc(var(--s1)*0.5);
+    border-radius: 10px;
 }
 
 .highlight-card .desc a {
