@@ -65,7 +65,7 @@
                 <elementSpec ident="div" mode="change">
                     <model predicate="@type='partners'" behaviour="pass-through">
             <pb:template xmlns="" xml:space="preserve"><div class="center-l">
-  <span class="label"><pb-i18n key="landing.partners"/></span>
+  <span class="label"><pb-i18n key="menu.partners"/></span>
   <header class="row">
     [[header]]
   </header>
@@ -135,7 +135,7 @@
             <pb:template xmlns="" xml:space="preserve"><div class="center-l row">
   <h1>[[heading]]</h1>
   <p>[[content]]<br/>
-  <a class="explore-link" href="[[link]]"><pb-i18n key="landing.explore"/></a></p>
+  <a class="explore-link" href="[[link]]"><pb-i18n key="menu.explore"/></a></p>
 </div></pb:template>
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
@@ -225,7 +225,7 @@
                     <model predicate="ancestor::div[@type='highlights'] and parent::item" behaviour="pass-through">
                         <desc>Output a ref button</desc>
                         <param name="url" value="if (@target != '#') then @target else $parameters?browse-url"/>
-                        <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'landing.explore'"/>
+                        <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'menu.explore'"/>
                             <pb:template xmlns="" xml:space="preserve">
                             <a class="explore-link" href="[[url]]">
                             <pb-i18n key="[[explore-label]]">[[explore-label]]</pb-i18n>
