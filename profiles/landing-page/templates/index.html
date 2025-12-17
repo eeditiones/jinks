@@ -10,7 +10,7 @@
             }
         },
         "styles": [
-            "resources/css/landing-page.css"
+            "resources/css/landing-page.css", "transform/teipublisher.css"
         ],
         "script": {
             "custom": [
@@ -40,27 +40,27 @@
 
     [% let $doc = config:get-document("landing/landing.xml") %]
     <section id="about"><!-- control bleed / transparent by default -->
-    [[ landing:section($context, 'about', $doc) ]]
+    [[ landing:section($context, 'about', $doc, 'landing.odd') ]]
     </section>
     
     <section id="highlights" class="section-highlight">
-        [[ landing:section($context, 'highlights', $doc) ]]
+        [[ landing:section($context, 'highlights', $doc, 'landing.odd') ]]
     </section>
 
     <section id="team" class="section-light">
-        [[ landing:section($context, 'team', $doc) ]]
+        [[ landing:section($context, 'team', $doc, 'landing.odd') ]]
     </section>
 
     <section class="section-dark">
-        [[ landing:section($context, 'section', $doc) ]]
+        [[ landing:section($context, 'section', $doc, 'landing.odd') ]]
     </section>
     
     <section id="project-partners" class="section-light">
-        [[ landing:section($context, 'partners', $doc) ]]
+        [[ landing:section($context, 'partners', $doc, 'landing.odd') ]]
     </section>
     [% endlet %]
     
-    [% include "templates/sections/bottom.html" %]
+    [% include "templates/bottom.html" %]
 
     [% include "templates/footer.html" %]
 </template>
