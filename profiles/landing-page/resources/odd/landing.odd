@@ -65,7 +65,7 @@
                 <elementSpec ident="div" mode="change">
                     <model predicate="@type='partners'" behaviour="pass-through">
             <pb:template xmlns="" xml:space="preserve"><div class="center-l">
-  <span class="label"><pb-i18n key="partners.label"/></span>
+  <span class="label"><pb-i18n key="landing.partners"/></span>
   <header class="row">
     [[header]]
   </header>
@@ -135,7 +135,7 @@
             <pb:template xmlns="" xml:space="preserve"><div class="center-l row">
   <h1>[[heading]]</h1>
   <p>[[content]]<br/>
-  <a class="explore-link" href="[[link]]"><pb-i18n key="hero.explore"/></a></p>
+  <a class="explore-link" href="[[link]]"><pb-i18n key="landing.explore"/></a></p>
 </div></pb:template>
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
