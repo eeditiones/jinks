@@ -6,4 +6,12 @@
     <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="6"/>
     <dependency package="http://tei-publisher.com/library/jinks-templates" semver="1"/>
     <dependency package="http://existsolutions.com/ns/jwt" semver="2" />
+    <xquery>
+        <namespace>http://tei-publisher.com/jinks/path</namespace>
+        <file>modules/paths.xql</file>
+    </xquery>
+    <xquery>
+        <namespace>http://tei-publisher.com/library/generator/copy</namespace>
+        <file>modules/cpy.xql</file>
+    </xquery>
 </package>
