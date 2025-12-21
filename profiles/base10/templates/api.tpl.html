@@ -22,15 +22,6 @@
                     withCredentials: true
                 });
 
-                SwaggerUIBundle({
-                    url: "modules/custom-api.json",
-                    dom_id: '#custom',
-                    displayOperationId: true,
-                    displayRequestDuration: true,
-                    showExtensions: true,
-                    withCredentials: true
-                });
-
                 [% for $module in $context?api?*[?spec] %]
                 SwaggerUIBundle({
                     url: "modules/[[ $module?spec]]",
