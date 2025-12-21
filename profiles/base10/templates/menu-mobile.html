@@ -43,7 +43,7 @@
                 <li>
                     <details class="dropdown">
                         <summary><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></summary>
-                        <ul dir="rtl">
+                        <ul>
                             [% for $subitem in $item?subitems?* %]
                             <li>
                                 <a href="[[ $context-path ]]/[[ $subitem?url ]]"><pb-i18n key="menu.[[ $subitem?id ]]">[[ $subitem?id ]]</pb-i18n></a>

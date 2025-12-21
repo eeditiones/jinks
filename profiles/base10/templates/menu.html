@@ -14,7 +14,7 @@
             <li>
                 <details class="dropdown">
                     <summary><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n></summary>
-                    <ul dir="rtl">
+                    <ul>
                         [% for $subitem in $item?subitems?* %]
                         <li>
                             <a href="[[ $context-path ]]/[[ $subitem?url ]]"><pb-i18n key="menu.[[ $subitem?id ]]">[[ $subitem?id ]]</pb-i18n></a>
@@ -31,7 +31,7 @@
         <li class="hidden-mobile">
             <details class="dropdown">
                 <summary><pb-i18n key="menu.download.title">Download</pb-i18n></summary>
-                <ul dir="rtl">
+                <ul>
                     <li>
                         <pb-edit-xml src="document1" data-i18n="[title]menu.download.view-tei" title="view-tei">
                             Edit XML
@@ -92,7 +92,7 @@
             <pb-restricted group="[[ $pkg?user?group ]]">
                 <details class="dropdown">
                     <summary><pb-i18n key="menu.admin.title">Admin</pb-i18n></summary>
-                    <ul dir="rtl">
+                    <ul>
                         [% for $odd in $config:odd-available %]
                         <li><a href="[[$context-path]]/odd-editor.html?odd=[[$odd]]" target="_blank"><pb-i18n key="menu.admin.edit-odd">Edit ODD</pb-i18n>: [[$odd]]</a></li>
                         [% endfor %]
