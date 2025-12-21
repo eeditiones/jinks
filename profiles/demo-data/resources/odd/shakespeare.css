@@ -10,12 +10,16 @@
 
         @top-left {
             content: string(runningHead);
-            font-family: var(--pb-heading-font-family);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
         }
 
         @bottom-left-corner {
             content: counter(page);
-            font-family: var(--pb-heading-font-family);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
         }
     }
 
@@ -25,17 +29,22 @@
 
         @top-right {
             content: string(runningHead);
-            font-family: var(--pb-heading-font-family);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
         }
 
         @bottom-right-corner {
             content: counter(page);
-            font-family: var(--pb-heading-font-family);
+            font-family: var(--jinks-heading-font-family);
+            font-weight: var(--jinks-heading-font-weight);
+            line-height: var(--jinks-heading-line-height);
         }
     }
 
     body {
-        --pb-content-font-size: 11pt;
+        --jinks-heading-font-family: var(--jinks-content-font-family);
+        font-family: var(--jinks-content-font-family);
     }
 
     .running {
