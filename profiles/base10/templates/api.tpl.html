@@ -8,7 +8,7 @@
     <body>
         <div id="swagger"></div>
         <div id="custom"></div>
-        [% for $module in $context?api?* %]
+        [% for $module in $context?api?*[?spec] %]
         <div id="[[ $module?prefix ]]"></div>
         [% endfor %]
         <script>

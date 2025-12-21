@@ -886,20 +886,33 @@
             "type": "array",
             "items": {
                 "type": "object",
+                "description": "Open API specifications to load into the application",
                 "properties": {
                     "spec": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Path to the OpenAPI specification file"
                     },
                     "prefix": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Prefix used for the API endpoints. Should correspond to the XQuery module prefix. If no XQuery module is connected, provide a unique string for the documentation."
                     },
                     "id": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Namespace URI of the XQuery module implementing the API (optional)"
                     },
                     "path": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Path to the XQuery module implementing the API (optional)"
                     }
-                }
+                },
+                "anyOf": [
+                    {
+                        "required": ["prefix", "spec"]
+                    },
+                    {
+                        "required": ["prefix", "id", "path"]
+                    }
+                ]
             }
         },
         "static": {
