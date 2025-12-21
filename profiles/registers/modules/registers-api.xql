@@ -6,6 +6,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "util.xql";
 import module namespace vapi="http://teipublisher.com/api/view" at "lib/api/view.xql";
+import module namespace page="http://teipublisher.com/ns/templates/page" at "templates/page.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -127,8 +128,8 @@ declare function rview:detail-html($request as map(*)) {
             "id": $id,
             "root": $entry,
             "letters": $mentions,
-            "transform": vapi:transform-helper(?, ?, $config?odd),
-            "transform-with": vapi:transform-helper#3
+            "transform": page:transform(?, ?, $config?odd),
+            "transform-with": page:transform#3
         }
     }
     return

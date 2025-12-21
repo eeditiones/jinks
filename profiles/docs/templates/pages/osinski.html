@@ -18,7 +18,7 @@
     ---
     [% template after %]
     <details>
-        [[ $doc?transform-with($doc?content//tei:teiHeader, map { "mode": "sidebar" }, "osinski.odd") ]]
+        [[ page:transform($doc?content//tei:teiHeader, map { "mode": "sidebar" }, "osinski.odd") ]]
     </details>
     [% endtemplate %]
     [% template content %]

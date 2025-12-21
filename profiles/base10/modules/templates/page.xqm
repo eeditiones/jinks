@@ -91,7 +91,11 @@ declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd 
     for $node in $nodes
     let $params := map:merge((
         $parameters,
-        map { "webcomponents": 7, "context-path": $config:context-path, "root": $node }
+        map { 
+            "webcomponents": 7, 
+            "context-path": $config:context-path, 
+            "root": head(($parameters?root, $node))
+        }
     ))
     return
         $pm-config:web-transform($node, $params, $odd)

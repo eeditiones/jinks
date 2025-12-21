@@ -38,6 +38,6 @@
     </li>
     [% endtemplate %]
     <section class="person">
-        [[ $data?transform($data?root, map { "mode": "register-details" , "webcomponents": true()}) ]]
+        [[ page:transform($data?root, map { "mode": "register-details" , "webcomponents": true()}) ]]
     </section>
 </template>

@@ -54,6 +54,6 @@
     </pb-leaflet-map>
     [% endtemplate %]
     <section class="place">
-        [[ $data?transform($data?root, map { "mode": "register-details" }) ]]
+        [[ page:transform($data?root, map { "mode": "register-details" }) ]]
     </section>
 </template>

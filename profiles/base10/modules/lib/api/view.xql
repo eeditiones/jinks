@@ -9,6 +9,7 @@ import module namespace custom="http://teipublisher.com/api/custom" at "../../cu
 import module namespace tmpl="http://e-editiones.org/xquery/templates";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
+import module namespace page="http://teipublisher.com/ns/templates/page" at "../../templates/page.xqm";
 
 (:
 : We have to provide a lookup function to templates:apply to help it
@@ -104,8 +105,8 @@ declare function vapi:view($request as map(*)) {
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
                         "view": $config?view,
-                        "transform": vapi:transform-helper(?, ?, $config?odd),
-                        "transform-with": vapi:transform-helper#3
+                        "transform": page:transform(?, ?, $config?odd),
+                        "transform-with": page:transform#3
                     },
                     "template": $templateName,
                     "media": if (map:contains($config, 'media')) then $config?media else ()
@@ -125,21 +126,6 @@ declare function vapi:view($request as map(*)) {
                         "tei": "http://www.tei-c.org/ns/1.0"
                     }
                 })
-};
-
-declare function vapi:transform-helper($content as node()*, $parameters as map(*)?, $odd as xs:string?) {
-    let $params := map:merge((
-        if (map:contains($parameters, "root")) then
-            $parameters
-        else
-            map:put($parameters, "root", $content),
-        map { 
-            "webcomponents": 7,
-            "context-path": $config:context-path
-        }
-    ))
-    return
-        $pm-config:web-transform($content, $params, $odd)
 };
 
 declare function vapi:handle-error($error) {
