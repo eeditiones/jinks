@@ -3082,6 +3082,71 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           xlink:href="https://github.com/eeditiones/jinks-templates?tab=readme-ov-file#how-context-maps-are-merged"
           >special properties</link> for that (see <code>"$replace"</code>).</para>
     </section>
+    <section>
+      <title>Preloaded XML Data</title>
+      <para>XML documents stored in the application can be preloaded into variables (or context
+        properties) to access them in template expressions: if the frontmatter of the template
+        contains a <code>data</code> property, it will be processed as an object, mapping variable
+        (or property) names to relative paths into the application. The templating tries to resolve
+        each relative path to an XML document and declares a top-level property in
+          <code>$context</code> with the corresponding name. For example, the frontmatter of
+          <filename>profiles/landing-page/templates/index.html</filename> includes:</para>
+      <programlisting language="json">"data": {
+    "landing": "landing/landing.xml"
+}</programlisting>
+      <para>This defines a single mapping, though more can be added.
+          <filename>landing/landing.xml</filename> is a TEI document containing the sections to be
+        rendered for different parts of the landing page. Within the template, information about the
+        document as well as its content can be accessed with <code>$landing</code> or
+          <code>$context?landing</code>. The value of the variable will be a map with the following
+        properties:</para>
+      <variablelist>
+        <varlistentry>
+          <term><code>content</code></term>
+          <listitem>
+            <para>The root of the document as a document node or the root element of a fragment
+              (when using addressing by id)</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><code>path</code></term>
+          <listitem>
+            <para>The relative path to the document</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><code>odd</code></term>
+          <listitem>
+            <para>The ODD configured for rendering this document (without the '.odd' suffix)</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><code>view</code></term>
+          <listitem>
+            <para>The preferred view (<emphasis>div</emphasis>, <emphasis>page</emphasis> …)
+              configured for the document</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Within the template, you can use all XQuery expressions to further process the content.
+        To render all or parts of it via ODD, call the utility function <code>page:transform</code>,
+        e.g.:</para>
+      <programlisting language="xml">&lt;div>[[ page:transform($landing?content, map { (: parameters :) }, $landing?odd) ]]&lt;/div></programlisting>
+      <para>If the template is evaluated as part of a route addressing an XML document, the
+        associated document will be preloaded by default and will be available as <code>$doc</code>
+        or <code>$context?doc</code>. In this case, you do not need to declare an explicit mapping
+        in the frontmatter.</para>
+      <para>For example, <filename>profiles/docs/templates/pages/osinski.html</filename> will be
+        processed when you click on the link to the document <emphasis>Bogactwa mowy
+          polskiej</emphasis> in the <emphasis>TEI Publisher 10 Documentation and Demo</emphasis>
+        application. The template includes metadata about the document in the right sidebar, which
+        is rendered with the following templating fragment:</para>
+      <programlisting language="xml">[% template after %]
+  &lt;details>
+    [[ page:transform($doc?content//tei:teiHeader, map { "mode": "sidebar" }, $doc?odd || ".odd") ]]
+  &lt;/details>
+[% endtemplate %]</programlisting>
+    </section>
 
     <section xml:id="templates-blocks-and-templates">
       <title>Blocks and Templates</title>
