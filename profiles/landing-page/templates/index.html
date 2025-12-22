@@ -21,6 +21,9 @@
             "layout": {
                 "class": "landing-layout"
             }
+        },
+        "data": {
+            "landing": "landing/landing.xml"
         }
     }
     ---
@@ -32,33 +35,29 @@
 
     [% template hero %]
     <header class="hero">
-        [% let $doc = config:get-document("landing/landing.xml") %]
-        [[ landing:section($context, 'hero', $doc, 'landing.odd') ]]
-        [% endlet %]
+        [[ landing:section($context, 'hero', $landing?content, 'landing.odd') ]]
     </header>
     [% endtemplate %]
 
-    [% let $doc = config:get-document("landing/landing.xml") %]
     <section id="about"><!-- control bleed / transparent by default -->
-    [[ landing:section($context, 'about', $doc, 'landing.odd') ]]
+    [[ landing:section($context, 'about', $landing?content, 'landing.odd') ]]
     </section>
     
     <section id="highlights" class="section-highlight">
-        [[ landing:section($context, 'highlights', $doc, 'landing.odd') ]]
+        [[ landing:section($context, 'highlights', $landing?content, 'landing.odd') ]]
     </section>
 
     <section id="team" class="section-light">
-        [[ landing:section($context, 'team', $doc, 'landing.odd') ]]
+        [[ landing:section($context, 'team', $landing?content, 'landing.odd') ]]
     </section>
 
     <section class="section-dark">
-        [[ landing:section($context, 'section', $doc, 'landing.odd') ]]
+        [[ landing:section($context, 'section', $landing?content, 'landing.odd') ]]
     </section>
     
     <section id="project-partners" class="section-light">
-        [[ landing:section($context, 'partners', $doc, 'landing.odd') ]]
+        [[ landing:section($context, 'partners', $landing?content, 'landing.odd') ]]
     </section>
-    [% endlet %]
     
     [% include "templates/bottom.html" %]
 

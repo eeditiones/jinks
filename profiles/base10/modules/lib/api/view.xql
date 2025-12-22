@@ -10,14 +10,14 @@ import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "pm-config.xql";
 import module namespace page="http://teipublisher.com/ns/templates/page" at "../../templates/page.xqm";
 
-declare function vapi:get-template($config as map(*), $template as xs:string?) {
+declare %private function vapi:get-template($config as map(*), $template as xs:string?) {
     if ($template) then
         $template
     else
         $config?template
 };
 
-declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
+declare %private function vapi:get-config($doc as xs:string, $view as xs:string?) {
     let $document := config:get-document($doc)
     return
         if (exists($document)) then
@@ -26,6 +26,14 @@ declare function vapi:get-config($doc as xs:string, $view as xs:string?) {
             error($errors:NOT_FOUND, "document " || $doc || " not found")
 };
 
+(:~
+ : Loads the templating context from context.json. 
+ :
+ : Adds the languages, request, and context-path to the context.
+ : 
+ : @param request The request map.
+ : @return The merged templating context.
+ :)
 declare function vapi:load-config-json($request as map(*)?) {
     let $context := parse-json(util:binary-to-string(util:binary-doc($config:app-root || "/context.json")))
     return
@@ -53,6 +61,12 @@ declare %private function vapi:merge-config($jsonConfig as map(*), $docConfig as
         tmpl:merge-deep(($jsonConfig, $cleanedConfig))
 };
 
+(:~
+ : Main endpoint for rendering an XML document via an HTML template.
+ : 
+ : @param request The request map.
+ : @return The processed template.
+ :)
 declare function vapi:view($request as map(*)) {
     let $path :=
         if ($request?parameters?suffix) then
@@ -73,12 +87,15 @@ declare function vapi:view($request as map(*)) {
         if (not($template)) then
             error($errors:NOT_FOUND, "template " || $templateName || " not found")
         else
+            let $templateContent := serialize($template)
+            let $frontmatter := tmpl:frontmatter($templateContent)
             let $data := config:get-document($path)
             let $config := tpu:parse-pi(root($data), $request?parameters?view, $request?parameters?odd)
             let $jsonConfig := vapi:load-config-json($request)
             let $mergedConfig := vapi:merge-config($jsonConfig, $config)
             let $model := map:merge((
                 $mergedConfig,
+                vapi:load-context-data($frontmatter),
                 map {
                     "doc": map {
                         "content": $data,
@@ -93,7 +110,7 @@ declare function vapi:view($request as map(*)) {
                 }
             ))
             return
-                tmpl:process(serialize($template), $model, map {
+                tmpl:process($templateContent, $model, map {
                     "plainText": false(),
                     "resolver": vapi:resolver#1,
                     "modules": map {
@@ -172,6 +189,13 @@ declare function vapi:html($request as map(*)) {
     vapi:html($request, ())
 };
 
+(:~
+ : Endpoint to load and process an HTML template.
+ : 
+ : @param request The request map.
+ : @param extConfig Additional configuration to merge with the default configuration.
+ : @return The processed template.
+ :)
 declare function vapi:html($request as map(*), $extConfig as map(*)?) {
     let $path := $config:app-root || "/templates/" || xmldb:decode($request?parameters?file) || ".html"
     let $template :=
@@ -181,12 +205,14 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
             util:binary-doc($path) => util:binary-to-string()
         else
             error($errors:NOT_FOUND, "HTML file " || $path || " not found")
+    let $frontmatter := tmpl:frontmatter($template)
     let $config := map:merge((
         vapi:load-config-json($request),
         map {
             "context-path": $config:context-path
         },
-        $extConfig
+        $extConfig,
+        vapi:load-context-data($frontmatter)
     ))
     return
         tmpl:process($template, $config, map {
@@ -204,9 +230,37 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
         })
 };
 
+(:~
+ : If a data property is present in the frontmatter, load the documents listed there and assign them to a context variable.
+ :
+ : The key of the map is the name of the context variable, the value is the path to the document.
+ : The document is loaded using the config:get-document function.
+ : The document is parsed using the tpu:parse-pi function.
+ : The parsed document is returned as a map with the following properties:
+ : - content: the document content
+ : - path: the path to the document
+ : - odd: the odd of the document
+ : - view: the view of the document
+ :)
+declare %private function vapi:load-context-data($context as map(*)) {
+    if (exists($context?data) and $context?data instance of map(*)) then
+        map:for-each($context?data, function($key, $value) {
+            let $data := config:get-document($value)
+            let $config := tpu:parse-pi(root($data), $config:default-view, $config:default-odd)
+            return
+                map:entry($key, map {
+                    "content": $data,
+                    "path": $value,
+                    "odd": replace($config?odd, '^(.*)\.odd', '$1'),
+                    "view": $config?view
+                })
+        })
+    else
+        ()
+};
+
 declare function vapi:text($request as map(*)) {
     let $path := $config:app-root || "/" || xmldb:decode($request?parameters?file) || $request?parameters?suffix
-    let $_ := util:log("INFO", "path: " || $path)
     let $template :=
         if (doc-available($path)) then
             doc($path) => serialize()
