@@ -10,6 +10,7 @@
                  
                  
                  
+                 
                  <desc>A test ODD to preview TEI imported from Word docx</desc>
                 </title>
             </titleStmt>
@@ -62,8 +63,10 @@
             
             
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: 0.85em;
+            
             
             
             
@@ -96,8 +99,10 @@ font-size: 0.85em;
             
             
             
+            
             color: #e24329;
 font-variant: small-caps;
+            
             
             
             
@@ -137,8 +142,10 @@ font-variant: small-caps;
             
             
             
+            
             font-family: Menlo, Consolas, monospace;
 font-size: .85em;
+            
             
             
             
@@ -164,36 +171,9 @@ font-size: .85em;
                     <model behaviour="block" useSourceRendition="true">
             <desc>If it is inside a paragraph then it is inline, otherwise it is block                  level</desc>
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            margin-left: 10px; 
-margin-right: 10px;
-padding-left: 10px;
+            margin: 0 1em 1em 1em;
+padding-left: 1em;
 border-left: 1px solid #C0C0C0;
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -207,7 +187,7 @@ border-left: 1px solid #C0C0C0;
             <elementSpec ident="eg" mode="add">
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
-            margin-left: 1.5em;
+            margin: 1em 0 1em 1.5em;
             </outputRendition>
         </model>
                 </elementSpec>
@@ -277,8 +257,10 @@ border-left: 1px solid #C0C0C0;
             <outputRendition xml:space="preserve">
             
             
+            
             margin-left: 10px;margin-right: 10px;
                   font-size:smaller;
+            
             
             
             </outputRendition>
