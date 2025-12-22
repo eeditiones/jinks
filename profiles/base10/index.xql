@@ -78,16 +78,14 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
                 root($root)//body,
                 $root/dbk:section
             )
-            case "place" return
-                ($root//tei:placeName/string(), $root//tei:name[@type="place"]/string())
-            case "person-id" return 
-                for $id in ($root//tei:persName, $root//tei:rs[@type='person']) 
+            case "place" return 
+                for $id in ($root//tei:placeName, $root//tei:name[@type="place"], $root//tei:rs[@type='place']) 
                 return 
-                    (if ($id/@ref) then $id/@ref/string() else (), if ($id/@key) then $id/@key/string() else ())
-            case "place-id" return 
-                for $id in ($root//tei:placeName, $root//tei:rs[@type='place']) 
+                    (if ($id/@ref) then $id/@ref/string() else (), if ($id/@key) then $id/@key/string() else $id)
+            case "person" return 
+                for $id in ($root//tei:persName, $root//tei:name[@type="person"], $root//tei:rs[@type='person']) 
                 return 
-                    (if ($id/@ref) then $id/@ref/string() else (), if ($id/@key) then $id/@key/string() else ())
+                    (if ($id/@ref) then $id/@ref/string() else (), if ($id/@key) then $id/@key/string() else $id)
             default return
                 ()
 };
