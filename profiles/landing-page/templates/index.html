@@ -33,7 +33,7 @@
     [% template hero %]
     <header class="hero">
         [% let $doc = config:get-document("landing/landing.xml") %]
-        [[ landing:section($context, 'hero', $doc) ]]
+        [[ landing:section($context, 'hero', $doc, 'landing.odd') ]]
         [% endlet %]
     </header>
     [% endtemplate %]
