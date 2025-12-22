@@ -517,12 +517,19 @@ declare function config:document-type($div as element()) {
 };
 
 declare function config:get-document($idOrName as xs:string) {
-    if ($config:address-by-id) then
-        root(collection($config:data-root)/id($idOrName))
-    else if (starts-with($idOrName, '/')) then
-        doc(xmldb:encode-uri($idOrName))
-    else
-        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+    let $document :=
+        if ($config:address-by-id) then
+            root(collection($config:data-root)/id($idOrName))
+        else if (starts-with($idOrName, '/')) then
+            doc(xmldb:encode-uri($idOrName))
+        else
+            doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+    return 
+        if (count($document)) then 
+            $document 
+        else 
+            (: if document not found, try to find it again in any way: by id, or by path in data-root or data-default  :)
+            head((collection($config:data-root)/id($idOrName), doc(xmldb:encode-uri($idOrName)), doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)), doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))))
 };
 
 (:~
