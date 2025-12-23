@@ -63,10 +63,11 @@ declare function rapi:delete($request as map(*)) {
     return
       if ($entry) then
             (: let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc)) :)   
+            let $del := 'cant delete entire file'
 
             return (
                 session:set-attribute($config:session-prefix || ".works", ()),
-                router:response(204, 'Document deleted')
+                router:response(204, 'Entry not deleted, this featuer is not yet implemented')
             )
         else
             error($errors:NOT_FOUND, "Entry for " || $type || ": " || $id || " not found")
