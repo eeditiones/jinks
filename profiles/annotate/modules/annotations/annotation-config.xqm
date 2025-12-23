@@ -31,6 +31,8 @@ declare function anno:entity-type($node as element()) as xs:string? {
             "term"
         case element(tei:orgName) return
             "organization"
+        case element(tei:bibl) return
+            "work"
         default return
             ()
 };
@@ -49,6 +51,8 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             <term xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</term>
         case "organization" return
             <orgName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</orgName>
+        case "work" return
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}" type="work">{$content()}</bibl>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
             { 
@@ -125,7 +129,9 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
             collection($config:data-default)//tei:term[@key = $key]
         case "organization" return
             collection($config:data-default)//tei:orgName[@key = $key]
-         default return ()
+        case "work" return
+            collection($config:data-default)//tei:bibl[@key = $key]
+        default return ()
 };
 
 declare %private function anno:fix-namespaces($nodes as item()*) {
