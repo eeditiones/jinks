@@ -50,7 +50,7 @@ The default configuration and scripts assume that the register entries are organ
 
 #### Index configuration
 
-These features requires a specific index configuration (see `collection.xconf`) to be available for `person` and `place` entries in the registers.
+This feature requires a specific index configuration (see `collection.xconf`) to be available for `person` and `place` entries in the registers.
 Standard configuration is as follows:
 
 ```xml
@@ -77,7 +77,7 @@ The TEI Publisher ODD (`resources/odd/teipublisher.odd`) contains several models
 
 #### Browse pages for registers
 
-To control the number of columns in browse pages, set the css variable ` --pb-categorized-list-columns` in `resources/css/registers-theme.css`. By default it uses a two-column layout.
+To control the number of columns in the browse pages, set the CSS variable ` --pb-categorized-list-columns` in `resources/css/registers-theme.css`. By default it uses a two-column layout.
 
 #### Sidebar
 
