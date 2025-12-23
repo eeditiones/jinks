@@ -175,6 +175,23 @@
             <param name="id" value="@xml:id"/>
         </model>
                 </elementSpec>
+            <elementSpec ident="bibl" mode="change">
+                    <modelSequence predicate="parent::listBibl">
+            <model behaviour="heading">
+                <param name="level" value="3"/>
+                <param name="content" value="title"/>
+            </model>
+            <model behaviour="heading">
+                <param name="level" value="4"/>
+                <param name="content" value="author"/>
+            </model>
+            <model behaviour="paragraph">
+                <param name="content" value="note"/>
+            </model>
+        </modelSequence>
+                <model predicate="@type eq 'work'" behaviour="inline" cssClass="annotation annotation-work authority"/>
+                <model behaviour="inline"/>
+            </elementSpec>
             </schemaSpec>
         </body>
     </text>
