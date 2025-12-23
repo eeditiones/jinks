@@ -53,6 +53,7 @@ declare function rapi:entry($request as map(*)) {
             error($errors:BAD_REQUEST, "No " || $type || " entry id specified")
 };
 
+(: TODO rewrite, removing entry by id (with update delete) not the filename :)
 
 declare function rapi:delete($request as map(*)) {
     let $id := xmldb:decode($request?parameters?id)
@@ -61,8 +62,7 @@ declare function rapi:delete($request as map(*)) {
 
     return
       if ($entry) then
-            (: let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc)) :)
-            let $foo := 'bar'
+            (: let $del := xmldb:remove(util:collection-name($doc), util:document-name($doc)) :)   
 
             return (
                 session:set-attribute($config:session-prefix || ".works", ()),
