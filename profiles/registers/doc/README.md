@@ -50,7 +50,7 @@ The default configuration and scripts assume that the register entries are organ
 
 #### Index configuration
 
-This features requires a specific index configuration (see `collection.xconf`) to be available for `person` and `place` entries in the registers.
+These features requires a specific index configuration (see `collection.xconf`) to be available for `person` and `place` entries in the registers.
 Standard configuration is as follows:
 
 ```xml
