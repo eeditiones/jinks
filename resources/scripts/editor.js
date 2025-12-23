@@ -137,8 +137,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 const btn = document.createElement('button');
                 btn.dataset.action = action.name;
-                btn.dataset.tooltip = action.name;
-                btn.innerHTML = action.description;
+                btn.dataset.tooltip = action.description;
+                btn.dataset.placement = 'left';
+                btn.innerHTML = action.label;
                 li.appendChild(btn);
                 ul.appendChild(li);
 
@@ -473,6 +474,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     
     async function executeAction(pkgAbbrev, actionName, params) {
+        let isZipDownload = false;
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 'Running action',
@@ -493,6 +495,32 @@ window.addEventListener('DOMContentLoaded', () => {
 
                         throw new Error(response.status);
                     }
+                    
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/zip')) {
+                        // Handle zip file download
+                        isZipDownload = true;
+                        const blob = await response.blob();
+                        const contentDisposition = response.headers.get('content-disposition');
+                        let filename = `${pkgAbbrev}.xar`;
+                        if (contentDisposition) {
+                            const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                            if (filenameMatch && filenameMatch[1]) {
+                                filename = filenameMatch[1].replace(/['"]/g, '');
+                            }
+                        }
+                        const downloadUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(downloadUrl);
+                        return; // Don't show dialog for zip downloads
+                    }
+                    
+                    // Handle JSON response
                     const result = await response.json();
                     result.forEach((message) => {
                         const li = document.createElement('li');
@@ -505,10 +533,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             );
             
-            // Show the output dialog after the action completes
-            const outputDialog = document.getElementById('output-dialog');
-            if (outputDialog) {
-                outputDialog.openDialog();
+            // Show the output dialog after the action completes (only for non-zip responses)
+            if (!isZipDownload) {
+                const outputDialog = document.getElementById('output-dialog');
+                if (outputDialog) {
+                    outputDialog.openDialog();
+                }
             }
         });
     }

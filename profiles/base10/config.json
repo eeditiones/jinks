@@ -166,15 +166,23 @@
     "actions": [
         {
             "name": "reindex",
-            "description": "Reindex data"
+            "label": "Reindex data",
+            "description": "Reindex the data"
         },
         {
             "name": "fix-odds",
-            "description": "Fix ODDs"
+            "label": "Fix ODDs",
+            "description": "Rebuild list of ODDs and recompile"
+        },
+        {
+            "name": "download",
+            "label": "Download",
+            "description": "Download the app as a `.xar` file"
         },
         {
             "name": "file-sync",
-            "description": "Sync to directory",
+            "label": "Sync",
+            "description": "Sync the app to a directory on the local file system",
             "parameters": [
                 {
                     "name": "target",
