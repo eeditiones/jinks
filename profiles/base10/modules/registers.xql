@@ -204,7 +204,7 @@ declare function rapi:next($type) {
         case 'term'
             return collection($config:register-root)/id($config?id)//tei:category[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         case 'work'
-            return collection($config:register-root)/id($config?id)//(tei:bibl|tei:biblStruct)[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
+            return collection($config:register-root)/id($config?id)//tei:bibl[@type eq 'work'][starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
         default 
             return collection($config:register-root)/id($config?id)//tei:person[starts-with(@xml:id, $config?prefix)]/substring-after(@xml:id, $config?prefix)
     
