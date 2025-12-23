@@ -63,7 +63,13 @@
     --jinks-splash-background-dark: url("[[ $theme?logo?splash?dark ]]");
     --jinks-splash-image-size: [[ $theme?logo?splash?size ]];
 
-    --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
+    /* Texture background */
+     
+    [% if $theme?texture?background-image %]
+        --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
+    [% else %]
+        --jinks-texture-background: none;
+    [% endif %]
 
     /* Typography */
 
