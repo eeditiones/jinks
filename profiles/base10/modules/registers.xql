@@ -381,7 +381,7 @@ declare function rapi:create-record($type as xs:string, $id as xs:string, $data 
                 <catDesc>{$data?name}</catDesc>
             </category>
         case "work" return
-            <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}">
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" type="work">
                 <title type="main">{$data?name}</title>
                 {
                     rapi:process-array($data?firstAuthor, function($item) {
