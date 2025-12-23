@@ -3259,6 +3259,38 @@
 				}
 			}
 		},
+        "/api/actions/file-sync": {
+            "post": {
+                "description": "Sync changes in the app to a local file system",
+                "tags": [
+                    "actions"
+                ],
+                "operationId": "action:file-sync",
+                "parameters": [
+                    {
+                        "name": "target",
+                        "in": "query",
+                        "description": "The path to the target directory",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
 		"/api/actions/reindex": {
 			"post": {
 				"description": "Reindex the data collection",

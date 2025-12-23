@@ -171,6 +171,18 @@
         {
             "name": "fix-odds",
             "description": "Fix ODDs"
+        },
+        {
+            "name": "file-sync",
+            "description": "Sync to directory",
+            "parameters": [
+                {
+                    "name": "target",
+                    "label": "Directory",
+                    "description": "The path to the target directory",
+                    "required": true
+                }
+            ]
         }
     ]
 }

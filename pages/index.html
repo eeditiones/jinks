@@ -223,6 +223,23 @@
     </section>
     [% template dialogs %]
     <pb-message id="message-dialog"></pb-message>
+    <pb-dialog id="action-dialog">
+        <h3 slot="title">File Sync</h3>
+        <p>Synchronize changes in the app to a directory on the local file system of the machine where the database is running.</p>
+        <section></section>
+        <nav slot="footer">
+            <ul>
+                <li>
+                    <button class="run-action" data-tooltip="Run the action">
+                        <svg class="icon">
+                            <use href="#icon-refresh"></use>
+                        </svg>
+                        <span>Run</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </pb-dialog>
     <pb-dialog id="output-dialog">
         <h3 slot="title">Command Output</h3>
         <section id="output">

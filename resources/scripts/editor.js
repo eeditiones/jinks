@@ -144,7 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 btn.addEventListener('click', (ev) => {
                     ev.preventDefault();
-                    runAction(appConfig.pkg.abbrev, action.name);
+                    runAction(appConfig.pkg.abbrev, action);
                 });
             });
         }
@@ -382,7 +382,97 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function runAction(pkgAbbrev, actionName) {
+    async function runAction(pkgAbbrev, action) {
+        const actionName = action.name;
+        const actionConfig = action;
+        
+        // Check if action has parameters
+        if (actionConfig && actionConfig.parameters && actionConfig.parameters.length > 0) {
+            // Show dialog with form
+            const dialog = document.getElementById('action-dialog');
+            const formSection = dialog.querySelector('section');
+            const runButton = dialog.querySelector('.run-action');
+            
+            // Update dialog title
+            const title = dialog.querySelector('h3[slot="title"]');
+            if (title) {
+                title.textContent = actionConfig.description || actionConfig.name;
+            }
+            
+            // Clear previous form
+            formSection.innerHTML = '';
+            
+            // Create form with inputs for each parameter
+            const form = document.createElement('form');
+            form.id = 'action-parameters-form';
+            
+            actionConfig.parameters.forEach((param) => {
+                const fieldset = document.createElement('fieldset');
+                
+                const label = document.createElement('label');
+                label.setAttribute('for', `param-${param.name}`);
+                label.textContent = param.label || param.name;
+                if (param.required) {
+                    label.innerHTML += ' <span style="color: red;">*</span>';
+                }
+                fieldset.appendChild(label);
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `param-${param.name}`;
+                input.name = param.name;
+                input.required = param.required || false;
+                if (param.description) {
+                    input.title = param.description;
+                    input.placeholder = param.description;
+                }
+                fieldset.appendChild(input);
+                
+                form.appendChild(fieldset);
+            });
+            
+            formSection.appendChild(form);
+            
+            // Remove previous event listeners by cloning the button
+            const newRunButton = runButton.cloneNode(true);
+            runButton.parentNode.replaceChild(newRunButton, runButton);
+            
+            // Show dialog
+            dialog.openDialog();
+            
+            // Wait for user to click run button
+            return new Promise((resolve) => {
+                newRunButton.addEventListener('click', async (ev) => {
+                    ev.preventDefault();
+                    
+                    // Validate form
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+                    
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const params = {};
+                    for (const [key, value] of formData.entries()) {
+                        params[key] = value;
+                    }
+                    
+                    // Close dialog
+                    dialog.closeDialog();
+                    
+                    // Run the action with parameters
+                    await executeAction(pkgAbbrev, actionName, params);
+                    resolve();
+                });
+            });
+        } else {
+            // No parameters, run directly
+            await executeAction(pkgAbbrev, actionName, {});
+        }
+    }
+    
+    async function executeAction(pkgAbbrev, actionName, params) {
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 'Running action',
@@ -390,12 +480,12 @@ window.addEventListener('DOMContentLoaded', () => {
                     output.innerHTML = '';
                     errors.innerHTML = '';
                     const url = new URL(`../${pkgAbbrev}/api/actions/${actionName}`, window.location);
+                    // Add parameters as URL query parameters
+                    Object.entries(params).forEach(([key, value]) => {
+                        url.searchParams.append(key, value);
+                    });
                     const response = await fetch(url, {
-                        method: "POST",
-                        body: {},
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
+                        method: "POST"
                     });
                     if (!response.ok) {
                         const text = await response.text();
@@ -640,7 +730,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const outputDialog = document.getElementById('output-dialog');
         outputDialog.closeDialog();
 
-        showTab('config');
+        // showTab('config');
         
         validateForm();
         if (!form.checkValidity()) {
