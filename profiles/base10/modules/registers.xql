@@ -67,7 +67,7 @@ declare function rapi:delete($request as map(*)) {
 
             return (
                 session:set-attribute($config:session-prefix || ".works", ()),
-                router:response(204, 'Entry not deleted, this featuer is not yet implemented')
+                router:response(204, 'Entry not deleted, this feature is not yet implemented')
             )
         else
             error($errors:NOT_FOUND, "Entry for " || $type || ": " || $id || " not found")
