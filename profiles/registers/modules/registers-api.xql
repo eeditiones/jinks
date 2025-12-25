@@ -23,9 +23,12 @@ declare function rview:sort($people as array(*)*, $dir as xs:string) {
 };
 
 declare function rview:people-all($request as map(*)) {
-    let $people := collection($config:register-root)//tei:person
+    let $people := collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., '*', map {
+        "leading-wildcard": "yes",
+        "filter-rewrite": "yes"
+    })]
     let $byKey := for-each($people, function($person as element()) {
-        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
+        let $label := ft:field($person, "sort-name")
         return
             [lower-case($label), $person]
     })
@@ -36,7 +39,8 @@ declare function rview:people-all($request as map(*)) {
         return
             map {
                 "id": $person?2/@xml:id/string(),
-                "name": $person?2/tei:persName[@type="main"]/string()
+                "name": $person?2/tei:persName[@type="main"]/string(),
+                "sort-name": $person?1
             }
      }
 };
