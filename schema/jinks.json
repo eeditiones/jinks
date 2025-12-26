@@ -946,6 +946,7 @@
                 },
                 "redirect": {
                     "type": "object",
+                    "description": "Adds a redirect to a new page. The key is the source path, the value is the target path.",
                     "properties": {
                         "": {
                             "type": "string"
@@ -954,6 +955,7 @@
                 },
                 "styles": {
                     "type": "array",
+                    "description": "List of styles to load into each static page",
                     "items": {
                         "type": "string"
                     }
@@ -966,6 +968,7 @@
                 },
                 "collections": {
                     "type": "object",
+                    "description": "One or more collections to generate static pages for. The key (might be '') is the collection path relative to the default data collection, the value is a configuration object.",
                     "additionalProperties": {
                         "type": "object",
                         "properties": {
@@ -978,18 +981,22 @@
                             },
                             "include": {
                                 "type": "array",
+                                "description": "Optional list of documents to include in the static page. If not specified, all documents in the collection will be included.",
                                 "items": {
                                     "type": "string"
                                 }
                             },
                             "paginate": {
                                 "type": "object",
+                                "description": "How to paginate a document: associates a template with a list of parts to render for each page.",
                                 "properties": {
                                     "toc": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "description": "If true, a table of contents will be generated for the document."
                                     },
                                     "parts": {
                                         "type": "array",
+                                        "description": "List of parts to render for each page.",
                                         "items": {
                                             "type": "object",
                                             "properties": {
@@ -1000,7 +1007,8 @@
                                                     "type": "string"
                                                 },
                                                 "id": {
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "description": "A name for the part. If empty, 'default' is used. Parts will be available in the template in a map called $parts. You can access the part with `$parts?<id>`, e.g. for the default part: `$parts?default`."
                                                 },
                                                 "user.mode": {
                                                     "type": "string"
@@ -1012,7 +1020,8 @@
                                         }
                                     },
                                     "template": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "The template to use for rendering the pages"
                                     }
                                 },
                                 "required": [
@@ -1022,14 +1031,20 @@
                                 ]
                             },
                             "template": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The template to use for browsing the collection"
                             },
                             "fetch": {
                                 "type": "array",
+                                "description": "Fetch a resource from an URL and store it",
                                 "items": {
                                     "type": "object",
                                     "properties": {
                                         "url": {
+                                            "type": "string",
+                                            "description": "The URL to fetch. May contain template parameters like [[$context?base-uri]]."
+                                        },
+                                        "target": {
                                             "type": "string"
                                         }
                                     }
@@ -1045,14 +1060,17 @@
                 },
                 "copy": {
                     "type": "array",
+                    "description": "Copy resources from a path relative to the source collection into a target path in the static collection",
                     "items": {
                         "type": "object",
                         "properties": {
                             "from": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The path to the source collection, relative to the application root"
                             },
                             "to": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The path to the target collection, relative to the static output collection"
                             },
                             "filter": {
                                 "type": "string",
