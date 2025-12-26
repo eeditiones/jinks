@@ -853,78 +853,84 @@
       </section>
 
     </section>
-
-    <section xml:id="custom-app-generation">
-      <title>Generating your own application</title>
-      <section xml:id="jinks">
-        <title>What is Jinks?</title>
-        <para>As mentioned in the introduction, TEI Publisher is no longer a single application, but
-          rather a toolbox with which you can generate applications. The <productname>TEI Publisher
-            Documentation + Demo</productname> app we looked at in the previous chapter is such a
-          generated application. The tool from which it was generated is called
-            <productname>Jinks</productname>.</para>
-        <para>Jinks is the central application manager for TEI Publisher and replaces the custom app
-          generator available in earlier versions of TEI Publisher. Jinks</para>
-        <itemizedlist>
-          <listitem>
-            <para>can not only create new custom applications, but also reconfigure them at a later
-              time</para>
-          </listitem>
-          <listitem>
-            <para>uses a hierarchy of application profiles targeted at specific use cases. A profile
-              can extend or build upon other profiles</para>
-          </listitem>
-          <listitem>
-            <para>profiles can be modular, i.e. contribute only one feature. Or they can be a custom
-              composition of other profiles.</para>
-          </listitem>
-          <listitem>
-            <para>handles updates while detecting and respecting local changes</para>
-          </listitem>
-          <listitem>
-            <para>comes with its own <link
-                xlink:href="https://github.com/eeditiones/jinks-templates" xlink:show="new"
-                >templating module</link>, which can also process plain-text files (XQuery, CSS
-              etc.)</para>
-          </listitem>
-        </itemizedlist>
-      </section>
-      <section xml:id="modularity">
-        <title>Profiles: blueprints, themes and features</title>
-        <para> The core concept of Jinks is the <emphasis>profile</emphasis>. Profiles can extend
-          and import each other. We distinguish three different kinds of profiles: </para>
-        <itemizedlist>
-          <listitem>
-            <para>A <emphasis>blueprint</emphasis> is a complete template for an application
-              targeted at a specific use case like a monograph, correspondence edition, dictionary
-              etc. An application generated from a blueprint is fully functional. </para>
-          </listitem>
-          <listitem>
-            <para>A <emphasis>feature</emphasis> is a functional sub-profile to be imported into
-              another profile. It adds specific functionality, e.g. docker configuration, additional
-              visualizations or pages etc. </para>
-          </listitem>
-          <listitem>
-            <para>A <emphasis>theme</emphasis> is a customization of a base profile, changing mainly
-              the look and feel, e.g. modify images, fonts or colors according to a corporate
-              identity. </para>
-          </listitem>
-        </itemizedlist>
-        <note role="todo">
-          <para>Following should go into separate chapter explaining how profiles work:</para>
-          <para>Each profile has a subcollection under <filename>profiles</filename> and must
-            contain at least one configuration file, <filename>config.json</filename>, which defines
-            all the variables to be used in templated files. </para>
-        </note>
-      </section>
-    </section>
     <section xml:id="using-jinks">
       <title>Using Jinks</title>
-      <note role="todo">
-        <para>Extend with a step by step description of how to configure an application in
-          Jinks.</para>
-        <para>Show how to download the generated app and how to continue working with it.</para>
-      </note>
+      <para>After playing around with the <productname>TEI Publisher Documentation and
+          Demo</productname> application, it is now time to generate your own custom edition. As
+        explained above, TEI Publisher 10 features a new application manager, called
+          <productname>Jinks</productname>. This will be your main entry point for creating or
+        updating a custom edition.</para>
+      <para>You can access <productname>Jinks</productname> via
+          <productname>eXist-db's</productname> dashboard. If you have not installed
+          <productname>Jinks</productname> yet, use the package manager in the dashboard to do
+        so.</para>
+      <para>Opening Jinks for the first time, you'll see the main administration page with three
+        columns: the sidebar to the left shows the list of installed applications which were created
+        with Jinks (if any). The central column contains the main configuration form with
+        (currently) 3 tabs. The right column presents the configuration currently in effect for the
+        application. The configuration is in JSON format and will initially show as an empty object
+        (empty curly brackets). As you fill out the form, you'll see how the JSON configuration is
+        populated with corresponding entries.</para>
+      <para>To start creating an application, you must at least fill out the top three input boxes
+        on the first tab, <guilabel>Application Configuration</guilabel>. Most important,
+        provide a short but unique <option>abbreviation</option>. This may contain alphanumeric
+        characters, dashes and underscore, but no whitespace. The abbreviation will serve as short
+        name for the application and will also appear in URLs.</para>
+      <para>If you press tab after providing the abbreviation, the following two text boxes will be
+        filled out automatically (if empty) using sensible defaults. The <option>label</option> is
+        used as a title in the app configuration, showing up in the dashboard and elsewhere. It will
+        initially be the same as the abbreviation, but you can change it to be more descriptive. The
+          <option>unique identifier</option> must be a URI, but it does not need to be a real URL,
+        pointing to some existing website. Like a namespace in XML, it can be anything as long as it
+        is syntactically valid and unique.</para>
+      <para>If you would start the generator with just those settings, it would result in a usable,
+        but empty application. To at least have some data to test with, switch to the
+          <guilabel>Profiles</guilabel> tab. This provides a list of all available profiles,
+        divided into three main sections:<variablelist>
+          <varlistentry>
+            <term>Blueprints</term>
+            <listitem>
+              <para>is a complete template for an application targeted at a specific use case like a
+                monograph, correspondence edition, dictionary etc. An application generated from a
+                blueprint is fully functional.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Base Profile</term>
+            <listitem>
+              <para>provides the necessary foundations for all other profiles. At the moment there's
+                only one: TEI Publisher Base, containing the core API and basic page layout for
+                every TEI Publisher application.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Features</term>
+            <listitem>
+              <para>functional profiles, which can be added to a base</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+      <para>To include some XML data to experiment with, search for the <guilabel>Demo
+          Data</guilabel> feature in the <guilabel>Data Packages</guilabel> subsection and
+        enable the checkbox.</para>
+      <para>You are now ready to run the generator the first time: click on the
+          <guibutton>Apply</guibutton> button in the bottom toolbar of
+          <productname>Jinks</productname>. You'll see a wait indicator appear next to the button.
+        If you clicked the button the first time, the process may take a while as it consists of two
+        steps:</para>
+      <procedure>
+        <step>
+          <para>the configuration of all enabled profiles are merged</para>
+        </step>
+        <step>
+          <para>the files used by each profile are copied into a temporary collection in the
+            database</para>
+        </step>
+        <step>
+          <para>the temporary collection is packaged and installed into eXist-db</para>
+        </step>
+      </procedure>
+      <para>Subsequent updates to the application will be much faster.</para>
     </section>
     <section xml:id="config">
       <title><filename>config.json</filename></title>
