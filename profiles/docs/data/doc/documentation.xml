@@ -871,86 +871,102 @@
         application. The configuration is in JSON format and will initially show as an empty object
         (empty curly brackets). As you fill out the form, you'll see how the JSON configuration is
         populated with corresponding entries.</para>
-      <para>To start creating an application, you must at least fill out the top three input boxes
-        on the first tab, <guilabel>Application Configuration</guilabel>. Most important,
-        provide a short but unique <option>abbreviation</option>. This may contain alphanumeric
-        characters, dashes and underscore, but no whitespace. The abbreviation will serve as short
-        name for the application and will also appear in URLs.</para>
-      <para>If you press tab after providing the abbreviation, the following two text boxes will be
-        filled out automatically (if empty) using sensible defaults. The <option>label</option> is
-        used as a title in the app configuration, showing up in the dashboard and elsewhere. It will
-        initially be the same as the abbreviation, but you can change it to be more descriptive. The
-          <option>unique identifier</option> must be a URI, but it does not need to be a real URL,
-        pointing to some existing website. Like a namespace in XML, it can be anything as long as it
-        is syntactically valid and unique.</para>
-      <para>If you would start the generator with just those settings, it would result in a usable,
-        but empty application. To at least have some data to test with, switch to the
-          <guilabel>Profiles</guilabel> tab. This provides a list of all available profiles,
-        divided into three main sections:<variablelist>
-          <varlistentry>
-            <term>Blueprints</term>
-            <listitem>
-              <para>is a complete template for an application targeted at a specific use case like a
-                monograph, correspondence edition, dictionary etc. An application generated from a
-                blueprint is fully functional.</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>Base Profile</term>
-            <listitem>
-              <para>provides the necessary foundations for all other profiles. At the moment there's
-                only one: TEI Publisher Base, containing the core API and basic page layout for
-                every TEI Publisher application.</para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term>Features</term>
-            <listitem>
-              <para>functional profiles, which can be added to a base</para>
-            </listitem>
-          </varlistentry>
-        </variablelist></para>
-      <para>To include some XML data to experiment with, search for the <guilabel>Demo
-          Data</guilabel> feature in the <guilabel>Data Packages</guilabel> subsection and
-        enable the checkbox.</para>
-      <para>You are now ready to run the generator the first time: click on the
-          <guibutton>Apply</guibutton> button in the bottom toolbar of
-          <productname>Jinks</productname>. You'll see a wait indicator appear next to the button.
-        If you clicked the button the first time, the process may take a while as it consists of two
-        steps:</para>
-      <procedure>
-        <step>
-          <para>the configuration of all enabled profiles are merged</para>
-        </step>
-        <step>
-          <para>the files used by each profile are copied into a temporary collection in the
-            database</para>
-        </step>
-        <step>
-          <para>the temporary collection is packaged and installed into eXist-db</para>
-        </step>
-      </procedure>
-      <para>Subsequent updates to the application will be much faster.</para>
-    </section>
-    <section xml:id="config">
-      <title><filename>config.json</filename></title>
-      <para>The config.json must define a property named <code>id</code> with a unique, valid URI.
-        This is the URI under which eXist's package manager will later install the application
-        package. </para>
-      <para> It may also specify a property <code>extends</code>, which should contain the names of
-        one or more profiles to extend. TEI Publisher apps will in general extend the base profile,
-        which installs the required files shared by all custom TP applications. </para>
-      <para> The extension process works as follows:</para>
-      <orderedlist>
-        <listitem>
-          <para>jinks creates a merged configuration, assembled from the configurations of all
-            profiles in the extension hierarchy</para>
-        </listitem>
-        <listitem>
-          <para>it calls the write action on every profile in sequence</para>
-        </listitem>
-      </orderedlist>
-    </section>
+      <section xml:id="using-jinks-first-steps">
+        <title>First Steps</title>
+        <para>To start creating an application, you must at least fill out the top three input boxes
+          on the first tab, <guilabel>Application Configuration</guilabel>. Most important,
+          provide a short but unique <option>abbreviation</option>. This may contain alphanumeric
+          characters, dashes and underscore, but no whitespace. The abbreviation will serve as short
+          name for the application and will also appear in URLs.</para>
+        <para>If you press tab after providing the abbreviation, the following two text boxes will be
+          filled out automatically (if empty) using sensible defaults. The <option>label</option> is
+          used as a title in the app configuration, showing up in the dashboard and elsewhere. It will
+          initially be the same as the abbreviation, but you can change it to be more descriptive. The
+            <option>unique identifier</option> must be a URI, but it does not need to be a real URL,
+          pointing to some existing website. Like a namespace in XML, it can be anything as long as it
+          is syntactically valid and unique.</para>
+        <para>If you would start the generator with just those settings, it would result in a usable,
+          but empty application. To at least have some data to test with, switch to the
+            <guilabel>Profiles</guilabel> tab, search for the <guilabel>Demo
+              Data</guilabel> feature in the <guilabel>Data Packages</guilabel> subsection and
+            enable the checkbox.</para>
+          <para>You are now ready to run the generator the first time: click on the
+            <guibutton>Apply</guibutton> button in the bottom toolbar of
+            <productname>Jinks</productname>. You'll see a wait indicator appear next to the button.
+          If you clicked the button the first time, the process may take a while as it consists of
+          multiple steps:</para>
+          <procedure>
+            <step>
+              <para>the configuration of all enabled profiles are merged</para>
+            </step>
+            <step>
+              <para>the files used by each profile are copied into a temporary collection in the
+                database</para>
+            </step>
+            <step>
+              <para>the temporary collection is packaged and installed into eXist-db</para>
+            </step>
+          </procedure>
+          <para>Once the application is installed, a dialog opens. If you are creating a new app, it
+          will inform you that the package has been deployed, along with a link on which you can
+          click to open the created application in a new browser tab.</para>
+        <para>If you followed this section and added only the <guilabel>Demo Data</guilabel>
+          feature, the created application should show three sermons by theologician Karl Barth.
+          Clicking on one of those will display the text of the sermon.</para>
+        
+        </section>
+      <section>
+        <title>Adding Features</title>
+        <para>The sermons contain mentions of places and people. To get more information about
+          these, switch back to <productname>Jinks</productname>, go to the
+            <guilabel>Profiles</guilabel> tab and find the <guilabel>Entity Registers</guilabel>
+          profile in the <guilabel>Features</guilabel> category. Enable it and click
+            <guibutton>Apply</guibutton> again.</para>
+        <para>The <guilabel>Command Output</guilabel> dialog will now present a list of files which
+          were updated. Close it and go back to the generated app. Looking at the menubar, you will
+          notice that there are new menu items for <guilabel>People</guilabel> and
+            <guilabel>Places</guilabel>, leading to separate pages for browsing those
+          entities.</para>
+        <para>Next, we would also like to show a list of mentioned places and people in the document
+          when viewing one of the sermons. This feature is not enabled by default, because you may
+          want to limit it to some pages, but not all of them.</para>
+        <para>To enable it globally, go back to Jinks and look at the editor to the right, which
+          shows you a JSON representation of the currently active configuration for the application.
+          Right now it should look like this (though the order of properties can differ):</para>
+        <programlisting language="json"><![CDATA[{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ]
+}]]></programlisting>
+        <para>Configuration parameters contributed by feature profiles should go below a property <code>"features"</code>, followed by the name of the profile.
+        Change the configuration and add "features" as follows:</para>
+        <programlisting language="json"><![CDATA[{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ],
+  "features": {
+    "register": {
+        "enabled": true
+    }
+  }
+}]]></programlisting>
+      </section>
     <section>
       <title>Updating an application</title>
       <note role="todo">
@@ -969,6 +985,7 @@
         <para>reindex should be called after changing the collection.xconf</para>
       </note>
     </section>
+  </section>
   </section>
 
   <section xml:id="odd-customization">
