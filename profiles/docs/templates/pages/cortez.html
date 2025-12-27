@@ -10,7 +10,8 @@
         "script": {
             "extra-components": [
                 "pb-tify"
-            ]
+            ],
+            "custom": [ "resources/scripts/dnd.js" ]
         },
         "features": {
             "toc": {
@@ -43,9 +44,16 @@
         </pb-toggle-feature>
     </li>
     [% endtemplate %]
-    <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
-        append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"
-        wait-for="#facsimile" />
-    <pb-view id="view2" src="document1" map="cortez-translation" xpath="//text[@type='source']"
-        subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes" />
+
+    <pb-dnd drag="pb-view" drop=".dropzone"></pb-dnd>
+    <div class="dropzone">
+        <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
+            append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"
+            draggable="true" />
+    </div>
+    <div class="dropzone">
+        <pb-view id="view2" src="document1" map="cortez-translation" xpath="//text[@type='source']"
+            subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"
+            draggable="true" />
+    </div>
 </template>

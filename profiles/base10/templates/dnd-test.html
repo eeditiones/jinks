@@ -1,0 +1,68 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        },
+        "script": {
+            "custom": [ "resources/scripts/dnd.js" ]
+        }
+    }
+    ---
+    [% block styles %]
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+        }
+        .container {
+            display: flex;
+            gap: 2rem;
+        }
+        .dropzone {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable:active {
+            cursor: grabbing;
+        }
+        .draggable.item-2 {
+            background-color: #e74c3c;
+        }
+        .draggable.item-3 {
+            background-color: #2ecc71;
+        }
+    </style>
+    [% endblock %]
+
+    <h1>Drag and Drop Test</h1>
+
+    <pb-dnd drag=".draggable" drop=".dropzone"></pb-dnd>
+
+    <div class="dropzone">
+        <pb-view id="view1" src="document1" xpath="//text[@type='source']" column-separator=".tei-cb"
+            append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile" 
+            class="draggable" draggable="true"/>
+    </div>
+    <div class="dropzone">
+        <pb-view id="view2" src="document1" map="cortez-translation" xpath="//text[@type='source']" subscribe="transcription"
+            column-separator=".tei-cb" append-footnotes="append-footnotes" 
+            class="draggable" draggable="true"/>
+    </div>
+</template>
