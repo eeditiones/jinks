@@ -114,7 +114,7 @@ window.addEventListener('DOMContentLoaded', () => {
         resolveConflicts = {};
         appConfig = app.config;
 
-        document.querySelector('.tabs [href="#files"]').style.display = 'block';
+        document.querySelector('.tabs li:has([href="#files"])').style.display = 'block';
         document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
 
         form.querySelector('[name="id"]').value = appConfig.id;
@@ -754,6 +754,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         document.querySelector('.installed li.selected')?.classList.remove('selected');
+        document.querySelector('.tabs li:has([href="#files"])').style.display = 'none';
 
         // Switch to config tab
         showTab('config');
