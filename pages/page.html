@@ -12,6 +12,7 @@
     [% block styles %][% endblock %]
     <!-- <script type="module" src="http://localhost:8000/src/pb-components-bundle.js"></script>  -->
     <script type="module" src="[[ $context-path ]]/resources/lib/pb-components-bundle.js"></script>
+    <script type="module" src="[[ $context-path ]]/resources/lib/jinks-file-manager.js"></script>
     <script type="module" src="[[ $context-path ]]/resources/scripts/dist/jinn-monaco.js"></script>
     <script src="[[ $context-path ]]/profiles/dark-mode/resources/scripts/dark.js"></script>
     [% for $script in $context?scripts?* %]

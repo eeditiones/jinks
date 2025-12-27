@@ -117,6 +117,10 @@
                 <include name="*.js" />
                 <include name="*.map" />
             </fileset>
+            <fileset dir="${basedir}/node_modules/@teipublisher/jinks-file-manager/dist">
+                <include name="*.js" />
+                <include name="*.map" />
+            </fileset>
         </copy>
         <copy todir="${basedir}/resources/i18n/common">
             <fileset dir="${basedir}/node_modules/@teipublisher/pb-components/i18n/common" />

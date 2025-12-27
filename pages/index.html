@@ -35,6 +35,7 @@
             <li><a href="#config" data-shortcut="ctrl+1,alt+1">Application Configuration</a></li>
             <li><a href="#profiles" data-shortcut="ctrl+2,alt+2">Profiles</a></li>
             <li><a href="#theming" data-shortcut="ctrl+3,alt+3">Theming</a></li>
+            <li><a href="#files" data-shortcut="ctrl+4,alt+4" style="display: none;">Files</a></li>
         </ul>
     </nav>
     [% endtemplate %]
@@ -211,6 +212,9 @@
                     <!-- Dynamically populated -->
                 </div>
             </fieldset>
+        </section>
+        <section id="files" data-tab="files">
+            <jinks-file-manager id="fileManager" api-base="[[ $config:context-path ]]" root=""></jinks-file-manager>
         </section>
     </form>
     <section id="configEditor">

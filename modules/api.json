@@ -440,7 +440,512 @@
 					}
 				}
 			}
-		}
+		},
+        "/api/collections/{collection}": {
+            "get": {
+                "summary": "List resources in a collection",
+                "description": "Get a list of resources (files and subcollections) in the specified collection",
+                "tags": ["collections"],
+                "operationId": "api:list",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Collection path"
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "description": "Start index for pagination"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1000000
+                        },
+                        "description": "End index for pagination"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Filter resources by name"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": ["r", "c"],
+                            "default": "r"
+                        },
+                        "description": "Display only resources or collections"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of resources",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new collection",
+                "description": "Create a new collection in the specified parent collection",
+                "tags": [
+                    "collections"
+                ],
+                "operationId": "api:create-collection",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Collection path"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Name of the collection to create"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Collection created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "ok",
+                                                "fail"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete resources or collections",
+                "description": "Delete one or more resources or collections. The 'remove' parameter should contain an array of paths to delete. Paths can be relative to the collection or absolute.",
+                "tags": ["collections"],
+                "operationId": "api:delete-resources",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Collection path (base collection for relative paths)"
+                    },
+                    {
+                        "name": "remove",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Array of paths to delete (can be relative to collection or absolute)",
+                        "style": "form",
+                        "explode": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deletion operation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": ["ok", "fail"]
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            }
+        },
+        "/api/collections/{collection}/copy": {
+            "post": {
+                "summary": "Copy resources or collections",
+                "description": "Copy one or more resources or collections from the source collection to a target collection",
+                "tags": ["collections"],
+                "operationId": "api:copy-resources",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Source collection path"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["target", "sources"],
+                                "properties": {
+                                    "target": {
+                                        "type": "string",
+                                        "description": "Target collection path"
+                                    },
+                                    "sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Array of resource/collection names (relative to source collection) or absolute paths"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Copy operation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": ["ok", "fail"]
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            }
+        },
+        "/api/collections/{collection}/move": {
+            "post": {
+                "summary": "Move resources or collections",
+                "description": "Move one or more resources or collections from the source collection to a target collection",
+                "tags": ["collections"],
+                "operationId": "api:move-resources",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Source collection path"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["target", "sources"],
+                                "properties": {
+                                    "target": {
+                                        "type": "string",
+                                        "description": "Target collection path"
+                                    },
+                                    "sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Array of resource/collection names (relative to source collection) or absolute paths"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Move operation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": ["ok", "fail"]
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            }
+        },
+        "/api/collections/{collection}/resources/{resource}": {
+            "patch": {
+                "summary": "Rename a resource or collection",
+                "description": "Rename a resource or collection within the specified collection",
+                "tags": ["collections"],
+                "operationId": "api:rename-resource",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Collection path containing the resource"
+                    },
+                    {
+                        "name": "resource",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Current name of the resource or collection"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["name"],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "New name for the resource or collection"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rename operation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": ["ok", "fail"]
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    }
+                }
+            }
+        },
+        "/api/upload": {
+            "post": {
+                "summary": "Upload a file to a collection",
+                "description": "Upload a file to the specified collection. If the file is a .xar package and deploy parameter is set, it will be automatically deployed. Collections will be created recursively if needed.",
+                "tags": ["collections"],
+                "operationId": "api:upload",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Collection path where to upload the file",
+                        "default": "/db"
+                    },
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Optional path within the collection. If not provided, the filename from the upload will be used."
+                    },
+                    {
+                        "name": "deploy",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "If true and file is a .xar package, automatically deploy it"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["file[]"],
+                                "properties": {
+                                    "file[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        },
+                                        "description": "File(s) to upload"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "files": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "path": {
+                                                        "type": "string"
+                                                    },
+                                                    "type": {
+                                                        "type": "string"
+                                                    },
+                                                    "size": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - missing file or invalid parameters"
+                    },
+                    "403": {
+                        "description": "Permission denied"
+                    },
+                    "500": {
+                        "description": "Upload failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {

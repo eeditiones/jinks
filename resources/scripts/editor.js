@@ -113,6 +113,10 @@ window.addEventListener('DOMContentLoaded', () => {
     function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
+
+        document.querySelector('.tabs [href="#files"]').style.display = 'block';
+        document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
+
         form.querySelector('[name="id"]').value = appConfig.id;
         form.querySelector('[name="label"]').value = appConfig.label;
         form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
