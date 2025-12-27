@@ -36,14 +36,14 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "person" return
                 for $persName in (
                     $header//tei:correspDesc/tei:correspAction/tei:persName/@key,
-                    $root//tei:text[@type="source"]//tei:persName/@key
+                    $root//tei:text//tei:persName/@key
                 )
                 return
                     $persName
             case "place" return
                 for $placeName in (
                     $header//tei:correspDesc/tei:correspAction/tei:placeName/@key,
-                    $root//tei:text[@type="source"]//tei:placeName/@key
+                    $root//tei:text//tei:placeName/@key
                 )
                 return 
                     $placeName

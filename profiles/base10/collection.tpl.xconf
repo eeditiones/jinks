@@ -22,8 +22,8 @@
                 <facet dimension="feature" expression="nav:get-metadata(ancestor::tei:TEI, 'feature')"/>
                 <facet dimension="form" expression="nav:get-metadata(ancestor::tei:TEI, 'form')"/>
                 <facet dimension="period" expression="nav:get-metadata(ancestor::tei:TEI, 'period')"/>
-                <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
-                <facet dimension="person" expression="nav:get-metadata(., 'person')"/>
+                <facet dimension="place" expression="nav:get-metadata(ancestor::tei:TEI, 'place')"/>
+                <facet dimension="person" expression="nav:get-metadata(ancestor::tei:TEI, 'person')"/>
                 <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
             </text>
             [% if $indexing?tei?context = "div" %]
