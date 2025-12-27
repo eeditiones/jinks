@@ -320,7 +320,14 @@
 				],
 				"responses": {
 					"200": {
-						"description": "OK"
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -349,7 +356,14 @@
                 ],
                 "responses": {
 					"200": {
-						"description": "OK"
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
 					}
 				}
             }
@@ -845,8 +859,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Collection path where to upload the file",
-                        "default": "/db"
+                        "description": "Collection path where to upload the file"
                     },
                     {
                         "name": "path",
