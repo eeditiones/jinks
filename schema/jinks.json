@@ -581,20 +581,6 @@
                             "type": "string",
                             "examples": ["neutral", "green", "beige"]
                         },
-                        "menubar": {
-                            "type": "object",
-                            "properties": {
-                                "background-image": {
-                                    "type": ["string", "null"]
-                                },
-                                "background-color": {
-                                    "type": "string"
-                                },
-                                "color": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "toolbar": {
                             "type": "object",
                             "properties": {
@@ -605,6 +591,31 @@
                                     "type": "string"
                                 }
                             }
+                        }
+                    }
+                },
+                "menubar": {
+                    "type": "object",
+                    "properties": {
+                        "background-image": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "background-color": {
+                            "type": "string"
+                        },
+                        "color": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "content": {
+                    "type": "object",
+                    "properties": {
+                        "max-width": {
+                            "type": "string"
                         }
                     }
                 },
