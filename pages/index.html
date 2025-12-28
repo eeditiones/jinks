@@ -217,14 +217,12 @@
             <jinks-file-manager id="fileManager" api-base="[[ $config:context-path ]]" root=""></jinks-file-manager>
         </section>
     </form>
-    <section id="configEditor">
-        <jinn-monaco-editor id="appConfig" value="{}"
-            schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
-        <details>
-            <summary>Merged Configuration</summary>
-            <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
-        </details>
-    </section>
+    <jinn-monaco-editor id="appConfig" value="{}"
+        schema="[[ $config:context-path ]]/schema/jinks.json"></jinn-monaco-editor>
+    <details>
+        <summary>Merged Configuration</summary>
+        <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
+    </details>
     [% template dialogs %]
     <pb-message id="message-dialog"></pb-message>
     <pb-dialog id="action-dialog">
