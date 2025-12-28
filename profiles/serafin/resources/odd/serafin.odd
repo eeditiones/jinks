@@ -60,6 +60,8 @@
                             rendered inline when pulled from corresponding anchor element via the
                             target attribute </desc>
                     </model>
+                    <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block"/>
+                    <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes) and text()" behaviour="omit"/>
                     <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">

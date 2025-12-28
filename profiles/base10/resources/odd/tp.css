@@ -172,10 +172,8 @@ people, places, organizations etc */
     content: ' [?] ';
 }
 
-.tei-death {
-    &::before {
-        content: ' – ';
-    }
+.tei-death::before {
+    content: ' – ';
 }
 
 .center {

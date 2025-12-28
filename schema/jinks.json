@@ -420,6 +420,11 @@
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the entity register sidebar will be displayed"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Whether to show descriptions in register browse pages or not.",
+                            "enum": ["auto", "select"]
                         }
                     }
                 },
@@ -742,6 +747,16 @@
                                     ]
                                 }
                             }
+                        }
+                    }
+                },
+                "registers": {
+                    "type": "object",
+                    "properties": {
+                        "columns": {
+                            "type": "integer",
+                            "description": "Number of columns to display in the registers browse pages",
+                            "default": 2
                         }
                     }
                 }

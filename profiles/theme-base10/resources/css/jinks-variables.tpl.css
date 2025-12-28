@@ -170,6 +170,9 @@
     /* table of contents */
     --jinks-toc-indent: 1rem;
 
+    /* register page */
+    --jinks-registers-columns: [[ $theme?registers?columns ]];
+
     /* variables passed to tei-publisher-components */
     --pb-base-font-family: var(--jinks-base-font-family);
     --pb-base-font-size: var(--jinks-base-font-size);

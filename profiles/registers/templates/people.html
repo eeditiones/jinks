@@ -33,6 +33,18 @@
     <div class="list">
         <pb-custom-form id="options" auto-submit="input" emit="transcription">
             <input id="query" type="search" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
+            [% if $features?register?description and $features?register?description = 'select' %]
+            <label>
+                [% if page:parameter($context, 'description') = 'on' %]
+                <input type="checkbox" name="description" checked="checked" />
+                [% else %]
+                <input type="checkbox" name="description" />
+                [% endif %]
+                <pb-i18n key="form.description" />
+            </label>
+            [% else %]
+            <input type="hidden" name="description" value="[[ if ($features?register?description) then 'on' else 'off' ]]" />
+            [% endif %]
         </pb-custom-form>
         <pb-split-list url="api/people" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
     </div>

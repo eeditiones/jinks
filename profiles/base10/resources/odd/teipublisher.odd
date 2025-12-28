@@ -17,6 +17,8 @@
                  
                  
                   
+                 
+                 
                  <desc>Base ODD from which all other ODDs inherit</desc>
                 </title>
                 <title type="short">TEI Publisher Base</title>
@@ -477,6 +479,8 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
+                    <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block"/>
+                    <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes) and text()" behaviour="omit"/>
                     <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
@@ -847,10 +851,12 @@
             <param name="id" value="@xml:id"/>
             <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
             <param name="description" value="note[@type='bio']"/>
-            <pb:template xmlns="" xml:space="preserve"><header>
+            <pb:template xmlns="" xml:space="preserve"><div>
+<header>
     <a href="people/[[ id ]]">[[ label ]]</a>
 </header>
-<p>[[ description ]]</p></pb:template>
+[[ description ]]
+</div></pb:template>
         </model>
                     <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar</desc>
@@ -928,8 +934,9 @@ gap: var(--s-1);
             <param name="longitude" value="tokenize(location/geo)[2]"/>
             <param name="latitude" value="tokenize(location/geo)[1]"/>
             <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
-            <param name="description" value="note/string()"/>
-            <pb:template xmlns="" xml:space="preserve"><header>
+            <param name="description" value="note"/>
+            <pb:template xmlns="" xml:space="preserve"><div>
+<header>
     <a href="places/[[id]]">
         [[ label ]]
     </a>
@@ -939,7 +946,8 @@ gap: var(--s-1);
       </svg>
     </pb-geolocation>
 </header>
-<p>[[ description ]]</p></pb:template>
+[[ description ]]
+</div></pb:template>
         </model>
                     <model predicate="$parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
