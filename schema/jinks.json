@@ -555,22 +555,25 @@
                         "height": {
                             "type": "string"
                         },
-                        "dark": {
+                        "image": {
+                            "type": "string",
+                            "description": "Image to use for the logo"
+                        }
+                    }
+                },
+                "splash": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
                             "type": "string"
                         },
-                        "splash": {
-                            "type": "object",
-                            "properties": {
-                                "dark": {
-                                    "type": "string"
-                                },
-                                "light": {
-                                    "type": "string"
-                                }
-                            }
+                        "width": {
+                            "type": "string",
+                            "description": "Width of the splash image"
                         },
-                        "light": {
-                            "type": "string"
+                        "height": {
+                            "type": "string",
+                            "description": "Height of the splash image"
                         }
                     }
                 },
@@ -581,16 +584,17 @@
                             "type": "string",
                             "examples": ["neutral", "green", "beige"]
                         },
-                        "toolbar": {
+                        "palettes": {
                             "type": "object",
-                            "properties": {
-                                "background": {
-                                    "type": "string"
-                                },
-                                "color": {
+                            "patternProperties": {
+                                "^[^\\s]+$": {
                                     "type": "string"
                                 }
                             }
+                        },
+                        "background-color": {
+                            "type": "string",
+                            "description": "Main background color of the page. Used for the body element."
                         }
                     }
                 },
@@ -603,6 +607,17 @@
                                 "null"
                             ]
                         },
+                        "background-color": {
+                            "type": "string"
+                        },
+                        "color": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "toolbar": {
+                    "type": "object",
+                    "properties": {
                         "background-color": {
                             "type": "string"
                         },

@@ -9,14 +9,14 @@
     "theme": {
         "colors": {
             "palette": "neutral",
-            
             "palettes": {
                 "blue": "palette-blue.css",
                 "green": "palette-green.css",
                 "beige": "palette-beige.css",
                 "neutral": "palette-neutral.css",
                 "teal": "palette-teal.css"
-            }
+            },
+            "background-color": "var(--jinks-colors-100)"
         },
         "content": {
             "max-width": "70ch"
@@ -26,16 +26,19 @@
             "background-color": "var(--jinks-colors-500)",
             "color": "#ffffff"
         },
+        "toolbar": {
+            "background-color": "var(--jinks-colors-200)",
+            "color": "var(--jinks-color-primary)"
+        },
         "logo": {
-            "light": "../images/tei-publisher-logo-contrast-color.svg",
-            "dark": "../images/tei-publisher-logo-contrast-color.svg",
-            "splash": {
-                "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg",
-                "size": "360px auto"
-            },
+            "image": "../images/tei-publisher-logo-contrast-color.svg",
             "width": "140px",
             "height": "48px"
+        },
+        "splash": {
+            "image": "../images/tei-publisher-logo-color.svg",
+            "width": "320px",
+            "height": "auto"
         },
         "fonts": {
             "base": {
