@@ -35,22 +35,16 @@
     --jinks-bottom-min-height: 30vh;
     --jinks-bottom-padding: 2rem 1rem 2rem 6rem;
 
-    /* Header section */
-    [% if $theme?header?background-image %]
-        --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
-    [% else %]
-        --jinks-header-background-image: none;
-    [% endif %]
-
     /* menubar, toolbar, drawer */
 
-    [% if $theme?colors?menubar?background-image %]
-        --jinks-menubar-background-image: url("[[ $theme?colors?menubar?background-image ]]");
+    [% if $theme?colors?menubar?background-image = 'none'%]
+    --jinks-menubar-background-image: none;
+    --jinks-menubar-background-color: [[ $theme?colors?menubar?background-color ]];
     [% else %]
-        --jinks-menubar-background-image: none;
+    --jinks-menubar-background-color: var(--jinks-overlay-background-color-dark);
+    --jinks-menubar-background-image: url("[[ $theme?colors?menubar?background-image ]]");
     [% endif %]
 
-    --jinks-menubar-background-color: [[ $theme?colors?menubar?background-color ]];
     --jinks-menubar-color: var(--jinks-colors-light);
     --jinks-menubar-font-size: [[ $theme?fonts?menubar?size ]];
     --jinks-menubar-button-color: rgba(165, 165, 165, 0.4);
@@ -124,7 +118,7 @@
 
     /* Overlay for image backgrounds to lighten or darken them */
     --jinks-overlay-background-color-light: rgba(255, 255, 255, 0.8);
-    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.8);
+    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.4);
 
     /* Overlay for highlights and (CHECK) hero and menubar section */
     --jinks-header-background-color: var(--jinks-overlay-background-color-light);
@@ -175,9 +169,6 @@
 
     /* table of contents */
     --jinks-toc-indent: 1rem;
-
-    --jinks-layout-default-before-width: 356px;
-    --jinks-layout-default-after-width: 356px;
 
     /* variables passed to tei-publisher-components */
     --pb-base-font-family: var(--jinks-base-font-family);

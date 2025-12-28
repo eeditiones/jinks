@@ -4,8 +4,6 @@
  * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
  */
 .fixed-layout {
-    --before-column-width: var(--jinks-layout-before-width);
-    --after-column-width: var(--jinks-layout-after-width);
 
     display: grid;
     height: 100vh;
@@ -92,16 +90,6 @@
     display: none;
 }
 
-.fixed-layout:not(:has(> .before)),
-.fixed-layout:has(:not(> .before > :not(.resize-handler))) {
-    --before-column-width: 0;
-}
-
-.fixed-layout:not(:has(> .after)),
-.fixed-layout:has(:not(> .after > :not(.resize-handler))) {
-    --after-column-width: 0;
-}
-
 .fixed-layout > .before-top.hidden svg,
 .fixed-layout > .after-top svg {
     rotate: 180deg;
@@ -116,11 +104,9 @@
 
 .fixed-layout:has(> .before.hidden) {
     transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
-    --before-column-width: calc(2rem + 20px);
 }
 
 .fixed-layout:has(> .after.hidden) {
-    --after-column-width: calc(2rem + 20px);
     transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
 }
 
