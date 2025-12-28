@@ -946,8 +946,10 @@
     "theme-base10"
   ]
 }]]></programlisting>
-        <para>Configuration parameters contributed by feature profiles should go below a property <code>"features"</code>, followed by the name of the profile.
-        Change the configuration and add "features" as follows:</para>
+        <para>Configuration parameters contributed by feature profiles should go below a property
+            <code>"features"</code>, followed by the name of the profile. While we're add it, we
+          could also disable the navigation buttons in the toolbar (the sermons use a single-page
+          display). Change the configuration and add "features" as follows:</para>
         <programlisting language="json"><![CDATA[{
   "pkg": {
     "abbrev": "mytest"
@@ -963,9 +965,92 @@
   "features": {
     "register": {
         "enabled": true
+    },
+    "toolbar": {
+      "navigation": false
     }
   }
 }]]></programlisting>
+        <para>After applying the new configuration, you should find a register sidebar to the right
+          of each sermon's text, listing people and places.</para>
+      </section>
+      <section>
+        <title>Customizing the theme</title>
+        <para>Some of the most common styling aspects can also be configured via the
+            <filename>config.json</filename>, allowing users to change colors, fonts or logos
+          without editing CSS. For example, you very likely want to use a different logo in the
+          header menu and the splash screen (which appears while a page loads), and maybe a
+          background image for the header as well.</para>
+        <para>To do so, we first have to upload the required images. The <guilabel>Files</guilabel>
+          tab in <productname>Jinks</productname> provides a simple file manager, which we can use
+          to browse and upload files. It will initially show the root of the currently selected
+          application. Images used for the general page layout should go into
+            <filename>resources/images</filename>, so navigate to that collection, then either drag
+          and drop the desired images from your system's file manager or click the
+            <guibutton>Upload</guibutton> button.</para>
+        <note>
+          <para>The <guilabel>Files</guilabel> tab will only become visible after you generated the
+            application!</para>
+        </note>
+        <para>With the images uploaded, we can add them to the configuration. All settings related
+          to the look and feel of an application go into the <code>"theme"</code> property of the
+          config. For example, to change logo, splash screen image and menubar background, we could
+          change the configuration as follows:</para>
+        <programlisting><![CDATA[{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ],
+  "features": {
+    "register": {
+        "enabled": true
+    },
+    "toolbar": {
+      "navigation": false
+    }
+  },
+  "theme": {
+    "logo": {
+      "image": "../images/logo-white.png"
+    },
+    "menubar": {
+      "background-image": "../images/type.jpeg"
+    },
+    "splash": {
+      "image": "../images/Karl_Barth.jpg"
+    },
+    "fonts": {
+      "content": {
+        "family": "var(--jinks-base-font-family)"
+      }
+    }
+  }
+}]]></programlisting>
+        <para>Note that all image paths will be relative to the CSS stylesheet (which lives in
+            <filename>resources/css</filename>), so we have to go up one level (using
+            <filename>../</filename>) and then down to <filename>images</filename>.</para>
+        <para>The final setting above also changes the font used for the content. By default this
+          will be a serif font (<productname>JunicodeVF</productname>), which is good for many
+          historic scripts, but for a 20th century text, we may prefer to use the same sans-serif
+          font as for the rest of the page (<productname>Inter</productname>). However, instead of
+          providing a font name directly, we reference the CSS variable
+            <code>--jinks-base-font-family</code>, which predefines the corresponding font.</para>
+        <para>Finally, we can change the color scheme used by switching to the
+            <guilabel>Theming</guilabel> tab and choosing one of the available schemes. Note that
+          this will add a property <code>"palette"</code> to the configuration, referencing the
+          selected color scheme's name. </para>
+        <note>
+          <para>TEI Publisher comes with a small number of color schemes crafted by the web designer,
+          but you can add your own. Using a well-chosen, limited color palette is in general considered good practice in web design,
+          which is why we avoid using hardcoded colors.</para>
+        </note>
       </section>
     <section>
       <title>Updating an application</title>
