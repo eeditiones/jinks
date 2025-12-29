@@ -479,8 +479,12 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
-                    <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block"/>
-                    <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes) and text()" behaviour="omit"/>
+                    <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block">
+                        <desc>When show-notes parameter is set, display note in register overview (index)</desc>
+                    </model>
+                    <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes)" behaviour="omit">
+                        <desc>Omit notes in register overview (index) When show-notes parameter is not set</desc>
+                    </model>
                     <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
