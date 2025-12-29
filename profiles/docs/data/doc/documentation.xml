@@ -3696,130 +3696,34 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>To facilitate the modification of frequently customized styling aspects, there are
         several styling definitions that can be be directly configured in
           <filename>config.json</filename> when generating/updating the application, such as the
-        logo, the color palette or the fonts. Here you have the definition of the default Jinks theme to
-        illustrate the different properties that can be defined.</para>
-      
-      <programlisting language="json" xml:space="preserve">
-"theme": {
-  "colors": {
-      "palette": "neutral",
-      "menubar": {
-          "background-image": null,
-          "background-color": "var(--jinks-colors-500)",
-          "color": "#ffffff"
-      },
-      "palettes": {
-          "blue": "palette-blue.css",
-          "green": "palette-green.css",
-          "beige": "palette-beige.css",
-          "neutral": "palette-neutral.css",
-          "teal": "palette-teal.css"
-      }
-  },
-  "logo": {
-      "light": "../images/tei-publisher-logo-contrast-color.svg",
-      "dark": "../images/tei-publisher-logo-contrast-color.svg",
-      "splash": {
-          "light": "../images/tei-publisher-logo-color.svg",
-          "dark": "../images/tei-publisher-logo-contrast-color.svg",
-          "size": "360px auto"
-      },
-      "width": "140px",
-      "height": "48px"
-  },
-  "fonts": {
-      "base": {
-          "family": "'Inter', 'Noto', sans-serif",
-          "size": "16px",
-          "line-height": "140%",
-          "weight": "400"
-      },
-      "content": {
-          "family": "JunicodeVF, Georgia, 'Times New Roman', serif",
-          "size": "1.25rem",
-          "line-height": "150%",
-          "weight": "400"
-      },
-      "heading": {
-          "family": "'Inter', 'Noto', sans-serif",
-          "size": "1.2rem",
-          "weight": "400"
-      },
-      "footnote": {
-          "size": "0.9em"
-      },
-      "breadcrumbs": {
-          "size": "0.9rem"
-      },
-      "menubar": {
-          "size": "14px"
-      },
-      "toc": {
-          "size": "1.125rem"
-      }
-  },
-  "hero": {
-      "background-image": "../images/typewriter.jpg",
-      "background-size": "cover",
-      "background-position": "center",
-      "background-repeat": "no-repeat",
-      "background-color": "rgba(0, 0, 0, 0.6)",
-      "text-width": "50rem",
-      "class": "row"
-  },
-  "bottom": {
-      "background-image": "../images/typewriter-on-books.jpg",
-      "background-size": "cover",
-      "background-repeat": "no-repeat",
-      "background-color": "rgba(0, 0, 0, 0.4)"
-  },
-  "header": {
-      "background-image": null
-  },
-  "breadcrumbs": {
-      "max": "40ch"
-  },
-  "layout": {
-      "class": "fixed-layout",
-      "max-width": "108rem",
-      "search": "before-top",
-      "before": {
-          "toggle": true,
-          "width": "min(30vw, 356px)"
-      },
-      "after": {
-          "toggle": true,
-          "width": "min(30vw, 356px)"
-      }
-  }
-}</programlisting>
-      <para>Note that this list is not exhaustive and likely to change over time.</para>
+        logo, the color palette or the fonts. You can find the full list of configurable settings in
+        the documentation of the <link xlink:href="../../jinks/profile/theme-base10">theme-base10 profile</link>. Note that this list is not exhaustive and likely to change over time.</para>
       <para>You can overwrite any styling property using the JSON configuration editor
         in Jinks (or by directly editing the <filename>config.json</filename> of your generated application.
         For example, the <emphasis>serafin</emphasis> blueprint changes the styles as follows:</para>
       <programlisting language="json" xml:space="preserve"><![CDATA["theme": {
-        "logo": {
-            "width": "48px",
-            "dark": "../images/base_icon_transparent_background.svg",
-            "splash": {
-                "dark": "../images/animation_serafin.gif",
-                "light": "../images/animation_serafin.gif"
-            },
-            "light": "../images/base_icon_transparent_background.svg"
+    "logo": {
+        "width": "48px",
+        "dark": "../images/base_icon_transparent_background.svg",
+        "splash": {
+            "dark": "../images/animation_serafin.gif",
+            "light": "../images/animation_serafin.gif"
         },
-        "layout": {
-            "search": "before",
-            "before": {
-                "width": "min(30vw, 420px)"
-            }
-        },
-        "colors": {
-            "palettes": {
-                "dark": "palette-dark.css"
-            },
-            "palette": "dark"
+        "light": "../images/base_icon_transparent_background.svg"
+    },
+    "layout": {
+        "search": "before",
+        "before": {
+            "width": "min(30vw, 420px)"
         }
-    }]]></programlisting>
+    },
+    "colors": {
+        "palettes": {
+            "dark": "palette-dark.css"
+        },
+        "palette": "dark"
+    }
+}]]></programlisting>
       <para>This snippet changes the logo, the splash screen, the width of the left sidebar and the color palette.
         Note that we avoid using color codes, but instead refer to a color palette, which has a balanced selection of
         matching colors. In the example above, a new palette named <option>dark</option> is added via 

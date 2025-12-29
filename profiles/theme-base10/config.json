@@ -3,7 +3,7 @@
     "type": "theme",
     "id": "https://e-editiones.org/app/tei-publisher/theme-base10",
     "label": "Default Jinks theme",
-    "description": "Includes style defaults",
+    "description": "Defines the default theme for TEI Publisher 10",
     "order": 902,
     "version": "1.0.0",
     "theme": {
@@ -71,23 +71,20 @@
                 "size": "1.125rem"
             }
         },
-        "hero": {
-            "background-image": "../images/typewriter.jpg",
-            "background-size": "cover",
-            "background-position": "center",
-            "background-repeat": "no-repeat",
-            "background-color": "rgba(0, 0, 0, 0.6)",
-            "text-width": "50rem",
-            "class": "row"
-        },
-        "bottom": {
-            "background-image": "../images/typewriter-on-books.jpg",
-            "background-size": "cover",
-            "background-repeat": "no-repeat",
-            "background-color": "rgba(0, 0, 0, 0.4)"
-        },
-        "header": {
-            "background-image": null
+        "landing": {
+            "hero": {
+                "background-image": "../images/typewriter.jpg",
+                "background-size": "cover",
+                "background-position": "center",
+                "background-repeat": "no-repeat",
+                "background-color": "rgba(0, 0, 0, 0.6)"
+            },
+            "bottom": {
+                "background-image": "../images/typewriter-on-books.jpg",
+                "background-size": "cover",
+                "background-repeat": "no-repeat",
+                "background-color": "rgba(0, 0, 0, 0.4)"
+            }
         },
         "breadcrumbs": {
             "max": "40ch"

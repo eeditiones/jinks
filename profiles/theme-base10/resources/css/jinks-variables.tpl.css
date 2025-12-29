@@ -14,22 +14,21 @@
 
     /* Image backgrounds */
 
-    /* Hero section */
-    --jinks-hero-background-image: url("[[ $theme?hero?background-image ]]");
-    --jinks-hero-background-size: [[ $theme?hero?background-size ]];
-    --jinks-hero-background-position: [[ $theme?hero?background-position ]];
-    --jinks-hero-background-repeat: [[ $theme?hero?background-repeat ]];
-    --jinks-hero-background-color: [[ $theme?hero?background-color ]];
-    --jinks-hero-text-width: [[ $theme?hero?text-width ]];
+    /* Landing page: hero section */
+    --jinks-hero-background-image: url("[[ $theme?landing?hero?background-image ]]");
+    --jinks-hero-background-size: [[ $theme?landing?hero?background-size ]];
+    --jinks-hero-background-position: [[ $theme?landing?hero?background-position ]];
+    --jinks-hero-background-repeat: [[ $theme?landing?hero?background-repeat ]];
+    --jinks-hero-background-color: [[ $theme?landing?hero?background-color ]];
     --jinks-hero-height: auto;
     --jinks-hero-min-height: 60vh;
     --jinks-hero-padding: 2rem 1rem 2rem 6rem;
 
-    /* Bottom section */
-    --jinks-bottom-background-image: url("[[ $theme?bottom?background-image ]]");
-    --jinks-bottom-background-size: [[ $theme?bottom?background-size ]];
-    --jinks-bottom-background-repeat: [[ $theme?bottom?background-repeat ]];
-    --jinks-bottom-background-color: [[ $theme?bottom?background-color ]];
+    /* Landing page: bottom section */
+    --jinks-bottom-background-image: url("[[ $theme?landing?bottom?background-image ]]");
+    --jinks-bottom-background-size: [[ $theme?landing?bottom?background-size ]];
+    --jinks-bottom-background-repeat: [[ $theme?landing?bottom?background-repeat ]];
+    --jinks-bottom-background-color: [[ $theme?landing?bottom?background-color ]];
     --jinks-bottom-height: auto;
     --jinks-bottom-min-height: 30vh;
     --jinks-bottom-padding: 2rem 1rem 2rem 6rem;

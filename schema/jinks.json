@@ -569,7 +569,8 @@
                     "description": "Configures the splash image (for the application loading screen)",
                     "properties": {
                         "image": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Image to use for the splash screen. Path should be relative to `resources/css`."
                         },
                         "width": {
                             "type": "string",
@@ -628,10 +629,12 @@
                     "description": "Configures the look of the toolbar for the application",
                     "properties": {
                         "background-color": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Background color for the toolbar"
                         },
                         "color": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Color for the toolbar text"
                         }
                     }
                 },
@@ -780,6 +783,19 @@
                                     ]
                                 }
                             }
+                        },
+                        "menubar": {
+                            "type": "object",
+                            "description": "Typography for the menubar",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for the menubar. Use `rem` for relative size.",
+                                    "examples": [
+                                        "14px"
+                                    ]
+                                }
+                            }
                         }
                     }
                 },
@@ -793,15 +809,78 @@
                         }
                     }
                 },
-                "hero": {
+                "landing": {
                     "type": "object",
+                    "description": "Configures the look of the landing page",
                     "properties": {
-                        "class": {
-                            "type": "string",
-                            "description": "Class to add to the hero element of the page",
-                            "examples": [
-                                "row", "column"
-                            ]
+                        "hero": {
+                            "type": "object",
+                            "description": "Configures the look of the hero section for the landing page",
+                            "properties": {
+                                "background-image": {
+                                    "type": "string",
+                                    "description": "Background image for the hero section. Path should be relative to `resources/css`."
+                                },
+                                "background-size": {
+                                    "type": "string",
+                                    "description": "Background size for the hero section",
+                                    "examples": [
+                                        "cover", "contain"
+                                    ]
+                                },
+                                "background-position": {
+                                    "type": "string",
+                                    "description": "Background position for the hero section",
+                                    "examples": [
+                                        "center", "top", "bottom"
+                                    ]
+                                },
+                                "background-repeat": {
+                                    "type": "string",
+                                    "description": "Background repeat for the hero section",
+                                    "examples": [
+                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
+                                    ]
+                                },
+                                "background-color": {
+                                    "type": "string",
+                                    "description": "Background color for the hero section",
+                                    "examples": [
+                                        "rgba(0, 0, 0, 0.6)"
+                                    ]
+                                }
+                            }
+                        },
+                        "bottom": {
+                            "type": "object",
+                            "description": "Configures the look of the bottom section for the landing page",
+                            "properties": {
+                                "background-image": {
+                                    "type": "string",
+                                    "description": "Background image for the bottom section. Path should be relative to `resources/css`."
+                                },
+                                "background-size": {
+                                    "type": "string",
+                                    "description": "Background size for the bottom section",
+                                    "examples": [
+                                        "cover", "contain"
+                                    ]
+                                },
+                                "background-repeat": {
+                                    "type": "string",
+                                    "description": "Background repeat for the bottom section",
+                                    "examples": [
+                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
+                                    ]
+                                },
+                                "background-color": {
+                                    "type": "string",
+                                    "description": "Background color for the bottom section",
+                                    "examples": [
+                                        "rgba(0, 0, 0, 0.4)"
+                                    ]
+                                }
+                            }
                         }
                     }
                 },
