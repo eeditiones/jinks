@@ -435,6 +435,10 @@ aside nav[aria-label="breadcrumb"] ul li a {
     display: inline;
 }
 
+[aria-label=breadcrumb] {
+    font-size: var(--jinks-breadcrumbs-font-size);
+}
+
 nav[aria-label="breadcrumb"] ul li {
     max-width: var(--jinks-breadcrumbs-max);
     overflow: hidden;

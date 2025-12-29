@@ -548,21 +548,25 @@
             "properties": {
                 "logo": {
                     "type": "object",
+                    "description": "Configures the logo for the application",
                     "properties": {
                         "width": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Width of the logo"
                         },
                         "height": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Height of the logo"
                         },
                         "image": {
                             "type": "string",
-                            "description": "Image to use for the logo"
+                            "description": "Image to use for the logo. Path should be relative to `resources/css`."
                         }
                     }
                 },
                 "splash": {
                     "type": "object",
+                    "description": "Configures the splash image (for the application loading screen)",
                     "properties": {
                         "image": {
                             "type": "string"
@@ -579,13 +583,16 @@
                 },
                 "colors": {
                     "type": "object",
+                    "description": "Central color scheme configuration",
                     "properties": {
                         "palette": {
+                            "description": "Predefined color palette to use for the application",
                             "type": "string",
                             "examples": ["neutral", "green", "beige"]
                         },
                         "palettes": {
                             "type": "object",
+                            "description": "Registered color palettes to use for the application. Maps palette names to CSS file name.",
                             "patternProperties": {
                                 "^[^\\s]+$": {
                                     "type": "string"
@@ -600,23 +607,25 @@
                 },
                 "menubar": {
                     "type": "object",
+                    "description": "Configures the look of the menubar for the application",
                     "properties": {
                         "background-image": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": "string",
+                            "description": "Background image for the menubar"
                         },
                         "background-color": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Background color for the menubar"
                         },
                         "color": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Color for the menubar text"
                         }
                     }
                 },
                 "toolbar": {
                     "type": "object",
+                    "description": "Configures the look of the toolbar for the application",
                     "properties": {
                         "background-color": {
                             "type": "string"
@@ -628,54 +637,109 @@
                 },
                 "content": {
                     "type": "object",
+                    "description": "Settings for the content area",
                     "properties": {
                         "max-width": {
-                            "type": "string"
+                            "description": "Maximum width of the content area for better readability",
+                            "type": "string",
+                            "examples": [
+                                "70ch"
+                            ]
                         }
                     }
                 },
                 "fonts": {
                     "type": "object",
+                    "description": "Typography settings for the application",
                     "properties": {
                         "content": {
                             "type": "object",
+                            "description": "Typography for the content area",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for the content area"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for the content area. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.25rem"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for the content area. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
                         "base": {
                             "type": "object",
+                            "description": "Typography for the base font ",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for the base font"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for the base font. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1rem"
+                                    ]
+                                },
+                                "line-height": {
+                                    "type": "string",
+                                    "description": "Line height for the base font.",
+                                    "examples": [
+                                        "140%"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for the base font. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
                         "heading": {
                             "type": "object",
+                            "description": "Typography for headings",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for headings"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for headings. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.25rem"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
@@ -683,7 +747,37 @@
                             "type": "object",
                             "properties": {
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for footnotes. Use `rem` for relative size.",
+                                    "examples": [
+                                        "0.9rem"
+                                    ]
+                                }
+                            }
+                        },
+                        "breadcrumbs": {
+                            "type": "object",
+                            "description": "Typography for breadcrumbs",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for breadcrumbs. Use `rem` for relative size.",
+                                    "examples": [
+                                        "0.9rem"
+                                    ]
+                                }
+                            }
+                        },
+                        "toc": {
+                            "type": "object",
+                            "description": "Typography for table of contents",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for table of contents. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.125rem"
+                                    ]
                                 }
                             }
                         }
@@ -694,7 +788,7 @@
                     "properties": {
                         "max": {
                             "type": "string",
-                            "description": "max length of the breadcrumbs in the toolbar",
+                            "description": "max length of the breadcrumbs in the toolbar. Longer breadcrumbs will be truncated with an ellipsis.",
                             "examples": [ "40ch"]
                         }
                     }
@@ -793,34 +887,39 @@
         },
         "pkg": {
             "type": "object",
-            "description": "For installable applications: defines the properties required by eXist's package manager to handle installation",
+            "description": "Defines the properties required by eXist's package manager to handle installation",
             "properties": {
                 "website": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Website URL on which the application will be hosted or the address of the code repository."
                 },
                 "abbrev": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Abbreviation of the application. Used to identify the application in the package manager and in URLs."
                 },
                 "author": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Main author of the application. Repeatable."
                 },
                 "version": {
-                    "type": "string"
-                },
-                "permissions": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Version of the application"
                 },
                 "user": {
                     "type": "object",
+                    "description": "User credentials for the application. This eXist-db user will own the application code.",
                     "properties": {
                         "password": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Password for the user"
                         },
                         "name": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Name of the user"
                         },
                         "group": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Group of the user"
                         }
                     },
                     "required": [
@@ -833,6 +932,7 @@
         },
         "generator": {
             "type": "object",
+            "description": "Expert: XQuery code snippets to use in templates",
             "properties": {
                 "templates": {
                     "type": "object",
@@ -846,17 +946,18 @@
         },
         "templating": {
             "type": "object",
+            "description": "General settings for the templating system. Most settings will only be used in HTML template frontmatter.",
             "properties": {
                 "extends": {
                     "type": "string",
-                    "description": "Path to the template to extend"
+                    "description": "Path to a template to extend. Used in template frontmatter."
                 },
                 "use": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "description": "List of template definitions to consult when expanding blocks"
+                    "description": "List of additional template definitions to consult when expanding blocks"
                 },
                 "ignoreImports": {
                     "type": "boolean"
@@ -867,14 +968,17 @@
                 },
                 "modules": {
                     "type": "object",
+                    "description": "XQuery modules to make available to templates. The key is the namespace URI of the module.",
                     "patternProperties": {
                         "^https?://.*": {
                             "type": "object",
                             "properties": {
                                 "at": {
+                                    "description": "Path to the XQuery module to load",
                                     "type": "string"
                                 },
                                 "prefix": {
+                                    "description": "Prefix to use for the module",
                                     "type": "string"
                                 }
                             },
@@ -887,6 +991,7 @@
                 },
                 "namespaces": {
                     "type": "object",
+                    "description": "Namespaces to make available to templates. The key is the namespace prefix, the value is the namespace URI.",
                     "patternProperties": {
                         "^[\\d._\\-]+$": {
                             "type": "string"
@@ -899,7 +1004,8 @@
             "type": "object",
             "properties": {
                 "custom": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Custom JavaScript files to load into the application"
                 },
                 "webcomponents": {
                     "type": "string",
@@ -928,6 +1034,7 @@
         },
         "styles": {
             "type": "array",
+            "description": "CSS files to load into the application",
             "items": {
                 "type": "string"
             }
