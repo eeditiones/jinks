@@ -1241,29 +1241,28 @@
         xlink:href="https://tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPMPM">Documentation
         Elements</link> chapter of the TEI P5 Guidelines. Here we discuss it at length, including
       some TEI Publisher specific extensions. </para>
-    <para>In short, TEI Processing Model specification uses TEI ODD to define how an XML document
-      should be transformed into various output formats. TEI ODD was designed to provide formal,
-      machine actionable documentation of the project in the TEI language itself. </para>
-    <para>Creating processing models in the ODD is a powerful mechanism through which you can
-      control all aspects of the transformation of your documents from the source XML to all output
-      formats: HTML, ePUB, PDF etc. </para>
-    <para>In the spirit of reuse is considered best practice to chain ODD customizations together
-      where applicable and simply change or add project specific rules to a custom ODD extending the
-      base as necessary. ODD chaining allows for future upgrades as your base ODDs may be updated by
-      standardization bodies or communities maintaining them. TEI Publisher is shipping with an
-      extensive base ODD supporting a wide range of use case scenarios. Commonly project ODDs would
-      extend this ODD (called teipublisher.odd).</para>
+    <para>In short, TEI Processing Model specification uses TEI ODD format to define how an XML
+      document should be transformed into various output formats. TEI ODD was originally designed to
+      provide formal, machine actionable documentation of the project in the TEI language itself. </para>
+    <para>Adding processing models to the ODD is a powerful mechanism through which you can control
+      all aspects of the transformation of your documents from the source XML to all output formats:
+      HTML, ePUB, PDF etc. </para>
+    <para>In the spirit of reuse it is best practice to chain ODD files together and simply change
+      or add project specific rules to a custom ODD extending the base as necessary. This way the
+      custom ODD usually stays short and simple, while chaining allows for future upgrades as your
+      base ODDs may be updated by standardization bodies or communities maintaining them. TEI
+      Publisher is shipping with an extensive base ODD (called teipublisher.odd) already supporting
+      a wide range of use case scenarios. Commonly project ODDs would extend this ODD.</para>
     <para>While the base ODD provides a sensible rendition out of the box, concrete projects often
       require certain adjustments to fully meet its specific needs. It has been one of primary
-      concerns in Publisher's design that customization is not only possible on various levels but
+      concerns in Publisher's design that customization is not only possible on all levels but
       actively encouraged and as simple as possible.</para>
-    <para> Very broadly we can group ODD customization needs into two sets: changing the rules for
-      document transformation (how the source document is translated into the output format) or
-      changing the styling and typesetting of the presented output. In this chapter we'll
-      concentrate on these aspects, which primarily require modification of the ODD with the <link
-        linkend="pm-syntax">TEI Processing Model</link>. As mentioned above, it is usually best to
-      choose as your starting point an already existing ODD, e.g. teipublisher.odd and create a
-      customization chained to it. </para>
+    <para> Very broadly TEI PM customizations involve two aspects: adjusting the processing logic
+      (how the source document is translated into the output format), and changing the styling and
+      typesetting of the presented output. In this chapter we'll discuss both, as they primarily
+      require modification of the ODD with the <link linkend="pm-syntax">TEI Processing
+      Model</link>. As mentioned above, it is usually best to choose as your starting point an
+      already existing ODD, e.g. teipublisher.odd and create a customization chained to it. </para>
     <section xml:id="odd-customization-details">
       <title>ODD Customization</title>
       <!-- TODO:
@@ -1322,8 +1321,8 @@
         <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the
           ODD by hand or using a visual editor. Both approaches can be combined and mixed. The
           visual editor saves the ODD in a non-destructive way, preserving any information not
-          related to the processing model. It is thus safe to switch between hand-editing the ODD
-          and using the visual editor. Just make sure you reload the visual editor view after
+          related to the processing model. It is therefore safe to switch between hand-editing the
+          ODD and using the visual editor. Just make sure you reload the visual editor view after
           modifying the source XML and vice versa. That said, visual editor is specifically tailored
           to editing processing models so it will be likely the fastest and safest way to edit your
           ODD.</para>
