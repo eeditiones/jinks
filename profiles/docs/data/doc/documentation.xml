@@ -1234,19 +1234,36 @@
   </section>
 
   <section xml:id="odd-customization">
-    <title>Processing Model transformations</title>
-    <para>While the custom app generator already provides various profiles and features targeting
-      specific domains, your project could require certain adjustments to fully meet your needs. It
-      has been one of primary concerns in Publisher's design that customization is not only possible
-      on various levels but also encouraged and we aim it to be as simple as possible.</para>
-    <para> Very broadly we can group customization needs into two sets: changing the rules for
+    <title>TEI Processing Model transformations</title>
+    <para> TEI Publisher derives its name from TEI and the TEI Processing Model (PM). Processing
+      Model is a part of the standard TEI vocabulary and TEI ODD specification format. It is
+      described in the <link xlink:show="new"
+        xlink:href="https://tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPMPM">Documentation
+        Elements</link> chapter of the TEI P5 Guidelines. Here we discuss it at length, including
+      some TEI Publisher specific extensions. </para>
+    <para>In short, TEI Processing Model specification uses TEI ODD to define how an XML document
+      should be transformed into various output formats. TEI ODD was designed to provide formal,
+      machine actionable documentation of the project in the TEI language itself. </para>
+    <para>Creating processing models in the ODD is a powerful mechanism through which you can
+      control all aspects of the transformation of your documents from the source XML to all output
+      formats: HTML, ePUB, PDF etc. </para>
+    <para>In the spirit of reuse is considered best practice to chain ODD customizations together
+      where applicable and simply change or add project specific rules to a custom ODD extending the
+      base as necessary. ODD chaining allows for future upgrades as your base ODDs may be updated by
+      standardization bodies or communities maintaining them. TEI Publisher is shipping with an
+      extensive base ODD supporting a wide range of use case scenarios. Commonly project ODDs would
+      extend this ODD (called teipublisher.odd).</para>
+    <para>While the base ODD provides a sensible rendition out of the box, concrete projects often
+      require certain adjustments to fully meet its specific needs. It has been one of primary
+      concerns in Publisher's design that customization is not only possible on various levels but
+      actively encouraged and as simple as possible.</para>
+    <para> Very broadly we can group ODD customization needs into two sets: changing the rules for
       document transformation (how the source document is translated into the output format) or
-      changing the organization and styling of the rendered web page. In this chapter we'll
-      concentrate on the former, document transformation, which primarily requires modification of
-      the ODD with the <link linkend="pm-syntax">TEI Processing Model</link>. The latter would
-      require <link linkend="customizing-page-template">adjustments of the page templates</link>. In
-      both cases, it may be best to choose as your starting point an already existing ODD or page
-      template and adjust it. </para>
+      changing the styling and typesetting of the presented output. In this chapter we'll
+      concentrate on these aspects, which primarily require modification of the ODD with the <link
+        linkend="pm-syntax">TEI Processing Model</link>. As mentioned above, it is usually best to
+      choose as your starting point an already existing ODD, e.g. teipublisher.odd and create a
+      customization chained to it. </para>
     <section xml:id="odd-customization-details">
       <title>ODD Customization</title>
       <!-- TODO:
@@ -1302,14 +1319,6 @@
       </section> -->
       <section xml:id="modify-odd">
         <title>Modify the ODD</title>
-        <para> Changing processing models in the ODD is a powerful mechanism through which you can
-          control all aspects of the transformation of your documents from source XML format to all
-          output formats: HTML, ePUB, PDF etc. As already mentioned it is considered best practice
-          to chain ODD customizations together and rather change or add project specific rules to
-          more generic ODD than copy them in extenso. ODD chaining allows for the future upgrades as
-          your base ODDs may be updated by standardization bodies which maintain them. Commonly
-          project ODDs would extend <filename>teipublisher.odd</filename>, a generic TEI Publisher
-          set of processing rules. </para>
         <para>Beginning with version 3.0 of TEI Publisher, you have the choice between writing the
           ODD by hand or using a visual editor. Both approaches can be combined and mixed. The
           visual editor saves the ODD in a non-destructive way, preserving any information not
