@@ -126,32 +126,32 @@
                 three different kinds of profiles:</para>
               <variablelist>
                 <varlistentry>
-                  <term>Blueprint</term>
-                  <listitem>
-                    <para>a complete template for an application targeted at a specific use case
-                      like a monograph, correspondence edition, dictionary etc.</para>
-                  </listitem>
-                </varlistentry>
-                <varlistentry>
                   <term>Base</term>
                   <listitem>
-                    <para>a profile providing the core server-side API of TEI Publisher and basic
-                      page layout without styling</para>
+                    <para>a special profile, used by all TEI Publisher applications, providing the
+                      core server-side API and basic page layout without styling</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
                   <term>Feature</term>
                   <listitem>
-                    <para>a functional sub-profile to be imported into another profile. It adds
-                      specific functionality, e.g. docker configuration, additional visualizations
-                      or pages etc.</para>
+                    <para>a functional profile to be combined with others. It provides all necessary
+                      resources to fully implement specific functional scope, e.g. docker
+                      configuration, register sidebar, or a timeline.</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
                   <term>Theme</term>
                   <listitem>
-                    <para>provides a particular look and feel. Without this, you only get unstyled
-                      HTML</para>
+                    <para>provides a particular look and feel. It provides all necessary CSS styles,
+                      fonts and graphic assets to achieve that.</para>
+                  </listitem>
+                </varlistentry>
+                <varlistentry>
+                  <term>Blueprint</term>
+                  <listitem>
+                    <para>a complete template for an application targeted at a specific use case
+                      like a monograph, correspondence edition, dictionary etc.</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
@@ -160,18 +160,17 @@
           <varlistentry>
             <term>TEI Processing Model</term>
             <listitem>
-              <para>the very core of TEI Publisher. Part of the TEI guidelines and the TEI ODD
-                spcification format, it defines how documents are transformed into different output
-                formats.</para>
+              <para>the very core of TEI Publisher. Part of the TEI Guidelines and the TEI ODD
+                specification format, it defines how documents are transformed from the source XML
+                into output formats (e.g. HTML, ePub, print).</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>Webcomponents</term>
             <listitem>
-              <para>the interactive user interface building blocks of TEI Publisher, which can be
-                freely combined and rearranged to integrate TEI content and related features into an
-                HTML page. Part of the HTML5 specification and natively implemented by modern
-                browsers.</para>
+              <para>library of interactive custom HTML elements. These main user interface building
+                blocks of TEI Publisher can be freely combined to create robust HTML pages with TEI
+                Publisher. Part of the HTML5 standard and natively implemented by browsers.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
