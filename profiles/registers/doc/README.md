@@ -5,11 +5,17 @@ This feature handles entity registers, i.e. lists of people, places and other en
 ### Features
 
 1. provides an additional sidebar for the document view, showing all entities appearing in the currently visible text. For places this includes a map view.
-2. adds separate pages to browse people, places, and bibliography
+2. adds separate register (index) pages to browse and filter people, places, and bibliography
+3. allows to control the presentation of the register browse pages in the following aspects:
+  - number of columns (2 by default)
+  - presence or absence of explanatory notes (present by default)
+  - toggle switch for the user to control the display of explanatory notes (not available by default)
 
 ### Configuration
 
-To enable the sidebar, set the feature `register` to `true` in the configuration:
+#### Enable sidebar
+
+To enable the sidebar, set the feature `register` to `true` in the configuration.
 
 ```json
 "features": {
@@ -39,6 +45,31 @@ To switch it off in a particular template, set the `enabled` property to `false`
     }
     ---
 </template>
+```
+
+#### Number of columns in the register browse pages
+
+To control the number of columns in the browse pages, set the `columns` property in `theme` > `registers`. By default it uses a two-column layout.
+
+```json
+"theme": {
+    "registers": {
+      "columns": 1
+    }
+}
+```
+
+#### Presence of descriptive notes in the register browse pages
+
+To allow for toggling the explanatory notes, set the `description` property to `"select"`. Other options are `null` for always off, or `"auto"` for always on. Please note the absence of quotes around `null`.
+
+```json
+"features": {
+    "register": {
+        "enabled": true,
+        "description: "select"
+    }
+}
 ```
 
 ### Requirements
@@ -71,15 +102,11 @@ Two fields must be defined in the index configuration, as above:
 
 #### ODD
 
-The TEI Publisher ODD (`resources/odd/teipublisher.odd`) contains several models to process the most common elements used to encode entities. For the generation of the individual register entry page, the processing scenario is set with the `register-details` mode (see models with the `@predicate` `$parameters?mode='register-details'`). The list of entities that appear in a document or fragment being displayed is processed under the `register` mode.
+The TEI Publisher ODD (`resources/odd/teipublisher.odd`) contains several models to process the most common elements used to encode entities. For the generation of the individual register entry page, the processing scenario is set with the `register-details` mode (see models with the `@predicate` `$parameters?mode='register-details'`). The sidebar section with the list of entities that appear in a document or fragment being displayed is processed under the `register` mode. Appearance of register entries in the separate index pages is customized through the `register-overview` mode.
+
+**NB** when using a custom ODD for the generated application, models for all the modes mentioned above must be appropriately merged into the custom ODD
 
 ### Layout
-
-#### Browse pages for registers
-
-To control the number of columns in the browse pages, set the CSS variable ` --pb-categorized-list-columns` in `resources/css/registers-theme.css`. By default it uses a two-column layout.
-
-#### Sidebar
 
 By default, registers appear in a sidebar to the right. This behaviour is set in `templates/register-blocks.html`:
 ```html
