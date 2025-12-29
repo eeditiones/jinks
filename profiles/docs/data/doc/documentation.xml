@@ -14,65 +14,87 @@
   <section xml:id="introduction">
     <title>Introduction</title>
 
-    <section xml:id="introduction-explainer">
-      <para>TEI Publisher provides a toolbox which enables scholars and editors to publish their
-        materials without becoming programmers, but also does not force them into a
-        one-size-fits-all framework. Our mantra is reuse, reuse, reuse. Stop reinventing the wheel
-        with every new digital edition project. Instead, reuse what others have already built and
-        help to improve it by adding what's missing. TEI Publisher tries to be as flexible and
-        extensible as possible while still providing a smooth and fast entry path for users with
-        little technical experience.</para>
-      <para>The many projects realized with TEI Publisher prove that it is:</para>
+    <section xml:id="introduction-foreword">
+      <para>TEI Publisher provides a flexible and sustainable <emphasis>toolbox</emphasis> which
+        enables scholars with limited technical skills to publish their material without forcing it
+        into a one-size-fits-all framework. Our mantra is to stop reinventing the wheel with every
+        new digital project and reuse what others have already built instead. And, most importantly,
+        help to improve the shared base by adding what's missing into the communal pool. <note
+          role="todo"> link to how to contribute/extend </note>
+      </para>
+      <para>TEI Publisher provides a smooth and fast entry path for editors with little technical
+        experience while remaining endlessly flexible and extensible for advanced users. </para>
+      <para>Numerous projects realized with TEI Publisher worldwide prove that it is:</para>
       <orderedlist>
         <listitem>
-          <para>powerful enough to cover complex transformation needs</para>
+          <para>a truly universal tool for any kind of digital publication, from scholarly editions
+            to journals, monographs, lexicons, and much more</para>
         </listitem>
         <listitem>
-          <para>a truly universal tool for any kind of digital edition</para>
+          <para>suitable even for very complex and multi-faceted material</para>
         </listitem>
         <listitem>
-          <para>capable of generating high quality, camera ready material for book publishing</para>
+          <para>sustainable and future-proof</para>
         </listitem>
         <listitem>
-          <para>sustainable and future-proof solution</para>
+          <para>capable of generating high quality, camera ready material for print
+            publishing</para>
         </listitem>
         <listitem>
-          <para>suitable for any XML, not just TEI (this documentation is written in
+          <para>suitable for any XML, not only TEI (this documentation is written in
             DocBook!)</para>
         </listitem>
       </orderedlist>
-      <section xml:id="introVersion10">
-        <title>Overview of version 10 and later ...</title>
-        <para>Version 10 further extends the toolbox idea of small, modular "lego" blocks and moves
-          it to the next level: instead of having one central application from which custom
-          applications are generated, the core of TEI Publisher itself is now decomposed into a set
-          of small, modular profiles, which can be customized and recombined to compose concrete
-          applications. Each profile covers a particular aspect of a digital edition, e.g. support
-          for a certain input format, the integration of facsimiles via IIIF, or functional features
-          tailored to a specific edition type, such as navigation between letters of a
-          correspondence.</para>
-        <para>An actual application is then created by combining different profiles and their
-          configuration. This is done through a central configuration file, to which each profile
-          contributes its parameters. This simplifies the development process, especially for users
-          with little technical experience.</para>
-        <para>Profiles can also extend each other, so one profile can inherit from one or more other
-          profiles. At the top of such a hierarchy sits what we call a "blueprint", which is
-          essentially a template for a complete application targeting a specific use case, e.g. a
-          correspondence edition or dictionary. In the simplest case, a blueprint is just a
-          configuration, which customizes the composition of profiles it extends.</para>
-        <para>Also, creating an application is no longer a one-time process, but can be repeated
-          iteratively: new profiles can be added, existing ones modified or removed again. TEI
-          Publisher 10 comes with a central application manager, Jinks, which manages all profiles
-          and the applications from them.</para>
-        <para>It also takes care of updating profiles and their dependencies. Updates can largely be
-          carried out automatically when individual profiles change as new versions are released.
-          Gone are the days when users had to manually read through update instructions to migrate
-          to a new version of TEI Publisher. With version 10, the number of necessary manual
-          interventions should be reduced to a minimum and most updates can be applied with a single
-          click.</para>
-        <para>To help you understand the different new parts in version 10 and how they fit
-          together, let us summarize some key concepts, which will be used in the rest of this
-          documentation:</para>
+
+      <section xml:id="intro-jinks">
+        <title>Overview</title>
+        <para> Starting with the version 10, based on Jinks application manager, the core TEI
+          Publisher idea of assembling an edition from the modular <emphasis>"lego"</emphasis>
+          blocks is taken to the next level. Despite the changes to the interface and internal
+          reorganization, advanced users will nevertheless find most underlying concepts and
+          components slightly changed but still recognizable. </para>
+        <para>Version 10 substantially extends the <emphasis>toolbox</emphasis> idea of simple,
+          recombinable blocks: the core of TEI Publisher itself is now decomposed into a set of
+          small, modular profiles, which can be combined and configured to assemble concrete
+          applications. Each profile provides end-to-end implementation for a particular aspect of a
+          digital edition, e.g. support for a certain input format, integration of facsimile images,
+          timelines or map display.</para>
+
+        <title>Assembling an application</title>
+        <para>An actual application is created by selecting desired features and customizing their
+          configuration. This is achieved through a central configuration file, which can be easily
+          edited through the user interface. Syntax suggestions in this step and human-readable
+          structure of the configuration file greatly simplify the development process.</para>
+        <para>Profiles may cover individual functional <emphasis>features</emphasis>, like the
+          abovementioned timeline but others take care of the <emphasis>presentational</emphasis>
+          aspects, like typesetting and styling. Such profile examples we call
+            <emphasis>themes</emphasis>.</para>
+        <para>Profiles may also aggregate and customize each other, so one profile can depend on one
+          or more other profiles. At the top of such a hierarchy sits what we call a "blueprint",
+          which is essentially a ready-made configuration for a complete application. Usually it
+          will be targeting a specific use case, e.g. a correspondence edition or dictionary. In the
+          simplest case, a blueprint is just a configuration, which customizes the configuration of
+          profiles it extends.</para>
+
+        <title>Continuous development</title>
+        <para>TEI Publisher now comes with a central application manager, Jinks, which manages all
+          profiles and the applications generated from it.</para>
+        <para>Creating an application is no longer a one-time generative step, but it can be
+          approached iteratively: new features can be added or removed, configuration for the
+          existing ones modified. The same user interface, which allowed us to select, pre-configure
+          and generate our application can be used to reconfigure and regenerate it at any later
+          point. </para>
+
+        <para>As new profiles are added to the public library - or new versions are released for the
+          existing ones - this application manager can take care of updating profiles and their
+          dependencies used in custom applications under its control. Updates can largely be carried
+          out automatically with the number of necessary manual interventions reduced to a minimum
+          and most updates applied with a single click. Gone are the days when users had to manually
+          read through update instructions to migrate to a new version of TEI Publisher. </para>
+
+        <title>Basic vocabulary</title>
+        <para>To clarify how various parts fit together, let us summarize some key concepts, which
+          will be used in the rest of this documentation:</para>
         <variablelist>
           <varlistentry>
             <term>TEI Publisher</term>
