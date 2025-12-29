@@ -1028,7 +1028,8 @@
     },
     "fonts": {
       "content": {
-        "family": "var(--jinks-base-font-family)"
+        "family": "var(--jinks-base-font-family)",
+        "size": "1.125rem"
       }
     }
   }
@@ -1042,6 +1043,9 @@
           font as for the rest of the page (<productname>Inter</productname>). However, instead of
           providing a font name directly, we reference the CSS variable
             <code>--jinks-base-font-family</code>, which predefines the corresponding font.</para>
+        <para>We may want to decrease the font size a bit as well, setting it to
+            <code>1.125rem</code>. Note that for font scaling to work properly, we should use
+          relative sizes based on the browser's base size, therefore using rem here.</para>
         <para>Finally, we can change the color scheme used by switching to the
             <guilabel>Theming</guilabel> tab and choosing one of the available schemes. Note that
           this will add a property <code>"palette"</code> to the configuration, referencing the
@@ -1052,24 +1056,159 @@
           which is why we avoid using hardcoded colors.</para>
         </note>
       </section>
-    <section>
-      <title>Updating an application</title>
-      <note role="todo">
-        <para>Explain concept of local and upstream changes</para>
-        <para>Explain what happens when you regenerate an app and upstream has changes</para>
-      </note>
-    </section>
-    <section>
-      <title>Actions</title>
-      <note role="todo">
-        <para>Explain the default actions: reindex and fix-odds.</para>
-        <para>Point out that fix-odds needs to be called whenever you add an ODD to the application
-          via jinks</para>
-        <para>Also, if you update an app via jinks and there were changes to ODDs in upstream, you
-          must use fix-odds to see the changes – unless you reinstalled the app</para>
-        <para>reindex should be called after changing the collection.xconf</para>
-      </note>
-    </section>
+      <section>
+        <title>And now: action!</title>
+        <para>One important step is still missing for a custom edition: creating your own ODD for
+          text transformations. Jinks provides a control for this on the <guilabel>Application
+            Configuration</guilabel> tab. Since we're dealing with Karl Barth, let's add an ODD
+          called <filename>barth.odd</filename>.</para>
+        <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
+          entries:</para>
+        <programlisting language="json"><![CDATA["odds": [
+    "barth.odd"
+  ],
+  "defaults": {
+    "odd": "barth.odd"
+  }]]></programlisting>
+        <para>The first adds <filename>barth.odd</filename> to the list of available ODDs inherited
+          from the base and other profiles. The second sets this ODD as the default to use.</para>
+        <note>
+          <para>The created ODD will be empty, but extends <filename>teipublisher.odd</filename>. If
+            you would like to register an ODD you already have, use the file manager to copy it to
+              <filename>resources/odd</filename> first. Afterwards follow the same steps as
+            described here. Jinks will notice that the file already exists and will just register
+            it.</para>
+        </note>
+        <para>What is important to know now is that adding an ODD to the configuration
+            <emphasis>after</emphasis> the app was initially generated <emphasis>does not
+            automatically use this ODD</emphasis>. Very likely the text will still be rendered using
+          the default <filename>teipublisher.odd</filename>, which is the fallback.</para>
+        <para>To fix this we need to run an action one time: actions are shown in the bottom toolbar
+          of <productname>Jinks</productname>. Each profile may contribute its own actions, but
+          there are four default actions always available. One of them is called <guilabel>Fix
+            ODDs</guilabel>. Click on it to recompile all ODDs (which means to translate them into
+          XQuery code) and wire them up correctly in the system. Once the process has completed, the
+          new ODD will actually be used and you could start extending it.</para>
+        <note>
+          <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add an ODD to an
+            already existing application, i.e. an application already installed into the database –
+            or if there were <emphasis>upstream updates</emphasis> to the profiles you use (see the
+            section on appying updates below).</para>
+          <para>The same goes for the <guilabel>Reindex Data</guilabel> action: you only need to
+            call it, if you changed the index configuration for an existing app.</para>
+        </note>
+      </section>
+      <section>
+        <title>Downloading the application</title>
+        <para><productname>Jinks</productname> operates within the database, which means all files
+          it generates exist inside the database only. For serious development (or to have a backup
+          at least), you always want to download the generated files. There are two actions for
+          this:</para>
+        <variablelist>
+          <varlistentry>
+            <term><guilabel>Download</guilabel></term>
+            <listitem>
+              <para>Packages the application into a single archive (a so called XAR), which you can
+                later re-install into eXist-db using the package manager in the dashboard. This is a
+                good choice for backing up the current state or for passing the application on to
+                other people to try out.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><guilabel>Sync</guilabel></term>
+            <listitem>
+              <para>Synchronizes the file hierarchy into a local disk directory. Note that
+                  <emphasis>local</emphasis> means: the machine where eXist-db is running. If you
+                are using docker, the directory will be <emphasis>inside</emphasis> the docker
+                image. If you connect to a remote server, it will be a directory on the server
+                machine. Sync therefore works best if you have a local eXist-db running on the
+                machine you're developing on.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <para>Which option to choose depends on your development workflow. Some people prefer to do
+          all development inside the database and only sync or download every now and then. This
+          does not require any additional setup. </para>
+        <para>However, experienced developers would mostly do it the other way around: have the code
+          on the file system in a directory connected to git, and do the main development there.
+          This way you can make sure you'll always be able to restore the current state, even if the
+          database crashes, your computer breaks or whatever bad may happen.</para>
+      </section>
+      <section>
+        <title>Applying updates</title>
+        <para>There are two scenarios in which you will update the application via jinks (by
+          pressing the <guibutton>Apply</guibutton> button):</para>
+        <orderedlist>
+          <listitem>
+            <para>you modified the configuration in any way by changing settings, adding/removing
+              profiles, uploading new files etc. This is what we've done above.</para>
+          </listitem>
+          <listitem>
+            <para>a new version of TEI Publisher becomes available, which means you will update the
+              version of Jinks installed, and – as a consequence – some of the profiles your app is
+              using will have changed <emphasis>upstream</emphasis>.</para>
+          </listitem>
+        </orderedlist>
+        <para><productname>Jinks</productname> continuously tracks the files in your application to
+          make sure updates will run smoothly. In particular, it needs to prevent that
+            <emphasis>upstream updates</emphasis>, i.e. changes coming from a profile, will
+          overwrite any change you have applied locally in your app.</para>
+        <para>Whenever you press <guibutton>Apply</guibutton>, the <guilabel>Command
+            Output</guilabel> dialog will show you a list of files. To the left of each file you'll
+          see a label. In most cases (hopefully) this should show "update" with a green background.
+          However, there might also be read labels static "conflict" next to some files.</para>
+        <para>A "conflict" means that <productname>Jinks</productname> detected changes you made to
+          this file since it was last updated, and it refused to overwrite this file with the
+          original version coming from one of the profiles. For example, if I would change
+            <filename>teipublisher.odd</filename> in my app (via the ODD editor), Jinks would detect
+          this next time I press <guibutton>Apply</guibutton> and mark it as a conflict.</para>
+        <para>It will be up to you to decide how to handle the conflict. If it was introduced by
+          mistake, you can tell <productname>Jinks</productname> to ignore the conflict and
+          overwrite the file with the upstream version by clicking the <guilabel>Overwrite with next
+            update</guilabel> button to the right of the entry. You may also decide that the change
+          is valid, meaning that the conflict is expected and you'll not do anything about
+          it.</para>
+        <note>
+          <para>To avoid conflicts it is important that most of your changes go into files you have
+            added yourself. On many levels TEI Publisher 10 provides configuration options, which
+            allow you to add custom CSS stylesheets, javascript, or API endpoints to your
+            application without changing what is already there. Those added custom files will never
+            trigger a conflict, because they only exist within your application.</para>
+        </note>
+      </section>
+      <section>
+        <title>Operation modes</title>
+        <para>Tightly connected to updates and conflict detection are the three different operation
+          modes <productname>Jinks</productname> provides. You can switch between them through the
+          select on the bottom of the <guilabel>Application Configuration</guilabel> tab:<variablelist>
+            <varlistentry>
+              <term><guilabel>Quick update</guilabel></term>
+              <listitem>
+                <para>is the fastest mode and selected by default. It does not check every file for
+                  changes, but looks at the last modification date to see if there were changes to
+                  the <emphasis>upstream version</emphasis> coming from the profile.</para>
+                <para>Consequently it will not report conflicts if they can be safely ignored
+                  (because there are no upstream changes to overwrite them).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term><guilabel>All</guilabel></term>
+              <listitem>
+                <para>checks the content of each file and compares it to the version last installed.
+                  This mode reliably detects and reports all potential conflicts.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term><guilabel>Factory reset</guilabel></term>
+              <listitem>
+                <para>is the most drastic and dangerous of the modes: it completely deletes the
+                  installed application and recreates everything from the configuration.
+                    <emphasis>Don't use it unless you are a developer working on a profile for
+                    Jinks</emphasis>!</para>
+              </listitem>
+            </varlistentry>
+          </variablelist></para>
+      </section>
   </section>
   </section>
 
