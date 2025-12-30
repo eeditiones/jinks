@@ -82,7 +82,7 @@ footer div {
     justify-items: flex-start;
 }
 
-.row, .long-desc {
+.two-column.row, .long-desc {
     display:flex;
     flex-direction: row;
     justify-items: stretch;
@@ -93,19 +93,19 @@ header.row {
     margin-block-end: var(--s2);
 }
 
-.row > *,
+.two-column.row > *,
 .long-desc > * {
     flex: 50%;
 }
 
 /* two-thirds layout */
-.row:has(.two-thirds) {
+.two-column.row:has(.two-thirds) {
     gap: var(--s3);
 }
-.row:has(.two-thirds) > * {
+.two-column.row:has(.two-thirds) > * {
     flex: 33%;
 }
-.row .two-thirds {
+.two-column.row .two-thirds {
     flex: 66%;
 }
 

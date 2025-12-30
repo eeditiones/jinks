@@ -1,5 +1,5 @@
 <?teipublisher output="web"?>
-<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -64,10 +64,10 @@
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
                     <model predicate="@type='partners'" behaviour="pass-through">
-                        <param name="content" value="list"/>
-                        <param name="header" value="head"/>
-                        <param name="desc" value="p"/>
-                        <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <param name="content" value="list"/>
+            <param name="header" value="head"/>
+            <param name="desc" value="p"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
             <span class="label"><pb-i18n key="menu.partners"/></span>
             <header class="center-l row">
                 [[header]]
@@ -77,7 +77,7 @@
             [[content]]
             </div>
             </div></pb:template>
-                    </model>
+        </model>
                     <model predicate="@type='highlights'" behaviour="pass-through">
             <desc>Outputs the project highlights in a grid</desc>
             <param name="title" value="head"/>
@@ -96,9 +96,10 @@
             <param name="header" value="* except div"/>
             <param name="label" value="@n"/>
             <param name="content" value="div"/>
+            <param name="rend" value="@rend"/>
             <pb:template xmlns="" xml:space="preserve"><div class="center-l">
     <span class="label">[[label]]</span>
-    <div class="row">
+    <div class="row [[rend]]">
       <header>
         [[header]]
       </header>
@@ -124,9 +125,10 @@
             <param name="label" value="@n"/>
             <param name="header" value="(head, p[1])"/>
             <param name="content" value="p[position() &gt; 1]"/>
+            <param name="rend" value="@rend"/>
             <pb:template xmlns="" xml:space="preserve"><div class="center-l">
     <span class="label">[[label]]</span>
-    <header class="row">
+    <header class="row [[rend]]">
       [[header]]
     </header>
     <div class="long-desc">
@@ -138,7 +140,8 @@
             <param name="heading" value="head/node()"/>
             <param name="content" value="p/node()"/>
             <param name="link" value="$parameters?browse-url"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l row">
+            <param name="rend" value="@rend"/>
+            <pb:template xmlns="" xml:space="preserve"><div class="center-l row [[rend]]">
   <h1>[[heading]]</h1>
   <p>[[content]]<br/>
   <a class="explore-link" href="[[link]]"><pb-i18n key="menu.explore"/></a></p>
@@ -225,7 +228,7 @@
     </div>
 </article></pb:template>
         </model>
-        <model predicate="parent::list[@rend='partner-logos']" behaviour="pass-through">
+                    <model predicate="parent::list[@rend='partner-logos']" behaviour="pass-through">
             <desc>Output a logo card</desc>
             <param name="image" value="ref/graphic/@url"/>
             <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
@@ -235,16 +238,15 @@
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model predicate="ancestor::div[@type='highlights'] and parent::item" behaviour="pass-through">
-                        <desc>Output a ref button</desc>
-                        <param name="url" value="if (@target != '#') then @target else $parameters?browse-url"/>
-                        <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'menu.explore'"/>
-                            <pb:template xmlns="" xml:space="preserve">
+            <desc>Output a ref button</desc>
+            <param name="url" value="if (@target != '#') then @target else $parameters?browse-url"/>
+            <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'menu.explore'"/>
+            <pb:template xmlns="" xml:space="preserve">
                             <a class="explore-link" href="[[url]]">
                             <pb-i18n key="[[explore-label]]">[[explore-label]]</pb-i18n>
                             </a>
                             </pb:template>
-                    </model>
-               
+        </model>
                     <model predicate="@target='#'" behaviour="link">
             <param name="uri" value="$parameters?browse-url"/>
         </model>
