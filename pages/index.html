@@ -133,7 +133,7 @@
                 <li>
                     <label data-tooltip="[[ $profile?description ]]"
                         data-placement="right">
-                        [% if $profile?path = head($baseProfiles)?path %]
+                        [% if $profile?path = 'base10' %]
                         <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                         [% else %]
