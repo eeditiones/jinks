@@ -123,9 +123,12 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
+        form.querySelectorAll('[name="feature"],[name="blueprint"],[name="theme"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
+
+        // Filter profiles based on selected base profile
+        filterProfilesByBaseProfile();
 
         updateColorPaletteSelection();
 
@@ -721,6 +724,64 @@ window.addEventListener('DOMContentLoaded', () => {
         updateConfig(updateEditor);
     }
 
+    function filterProfilesByBaseProfile() {
+        // Get the selected base profile (radio buttons ensure one is always selected)
+        const selectedBase = form.querySelector('input[type="radio"][name="base"]:checked');
+        const baseProfileValue = selectedBase.value;
+
+        // Get all feature, blueprint, and theme checkboxes
+        const profileCheckboxes = form.querySelectorAll('input[type="checkbox"][name="feature"], input[type="checkbox"][name="blueprint"], input[type="checkbox"][name="theme"]');
+
+        profileCheckboxes.forEach((checkbox) => {
+            // Parse the depends attribute
+            const dependsAttr = checkbox.dataset.depends;
+            
+            // All profiles must declare dependencies - if missing or invalid, disable the profile
+            if (!dependsAttr || dependsAttr.trim() === '' || dependsAttr === 'null' || dependsAttr === '[]') {
+                checkbox.disabled = true;
+                // Uncheck if it was checked but doesn't have valid dependencies
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                }
+                return;
+            }
+            
+            try {
+                const depends = JSON.parse(dependsAttr);
+                
+                // If depends is null, undefined, empty array, or not an array, disable the profile
+                if (depends === null || depends === undefined || !Array.isArray(depends) || depends.length === 0) {
+                    checkbox.disabled = true;
+                    // Uncheck if it was checked but doesn't have valid dependencies
+                    if (checkbox.checked) {
+                        checkbox.checked = false;
+                    }
+                    return;
+                }
+                
+                // Check if this profile depends on the selected base profile
+                const dependsOnBase = depends.includes(baseProfileValue);
+                
+                if (dependsOnBase) {
+                    checkbox.disabled = false;
+                } else {
+                    checkbox.disabled = true;
+                    // Uncheck if it was checked but doesn't depend on the base profile
+                    if (checkbox.checked) {
+                        checkbox.checked = false;
+                    }
+                }
+            } catch (e) {
+                // If parsing fails, disable the checkbox (all profiles must have valid depends)
+                console.warn('Failed to parse depends for', checkbox.value, ':', e);
+                checkbox.disabled = true;
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                }
+            }
+        });
+    }
+
     function toggleFeature(eventOrControl) {
         const target = eventOrControl.target || eventOrControl;
         const configExtends = JSON.parse(target.dataset.depends);
@@ -745,6 +806,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         form.reset();
         form.querySelector('[name="theme"]').checked = true;
+        // Filter profiles based on selected base profile (default will be first base profile)
+        filterProfilesByBaseProfile();
         update(updateEditor);
 
         const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
@@ -811,6 +874,14 @@ window.addEventListener('DOMContentLoaded', () => {
     // });
 
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
+    form.querySelectorAll('input[type="radio"][name="base"]').forEach((control) => {
+        control.addEventListener('change', (ev) => {
+            toggleFeature(ev);
+            filterProfilesByBaseProfile();
+            // Update config after filtering to reflect unchecked incompatible profiles
+            update();
+        });
+    });
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
