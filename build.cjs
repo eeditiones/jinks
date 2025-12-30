@@ -67,7 +67,11 @@ fs.writeFileSync(path.join('resources/styles/pico-jinks.css'), sassJinksResult.c
 // Generate theme documentation
 console.log('Generating theme documentation');
 try {
-    execSync('node profiles/theme-base10/generate-theme-docs.js', {
+    execSync('node profiles/theme-base10/generate-theme-docs.js -c profiles/landing-page/config.json profiles/landing-page/doc', {
+        cwd: __dirname,
+        stdio: 'inherit'
+    });
+    execSync('node profiles/theme-base10/generate-theme-docs.js -c profiles/theme-base10/config.json profiles/theme-base10/doc', {
         cwd: __dirname,
         stdio: 'inherit'
     });
