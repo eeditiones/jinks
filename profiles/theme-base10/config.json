@@ -7,6 +7,9 @@
     "order": 902,
     "version": "1.0.0",
     "theme": {
+        "body": {
+            "background-color": "var(--jinks-colors-100)"
+        },
         "colors": {
             "palette": "neutral",
             "palettes": {
@@ -15,8 +18,7 @@
                 "beige": "palette-beige.css",
                 "neutral": "palette-neutral.css",
                 "teal": "palette-teal.css"
-            },
-            "background-color": "var(--jinks-colors-100)"
+            }
         },
         "content": {
             "max-width": "70ch"
@@ -77,7 +79,8 @@
                 "background-size": "cover",
                 "background-position": "center",
                 "background-repeat": "no-repeat",
-                "background-color": "rgba(0, 0, 0, 0.6)"
+                "background-color": "rgba(0, 0, 0, 0.6)",
+                "class": "two-column"
             },
             "bottom": {
                 "background-image": "../images/typewriter-on-books.jpg",

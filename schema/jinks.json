@@ -546,6 +546,23 @@
         "theme": { 
             "type": "object",
             "properties": {
+                "body": {
+                    "type": "object",
+                    "description": "Configures the look of the body element",
+                    "properties": {
+                        "background-color": {
+                            "type": "string",
+                            "description": "Background color for the body element"
+                        },
+                        "classes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Classes to add to the body element. Helps to distinguish between page types in CSS, e.g. 'landing' or 'places'."
+                        }
+                    }
+                },
                 "logo": {
                     "type": "object",
                     "description": "Configures the logo for the application",
