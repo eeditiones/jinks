@@ -168,7 +168,8 @@
         {
             "name": "reindex",
             "label": "Reindex data",
-            "description": "Reindex the data"
+            "description": "Reindex the data",
+            "app": "jinks"
         },
         {
             "name": "fix-odds",
@@ -178,12 +179,14 @@
         {
             "name": "download",
             "label": "Download",
-            "description": "Download the app as a `.xar` file"
+            "description": "Download the app as a `.xar` file",
+            "app": "jinks"
         },
         {
             "name": "file-sync",
             "label": "Sync",
             "description": "Sync the app to a directory on the local file system",
+            "app": "jinks",
             "parameters": [
                 {
                     "name": "target",

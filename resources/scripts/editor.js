@@ -393,6 +393,9 @@ window.addEventListener('DOMContentLoaded', () => {
     async function runAction(pkgAbbrev, action) {
         const actionName = action.name;
         const actionConfig = action;
+        const params = {
+            "root": `/db/apps/${appConfig.pkg.abbrev}`
+        };
         
         // Check if action has parameters
         if (actionConfig && actionConfig.parameters && actionConfig.parameters.length > 0) {
@@ -461,7 +464,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     
                     // Collect form data
                     const formData = new FormData(form);
-                    const params = {};
                     for (const [key, value] of formData.entries()) {
                         params[key] = value;
                     }
@@ -470,13 +472,13 @@ window.addEventListener('DOMContentLoaded', () => {
                     dialog.closeDialog();
                     
                     // Run the action with parameters
-                    await executeAction(pkgAbbrev, actionName, params);
+                    await executeAction(action.app || pkgAbbrev, actionName, params);
                     resolve();
                 });
             });
         } else {
             // No parameters, run directly
-            await executeAction(pkgAbbrev, actionName, {});
+            await executeAction(action.app || pkgAbbrev, actionName, params);
         }
     }
     

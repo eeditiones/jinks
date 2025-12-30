@@ -7,6 +7,7 @@ import module namespace path="http://tei-publisher.com/jinks/path" at "./paths.x
 import module namespace deploy = "http://exist-db.org/xquery/deployment" at "deployment.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
+import module namespace action="http://teipublisher.org/jinks/api/actions" at "actions.xql";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -14,7 +15,6 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
 declare option output:media-type "text/html";
 declare option output:indent "no";
-
 
 (:~
  : Deploy a prepared profile

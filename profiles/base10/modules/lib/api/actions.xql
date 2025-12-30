@@ -17,50 +17,6 @@ declare variable $action:repoxml :=
         parse-xml($repo)
 ;
 
-declare function action:file-sync($request as map(*)) {
-    let $target := $request?parameters?target
-    let $sync :=
-        try {
-            file:sync($config:app-root, $target, map { 
-                "indent": false()
-            })
-        } catch * {
-            map {
-                "type": "error",
-                "message": "Error syncing files: " || $err:description
-            }
-        }
-    return array {
-            map {
-                "type": "action:file-sync",
-                "message": count($sync//file:update) || " files synced to " || $target
-            },
-            for $file in $sync/file:sync/*
-            let $collection := substring-after($file/@collection, $config:app-root || "/")
-            let $path :=  string-join(($collection, $file/@name/string()), "/")
-            return
-                map {
-                    "type": local-name($file),
-                    "message": $path
-                }
-    }
-};
-
-declare function action:reindex($request as map(*)) {
-    let $_ := xmldb:copy-resource($config:app-root, "collection.xconf", "/db/system/config/" || $config:app-root, "collection.xconf")
-    return
-        map {
-            "type": "action:reindex",
-            "message": "collection.xconf copied to /db/system/config/" || $config:app-root
-        },
-    let $_ := xmldb:reindex($config:data-root)
-    return
-        map {
-            "type": "action:reindex",
-            "message": $config:data-root || " reindexed"
-        }
-};
-
 declare function action:fix-odds($request as map(*)) {
     action:generate-pm-config(),
     action:generate-code()
