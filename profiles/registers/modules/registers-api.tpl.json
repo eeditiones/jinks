@@ -24,7 +24,20 @@
             }
         }
     },
-    "tags": [],
+    "tags": [
+        {
+            "name": "view",
+            "description": "HTML templates"
+        },
+        {
+            "name": "registers",
+            "description": "Register API endpoints"
+        },
+        {
+            "name": "static",
+            "description": "Static generator API endpoints"
+        }
+    ],
     "paths": {
         "/people": {
             "get": {
@@ -143,7 +156,7 @@
             "get": {
                 "summary": "List people",
                 "description": "Retrieve list of people in format required by pb-split-list",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:people-categories",
                 "parameters": [
 					{
@@ -202,7 +215,7 @@
             "get": {
                 "summary": "List all people",
                 "description": "Retrieve list of all people",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:people-all",
                 "parameters": [
                     {
@@ -287,7 +300,7 @@
             "get": {
 				"summary": "Landing page for bibliography entry",
 				"description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
-				"tags": ["view"],
+				"tags": ["registers"],
 				"operationId": "rview:detail-html",
 				"x-error-handler": "vapi:handle-error",
 				"parameters": [
@@ -345,7 +358,7 @@
             "get": {
                 "summary": "List bibliography",
                 "description": "Retrieve list of bibliography in format required by pb-split-list",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:bibliography-categories",
                 "parameters": [
 					{
@@ -396,7 +409,7 @@
             "get": {
                 "summary": "List all bibliography",
                 "description": "Retrieve list of all bibliography",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:bibliography-all",
 				"responses": {
                     "200": {
@@ -529,7 +542,7 @@
             "get": {
                 "summary": "List places",
                 "description": "Retrieve list of places in format required by pb-split-list",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:places",
                 "parameters": [
 					{
@@ -588,7 +601,7 @@
             "get": {
                 "summary": "List all places",
                 "description": "Retrieve list of all places",
-				"tags": ["view"],
+				"tags": ["registers"],
                 "operationId": "rview:places-all",
                 "parameters": [
                     {
@@ -618,7 +631,7 @@
             "get": {
                 "summary": "Retrieve index entry for the document given by id",
                 "description": "Retrieve index entry for the document given by id",
-                "tags": ["view"],
+                "tags": ["static"],
                 "operationId": "ridx:entry",
                 "parameters": [
                     {
