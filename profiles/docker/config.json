@@ -5,6 +5,9 @@
     "category": "development",
     "description": "Adds support for running TEI Publisher in Docker",
     "type": "feature",
+    "depends": [
+        "base10"
+    ],
     "docker": {
         "eXist": "6.4.0",
         "tei-publisher-lib": "6.0.0",
