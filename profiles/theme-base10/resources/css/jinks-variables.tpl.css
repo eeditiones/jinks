@@ -109,7 +109,7 @@
     --jinks-page-max-width: [[ $theme?layout?max-width ]];
 
     /* Background colors */
-    --jinks-background-color: [[ $theme?colors?background-color ]];
+    --jinks-background-color: [[ $theme?body?background-color ]];
     --jinks-background-color-light: var(--jinks-background-color);
     --jinks-background-color-dark: var(--jinks-colors-700);
 
