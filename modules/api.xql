@@ -439,13 +439,13 @@ declare %private function api:list-resources($request as map(*)) {
 };
 
 declare function api:create-collection($request as map(*)) {
-    let $body := $request?body
-    let $collName := $body?name
-    let $parent := head(($body?collection, "/db"))
+    let $collName := $request?parameters?name
+    let $parent := head(($request?parameters?collection, "/db"))
     let $user := api:get-user()
     return
         if (sm:has-access(xs:anyURI($parent), "w")) then
             try {
+                let $_ := util:log("INFO", "Creating collection " || $parent || "/" || $collName)
                 let $_ := xmldb:create-collection($parent, $collName)
                 return
                     roaster:response(200, "application/json", map { "status": "ok" })
