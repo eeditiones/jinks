@@ -12,46 +12,25 @@
         </keywordset>
     </info>
     <section xml:id="webcomponents">
-        <title>Web Components</title>
-        <note role="todo">
-            <para>Needs review: concentrate on web components. HTML templates were discussed
-                earlier.</para>
-            <para>Explain changes between version 2 of web components (TP 9) and 3 (TP 10): v3 drops
-                polymer in most places and outputs pure HTML with only minimal styling.</para>
-        </note>
-        <para> As described earlier, the various sample documents included in the TEI Publisher Demo
-            collection differ not only in the ODD they use, but also concerning the general layout
-            and composition of the page. They are based on different HTML templates, which can be
-            found in the <filename> templates/pages</filename> collection of the TEI Publisher app.
-            Each template assembles various building blocks in a slightly different way – some <link
-                linkend="selected-use-cases"> examples</link> show a facsimile view next to the
-            text, others a parallel display of transcription andtranslation, some include a map and
-            another showcase collapsible metadata section. Which template is being used is
-            determined by a <link linkend="pi-config">processing instruction</link> in the TEI
-            sources of these examples. </para>
-        <para>The building blocks we mentioned are custom HTML elements. Each of them encapsulates a
-            certain functionality and appearance. The map, the facsimile, but also the text view
-            itself and all controls are custom HTML elements. They are like "Lego" blocks which can
-            be freely moved around and rearranged without knowing anything about internal
-            implementation of the component.</para>
-        <section xml:id="webcomponents-intro">
-            <title>Web Components</title>
-            <para> The technology enabling this Lego-like modular approach is a W3C standard called
-                    <emphasis>Web Components</emphasis>. It is already built into many browsers and
-                support is improving quickly, reducing the need for external frameworks. There's a
-                growing collection of ready-to-use components available, e.g. the <link
-                    xlink:show="new"
-                    xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer
-                    elements</link> we use for menus, buttons, dropdowns etc. TEI Publisher from
-                version 6.0 exposes its collection of Web Components targeted at creating digital
-                editions as a separate <code> pb-components</code> package. </para>
-            <para> You do not need to know much about <emphasis>Web Components</emphasis> to use
-                them in TEI Publisher. From a user perspective, a component looks like any other
-                HTML element. You configure it by setting its properties via attributes. For
-                example, the following HTML code snippet will display the first page/section of two
-                completely different documents as you can see below in the embedded <link
-                    xlink:show="new" xlink:href="https://codepen.io/">Codepen</link> (to learn more
-                on embedding Publisher output and components see <link linkend="embedding">further
+        <title>Introduction</title>
+        <para>Most of the dynamic elements in TEI Publisher, include the map, facsimile viewer, but
+            also the text view itself are custom HTML elements. They are like "Lego" blocks which
+            can be freely moved around and rearranged without knowing anything about the internal
+            implementation of the component. Each of them encapsulates a certain functionality and
+            appearance.</para>
+            <para>The technology enabling this Lego-like modular approach is a W3C standard called
+                    <emphasis>Web Components</emphasis>. It is built into all modern browsers,
+                reducing the need for external frameworks. There's a growing collection of
+                ready-to-use components available. TEI Publisher exposes its collection of Web
+                Components targeted at creating digital editions as a separate <code>
+                    pb-components</code> package. </para>
+            <para>You do not need to know much about <emphasis>Web Components</emphasis> to use them
+                in TEI Publisher. From a user perspective, a component looks like any other HTML
+                element. You configure it by setting its properties via attributes. For example, the
+                following HTML code snippet will display the first page/section of two completely
+                different documents as you can see below in the embedded <link xlink:show="new"
+                    xlink:href="https://codepen.io/">Codepen</link> (to learn more on embedding
+                Publisher output and components see <link linkend="embedding">further
                     chapters</link>) </para>
             <programlisting language="xml" xml:space="preserve">
 &lt;pb-page&gt;
@@ -67,24 +46,20 @@
 
             <programlisting role="codepen" xlink:href="wolfgangmm#WNvYYWB"/>
             <para>
-                <tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
-                components from <code>pb-components</code> library, while <tag>main</tag> is a
-                standard HTML5 tag. The name of the custom element <emphasis role="bold"
-                    >must</emphasis> start with a prefix to distinguish it from standard HTML. This
-                concept should be familiar to XML people. For TEI Publisher components, the prefix
-                is always <code>pb-</code>. Components from other sources will use different
-                prefixes, e.g. <code>paper-</code> and <code>iron-</code> for the <emphasis>
-                    Polymer</emphasis> collection. </para>
-            <para> The part of the page which uses TEI Publisher web components should always be
-                wrapped into an <tag>pb-page</tag> element. This element determines the TEI
-                Publisher server instance all other components will be communicating with (see the
-                next section below). It is also responsible for some other initialization steps,
-                e.g. loading the list of available user interface translations. . </para>
-            <para>
-                <tag>pb-document</tag> specifies a document source, which can then be referenced by
-                id from other components. The component provides a way to configure basic properties
-                governing document's default rendering, like associated ODD file, etc. In the
-                example above, we define three properties for each document: </para>
+            <tag>pb-page</tag>, <tag>pb-document</tag> and <tag>pb-view</tag> are three web
+            components from <code>pb-components</code> library, while <tag>main</tag> is a standard
+            HTML5 tag. The name of the custom element <emphasis role="bold">must</emphasis> start
+            with a prefix to distinguish it from standard HTML. This concept should be familiar to
+            XML people. For TEI Publisher components, the prefix is always <code>pb-</code>. </para>
+            <para>The part of the page which uses TEI Publisher web components should always be
+            wrapped into a <tag>pb-page</tag> element. This element determines the TEI Publisher
+            server instance all other components will be communicating with (see the next section
+            below). It is also responsible for some other initialization steps, e.g. loading the
+            list of available user interface translations.</para>
+            <para><tag>pb-document</tag> specifies a document source, which can then be referenced
+            by id from other components. The component provides a way to configure basic properties
+            governing the document's default rendering, like associated ODD file, etc. In the
+            example above, we define three properties for each document:</para>
             <variablelist>
                 <varlistentry>
                     <term>path</term>
@@ -136,20 +111,17 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>
-                <tag>pb-view</tag> is the critical component in TEI Publisher: it provides the
-                actual text view by transforming a part or entirety of the source XML into HTML
-                based on the processing model instructions in the ODD. </para>
+            <para><tag>pb-view</tag> is the critical component in TEI Publisher: it provides the
+            actual text view by transforming a part or entirety of the source XML into HTML based on
+            the processing model instructions in the ODD. </para>
 
-            <para> Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures
-                that the styling of the text as governed by the ODD will be confined to the
-                boundaries of the component. This makes it possible to display two completely
-                heterogenous texts (like the documentation and Kant's Kritik) on the same page
-                without styles contaminating each other. As a downside, encapsulation also poses
-                some challenges, which we discussed in the section about <link
-                    linkend="external-css">CSS styling</link>. </para>
-        </section>
-
+            <para>Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures that
+            the styling of the text as governed by the ODD will be confined to the boundaries of the
+            component. This makes it possible to display two completely heterogenous texts (like the
+            documentation and Kant's Kritik) on the same page without styles contaminating each
+            other. As a downside, encapsulation also poses some challenges, which we discussed in
+            the section about <link linkend="css-styling-components">CSS styling</link>. </para>
+    </section>
         <section xml:id="webcomponents-docs">
             <title>Webcomponent Documentation</title>
             <para> To better understand the various components TEI Publisher provides, it is best to
@@ -479,8 +451,7 @@
                 </variablelist>
             </section>
         </section>
-    </section>
-    <section xml:id="web-components">
+    <section xml:id="web-components-loading">
         <title>Loading Web components</title>
         <para>By default TEI Publisher and apps generated from it load the user interface components
             from a global CDN (content delivery network). For a long time this was the generally
@@ -518,8 +489,7 @@
         </note>
         <para>Older versions of TEI Publisher used Google Material Design for most controls (text inputs, 
             selects, radio buttons etc.). The look and feel of those web components was fixed and could not
-            be changed easily. TEI Publisher 10 comes with a new version of its web components (see <link
-                linkend="web-components">below</link>). This version largely drops Google Material Design in favour of
+            be changed easily. TEI Publisher 10 comes with a new version of its web components. This version largely drops Google Material Design in favour of
             unstyled HTML. This means that without further styling, all controls will look as the browser
             renders them by default.</para>
         <para>A web component completely shields its content, so it cannot easily be styled from
