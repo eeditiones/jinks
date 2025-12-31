@@ -767,122 +767,60 @@
             </note>
         </section>
 
-        <section xml:id="document-view">
-            <title>Document View</title>
-            <note role="todo">
-                <para>Needs review. Changing templates no longer possible. ODD selection button in
-                    toolbar.</para>
-            </note>
-            <para>The document view can vary, depending on the sample document you are looking at.
-                Nevertheless some default functionality will be shared:</para>
-            <itemizedlist>
-                <listitem>
-                    <para> the rightmost button in the toolbar opens the
-                            <guibutton>Settings</guibutton> panel. Here you can change the ODD being
-                        used for display as well as the view template (more about this later). By
-                        default, all sample documents apply the specific ODD which fits them best,
-                        but you can play around and select another ODD to see what happens. </para>
-                    <figure>
-                        <title>The Settings Panel</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="odd-page-template-settings.png" width="512px"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                </listitem>
-                <listitem>
-                    <para> the leftmost toolbar button will open a <emphasis>table of
-                            contents</emphasis> (if the viewed document has a division structure)
-                    </para>
-                </listitem>
-                <listitem>
-                    <para> the <guibutton>Download</guibutton> menu allows you to download the
-                        currently viewed document in a variety of output formats. Not all output
-                        formats work equally well for all examples as we have not customized every
-                        example for every media. </para>
-                </listitem>
-            </itemizedlist>
-        </section>
-
         <section xml:id="odd-experiments">
             <title>Experimenting with ODDs</title>
             <para>All TEI Publisher's sample documents are XML files which are transformed into a
-                HTML webpage for display in the browser. Two major factors determine how the final
-                page is going to look like: an <emphasis role="bold">ODD</emphasis> and a <emphasis
-                    role="bold">page template</emphasis>. </para>
+                HTML webpage for display in the browser. Various factors determine how the final
+                page is going to look like: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>the ODD used for transforming the TEI XML into HTML for the content</para>
+                </listitem>
+                <listitem>
+                    <para>the HTML page templates being used for the overall structure and layout of the
+                        page</para>
+                </listitem>
+                <listitem>
+                    <para>various functional blocks contributed by profiles (register sidebars,
+                        facsimile viewer …)</para>
+                </listitem>
+                <listitem>
+                    <para>All dynamic parts of the page, i.e. the text display, navigation
+                        buttons etc., are defined as small, reusable blocks, using the Web
+                        Components technology. Components can be used like common HTML elements.</para>
+                </listitem>
+            </itemizedlist>
 
             <para>We have already mentioned in the very first section that the TEI Processing Model
                 lies at the heart of the Publisher – the ODD file associated with a document defines
                 the rules of transformation of the XML source file into HTML. Detailed discussion of
-                the Processing Model can be found in <link linkend="pm-syntax">following
-                    chapters</link>, for now it is sufficient to say this is where decisions if a
-                TEI element should be rendered inline, with a tooltip, or as a marginal note, are
-                made. Simplifying things a bit the <emphasis>text</emphasis> of the document that
-                you see rendered in your browser is an effect of applying the rules from ODD file to
-                the source document. When opening a document of the Demo collection, it is possible
-                to see in the URL the <parameter>odd</parameter> parameter indicating which ODD file
-                is being used to processed the document, e.g. <link
-                    xlink:href="../demo/F-rom.xml?odd=shakespeare"
+                the Processing Model can be found in the <link
+                    xlink:href="documentation.xml?id=pm-syntax">reference manual</link>, for now it
+                is sufficient to say this is where decisions if a TEI element should be rendered
+                inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit
+                the <emphasis>text</emphasis> of the document that you see rendered in your browser
+                is an effect of applying the rules from ODD file to the source document. When
+                opening a document of the Demo collection, it is possible to see in the URL the
+                    <parameter>odd</parameter> parameter indicating which ODD file is being used to
+                process the document, e.g. <link xlink:href="../demo/F-rom.xml?odd=shakespeare"
                     >demo/F-rom.xml?odd=shakespeare</link>.</para>
             <para>Most demos come with their own ODD. However, all of them – at least if they deal
                 with TEI – extend the base ODD, <filename>teipublisher.odd</filename>.</para>
-            <note role="todo">
-                <para>Should we describe here how to create your own ODD? Or add this to the section
-                    about processing model and reference from here?</para>
-            </note>
             <para>Nevertheless, as we demonstrated in the section on selected sample documents, in
                 the application context we certainly want more than just text, however nicely
                 typeset. From basic navigation controls, table of content, to facsimile display,
                 critical apparatus, glossaries and maps – all of this and much more could be
-                included in the final webpage. There are two additional concepts coming into play
-                here:</para>
-            <variablelist>
-                <varlistentry>
-                    <term>Page templates</term>
-                    <listitem>
-                        <para>Compose the HTML of the page, i.e. the overall layout of sections or
-                            panels on the page</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Web Components</term>
-                    <listitem>
-                        <para>All dynamic parts of the page, i.e. the text display, navigation
-                            buttons etc., are defined as small, reusable blocks, using the Web
-                            Components technology. Components can be used like common HTML elements.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
+                included in the final webpage.</para>
         </section>
         <section xml:id="upload">
             <title>Uploading your own documents</title>
             <para> If you are reading this, in all likelihood you already have some documents of
                 your own you might want published, whether they are in TEI, DocBook, JATS, MS Word
-                DOCX or other XML format. The first step is to upload them into the database. You
-                need to be <emphasis role="bold">logged in</emphasis> and in the Playground area to
-                do it (check the short info on the <guibutton> Start</guibutton> page for user name
-                and password).</para>
-            <para>TEI Publisher installs two default application users:</para>
-            <variablelist>
-                <varlistentry>
-                    <term>tei-demo (default password: <emphasis>demo</emphasis>)</term>
-                    <listitem>
-                        <para>This user can upload to the playground, annotations and jats
-                            collections. It can create new ODDs and edit them. However, it cannot
-                            recompile ODDs other than the ones it created.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>tei (default password: <emphasis>simple</emphasis></term>
-                    <listitem>
-                        <para>has full access to all collections, can change all ODDs, generate apps
-                            etc. On a public server we strongly recommend to change at least this
-                            user's password.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
+                DOCX or other XML format. The <productname>Documentation and Demo</productname>
+                application allows you to upload documents into the <guilabel>Demo
+                    Collection</guilabel>. The first step is to upload them into the database, for
+                which you need to be <emphasis role="bold">logged in</emphasis>. The user and
+                password are displayed in the information block on top of the right sidebar.</para>
             <para>Upon successful login, uploading is just a question of dragging your documents
                 onto the <guibutton>Upload</guibutton> area. They will become available in the
                 document list immediately after upload is completed. </para>
@@ -890,7 +828,7 @@
                 <title>The Upload Panel</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="upload.png" width="512px"/>
+                        <imagedata fileref="upload.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -899,29 +837,13 @@
                 result, but you'll certainly find aspects to improve. Quite often the need for
                 customization will be limited to a hand full of elements. Therefore the next step
                 would be to learn about ODDs and the Processing Model and apply the modifications
-                needed. This will be covered <link linkend="odd-customization">below</link>.</para>
+                needed.</para>
             <para> If you attempt to upload a Microsoft Word document, the upload will automatically
                 trigger upconversion of Word to TEI, using a custom ODD for the tranformation.
                 Please note that the focus of this conversion is to preserve textual content,
                 structure and basic semantics of the text, not provide authoritative mapping of
                 complete set of MS Word features to TEI. Refer to <link linkend="docx">DOCX
                     handling</link> section for more information. </para>
-            <note>
-                <title>Note</title>
-                <para>Please bear in mind that while TEI Publisher aims to be a universal tool, the
-                    specific components may make certain assumptions about data they are getting and
-                    if your documents do not follow the same conventions it may be required to
-                    adjust parameters passed to the components from the page template or the
-                    component logic.</para>
-                <para> By means of example – a table of content component assumes that the document
-                    structure is represented by means of nested <parameter>div</parameter> elements
-                    and section titles are given in <parameter>head</parameter> element. If your
-                    project rather chooses numbered divisions (<parameter>div1</parameter>,
-                        <parameter>div2</parameter>) etc it may be advisable to adjust this to avoid
-                    customizing all navigation, table of contents and so on, but it is one of very
-                    rare cases where TEI Publisher exposes any predilection for a particular flavour
-                    of TEI. </para>
-            </note>
         </section>
 
     </section>
