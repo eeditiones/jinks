@@ -105,6 +105,10 @@ dd {
     justify-content: space-between;
 }
 
+[aria-label=breadcrumb] {
+    white-space: nowrap;
+}
+
 pb-edit-xml {
     --iron-icon-height: 16px;
     vertical-align: top;
@@ -114,6 +118,7 @@ pb-edit-xml {
 
 pb-code-highlight {
     font-size: .85em;
+    margin-bottom: var(--s0);
 }
 
 .footnotes {

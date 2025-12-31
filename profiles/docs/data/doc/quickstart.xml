@@ -62,7 +62,8 @@
                     assemble concrete applications. Each profile provides end-to-end implementation
                     for a particular aspect of a digital edition, e.g. support for a certain input
                     format, integration of facsimile images, timelines or map display.</para>
-
+            </section>
+            <section>
                 <title>Assembling an application</title>
                 <para>An actual application is created by selecting desired features and customizing
                     their configuration. This is achieved through a central configuration file,
@@ -80,7 +81,9 @@
                     correspondence edition or dictionary. In the simplest case, a blueprint is just
                     a configuration, which customizes the configuration of profiles it
                     extends.</para>
+            </section>
 
+            <section>
                 <title>Continuous development</title>
                 <para>TEI Publisher now comes with a central application manager, Jinks, which
                     manages all profiles and the applications generated from it.</para>
@@ -97,7 +100,9 @@
                     manual interventions reduced to a minimum and most updates applied with a single
                     click. Gone are the days when users had to manually read through update
                     instructions to migrate to a new version of TEI Publisher. </para>
+            </section>
 
+            <section>
                 <title>Basic vocabulary</title>
                 <para>To clarify how various parts fit together, let us summarize some key concepts,
                     which will be used in the rest of this documentation:</para>
@@ -777,17 +782,17 @@
                     <para>the ODD used for transforming the TEI XML into HTML for the content</para>
                 </listitem>
                 <listitem>
-                    <para>the HTML page templates being used for the overall structure and layout of the
-                        page</para>
+                    <para>the HTML page templates being used for the overall structure and layout of
+                        the page</para>
                 </listitem>
                 <listitem>
                     <para>various functional blocks contributed by profiles (register sidebars,
                         facsimile viewer …)</para>
                 </listitem>
                 <listitem>
-                    <para>All dynamic parts of the page, i.e. the text display, navigation
-                        buttons etc., are defined as small, reusable blocks, using the Web
-                        Components technology. Components can be used like common HTML elements.</para>
+                    <para>All dynamic parts of the page, i.e. the text display, navigation buttons
+                        etc., are defined as small, reusable blocks, using the Web Components
+                        technology. Components can be used like common HTML elements.</para>
                 </listitem>
             </itemizedlist>
 
