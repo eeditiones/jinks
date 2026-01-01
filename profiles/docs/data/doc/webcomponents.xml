@@ -22,8 +22,8 @@
                     <emphasis>Web Components</emphasis>. It is built into all modern browsers,
                 reducing the need for external frameworks. There's a growing collection of
                 ready-to-use components available. TEI Publisher exposes its collection of Web
-                Components targeted at creating digital editions as a separate <code>
-                    pb-components</code> package. </para>
+                Components targeted at creating digital editions as a separate
+                <link xlink:href="https://www.npmjs.com/package/@teipublisher/pb-components">pb-components package</link>.</para>
             <para>You do not need to know much about <emphasis>Web Components</emphasis> to use them
                 in TEI Publisher. From a user perspective, a component looks like any other HTML
                 element. You configure it by setting its properties via attributes. For example, the
@@ -51,11 +51,11 @@
             HTML5 tag. The name of the custom element <emphasis role="bold">must</emphasis> start
             with a prefix to distinguish it from standard HTML. This concept should be familiar to
             XML people. For TEI Publisher components, the prefix is always <code>pb-</code>. </para>
-            <para>The part of the page which uses TEI Publisher web components should always be
-            wrapped into a <tag>pb-page</tag> element. This element determines the TEI Publisher
-            server instance all other components will be communicating with (see the next section
-            below). It is also responsible for some other initialization steps, e.g. loading the
-            list of available user interface translations.</para>
+            <para>The part of the page which uses TEI Publisher web components should be wrapped
+            into a <tag>pb-page</tag> element. This element determines the TEI Publisher server
+            instance all other components will be communicating with (see the next section below).
+            It is also responsible for some other initialization steps, e.g. loading the list of
+            available user interface translations.</para>
             <para><tag>pb-document</tag> specifies a document source, which can then be referenced
             by id from other components. The component provides a way to configure basic properties
             governing the document's default rendering, like associated ODD file, etc. In the
@@ -64,10 +64,10 @@
                 <varlistentry>
                     <term>path</term>
                     <listitem>
-                        <para> the relative path to the XML document. This will be interpreted as
-                            relative to the <emphasis>data root collection</emphasis> of TEI
-                            Publisher, by default pointing to the <filename>data</filename>
-                            collection within the TEI Publisher app. </para>
+                        <para>the relative path to the XML document. This will be interpreted as
+                        relative to the <emphasis>data root collection</emphasis> of TEI Publisher,
+                        by default pointing to the <filename>data</filename> collection within the
+                        TEI Publisher app. </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -75,11 +75,10 @@
                 <varlistentry>
                     <term>odd</term>
                     <listitem>
-                        <para> the name – without suffix – of the ODD to use for rendering the
-                            document. In the example, the first document is encoded in TEI and thus
-                            transformed through <filename> dta.odd</filename>, while the second is
-                            written in DocBook and passed through <filename>docbook.odd</filename>.
-                        </para>
+                        <para>the name – without suffix – of the ODD to use for rendering the
+                        document. In the example, the first document is encoded in TEI and thus
+                        transformed through <filename> dta.odd</filename>, while the second is
+                        written in DocBook and passed through <filename>docbook.odd</filename>. </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -111,9 +110,10 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para><tag>pb-view</tag> is the critical component in TEI Publisher: it provides the
+            <para><tag>pb-view</tag> is a critical component in TEI Publisher: it provides the
             actual text view by transforming a part or entirety of the source XML into HTML based on
-            the processing model instructions in the ODD. </para>
+            the processing model instructions in the ODD. pb-view also takes care of navigating to
+            the next page when the user clicks on the navigation controls in the toolbar.</para>
 
             <para>Because webcomponents are all about encapsulation, <tag>pb-view</tag> ensures that
             the styling of the text as governed by the ODD will be confined to the boundaries of the
@@ -124,13 +124,13 @@
     </section>
         <section xml:id="webcomponents-docs">
             <title>Webcomponent Documentation</title>
-            <para> To better understand the various components TEI Publisher provides, it is best to
-                have a look at the small examples contained in the <link xlink:show="new"
-                    xlink:href="https://cdn.tei-publisher.com/api.html">web components API
-                    documentation</link>. The list of components may be overwhelming at first sight.
-                However you don’t need to learn them all. There are just a few components that
-                should be understood before you start customizing. Their demo pages showcase a
-                working example along with the code snippet which actually implements it. </para>
+            <para>To better understand the various components TEI Publisher provides, it is best to
+            have a look at the small examples contained in the <link xlink:show="new"
+                xlink:href="https://cdn.tei-publisher.com/api.html">web components API
+                documentation</link>. The list of components may be overwhelming at first sight.
+            However you don’t need to learn them all. There are just a few components that should be
+            understood before you start customizing. Their demo pages showcase a working example
+            along with the code snippet which actually implements it. </para>
             <para> You can also get an editable live view like the one above if you click on the
                     <guibutton>Edit Code</guibutton> button to the bottom right of each example. </para>
             <para>In particular you may want to look at the following examples:</para>
@@ -255,13 +255,12 @@
         </section>
         <section xml:id="alignment">
             <title>Handling Complex Alignments</title>
-            <para> It is often desirable to show two or more views of a document at the same time,
+            <para>It is often desirable to show two or more views of a document at the same time,
                 for example to display the translation aligned with a given source fragment. In the
                 simplest case, the transcription and translation may be aligned on the level of
                 divisions or page breaks and one can simply use two <tag>pb-view</tag> referencing
-                different starting points in the TEI document (this approach is implemented by the
-                    <link xlink:href="templates/pages/translation.html" role="source"
-                    >translation.html</link> template for Serafin's letter). </para>
+                different starting points in the TEI document (this approach is used by the
+                Serafin's correspondence blueprint). </para>
             <para>Unfortunately things are not always as simple as that. For example, even if the
                 transcription contains page breaks or milestones which can be used to display a
                 single page, the translation might not. One thus needs a different approach to
@@ -286,7 +285,7 @@
                 translation: </para>
             <programlisting language="xquery" xml:space="preserve">&lt;pb-view src="document1" map="vg-translation" xpath="//div[@type='original']"
     subscribe="transcription"/&gt;</programlisting>
-            <para> In the Van Gogh letters, the translation contains page breaks corresponding to
+            <para> In the <link xlink:href="../demo/let695.xml">Van Gogh letters</link>, the translation contains page breaks corresponding to
                 page breaks in the original letter, but these are using a different prefix for the
                     <code>xml:id</code>. To align the translation with the transcription, we only
                 need to adjust the id, and retrieve the corresponding page break to be done. The
@@ -305,13 +304,91 @@
                 source transcription ( <parameter> div[@type='original']</parameter> in this case).
                 It's just the mapping function which translates a position in the source
                 transcription to a corresponding fragment in the translation. </para>
-            <para>The letter by Cortez to Dantiscus sent from Mexico demonstrates a much more
-                sophisticated alignment, determining the translation fragment to be shown by
-                inspecting the ID range of the transcription. It illustrates the case where no
-                milestone elements exist in the translation to explicitly mark page boundaries of
-                the original, thus mapping algorithm aims to display closest corresponding fragment
-                of the translated text.</para>
+            <para>The letter by <link xlink:href="../demo/CIDTC-3823-cortez.xml">Cortez to Dantiscus sent from Mexico</link> demonstrates a
+            much more sophisticated alignment, determining the translation fragment to be shown by
+            inspecting the ID range of the transcription. It illustrates the case where no milestone
+            elements exist in the translation to explicitly mark page boundaries of the original,
+            thus mapping algorithm aims to display closest corresponding fragment of the translated
+            text.</para>
         </section>
+    <section xml:id="css-styling-components">
+        <title>Web Components Styling</title>
+        <para>Older versions of TEI Publisher used Google Material Design for most controls (text
+            inputs, selects, radio buttons etc.). The look and feel of those web components was
+            fixed and could not be changed easily. TEI Publisher 10 comes with a new version of its
+            web components. This version largely drops Google Material Design in favour of unstyled
+            HTML. This means that without further styling, all controls will look as the browser
+            renders them by default. The theme profile needs to make sure that controls and
+            components match the overall design.</para>
+        <para>However, a web component completely shields its content, so it cannot easily be styled
+            from outside. Web component styles remain encapsulated, preventing style contamination
+            between individual components and general application context. A blessing in general,
+            allowing components to be scripted and styled without the fear of collision with other
+            parts of the page, but poses additional challenges when adjusting the look and feel of a
+            component to fit a project's theme.</para>
+        <para>TEI Publisher 10 therefore implements a mechanism by which styles are mirrored within
+            the encapsulated component. To avoid redundancy, styles will be shared between
+            components. For the same reason, we copy only those styles, which are relevant for
+            components and, for example, omit those targetting the overall page layout. </para>
+        <para>Consequently components receive a stripped-down bundle of CSS files. All of them are
+            part of the theme profile, and most of them are shared between general page theme and
+            webcomponents. The stripped-down bundle
+                (<filename>resources/css/components.css</filename>) will be prepared by Jinks every
+            time you update an application. Included are:</para>
+        <variablelist>
+            <varlistentry>
+                <term><filename>jinks-variables.css</filename></term>
+                <listitem>
+                    <para>(shared) contains all important variable definitions, including those set
+                        via configuration properties</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>controls.css</filename></term>
+                <listitem>
+                    <para>(shared) defines how buttons, text inputs and other user interface
+                        controls look like</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>pico-components.css</code></term>
+                <listitem>
+                    <para>a custom build of <link xlink:href="https://picocss.com/">Pico CSS</link>, the minimal CSS framework TEI
+                        Publisher 10 uses as a basis</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>jinks-components.css</filename></term>
+                <listitem>
+                    <para>changes the default styling for specific web components so they fit into
+                        the theme</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>The last file, <filename>jinks-components.css</filename>, defines the look of concrete
+            components. If you look at the file, you'll notice that most CSS selectors start with a
+                <code>:host()</code> expression, thus targeting a particular component's content. </para>
+        <para>For example, the component handling user login is implemented as a link with an icon.
+            Without additional styling, we would just see the icon in the usual blue color assigned to links
+            and underlined (in most browsers). The following CSS removes the underline and turns the
+            link into a round button matching other menubar buttons in TEI Publisher 10's default
+            theme:</para>
+        <programlisting><![CDATA[:host(pb-login) > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 81px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--jinks-menubar-color);
+    background-color: var(--jinks-menubar-button-color);
+    font-size: var(--jinks-menubar-font-size);
+    text-decoration: none;
+}]]></programlisting>
+        <para>If you were to overwrite or extend TEI Publisher's default theme profile, you may also
+            want to change those component-related definitions.</para>
+    </section>
         <section xml:id="facsimiles">
             <title>Facsimiles and other images</title>
             <note role="todo">
@@ -455,15 +532,45 @@
         <title>Loading Web components</title>
         <para>By default TEI Publisher and apps generated from it load the user interface components
             from a global CDN (content delivery network). For a long time this was the generally
-            recommended approach. CDNs promised reliability and fast, globally distributed access to
-            resources. Web browsers can cache those resources efficiently across applications.</para>
-        <para>However, we recently experienced more and more difficulties with some CDN, in particular
-            the one used by TEI Publisher by default. As a result, pages may appear inaccessible or slow
-            to users, even though TEI Publisher itself is responsive and fast.</para>
-        <para>For production deployments we therefore recommend to consider self-hosting the required
-            component libraries. This means: all javascript libraries are downloaded and bundled with
-            your custom application. The build scripts shipped with TEI Publisher and generated apps
-            make this rather easy. The necessary steps are as follows:</para>
+            recommended approach. CDNs promise reliability and fast, globally distributed access to
+            resources. Web browsers can cache those resources efficiently across
+            applications.</para>
+        <para>However, in some countries accessing resources hosted abroad can be legally
+            problematic. Also, users may want to use the application offline. And during
+            development, you may sometimes want to use the latest development version of the
+            component library to simplify debugging.</para>
+        <para>In Jinks you can therefore configure three different scenarios for loading the web
+            component library. This is controlled by the <code>script</code> configuration and it's
+            subproperties <code>cdn</code> and <code>webcomponents</code>. The latter takes the
+            following values:</para>
+        <variablelist>
+            <varlistentry>
+                <term>a concrete version number</term>
+                <listitem>
+                    <para>loads the given version of the web component library from the CDN
+                        specified by the <code>"cdn"</code> property</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>"local"</code></term>
+                <listitem>
+                    <para>tries to use a local, self-hosted copy of the library. This needs to be
+                        prepared by running the build script on the command line.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>"dev"</code></term>
+                <listitem>
+                    <para>access a development version of the component library running on the local
+                        machine. This requires that you have cloned the web components and started
+                        the development server (<code>npm start</code>).</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>For production deployments we recommend to consider self-hosting the required
+            component libraries. This means: all javascript libraries are downloaded and bundled
+            with your custom application. The build script generated for an app make this rather
+            easy. The necessary steps are as follows:</para>
         <procedure>
             <step>
                 <para>make sure you have <link xlink:href="https://nodejs.org">nodejs</link> with npm
@@ -481,43 +588,6 @@
                     of just calling ant) and deploy as usual</para>
             </step>
         </procedure>
-    </section>
-    <section xml:id="css-styling-components">
-        <title>Web Components Styling</title>
-        <note role="todo">
-            <para>Needs review and examples</para>
-        </note>
-        <para>Older versions of TEI Publisher used Google Material Design for most controls (text inputs, 
-            selects, radio buttons etc.). The look and feel of those web components was fixed and could not
-            be changed easily. TEI Publisher 10 comes with a new version of its web components. This version largely drops Google Material Design in favour of
-            unstyled HTML. This means that without further styling, all controls will look as the browser
-            renders them by default.</para>
-        <para>A web component completely shields its content, so it cannot easily be styled from
-            outside. Web component styles remain encapsulated, preventing style contamination between
-            individual components and general application context. A blessing in general, allowing
-            components to be scripted and styled without the fear of collision with other parts of the
-            page, but poses additional challenges when adjusting the look and feel of a component to fit
-            a project's theme.</para>
-        <para>In older versions of TEI Publisher, some aspects of component styling remained
-            unaccessible for customization. From Publisher version 6 <code>pb-components</code> certain
-            style properties are exposed to the outside world via standard CSS variables. This way
-            variables like <code>--pb-footnote-color</code> defined in <code>jinks-variables.css</code>
-            can be accessed by e.g. <code>pb-view</code> component and thus determine the color of the
-            footnote marker in the rendered transcription. The file
-            <filename>jinks-variables.css</filename> is created from the available information in
-            <filename>config.json</filename> and falls back to defaults if the variable is not defined
-            there.</para>
-        <para>The other CSS file that concretates the components properties that can be styled is
-            <filename>jinks-components.css</filename>.</para>
-        <para>Note that while you cannot directly change every aspect of the the inner appearance of a
-            component, you can style the component itself within the HTML template, e.g. to position it
-            within the layout of the page.</para>
-        <para>With TEI Publisher 8, or, more precisely, version 1.43.0 of the
-            <code>tei-publisher-components</code>, a very robust method of applying styles throughout
-            the page is available by simply specifying a <code>theme</code> property for
-            <code>pb-page</code>.</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-page data-template="pages:pb-page" ... theme="resources/css/components.css"&gt;</programlisting>
-        
     </section>
     <section xml:id="custom-components">
         <title>Creating Custom Web Components</title>

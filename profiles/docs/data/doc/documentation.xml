@@ -2708,8 +2708,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         profiles, optionally combined with additional styles required by other profiles for the user
         interface fragments they contribute. After generating an app, the folder
           <code>resources/css</code> will contain all the CSS stylesheets files.</para>
-      <para>Out of the box, TEI Publisher 10 comes with a single default theme, <emphasis>theme-base10</emphasis>, carefully prepared by a professional designer.
-        The future will bring additional themes and users are invited to develop and contribute their own.</para>
+      <para>Out of the box, TEI Publisher 10 comes with a single default theme,
+          <emphasis>theme-base10</emphasis>, carefully prepared by a professional designer. The
+        future will bring additional themes and users are invited to develop and contribute their own.<note>
+          <para><productname>theme-base10</productname> is currently based on a custom build of Pico
+            CSS, a minimal CSS framework, which we further stripped down. It provides sensible
+            defaults for the most important HTML elements. s</para>
+        </note></para>
       <para>To facilitate the modification of frequently customized styling aspects, there are
         several styling definitions that can be be directly configured in
           <filename>config.json</filename> when generating/updating the application, such as the
