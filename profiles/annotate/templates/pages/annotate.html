@@ -77,6 +77,12 @@
                             <use href="#bookmark-star-fill"></use>
                         </svg>
                     </button>
+                    <button class="annotation-action authority" data-i18n="[title]annotations.work" 
+                            data-shortcut="⌘+⇧+q,ctrl+⇧+w" data-type="work" disabled="disabled" title="Work">
+                            <svg>
+                                <use href="#book-fill"></use>
+                            </svg>
+                    </button>
                 </span>
             </li>
             <li>
@@ -247,7 +253,7 @@
                     <commit>false</commit>
                     <markup>true</markup>
                     <authority-editor></authority-editor>
-                    <authority-forms>person, place</authority-forms>
+                    <authority-forms>person, place, organization, term, work</authority-forms>
                 </data>
             </fx-instance>
             <fx-instance id="i-commit">
@@ -310,7 +316,7 @@
             <header>Annotation Details</header>
             <iron-form id="edit-form">
                 <form action="">
-                    <div class="annotation-form person organization place term">
+                    <div class="annotation-form person organization place term work">
                         <input class="form-ref" name="key" data-i18n="[placeholder]annotations.reference"
                             placeholder="Reference"></input>
                         <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
@@ -401,6 +407,9 @@
                 <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
                 <pb-authority connector="Custom" name="place" edit="">
                     <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+                </pb-authority>
+                <pb-authority connector="Custom" name="work" edit="">
+                    <pb-authority connector="GND" prefix="gnd"/>
                 </pb-authority>
                 <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
                 <pb-authority connector="Custom" name="person" edit="">
