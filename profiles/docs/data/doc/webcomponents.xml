@@ -367,13 +367,14 @@
         </variablelist>
         <para>The last file, <filename>jinks-components.css</filename>, defines the look of concrete
             components. If you look at the file, you'll notice that most CSS selectors start with a
-                <code>:host()</code> expression, thus targeting a particular component's content. </para>
+                <code>:host()</code> expression, thus targeting a particular component's
+            content.</para>
         <para>For example, the component handling user login is implemented as a link with an icon.
             Without additional styling, we would just see the icon in the usual blue color assigned to links
             and underlined (in most browsers). The following CSS removes the underline and turns the
             link into a round button matching other menubar buttons in TEI Publisher 10's default
             theme:</para>
-        <programlisting><![CDATA[:host(pb-login) > a {
+        <programlisting language="css"><![CDATA[:host(pb-login) > a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -567,11 +568,19 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-        <para>For production deployments we recommend to consider self-hosting the required
-            component libraries. This means: all javascript libraries are downloaded and bundled
-            with your custom application. The build script generated for an app make this rather
-            easy. The necessary steps are as follows:</para>
+        <para>For production deployments of an application we recommend to consider self-hosting the
+            required component libraries. This means: all javascript libraries are downloaded and
+            bundled with your custom application. The bundling will be handled by the build script,
+            so you have to run this first, which means you need to have a copy of your applicatoin
+            on the file system. The necessary steps are as follows:</para>
         <procedure>
+            <step>
+                <para>open a terminal with a shell</para>
+            </step>
+            <step>
+                <para><link xlink:href="quickstart.xml?id=java">Java</link> and the <link xlink:href="https://ant.apache.org/">Ant build tool</link> should be available within the shell
+                    environment</para>
+            </step>
             <step>
                 <para>make sure you have <link xlink:href="https://nodejs.org">nodejs</link> with npm
                     installed; also check if the build property <code>npm</code> in your
@@ -579,9 +588,16 @@
                     Publisher app) points to the npm binary.</para>
             </step>
             <step>
-                <para>edit <filename>modules/config.xqm</filename> and change the value of variable
-                    <code>$config:webcomponents</code> to "local":</para>
-                <synopsis language="xquery">declare variable $config:webcomponents := "local";</synopsis>
+                <para>edit <filename>config.json</filename> and change the value of
+                    <code>script.webcomponents</code> to "local":</para>
+                <programlisting language="json" xml:space="preserve"><![CDATA[{
+{
+    …
+    "script": {
+        "webcomponents": "local"
+    }
+    …
+}]]></programlisting>
             </step>
             <step>
                 <para>build your application package with the command <code>ant xar-local</code> (instead
@@ -847,10 +863,10 @@ static get styles() {
     &lt;/body&gt;
 &lt;/html&gt;
       </programlisting>
-            <para> In order to use the element, you need to import the component code into your HTML
+            <para>In order to use the element, you need to import the component code into your HTML
                 page, as demonstrated with the <tag>script</tag> and
                     <code>src="src/pb-clipboard.js"</code>. </para>
-            <para> It's all that is needed to use <tag>pb-clipboard</tag> as any other HTML element.
+            <para>It's all that is needed to use <tag>pb-clipboard</tag> as any other HTML element.
                 Its label property is specified via <code>@label</code> attribute and the copy text
                 is just the text content of the element. </para>
             <para>Pressing the button copies the citation text from the page and, just to test, you
@@ -1007,21 +1023,21 @@ static get styles() {
     </section>
     <section xml:id="embedding">
         <title>Embedding TEI Publisher in other systems</title>
-        <para> Since version 6.0, all <code>pb-components</code> can be used
-            <emphasis>outside</emphasis> TEI Publisher itself. The components can be embedded into any
-            environment, e.g. a CMS or blog software (like WordPress or Drupal) or integrated into any
-            modern front-end framework (like vue, react or angular). All that is needed is a TEI Publisher
-            instance available on the web which stores the source TEI and provides a communication
-            endpoint for the components to talk to. </para>
+        <para>All <code>pb-components</code> can be used <emphasis>outside</emphasis> TEI Publisher
+            itself. The components can be embedded into any environment, e.g. a CMS or blog software
+            (like WordPress or Drupal) or integrated into any modern front-end framework (like vue,
+            react or angular). All that is needed is a TEI Publisher instance available on the web
+            which stores the source TEI and provides a communication endpoint for the components to
+            talk to. </para>
         
         <section xml:id="embedding-examples">
             <title>Live Examples</title>
-            <para> The embedded example below demonstrates such a use case: it provides a sandbox running
-                on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link> but communicates
-                with the TEI Publisher instance on <link xlink:show="new"
-                    xlink:href="https://tei-publisher.org">teipublisher.com</link> which stores the documents.
-                The magic happens in the <code>endpoint</code> attribute passed to <tag>pb-page</tag>, which
-                tells the components where to talk to: </para>
+            <para>The embedded example below demonstrates such a use case: it provides a sandbox
+                running on <link xlink:show="new" xlink:href="https://codepen.io">codepen.io</link>
+                but communicates with the TEI Publisher instance on <link xlink:show="new"
+                    xlink:href="https://tei-publisher.org">teipublisher.com</link> which stores the
+                documents. The magic happens in the <code>endpoint</code> attribute passed to
+                    <tag>pb-page</tag>, which tells the components where to talk to: </para>
             <programlisting role="codepen" xlink:href="wolfgangmm#YzXEvvw"/>
             <para> You can actually edit the code above: for example, try to change the path for the first
                 document to <filename>test/F-rom.xml</filename> and the odd to <code>shakespeare</code>. See
@@ -1032,13 +1048,11 @@ static get styles() {
         
         <section xml:id="embedding-whole-doc">
             <title>Retrieving the whole document as a simple HTML</title>
-            <!-- REVIEW: shall we leave the description how to write your own XQuery or should we
-      recommend only using new API for transformations? -->
-            <para>Embedding results of applying Processing Model transformation on a document is even
-                simpler. Behind the scenes, TEI Publisher has a separate library part, which is essentially
-                an implementation of the TEI processing model. This library can be used independently to
-                retrieve the entire content of a TEI document as HTML, transformed through an ODD with
-                processing instructions.</para>
+            <para>Embedding results of applying a Processing Model transformation on a document is
+                even simpler. Behind the scenes, TEI Publisher has a separate library part, which is
+                essentially an implementation of the TEI processing model. This library can be used
+                independently to retrieve the entire content of a TEI document as HTML, transformed
+                through an ODD with processing instructions.</para>
             <para>All you need is a small XQuery which calls the library modules, setting the correct
                 source document and ODD. Fortunately, TEI Publisher already contains a boilerplate XQuery
                 script for this job, which you can call as follows in your browser:</para>
@@ -1048,12 +1062,12 @@ static get styles() {
                     >
                     https://tei-publisher.org/exist/apps/tei-publisher/api/document/test%2FF-rom.xml/html?odd=shakespeare.odd</link>
             </para>
-            <para> This will retrieve the content of Shakespeare's <emphasis>Romeo and Juliet</emphasis>
-                as an HTML page, transformed through the odd <filename>shakespeare.odd</filename>. For
-                embedding an entire document in an iframe or similar, this should already be enough. Please
-                note that <emphasis role="bold">/</emphasis> character in the path to the document
-                <parameter> test/F-rom.xml</parameter> had to be URL encoded as <parameter>%2F</parameter>
-                . </para>
+            <para>This will retrieve the content of Shakespeare's <emphasis>Romeo and
+                    Juliet</emphasis> as an HTML page, transformed through the odd
+                    <filename>shakespeare.odd</filename>. For embedding an entire document in an
+                iframe or similar, this should already be enough. Please note that <emphasis
+                    role="bold">/</emphasis> character in the path to the document <parameter>
+                    test/F-rom.xml</parameter> had to be URL encoded as <parameter>%2F</parameter> . </para>
         </section>
         <section xml:id="embedding-webcomponents">
             <title>Embedding webcomponents for navigation</title>
@@ -1070,13 +1084,15 @@ static get styles() {
             <para>For a start, the page should import two scripts in its header:</para>
             <programlisting language="html" xml:space="preserve">&lt;script src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"&gt;&lt;/script&gt;
 &lt;script type="module" src="https://cdn.jsdelivr.net/npm/@teipublisher/pb-components/dist/pb-components-bundle.min.js"&gt;&lt;/script&gt;</programlisting>
-            <para> This imports necessary <code>pb-components</code> libraries from
-                <code>jsdelivr.net</code> CDN which is considered the best practice for web sites. </para>
-            <para> The second <tag>script</tag> tag imports all the components provided by TEI Publisher.
-                Note that here <code>pb-components@latest</code> points to the latest available bundle, but
-                you could specify a concrete version number to make sure your website uses a fixed release. </para>
+            <para>This imports necessary <code>pb-components</code> libraries from
+                    <code>jsdelivr.net</code> CDN which is considered the best practice for web
+                sites. </para>
+            <para>The second <tag>script</tag> tag imports all the components provided by TEI
+                Publisher. Note that here <code>pb-components@latest</code> points to the latest
+                available bundle, but you could specify a concrete version number to make sure your
+                website uses a fixed release. </para>
             
-            <para> Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
+            <para>Now let's actually use the components to display Shakespeare's <emphasis>Romeo and
                     Juliet</emphasis> : in the HTML <tag>body</tag>, include the following snippet: </para>
             <programlisting language="html" xml:space="preserve">&lt;pb-page endpoint="https://tei-publisher.org/exist/apps/tei-publisher"&gt;
     &lt;pb-document id="document1" path="test/F-rom.xml" odd="shakespeare"&gt;&lt;/pb-document&gt;
@@ -1094,36 +1110,36 @@ static get styles() {
       &lt;/paper-button&gt;
     &lt;/pb-navigation&gt;
 &lt;/pb-page&gt;</programlisting>
-            <para> In the <tag>pb-page</tag>
-                <code>endpoint</code> attribute we need to provide a critical piece of information: the URL
-                of the TEI Publisher instance for all the components to communicate with. If you have set up
-                your own instance of eXist-db and TEI Publisher, you should change the URL <emphasis>to
-                    point to your instance</emphasis>. This is important because the components will expect
-                the documents you want to display to be stored in the same instance. </para>
-            <para>
-                <tag>pb-document</tag> defines the document to be displayed. The path is relative to the
-                data root of the TEI Publisher instance. It also specifies the ODD to be used for the
-                transformation. </para>
-            <para>
-                <tag>pb-view</tag> is the main component for displaying the transformed content. It
-                references the <tag>pb-document</tag> to use as source in its <option>src</option>
-                attribute. The Shakespeare does tag page breaks, so we switch to page-by-page view via the
-                <option> view</option> attribute to show the user only one page at a time. The default
-                would be to use a division-by-division view (<code>view="div"</code>), but you could also
-                request the entire content at once using <code>view="single"</code>. </para>
-            <para>
-                <tag>pb-navigation</tag> adds forward/backward navigation buttons to the page, allowing the
-                user to switch to the next/previous page of the document. You can use various types of
-                buttons, but in this case we're choosing a <tag>paper-button</tag> element with a chevron
-                <tag> iron-icon</tag> (both <tag>paper-button</tag> and <tag>iron-icon</tag> are part of
-                the standard <link xlink:show="new"
-                    xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer elements
-                    library</link>). </para>
-            <para> Another example of embedding TEI Publisher web components into a static website can be
-                found on our <link xlink:href="https://teipublisher.onrender.com/">demo blog</link>. It was
-                created with <link xlink:href="https://gohugo.io">Hugo</link>, a very popular website
-                generator which offers hundreds of ready-made themes to choose from. Here content is written
-                in markdown, but its not a problem to embed TEI content served by TEI Publisher. </para>
+            <para>In the <tag>pb-page</tag>
+                <code>endpoint</code> attribute we need to provide a critical piece of information:
+                the URL of the TEI Publisher instance for all the components to communicate with. If
+                you have set up your own instance of eXist-db and TEI Publisher, you should change
+                the URL <emphasis>to point to your instance</emphasis>. This is important because
+                the components will expect the documents you want to display to be stored in the
+                same instance. </para>
+            <para><tag>pb-document</tag> defines the document to be displayed. The path is relative
+                to the data root of the TEI Publisher instance. It also specifies the ODD to be used
+                for the transformation. </para>
+            <para><tag>pb-view</tag> is the main component for displaying the transformed content.
+                It references the <tag>pb-document</tag> to use as source in its
+                    <option>src</option> attribute. The Shakespeare does tag page breaks, so we
+                switch to page-by-page view via the <option> view</option> attribute to show the
+                user only one page at a time. The default would be to use a division-by-division
+                view (<code>view="div"</code>), but you could also request the entire content at
+                once using <code>view="single"</code>. </para>
+            <para><tag>pb-navigation</tag> adds forward/backward navigation buttons to the page,
+                allowing the user to switch to the next/previous page of the document. You can use
+                various types of buttons, but in this case we're choosing a <tag>paper-button</tag>
+                element with a chevron <tag> iron-icon</tag> (both <tag>paper-button</tag> and
+                    <tag>iron-icon</tag> are part of the standard <link xlink:show="new"
+                    xlink:href="https://www.webcomponents.org/author/PolymerElements">Polymer
+                    elements library</link>). </para>
+            <para>Another example of embedding TEI Publisher web components into a static website
+                can be found on our <link xlink:href="https://teipublisher.onrender.com/">demo
+                    blog</link>. It was created with <link xlink:href="https://gohugo.io"
+                    >Hugo</link>, a very popular website generator which offers hundreds of
+                ready-made themes to choose from. Here content is written in markdown, but its not a
+                problem to embed TEI content served by TEI Publisher. </para>
         </section>
     </section>
 </article>
