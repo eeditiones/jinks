@@ -422,9 +422,9 @@
                             "description": "If true, the entity register sidebar will be displayed"
                         },
                         "description": {
-                            "type": "string",
+                            "type": ["string", "null"],
                             "description": "Whether to show descriptions in register browse pages or not.",
-                            "enum": ["auto", "select"]
+                            "enum": ["auto", "select", null]
                         }
                     }
                 },
@@ -1120,6 +1120,13 @@
                     "examples": [
                         "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
                         "http://localhost:8000"
+                    ]
+                },
+                "fore": {
+                    "type": "string",
+                    "description": "Version of the fore library to use",
+                    "examples": [
+                        "2.4.1"
                     ]
                 }
             }
