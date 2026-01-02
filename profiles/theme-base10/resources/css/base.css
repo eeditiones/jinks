@@ -257,6 +257,14 @@ pb-progress {
     width: 100%;
 }
 
+pb-dialog h2,
+pb-dialog h3 {
+    color: var(--jinks-dialog-header-color);
+    font-size: var(--jinks-dialog-header-font-size);
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
 @media (max-width: 768px) {
     #downloadDialog {
         width: 100%;

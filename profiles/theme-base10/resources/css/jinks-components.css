@@ -233,3 +233,32 @@ h4 {
     margin-bottom: var(--s-1);
     padding-bottom: var(--s-1);
 }
+
+:host(pb-paginate) .found {
+    font-size: var(--jinks-breadcrumbs-font-size);
+    padding-left: var(s-2);
+}
+
+@media (max-width: 768px) {
+    :host(pb-paginate) .found {
+        display: none;
+    }
+}
+
+:host(pb-dialog) header {
+    background-color: var(--jinks-dialog-header-background-color);
+    color: var(--jinks-dialog-header-color);
+}
+
+:host(pb-dialog) footer {
+    background-color: var(--jinks-dialog-footer-background-color);
+    color: var(--jinks-dialog-footer-color);
+}
+
+:host(pb-message) h2,
+:host(pb-message) h3 {
+    color: var(--jinks-dialog-header-color);
+    font-size: var(--jinks-dialog-header-font-size);
+    font-weight: normal;
+    margin-bottom: 0;
+}
