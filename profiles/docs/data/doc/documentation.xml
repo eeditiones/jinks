@@ -7,6 +7,9 @@
     <author>
       <orgname>TEI Publisher Community</orgname>
     </author>
+    <abstract>
+      <para>In-depth documentation of features like TEI Processing Model, HTML templating, themes and layout etc.</para>
+    </abstract>
     <keywordset vocab="#genre">
       <keyword>Documentation</keyword>
     </keywordset>
@@ -2002,6 +2005,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             it is important that this file is present. Do not remove it and make sure it is
             available in the root collection of your application when installed, e.g. if you deploy
             from a xar package.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>context.json</term>
+        <listitem>
+          <para>Contains the expanded configuration of all profiles used. Maintained by Jinks.
+              <emphasis role="bold">Do not remove or modify</emphasis>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
