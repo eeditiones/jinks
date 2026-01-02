@@ -572,5 +572,6 @@ declare function anno:wrap($annotation as map(*), $content as function(*)) {
 
 (: TODO: Move to registers:)
 declare function anno:form-template($request as map(*)) {
+    util:log("info", ("form-template: " || $request?parameters?id, collection($config:register-forms)/id($request?parameters?id)/child::*)),
     collection($config:register-forms)/id($request?parameters?id)/child::*
 };
