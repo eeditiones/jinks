@@ -11,9 +11,9 @@
     --pb-search-suggestions-background: var(--jinks-menubar-background-color);
 
     background-color: var(--jinks-menubar-background-color);
-    background-image: none;
     color: var(--jinks-menubar-color);
     font-size: var(--jinks-menubar-font-size);
+    padding-inline: var(--s0);
 }
 
 .menubar .icon {
@@ -23,7 +23,7 @@
 .menubar > ul > li > a:link,
 .menubar > ul > li > a:visited {
     color: var(--jinks-menubar-color);
-    background-color: var(--jinks-menubar-background-color);
+    background-color: transparent;
     text-decoration: none;
 }
 

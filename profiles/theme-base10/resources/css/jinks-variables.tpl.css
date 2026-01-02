@@ -7,63 +7,62 @@
 
     /* Logo */
 
-    --jinks-logo-light: url("[[ $theme?logo?light ]]");
-    --jinks-logo-dark: url("[[ $theme?logo?dark ]]");
+    --jinks-logo-light: url("[[ $theme?logo?image ]]");
     --jinks-logo-image-width: [[ $theme?logo?width ]];
     --jinks-logo-image-height: [[ $theme?logo?height ]];
     --jinks-logo-margin-right: 1rem;
 
     /* Image backgrounds */
 
-    /* Hero section */
-    --jinks-hero-background-image: url("[[ $theme?hero?background-image ]]");
-    --jinks-hero-background-size: [[ $theme?hero?background-size ]];
-    --jinks-hero-background-position: [[ $theme?hero?background-position ]];
-    --jinks-hero-background-repeat: [[ $theme?hero?background-repeat ]];
-    --jinks-hero-background-color: [[ $theme?hero?background-color ]];
-    --jinks-hero-text-width: [[ $theme?hero?text-width ]];
+    /* Landing page: hero section */
+    --jinks-hero-background-image: url("[[ $theme?landing?hero?background-image ]]");
+    --jinks-hero-background-size: [[ $theme?landing?hero?background-size ]];
+    --jinks-hero-background-position: [[ $theme?landing?hero?background-position ]];
+    --jinks-hero-background-repeat: [[ $theme?landing?hero?background-repeat ]];
+    --jinks-hero-background-color: [[ $theme?landing?hero?background-color ]];
     --jinks-hero-height: auto;
     --jinks-hero-min-height: 60vh;
     --jinks-hero-padding: 2rem 1rem 2rem 6rem;
 
-    /* Bottom section */
-    --jinks-bottom-background-image: url("[[ $theme?bottom?background-image ]]");
-    --jinks-bottom-background-size: [[ $theme?bottom?background-size ]];
-    --jinks-bottom-background-repeat: [[ $theme?bottom?background-repeat ]];
-    --jinks-bottom-background-color: [[ $theme?bottom?background-color ]];
+    /* Landing page: bottom section */
+    --jinks-bottom-background-image: url("[[ $theme?landing?bottom?background-image ]]");
+    --jinks-bottom-background-size: [[ $theme?landing?bottom?background-size ]];
+    --jinks-bottom-background-repeat: [[ $theme?landing?bottom?background-repeat ]];
+    --jinks-bottom-background-color: [[ $theme?landing?bottom?background-color ]];
     --jinks-bottom-height: auto;
     --jinks-bottom-min-height: 30vh;
     --jinks-bottom-padding: 2rem 1rem 2rem 6rem;
 
-    /* Header section */
-    [% if $theme?header?background-image %]
-        --jinks-header-background-image: url("[[ $theme?header?background-image ]]");
-    [% else %]
-        --jinks-header-background-image: none;
-    [% endif %]
-
     /* menubar, toolbar, drawer */
 
-    [% if $theme?colors?menubar?background-image %]
-        --jinks-menubar-background-image: url("[[ $theme?colors?menubar?background-image ]]");
+    [% if $theme?menubar?background-image = 'none'%]
+    --jinks-menubar-background-image: none;
+    --jinks-menubar-background-color: [[ $theme?menubar?background-color ]];
     [% else %]
-        --jinks-menubar-background-image: none;
+    --jinks-menubar-background-color: var(--jinks-overlay-background-color-dark);
+    --jinks-menubar-background-image: url("[[ $theme?menubar?background-image ]]");
     [% endif %]
 
-    --jinks-menubar-background-color: [[ $theme?colors?menubar?background-color ]];
     --jinks-menubar-color: var(--jinks-colors-light);
     --jinks-menubar-font-size: [[ $theme?fonts?menubar?size ]];
     --jinks-menubar-button-color: rgba(165, 165, 165, 0.4);
-    --jinks-toolbar-background-color: var(--jinks-colors-accent);
-    --jinks-toolbar-color: var(--jinks-color-primary);
+
+    --jinks-toolbar-background-color: [[ $theme?toolbar?background-color ]];
+    --jinks-toolbar-color: [[ $theme?toolbar?color ]];
 
     /* Splash */
 
-    --jinks-splash-background-light: url("[[ $theme?logo?splash?light ]]");
-    --jinks-splash-background-dark: url("[[ $theme?logo?splash?dark ]]");
-    --jinks-splash-image-size: [[ $theme?logo?splash?size ]];
+    --jinks-splash-background-light: url("[[ $theme?splash?image ]]");
+    --jinks-splash-image-width: [[ $theme?splash?width ]];
+    --jinks-splash-image-height: [[ $theme?splash?height ]];
 
-    --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
+    /* Texture background */
+     
+    [% if $theme?texture?background-image %]
+        --jinks-texture-background: url("[[ $theme?texture?background-image ]]");
+    [% else %]
+        --jinks-texture-background: none;
+    [% endif %]
 
     /* Typography */
 
@@ -106,26 +105,24 @@
     --jinks-footnote-font-size: [[ $theme?fonts?footnote?size ]];
     --jinks-footnote-padding: 0 0 0 .25em;
 
-    --jinks-content-max-width: 70rem;
+    --jinks-content-max-width: [[ $theme?content?max-width ]];
     --jinks-page-max-width: [[ $theme?layout?max-width ]];
 
     /* Background colors */
-    --jinks-background-color: var(--jinks-colors-100);
-    --jinks-background-color-light: var(--jinks-colors-100);
+    --jinks-background-color: [[ $theme?body?background-color ]];
+    --jinks-background-color-light: var(--jinks-background-color);
     --jinks-background-color-dark: var(--jinks-colors-700);
 
     /* Header, menubar, toolbar, drawer, footer, splash */
 
     /* Overlay for image backgrounds to lighten or darken them */
     --jinks-overlay-background-color-light: rgba(255, 255, 255, 0.8);
-    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.8);
+    --jinks-overlay-background-color-dark: rgba(0, 0, 0, 0.4);
 
     /* Overlay for highlights and (CHECK) hero and menubar section */
     --jinks-header-background-color: var(--jinks-overlay-background-color-light);
     --jinks-header-background-color-light: var(--jinks-header-background-color);
     --jinks-header-background-color-dark: var(--jinks-overlay-background-color-dark);
-
-    --jinks-toolbar-background-color: var(--jinks-colors-200);
 
 
     /* --pb-drawer-background-color: var(--jinks-color-inverse); */
@@ -170,8 +167,8 @@
     /* table of contents */
     --jinks-toc-indent: 1rem;
 
-    --jinks-layout-default-before-width: 356px;
-    --jinks-layout-default-after-width: 356px;
+    /* register page */
+    --jinks-registers-columns: [[ $theme?registers?columns ]];
 
     /* variables passed to tei-publisher-components */
     --pb-base-font-family: var(--jinks-base-font-family);
@@ -183,6 +180,7 @@
     /* do we really need serif def? */
     --pb-content-font-family: var(--jinks-content-font-family);
     --pb-content-font-size: var(--jinks-content-font-size);
+    --pb-content-line-height: var(--jinks-content-line-height);
 
     /* headings  */
     --pb-heading-font-family: var(--jinks-heading-font-family);
@@ -192,7 +190,7 @@
     --pb-breadcrumbs-font-size: var(--jinks-breadcrumbs-font-size);
 
     /* variables for text display in pb-view */
-    --pb-view-max-width: 920px;
+    --pb-view-max-width: var(--jinks-content-max-width);
     --pb-view-scroll-margin-top: 0;
 
     /* --pb-color-primary: #303030; */

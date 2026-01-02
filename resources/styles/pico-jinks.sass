@@ -60,6 +60,13 @@
 
             label
                 color: var(--jinks-colors-dark)
+    
+    jinks-file-manager
+        --jinks-file-manager-bg-secondary: var(--jinks-colors-500)
+        --jinks-file-manager-bg-primary: var(--jinks-colors-700)
+        --jinks-file-manager-color-text: var(--jinks-colors-light)
+        --jinks-file-manager-color-text-secondary: var(--jinks-colors-200)
+        --jinks-file-manager-color-text-muted: var(--jinks-colors-300)
 
 // ============================================================================
 // Color Scheme Styles
@@ -186,12 +193,8 @@ button:has(span + svg)
 
 .page-header
     padding-block-start: 0
-    background-image: var(--jinks-header-background-image)
-    background-size: cover
-    background-repeat: no-repeat
-    background-position: top
-    background-color: var(--jinks-menubar-background-color)
     padding-inline: var(--s0)
+    background-color: var(--jinks-menubar-background-color)
 
 .logo
     background-image: var(--jinks-logo-light)
@@ -275,8 +278,9 @@ pb-login::part(label)
 .fixed-layout > main.editor
     padding: 1rem calc(var(--pico-spacing) + 2rem)
     display: grid
-    grid-template-columns: 60% 40%
-    grid-template-areas: "form json"
+    grid-template-columns: calc(60% - 1rem) calc(40% - 1rem)
+    grid-template-rows: 1fr auto
+    grid-template-areas: "form json" "form merged"
     grid-column-gap: 2rem
 
 .fixed-layout > main:has(.templating)
@@ -330,10 +334,13 @@ dialog footer button
 #configEditor
     grid-area: json
 
-#appConfig
-    height: 80vh
+.editor > details
+    grid-area: merged
 
-form
+.editor > details > jinn-monaco-editor
+    min-height: 320px;
+
+.editor > form
     grid-area: form
 
 // ============================================================================
@@ -392,9 +399,12 @@ ul.output li
     padding-left: 1rem
 
 jinn-monaco-editor
+    font-size: 1rem
+
+.templating jinn-monaco-editor,
+.output jinn-monaco-editor
     max-height: 80vh
     min-height: 460px
-    font-size: 1rem
 
 // ============================================================================
 // Tables
@@ -595,3 +605,7 @@ button[type="reset"]
 
 pb-code-highlight
     margin-bottom: 1rem
+
+jinks-file-manager
+    --jinks-file-manager-bg-secondary: var(--jinks-colors-50)
+    height: calc(100vh - 220px)

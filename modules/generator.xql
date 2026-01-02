@@ -324,38 +324,3 @@ declare %private function generator:load-template-map($collection as xs:string?)
     else
         map {}
 };
-
-declare function generator:list-actions($context as map(*)) as array(*) {
-    array {
-        let $mcontext := generator:extends($context)
-        let $actions :=
-            for $profile in $mcontext?profiles?*
-            return
-                generator:find-callback(generator:profile-path($profile), "action")
-        for $action in $actions
-        group by $name := function-name($action?2) => local-name-from-QName()
-        return
-            map {
-                "name": $name,
-                "description": $action[1]?1/value/string()
-            }
-    }
-};
-
-declare function generator:run-action($collection as xs:string, $actionName as xs:string) {
-    util:log("INFO", "<jinks> Running action " || $actionName),
-    let $configPath := path:resolve-path($collection, "config.json")
-    let $config := generator:load-json($configPath, ())
-    let $context := generator:extends($config)
-    let $actions :=
-        for $profile in $context?profiles?*
-        let $callback := generator:find-callback(generator:profile-path($profile), "action")
-        return
-            if (exists($callback) and local-name-from-QName(function-name($callback?2)) = $actionName) then
-                $callback
-            else
-                ()
-    for $action in $actions
-    return
-        $action?2($context)
-};

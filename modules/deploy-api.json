@@ -48,22 +48,27 @@
                 }
             }
         },
-        "/api/generator/action/{action}": {
-            "get": {
-                "description": "Run an action",
-                "operationId": "dep:run-action",
+        "/api/actions/file-sync": {
+            "post": {
+                "description": "Sync changes in the app to a local file system",
+                "tags": [
+                    "actions"
+                ],
+                "operationId": "action:file-sync",
                 "parameters": [
                     {
-                        "name": "action",
-                        "in": "path",
+                        "name": "root",
+                        "in": "query",
+                        "description": "The root path of the app",
                         "schema": {
                             "type": "string"
                         },
                         "required": true
                     },
                     {
-                        "name": "id",
+                        "name": "target",
                         "in": "query",
+                        "description": "The path to the target directory",
                         "schema": {
                             "type": "string"
                         },
@@ -72,14 +77,80 @@
                 ],
                 "responses": {
                     "200": {
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object"
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/actions/reindex": {
+            "post": {
+                "description": "Reindex the data collection",
+                "tags": [
+                    "actions"
+                ],
+                "operationId": "action:reindex",
+                "parameters": [
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "description": "The root path of the app",
+                        "schema": {
+                            "type": "string"
                         },
-                        "description": "OK"
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/actions/download": {
+            "post": {
+                "summary": "Package and download app",
+                "description": "Package up this application and return it as a `.xar`.",
+                "tags": [
+                    "actions"
+                ],
+                "operationId": "action:download-app",
+                "parameters": [
+                    {
+                        "name": "root",
+                        "in": "query",
+                        "description": "The root path of the app",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "xar package (zip format) containing the app code",
+                        "content": {
+                            "application/zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
                     }
                 }
             }

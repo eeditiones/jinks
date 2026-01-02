@@ -113,15 +113,22 @@ window.addEventListener('DOMContentLoaded', () => {
     function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
+
+        document.querySelector('.tabs li:has([href="#files"])').style.display = 'block';
+        document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
+
         form.querySelector('[name="id"]').value = appConfig.id;
         form.querySelector('[name="label"]').value = appConfig.label;
         form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
-        form.querySelectorAll('[name="feature"],[name="blueprint"]').forEach((input) => {
+        form.querySelectorAll('[name="feature"],[name="blueprint"],[name="theme"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
+
+        // Filter profiles based on selected base profile
+        filterProfilesByBaseProfile();
 
         updateColorPaletteSelection();
 
@@ -137,8 +144,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 const btn = document.createElement('button');
                 btn.dataset.action = action.name;
-                btn.dataset.tooltip = action.name;
-                btn.innerHTML = action.description;
+                btn.dataset.tooltip = action.description;
+                btn.dataset.placement = 'left';
+                btn.innerHTML = action.label;
                 li.appendChild(btn);
                 ul.appendChild(li);
 
@@ -385,6 +393,9 @@ window.addEventListener('DOMContentLoaded', () => {
     async function runAction(pkgAbbrev, action) {
         const actionName = action.name;
         const actionConfig = action;
+        const params = {
+            "root": `/db/apps/${appConfig.pkg.abbrev}`
+        };
         
         // Check if action has parameters
         if (actionConfig && actionConfig.parameters && actionConfig.parameters.length > 0) {
@@ -453,7 +464,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     
                     // Collect form data
                     const formData = new FormData(form);
-                    const params = {};
                     for (const [key, value] of formData.entries()) {
                         params[key] = value;
                     }
@@ -462,17 +472,18 @@ window.addEventListener('DOMContentLoaded', () => {
                     dialog.closeDialog();
                     
                     // Run the action with parameters
-                    await executeAction(pkgAbbrev, actionName, params);
+                    await executeAction(action.app || pkgAbbrev, actionName, params);
                     resolve();
                 });
             });
         } else {
             // No parameters, run directly
-            await executeAction(pkgAbbrev, actionName, {});
+            await executeAction(action.app || pkgAbbrev, actionName, params);
         }
     }
     
     async function executeAction(pkgAbbrev, actionName, params) {
+        let isZipDownload = false;
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 'Running action',
@@ -493,6 +504,32 @@ window.addEventListener('DOMContentLoaded', () => {
 
                         throw new Error(response.status);
                     }
+                    
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/zip')) {
+                        // Handle zip file download
+                        isZipDownload = true;
+                        const blob = await response.blob();
+                        const contentDisposition = response.headers.get('content-disposition');
+                        let filename = `${pkgAbbrev}.xar`;
+                        if (contentDisposition) {
+                            const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                            if (filenameMatch && filenameMatch[1]) {
+                                filename = filenameMatch[1].replace(/['"]/g, '');
+                            }
+                        }
+                        const downloadUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(downloadUrl);
+                        return; // Don't show dialog for zip downloads
+                    }
+                    
+                    // Handle JSON response
                     const result = await response.json();
                     result.forEach((message) => {
                         const li = document.createElement('li');
@@ -505,10 +542,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             );
             
-            // Show the output dialog after the action completes
-            const outputDialog = document.getElementById('output-dialog');
-            if (outputDialog) {
-                outputDialog.openDialog();
+            // Show the output dialog after the action completes (only for non-zip responses)
+            if (!isZipDownload) {
+                const outputDialog = document.getElementById('output-dialog');
+                if (outputDialog) {
+                    outputDialog.openDialog();
+                }
             }
         });
     }
@@ -687,6 +726,64 @@ window.addEventListener('DOMContentLoaded', () => {
         updateConfig(updateEditor);
     }
 
+    function filterProfilesByBaseProfile() {
+        // Get the selected base profile (radio buttons ensure one is always selected)
+        const selectedBase = form.querySelector('input[type="radio"][name="base"]:checked');
+        const baseProfileValue = selectedBase.value;
+
+        // Get all feature, blueprint, and theme checkboxes
+        const profileCheckboxes = form.querySelectorAll('input[type="checkbox"][name="feature"], input[type="checkbox"][name="blueprint"], input[type="checkbox"][name="theme"]');
+
+        profileCheckboxes.forEach((checkbox) => {
+            // Parse the depends attribute
+            const dependsAttr = checkbox.dataset.depends;
+            
+            // All profiles must declare dependencies - if missing or invalid, disable the profile
+            if (!dependsAttr || dependsAttr.trim() === '' || dependsAttr === 'null' || dependsAttr === '[]') {
+                checkbox.disabled = true;
+                // Uncheck if it was checked but doesn't have valid dependencies
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                }
+                return;
+            }
+            
+            try {
+                const depends = JSON.parse(dependsAttr);
+                
+                // If depends is null, undefined, empty array, or not an array, disable the profile
+                if (depends === null || depends === undefined || !Array.isArray(depends) || depends.length === 0) {
+                    checkbox.disabled = true;
+                    // Uncheck if it was checked but doesn't have valid dependencies
+                    if (checkbox.checked) {
+                        checkbox.checked = false;
+                    }
+                    return;
+                }
+                
+                // Check if this profile depends on the selected base profile
+                const dependsOnBase = depends.includes(baseProfileValue);
+                
+                if (dependsOnBase) {
+                    checkbox.disabled = false;
+                } else {
+                    checkbox.disabled = true;
+                    // Uncheck if it was checked but doesn't depend on the base profile
+                    if (checkbox.checked) {
+                        checkbox.checked = false;
+                    }
+                }
+            } catch (e) {
+                // If parsing fails, disable the checkbox (all profiles must have valid depends)
+                console.warn('Failed to parse depends for', checkbox.value, ':', e);
+                checkbox.disabled = true;
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                }
+            }
+        });
+    }
+
     function toggleFeature(eventOrControl) {
         const target = eventOrControl.target || eventOrControl;
         const configExtends = JSON.parse(target.dataset.depends);
@@ -711,6 +808,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         form.reset();
         form.querySelector('[name="theme"]').checked = true;
+        // Filter profiles based on selected base profile (default will be first base profile)
+        filterProfilesByBaseProfile();
         update(updateEditor);
 
         const neutralPalette = form.querySelector(`input[name="color-palette"][value="neutral"]`);
@@ -720,6 +819,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         document.querySelector('.installed li.selected')?.classList.remove('selected');
+        document.querySelector('.tabs li:has([href="#files"])').style.display = 'none';
 
         // Switch to config tab
         showTab('config');
@@ -776,6 +876,14 @@ window.addEventListener('DOMContentLoaded', () => {
     // });
 
     form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
+    form.querySelectorAll('input[type="radio"][name="base"]').forEach((control) => {
+        control.addEventListener('change', (ev) => {
+            toggleFeature(ev);
+            filterProfilesByBaseProfile();
+            // Update config after filtering to reflect unchecked incompatible profiles
+            update();
+        });
+    });
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));

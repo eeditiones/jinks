@@ -56,7 +56,7 @@
         [% endif %]
         [% block scripts %][% endblock %]
     </head>
-    <body data-theme="light">
+    <body data-theme="light" class="[[ string-join($context?theme?body?classes?*, ' ') ]]">
         <pb-dialog id="downloadDialog">
             <h2 slot="title">
                 <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>

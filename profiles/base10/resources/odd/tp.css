@@ -172,6 +172,15 @@ people, places, organizations etc */
     content: ' [?] ';
 }
 
+div.tei-person,
+ul.tei-person {
+    margin-bottom: var(--s-1);
+}
+
+.tei-death::before {
+    content: ' – ';
+}
+
 .center {
     text-align: center;
 }
@@ -186,4 +195,9 @@ people, places, organizations etc */
 
 .occupation {
     margin: 1rem;
+}
+
+p:empty,
+ul:empty {
+    display: none;
 }

@@ -22,7 +22,7 @@ declare %private function sg:people($context as map(*)) {
     return (
         let $grouped :=
             for $person in $people?*
-            group by $letter := substring($person?name, 1, 1) => upper-case()
+            group by $letter := substring($person?sort-name, 1, 1) => upper-case()
             order by $letter collation "?lang=pl"
             return map {
                 "page": $letter,

@@ -4,15 +4,11 @@
 
 .person, .people .list, .places .list, .place {
     /* determines the number of columns for the pb-split-list */
-    --pb-categorized-list-columns: 2;
+    --pb-categorized-list-columns: var(--jinks-registers-columns);
     padding-top: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: var(--pb-view-max-width);
-}
-
-.place > div, .person > div {
-    margin-bottom: 1rem;
 }
 
 .place h1 small {
@@ -35,14 +31,6 @@ pb-split-list::part(items) {
     margin-top: 1rem;
     gap: 1rem;
     grid-auto-rows: min-content;
-}
-
-.people .split-list-item p,
-.places .split-list-item p {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: calc(var(--pb-view-max-width) / var(--pb-categorized-list-columns) - 1rem);
 }
 
 .places .split-list-item header {

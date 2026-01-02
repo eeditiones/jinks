@@ -2,6 +2,7 @@ const esbuild = require('esbuild');
 const path = require('path');
 const sass = require('sass');
 const fs = require('fs');
+const { execSync } = require('child_process');
 
 const workerEntryPoints = [
 	'vs/language/json/json.worker.js',
@@ -62,6 +63,22 @@ const sassJinksResult = sass.compile('resources/styles/pico-jinks.sass', {
 
 // Write the compiled CSS
 fs.writeFileSync(path.join('resources/styles/pico-jinks.css'), sassJinksResult.css);
+
+// Generate theme documentation
+console.log('Generating theme documentation');
+try {
+    execSync('node profiles/theme-base10/generate-theme-docs.js -c profiles/landing-page/config.json profiles/landing-page/doc', {
+        cwd: __dirname,
+        stdio: 'inherit'
+    });
+    execSync('node profiles/theme-base10/generate-theme-docs.js -c profiles/theme-base10/config.json profiles/theme-base10/doc', {
+        cwd: __dirname,
+        stdio: 'inherit'
+    });
+} catch (error) {
+    console.error('Failed to generate theme documentation:', error.message);
+    process.exit(1);
+}
 
 /**
  * @param {import ('esbuild').BuildOptions} opts

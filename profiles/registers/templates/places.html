@@ -42,8 +42,20 @@
         <pb-map-layer show="" base="" label="Mapbox OSM" url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}" max-zoom="19" access-token="pk.eyJ1Ijoid29sZmdhbmdtbSIsImEiOiJjam1kMjVpMnUwNm9wM3JwMzdsNGhhcnZ0In0.v65crewF-dkNsPF3o1Q4uw" attribution="© Mapbox © OpenStreetMap"></pb-map-layer>
     </pb-leaflet-map>
     <div class="list">
-        <pb-custom-form id="options" auto-submit="[name=search]" emit="transcription">
+        <pb-custom-form id="options" auto-submit="[name=search],[name=description]" emit="transcription">
             <input id="query" type="search" name="search" data-i18n="[placeholder]search.search" value="[[ $request?parameters?search ]]"/>
+            [% if $features?register?description and $features?register?description = 'select' %]
+                <label>
+                    [% if page:parameter($context, 'description') = 'on' %]
+                        <input type="checkbox" name="description" checked="checked"/>
+                    [% else %]
+                        <input type="checkbox" name="description"/>
+                    [% endif %]
+                    <pb-i18n key="form.description"/>
+                </label>
+            [% else %]
+                <input type="hidden" name="description" value="[[ if ($features?register?description) then 'on' else 'off' ]]"/>
+            [% endif %]
         </pb-custom-form>
         <pb-split-list url="api/places" subforms="#options" selected="A" emit="transcription" subscribe="transcription"/>
     </div>

@@ -7,6 +7,9 @@
     "description": "Adds a landing page",
     "order": 102,
     "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
     "defaults": {
         "landing": "index.html"
     },
@@ -30,6 +33,24 @@
             "http://teipublisher.com/ns/templates/landing-page": {
                 "prefix": "landing",
                 "at": "modules/templates/landing-page.xqm"
+            }
+        }
+    },
+    "theme": {
+        "landing": {
+            "hero": {
+                "background-image": "../images/typewriter.jpg",
+                "background-size": "cover",
+                "background-position": "center",
+                "background-repeat": "no-repeat",
+                "background-color": "rgba(0, 0, 0, 0.6)",
+                "class": "two-column"
+            },
+            "bottom": {
+                "background-image": "../images/typewriter-on-books.jpg",
+                "background-size": "cover",
+                "background-repeat": "no-repeat",
+                "background-color": "rgba(0, 0, 0, 0.4)"
             }
         }
     }

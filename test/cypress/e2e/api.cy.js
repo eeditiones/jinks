@@ -317,15 +317,5 @@ describe('API', () => {
       cy.get('@deploy').its('response.headers').its('content-type').should('include', 'application/json')
       cy.get('@deploy').its('response.body').should('deep.equal', stub)
     })
-
-    it('GET /api/generator/action/{action} without id returns 400/404', () => {
-      cy.request({
-        method: 'GET',
-        url: '/api/generator/action/run',
-        failOnStatusCode: false
-      }).then(res => {
-        cy.wrap(res.status).should('be.oneOf', [400, 404])
-      })
-    })
   })
 })

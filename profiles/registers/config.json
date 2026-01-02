@@ -10,9 +10,7 @@
         "base10"
     ],
     "order": 11,
-    "defaults": {
-        "sort": [{"field": "date"}]
-    },
+    
     "templating": {
         "use": [
             "templates/register-blocks.html"
@@ -20,7 +18,8 @@
     },
     "features": {
         "register": {
-            "enabled": false
+            "enabled": false,
+            "description": "auto"
         }
     },
     "menu": {
@@ -45,5 +44,10 @@
     ],
     "i18n": [
         "registers"
-    ]
+    ],
+    "theme": {
+        "registers": {
+            "columns": 2
+        }
+    }
 }

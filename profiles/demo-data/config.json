@@ -8,6 +8,9 @@
     "order": 1,
     "description": "Data profile containing demo data.",
     "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
     "odds": [
         "dta.odd",
         "shakespeare.odd",
@@ -15,7 +18,7 @@
         "osinski.odd"
     ],
     "defaults": {
-        "data-default": "monograph",
+        "data-default": "sermons",
         "odd": "teipublisher.odd"
     }
 }

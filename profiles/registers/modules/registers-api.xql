@@ -23,9 +23,12 @@ declare function rview:sort($people as array(*)*, $dir as xs:string) {
 };
 
 declare function rview:people-all($request as map(*)) {
-    let $people := collection($config:register-root)//tei:person
+    let $people := collection($config:register-root)/id($config:register-map?person?id)//tei:person[ft:query(., '*', map {
+        "leading-wildcard": "yes",
+        "filter-rewrite": "yes"
+    })]
     let $byKey := for-each($people, function($person as element()) {
-        let $label := ($person//tei:persName[@type='sort'], $person//tei:persName[@type="main"])[1]
+        let $label := ft:field($person, "sort-name")
         return
             [lower-case($label), $person]
     })
@@ -36,7 +39,8 @@ declare function rview:people-all($request as map(*)) {
         return
             map {
                 "id": $person?2/@xml:id/string(),
-                "name": $person?2/tei:persName[@type="main"]/string()
+                "name": $person?2/tei:persName[@type="main"]/string(),
+                "sort-name": $person?1
             }
      }
 };
@@ -46,6 +50,7 @@ declare function rview:people-categories($request as map(*)){
     let $letterParam := $request?parameters?category
     let $sortDir := ($request?parameters?dir, 'asc')[1]
     let $limit := head(($request?parameters?limit, -1))
+    let $show-notes := $request?parameters?description = 'on'
     let $odd := head(($request?parameters?odd, $config:default-odd))
     let $people :=
             if ($search and $search != '') then
@@ -77,7 +82,7 @@ declare function rview:people-categories($request as map(*)){
             })
     return
         map {
-            "items": rview:output-person-all($byLetter, $letter, $search, $odd),
+            "items": rview:output-person-all($byLetter, $letter, $search, $odd, $show-notes),
             "categories":
                 if (count($people) < $limit) then
                     []
@@ -99,12 +104,12 @@ declare function rview:people-categories($request as map(*)){
         }
 };
 
-declare function rview:output-person-all($list as array(*)*, $letter as xs:string,  $search as xs:string?, $odd as xs:string) {
+declare function rview:output-person-all($list as array(*)*, $letter as xs:string,  $search as xs:string?, $odd as xs:string, $show-notes as xs:boolean) {
     array {
         for $person in $list
         let $letterParam := if ($letter = "all") then substring($person?3/@n, 1, 1) else $letter
         let $note := 
-            $pm-config:web-transform($person?3, map { "mode": "register-overview" }, $odd)
+            $pm-config:web-transform($person?3, map { "mode": "register-overview", "show-notes": $show-notes }, $odd)
         return
             <div class="split-list-item">
             { $note }
@@ -114,7 +119,7 @@ declare function rview:output-person-all($list as array(*)*, $letter as xs:strin
 
 declare function rview:detail-html($request as map(*)) {
     let $id := xmldb:decode-uri($request?parameters?id)
-    let $entry := collection($config:register-root)/id($id)
+    let $entry := collection($config:register-root)/id($id) => head()
     let $config := tpu:parse-pi(root($entry), $request?parameters?view, $request?parameters?odd)
     let $mentions := 
         if ($entry instance of element(tei:person)) then
@@ -141,6 +146,7 @@ declare function rview:places($request as map(*)){
     let $letterParam := $request?parameters?category
     let $limit := $request?parameters?limit
     let $odd := head(($request?parameters?odd, $config:default-odd))
+    let $show-notes := $request?parameters?description = 'on'
     let $places :=
         if ($search and $search != '') then 
             collection($config:register-root)/id($config:register-map?place?id)//tei:place[ft:query(., 'name:(' || $search || '*)')]
@@ -163,7 +169,7 @@ declare function rview:places($request as map(*)){
             })
     return
         map {
-            "items": rview:output-place($byLetter, $letter, $search, $odd),
+            "items": rview:output-place($byLetter, $letter, $search, $odd, $show-notes),
             "categories":
                 if (count($places) < $limit) then
                     []
@@ -185,14 +191,14 @@ declare function rview:places($request as map(*)){
         }    
 };
 
-declare function rview:output-place($list, $category as xs:string, $search as xs:string?, $odd as xs:string) {
+declare function rview:output-place($list, $category as xs:string, $search as xs:string?, $odd as xs:string, $show-notes as xs:boolean) {
     array {
         for $place in $list
             let $label := ($place/tei:placeName)[1]/string()
             let $id := $place/@xml:id
             let $alt := $place/tei:placeName[@type='alt']
             let $note := 
-                $pm-config:web-transform($place, map { "mode": "register-overview" }, $odd)
+                $pm-config:web-transform($place, map { "mode": "register-overview", "show-notes": $show-notes }, $odd)
             let $coords := tokenize($place/tei:location/tei:geo)
         return
             <div class="place split-list-item">

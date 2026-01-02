@@ -4,6 +4,9 @@
     "type": "object",
     "description": "Schema for jinks configuration files",
     "properties": {
+        "$schema": {
+            "type": "string"
+        },
         "id": {
             "type": "string",
             "format": "url",
@@ -389,6 +392,15 @@
                         }
                     }
                 },
+                "metadata": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the metadata block will be displayed in a sidebar"
+                        }
+                    }
+                },
                 "timeline": {
                     "type": "object",
                     "properties": {
@@ -408,6 +420,11 @@
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the entity register sidebar will be displayed"
+                        },
+                        "description": {
+                            "type": ["string", "null"],
+                            "description": "Whether to show descriptions in register browse pages or not.",
+                            "enum": ["auto", "select", null]
                         }
                     }
                 },
@@ -529,110 +546,220 @@
         "theme": { 
             "type": "object",
             "properties": {
+                "body": {
+                    "type": "object",
+                    "description": "Configures the look of the body element",
+                    "properties": {
+                        "background-color": {
+                            "type": "string",
+                            "description": "Background color for the body element"
+                        },
+                        "classes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Classes to add to the body element. Helps to distinguish between page types in CSS, e.g. 'landing' or 'places'."
+                        }
+                    }
+                },
                 "logo": {
                     "type": "object",
+                    "description": "Configures the logo for the application",
                     "properties": {
                         "width": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Width of the logo"
                         },
                         "height": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Height of the logo"
                         },
-                        "dark": {
-                            "type": "string"
+                        "image": {
+                            "type": "string",
+                            "description": "Image to use for the logo. Path should be relative to `resources/css`."
+                        }
+                    }
+                },
+                "splash": {
+                    "type": "object",
+                    "description": "Configures the splash image (for the application loading screen)",
+                    "properties": {
+                        "image": {
+                            "type": "string",
+                            "description": "Image to use for the splash screen. Path should be relative to `resources/css`."
                         },
-                        "splash": {
-                            "type": "object",
-                            "properties": {
-                                "dark": {
-                                    "type": "string"
-                                },
-                                "light": {
-                                    "type": "string"
-                                }
-                            }
+                        "width": {
+                            "type": "string",
+                            "description": "Width of the splash image"
                         },
-                        "light": {
-                            "type": "string"
+                        "height": {
+                            "type": "string",
+                            "description": "Height of the splash image"
                         }
                     }
                 },
                 "colors": {
                     "type": "object",
+                    "description": "Central color scheme configuration",
                     "properties": {
                         "palette": {
+                            "description": "Predefined color palette to use for the application",
                             "type": "string",
                             "examples": ["neutral", "green", "beige"]
                         },
-                        "menubar": {
+                        "palettes": {
                             "type": "object",
-                            "properties": {
-                                "background-image": {
-                                    "type": ["string", "null"]
-                                },
-                                "background-color": {
-                                    "type": "string"
-                                },
-                                "color": {
+                            "description": "Registered color palettes to use for the application. Maps palette names to CSS file name.",
+                            "patternProperties": {
+                                "^[^\\s]+$": {
                                     "type": "string"
                                 }
                             }
                         },
-                        "toolbar": {
-                            "type": "object",
-                            "properties": {
-                                "background": {
-                                    "type": "string"
-                                },
-                                "color": {
-                                    "type": "string"
-                                }
-                            }
+                        "background-color": {
+                            "type": "string",
+                            "description": "Main background color of the page. Used for the body element."
+                        }
+                    }
+                },
+                "menubar": {
+                    "type": "object",
+                    "description": "Configures the look of the menubar for the application",
+                    "properties": {
+                        "background-image": {
+                            "type": "string",
+                            "description": "Background image for the menubar"
+                        },
+                        "background-color": {
+                            "type": "string",
+                            "description": "Background color for the menubar"
+                        },
+                        "color": {
+                            "type": "string",
+                            "description": "Color for the menubar text"
+                        }
+                    }
+                },
+                "toolbar": {
+                    "type": "object",
+                    "description": "Configures the look of the toolbar for the application",
+                    "properties": {
+                        "background-color": {
+                            "type": "string",
+                            "description": "Background color for the toolbar"
+                        },
+                        "color": {
+                            "type": "string",
+                            "description": "Color for the toolbar text"
+                        }
+                    }
+                },
+                "content": {
+                    "type": "object",
+                    "description": "Settings for the content area",
+                    "properties": {
+                        "max-width": {
+                            "description": "Maximum width of the content area for better readability",
+                            "type": "string",
+                            "examples": [
+                                "70ch"
+                            ]
                         }
                     }
                 },
                 "fonts": {
                     "type": "object",
+                    "description": "Typography settings for the application",
                     "properties": {
                         "content": {
                             "type": "object",
+                            "description": "Typography for the content area",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for the content area"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for the content area. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.25rem"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for the content area. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
                         "base": {
                             "type": "object",
+                            "description": "Typography for the base font ",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for the base font"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for the base font. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1rem"
+                                    ]
+                                },
+                                "line-height": {
+                                    "type": "string",
+                                    "description": "Line height for the base font.",
+                                    "examples": [
+                                        "140%"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for the base font. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
                         "heading": {
                             "type": "object",
+                            "description": "Typography for headings",
                             "properties": {
                                 "family": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font family for headings"
                                 },
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for headings. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.25rem"
+                                    ]
                                 },
                                 "weight": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc.",
+                                    "examples": [
+                                        "normal",
+                                        "bold",
+                                        "400",
+                                        "600",
+                                        "700"
+                                    ]
                                 }
                             }
                         },
@@ -640,7 +767,50 @@
                             "type": "object",
                             "properties": {
                                 "size": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Font size for footnotes. Use `rem` for relative size.",
+                                    "examples": [
+                                        "0.9rem"
+                                    ]
+                                }
+                            }
+                        },
+                        "breadcrumbs": {
+                            "type": "object",
+                            "description": "Typography for breadcrumbs",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for breadcrumbs. Use `rem` for relative size.",
+                                    "examples": [
+                                        "0.9rem"
+                                    ]
+                                }
+                            }
+                        },
+                        "toc": {
+                            "type": "object",
+                            "description": "Typography for table of contents",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for table of contents. Use `rem` for relative size.",
+                                    "examples": [
+                                        "1.125rem"
+                                    ]
+                                }
+                            }
+                        },
+                        "menubar": {
+                            "type": "object",
+                            "description": "Typography for the menubar",
+                            "properties": {
+                                "size": {
+                                    "type": "string",
+                                    "description": "Font size for the menubar. Use `rem` for relative size.",
+                                    "examples": [
+                                        "14px"
+                                    ]
                                 }
                             }
                         }
@@ -651,20 +821,83 @@
                     "properties": {
                         "max": {
                             "type": "string",
-                            "description": "max length of the breadcrumbs in the toolbar",
+                            "description": "max length of the breadcrumbs in the toolbar. Longer breadcrumbs will be truncated with an ellipsis.",
                             "examples": [ "40ch"]
                         }
                     }
                 },
-                "hero": {
+                "landing": {
                     "type": "object",
+                    "description": "Configures the look of the landing page",
                     "properties": {
-                        "class": {
-                            "type": "string",
-                            "description": "Class to add to the hero element of the page",
-                            "examples": [
-                                "row", "column"
-                            ]
+                        "hero": {
+                            "type": "object",
+                            "description": "Configures the look of the hero section for the landing page",
+                            "properties": {
+                                "background-image": {
+                                    "type": "string",
+                                    "description": "Background image for the hero section. Path should be relative to `resources/css`."
+                                },
+                                "background-size": {
+                                    "type": "string",
+                                    "description": "Background size for the hero section",
+                                    "examples": [
+                                        "cover", "contain"
+                                    ]
+                                },
+                                "background-position": {
+                                    "type": "string",
+                                    "description": "Background position for the hero section",
+                                    "examples": [
+                                        "center", "top", "bottom"
+                                    ]
+                                },
+                                "background-repeat": {
+                                    "type": "string",
+                                    "description": "Background repeat for the hero section",
+                                    "examples": [
+                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
+                                    ]
+                                },
+                                "background-color": {
+                                    "type": "string",
+                                    "description": "Background color for the hero section",
+                                    "examples": [
+                                        "rgba(0, 0, 0, 0.6)"
+                                    ]
+                                }
+                            }
+                        },
+                        "bottom": {
+                            "type": "object",
+                            "description": "Configures the look of the bottom section for the landing page",
+                            "properties": {
+                                "background-image": {
+                                    "type": "string",
+                                    "description": "Background image for the bottom section. Path should be relative to `resources/css`."
+                                },
+                                "background-size": {
+                                    "type": "string",
+                                    "description": "Background size for the bottom section",
+                                    "examples": [
+                                        "cover", "contain"
+                                    ]
+                                },
+                                "background-repeat": {
+                                    "type": "string",
+                                    "description": "Background repeat for the bottom section",
+                                    "examples": [
+                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
+                                    ]
+                                },
+                                "background-color": {
+                                    "type": "string",
+                                    "description": "Background color for the bottom section",
+                                    "examples": [
+                                        "rgba(0, 0, 0, 0.4)"
+                                    ]
+                                }
+                            }
                         }
                     }
                 },
@@ -732,6 +965,16 @@
                             }
                         }
                     }
+                },
+                "registers": {
+                    "type": "object",
+                    "properties": {
+                        "columns": {
+                            "type": "integer",
+                            "description": "Number of columns to display in the registers browse pages",
+                            "default": 2
+                        }
+                    }
                 }
             }
         },
@@ -740,31 +983,39 @@
         },
         "pkg": {
             "type": "object",
-            "description": "For installable applications: defines the properties required by eXist's package manager to handle installation",
+            "description": "Defines the properties required by eXist's package manager to handle installation",
             "properties": {
                 "website": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Website URL on which the application will be hosted or the address of the code repository."
                 },
                 "abbrev": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Abbreviation of the application. Used to identify the application in the package manager and in URLs."
+                },
+                "author": {
+                    "type": "string",
+                    "description": "Main author of the application. Repeatable."
                 },
                 "version": {
-                    "type": "string"
-                },
-                "permissions": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Version of the application"
                 },
                 "user": {
                     "type": "object",
+                    "description": "User credentials for the application. This eXist-db user will own the application code.",
                     "properties": {
                         "password": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Password for the user"
                         },
                         "name": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Name of the user"
                         },
                         "group": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "Group of the user"
                         }
                     },
                     "required": [
@@ -777,6 +1028,7 @@
         },
         "generator": {
             "type": "object",
+            "description": "Expert: XQuery code snippets to use in templates",
             "properties": {
                 "templates": {
                     "type": "object",
@@ -790,35 +1042,35 @@
         },
         "templating": {
             "type": "object",
+            "description": "General settings for the templating system. Most settings will only be used in HTML template frontmatter.",
             "properties": {
                 "extends": {
                     "type": "string",
-                    "description": "Path to the template to extend"
+                    "description": "Path to a template to extend. Used in template frontmatter."
                 },
                 "use": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "description": "List of template definitions to consult when expanding blocks"
+                    "description": "List of additional template definitions to consult when expanding blocks"
                 },
                 "ignoreImports": {
                     "type": "boolean"
                 },
-                "strip-root": {
-                    "type": "boolean",
-                    "description": "If true, the root element of the imported template will be stripped. Use this if the imported template is a complete HTML document."
-                },
                 "modules": {
                     "type": "object",
+                    "description": "XQuery modules to make available to templates. The key is the namespace URI of the module.",
                     "patternProperties": {
                         "^https?://.*": {
                             "type": "object",
                             "properties": {
                                 "at": {
+                                    "description": "Path to the XQuery module to load",
                                     "type": "string"
                                 },
                                 "prefix": {
+                                    "description": "Prefix to use for the module",
                                     "type": "string"
                                 }
                             },
@@ -831,6 +1083,7 @@
                 },
                 "namespaces": {
                     "type": "object",
+                    "description": "Namespaces to make available to templates. The key is the namespace prefix, the value is the namespace URI.",
                     "patternProperties": {
                         "^[\\d._\\-]+$": {
                             "type": "string"
@@ -843,7 +1096,8 @@
             "type": "object",
             "properties": {
                 "custom": {
-                    "type": "array"
+                    "type": "array",
+                    "description": "Custom JavaScript files to load into the application"
                 },
                 "webcomponents": {
                     "type": "string",
@@ -867,11 +1121,19 @@
                         "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
                         "http://localhost:8000"
                     ]
+                },
+                "fore": {
+                    "type": "string",
+                    "description": "Version of the fore library to use",
+                    "examples": [
+                        "2.4.1"
+                    ]
                 }
             }
         },
         "styles": {
             "type": "array",
+            "description": "CSS files to load into the application",
             "items": {
                 "type": "string"
             }
@@ -937,6 +1199,7 @@
                 },
                 "redirect": {
                     "type": "object",
+                    "description": "Adds a redirect to a new page. The key is the source path, the value is the target path.",
                     "properties": {
                         "": {
                             "type": "string"
@@ -945,6 +1208,7 @@
                 },
                 "styles": {
                     "type": "array",
+                    "description": "List of styles to load into each static page",
                     "items": {
                         "type": "string"
                     }
@@ -957,6 +1221,7 @@
                 },
                 "collections": {
                     "type": "object",
+                    "description": "One or more collections to generate static pages for. The key (might be '') is the collection path relative to the default data collection, the value is a configuration object.",
                     "additionalProperties": {
                         "type": "object",
                         "properties": {
@@ -969,18 +1234,22 @@
                             },
                             "include": {
                                 "type": "array",
+                                "description": "Optional list of documents to include in the static page. If not specified, all documents in the collection will be included.",
                                 "items": {
                                     "type": "string"
                                 }
                             },
                             "paginate": {
                                 "type": "object",
+                                "description": "How to paginate a document: associates a template with a list of parts to render for each page.",
                                 "properties": {
                                     "toc": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "description": "If true, a table of contents will be generated for the document."
                                     },
                                     "parts": {
                                         "type": "array",
+                                        "description": "List of parts to render for each page.",
                                         "items": {
                                             "type": "object",
                                             "properties": {
@@ -991,7 +1260,8 @@
                                                     "type": "string"
                                                 },
                                                 "id": {
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "description": "A name for the part. If empty, 'default' is used. Parts will be available in the template in a map called $parts. You can access the part with `$parts?<id>`, e.g. for the default part: `$parts?default`."
                                                 },
                                                 "user.mode": {
                                                     "type": "string"
@@ -1003,7 +1273,8 @@
                                         }
                                     },
                                     "template": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "The template to use for rendering the pages"
                                     }
                                 },
                                 "required": [
@@ -1013,14 +1284,20 @@
                                 ]
                             },
                             "template": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The template to use for browsing the collection"
                             },
                             "fetch": {
                                 "type": "array",
+                                "description": "Fetch a resource from an URL and store it",
                                 "items": {
                                     "type": "object",
                                     "properties": {
                                         "url": {
+                                            "type": "string",
+                                            "description": "The URL to fetch. May contain template parameters like [[$context?base-uri]]."
+                                        },
+                                        "target": {
                                             "type": "string"
                                         }
                                     }
@@ -1036,14 +1313,17 @@
                 },
                 "copy": {
                     "type": "array",
+                    "description": "Copy resources from a path relative to the source collection into a target path in the static collection",
                     "items": {
                         "type": "object",
                         "properties": {
                             "from": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The path to the source collection, relative to the application root"
                             },
                             "to": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The path to the target collection, relative to the static output collection"
                             },
                             "filter": {
                                 "type": "string",
@@ -1082,7 +1362,7 @@
     },
     "additionalProperties": true,
     "patternProperties": {
-        ".*": {
+        "^[^$].*": {
             "type": "object",
             "properties": {
                 "$replace": {

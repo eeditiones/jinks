@@ -1,0 +1,1245 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="latex print fo epub markdown"?>
+<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="5.0" xml:lang="en">
+    <info>
+        <title>Quickstart</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <keywordset vocab="#genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+    </info>
+    <section xml:id="introduction">
+        <title>Introduction</title>
+
+        <section xml:id="introduction-foreword">
+            <para>TEI Publisher provides a flexible and sustainable <emphasis>toolbox</emphasis>
+                which enables scholars with limited technical skills to publish their material
+                without forcing it into a one-size-fits-all framework. Our mantra is to stop
+                reinventing the wheel with every new digital project and reuse what others have
+                already built instead. And, most importantly, help to improve the shared base by
+                adding what's missing into the communal pool. <note role="todo"> link to how to
+                    contribute/extend </note>
+            </para>
+            <para>TEI Publisher provides a smooth and fast entry path for editors with little
+                technical experience while remaining endlessly flexible and extensible for advanced
+                users. </para>
+            <para>Numerous projects realized with TEI Publisher worldwide prove that it is:</para>
+            <orderedlist>
+                <listitem>
+                    <para>a truly universal tool for any kind of digital publication, from scholarly
+                        editions to journals, monographs, lexicons, and much more</para>
+                </listitem>
+                <listitem>
+                    <para>suitable even for very complex and multi-faceted material</para>
+                </listitem>
+                <listitem>
+                    <para>sustainable and future-proof</para>
+                </listitem>
+                <listitem>
+                    <para>capable of generating high quality, camera ready material for print
+                        publishing</para>
+                </listitem>
+                <listitem>
+                    <para>suitable for any XML, not only TEI (this documentation is written in
+                        DocBook!)</para>
+                </listitem>
+            </orderedlist>
+
+            <section xml:id="intro-jinks">
+                <title>Overview</title>
+                <para> Starting with the version 10, based on Jinks application manager, the core
+                    TEI Publisher idea of assembling an edition from the modular
+                        <emphasis>"lego"</emphasis> blocks is taken to the next level. Despite the
+                    changes to the interface and internal reorganization, advanced users will
+                    nevertheless find most underlying concepts and components slightly changed but
+                    still recognizable. </para>
+                <para>Version 10 substantially extends the <emphasis>toolbox</emphasis> idea of
+                    simple, recombinable blocks: the core of TEI Publisher itself is now decomposed
+                    into a set of small, modular profiles, which can be combined and configured to
+                    assemble concrete applications. Each profile provides end-to-end implementation
+                    for a particular aspect of a digital edition, e.g. support for a certain input
+                    format, integration of facsimile images, timelines or map display.</para>
+            </section>
+            <section>
+                <title>Assembling an application</title>
+                <para>An actual application is created by selecting desired features and customizing
+                    their configuration. This is achieved through a central configuration file,
+                    which can be easily edited through the user interface. Human-readable structure
+                    of the configuration file coupled with syntax suggestions in this step greatly
+                    simplify the development process.</para>
+                <para>Profiles may cover individual functional <emphasis>features</emphasis>, like
+                    the aforementioned timeline but others take care of the
+                        <emphasis>presentational</emphasis> aspects, like typesetting and styling.
+                    Such profiles are called <emphasis>themes</emphasis>.</para>
+                <para>Profiles may also aggregate and customize each other, so a profile may
+                    depend on one or more other profiles. At the top of such a hierarchy sits what
+                    we call a <emphasis>blueprint</emphasis>, which is essentially a ready-made configuration for a
+                    complete application. Usually it will be targeting a specific use case, e.g. a
+                    correspondence edition or a dictionary. In the simplest case, a blueprint may be just
+                    a configuration file, which tailors the configuration of profiles it
+                    uses for the specific purpose of this particular blueprint.</para>
+            </section>
+
+            <section>
+                <title>Continuous development</title>
+                <para>TEI Publisher comes with a central application manager, Jinks, which
+                    manages all profiles and the applications generated from it.</para>
+                <para>Creation of an application is no longer a one-time generative step, but it can be
+                    approached iteratively: new features may be added or removed, configuration for
+                    the existing ones modified. The same user interface, which allowed us to select,
+                    pre-configure and generate our application can be used to reconfigure and
+                    regenerate it at any later point. </para>
+
+                <para>As new profiles are added to the public library - or new versions are released
+                    for the existing ones - this application manager can take care of updating
+                    profiles and their dependencies used in custom applications under its control.
+                    Updates can largely be carried out automatically with the number of necessary
+                    manual interventions reduced to a minimum and most updates applied with a single
+                    click. Gone are the days when users had to read through update
+                    instructions to manually migrate to a new version of TEI Publisher. </para>
+            </section>
+
+            <section>
+                <title>Basic vocabulary</title>
+                <para>To clarify how various parts fit together, let us summarize some key concepts,
+                    which will be used in the rest of this documentation:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>TEI Publisher</term>
+                        <listitem>
+                            <para>denotes the software framework as a whole, i.e. the entire toolbox,
+                                comprising all profiles and libraries</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Jinks</term>
+                        <listitem>
+                            <para>the central application manager, which generates applications and
+                                manages updates</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>TEI Publisher Documentation and Demo</term>
+                        <listitem>
+                            <para>refers to the application containing this documentation and a
+                                selection of demos. It mimics the old monolithic TEI Publisher
+                                application, but is now generated from a blueprint.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Profile</term>
+                        <listitem>
+                            <para>a modular building block for a TEI Publisher application.
+                                Profiles can extend other profiles and may be combined to create
+                                applications. We distinguish several kinds of
+                                profiles:</para>
+                            <variablelist>
+                                <varlistentry>
+                                    <term>Base</term>
+                                    <listitem>
+                                        <para>a special profile, used by all TEI Publisher
+                                            applications, providing the core server-side API and
+                                            basic page layout without styling</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term>Feature</term>
+                                    <listitem>
+                                        <para>a functional profile to be combined with base and potentially other profiles. It
+                                            provides all necessary resources to fully implement a
+                                            specific functional scope, e.g. docker configuration,
+                                            register sidebar, or a timeline.</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term>Theme</term>
+                                    <listitem>
+                                        <para>provides a particular look and feel. It supplies all
+                                            necessary CSS styles, fonts and graphic assets to
+                                            achieve that.</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term>Blueprint</term>
+                                    <listitem>
+                                        <para>a complete template for an application targeted at a
+                                            specific use case, e.g. a monograph, correspondence
+                                            edition, dictionary etc.</para>
+                                    </listitem>
+                                </varlistentry>
+                            </variablelist>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>TEI Processing Model</term>
+                        <listitem>
+                            <para>the very core of TEI Publisher. Part of the TEI Guidelines and the
+                                TEI ODD specification format, it defines how documents are
+                                transformed from the source XML into output formats (e.g. HTML,
+                                ePub, print).</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Webcomponents</term>
+                        <listitem>
+                            <para>library of interactive custom HTML elements. These main user
+                                interface building blocks of TEI Publisher can be freely combined to
+                                create robust HTML pages with TEI Publisher. Part of the HTML5
+                                standard and natively supported by browsers.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Jinks Templates</term>
+                        <listitem>
+                            <para>a templating language used by Jinks during application generation
+                                as well as within profiles to fill placeholders with content.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+        </section>
+        <section xml:id="e-editiones">
+            <title>e-editiones.org</title>
+            <para> Since its first incarnation in 2015, TEI Publisher has gained substantial
+                following with numerous academic and commercial projects around the globe, which are relying on it
+                for their editorial and publishing needs. Grass-roots user initiative led in 2020 to
+                the foundation of an international non-profit association <link xlink:show="new"
+                    xlink:href="https://e-editiones.org">e-editiones.org</link> with the focus on
+                further joint development of TEI Publisher, open standards and best practices for
+                digital editions. </para>
+
+            <para>TEI Publisher development is only possible thanks to generous contributions of
+                developers, users and institutions willing to employ Open Source approaches so that
+                the whole community can reuse and benefit from their work.</para>
+
+            <para> A growing number of projects from small to large that have decided to publish
+                their materials with TEI Publisher gives us all not only the opportunity but also
+                the responsibility to make the project thrive for years to come and to make it truly
+                sustainable option for XML publishing! Consider joining <link xlink:show="new"
+                    xlink:href="https://e-editiones.org">e-editiones.org</link> through your
+                affiliated institution or individually to support our efforts. </para>
+
+            <para>We invite the community to contribute to the project – by means of code, ideas,
+                documentation, tutorials and funding. </para>
+            <para> You don't have to be a developer to contribute, you can do so in a number of
+                ways! </para>
+
+            <orderedlist>
+                <listitem>
+                    <para>Check out the source code, modify it, document it, enhance it.</para>
+                </listitem>
+                <listitem>
+                    <para>Create new or enhance existing example documents and ODDs so we present
+                        showcases for various TEI applications.</para>
+                </listitem>
+                <listitem>
+                    <para> Report your issues, feature requests or ideas for discussion via <link
+                            xlink:show="new"
+                            xlink:href="https://github.com/eeditiones/tei-publisher-app/issues"
+                            >GitHub issue tracker</link>. </para>
+                </listitem>
+                <listitem>
+                    <para> Discuss with us on <link xlink:show="new"
+                            xlink:href="https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg"
+                            >e-editiones slack chat</link> or through the <link xlink:show="new"
+                            xlink:href="https://admin.hostpoint.ch/mailman/listinfo/community_e-editiones.org"
+                            >mailing list</link> and <link xlink:show="new"
+                            xlink:href="https://twitter.com/EEditiones">@EEditiones twitter</link>.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para> Contribute to translations via <link xlink:show="new" xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please
+                        contact us if your target language is not listed and you'd like to work on
+                        it. </para>
+                </listitem>
+                <listitem>
+                    <para> Port back your customizations (e.g. profiles or themes) to the TEI
+                        Publisher code base so that others can use it too (or ask us to do it for
+                        you)! </para>
+                </listitem>
+                <listitem>
+                    <para> Help and mentor others – publish teaching materials, answer questions on
+                        our Slack channel, mailing list and other forums. </para>
+                </listitem>
+                <listitem>
+                    <para> Sponsor a concrete feature or fund a development grant. </para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    <section xml:id="installation">
+        <title>Installation</title>
+        <para>TEI Publisher requires the <link xlink:show="new" xlink:href="http://exist-db.org"
+                >eXist XML database</link> to operate. It is distributed as an eXist application
+            package, making it easy to install on any eXist database instance – either on your local
+            machine or any remote server. </para>
+        <para> You can install eXist and TEI Publisher manually, as described below. Alternatively
+            use the provided <link linkend="docker">docker image</link>. </para>
+
+        <section xml:id="exist-installation">
+            <title>Installing into an eXist instance</title>
+
+            <section xml:id="java">
+                <title>Java</title>
+                <para> Before installing eXist, make sure you have Java installed on your machine.
+                    You can run <command>java -version</command> on a command line to check which
+                    version of Java you have. Make sure you have at least Java 8 (recommended: Java
+                    11). Please note that the <command>java -version</command> shows the full
+                    version string, so 1.8.0 or similar instead of just 8. </para>
+                <para> If you do not have Java installed, you can choose between a variety of
+                    different Java distributions for your operating system. While these are largely
+                    equivalent, so far we have had the smoothest installation experience across
+                    operating systems with the <link xlink:show="new"
+                        xlink:href="https://www.azul.com/downloads/zulu-community/?package=jdk">Zulu
+                        Community OpenJDK</link> builds. In particular for Windows users, this
+                    provides the best out of the box experience. </para>
+            </section>
+            <section xml:id="download">
+                <title>Download</title>
+
+                <para> Download an eXist distribution following the link on its <link
+                        xlink:show="new"
+                        xlink:href="http://exist-db.org/exist/apps/homepage/index.html#downloads"
+                        >homepage</link>. </para>
+                <note>
+                    <para>It is recommended that you set up an admin password when installing eXist
+                        but make sure to remember or store it securely!</para>
+                </note>
+            </section>
+
+            <section xml:id="mac-installation">
+                <title>Mac installation</title>
+                <para> On a Mac download the file with the <command>.dmg</command> extension, e.g. "
+                        <filename> eXist-db-6.x.x.dmg</filename> ". </para>
+
+
+                <para> Double clicking the downloaded <command>.dmg</command> file should install
+                    eXist on your local system. It is only required to drag the eXist app icon over
+                    to the Applications folder. </para>
+
+                <para>Once the installation has completed, you should find an app in your
+                    Applications folder which you can use to launch eXist.</para>
+            </section>
+
+            <section xml:id="windows-installation">
+                <title>Windows installation</title>
+                <para> On Windows download the file with the <command>.jar</command> extension, e.g.
+                    " <filename> exist-installer-6.x.x.jar</filename> ". </para>
+
+                <para> Double clicking the <command>.jar</command> should install eXist on your
+                    local system. It will launch an installer to guide you through basic settings.
+                    The default settings suggested by the installer provide a good starting point
+                    for most projects. </para>
+
+                <note>
+                    <para> If double-clicking the <command>.jar</command> does not have any effect,
+                        there's may be something wrong with your Java setup. The
+                            <filename>java</filename> binary needs to be in your
+                            <envar>%PATH%</envar> environment. </para>
+                    <para>You can also try to manually start the installer by opening a command
+                        prompt, changing to the directory where you downloaded the distribution and
+                        typing:</para>
+                    <synopsis>java -jar exist-installer-6.x.x.jar</synopsis>
+                </note>
+
+                <para>Once the installation is completed, you should find an eXist-db shortcut to
+                    launch eXist.</para>
+            </section>
+
+            <section xml:id="unix-installation">
+                <title>Unix installation</title>
+                <para> Download the file with the <command>.jar</command> extension, e.g. "
+                        <filename> exist-installer-6.x.x.jar</filename> ". </para>
+
+                <para> Double clicking the <command>.jar</command> should install eXist on your
+                    local system. It will launch an installer to guide you through basic settings.
+                    Default settings suggested by the installer provide a good starting point for
+                    most projects so there's no need to change anything. </para>
+
+                <para> Once the installation is completed, you should find an eXist-db shortcut to
+                    launch eXist, otherwise navigate to the installation directory and run
+                        <command>bin/startup.sh</command>. </para>
+
+                <note>
+                    <para> Some <emphasis>Linux users</emphasis> may prefer the plain
+                            <command>.tar.bz2</command> package, which can just be untarred to any
+                        location. This package does not include an installer and eXist has to be
+                        launched on the command line: navigate into the untarred directory and run </para>
+                    <synopsis>bin/startup.sh</synopsis>
+                    <para> in a shell, skipping the jar installer step above. Ignore the next
+                        section, navigate directly to <link xlink:show="new"
+                            xlink:href="http://localhost:8080"> http://localhost:8080</link> and
+                        follow the steps for installing TEI Publisher via the dashboard described
+                        further below. </para>
+                </note>
+            </section>
+
+            <section xml:id="first-launch">
+                <title>First launch</title>
+                <para>Once eXist is launched for the first time you should see (with the exception
+                    of some Unix system configurations described above) a splash window popping up,
+                    showing that default applications are being installed:</para>
+                <figure>
+                    <title>Splash Screen on eXist Startup</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistSplash.png" width="256px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Upon first start, an additional configuration window will pop up on Windows
+                    and Mac, allowing you to configure basic parameters. Default settings suggested
+                    provide a good starting point for most projects so usually there's no need to
+                    change anything. </para>
+                <figure>
+                    <title>Configuration Dialog Showing on First Start</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistInitialConfig.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para> Clicking on <guibutton>Save</guibutton> will show a popup asking to confirm
+                    the location of the data directory. Unless you have specific requirements just
+                    agree to the suggestion of the configuration dialog. </para>
+                <para>
+                    <emphasis>Windows users</emphasis> will be asked if they would like to install
+                    eXist as a service. This is highly recommended to ensure that the database is
+                    correctly closed whenever the operating system shuts down. </para>
+                <para>If all went well, eXist should now be up and running in the background. Mac
+                    and Windows users should find a small eXist icon in their task bar.
+                    Right-clicking on it will reveal a menu:</para>
+                <figure>
+                    <title>Taskbar Launcher Context Menu</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistTaskbarIcon.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+
+            <section xml:id="packageManager">
+                <title>Installing Jinks and TEI Publisher Documentation/Demo</title>
+                <para>TEI Publisher no longer comes as a single
+                    application. To get started, you need to install two packages:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>Jinks</term>
+                        <listitem>
+                            <para>The central application manager from which every other application
+                                is generated</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>TEI Publisher Documentation and Demo</term>
+                        <listitem>
+                            <para>Contains the documentation for TEI Publisher as well as a few
+                                demonstration pages for various features. This mimics the old TEI
+                                Publisher application in that it allows you to explore the
+                                possibilities, upload documents and experiment with ODDs. The app is
+                                generated from the <emphasis>Documentation + Demo</emphasis>
+                                blueprint in <productname>Jinks</productname>.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>Clicking on <guimenuitem>Open Dashboard</guimenuitem> in the taskbar will open
+                    a browser and display eXist's Dashboard: the central administrative hub for the
+                    database. Alternatively – e.g. when you chose the manual installation on Linux –
+                    you can also open a browser window and navigate to: <link xlink:show="new"
+                        xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
+                <para>Log into the dashboard using the admin account and the password you chose
+                    during the installation (it will be empty by default). Use the left sidebar to
+                    navigate to the <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs:
+                    the first one lists the application packages currently installed, the second can
+                    be used to install additional packages from eXist's public application
+                    repository.</para>
+                <note>
+                    <para>Should you encounter any issues with the login, try via a different app
+                        (they share logins):</para>
+                    <procedure>
+                        <step>
+                            <para>From the dashboard, open the <productname>monex</productname>
+                                application.</para>
+                        </step>
+                        <step>
+                            <para>If you are not logged in yet, this should present you with a login
+                                dialog. Provide your credentials and sign in.</para>
+                        </step>
+                        <step>
+                            <para>Go back to the <productname>dashboard</productname>. The display
+                                should change and you should see the admin view.</para>
+                        </step>
+                    </procedure>
+                </note>
+                <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list
+                    for <productname>Jinks</productname>. Once you find it, click on the little
+                    install icon. You can also search for TEI Publisher and install the app so you
+                    can play around with the provided demos and showcases. </para>
+                <para>After installing, you will find <productname>Jinks</productname> (and
+                        <productname>TEI Publisher Documentation and Demo</productname>, if
+                    pertinent) in the tab showing installed apps. Click on the icon to open the
+                    app.</para>
+                <figure>
+                    <title>The Package Manager </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="eXistDashboard.png" width="640px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+        <section xml:id="docker">
+            <title>Using docker</title>
+            <para> If you do not want to install eXist yourself, you can use docker to run TEI
+                Publisher. Docker is a tool to simplify the installation of applications and
+                services. It creates a virtual environment including everything required for the
+                service to run. Using our <link xlink:show="new"
+                    xlink:href="https://hub.docker.com/r/existdb/teipublisher">docker image</link>,
+                eXist will already be set up to include both Jinks and TEI
+                Publisher<!-- as well as the... TODO: add here any demos that will also be included -->. </para>
+            <procedure>
+                <step>
+                    <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/"
+                            >docker</link> on your machine. Windows and Mac users may download the
+                            <link xlink:show="new"
+                            xlink:href="https://www.docker.com/products/docker-desktop">docker
+                            desktop</link> app. </para>
+                </step>
+                <step>
+                    <para>To download the image run the following in a console</para>
+                    <synopsis>docker pull existdb/teipublisher:latest</synopsis>
+                </step>
+                <step>
+                    <para>once the download is complete, you can run the image with the following
+                        command:</para>
+                    <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+                    <para>Startup should be fast because the database is already pre-populated.
+                        However, changes you make may not persist if the docker container is deleted
+                        or updated to a newer release. If you want to be sure that your changes are
+                        safe, you should specify a local volume for storing the database by
+                        adding:</para>
+                    <synopsis>-v exist-data:/exist/data</synopsis>
+                    <para>See below for an explanation of the parameters:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>-p</term>
+                            <listitem>
+                                <para>Maps a port on your local machine (8081 and 8444) to the port
+                                    used by eXist within the container. eXist will always run on
+                                    8080 for HTTP and 8443 for HTTPS. If those ports are already
+                                    occupied by different services on your machine, choose a
+                                    different port for the first number.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>-v</term>
+                            <listitem>
+                                <para> Creates a named ("exist-data") volume for storing the
+                                    database, using the directory specified after the colon. If you
+                                    skip this, any changes to the database will be lost if you
+                                    remove the docker container, update it or create a new one. With
+                                        <option>-v</option> the data will be stored outside the
+                                    container. </para>
+                                <para>If you just intend to play around a bit, you can skip the
+                                    parameter.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>--name</term>
+                            <listitem>
+                                <para> Assigns a name to the container, so you can reference it in
+                                    other docker commands, like <code>docker stop</code>. We'll use
+                                    the name in all commands below. </para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                    <para>Once the container has started, you can access the eXist dashboard in your
+                        browser by navigating to</para>
+                    <synopsis>http://localhost:8081</synopsis>
+                    <para>From the dashboard you can click on the TEI Publisher, Shakespeare or Van
+                        Gogh icons to open the corresponding applications.</para>
+                </step>
+                <step>
+                    <para>To stop the container run</para>
+                    <synopsis>docker stop teipublisher</synopsis>
+                </step>
+                <step>
+                    <para>To start the container again:</para>
+                    <synopsis>docker start teipublisher</synopsis>
+                    <para>Note that when you restart a container, it will run in detached mode, so
+                        you won't see any console output. You can view the output with following
+                        command though:</para>
+                    <synopsis>docker logs teipublisher</synopsis>
+                </step>
+            </procedure>
+            <section xml:id="docker-other">
+                <title>Other useful commands</title>
+                <variablelist>
+                    <varlistentry>
+                        <term>docker container ps -a</term>
+                        <listitem>
+                            <para>Lists all running and stopped containers</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker volume ls</term>
+                        <listitem>
+                            <para>Displays existing volumes (where your database is stored)</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker cp teipublisher:/exist-data .</term>
+                        <listitem>
+                            <para>Copy the contents of the database data volume to the current
+                                directory on local disk, so you can back it up. Note that this will
+                                copy the raw database files as created by eXist (not your XML, which
+                                is binary encoded inside those files). Also make sure you run the
+                                command after stopping the active container.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>docker volume rm exist-data</term>
+                        <listitem>
+                            <para>Remove the contents of the database data volume (in case you would
+                                like to start from scratch, deleting all changes you made).</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+
+                <para> Have a look at the docker documentation and <link xlink:show="new"
+                        xlink:href="https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf"
+                        > cheatsheet</link> for more commands. </para>
+            </section>
+        </section>
+    </section>
+    <section xml:id="tp">
+        <title>Guided Tour</title>
+        <para>For a first overview we recommend to start with the <productname>TEI Publisher
+                Documentation and Demo</productname> application. This includes the documentation,
+            provides a few selected demos, and also allows you to upload your own documents to the
+                <filename>demo</filename> collection as well as to play around with different ODDs
+            or create your own.</para>
+        <note>
+            <para>The <productname>TEI Publisher Documentation and
+                    Demo</productname> app corresponds to one of the pre-configured blueprints
+                available in Jinks, which you'll find under the name <guimenuitem>Documentation +
+                    Demo</guimenuitem> on the <guimenuitem>Profiles</guimenuitem> tab in Jinks.
+            </para>
+        </note>
+        <section xml:id="browsing">
+            <title>Browsing Documents</title>
+            <section xml:id="start-page">
+                <title>The Start Page</title>
+                <para>The start page of <productname>TEI Publisher Documentation and
+                        Demo</productname> serves as an entry point to explore and
+                    experiment.</para>
+                <para>The left side panel presents search and filtering options. The central panel
+                    lists the available collections or – if you browse into a collection – the
+                    documents within. Another panel to the right shows the list of ODD files
+                    provided by the app.</para>
+
+                <figure>
+                    <title>First options in the start page collection listing</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="start-page-collections.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The usual starting point is the <emphasis role="bold">Demo
+                        Collection</emphasis> with which users can explore a range of <link
+                        linkend="selected-use-cases">selected use cases</link>, demonstrating
+                    various genres, encoding styles and presentation layouts. Various customization
+                    aspects are handled using different ODDs and view templates. We suggest to have
+                    a look at each of them to see what TEI Publisher can achieve out of the
+                    box.</para>
+            </section>         
+        </section>
+        <section xml:id="selected-use-cases">
+            <title>Selected Use Cases</title>
+            <para>The document view can vary, sometimes substantially, depending on the sample
+                document you are looking at. This is a natural consequence of TEI's versatility and
+                broad scope of its application. What follows, requirements for the document view –
+                both its layout and composition as well as processing rules governing the
+                transformation of the text of the document itself – will differ to a great extent.
+                Sample documents which are included in TEI Publisher's installation package do not
+                exhaust its applications but rather aim to present some chosen use cases:</para>
+                <figure>
+                    <title>Browsing Demo collection</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="demo-collection-overview.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches
+                            Textarchiv</emphasis> corpus presents a philosophical tractate,
+                        originally published in print, thus following 'traditional' book structure
+                        with front pages, foreword and chapters. It can nevertheless demonstrate
+                        very well Publisher's capacities in typesetting, switching between physical
+                        and logical structure of the document (just toggle <guibutton>Page
+                            View</guibutton> in the <guibutton>Settings</guibutton> panel) as well
+                        as generation of multiple output formats from single set of processing
+                        models in the ODD (try choosing <parameter>PDF</parameter> or
+                            <parameter>ePub</parameter> options in the
+                            <guibutton>Download</guibutton>). <emphasis>Purchas his
+                            pilgrimages</emphasis>, from the <emphasis>EEBO-TCP</emphasis> project,
+                        while roughly similar in structure is much earlier work (1613) and
+                        demonstrates extensive use of marginal notes. </para>
+                </listitem>
+                <listitem>
+                    <para> Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from
+                            <emphasis>Bodleian First Folio</emphasis> project uses dedicated TEI
+                        elements to encode structure of the play but it also showcases the parallel
+                        transcription and facsimile alignment for its presentation which is
+                        obviously of general application and could be used for any genre, not
+                        limited to dramatic texts. </para>
+                </listitem>
+                <listitem>
+                    <para>Correspondence corpora are common, yet very interesting, subjects for
+                        digital editions. Despite basic similarities in structure, depending on the
+                        period, scope and particular research perspective, intended presentation may
+                        vary enormously. We are presenting samples of:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para> A 16th century manuscript letter of <emphasis role="bold">Hernán
+                                    Cortés</emphasis> showcasing parallel transcription/translation
+                                and facsimile view and transcription enhanced with commentaries and
+                                explicitly encoded transcriptional features.</para>
+                        </listitem>
+                        <listitem>
+                            <para> A letter from <emphasis role="bold">Van Gogh</emphasis> to Paul
+                                Gauguin written in 1888. This intentionally reproduces the flexible
+                                column layout pioneered by the <link xlink:show="new"
+                                    xlink:href="http://vangoghletters.org">Vincent Van Gogh
+                                    Letters</link> online edition, which is a model example for
+                                correspondence.</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>For a taste of completely different encoding style we present several 19th
+                        century lexicons and dictionaries:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para> A manuscript collocative dictionary of Polish <emphasis
+                                    role="bold">Bogactwa mowy polskiej</emphasis> featuring
+                                interactive highlights for regions of interest of the facsimile when
+                                hovering over dictionary headwords. Internal composition is based on
+                                the <code>entryFree</code> element with a rich
+                                microstructure.</para>
+                        </listitem>
+                        <listitem>
+                            <para> An encyclopedia of philosophic terms by Friedrich Kirchner and
+                                Carl Michaëlis, published in 1907: <emphasis>Wörterbuch der
+                                    Philosophischen Grundbegriffe</emphasis>. This is based on the
+                                Lex-0 customization of TEI and provides a sidebar to browse the
+                                available lemmata.</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </itemizedlist>
+        
+            <note>
+                <title>Note</title>
+                <para>You may notice that the list of included samples is more limited than in version
+                    9. Some examples have been moved into separate profiles (see the
+                        <emphasis>Serafin</emphasis> blueprint for a correspondence edition), the
+                    rest has been condensed and streamlined. The base ODD now covers many more TEI
+                    features out of the box, so fewer samples are necessary.</para>
+                <para>We'd like to stress that preparing showcases above has been only possible
+                    thanks to numerous projects releasing their sources openly, in particular the
+                        <link xlink:show="new" xlink:href="http://firstfolio.bodleian.ox.ac.uk"
+                        >Bodleian First Folio</link>, <link xlink:show="new"
+                        xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link>,
+                        <link xlink:show="new" xlink:href="http://vangoghletters.org">Vincent Van
+                        Gogh Museum</link> and <link xlink:show="new"
+                        xlink:href="https://www.textcreationpartnership.org/tcp-eebo">
+                        EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska
+                    for sharing their correspondence material. </para>
+            </note>
+        </section>
+
+        <section xml:id="odd-experiments">
+            <title>Experimenting with ODDs</title>
+            <para>All TEI Publisher's sample documents are XML files which are transformed into a
+                HTML webpage for display in the browser. Several factors determine how the final
+                page is going to look like: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>the ODD used for transforming the TEI XML into HTML for the content</para>
+                </listitem>
+                <listitem>
+                    <para>the HTML page templates being used for the overall structure and layout of
+                        the page</para>
+                </listitem>
+                <listitem>
+                    <para>various functional blocks contributed by profiles (register sidebars,
+                        facsimile viewer …)</para>
+                </listitem>
+                <listitem>
+                    <para>All dynamic parts of the page, i.e. the text display, navigation buttons
+                        etc., are defined as small, reusable blocks, using the Web Components
+                        technology. Components can be used like common HTML elements.</para>
+                </listitem>
+            </itemizedlist>
+
+            <para>We have already mentioned in the very first section that the TEI Processing Model
+                lies at the heart of the Publisher – the ODD file associated with a document defines
+                the rules of transformation of the XML source file into HTML. Detailed discussion of
+                the Processing Model can be found in the <link
+                    xlink:href="documentation.xml?id=pm-syntax">reference manual</link>, for now it
+                is sufficient to say this is where decisions if a TEI element should be rendered
+                inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit,
+                the <emphasis>text</emphasis> of the document that you see rendered in your browser
+                is an effect of applying the rules from ODD file to the source document. When
+                opening a document of the Demo collection, it is possible to see in the URL the
+                    <parameter>odd</parameter> parameter indicating which ODD file is being used to
+                process the document, e.g. <link xlink:href="../demo/F-rom.xml?odd=shakespeare"
+                    >demo/F-rom.xml?odd=shakespeare</link>.</para>
+            <para>Most demos come with their own ODD. However, all of them – at least if they deal
+                with TEI – extend the base ODD, <filename>teipublisher.odd</filename>.</para>
+            <para>Nevertheless, as we demonstrated in the section on selected sample documents, in
+                the application context we certainly want more than just text, however nicely
+                typeset. From basic navigation controls, table of content, to facsimile display,
+                critical apparatus, glossaries and maps – all of this and much more could be
+                included in the final webpage.</para>
+        </section>
+        <section xml:id="upload">
+            <title>Uploading documents</title>
+            <para> If you are reading this, you may already have some documents 
+            you might want published, whether they are in TEI, DocBook, JATS, MS Word
+                DOCX or other XML format. The <productname>Documentation and Demo</productname>
+                application allows you to upload documents into the <guilabel>Demo
+                    Collection</guilabel>. The first step is to upload them into the database, for
+                which you need to be <emphasis role="bold">logged in</emphasis>. The user and
+                password are displayed in the information block on top of the right sidebar.</para>
+            <figure>
+                <title>The Upload Panel</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="upload.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Upon successful login, uploading is just a question of dragging your documents
+                onto the <guibutton>Upload</guibutton> area. They will become available in the
+                document list immediately after upload is successfully completed. The upload panel 
+                will also display the upload results. In case of problems, very often resulting from not well-formed XML, you will see a warning message.</para>
+            <para>Now you can view your documents! The transformation will use the 
+                rules of the base ODD. For
+                most text-centric TEI, the default rendition should already produce a readable
+                result, but you will likely find aspects to improve to match your expectations. Quite often the need for
+                customization will be limited to just a handful of elements. Refer to <link xlink:show="new" xlink:href="documentation.xml?id=odd-customization">TEI Processing Model transformations</link> chapter to learn about the ODDs and the Processing Model.</para>
+            <para>If you upload a Microsoft Word document, the upload will automatically
+                trigger the conversion of Word to TEI, using a special ODD for the tranformation.
+                Please note that the focus of this conversion is to preserve textual content,
+                structure and basic semantics of the text, not to provide authoritative mapping of
+                complete set of MS Word features to TEI. Refer to <link xlink:show="new" xlink:href="documentation.xml?id=docx">DOCX
+                    handling</link> section for more information. </para>
+        </section>
+
+    </section>
+    <section xml:id="using-jinks">
+        <title>Hands-on with Jinks</title>
+        <para>After playing around with the <productname>TEI Publisher Documentation and
+                Demo</productname> application, let's try and generate your own custom edition.
+            As explained above, TEI Publisher now has an application manager, called
+                <productname>Jinks</productname>. This will be your main entry point for creating or
+            updating a custom edition.</para>
+        <para>You can access <productname>Jinks</productname> via
+                <productname>eXist-db's</productname> Dashboard. If you have not installed
+                <productname>Jinks</productname> yet, use the Package Manager in the Dashboard to do
+            so.</para>
+        <para>Opening Jinks for the first time, you'll see the main administration page with three
+            columns: the sidebar to the left shows the list of installed applications which were
+            created with Jinks (if any). The central column contains the main configuration form
+            with several tabs. The right column presents the configuration, as is currently in effect
+            for the application. The configuration is in JSON format and will initially show as an
+            empty object (empty curly brackets). As you fill out the form, you'll see how the JSON
+            configuration is populated with corresponding entries.</para>
+            <note role="todo">screenshot</note>
+        <section xml:id="using-jinks-first-steps">
+            <title>First Steps</title>
+            <para>To start, you must fill at least the top three input
+                fields under the first tab, <guilabel>Application Configuration</guilabel>. 
+                In the first box, <guilabel>Abbreviation</guilabel>, provide a short but unique name. 
+                It will serve as a collection name in the database, where the application is stored. 
+                </para>
+                <para>
+                <emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace, brackets and special characters. It may only 
+                contain alphanumeric characters (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
+            <para>After filling out the abbreviation field, suggestions for the following two text boxes
+               are provided automatically. The
+                    <option>label</option> is the title of the application, and will be used to caption the app in the Dashboard and elsewhere.
+                    It will initially be the set the same as the abbreviation,
+                but you may change it to be more descriptive - and you can freely use whitespace, brackets etc. The <option>unique identifier</option>
+                must be a URI, but it does not need to be a real URL, pointing to some existing
+                website. Like a namespace in XML, it can be anything as long as it is syntactically
+                valid and unique.</para>
+            <para>Running the generator with just these settings, the result would be an
+              application without any documents. To provide some data to test with, switch to
+                the <guilabel>Profiles</guilabel> tab, search for the <guilabel>Demo Data</guilabel>
+                feature in the <guilabel>Data Packages</guilabel> subsection and enable that
+                checkbox.</para>
+            <para>You are now ready to run the generator for the first time: click on the
+                    <guibutton>Apply</guibutton> button in the bottom toolbar of
+                    <productname>Jinks</productname>. You'll see a wait indicator appear next to the
+                button. The process may take a while as it
+                consists of multiple steps:</para>
+            <procedure>
+                <step>
+                    <para>configurations of all selected profiles are merged</para>
+                </step>
+                <step>
+                    <para>files supplied by each profile are copied into a temporary collection in
+                        the database</para>
+                </step>
+                <step>
+                    <para>the temporary collection is packaged and installed into eXist-db</para>
+                </step>
+            </procedure>
+            <para>Once the application is installed, a dialog will open. If you are creating a new app,
+                it will inform you that the package has been deployed, along with a link which
+                you can click to open the newly created application.</para>
+            <para>If you followed this section to the letter, and added only the <guilabel>Demo Data</guilabel>
+                feature, the created application should present three sermons by theologician Karl
+                Barth. Clicking on one of those will display the text of the sermon.</para>
+
+        </section>
+        <section>
+            <title>Adding Features</title>
+            <para>The sermons contain mentions of places and people. To make use of the information available about
+                these in the dataset, we can enable the profile dedicated to that very purpose.</para>
+                <para>Switch back to <productname>Jinks</productname>, go to the
+                    <guilabel>Profiles</guilabel> tab and find the <guilabel>Entity
+                    Registers</guilabel> profile in the <guilabel>Features</guilabel> category.
+                Enable it and click <guibutton>Apply</guibutton> again.</para>
+            <para>The <guilabel>Command Output</guilabel> dialog will now present a list of files
+                which were updated. Close it and return to the generated app. Looking at the
+                menubar, you will notice that there are new menu items for
+                    <guilabel>People</guilabel> and <guilabel>Places</guilabel>, leading to separate
+                pages for browsing those entities.</para>
+            <para>We might also like to show a list of places and people mentioned in the current
+                document, when viewing one of the sermons. This sub-feature is not enabled by default,
+                because editions may want to limit it to some pages.</para>
+            <para>To enable it globally, go back to Jinks and look at the editor to the right, which
+                shows you a JSON representation of the currently active configuration for the
+                application. Right now it should look like this (though the order of properties may
+                differ):</para>
+            <programlisting language="json">{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ]
+}</programlisting>
+            <para>Configuration parameters for feature profiles must go under a
+                property called <code>features</code>, followed by the name of the profile. While we're
+                at it, we could also disable the navigation buttons in the toolbar (the sermons use
+                a single-page display). Change the configuration and add the <code>features</code> as
+                below:</para>
+            <programlisting language="json">{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ],
+  "features": {
+    "register": {
+        "enabled": true
+    },
+    "toolbar": {
+      "navigation": false
+    }
+  }
+}</programlisting>
+            <para>After applying the new configuration, you should find a register sidebar, listing people and places, to the
+                right of each sermon's text.</para>
+                <note role="todo">screenshot</note>
+        </section>
+        <section>
+            <title>Customizing the theme</title>
+            <para>Some of the most frequently changed styling aspects can be configured via the
+                    <filename>config.json</filename>, allowing users to change colors, fonts or
+                logos without editing CSS. For example, most projects will want to use their own logo
+                in the menu and the splash screen (which appears while a page loads), and
+                perhaps pick a custom background for the header as well.</para>
+            <para>To make these changes, we first have to upload the necessary images. The
+                    <guilabel>Files</guilabel> tab in <productname>Jinks</productname> provides a
+                simple file manager, which we can use to browse and upload files. It will initially
+                show the collection root of the currently selected application. Images used for the general
+                page layout should go into <filename>resources/images</filename>, so navigate to
+                that collection, then either drag and drop the desired images from your system's
+                file manager or click the <guibutton>Upload</guibutton> button.</para>
+            <note>
+                <para>The <guilabel>Files</guilabel> tab will only become visible after you
+                    generated the application!</para>
+            </note>
+            <para>With the images uploaded, we can add them to the configuration. All settings
+                related to the look and feel of an application go into the <code>"theme"</code>
+                property of the config. For example, to change the logo, splash screen image and menubar
+                background, we could change the configuration as follows:</para>
+            <programlisting><![CDATA[{
+  "pkg": {
+    "abbrev": "mytest"
+  },
+  "label": "mytest",
+  "id": "https://e-editiones.org/apps/mytest",
+  "extends": [
+    "base10",
+    "demo-data",
+    "registers",
+    "theme-base10"
+  ],
+  "features": {
+    "register": {
+        "enabled": true
+    },
+    "toolbar": {
+      "navigation": false
+    }
+  },
+  "theme": {
+    "logo": {
+      "image": "../images/logo-white.png"
+    },
+    "menubar": {
+      "background-image": "../images/type.jpeg"
+    },
+    "splash": {
+      "image": "../images/Karl_Barth.jpg"
+    },
+    "fonts": {
+      "content": {
+        "family": "var(--jinks-base-font-family)",
+        "size": "1.125rem"
+      }
+    }
+  }
+}]]></programlisting>
+            <para>Note that all image paths will be relative to the CSS stylesheet (which lives in
+                    <filename>resources/css</filename>), so we have to go up one level (using
+                    <filename>../</filename>) and then down to <filename>images</filename>.</para>
+            <para>The final setting above also changes the font used for the content. By default
+                this will be a serif font (<productname>JunicodeVF</productname>), which is good for
+                many historic scripts, but for a 20th century text, we may prefer to use the same
+                sans-serif font as for the rest of the page (<productname>Inter</productname>).
+                However, instead of providing a font name directly, we reference the CSS variable
+                    <code>--jinks-base-font-family</code>, which predefines the corresponding
+                font.</para>
+            <para>We may want to decrease the font size a bit as well, setting it to
+                    <code>1.125rem</code>. Note that for font scaling to work properly, we should
+                use relative sizes based on the browser's base size, therefore using <code>rem</code>
+                here, not sizes in points or pixels.</para>
+            <para>Finally, we can change the color scheme used by switching to the
+                    <guilabel>Theming</guilabel> tab and choosing one of the available schemes. Note
+                that this will add a property <code>"palette"</code> to the configuration,
+                referencing the selected color scheme's name. </para>
+            <note>
+                <para>TEI Publisher comes with a small number of predefined color schemes, but you can add your own palette. 
+                Using a well-chosen, limited color palette is in general considered good practice in web design, which is why we avoid
+                    using hardcoded colors.</para>
+            </note>
+        </section>
+        <section>
+            <title>Customizing the ODD</title>
+            <para>And now: action! One important step is still missing for a custom edition: creating your own ODD
+                for text transformations. Jinks provides a control for this on the
+                    <guilabel>Application Configuration</guilabel> tab. Since we're dealing with
+                Karl Barth, let's add an ODD called <filename>barth.odd</filename>.</para>
+            <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
+                entries:</para>
+            <programlisting language="json">"odds": [
+    "barth.odd"
+  ],
+  "defaults": {
+    "odd": "barth.odd"
+  }</programlisting>
+            <para>The first adds <filename>barth.odd</filename> to the list of available ODDs
+                inherited from the base and other profiles. The second sets this ODD as the default
+                to use.</para>
+            <note>
+                <para>The created ODD will be empty, but extends
+                        <filename>teipublisher.odd</filename>. If you would like to register an ODD
+                    you already have, use the file manager to copy it to
+                        <filename>resources/odd</filename> first. Afterwards follow the same steps
+                    as described here. Jinks will notice that the file already exists and will just
+                    register it.</para>
+            </note>
+            <para>What is important to know now is that adding an ODD to the configuration
+                    <emphasis>after</emphasis> the app was initially generated <emphasis>does not
+                    automatically use this ODD</emphasis>. Very likely the text will still be
+                rendered using the default <filename>teipublisher.odd</filename>, which is the
+                fallback.</para>
+            <para>To fix this we need to run an action one time: actions are shown in the bottom
+                toolbar of <productname>Jinks</productname>. Each profile may contribute its own
+                actions, but there are four default actions always available. One of them is called
+                    <guilabel>Fix ODDs</guilabel>. Click on it to recompile all ODDs (which means to
+                translate them into XQuery code) and wire them up correctly in the system. Once the
+                process has completed, the new ODD will actually be used and you could start
+                extending it.</para>
+            <note>
+                <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add or update an ODD in an
+                    already existing application, i.e. an application already installed into the
+                    database – or if there were <emphasis>upstream updates</emphasis> to the
+                    profiles you use (see the section on appying updates below).</para>
+                <para>The same goes for the <guilabel>Reindex Data</guilabel> action: you only need
+                    to call it, if you changed the index configuration for an existing app.</para>
+            </note>
+        </section>
+        <section>
+            <title>Downloading the application</title>
+            <para>
+                <productname>Jinks</productname> operates within the database, which means all
+                files it generates and modifies exist inside the database only. To keep track of changes and to have a backup, 
+                you always want to download the generated files to the filesystem. There are
+                two actions for this:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><guilabel>Download</guilabel></term>
+                    <listitem>
+                        <para>Packages the application into a single archive (a so called XAR),
+                            which you can later re-install into eXist-db using the Package Manager
+                            in the Dashboard. This is a quick choice for passing the application on to other people to try out.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><guilabel>Sync</guilabel></term>
+                    <listitem>
+                        <para>Synchronizes the file hierarchy into a local disk directory. Note that
+                                <emphasis>local</emphasis> means the machine where eXist-db is
+                            running. If you are using docker, the directory will be
+                                <emphasis>inside</emphasis> the docker image. If you connect to a
+                            remote server, it will be a directory on the server. Sync
+                            therefore is particularly convenient to use during the development, to create snapshots 
+                            to be committed to the source control repository, like Git.
+                            </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Which option to choose depends on your development workflow. Some people prefer to
+                do all development inside the database and only sync or download every now and then.
+                This does not require any additional setup. </para>
+            <para>However, experienced developers would usually do it the other way around: have the
+                code on the file system in a directory connected to Git, and do the main development
+                there. This way you can make sure you'll always be able to restore the previous
+                state, even if the database crashes, your computer breaks, customization attempt goes sideways or whatever bad may
+                happen.</para>
+        </section>
+        <section>
+            <title>Applying updates</title>
+            <para>There are two main scenarios in which you will update the application via Jinks (by
+                pressing the <guibutton>Apply</guibutton> button):</para>
+            <orderedlist>
+                <listitem>
+                    <para>you modified the configuration: by changing settings,
+                        adding/removing profiles, uploading new files etc. This is what we've done
+                        above.</para>
+                </listitem>
+                <listitem>
+                    <para>a new version of TEI Publisher becomes available, which means you will
+                        update the version of Jinks installed, and – as a consequence – some of the
+                        profiles your app is using will have changed
+                        <emphasis>upstream</emphasis>.</para>
+                </listitem>
+            </orderedlist>
+            <para>
+                <productname>Jinks</productname> continuously tracks the files in your application
+                to make sure updates will run smoothly. In particular, it needs to prevent that
+                    <emphasis>upstream updates</emphasis>, i.e. changes coming from a profile, will
+                overwrite any change you have applied locally in your app.</para>
+            <para>Whenever you press <guibutton>Apply</guibutton>, the <guilabel>Command
+                    Output</guilabel> dialog will show you a list of files. To the left of each file
+                you'll see a label. In most cases (hopefully) this should show "update" with a green
+                background. However, there might also be read labels static "conflict" next to some
+                files.</para>
+            <para>A "conflict" means that <productname>Jinks</productname> detected changes you made
+                to this file since it was last updated, and it refused to overwrite this file with
+                the original version coming from one of the profiles. For example, if I would change
+                    <filename>teipublisher.odd</filename> in my app (via the ODD editor), Jinks
+                would detect this next time I press <guibutton>Apply</guibutton> and mark it as a
+                conflict.</para>
+            <para>It will be up to you to decide how to handle the conflict. If it was introduced by
+                mistake, you can tell <productname>Jinks</productname> to ignore the conflict and
+                overwrite the file with the upstream version by clicking the <guilabel>Overwrite
+                    with next update</guilabel> button to the right of the entry. You may also
+                decide that the change is valid, meaning that the conflict is expected and you'll
+                not do anything about it.</para>
+            <note>
+                <para>To avoid conflicts it is important that most of your changes go into files you
+                    have added yourself. On many levels TEI Publisher 10 provides configuration
+                    options, which allow you to add custom CSS stylesheets, javascript, or API
+                    endpoints to your application without changing what is already there. Those
+                    added custom files will never trigger a conflict, because they only exist within
+                    your application.</para>
+            </note>
+        </section>
+        <section>
+            <title>Operation modes</title>
+            <para>Tightly connected to updates and conflict detection are the three different
+                operation modes <productname>Jinks</productname> provides. You can switch between
+                them through the select on the bottom of the <guilabel>Application
+                    Configuration</guilabel> tab:<variablelist>
+                    <varlistentry>
+                        <term><guilabel>Quick update</guilabel></term>
+                        <listitem>
+                            <para>is the fastest mode and selected by default. It does not check
+                                every file for changes, but looks at the last modification date to
+                                see if there were changes to the <emphasis>upstream
+                                    version</emphasis> coming from the profile.</para>
+                            <para>Consequently it will not report conflicts if they can be safely
+                                ignored (because there are no upstream changes to overwrite
+                                them).</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><guilabel>All</guilabel></term>
+                        <listitem>
+                            <para>checks the content of each file and compares it to the version
+                                last installed. This mode reliably detects and reports all potential
+                                conflicts.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><guilabel>Factory reset</guilabel></term>
+                        <listitem>
+                            <para>is the most drastic and dangerous of the modes: it completely
+                                deletes the installed application and recreates everything from the
+                                configuration. <emphasis>Don't use it unless you you have the current version safely 
+                                backed up and really know what you are doing: 
+                                you are certain you want to start from scratch, or you are a developer
+                                    working on a profile for Jinks</emphasis>!</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </para>
+        </section>
+        
+    </section>
+    <section xml:id="next">
+            <title>Further steps</title>
+            <para>This brief introduction aims to give a very basic orientation in using Jinks and TEI Publisher. For more in depth discussion of various subjects you may want to check the <link xlink:href="documentation.xml">Reference Manual</link> and <link xlink:href="webcomponents.xml">Web Components</link>.</para>
+            <para>e-editiones runs a series of monthly community meetups and also maintans a Slack community, which provide a space for discussion, coordination of efforts and community support. Check the <link xlink:href="https://www.e-editiones.org">website</link> to find meeting announcements and recordings of past presentations and workshops.</para>
+        </section>
+</article>

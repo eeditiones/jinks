@@ -14,7 +14,6 @@
 
     --pb-color: var(--jinks-color-primary, var(--pico-color));
     --jinks-logo: var(--jinks-logo-light);
-    --jinks-background-color: var(--jinks-background-color-light);
     --jinks-splash-background: var(--jinks-splash-background-light);
     --jinks-color-inverse: var(--jinks-background-color-dark);
 }
@@ -90,7 +89,7 @@ h4 {
     background-image: var(--jinks-splash-background);
     background-color: var(--jinks-background-color);
     background-position: center center;
-    background-size: var(--jinks-splash-image-size);
+    background-size: var(--jinks-splash-image-width) var(--jinks-splash-image-height);
     background-repeat: no-repeat;
     transition: visibility 0s linear 300ms, opacity 300ms;
 }
@@ -163,12 +162,11 @@ pb-document {
 
 .page-header {
     padding-block-start: 0;
-    background-image: var(--jinks-header-background-image);
+    background-image: var(--jinks-menubar-background-image);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
     background-color: var(--jinks-menubar-background-color);
-    padding-inline: var(--s0);
 }
 
 /* hero covers 100% of the viewport height */
@@ -435,6 +433,11 @@ aside nav[aria-label="breadcrumb"] ul li {
 
 aside nav[aria-label="breadcrumb"] ul li a {
     display: inline;
+}
+
+[aria-label=breadcrumb] {
+    font-size: var(--jinks-breadcrumbs-font-size);
+    white-space: nowrap;
 }
 
 nav[aria-label="breadcrumb"] ul li {

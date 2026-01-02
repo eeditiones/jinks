@@ -1,10 +1,12 @@
 <template>
     [% template after %]
-        [% if exists($context?doc) %]
+        [% if exists($context?doc) and $context?features?metadata?enabled %]
             <div class="metadata-panel">
-                <h2><pb-i18n key="odd.metadata"/></h2>
+                <h2>
+            <pb-i18n key="odd.metadata"/>
+        </h2>
                 <pb-view src="document1" subscribe="transcription" view="single" disable-history="">
-                    <pb-param name="mode" value="metadata-panel" />
+                    <pb-param name="mode" value="metadata-panel"/>
                 </pb-view>
             </div>
         [% endif %]

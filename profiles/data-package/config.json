@@ -1,0 +1,67 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "base",
+    "id": "https://e-editiones.org/app/tei-publisher/data-package",
+    "version": "1.0.0",
+    "label": "Data Package",
+    "description": "Creates a separate package to host the XML data for a TEI Publisher application.",
+    "order": 0,
+    "pkg": {
+        "abbrev": "tei-publisher-data-package",
+        "version": "1.0.0",
+        "website": "http://tei-publisher.org",
+        "author": "Wolfgang Meier et al.",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "indexing": {
+        "jats": {
+            "enable": true
+        },
+        "docbook": {
+            "enable": true
+        },
+        "tei": {
+            "enable": true,
+            "context": "div"
+        }
+    },
+    "ignore": [
+        "repo.xml"
+    ],
+    "skip": [
+        "^doc/.*$"
+    ],
+    "actions": [
+        {
+            "name": "reindex",
+            "label": "Reindex data",
+            "description": "Reindex the data",
+            "app": "jinks"
+        },
+        {
+            "name": "download",
+            "label": "Download",
+            "description": "Download the app as a `.xar` file",
+            "app": "jinks"
+        },
+        {
+            "name": "file-sync",
+            "label": "Sync",
+            "description": "Sync the app to a directory on the local file system",
+            "app": "jinks",
+            "parameters": [
+                {
+                    "name": "target",
+                    "label": "Directory",
+                    "description": "The path to the target directory",
+                    "required": true
+                }
+            ]
+        }
+    ]
+}

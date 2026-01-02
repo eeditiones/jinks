@@ -9,7 +9,8 @@
     "pkg": {
         "abbrev": "tei-publisher-base",
         "version": "1.0.0",
-        "website": "http://tei-publisher.com",
+        "website": "http://tei-publisher.org",
+        "author": "Wolfgang Meier et al.",
         "user": {
             "name": "tei",
             "group": "tei",
@@ -50,7 +51,6 @@
         "custom": []
     },
     "styles": [
-        "resources/css/pico-components.css",
         "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"
     ],
     "defaults": {
@@ -166,15 +166,26 @@
     "actions": [
         {
             "name": "reindex",
-            "description": "Reindex data"
+            "label": "Reindex data",
+            "description": "Reindex the data",
+            "app": "jinks"
         },
         {
             "name": "fix-odds",
-            "description": "Fix ODDs"
+            "label": "Fix ODDs",
+            "description": "Rebuild list of ODDs and recompile"
+        },
+        {
+            "name": "download",
+            "label": "Download",
+            "description": "Download the app as a `.xar` file",
+            "app": "jinks"
         },
         {
             "name": "file-sync",
-            "description": "Sync to directory",
+            "label": "Sync",
+            "description": "Sync the app to a directory on the local file system",
+            "app": "jinks",
             "parameters": [
                 {
                     "name": "target",

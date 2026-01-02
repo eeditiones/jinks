@@ -3,17 +3,18 @@
     "type": "theme",
     "id": "https://e-editiones.org/app/tei-publisher/theme-base10",
     "label": "Default Jinks theme",
-    "description": "Includes style defaults",
+    "description": "Defines the default theme for TEI Publisher 10",
     "order": 902,
     "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
     "theme": {
+        "body": {
+            "background-color": "var(--jinks-colors-100)"
+        },
         "colors": {
             "palette": "neutral",
-            "menubar": {
-                "background-image": null,
-                "background-color": "var(--jinks-colors-500)",
-                "color": "#ffffff"
-            },
             "palettes": {
                 "blue": "palette-blue.css",
                 "green": "palette-green.css",
@@ -22,16 +23,27 @@
                 "teal": "palette-teal.css"
             }
         },
+        "content": {
+            "max-width": "70ch"
+        },
+        "menubar": {
+            "background-image": "none",
+            "background-color": "var(--jinks-colors-500)",
+            "color": "#ffffff"
+        },
+        "toolbar": {
+            "background-color": "var(--jinks-colors-200)",
+            "color": "var(--jinks-color-primary)"
+        },
         "logo": {
-            "light": "../images/tei-publisher-logo-contrast-color.svg",
-            "dark": "../images/tei-publisher-logo-contrast-color.svg",
-            "splash": {
-                "light": "../images/tei-publisher-logo-color.svg",
-                "dark": "../images/tei-publisher-logo-contrast-color.svg",
-                "size": "360px auto"
-            },
+            "image": "../images/tei-publisher-logo-contrast-color.svg",
             "width": "140px",
             "height": "48px"
+        },
+        "splash": {
+            "image": "../images/tei-publisher-logo-color.svg",
+            "width": "320px",
+            "height": "auto"
         },
         "fonts": {
             "base": {
@@ -64,33 +76,15 @@
                 "size": "1.125rem"
             }
         },
-        "hero": {
-            "background-image": "../images/typewriter.jpg",
-            "background-size": "cover",
-            "background-position": "center",
-            "background-repeat": "no-repeat",
-            "background-color": "rgba(0, 0, 0, 0.6)",
-            "text-width": "50rem",
-            "class": "row"
-        },
-        "bottom": {
-            "background-image": "../images/typewriter-on-books.jpg",
-            "background-size": "cover",
-            "background-repeat": "no-repeat",
-            "background-color": "rgba(0, 0, 0, 0.4)"
-        },
-        "header": {
-            "background-image": null
-        },
         "breadcrumbs": {
             "max": "40ch"
         },
         "texture": {
-            "background-image": "../images/jinks-images/paper.jpeg"
+            "background-image": null
         },
         "layout": {
             "class": "fixed-layout",
-            "max-width": "108rem",
+            "max-width": "84rem",
             "search": "before-top",
             "before": {
                 "hidden": false,
@@ -105,6 +99,7 @@
         }
     },
     "styles": [
+        "resources/css/pico-components.css",
         "resources/css/jinks-theme.css"
     ],
     "ignore": [
