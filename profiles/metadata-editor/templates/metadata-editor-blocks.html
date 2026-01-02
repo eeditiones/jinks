@@ -29,7 +29,7 @@
 
     [% template after %]
     [% if exists($context?doc) and $context?features?metadata-editor?enabled and $context?features?jinntap?enabled %]
-    <fx-fore xmlns:tei="http://www.tei-c.org/ns/1.0" id="metadata-panel" ignore-expressions="fx-function" class="hidden">
+    <fx-fore xpath-default-namespace="http://www.tei-c.org/ns/1.0" id="metadata-panel" ignore-expressions="fx-function" class="hidden">
         <fx-model>
             <!-- This will be filled with the teiHeader element -->
             <fx-instance id="default"></fx-instance>
