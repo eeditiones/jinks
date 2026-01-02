@@ -111,7 +111,7 @@
                 [% block before %][% endblock %]
             </aside>
 
-            <header class="content-top hidden-mobile">
+            <header class="content-top">
                 [% if $features?toolbar?enabled %]
                 [% include "templates/toolbar.html" %]
                 [% endif %]
@@ -141,7 +141,9 @@
             <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]]">
                 [% block after %][% endblock %]
             </aside>
-            [% include 'templates/footer-mobile.html' %]
+            [% if $context?theme?layout?footer?mobile?enabled %]
+                [% include 'templates/footer-mobile.html' %]
+            [% endif %]
         </pb-page>
         <div class="splash"/>
         <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>

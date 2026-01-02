@@ -98,3 +98,13 @@ li.document .attribution {
 .documents .sample-description {
     font-size: var(--jinks-footnote-font-size);
 }
+
+@media (max-width: 1024px) {
+    .document {
+        margin-bottom: var(--s1);
+    }
+
+    .document .actions {
+        justify-content: flex-end;
+    }
+}

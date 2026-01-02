@@ -151,6 +151,35 @@ a[role="button"] svg, .theme-toggle svg, .icon {
     background-color: var(--jinks-toolbar-background-color);
 }
 
+@media (max-width: 1024px) {
+    .toolbar {
+        max-width: 100vw;
+        --jinks-breadcrumbs-max: 55ch;
+    }
+
+    .toolbar ul {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .toolbar ul:first-of-type {
+        flex: 1 1 0;
+        min-width: 0;
+        overflow: hidden;
+        margin-right: calc(var(--pico-nav-element-spacing-horizontal) * 2);
+    }
+}
+@media (max-width: 767px) {
+    .toolbar {
+        --jinks-breadcrumbs-max: 26ch;
+    }
+}
+@media (max-width: 320px) {
+    .toolbar {
+        --jinks-breadcrumbs-max: 18ch;
+    }
+}
+
 pb-navigation[disabled] {
     display: inline-block;
     opacity: 0.3;

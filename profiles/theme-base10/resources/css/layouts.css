@@ -214,13 +214,13 @@
 }
 
 @media (max-width: 768px) {
+    .fixed-layout main {
+        display: block;
+    }
+
     .fixed-layout > .before {
         width: 100vw;
         max-width: unset;
-    }
-
-    .fixed-layout main.hidden-mobile {
-        display: none;
     }
 
     /* Hide aside toggle if .before is empty */
@@ -244,7 +244,8 @@
     
     /* Ensure .before sidebar is hidden on mobile when it has hidden-mobile class */
     /* This overrides the more specific .fixed-layout > .before { display: flex; } rule */
-    .fixed-layout > .before.hidden-mobile {
+    .fixed-layout > .before.hidden-mobile,
+    .fixed-layout > .after.hidden-mobile {
         display: none !important;
     }
 }
