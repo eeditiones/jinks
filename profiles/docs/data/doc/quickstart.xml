@@ -67,28 +67,28 @@
                 <title>Assembling an application</title>
                 <para>An actual application is created by selecting desired features and customizing
                     their configuration. This is achieved through a central configuration file,
-                    which can be easily edited through the user interface. Syntax suggestions in
-                    this step and human-readable structure of the configuration file greatly
+                    which can be easily edited through the user interface. Human-readable structure
+                    of the configuration file coupled with syntax suggestions in this step greatly
                     simplify the development process.</para>
                 <para>Profiles may cover individual functional <emphasis>features</emphasis>, like
-                    the abovementioned timeline but others take care of the
+                    the aforementioned timeline but others take care of the
                         <emphasis>presentational</emphasis> aspects, like typesetting and styling.
-                    Such profile examples we call <emphasis>themes</emphasis>.</para>
-                <para>Profiles may also aggregate and customize each other, so one profile can
+                    Such profiles are called <emphasis>themes</emphasis>.</para>
+                <para>Profiles may also aggregate and customize each other, so a profile may
                     depend on one or more other profiles. At the top of such a hierarchy sits what
-                    we call a "blueprint", which is essentially a ready-made configuration for a
+                    we call a <emphasis>blueprint</emphasis>, which is essentially a ready-made configuration for a
                     complete application. Usually it will be targeting a specific use case, e.g. a
-                    correspondence edition or dictionary. In the simplest case, a blueprint is just
-                    a configuration, which customizes the configuration of profiles it
-                    extends.</para>
+                    correspondence edition or a dictionary. In the simplest case, a blueprint may be just
+                    a configuration file, which tailors the configuration of profiles it
+                    uses for the specific purpose of this particular blueprint.</para>
             </section>
 
             <section>
                 <title>Continuous development</title>
-                <para>TEI Publisher now comes with a central application manager, Jinks, which
+                <para>TEI Publisher comes with a central application manager, Jinks, which
                     manages all profiles and the applications generated from it.</para>
-                <para>Creating an application is no longer a one-time generative step, but it can be
-                    approached iteratively: new features can be added or removed, configuration for
+                <para>Creation of an application is no longer a one-time generative step, but it can be
+                    approached iteratively: new features may be added or removed, configuration for
                     the existing ones modified. The same user interface, which allowed us to select,
                     pre-configure and generate our application can be used to reconfigure and
                     regenerate it at any later point. </para>
@@ -98,8 +98,8 @@
                     profiles and their dependencies used in custom applications under its control.
                     Updates can largely be carried out automatically with the number of necessary
                     manual interventions reduced to a minimum and most updates applied with a single
-                    click. Gone are the days when users had to manually read through update
-                    instructions to migrate to a new version of TEI Publisher. </para>
+                    click. Gone are the days when users had to read through update
+                    instructions to manually migrate to a new version of TEI Publisher. </para>
             </section>
 
             <section>
@@ -110,7 +110,7 @@
                     <varlistentry>
                         <term>TEI Publisher</term>
                         <listitem>
-                            <para>denotes the software package as a whole, i.e. the entire toolbox,
+                            <para>denotes the software framework as a whole, i.e. the entire toolbox,
                                 comprising all profiles and libraries</para>
                         </listitem>
                     </varlistentry>
@@ -132,9 +132,9 @@
                     <varlistentry>
                         <term>Profile</term>
                         <listitem>
-                            <para>a small, modular building block for a TEI Publisher application.
-                                Profiles can extend other profiles and can be combined to create
-                                applications. We distinguish three different kinds of
+                            <para>a modular building block for a TEI Publisher application.
+                                Profiles can extend other profiles and may be combined to create
+                                applications. We distinguish several kinds of
                                 profiles:</para>
                             <variablelist>
                                 <varlistentry>
@@ -148,8 +148,8 @@
                                 <varlistentry>
                                     <term>Feature</term>
                                     <listitem>
-                                        <para>a functional profile to be combined with others. It
-                                            provides all necessary resources to fully implement
+                                        <para>a functional profile to be combined with base and potentially other profiles. It
+                                            provides all necessary resources to fully implement a
                                             specific functional scope, e.g. docker configuration,
                                             register sidebar, or a timeline.</para>
                                     </listitem>
@@ -157,7 +157,7 @@
                                 <varlistentry>
                                     <term>Theme</term>
                                     <listitem>
-                                        <para>provides a particular look and feel. It provides all
+                                        <para>provides a particular look and feel. It supplies all
                                             necessary CSS styles, fonts and graphic assets to
                                             achieve that.</para>
                                     </listitem>
@@ -166,7 +166,7 @@
                                     <term>Blueprint</term>
                                     <listitem>
                                         <para>a complete template for an application targeted at a
-                                            specific use case like a monograph, correspondence
+                                            specific use case, e.g. a monograph, correspondence
                                             edition, dictionary etc.</para>
                                     </listitem>
                                 </varlistentry>
@@ -188,7 +188,7 @@
                             <para>library of interactive custom HTML elements. These main user
                                 interface building blocks of TEI Publisher can be freely combined to
                                 create robust HTML pages with TEI Publisher. Part of the HTML5
-                                standard and natively implemented by browsers.</para>
+                                standard and natively supported by browsers.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -204,7 +204,7 @@
         <section xml:id="e-editiones">
             <title>e-editiones.org</title>
             <para> Since its first incarnation in 2015, TEI Publisher has gained substantial
-                following with numerous academic and commercial projects around the globe using it
+                following with numerous academic and commercial projects around the globe, which are relying on it
                 for their editorial and publishing needs. Grass-roots user initiative led in 2020 to
                 the foundation of an international non-profit association <link xlink:show="new"
                     xlink:href="https://e-editiones.org">e-editiones.org</link> with the focus on
@@ -251,8 +251,7 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para> Contribute to translations via <link xlink:show="new"
-                            xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please
+                    <para> Contribute to translations via <link xlink:show="new" xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please
                         contact us if your target language is not listed and you'd like to work on
                         it. </para>
                 </listitem>
@@ -425,8 +424,8 @@
 
             <section xml:id="packageManager">
                 <title>Installing Jinks and TEI Publisher Documentation/Demo</title>
-                <para>Starting with version 10, TEI Publisher no longer comes as a single
-                    application. To get started, you want to install two packages:</para>
+                <para>TEI Publisher no longer comes as a single
+                    application. To get started, you need to install two packages:</para>
                 <variablelist>
                     <varlistentry>
                         <term>Jinks</term>
@@ -626,7 +625,7 @@
                 <filename>demo</filename> collection as well as to play around with different ODDs
             or create your own.</para>
         <note>
-            <para>From version 10 onwards, the <productname>TEI Publisher Documentation and
+            <para>The <productname>TEI Publisher Documentation and
                     Demo</productname> app corresponds to one of the pre-configured blueprints
                 available in Jinks, which you'll find under the name <guimenuitem>Documentation +
                     Demo</guimenuitem> on the <guimenuitem>Profiles</guimenuitem> tab in Jinks.
@@ -659,17 +658,7 @@
                     aspects are handled using different ODDs and view templates. We suggest to have
                     a look at each of them to see what TEI Publisher can achieve out of the
                     box.</para>
-            </section>
-            <section xml:id="demo-collection">
-                <figure>
-                    <title>Browsing Demo collection</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="demo-collection-overview.png" width="512px"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
+            </section>         
         </section>
         <section xml:id="selected-use-cases">
             <title>Selected Use Cases</title>
@@ -680,6 +669,14 @@
                 transformation of the text of the document itself – will differ to a great extent.
                 Sample documents which are included in TEI Publisher's installation package do not
                 exhaust its applications but rather aim to present some chosen use cases:</para>
+                <figure>
+                    <title>Browsing Demo collection</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="demo-collection-overview.png" width="512px"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -750,15 +747,14 @@
                     </itemizedlist>
                 </listitem>
             </itemizedlist>
-        </section>
-        <section>
+        
             <note>
                 <title>Note</title>
-                <para>You may notice that the list of included samples is more limited in version
-                    10. Some examples have been moved into separate profiles (see the
+                <para>You may notice that the list of included samples is more limited than in version
+                    9. Some examples have been moved into separate profiles (see the
                         <emphasis>Serafin</emphasis> blueprint for a correspondence edition), the
                     rest has been condensed and streamlined. The base ODD now covers many more TEI
-                    features out of the box, so less samples are needed.</para>
+                    features out of the box, so fewer samples are necessary.</para>
                 <para>We'd like to stress that preparing showcases above has been only possible
                     thanks to numerous projects releasing their sources openly, in particular the
                         <link xlink:show="new" xlink:href="http://firstfolio.bodleian.ox.ac.uk"
@@ -775,7 +771,7 @@
         <section xml:id="odd-experiments">
             <title>Experimenting with ODDs</title>
             <para>All TEI Publisher's sample documents are XML files which are transformed into a
-                HTML webpage for display in the browser. Various factors determine how the final
+                HTML webpage for display in the browser. Several factors determine how the final
                 page is going to look like: </para>
             <itemizedlist>
                 <listitem>
@@ -802,7 +798,7 @@
                 the Processing Model can be found in the <link
                     xlink:href="documentation.xml?id=pm-syntax">reference manual</link>, for now it
                 is sufficient to say this is where decisions if a TEI element should be rendered
-                inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit
+                inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit,
                 the <emphasis>text</emphasis> of the document that you see rendered in your browser
                 is an effect of applying the rules from ODD file to the source document. When
                 opening a document of the Demo collection, it is possible to see in the URL the
@@ -818,17 +814,14 @@
                 included in the final webpage.</para>
         </section>
         <section xml:id="upload">
-            <title>Uploading your own documents</title>
-            <para> If you are reading this, in all likelihood you already have some documents of
-                your own you might want published, whether they are in TEI, DocBook, JATS, MS Word
+            <title>Uploading documents</title>
+            <para> If you are reading this, you may already have some documents 
+            you might want published, whether they are in TEI, DocBook, JATS, MS Word
                 DOCX or other XML format. The <productname>Documentation and Demo</productname>
                 application allows you to upload documents into the <guilabel>Demo
                     Collection</guilabel>. The first step is to upload them into the database, for
                 which you need to be <emphasis role="bold">logged in</emphasis>. The user and
                 password are displayed in the information block on top of the right sidebar.</para>
-            <para>Upon successful login, uploading is just a question of dragging your documents
-                onto the <guibutton>Upload</guibutton> area. They will become available in the
-                document list immediately after upload is completed. </para>
             <figure>
                 <title>The Upload Panel</title>
                 <mediaobject>
@@ -837,17 +830,20 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Congratulations, now you can view your documents! This will use the base ODD. For
+            <para>Upon successful login, uploading is just a question of dragging your documents
+                onto the <guibutton>Upload</guibutton> area. They will become available in the
+                document list immediately after upload is successfully completed. The upload panel 
+                will also display the upload results. In case of problems, very often resulting from not well-formed XML, you will see a warning message.</para>
+            <para>Now you can view your documents! The transformation will use the 
+                rules of the base ODD. For
                 most text-centric TEI, the default rendition should already produce a readable
-                result, but you'll certainly find aspects to improve. Quite often the need for
-                customization will be limited to a hand full of elements. Therefore the next step
-                would be to learn about ODDs and the Processing Model and apply the modifications
-                needed.</para>
-            <para> If you attempt to upload a Microsoft Word document, the upload will automatically
-                trigger upconversion of Word to TEI, using a custom ODD for the tranformation.
+                result, but you will likely find aspects to improve to match your expectations. Quite often the need for
+                customization will be limited to just a handful of elements. Refer to <link xlink:show="new" xlink:href="documentation.xml?id=odd-customization">TEI Processing Model transformations</link> chapter to learn about the ODDs and the Processing Model.</para>
+            <para>If you upload a Microsoft Word document, the upload will automatically
+                trigger the conversion of Word to TEI, using a special ODD for the tranformation.
                 Please note that the focus of this conversion is to preserve textual content,
-                structure and basic semantics of the text, not provide authoritative mapping of
-                complete set of MS Word features to TEI. Refer to <link linkend="docx">DOCX
+                structure and basic semantics of the text, not to provide authoritative mapping of
+                complete set of MS Word features to TEI. Refer to <link xlink:show="new" xlink:href="documentation.xml?id=docx">DOCX
                     handling</link> section for more information. </para>
         </section>
 
@@ -855,87 +851,91 @@
     <section xml:id="using-jinks">
         <title>Hands-on with Jinks</title>
         <para>After playing around with the <productname>TEI Publisher Documentation and
-                Demo</productname> application, it is now time to generate your own custom edition.
-            As explained above, TEI Publisher 10 features a new application manager, called
+                Demo</productname> application, let's try and generate your own custom edition.
+            As explained above, TEI Publisher now has an application manager, called
                 <productname>Jinks</productname>. This will be your main entry point for creating or
             updating a custom edition.</para>
         <para>You can access <productname>Jinks</productname> via
-                <productname>eXist-db's</productname> dashboard. If you have not installed
-                <productname>Jinks</productname> yet, use the package manager in the dashboard to do
+                <productname>eXist-db's</productname> Dashboard. If you have not installed
+                <productname>Jinks</productname> yet, use the Package Manager in the Dashboard to do
             so.</para>
         <para>Opening Jinks for the first time, you'll see the main administration page with three
             columns: the sidebar to the left shows the list of installed applications which were
             created with Jinks (if any). The central column contains the main configuration form
-            with (currently) 3 tabs. The right column presents the configuration currently in effect
+            with several tabs. The right column presents the configuration, as is currently in effect
             for the application. The configuration is in JSON format and will initially show as an
             empty object (empty curly brackets). As you fill out the form, you'll see how the JSON
             configuration is populated with corresponding entries.</para>
+            <note role="todo">screenshot</note>
         <section xml:id="using-jinks-first-steps">
             <title>First Steps</title>
-            <para>To start creating an application, you must at least fill out the top three input
-                boxes on the first tab, <guilabel>Application Configuration</guilabel>. Most
-                important, provide a short but unique <option>abbreviation</option>. This may
-                contain alphanumeric characters, dashes and underscore, but no whitespace. The
-                abbreviation will serve as short name for the application and will also appear in
-                URLs.</para>
-            <para>If you press tab after providing the abbreviation, the following two text boxes
-                will be filled out automatically (if empty) using sensible defaults. The
-                    <option>label</option> is used as a title in the app configuration, showing up
-                in the dashboard and elsewhere. It will initially be the same as the abbreviation,
-                but you can change it to be more descriptive. The <option>unique identifier</option>
+            <para>To start, you must fill at least the top three input
+                fields under the first tab, <guilabel>Application Configuration</guilabel>. 
+                In the first box, <guilabel>Abbreviation</guilabel>, provide a short but unique name. 
+                It will serve as a collection name in the database, where the application is stored. 
+                </para>
+                <para>
+                <emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace, brackets and special characters. It may only 
+                contain alphanumeric characters (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
+            <para>After filling out the abbreviation field, suggestions for the following two text boxes
+               are provided automatically. The
+                    <option>label</option> is the title of the application, and will be used to caption the app in the Dashboard and elsewhere.
+                    It will initially be the set the same as the abbreviation,
+                but you may change it to be more descriptive - and you can freely use whitespace, brackets etc. The <option>unique identifier</option>
                 must be a URI, but it does not need to be a real URL, pointing to some existing
                 website. Like a namespace in XML, it can be anything as long as it is syntactically
                 valid and unique.</para>
-            <para>If you would start the generator with just those settings, it would result in a
-                usable, but empty application. To at least have some data to test with, switch to
+            <para>Running the generator with just these settings, the result would be an
+              application without any documents. To provide some data to test with, switch to
                 the <guilabel>Profiles</guilabel> tab, search for the <guilabel>Demo Data</guilabel>
-                feature in the <guilabel>Data Packages</guilabel> subsection and enable the
+                feature in the <guilabel>Data Packages</guilabel> subsection and enable that
                 checkbox.</para>
-            <para>You are now ready to run the generator the first time: click on the
+            <para>You are now ready to run the generator for the first time: click on the
                     <guibutton>Apply</guibutton> button in the bottom toolbar of
                     <productname>Jinks</productname>. You'll see a wait indicator appear next to the
-                button. If you clicked the button the first time, the process may take a while as it
+                button. The process may take a while as it
                 consists of multiple steps:</para>
             <procedure>
                 <step>
-                    <para>the configuration of all enabled profiles are merged</para>
+                    <para>configurations of all selected profiles are merged</para>
                 </step>
                 <step>
-                    <para>the files used by each profile are copied into a temporary collection in
+                    <para>files supplied by each profile are copied into a temporary collection in
                         the database</para>
                 </step>
                 <step>
                     <para>the temporary collection is packaged and installed into eXist-db</para>
                 </step>
             </procedure>
-            <para>Once the application is installed, a dialog opens. If you are creating a new app,
-                it will inform you that the package has been deployed, along with a link on which
-                you can click to open the created application in a new browser tab.</para>
-            <para>If you followed this section and added only the <guilabel>Demo Data</guilabel>
-                feature, the created application should show three sermons by theologician Karl
+            <para>Once the application is installed, a dialog will open. If you are creating a new app,
+                it will inform you that the package has been deployed, along with a link which
+                you can click to open the newly created application.</para>
+            <para>If you followed this section to the letter, and added only the <guilabel>Demo Data</guilabel>
+                feature, the created application should present three sermons by theologician Karl
                 Barth. Clicking on one of those will display the text of the sermon.</para>
 
         </section>
         <section>
             <title>Adding Features</title>
-            <para>The sermons contain mentions of places and people. To get more information about
-                these, switch back to <productname>Jinks</productname>, go to the
+            <para>The sermons contain mentions of places and people. To make use of the information available about
+                these in the dataset, we can enable the profile dedicated to that very purpose.</para>
+                <para>Switch back to <productname>Jinks</productname>, go to the
                     <guilabel>Profiles</guilabel> tab and find the <guilabel>Entity
                     Registers</guilabel> profile in the <guilabel>Features</guilabel> category.
                 Enable it and click <guibutton>Apply</guibutton> again.</para>
             <para>The <guilabel>Command Output</guilabel> dialog will now present a list of files
-                which were updated. Close it and go back to the generated app. Looking at the
+                which were updated. Close it and return to the generated app. Looking at the
                 menubar, you will notice that there are new menu items for
                     <guilabel>People</guilabel> and <guilabel>Places</guilabel>, leading to separate
                 pages for browsing those entities.</para>
-            <para>Next, we would also like to show a list of mentioned places and people in the
-                document when viewing one of the sermons. This feature is not enabled by default,
-                because you may want to limit it to some pages, but not all of them.</para>
+            <para>We might also like to show a list of places and people mentioned in the current
+                document, when viewing one of the sermons. This sub-feature is not enabled by default,
+                because editions may want to limit it to some pages.</para>
             <para>To enable it globally, go back to Jinks and look at the editor to the right, which
                 shows you a JSON representation of the currently active configuration for the
-                application. Right now it should look like this (though the order of properties can
+                application. Right now it should look like this (though the order of properties may
                 differ):</para>
-            <programlisting language="json"><![CDATA[{
+            <programlisting language="json">{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -947,13 +947,13 @@
     "registers",
     "theme-base10"
   ]
-}]]></programlisting>
-            <para>Configuration parameters contributed by feature profiles should go below a
-                property <code>"features"</code>, followed by the name of the profile. While we're
-                add it, we could also disable the navigation buttons in the toolbar (the sermons use
-                a single-page display). Change the configuration and add "features" as
-                follows:</para>
-            <programlisting language="json"><![CDATA[{
+}</programlisting>
+            <para>Configuration parameters for feature profiles must go under a
+                property called <code>features</code>, followed by the name of the profile. While we're
+                at it, we could also disable the navigation buttons in the toolbar (the sermons use
+                a single-page display). Change the configuration and add the <code>features</code> as
+                below:</para>
+            <programlisting language="json">{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -973,21 +973,22 @@
       "navigation": false
     }
   }
-}]]></programlisting>
-            <para>After applying the new configuration, you should find a register sidebar to the
-                right of each sermon's text, listing people and places.</para>
+}</programlisting>
+            <para>After applying the new configuration, you should find a register sidebar, listing people and places, to the
+                right of each sermon's text.</para>
+                <note role="todo">screenshot</note>
         </section>
         <section>
             <title>Customizing the theme</title>
-            <para>Some of the most common styling aspects can also be configured via the
+            <para>Some of the most frequently changed styling aspects can be configured via the
                     <filename>config.json</filename>, allowing users to change colors, fonts or
-                logos without editing CSS. For example, you very likely want to use a different logo
-                in the header menu and the splash screen (which appears while a page loads), and
-                maybe a background image for the header as well.</para>
-            <para>To do so, we first have to upload the required images. The
+                logos without editing CSS. For example, most projects will want to use their own logo
+                in the menu and the splash screen (which appears while a page loads), and
+                perhaps pick a custom background for the header as well.</para>
+            <para>To make these changes, we first have to upload the necessary images. The
                     <guilabel>Files</guilabel> tab in <productname>Jinks</productname> provides a
                 simple file manager, which we can use to browse and upload files. It will initially
-                show the root of the currently selected application. Images used for the general
+                show the collection root of the currently selected application. Images used for the general
                 page layout should go into <filename>resources/images</filename>, so navigate to
                 that collection, then either drag and drop the desired images from your system's
                 file manager or click the <guibutton>Upload</guibutton> button.</para>
@@ -997,7 +998,7 @@
             </note>
             <para>With the images uploaded, we can add them to the configuration. All settings
                 related to the look and feel of an application go into the <code>"theme"</code>
-                property of the config. For example, to change logo, splash screen image and menubar
+                property of the config. For example, to change the logo, splash screen image and menubar
                 background, we could change the configuration as follows:</para>
             <programlisting><![CDATA[{
   "pkg": {
@@ -1049,33 +1050,32 @@
                 font.</para>
             <para>We may want to decrease the font size a bit as well, setting it to
                     <code>1.125rem</code>. Note that for font scaling to work properly, we should
-                use relative sizes based on the browser's base size, therefore using rem
-                here.</para>
+                use relative sizes based on the browser's base size, therefore using <code>rem</code>
+                here, not sizes in points or pixels.</para>
             <para>Finally, we can change the color scheme used by switching to the
                     <guilabel>Theming</guilabel> tab and choosing one of the available schemes. Note
                 that this will add a property <code>"palette"</code> to the configuration,
                 referencing the selected color scheme's name. </para>
             <note>
-                <para>TEI Publisher comes with a small number of color schemes crafted by the web
-                    designer, but you can add your own. Using a well-chosen, limited color palette
-                    is in general considered good practice in web design, which is why we avoid
+                <para>TEI Publisher comes with a small number of predefined color schemes, but you can add your own palette. 
+                Using a well-chosen, limited color palette is in general considered good practice in web design, which is why we avoid
                     using hardcoded colors.</para>
             </note>
         </section>
         <section>
-            <title>And now: action!</title>
-            <para>One important step is still missing for a custom edition: creating your own ODD
+            <title>Customizing the ODD</title>
+            <para>And now: action! One important step is still missing for a custom edition: creating your own ODD
                 for text transformations. Jinks provides a control for this on the
                     <guilabel>Application Configuration</guilabel> tab. Since we're dealing with
                 Karl Barth, let's add an ODD called <filename>barth.odd</filename>.</para>
             <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
                 entries:</para>
-            <programlisting language="json"><![CDATA["odds": [
+            <programlisting language="json">"odds": [
     "barth.odd"
   ],
   "defaults": {
     "odd": "barth.odd"
-  }]]></programlisting>
+  }</programlisting>
             <para>The first adds <filename>barth.odd</filename> to the list of available ODDs
                 inherited from the base and other profiles. The second sets this ODD as the default
                 to use.</para>
@@ -1100,7 +1100,7 @@
                 process has completed, the new ODD will actually be used and you could start
                 extending it.</para>
             <note>
-                <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add an ODD to an
+                <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add or update an ODD in an
                     already existing application, i.e. an application already installed into the
                     database – or if there were <emphasis>upstream updates</emphasis> to the
                     profiles you use (see the section on appying updates below).</para>
@@ -1110,49 +1110,50 @@
         </section>
         <section>
             <title>Downloading the application</title>
-            <para><productname>Jinks</productname> operates within the database, which means all
-                files it generates exist inside the database only. For serious development (or to
-                have a backup at least), you always want to download the generated files. There are
+            <para>
+                <productname>Jinks</productname> operates within the database, which means all
+                files it generates and modifies exist inside the database only. To keep track of changes and to have a backup, 
+                you always want to download the generated files to the filesystem. There are
                 two actions for this:</para>
             <variablelist>
                 <varlistentry>
                     <term><guilabel>Download</guilabel></term>
                     <listitem>
                         <para>Packages the application into a single archive (a so called XAR),
-                            which you can later re-install into eXist-db using the package manager
-                            in the dashboard. This is a good choice for backing up the current state
-                            or for passing the application on to other people to try out.</para>
+                            which you can later re-install into eXist-db using the Package Manager
+                            in the Dashboard. This is a quick choice for passing the application on to other people to try out.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><guilabel>Sync</guilabel></term>
                     <listitem>
                         <para>Synchronizes the file hierarchy into a local disk directory. Note that
-                                <emphasis>local</emphasis> means: the machine where eXist-db is
+                                <emphasis>local</emphasis> means the machine where eXist-db is
                             running. If you are using docker, the directory will be
                                 <emphasis>inside</emphasis> the docker image. If you connect to a
-                            remote server, it will be a directory on the server machine. Sync
-                            therefore works best if you have a local eXist-db running on the machine
-                            you're developing on.</para>
+                            remote server, it will be a directory on the server. Sync
+                            therefore is particularly convenient to use during the development, to create snapshots 
+                            to be committed to the source control repository, like Git.
+                            </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
             <para>Which option to choose depends on your development workflow. Some people prefer to
                 do all development inside the database and only sync or download every now and then.
                 This does not require any additional setup. </para>
-            <para>However, experienced developers would mostly do it the other way around: have the
-                code on the file system in a directory connected to git, and do the main development
-                there. This way you can make sure you'll always be able to restore the current
-                state, even if the database crashes, your computer breaks or whatever bad may
+            <para>However, experienced developers would usually do it the other way around: have the
+                code on the file system in a directory connected to Git, and do the main development
+                there. This way you can make sure you'll always be able to restore the previous
+                state, even if the database crashes, your computer breaks, customization attempt goes sideways or whatever bad may
                 happen.</para>
         </section>
         <section>
             <title>Applying updates</title>
-            <para>There are two scenarios in which you will update the application via jinks (by
+            <para>There are two main scenarios in which you will update the application via Jinks (by
                 pressing the <guibutton>Apply</guibutton> button):</para>
             <orderedlist>
                 <listitem>
-                    <para>you modified the configuration in any way by changing settings,
+                    <para>you modified the configuration: by changing settings,
                         adding/removing profiles, uploading new files etc. This is what we've done
                         above.</para>
                 </listitem>
@@ -1163,7 +1164,8 @@
                         <emphasis>upstream</emphasis>.</para>
                 </listitem>
             </orderedlist>
-            <para><productname>Jinks</productname> continuously tracks the files in your application
+            <para>
+                <productname>Jinks</productname> continuously tracks the files in your application
                 to make sure updates will run smoothly. In particular, it needs to prevent that
                     <emphasis>upstream updates</emphasis>, i.e. changes coming from a profile, will
                 overwrite any change you have applied locally in your app.</para>
@@ -1224,11 +1226,20 @@
                         <listitem>
                             <para>is the most drastic and dangerous of the modes: it completely
                                 deletes the installed application and recreates everything from the
-                                configuration. <emphasis>Don't use it unless you are a developer
+                                configuration. <emphasis>Don't use it unless you you have the current version safely 
+                                backed up and really know what you are doing: 
+                                you are certain you want to start from scratch, or you are a developer
                                     working on a profile for Jinks</emphasis>!</para>
                         </listitem>
                     </varlistentry>
-                </variablelist></para>
+                </variablelist>
+            </para>
         </section>
+        
     </section>
+    <section xml:id="next">
+            <title>Further steps</title>
+            <para>This brief introduction aims to give a very basic orientation in using Jinks and TEI Publisher. For more in depth discussion of various subjects you may want to check the <link xlink:href="documentation.xml">Reference Manual</link> and <link xlink:href="webcomponents.xml">Web Components</link>.</para>
+            <para>e-editiones runs a series of monthly community meetups and also maintans a Slack community, which provide a space for discussion, coordination of efforts and community support. Check the <link xlink:href="https://www.e-editiones.org">website</link> to find meeting announcements and recordings of past presentations and workshops.</para>
+        </section>
 </article>
