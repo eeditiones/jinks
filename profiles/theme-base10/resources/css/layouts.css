@@ -196,6 +196,12 @@
     bottom: 0px;
 
     position: absolute;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.resize-handler:hover {
+    background-color: var(--jinks-colors-accent);
+    opacity: 0.5;
 }
 
 .before > .resize-handler {
