@@ -1,5 +1,5 @@
 <?xml-model href="teipublisher_odds.xsd"?>
-<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+<TEI xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -17,6 +17,7 @@
                  
                  
                   
+                 
                  
                  
                  <desc>Base ODD from which all other ODDs inherit</desc>
@@ -480,12 +481,12 @@
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block">
-                        <desc>When show-notes parameter is set, display note in register overview (index)</desc>
-                    </model>
+            <desc>When show-notes parameter is set, display note in register overview (index)</desc>
+        </model>
                     <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes)" behaviour="omit">
-                        <desc>Omit notes in register overview (index) When show-notes parameter is not set</desc>
-                    </model>
-                    <model predicate="parent::person or parent::place or parent::org" behaviour="inline"/>
+            <desc>Omit notes in register overview (index) When show-notes parameter is not set</desc>
+        </model>
+                    <model predicate="parent::person or parent::place or parent::org" behaviour="paragraph"/>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
             <param name="place" value="@place"/>
@@ -876,7 +877,7 @@
                 <desc>Dates</desc>
                 <param name="content" value="(birth, death)"/>
             </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
+            <model predicate="$parameters?mode='register-details'" behaviour="paragraph">
                 <desc>Variant names</desc>
                 <param name="content" value="persName[@type='variant']"/>
             </model>
@@ -884,11 +885,11 @@
                 <desc>Images</desc>
                 <param name="content" value="figure"/>
             </model>
-            <model behaviour="block">
+            <model behaviour="pass-through">
                 <desc>Short bio note</desc>
                 <param name="content" value="note[@type='bio']"/>
             </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
+            <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
                 <desc>Additional notes</desc>
                 <param name="content" value="note[@type!='bio']"/>
             </model>
@@ -896,12 +897,13 @@
                 <desc>Links to wikidata, wikipedia etc.</desc>
                 <param name="content" value="ptr"/>
             </model>
-            <model predicate="$parameters?mode='register-details'" behaviour="block">
+            <model predicate="$parameters?mode='register-details'" behaviour="block" cssClass="occupation">
                 <desc>Occupation</desc>
                 <param name="content" value="occupation"/>
                 <outputRendition xml:space="preserve">
                 display: flex;
 gap: var(--s-1);
+flex-wrap: wrap;
                 </outputRendition>
             </model>
             <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="block">
@@ -918,11 +920,12 @@ gap: var(--s-1);
                         </ul>
                     </div></pb:template>
             </model>
-            <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="block">
+            <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="heading">
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
                 <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
                 <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="level" value="4"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
                         <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
