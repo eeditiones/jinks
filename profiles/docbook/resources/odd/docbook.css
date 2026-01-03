@@ -98,7 +98,18 @@ dd {
 }
 
 .guibutton {
-    text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.6);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--jinks-form-border-radius);
+    padding: 0 6px;
+    background-color: var(--jinks-colors-accent);
+    font-size: var(--jinks-font-size-smaller);
+}
+
+.guilabel,
+.guimenuitem {
+    text-decoration: underline;
 }
 
 .flex {
