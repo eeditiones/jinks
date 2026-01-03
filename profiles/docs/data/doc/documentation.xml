@@ -3516,102 +3516,82 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         the form: <code>/language/year/chapter</code>, e.g. <code>/de/1794/9</code>. Obviously
         implementing a scheme like this requires a bit more tweaking, so we'll concentrate on
         simpler cases like the one in Escher. </para>
-      <para>TEI Publisher includes two examples, which deviate from the default addressing
-        scheme:</para>
-      <variablelist>
-        <varlistentry>
-          <term>TEI Publisher documentation</term>
-          <listitem>
-            <para>The entire documentation is contained in one file. Users may want to copy or
-              bookmark a specific section, whose identifier is thus encoded in the URL using a
-              scheme <code>/documentation/{identifier}</code>.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term><link xlink:href="../encyclopedia" xlink:show="new">Damen Conversations
-              Lexikon</link></term>
-          <listitem>
-            <para>An early 19th century encyclopedia in German. An encyclopedia or dictionary is
-              usually not read page by page. Instead users will want to browse to a particular
-              headword they are interested in. Accordingly, the URL should reflect the chosen
-              headword rather than the document. URLs are thus of the form
-                <code>/encyclopedia/{headword}</code>.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      <para>Both examples need two route definitions: the first corresponding to the root page
-        displayed, i.e. if the user has not selected a chapter or headword, the second to represent
-        the detail view of a chapter or headword. For the documentation, <link
-          xlink:href="modules/custom-api.json" role="source">modules/custom-api.json</link> thus has
-        configurations for <code>/documentation</code> as well as <code>/documentation/{id}</code>.
+      <para>The <productname>TEI Publisher Documentation and Demo</productname> application includes
+        one example, which deviates from the default addressing scheme: the <link
+          xlink:href="../encyclopedia" xlink:show="new">Wörterbuch der Philosophischen
+          Grundbegriffe</link> represents an early 19th century encyclopedia in German (encoded in
+        <link xlink:href="https://dariah-eric.github.io/lexicalresources/pages/TEILex0/TEILex0.html">TEI-Lex0</link>, a customization of TEI targeted at dictionaries and encyclopedias).
+        An encyclopedia or dictionary is usually not read page by page. Instead users will want to
+        browse to a particular headword they are interested in. Accordingly, the URL should reflect
+        the chosen headword rather than the document. URLs are thus of the form
+          <code>/encyclopedia/{headword}</code>.</para>
+      <para>This example needs two route definitions: the first corresponding to the root page
+        displayed, i.e. if the user has not selected a headword, the second to represent
+        the detail view of a headword. The Open API specification, <link
+          xlink:href="modules/docs-api.json" role="source">modules/docs-api.json</link>, thus has
+        configurations for <code>/encyclopedia</code> as well as <code>/encyclopedia/{headword}</code>.
         In both cases we simply copied and modified the configuration for the standard path, i.e.
           <code>"/{docid}"</code>, from <link xlink:href="modules/lib/api.json" role="source"
           >modules/lib/api.json</link>.</para>
       <para>The default endpoint takes various parameter, including two required ones:
           <parameter>docid</parameter> for the path to the TEI document, and
-          <parameter>template</parameter> to specify the HTML template to use. For the documentation
-        those will always be the same, i.e. <filename>doc/documentation.xml</filename> and
-          <filename>pages/documentation.html</filename>, so we can pass them as a default value.
+          <parameter>file</parameter> to specify the HTML template to use. For the encyclopedia
+        those will always be the same, i.e. <filename>demo/Kirchner-Michaelis-1907.xml</filename> and
+        <filename>pages/tei-lex</filename>, so we can pass them as a default value.
         This way we can reuse the existing operation (<function>vapi:view</function>) and don't have
         to write a custom handler function in XQuery!</para>
-      <para>We also add two parameters, <parameter>id</parameter> and <parameter>base</parameter>.
-        The first will take the <option>xml:id</option> of the chapter we're looking for.
-          <parameter>id</parameter> is one of the standard parameters picked up by the
-          <tag>pb-view</tag> in the HTML when loading the actual content to display.
-          <parameter>base</parameter> will be used in the template to set the HTML <tag>base</tag>
-        tag in the HTML head. This is required to tell the browser where images and other resources
-        should be loaded from:</para>
-      <programlisting language="html" xml:space="preserve"><![CDATA[<head>
-  <base href="${base}" data-template="pages:parse-params"/>
-  ...
-</head>]]></programlisting>
-      <para>The complete definition of the route in <link xlink:href="modules/custom-api.json"
-          role="source">modules/custom-api.json</link> looks like this:</para>
-      <programlisting language="javascript" xml:space="preserve"><![CDATA[
-"/documentation/{id}": {
-  "get": {
-      "summary": "Select the HTML template for viewing the documentation",
-      "description": "Shows a particular chapter as indicated by the id",
-      "tags": ["documentation"],
-      "operationId": "vapi:view",
-      "x-error-handler": "vapi:handle-error",
-      "parameters": [
-          {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                  "type": "string"
-              }
-          },
-          {
-    				"name": "template",
-    				"in": "query",
-    				"schema": {
-  						"type": "string",
-              "default": "pages/documentation.html"
-					  }
-					},
+      <para>The complete definition of the route for a headword in <link xlink:href="modules/docs-api.json"
+          role="source">modules/docs-api.json</link> looks like this:</para>
+      <programlisting language="javascript" xml:space="preserve"><![CDATA["/encyclopedia/{search}": {
+    "get": {
+        "summary": "Show encyclopedia entry matching {search}",
+        "description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
+        "operationId": "vapi:view",
+        "x-error-handler": "vapi:handle-error",
+        "tags": ["encyclopedia"],
+        "parameters": [
             {
-                "name": "docid",
+                "name": "file",
                 "in": "query",
                 "schema": {
                     "type": "string",
-                    "default": "doc/documentation.xml"
+                    "default": "pages/tei-lex"
                 }
             },
             {
-                "name": "base",
+                "name": "docid",
                 "in": "query",
+                "description": "Relative path to the document",
+                "required": true,
                 "schema": {
                     "type": "string",
-                    "default": "../doc/documentation.xml"
+                    "default": "demo/Kirchner-Michaelis-1907.xml"
+                },
+                "allowReserved": true
+            },
+            {
+                "name": "search",
+                "in": "path",
+                "description": "headword query",
+                "required": true,
+                "schema": {
+                    "type": "string"
                 }
             }
         ],
         "responses": {
             "200": {
-                "description": "HTML template for documentation",
+                "description": "HTML of the page",
+                "content": {
+                    "text/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "The document was not found",
                 "content": {
                     "text/html": {
                         "schema": {
@@ -3628,9 +3608,9 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     </section>
     <section xml:id="client-side-urls">
       <title>Adjusting the client-side URL handling</title>
-      <para>With the two routes we set up for the documentation in the previous section, we cover
-        the cases in which the entire page is loaded or reloaded by the browser, either by following
-        a link, selecting a bookmark or pasting an URL into the location bar. However, TEI Publisher
+      <para>With the two routes we set up for the encyclopedia in the previous section, we cover the
+        cases in which the entire page is loaded or reloaded by the browser, either by following a
+        link, selecting a bookmark or pasting an URL into the location bar. However, TEI Publisher
         is a highly dynamic application and users can interact with the page without reloading it,
         e.g. by navigating to the next page of the document, selecting a toggle, clickling a link in
         the table of contents etc. Client-side interactions like this also need to be recorded and
@@ -3647,13 +3627,14 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         and placed into the <parameter>id</parameter> parameter. The path to the TEI document is
         also tracked (it's the <code>test/kant_rvernunft_1781.TEI-P5.xml</code> part of the URL),
         though you won't see it change while navigating.</para>
-      <para>For the documentation we deviate from this default pattern with the relative URL
-        becoming <code>documentation/{id}</code>. We thus need to inform the client-side components
-        about the change, so they know how to store their state into the URL. The central
-          <tag>pb-page</tag> component provides two attributes for this:</para>
+      <para>For the encyclopedia example we deviate from this default pattern with the relative URL
+        becoming <code>encyclopedia/{headword}</code>. We thus need to inform the client-side
+        components about the change, so they know how to store their state into the URL. The Jinks
+        configuration schema provides a property <code>urls</code> for this, which has two
+        subproperties:</para>
       <variablelist>
         <varlistentry>
-          <term>url-template</term>
+          <term><code>template</code></term>
           <listitem>
             <para>A template expression containing placeholders for the parameters to be filled in.
               The template uses the same syntax and library as the popular <link
@@ -3662,7 +3643,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term>url-ignore</term>
+          <term><code>ignore</code></term>
           <listitem>
             <para>A comma-separated list of parameter names which should <emphasis>not</emphasis> be
               reflected in the URL.</para>
@@ -3678,13 +3659,17 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         will usually be rather simple. For the full syntax supported check the underlying <link
           xlink:href="https://www.npmjs.com/package/path-to-regexp" xlink:show="new">javascript
           library</link>.</para>
-      <para>To handle the URL for the documentation example, we set the URL template to
-          <code>documentation/:id?</code>. This injects the <option>id</option> parameter as part of
-        the path, e.g. <code>/documentation/api</code>. The ? after the parameter indicates that it
-        is optional. We also do not want the <code>path</code> to the document to appear anywhere
-        (it is always the same in the case), so we add it to <code>url-ignore</code>. The resulting
-          <tag>pb-page</tag> would thus look as follows:</para>
-      <synopsis language="html"><![CDATA[<pb-page url-template="documentation/:id?" url-ignore="odd,view,path" data-template="pages:pb-page" unresolved="unresolved" >]]></synopsis>
+      <para>To handle the URL for the encyclopedia example, we set the URL template to
+          <code>encyclopedia/:search?</code>. This injects the <option>search</option> parameter as
+        part of the path, e.g. <code>/encyclopedia/Egoismus</code>. The ? after the parameter
+        indicates that it is optional. We also do not want the <code>path</code> to the document to
+        appear anywhere (it is always the same in the case), so we add it to <code>ignore</code>.
+        The resulting configuration snippet would thus look as follows:</para>
+      <programlisting language="json" xml:space="preserve"><![CDATA["urls": {
+    "template": "encyclopedia/:search?",
+    "ignore": "path,odd,view,userParams"
+}]]></programlisting>
+      <para>and it is added to the frontmatter of the corresponding HTML template, <link xlink:href="templates/pages/tei-lex.html" role="source">tei-lex.html</link>.</para>
       <note>
         <title>A note on history handling</title>
         <para>It is important that only one central text component on the page writes and reads the
