@@ -392,9 +392,8 @@
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
                     <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
-            <desc>For browse view and table of contents, just output inline text</desc>
-            <param name="content" value="replace(string-join(.//text()[not(parent::ref)]), '^(.+?)[^\w]*$', '$1')"/>
-        </model>
+                        <desc>For browse view and table of contents, just output inline text</desc>
+                    </model>
                     <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
                     <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
                     <model predicate="parent::lg" behaviour="block" cssClass="lg-head"/>
