@@ -52,10 +52,19 @@
             </para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term><code>register-root</code></term>
+        <listitem>
+          <para>Relative or absolute path pointing to the collection containing register data (entity lists) for people, places etc. If relative it will be resolved relative to <code>data</code>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>data-exclude</code></term>
+        <listitem>
+          <para>Expert: an array of XPath expressions pointing to documents to be filtered out when browsing documents. Use this to hide certain documents in browsable collections.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
-    <note role="todo">
-      <para>data-exclude should be configurable</para>
-    </note>
      <note>
       <para>Example: the <productname>Serafin Correspondence</productname> blueprint comes with
       three subcollections under <filename>data</filename>: <filename>auxiliary</filename> contains

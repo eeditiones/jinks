@@ -5,6 +5,8 @@ xquery version "3.1";
  :)
 module namespace config="https://e-editiones.org/tei-publisher/generator/config";
 
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
 declare variable $config:webcomponents := "[[$script?webcomponents]]";
 declare variable $config:webcomponents-cdn := "[[$script?cdn]]";
 declare variable $config:fore := "[[$script?fore]]";
@@ -34,6 +36,20 @@ declare variable $config:sort-default := "[[$features?browse?sort?default]]";
 [% else %]
     declare variable $config:data-default := $config:data-root;
 [% endif %]
+
+[% if map:contains($defaults, "register-root") %]
+    [% if starts-with($defaults?register-root, "/") %]
+    declare variable $config:register-root := "[[$defaults?register-root]]";
+    [% else %]
+    declare variable $config:register-root := $config:data-root || "/[[$defaults?register-root]]";
+    [% endif %]
+[% else %]
+    declare variable $config:register-root := $config:data-root || "/registers";
+[% endif %]
+
+declare variable $config:data-exclude := (
+    [[ string-join($defaults?data-exclude?*, ",&#10;    ") ]]
+);
 
 declare variable $config:odd-root := $config:app-root || "/[[$defaults?odd-root]]";
 declare variable $config:default-odd := "[[$defaults?odd]]";

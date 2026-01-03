@@ -158,6 +158,17 @@
                     "type": "string",
                     "description": "Absolute or relative path to the collection used for locating XML documents which can be displayed to users. If not specified, defaults to the collection given in `defaults.data`. A relative path will be interpreted relative to `defaults.data`. Use this if documents exposed to users reside in a subcollection below `defaults.data`, but users should not the the subcollection path."
                 },
+                "data-exclude": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of XPath expressions to exclude from the data default collection"
+                },
+                "register-root": {
+                    "type": "string",
+                    "description": "Absolute or relative path to the collection used for register data. Default is `data/registers`."
+                },
                 "pagination": {
                     "type": "object",
                     "properties": {
@@ -968,7 +979,7 @@
                             "mobile": {
                                 "enabled": {
                                     "type": "boolean",
-                                    "description": "If true, the footer will be displayed on mobile devices"
+                                    "description": "If true, a footer will be displayed on mobile devices, providing access to the before sidebar"
                                 }
                             }
                         }

@@ -56,6 +56,11 @@
     "defaults": {
         "data": "data",
         "data-default": "",
+        "data-exclude": [
+            "doc($config:data-root || '/taxonomy.xml')//tei:text",
+            "collection($config:register-root)//tei:text"
+        ],
+        "register-root": "registers",
         "browse": "browse.html",
         "view": "div",
         "search": "div",
