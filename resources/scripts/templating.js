@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ast.value = '';
         error.innerHTML = '';
         const code = editor.value;
-        const params = JSON.parse(parameters.value);
+        const params = parameters.value ? JSON.parse(parameters.value) : {};
         const body = {
             template: code,
             params: params,
