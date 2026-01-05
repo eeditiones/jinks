@@ -2002,13 +2002,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
   </section>
   <section xml:id="anatomy">
     <title>Anatomy of a profile</title>
-    <note role="todo">
-      <itemizedlist>
-        <listitem>
-          <para>Explain external profiles and how to create them</para>
-        </listitem>
-      </itemizedlist>
-    </note>
     <para>Everything in TEI Publisher 10 is a profile, which also includes any application you
       generate with jinks. Applications follow the same structure and hierarchical organization as
       other profiles. The difference is only that an application includes the merged content of all
@@ -2141,7 +2134,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 }]]>
     </programlisting>
     <section xml:id="anatomy-templates">
-      <title>Templated Source Files</title>
+      <title>Templated source files</title>
       <para>If you browse through the source code of the profiles shipping with Jinks, you will also
         note a bunch of files having <filename>.tpl</filename> in their name, e.g.
           <filename>profiles/theme-base10/resources/css/jinks-variables.tpl.css</filename>.</para>
@@ -2186,6 +2179,70 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
       <para>In TEI Publisher 10, only two profiles: <emphasis>base10</emphasis> and
           <emphasis>theme-base10</emphasis> need a <filename>setup.xql</filename>. Both plug into <code>%generator:after-write</code>
       to perform additional post-processing steps.</para>
+    </section>
+    <section xml:id="anatomy-bootstrap">
+      <title>Bootstrap your own profile</title>
+      <para>At the time of writing, all TEI Publisher default profiles are shipped with
+          <productname>Jinks</productname>. However, it is also possible to create an external
+        profile in the form of an <productname>eXist-db</productname> installable package. Upon
+        startup, <productname>Jinks</productname> will search through all packages in the database.
+        If a package has a <filename>config.json</filename> with a declared <code>"type"</code>
+        property of either <code>"blueprint"</code>, <code>"feature"</code>, <code>"theme"</code> or
+          <code>"base"</code>, it will be added to the list of available profiles in the
+          <guilabel>Profiles</guilabel> tab. Other than that, a profile's <code>config.json</code>
+        looks very much like that of an application, with one exception: where applications list the
+        profiles they extend in the <code>"extends"</code> property, a profile does not declare
+        this. Instead, it lists the profiles it depends on in the <code>"depends"</code>
+        property.</para>
+      <para><productname>Jinks</productname> can help to bootstrap the profile: fill out the
+        required fields on the <guilabel>Application Configuration</guilabel> tab as usual. On the
+          <guilabel>Profiles</guilabel> tab, scroll to the very bottom and enable the
+          <guilabel>Create a new profile</guilabel> checkbox. Next to it, you should select the type
+        of the profile. Afterwards, choose whatever profiles you would like to add as dependencies
+        and change theme or configuration settings as needed.</para>
+      <figure>
+        <title>New profile option on <guilabel>Profiles</guilabel> tab</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="jinks-create-profile.png"></imagedata>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Clicking <guibutton>Apply</guibutton> will bootstrap the new profile inside the database
+        and automatically downloads it as an installable <filename>.xar</filename> package. Now you
+        have two options to further work on the profile:</para>
+      <orderedlist>
+        <listitem>
+          <para>inside the database using <productname>eXide</productname></para>
+        </listitem>
+        <listitem>
+          <para>unzip the <filename>.xar</filename> to a directory</para>
+        </listitem>
+      </orderedlist>
+      <para>Using option 1, you'll still have to make sure you backup your profile to the file
+        system every now and then (use <guimenuitem>Download App</guimenuitem> in the
+          <guimenuitem>Application</guimenuitem> menu). With option 2, you need to build and deploy
+        the profile whenever you made changes. The generated Ant build script should generate a new
+          <filename>.xar</filename>, which you can then upload to the dashboard.</para>
+      <para>If you open the generated <filename>config.json</filename> of the new profile, it may
+        look like this:</para>
+      <programlisting language="json" xml:space="preserve"><![CDATA[{
+  "pkg": {
+    "abbrev": "my-profile"
+  },
+  "overwrite": "default",
+  "label": "my-profile",
+  "type": "blueprint",
+  "version": "1.0.0",
+  "depends": ["base10","demo-data","theme-base10"],
+  "skipSource": [
+    "repo.xml",
+    "expath-pkg.xml",
+    "build.xml"
+  ]
+}]]></programlisting>
+      <para>Important here is that this configuration has a <code>"type"</code> property, which identifies 
+        it as a profile, and the other features used are declared as dependencies.</para>
     </section>
   </section>
   <section xml:id="templates">
