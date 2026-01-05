@@ -1235,9 +1235,22 @@
             <para>It will be up to you to decide how to handle the conflict. If it was introduced by
                 mistake, you can tell <productname>Jinks</productname> to ignore the conflict and
                 overwrite the file with the upstream version by clicking the <guilabel>Overwrite
-                    with next update</guilabel> button to the right of the entry. You may also
-                decide that the change is valid, meaning that the conflict is expected and you'll
-                not do anything about it.</para>
+                    with next update</guilabel> button to the right of the entry.</para>
+            <para>You may also decide that the change is valid, meaning that the conflict is
+                expected and will stay. In this case, you may want to "whitelist" the file. You can do so by
+                adding it to the "skip" property in config.json, which expects an array of
+                paths relative to your application root:</para>
+            <programlisting language="json" xml:space="preserve"><![CDATA[{
+    …
+    "skip": [
+        "resources/odd/landing.odd",
+        "resources/i18n/app/.+.json"
+    ]
+    …
+}]]></programlisting>
+            <para>The paths are interpreted as regular expressions, so in the example above, we're skipping
+                <filename>landing.odd</filename> as well as all i18n files ending with <filename>.json</filename>.
+            Files referenced by the skip list will not be touched by future updates.</para>
             <note>
                 <para>To avoid conflicts it is important that most of your changes go into files you
                     have added yourself. On many levels TEI Publisher 10 provides configuration
