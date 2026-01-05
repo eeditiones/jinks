@@ -299,16 +299,13 @@ declare variable $config:data-default := $gen:data-default;
  : A sequence of root elements which should be excluded from the list of
  : documents displayed in the browsing view.
  :)
-declare variable $config:data-exclude :=
-    doc($config:data-root || "/taxonomy.xml")//tei:text,
-    collection($config:register-root)//tei:text
-;
+declare variable $config:data-exclude := $gen:data-exclude;
 
 (:~
  : The root of the collection hierarchy containing registers data.
  :)
-declare variable $config:register-root := $config:data-root || "/registers";
-declare variable $config:register-forms := $config:data-root || "/registers/templates";
+declare variable $config:register-root := $gen:register-root;
+declare variable $config:register-forms := $config:register-root || "/templates";
 
 declare variable $config:register-map := map {
     "person": map {

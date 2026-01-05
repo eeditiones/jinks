@@ -45,7 +45,7 @@
         }
     },
     "script": {
-        "webcomponents": "3.0.0",
+        "webcomponents": "3.0.1",
         "extra-components": [],
         "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
         "custom": []
@@ -56,6 +56,11 @@
     "defaults": {
         "data": "data",
         "data-default": "",
+        "data-exclude": [
+            "doc($config:data-root || '/taxonomy.xml')//tei:text",
+            "collection($config:register-root)//tei:text"
+        ],
+        "register-root": "registers",
         "browse": "browse.html",
         "view": "div",
         "search": "div",

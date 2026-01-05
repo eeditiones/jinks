@@ -1,0 +1,15 @@
+{
+  "pkg": {
+    "abbrev": "[[ $context?pkg?abbrev ]]"
+  },
+  "overwrite": "default",
+  "label": "[[ $context?label ]]",
+  "type": "[[ $context?profile?type ]]",
+  "version": "[[ $context?version ]]",
+  "depends": [[ serialize($context?depends, map { 'method': 'json'}) ]],
+  "skipSource": [
+    "repo.xml",
+    "expath-pkg.xml",
+    "build.xml"
+  ]
+}

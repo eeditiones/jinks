@@ -1,10 +1,12 @@
 #document-list {
     flex-grow: 2;
     width: 100%;
+    height: 100%;
 }
 
 #document-list pb-load {
     overflow: auto;
+    height: 100%;
 }
 
 .before-document-list {
@@ -21,6 +23,10 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.collections {
+    height: 100%;
 }
 
 .documents {
@@ -63,6 +69,7 @@ li.document .actions {
     flex-wrap: wrap;
     gap: .5rem;
     align-items: center;
+    justify-content: flex-end;
 }
 
 li.document .thumbnail {
@@ -97,14 +104,4 @@ li.document .attribution {
 
 .documents .sample-description {
     font-size: var(--jinks-footnote-font-size);
-}
-
-@media (max-width: 1024px) {
-    .document {
-        margin-bottom: var(--s1);
-    }
-
-    .document .actions {
-        justify-content: flex-end;
-    }
 }

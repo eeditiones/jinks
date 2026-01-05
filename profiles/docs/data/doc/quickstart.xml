@@ -10,6 +10,10 @@
         <keywordset vocab="#genre">
             <keyword>Documentation</keyword>
         </keywordset>
+        <abstract>
+            <para>Start here. Introduces key concepts, installation instructions and a guided
+                tour.</para>
+        </abstract>
     </info>
     <section xml:id="introduction">
         <title>Introduction</title>
@@ -453,7 +457,7 @@
                         xlink:href="http://localhost:8080">http://localhost:8080</link>. </para>
                 <para>Log into the dashboard using the admin account and the password you chose
                     during the installation (it will be empty by default). Use the left sidebar to
-                    navigate to the <guimenuitem>Package Manager</guimenuitem>. You'll see two tabs:
+                    navigate to the <guilabel>Package Manager</guilabel>. You'll see two tabs:
                     the first one lists the application packages currently installed, the second can
                     be used to install additional packages from eXist's public application
                     repository.</para>
@@ -475,7 +479,7 @@
                         </step>
                     </procedure>
                 </note>
-                <para> Switch to the <guimenuitem>Available</guimenuitem> tab and search the list
+                <para> Switch to the <guilabel>Available</guilabel> tab and search the list
                     for <productname>Jinks</productname>. Once you find it, click on the little
                     install icon. You can also search for TEI Publisher and install the app so you
                     can play around with the provided demos and showcases. </para>
@@ -502,6 +506,9 @@
                     xlink:href="https://hub.docker.com/r/existdb/teipublisher">docker image</link>,
                 eXist will already be set up to include both Jinks and TEI
                 Publisher<!-- as well as the... TODO: add here any demos that will also be included -->. </para>
+            <note role="todo">
+                <para>Docker image paths need to be adjusted!</para>
+            </note>
             <procedure>
                 <step>
                     <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/"
@@ -627,8 +634,8 @@
         <note>
             <para>The <productname>TEI Publisher Documentation and
                     Demo</productname> app corresponds to one of the pre-configured blueprints
-                available in Jinks, which you'll find under the name <guimenuitem>Documentation +
-                    Demo</guimenuitem> on the <guimenuitem>Profiles</guimenuitem> tab in Jinks.
+                available in Jinks, which you'll find under the name <guilabel>Documentation +
+                    Demo</guilabel> on the <guilabel>Profiles</guilabel> tab in Jinks.
             </para>
         </note>
         <section xml:id="browsing">
@@ -683,17 +690,7 @@
                         <emphasis>Critik der reinen Vernunft</emphasis> from the <emphasis>Deutsches
                             Textarchiv</emphasis> corpus presents a philosophical tractate,
                         originally published in print, thus following 'traditional' book structure
-                        with front pages, foreword and chapters. It can nevertheless demonstrate
-                        very well Publisher's capacities in typesetting, switching between physical
-                        and logical structure of the document (just toggle <guibutton>Page
-                            View</guibutton> in the <guibutton>Settings</guibutton> panel) as well
-                        as generation of multiple output formats from single set of processing
-                        models in the ODD (try choosing <parameter>PDF</parameter> or
-                            <parameter>ePub</parameter> options in the
-                            <guibutton>Download</guibutton>). <emphasis>Purchas his
-                            pilgrimages</emphasis>, from the <emphasis>EEBO-TCP</emphasis> project,
-                        while roughly similar in structure is much earlier work (1613) and
-                        demonstrates extensive use of marginal notes. </para>
+                        with front pages, foreword and chapters. </para>
                 </listitem>
                 <listitem>
                     <para> Shakespeare's <emphasis>Romeo and Juliet</emphasis>, from
@@ -866,7 +863,14 @@
             for the application. The configuration is in JSON format and will initially show as an
             empty object (empty curly brackets). As you fill out the form, you'll see how the JSON
             configuration is populated with corresponding entries.</para>
-            <note role="todo">screenshot</note>
+        <figure>
+            <title>Jinks with basic config</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="jinks-config.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         <section xml:id="using-jinks-first-steps">
             <title>First Steps</title>
             <para>To start, you must fill at least the top three input
@@ -874,9 +878,9 @@
                 In the first box, <guilabel>Abbreviation</guilabel>, provide a short but unique name. 
                 It will serve as a collection name in the database, where the application is stored. 
                 </para>
-                <para>
-                <emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace, brackets and special characters. It may only 
-                contain alphanumeric characters (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
+                <para><emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace,
+                brackets and special characters. It may only contain alphanumeric characters
+                (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
             <para>After filling out the abbreviation field, suggestions for the following two text boxes
                are provided automatically. The
                     <option>label</option> is the title of the application, and will be used to caption the app in the Dashboard and elsewhere.
@@ -923,6 +927,14 @@
                     <guilabel>Profiles</guilabel> tab and find the <guilabel>Entity
                     Registers</guilabel> profile in the <guilabel>Features</guilabel> category.
                 Enable it and click <guibutton>Apply</guibutton> again.</para>
+            <figure>
+                <title>Jinks profiles tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-profiles.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
             <para>The <guilabel>Command Output</guilabel> dialog will now present a list of files
                 which were updated. Close it and return to the generated app. Looking at the
                 menubar, you will notice that there are new menu items for
@@ -976,7 +988,14 @@
 }</programlisting>
             <para>After applying the new configuration, you should find a register sidebar, listing people and places, to the
                 right of each sermon's text.</para>
-                <note role="todo">screenshot</note>
+            <figure>
+                <title>Document view with register sidebar</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-registers.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
         </section>
         <section>
             <title>Customizing the theme</title>
@@ -987,20 +1006,30 @@
                 perhaps pick a custom background for the header as well.</para>
             <para>To make these changes, we first have to upload the necessary images. The
                     <guilabel>Files</guilabel> tab in <productname>Jinks</productname> provides a
-                simple file manager, which we can use to browse and upload files. It will initially
-                show the collection root of the currently selected application. Images used for the general
-                page layout should go into <filename>resources/images</filename>, so navigate to
-                that collection, then either drag and drop the desired images from your system's
-                file manager or click the <guibutton>Upload</guibutton> button.</para>
+                simple file manager, which we can use to browse and upload files into the database.
+                It will initially show the collection root of the currently selected application.
+                Images used for the general page layout should go into
+                    <filename>resources/images</filename>, so navigate to that collection, then
+                either drag and drop the desired images from your system's file manager or click the
+                    <guibutton>Upload</guibutton> button.</para>
             <note>
                 <para>The <guilabel>Files</guilabel> tab will only become visible after you
                     generated the application!</para>
             </note>
-            <para>With the images uploaded, we can add them to the configuration. All settings
-                related to the look and feel of an application go into the <code>"theme"</code>
-                property of the config. For example, to change the logo, splash screen image and menubar
-                background, we could change the configuration as follows:</para>
-            <programlisting><![CDATA[{
+            <figure>
+                <title>Jinks: Managing Files</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-filemanager.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>With the images uploaded, we can add them to the configuration.
+                All settings related to the look and feel of an application go into the
+                    <code>"theme"</code> property of the config. For example, to change the logo,
+                splash screen image and menubar background, we could change the configuration as
+                follows:</para>
+            <programlisting language="json"><![CDATA[{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -1052,6 +1081,14 @@
                     <code>1.125rem</code>. Note that for font scaling to work properly, we should
                 use relative sizes based on the browser's base size, therefore using <code>rem</code>
                 here, not sizes in points or pixels.</para>
+            <figure>
+                <title>App with theme changes applied</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="karl-barth-theme.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
             <para>Finally, we can change the color scheme used by switching to the
                     <guilabel>Theming</guilabel> tab and choosing one of the available schemes. Note
                 that this will add a property <code>"palette"</code> to the configuration,
@@ -1099,6 +1136,14 @@
                 translate them into XQuery code) and wire them up correctly in the system. Once the
                 process has completed, the new ODD will actually be used and you could start
                 extending it.</para>
+            <figure>
+                <title>Jinks action toolbar</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-action-toolbar.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
             <note>
                 <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add or update an ODD in an
                     already existing application, i.e. an application already installed into the
@@ -1174,6 +1219,13 @@
                 you'll see a label. In most cases (hopefully) this should show "update" with a green
                 background. However, there might also be read labels static "conflict" next to some
                 files.</para>
+            <figure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-conflict.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
             <para>A "conflict" means that <productname>Jinks</productname> detected changes you made
                 to this file since it was last updated, and it refused to overwrite this file with
                 the original version coming from one of the profiles. For example, if I would change

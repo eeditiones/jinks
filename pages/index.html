@@ -82,6 +82,11 @@
                     <input type="url" name="id" placeholder="URI" required=""/>
                     <small>Unique URL to identify the app</small>
                 </label>
+                <label>
+                    Description
+                    <textarea name="description" placeholder="Description"></textarea>
+                    <small>Optional: a longer description of the app (or profile)</small>
+                </label>
             </fieldset>
 
             <fieldset role="group">
@@ -175,6 +180,29 @@
                     </ul>
                 </div>
                 [% endfor %]
+            </fieldset>
+            <fieldset>
+                <legend>Expert: Create New Profile</legend>
+                <ul>
+                    [% for $profile in filter($context?profiles, function($p) { $p?type = "bootstrap"}) %]
+                    <li>
+                        <label data-tooltip="[[ $profile?description ]]" data-placement="right">
+                            <input type="checkbox" name="bootstrap" value="[[ $profile?path ]]"
+                                data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
+                            <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
+                        </label>
+                        <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
+                            <svg class="icon"><use href="#icon-information"></use></svg>
+                        </a>
+                        <select name="bootstrap-type">
+                            <option value="blueprint">Blueprint</option>
+                            <option value="base">Base</option>
+                            <option value="feature">Feature</option>
+                            <option value="theme">Theme</option>
+                        </select>
+                    </li>
+                    [% endfor %]
+                </ul>
             </fieldset>
         </section>
 

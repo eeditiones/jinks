@@ -116,10 +116,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector('.tabs li:has([href="#files"])').style.display = 'block';
         document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
-
+        form.querySelector('[name="bootstrap"]').checked = appConfig.profile?.type;
         form.querySelector('[name="id"]').value = appConfig.id;
         form.querySelector('[name="label"]').value = appConfig.label;
         form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
+        form.querySelector('[name="description"]').value = appConfig.description || '';
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = appConfig.extends.includes(input.value);
         });
@@ -187,13 +188,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function doDeploy(abbrev, id) {
-        return displaySpinnerDuringCallback(`Deploying app ${abbrev}…`, async () => {
+    async function doDeploy(config) {
+        return displaySpinnerDuringCallback(`Deploying app ${config.pkg.abbrev}…`, async () => {
             errors.innerHTML = '';
 
             try {
                 const response = await fetch(
-                    new URL(`api/generator/${abbrev}/deploy`, window.location),
+                    new URL(`api/generator/${config.pkg.abbrev}/deploy`, window.location),
                     {
                         method: 'POST',
                         body: {},
@@ -210,8 +211,18 @@ window.addEventListener('DOMContentLoaded', () => {
                     throw new Error(response.status);
                 }
 
-                output.innerHTML = `Package is deployed. Visit it here ${createOpenButtonHtml(abbrev)}`;
-                loadApps(id);
+                // If this is a profile (blueprint, base, theme, or feature), trigger download action
+                if (config.profile && ['blueprint', 'base', 'theme', 'feature'].includes(config.profile.type)) {
+                    output.innerHTML = 'New profile created, downloading .xar';
+                    // Delay the call to avoid blocking UI conflict (runAction uses blockUiDuringCallback)
+                    setTimeout(() => {
+                        runAction('jinks', { name: 'download', app: 'jinks' });
+                    }, 0);
+                } else {
+                    output.innerHTML = `Package is deployed. Visit it here ${createOpenButtonHtml(config.pkg.abbrev)}`;
+                }
+                
+                loadApps(config.id);
             } catch (error) {
                 console.log(error);
             }
@@ -376,7 +387,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 result.nextStep.action === 'DEPLOY' ||
                 result.config._update === false
             ) {
-                await doDeploy(result.config.pkg.abbrev, result.config.id);
+                await doDeploy(result.config);
             } else {
                 loadApps(result.config.id);
             }
@@ -484,11 +495,15 @@ window.addEventListener('DOMContentLoaded', () => {
     
     async function executeAction(pkgAbbrev, actionName, params) {
         let isZipDownload = false;
+        // Preserve existing output message for download actions
+        const preserveMessage = actionName === 'download' ? output.innerHTML : null;
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 'Running action',
                 async () => {
-                    output.innerHTML = '';
+                    if (actionName !== 'download') {
+                        output.innerHTML = '';
+                    }
                     errors.innerHTML = '';
                     const url = new URL(`../${pkgAbbrev}/api/actions/${actionName}`, window.location);
                     // Add parameters as URL query parameters
@@ -526,6 +541,10 @@ window.addEventListener('DOMContentLoaded', () => {
                         a.click();
                         document.body.removeChild(a);
                         window.URL.revokeObjectURL(downloadUrl);
+                        // Restore preserved message for download actions
+                        if (preserveMessage) {
+                            output.innerHTML = preserveMessage;
+                        }
                         return; // Don't show dialog for zip downloads
                     }
                     
@@ -556,15 +575,25 @@ window.addEventListener('DOMContentLoaded', () => {
         getConfig(appConfig).then(async (config) => {
             mergedView.value = JSON.stringify(config, null, 2);
 
-            document.querySelectorAll('.color-scheme-option').forEach((option) => {
-                option.style.display = 'none';
-            });
-            Object.keys(config.theme?.colors?.palettes || {}).forEach((palette) => {
-                const colorPaletteInput = form.querySelector(`.color-scheme-option[data-palette="${palette}"]`);
-                if (colorPaletteInput) {
-                    colorPaletteInput.style.display = 'block';
-                }
-            });
+            const bootstrapCheckbox = form.querySelector('input[type="checkbox"][name="bootstrap"]:checked');
+            
+            if (bootstrapCheckbox) {
+                // When bootstrapping, show all available color scheme options
+                document.querySelectorAll('.color-scheme-option').forEach((option) => {
+                    option.style.display = 'block';
+                });
+            } else {
+                // Otherwise, only show palettes from the merged config
+                document.querySelectorAll('.color-scheme-option').forEach((option) => {
+                    option.style.display = 'none';
+                });
+                Object.keys(config.theme?.colors?.palettes || {}).forEach((palette) => {
+                    const colorPaletteInput = form.querySelector(`.color-scheme-option[data-palette="${palette}"]`);
+                    if (colorPaletteInput) {
+                        colorPaletteInput.style.display = 'block';
+                    }
+                });
+            }
 
             updateColorPaletteSelection(config);
         });
@@ -681,7 +710,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         
         formData.forEach((value, key) => {
-            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette'].includes(key)) {
+            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette', 'bootstrap', 'bootstrap-type'].includes(key)) {
                 appConfig[key] = value;
             }
         });
@@ -692,7 +721,7 @@ window.addEventListener('DOMContentLoaded', () => {
             .concat(formData.getAll('feature'))
             .concat(formData.getAll('theme'))
             .concat(formData.getAll('blueprint'));
-        appConfig.extends = extend.sort((a, b) => {
+        const sortedExtends = extend.sort((a, b) => {
             const orderA = appOrder[a];
             const orderB = appOrder[b];
             if (orderA !== undefined && orderB !== undefined) {
@@ -706,7 +735,18 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             return 0;
         });
-        
+        if (formData.get('bootstrap')) {
+            appConfig.depends = sortedExtends;
+            appConfig.extends = [
+                formData.get('bootstrap')
+            ];
+            appConfig.profile = {
+                type: formData.get('bootstrap-type')
+            };
+        } else {
+            appConfig.extends = sortedExtends;
+        }
+
         // Add color palette configuration
         const prevPalette = appConfig.theme?.colors?.palette;
         const colorPalette = formData.get('color-palette');
@@ -734,7 +774,14 @@ window.addEventListener('DOMContentLoaded', () => {
         // Get all feature, blueprint, and theme checkboxes
         const profileCheckboxes = form.querySelectorAll('input[type="checkbox"][name="feature"], input[type="checkbox"][name="blueprint"], input[type="checkbox"][name="theme"]');
 
+        const bootstrapCheckbox = form.querySelector('input[type="checkbox"][name="bootstrap"]:checked');
         profileCheckboxes.forEach((checkbox) => {
+            if (bootstrapCheckbox) {
+                // When bootstrapping a new profile, allow all profiles to be selected
+                checkbox.disabled = false;
+                return;
+            }
+
             // Parse the depends attribute
             const dependsAttr = checkbox.dataset.depends;
             
@@ -887,7 +934,8 @@ window.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
-
+    form.querySelectorAll('input[type="checkbox"][name="bootstrap"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    
     document.getElementById('reset').addEventListener('click', (ev) => {
         ev.preventDefault();
         reset();

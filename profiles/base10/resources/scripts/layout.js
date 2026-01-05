@@ -100,6 +100,32 @@ document.addEventListener("DOMContentLoaded", function () {
             targetElement.classList.toggle("hidden");
         });
     }
+
+    // Hide mobile asides on pb-refresh event
+    const mobileAsideToggles = document.querySelectorAll(".aside-toggle.mobile");
+    if (mobileAsideToggles.length > 0) {
+        document.addEventListener("pb-refresh", function () {
+            mobileAsideToggles.forEach((toggle) => {
+                const target = toggle.dataset.toggle;
+                if (target) {
+                    const targetElement = document.querySelector(target);
+                    if (targetElement && !targetElement.classList.contains('hidden-mobile')) {
+                        targetElement.classList.add('hidden-mobile');
+                        toggle.classList.remove('open');
+                    }
+                    const topPanel = toggle.closest(".fixed-layout > .before-top,.fixed-layout > .after-top");
+                    if (topPanel && !topPanel.classList.contains('hidden-mobile')) {
+                        topPanel.classList.add('hidden-mobile');
+                    }
+                    const main = document.querySelector('.fixed-layout > main');
+                    if (main && !main.classList.contains('hidden-mobile')) {
+                        main.classList.add('hidden-mobile');
+                    }
+                }
+            });
+        });
+    }
+
     setUpResizeContainers();
 });
 
