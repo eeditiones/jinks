@@ -237,7 +237,7 @@ declare %private function generator:config($settings as map(*)?, $userConfig as 
         )
     return
         map:merge(($config, map { 
-            "skip": array { distinct-values(($config?skip?*, "setup.xql", "config.json")) }
+            "skip": array { distinct-values(($config?skip?*, "setup.xql", if ($config?type = "bootstrap") then () else "config.json")) }
         }))
 };
 
@@ -288,7 +288,7 @@ declare function generator:load-json($path as xs:string, $default as map(*)?) {
 };
 
 declare %private function generator:save-config($context as map(*), $appConfig as map(*)) {
-    if ($context?_dry) then
+    if ($context?_dry or $context?type = "bootstrap") then
         ()
     else
         let $config := map:merge(

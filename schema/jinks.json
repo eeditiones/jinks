@@ -14,7 +14,7 @@
         },
         "type": {
             "type": "string",
-            "enum": ["base", "feature", "theme", "blueprint", "disabled"],
+            "enum": ["base", "feature", "theme", "blueprint", "disabled", "bootstrap"],
             "completionDetail": "Type of the profile"
         },
         "category": {
@@ -1049,6 +1049,11 @@
             "type": "object",
             "description": "Expert: XQuery code snippets to use in templates",
             "properties": {
+                "generate-profile": {
+                    "type": "boolean",
+                    "description": "If true, the application will be generated as a profile. Default is false.",
+                    "default": false
+                },
                 "templates": {
                     "type": "object",
                     "patternProperties": {

@@ -1,0 +1,27 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "bootstrap",
+    "id": "https://e-editiones.org/app/tei-publisher/new-profile",
+    "version": "1.0.0",
+    "label": "Create a new profile",
+    "description": "Creates a new profile to be used by Jinks. Selected base, feature and theme profiles become dependencies of the new profile.",
+    "order": 0,
+    "pkg": {
+        "abbrev": "tei-publisher-new-profile",
+        "version": "1.0.0",
+        "website": "http://tei-publisher.org",
+        "author": "Wolfgang Meier et al.",
+        "user": {
+            "name": "tei",
+            "group": "tei",
+            "password": "simple"
+        },
+        "permissions": "rw-r--r--"
+    },
+    "ignore": [
+        "repo.xml"
+    ],
+    "skip": [
+        "^doc/.*$"
+    ]
+}
