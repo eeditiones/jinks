@@ -1348,6 +1348,14 @@
             logged in), and select <guimenuitem>Edit ODD: barth.odd</guimenuitem>. A new tab opens,
             showing an action panel to the left, and the title of your ODD to the right. Initially
             your ODD will appear empty.</para>
+        <figure>
+            <title>Empty ODD editor</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="odd-empty-editor.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         <para>To be able to customize the display of your data it is crucial to understand its XML
             structure well. You can check the underlying XML using the corresponding links in the
                 <guimenuitem>Download</guimenuitem> menu: you'll see that the whole bible passage is
@@ -1427,7 +1435,26 @@ padding: 0 2rem;</synopsis>
                 </mediaobject>
             </figure>
             <para>Once you're done with the change, click on the button with the disk symbol in the
-                toolbar to the left to save and compile the ODD. </para>
+                toolbar to the left to save and compile the ODD. A popup will appear, reporting the result of the compilation process:</para>
+            <figure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="odd-popup.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <note>
+                <para>TEI Publisher compiles the ODD into executable XQuery code. For each output media format supported, one
+                    XQuery module is created as reported in the screenshot.</para>
+                <para>Eventually this process may fail, e.g. if you entered incorrect XPath expressions somewhere.
+                    In this case the popup will report the failure for each output format. It still saves the resulting
+                    XQuery code into a file with the marker <code>.invalid</code> in its name, e.g. <filename>barth-web.invalid.xql</filename>. If you cannot figure out
+                    your mistake otherwise, it sometimes helps to open the invalid XQuery in eXide, enter a space somewhere to trigger validation
+                    and look at the error message eXide gives you, which is often quite helpful. Don't be afraid of the XQuery code: 
+                    the mapping between the ODD and the generated XQuery is actually quite straightforward.</para>
+                <para>This said, the visual ODD editor does also run syntax checks on all XPath statements and you should pay attention
+                    to any red markers to avoid running into issues.</para>
+            </note>
             <para>Switch back to the tab with the sermon text from which you opened the editor and
                 refresh the browser window to see your changes applied. In case you do not see any
                 change, make sure </para>
