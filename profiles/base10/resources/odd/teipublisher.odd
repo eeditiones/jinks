@@ -119,13 +119,13 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
-                    <model predicate="$parameters?mode='toc'" behaviour="inline">
-            <param name="content" value="lem"/>
-        </model>
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="inline">
+                        <param name="content" value="lem"/>
+                    </model>
                     <model behaviour="alternate">
-            <param name="default" value="lem"/>
-            <param name="alternate" value="rdg"/>
-        </model>
+                        <param name="default" value="lem"/>
+                        <param name="alternate" value="rdg"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
