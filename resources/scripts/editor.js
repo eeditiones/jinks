@@ -710,7 +710,9 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         
         formData.forEach((value, key) => {
-            if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'custom-odd', 'overwrite', 'color-palette', 'bootstrap', 'bootstrap-type'].includes(key)) {
+            if (key === 'description' && value.length > 0) {
+                appConfig.description = value;
+            } else if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'description', 'custom-odd', 'overwrite', 'color-palette', 'bootstrap', 'bootstrap-type'].includes(key)) {
                 appConfig[key] = value;
             }
         });
