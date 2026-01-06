@@ -953,7 +953,7 @@
                 shows you a JSON representation of the currently active configuration for the
                 application. Right now it should look like this (though the order of properties may
                 differ):</para>
-            <programlisting language="json">{
+            <programlisting language="json" xml:space="preserve">{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -971,7 +971,7 @@
                 we could also disable the navigation buttons in the toolbar (the sermons use a
                 single-page display). Change the configuration and add the <code>features</code> as
                 below:</para>
-            <programlisting language="json">{
+            <programlisting language="json" xml:space="preserve">{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -1034,7 +1034,7 @@
                 related to the look and feel of an application go into the <code>"theme"</code>
                 property of the config. For example, to change the logo, splash screen image and
                 menubar background, we could change the configuration as follows:</para>
-            <programlisting language="json"><![CDATA[{
+            <programlisting language="json" xml:space="preserve"><![CDATA[{
   "pkg": {
     "abbrev": "mytest"
   },
@@ -1113,7 +1113,7 @@
                 Karl Barth, let's add an ODD called <filename>barth.odd</filename>.</para>
             <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
                 entries:</para>
-            <programlisting language="json">"odds": [
+            <programlisting language="json" xml:space="preserve">"odds": [
     "barth.odd"
   ],
   "defaults": {
@@ -1226,6 +1226,7 @@
                 background. However, there might also be read labels static "conflict" next to some
                 files.</para>
             <figure>
+                <title>Command output dialog showing a conflict</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="jinks-conflict.png"/>
@@ -1437,6 +1438,7 @@ padding: 0 2rem;</synopsis>
             <para>Once you're done with the change, click on the button with the disk symbol in the
                 toolbar to the left to save and compile the ODD. A popup will appear, reporting the result of the compilation process:</para>
             <figure>
+                <title>Popup displayed after saving ODD</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="odd-popup.png"/>
