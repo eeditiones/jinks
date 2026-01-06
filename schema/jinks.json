@@ -1064,6 +1064,83 @@
                 }
             }
         },
+        "docker": {
+            "type": "object",
+            "description": "Docker build and deployment configuration",
+            "properties": {
+                "eXist": {
+                    "type": "string",
+                    "description": "Version of eXist-db to use in Docker image"
+                },
+                "tei-publisher-lib": {
+                    "type": "string",
+                    "description": "Version of tei-publisher-lib to use"
+                },
+                "jinks-templates": {
+                    "type": "string",
+                    "description": "Version of jinks-templates to use"
+                },
+                "roaster": {
+                    "type": "string",
+                    "description": "Version of roaster (router) library to use"
+                },
+                "jwt": {
+                    "type": "string",
+                    "description": "Version of JWT library to use"
+                },
+                "crypto": {
+                    "type": "string",
+                    "description": "Version of crypto library to use"
+                },
+                "ant": {
+                    "type": "string",
+                    "description": "Version of Apache Ant to use"
+                },
+                "ports": {
+                    "type": "object",
+                    "description": "Port configuration for Docker container",
+                    "properties": {
+                        "http": {
+                            "type": "integer",
+                            "description": "HTTP port number",
+                            "default": 8080
+                        },
+                        "https": {
+                            "type": "integer",
+                            "description": "HTTPS port number",
+                            "default": 8443
+                        }
+                    }
+                },
+                "features": {
+                    "type": "object",
+                    "description": "Docker build-time feature flags",
+                    "properties": {
+                        "nodejs": {
+                            "type": "boolean",
+                            "description": "Enable Node.js support in Docker container"
+                        },
+                        "xst": {
+                            "type": "boolean",
+                            "description": "Enable XST support"
+                        },
+                        "ner": {
+                            "type": "boolean",
+                            "description": "Enable NER (Named Entity Recognition) support"
+                        },
+                        "tex": {
+                            "type": "boolean",
+                            "description": "Enable TeX/LaTeX support"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "jwt",
+                "crypto",
+                "roaster"
+            ]
+        },
         "templating": {
             "type": "object",
             "description": "General settings for the templating system. Most settings will only be used in HTML template frontmatter.",
