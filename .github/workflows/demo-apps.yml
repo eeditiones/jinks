@@ -2,7 +2,10 @@ name: Build and Publish Demo Apps Container
 
 on:
   push:
-    # Build demo apps container on release tags
+    # Build demo apps container on all pushes (for testing)
+    branches:
+      - '**'
+    # Push images on release tags only
     tags:
       - v*
   workflow_dispatch:
@@ -190,7 +193,7 @@ jobs:
           build-args: |
             JINKS_VERSION=latest
           builder: ${{ steps.buildx.outputs.name }}
-          push: true
+          push: ${{ startsWith(github.ref, 'refs/tags/v') }}
           sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
