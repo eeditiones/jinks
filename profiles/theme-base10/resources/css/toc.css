@@ -32,6 +32,10 @@
     line-height: var(--jinks-line-height);
 }
 
+.toc details summary > pb-link {
+    flex: 1;
+}
+
 .toc ul details>ul>li:not(:has(details)),
 .toc ul details>ul>li>details>summary {
     padding-left: var(--jinks-toc-indent);
