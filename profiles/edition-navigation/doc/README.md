@@ -34,7 +34,7 @@ To enable in-edition navigation in your app, set `"navigation": true` either in 
 
 ## Examples
 
-See the ~Serafin Correspondence~ blueprint for an example.
+See the _Serafin Correspondence_ blueprint for an example.
 
 ## Credits
 

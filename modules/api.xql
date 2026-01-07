@@ -175,6 +175,7 @@ declare function api:profile-documentation($request as map(*)) {
     let $context := map:merge(($config, map {
         "path": $collection,
         "name": $request?parameters?profile,
+        "abbrev": head(($config?shortname, $request?parameters?profile)),
         "title": $config?label,
         "profile": $config,
         "context-path": $config:context-path,

@@ -18,7 +18,7 @@ The following table shows the current list of settings which can be changed via 
 | `colors.palettes.teal` | *No description available* | `"palette-teal.css"` |
 | `content.max-width` | Maximum width of the content area for better readability | `"70ch"` |
 | `fonts.base.family` | Font family for the base font | `"'Inter', 'Noto', sans-serif"` |
-| `fonts.base.line-height` | Line height for the base font. | `"140%"` |
+| `fonts.base.line-height` | Line height for the base font. | `"1.4"` |
 | `fonts.base.size` | Font size for the base font. Use `rem` for relative size. | `"16px"` |
 | `fonts.base.weight` | Font weight for the base font. Use `normal` for regular weight, `bold` for bold weight, etc. | `"400"` |
 | `fonts.breadcrumbs.size` | Font size for breadcrumbs. Use `rem` for relative size. | `"0.9rem"` |
@@ -39,6 +39,7 @@ The following table shows the current list of settings which can be changed via 
 | `layout.before.toggle` | If true, add a toggle button to the before sidebar to collapse and expand | `true` |
 | `layout.before.width` | Width of the before sidebar | `"min(30vw, 356px)"` |
 | `layout.class` | Class to add to the main container element of the page | `"fixed-layout"` |
+| `layout.footer.mobile.enabled` | *No description available* | `true` |
 | `layout.max-width` | Width of the landing page content column | `"84rem"` |
 | `layout.search` | Position of the search input on the browse page | `"before-top"` |
 | `logo.height` | Height of the logo | `"48px"` |

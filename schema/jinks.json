@@ -30,6 +30,10 @@
             "type": "string",
             "description": "Longer description of the application or profile"
         },
+        "shortname": {
+            "type": "string",
+            "description": "A short name used to identify the profile and specify its settings in the features object. If not specified, the default is the directory name of the profile."
+        },
         "version": {
             "type": "string",
             "description": "Version of this profile. Use to keep track of different upstream profile versions.",

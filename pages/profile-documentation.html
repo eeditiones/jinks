@@ -13,11 +13,16 @@
     <style>
         .fixed-layout main {
             display: block;
-            max-width: 70rem;
-            min-width: min-content;
+            max-width: 85ch;
             margin: 1rem auto;
             padding: 0 1rem 1rem 1rem;
         }
+        @media (min-width: 85ch) {
+            .fixed-layout main {
+                min-width: 85ch;
+            }
+        }
+
         figure {
             float: right;
             max-width: 256px;
@@ -81,6 +86,7 @@
             <svg class="icon"><use href="#icon-code"></use></svg>
         </a>
     </h1>
+    <h2>[[ $abbrev ]]</h2>
     [% if map:contains($context, "description") %]
     <p>[[ $context?description ]]</p>
     [% endif %]
@@ -95,6 +101,15 @@
             </li>
             [% endfor %]
         </ul>
+    </article>
+    [% endif %]
+
+    [% if exists($profile?features?($abbrev)) %]
+    <article>
+        <h3>Default configuration</h3>
+        <pb-code-highlight language="json" line-numbers="" theme="default">
+            [[ serialize($profile?features?($abbrev), map { 'method': 'json', 'indent': true() }) ]]
+        </pb-code-highlight>
     </article>
     [% endif %]
 
