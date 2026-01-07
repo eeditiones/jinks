@@ -764,37 +764,17 @@
                         EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska
                     for sharing their correspondence material. </para>
             </note>
-        </section>
 
-        <section xml:id="odd-experiments">
-            <title>Experimenting with ODDs</title>
             <para>All TEI Publisher's sample documents are XML files which are transformed into a
-                HTML webpage for display in the browser. Several factors determine how the final
-                page is going to look like: </para>
-            <itemizedlist>
-                <listitem>
-                    <para>the ODD used for transforming the TEI XML into HTML for the content</para>
-                </listitem>
-                <listitem>
-                    <para>the HTML page templates being used for the overall structure and layout of
-                        the page</para>
-                </listitem>
-                <listitem>
-                    <para>various functional blocks contributed by profiles (register sidebars,
-                        facsimile viewer …)</para>
-                </listitem>
-                <listitem>
-                    <para>All dynamic parts of the page, i.e. the text display, navigation buttons
-                        etc., are defined as small, reusable blocks, using the Web Components
-                        technology. Components can be used like common HTML elements.</para>
-                </listitem>
-            </itemizedlist>
-
-            <para>We have already mentioned in the very first section that the TEI Processing Model
+                HTML webpage for display in the browser. We have already mentioned in the very first section that the TEI Processing Model
                 lies at the heart of the Publisher – the ODD file associated with a document defines
-                the rules of transformation of the XML source file into HTML. Detailed discussion of
+                the rules of transformation of the XML source file into HTML. An introduction to ODD
+                and the processing model <link linkend="pm-tutorial">will be given below</link> in the corresponding chapter.
+                
+                A detailed discussion of
                 the Processing Model can be found in the <link
-                    xlink:href="documentation.xml?id=pm-syntax">reference manual</link>, for now it
+                    xlink:href="documentation.xml?id=pm-syntax">reference manual</link>.</para> 
+            <para>For now it
                 is sufficient to say this is where decisions if a TEI element should be rendered
                 inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit,
                 the <emphasis>text</emphasis> of the document that you see rendered in your browser
@@ -805,21 +785,23 @@
                     >demo/F-rom.xml?odd=shakespeare</link>.</para>
             <para>Most demos come with their own ODD. However, all of them – at least if they deal
                 with TEI – extend the base ODD, <filename>teipublisher.odd</filename>.</para>
-            <para>Nevertheless, as we demonstrated in the section on selected sample documents, in
-                the application context we certainly want more than just text, however nicely
-                typeset. From basic navigation controls, table of content, to facsimile display,
-                critical apparatus, glossaries and maps – all of this and much more could be
-                included in the final webpage.</para>
         </section>
         <section xml:id="upload">
             <title>Uploading documents</title>
-            <para> If you are reading this, you may already have some documents you might want
+            <para>You may already have some documents you might want
                 published, whether they are in TEI, DocBook, JATS, MS Word DOCX or other XML format.
                 The <productname>Documentation and Demo</productname> application allows you to
                 upload documents into the <guilabel>Demo Collection</guilabel>. The first step is to
                 upload them into the database, for which you need to be <emphasis role="bold">logged
                     in</emphasis>. The user and password are displayed in the information block on
                 top of the right sidebar.</para>
+            <note>
+                <title>Important</title>
+                <para>If you are reading this on the official TEI Publisher <link xlink:href="https://tei-publisher.org">website</link>, you won't
+                    be able to log in or upload. Please <link linkend="installation">install</link> your own instance
+                    of TEI Publisher to experiment with it. The remaining sections of this quickstart guide assume you
+                have TEI Publisher installed yourself.</para>
+            </note>
             <figure>
                 <title>The Upload Panel</title>
                 <mediaobject>
@@ -837,9 +819,7 @@
                 ODD. For most text-centric TEI, the default rendition should already produce a
                 readable result, but you will likely find aspects to improve to match your
                 expectations. Quite often the need for customization will be limited to just a
-                handful of elements. Refer to <link xlink:show="new"
-                    xlink:href="documentation.xml?id=odd-customization">TEI Processing Model
-                    transformations</link> chapter to learn about the ODDs and the Processing
+                handful of elements. Refer to the <link linkend="pm-tutorial">Changing the presentation via ODD</link> chapter to learn about the ODDs and the Processing
                 Model.</para>
             <para>If you upload a Microsoft Word document, the upload will automatically trigger the
                 conversion of Word to TEI, using a special ODD for the tranformation. Please note
@@ -854,7 +834,7 @@
     <section xml:id="using-jinks">
         <title>Hands-on with Jinks</title>
         <para>After playing around with the <productname>TEI Publisher Documentation and
-                Demo</productname> application, let's try and generate your own custom edition. As
+                Demo</productname> application, let's try and generate our own custom edition. As
             explained above, TEI Publisher now has an application manager, called
                 <productname>Jinks</productname>. This will be your main entry point for creating or
             updating a custom edition.</para>
