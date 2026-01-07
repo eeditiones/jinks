@@ -702,8 +702,9 @@
                     <para>This element, though present in the specification, has little use in practice and we <link xlink:href="https://github.com/TEIC/TEI/issues/2856">do not recommend</link> its use.</para>
                 </note>
       </section>
+    </section>
       <section xml:id="behaviours">
-        <title>behaviours</title>
+        <title>Behaviours</title>
         <para> The <link xlink:show="new" xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-model.html">TEI
             Guidelines</link> list a number of suggested behaviours. TEI Publisher implements all these, supplemented with a few <emphasis>additional</emphasis> ones. Users may also add their own custom behaviours, either within the ODD itself, or by implementing custom behaviours in <link linkend="extension-modules">XQuery</link>. </para>
         <para>Illustration below shows relative frequency of use of behaviours in the TEI Publisher ODD. <code>inline</code> and <code>block</code> behaviours are used in more than 50% of models. Close to 10% of models uses <code>pass-through</code> behaviour which in majority of cases corresponds with the use of <link linkend="pb-template"><code>pb:template</code> extension</link>.</para>
@@ -1119,8 +1120,6 @@
           </variablelist>
         </section>
       </section>
-
-    </section>
     <section xml:id="odd-chaining">
     <title>Chaining the ODDs</title>
         <para>In the spirit of reuse, it is considered best practice to chain the ODD files together and only change
