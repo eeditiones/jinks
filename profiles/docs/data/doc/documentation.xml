@@ -299,8 +299,8 @@
       TEI ODD syntax to define how an XML document should be transformed.
       TEI ODD (short for One Document Does it All) was originally designed to
       provide formal, machine actionable documentation of the project in the TEI language itself. Processing models in the ODD 
-      add a powerful mechanism through which you can control
-      the transformation of your documents from the source XML to all 
+      add a powerful mechanism, through which you can control
+      the transformation of the source XML documents to all 
       output formats: HTML, ePUB, PDF etc. </para>
       <para>The processing model approach is flexible and media-agnostic: behaviours and rendition styles are transparently translated into different output media types. A single ODD can handle a multitude of heterogeneous source documents and various output media types with very little adjustment.</para>
         <figure>
@@ -424,7 +424,7 @@
             <tag>elementSpec</tag> element specification to define the processing anticipated for
           that element. Where multiple <tag>model</tag> elements appear, they are understood to
           document mutually exclusive processing scenarios, possibly for different outputs or
-          applicable in different contexts. </para>
+          applicable in <link linkend="pm-contexts">different contexts</link>. </para>
         <para>A processing model defines on an abstract level how a given element may be
           transformed to produce one or more outputs. The model is expressed in terms of <emphasis role="bold">behaviours</emphasis> and their parameters, using high-level formatting
           concepts, such as <parameter>block</parameter>, <parameter>inline</parameter>, <parameter>
@@ -442,6 +442,9 @@
     &lt;param name="content" value="lem"/&gt;
   &lt;/model&gt;
 &lt;/elementSpec&gt;</programlisting>
+  <note>
+    <para>Processing model for <code>app</code> presented above would be most likely insufficient for a scholarly publication. For practical examples consult the TEI Publisher ODD and custom ODD files available in TEI Publisher Documentation &amp; Demo.</para>
+  </note>
 </section>
         <section xml:id="pm-syntax-model-children">
           <title>
@@ -494,42 +497,7 @@
             </itemizedlist>
           </para>
           </section>
-          <section xml:id="pm-model-examples">
-          <title><code>model</code> examples</title>
-          <para> Model explicitly specifying content parameter for the <tag>app</tag> element. Only
-            content of its <tag>lem</tag> child is to be displayed (as an inline chunk of text): </para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="app"&gt;
-  &lt;model behaviour="inline"&gt;
-    &lt;param name="content" value="lem"/&gt;
-  &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-<para> Model specifying desired rendition via <code>cssClass</code>: contents of <tag>ex</tag> elements are to be
-            displayed in italic and wrapped in parentheses: </para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ex"&gt;
-  &lt;model behaviour="inline" cssClass="ex"/&gt;
-&lt;/elementSpec&gt;</programlisting>
-<programlisting language="css" xml:space="preserve">
-.ex {
-    font-style: italic;
-}
-
-.ex::before {
-    content: '(';
-}
-
-.ex::after {                   
-    content: ')';
-}
-</programlisting>
-          <para>Alternative (discouraged) rendering specification using <code>outputRendition</code>.</para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ex"&gt;
-  &lt;model behaviour="inline"&gt;
-    &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
-    &lt;outputRendition scope="before"&gt;content:"(";&lt;/outputRendition&gt;
-    &lt;outputRendition scope="after"&gt;content:")";&lt;/outputRendition&gt;
-  &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-        </section>
+          
         <section xml:id="model-styling">
           <title><tag>model</tag> output styling</title>
           <para>The intended rendering for the output of a processing model may be
@@ -561,39 +529,107 @@
             format. Restrictions apply due to differences between the output formats. Not all CSS
             properties are supported for every format. Please refer to the section on <link linkend="output-media">Output media settings</link> for further information. </para>
         </section>
-     
+     <section xml:id="pm-model-styling-examples">
+          <title>output styling example</title>
+          
+<para> Model specifying desired rendition via <code>cssClass</code>: contents of <tag>ex</tag> elements are to be
+            displayed in italic and wrapped in parentheses: </para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ex"&gt;
+  &lt;model behaviour="inline" cssClass="ex"/&gt;
+&lt;/elementSpec&gt;</programlisting>
+
+<para>The ODD file must declare a corresponding CSS stylesheet in <code>rendition</code> element in the <code>encodingDesc</code> section of the <code>teiHeader</code>. In the example below, a file called <code>tp.css</code> is expected to contain definitions for CSS classes used in the ODD processing models.</para>
+
+<programlisting language="xml" xml:space="preserve">
+&lt;TEI&gt;
+    &lt;teiHeader&gt;
+        ...
+            &lt;encodingDesc&gt;
+            &lt;tagsDecl&gt;
+                &lt;rendition source="tp.css"/&gt;
+            &lt;/tagsDecl&gt;
+        &lt;/encodingDesc&gt;
+    &lt;/teiHeader&gt;
+    ...
+&lt;/TEI&gt;
+</programlisting>
+
+<para>CSS definitions in the <code>tp.css</code> file declared in the ODD example above could be formulated as follows: </para>
+
+<programlisting language="css" xml:space="preserve">
+.ex {
+    font-style: italic;
+}
+
+.ex::before {
+    content: '(';
+}
+
+.ex::after {                   
+    content: ')';
+}
+</programlisting>
+          <para>Alternative rendering specification using <code>outputRendition</code> is presented below. This method is not recommended, as it leads to verbose and redundant CSS definitions inlined in the ODD. It tends to bloat the ODD and makes it harder to maintain for complex projects, mixing up presentational and functional concerns.</para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="ex"&gt;
+  &lt;model behaviour="inline"&gt;
+    &lt;outputRendition&gt;font-style: italic;&lt;/outputRendition&gt;
+    &lt;outputRendition scope="before"&gt;content:"(";&lt;/outputRendition&gt;
+    &lt;outputRendition scope="after"&gt;content:")";&lt;/outputRendition&gt;
+  &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+</section>
 <section xml:id="pm-model-multiple">
 <title>multiple <code>model</code>s</title>
-          <para>As discussed in <link linkend="pm-contexts">previous section</link>, sometimes several processing models are required for the same element depending on the context. 
+          <para>As discussed in an <link linkend="pm-contexts">earlier section</link>, sometimes several processing models are required for the same element depending on the context. 
             </para>
             <para>Set of
-            multiple <tag>model</tag> statements is regarded as mutually exclusive alternation and only the first
-            model with <parameter>@predicate</parameter> matching the current context is applied. <code>model</code> and <code>modelSequence</code> elements are evaluated top to bottom, in the TEI ODD document order. The first one for which the <code>@predicate</code> condition is satisfied will be applied. Further processing models will not be evaluated at all.</para>
-            <para><code>@predicate</code> can be specified as any XPath expression. Typically behaviour predicates test following characteristics:</para>
+            multiple <tag>model</tag> statements is regarded as <emphasis role="bold">mutually exclusive alternation</emphasis> and <emphasis role="bold">only the first</emphasis>
+            model with <parameter>@predicate</parameter> <emphasis role="bold">matching</emphasis> the current context <emphasis role="bold">is applied</emphasis>.</para>
+            <para>
+                    <code>model</code> and <code>modelSequence</code> elements are evaluated <emphasis role="bold">top to bottom</emphasis>, in the TEI ODD document order. The first one for which the <code>@predicate</code> condition is satisfied will be applied. Further processing models will not be evaluated at all.</para>
+            <para>
+                    <code>@predicate</code> can be specified as any XPath expression which will be evaluated to logically <emphasis>true</emphasis> or <emphasis>false</emphasis>. Typically behaviour predicates test one or more of the following characteristics:</para>
             <itemizedlist>
-                <listitem><label>the presence or a specific value of element's attribute</label>
-              <para><code>predicate="@target"</code> : true if current element has a <code>target</code> attribute</para>
-              <para><code>predicate="@type='chapter'"</code> : true if current element has a <code>type</code> attribute and its value is specifically <emphasis>chapter</emphasis></para>
+                <listitem>
+                        <label>the presence or a specific value of element's attribute</label>
+              <para>
+                            <code>predicate="@target"</code> : true if current element has a <code>target</code> attribute</para>
+              <para>
+                            <code>predicate="@type='chapter'"</code> : true if current element has a <code>type</code> attribute and its value is specifically <emphasis>chapter</emphasis>
+                        </para>
             </listitem>
-            <listitem><label>presence of a child or further descendant</label>
-              <para><code>predicate="lem"</code> : true if current element has a <code>lem</code> child element</para>
-              <para><code>predicate="descendant::pb"</code> : true if current element has a page beginning nested anywhere down the XML tree hierarchy</para>
+            <listitem>
+                        <label>presence of a child or further descendant</label>
+              <para>
+                            <code>predicate="lem"</code> : true if current element has a <code>lem</code> child element</para>
+              <para>
+                            <code>predicate="descendant::pb"</code> : true if current element has a page beginning nested anywhere down the XML tree hierarchy</para>
             </listitem>
-            <listitem><label>presence of a specific parent or ancestor</label>
-              <para><code>predicate="ancestor::table"</code> : true if current element is somewhere within a table</para>
-              <para><code>predicate="parent::div"</code> : true if current element is a direct child of a division</para>
-              <para><code>predicate="parent::div[@type='chapter']"</code> : true if current element is a direct child of a <emphasis>chapter</emphasis> level division</para>
+            <listitem>
+                        <label>presence of a specific parent or ancestor</label>
+              <para>
+                            <code>predicate="ancestor::table"</code> : true if current element is somewhere within a table</para>
+              <para>
+                            <code>predicate="parent::div"</code> : true if current element is a direct child of a division</para>
+              <para>
+                            <code>predicate="parent::div[@type='chapter']"</code> : true if current element is a direct child of a <emphasis>chapter</emphasis> level division</para>
             </listitem>
-            <listitem><label>value of an external parameter passed from the outside*</label>
-              <para><code>$parameters?mode=('toc', 'breadcrumb')</code> : true if the external parameter called <code>mode</code> is set to <emphasis>toc</emphasis> or <emphasis>breadcrumb</emphasis></para>
-              <para>Convention for referring to and evaluating external parameters is dependant on the processing model engine. <productname>TEI Processing Model library</productname> used in TEI Publisher uses the XQuery syntax and passes external parameters via <code>$parameters</code> map structure.</para>
+            <listitem>
+                        <label>value of an external parameter passed from the outside*</label>
+              <para>
+                            <code>$parameters?mode=('toc', 'breadcrumb')</code> : true if the external parameter called <code>mode</code> is set to <emphasis>toc</emphasis> or <emphasis>breadcrumb</emphasis>
+                        </para>
+              <note>
+                            <para>* Convention for referring to, and evaluating, external parameters, is dependant on the processing model engine. <productname>TEI Processing Model library</productname>, used in TEI Publisher, employs the XPath syntax and passes external parameters via <code>$parameters</code> map structure.</para>
+                        </note>
             </listitem>
             </itemizedlist>
+            <para>Predicate tests may use logical operators of conjunction (<code>and</code>) or alternative (<code>or</code>) to create more complex expressions, following the rules of <link xlink:href="https://www.w3.org/TR/xpath-31/">XPath expression language</link>.</para>
         </section>
             <section xml:id="pm-model-multiple-example">
 <title>matching <code>model</code>s example</title>
-            <para>For example, we may wish to process the <tag>quote</tag> element as
-            an inline italic element when it appears inside a <tag>p</tag> element, but as an
+            <para>For a simple case where single model is insufficient, let's focus on quotes. We may wish to process the <tag>quote</tag> element as
+            an inline italic phrase when it appears inside a paragraph (<tag>p</tag> element), but as an
             indented block when it appears elsewhere. To achieve this, we need to change the
             specification for the <tag>quote</tag> element to include two <tag>model</tag> elements
             as follows: </para>
@@ -602,40 +638,52 @@
   &lt;model behaviour="block"/&gt;
 &lt;/elementSpec&gt;</programlisting>
           <para> The first processing model will be matched and used only for <tag>quote</tag> elements which
-            match the XPath expression given as value for the <parameter>@predicate</parameter>
+            match the XPath expression given as the value of the <parameter>@predicate</parameter>
             attribute. Other element occurrences will use the second processing model. 
           </para>
+          <note>
+            <para>Given that quotes are ubiquitous in TEI and may occur in a number of contexts, a more appropriate predicate could test for other contexts than paragraph ancestor, as it happens in the <link xlink:href="https://github.com/eeditiones/jinks/blob/b6523a09fbbdee6c5141a2d762ff52f11fc27be2/profiles/base10/resources/odd/teipublisher.odd#L616">TEI Publisher ODD</link>.</para>
+          </note>
       </section>
-       
-        
       <section xml:id="pm-syntax-modelSequence">
         <title>
-          <tag>modelSequence</tag> and <tag>modelGrp</tag>
+          <tag>modelSequence</tag>
         </title>
-        <para> Summary of elements that can be used to document one or more processing models for a
-          given element: <itemizedlist>
-            <listitem>
-              <para>
-                <tag>model</tag> describes the processing intended for a specific context </para>
-            </listitem>
-            <listitem>
-              <para>
-                <tag>modelSequence</tag> (sequence of processing models) a group of model elements
-                documenting intended processing models for this element, to be acted upon in
-                sequence </para>
-            </listitem>
-            <listitem>
-              <para>
-                <tag>modelGrp</tag> (processing model group) a group of model elements documenting
-                intended processing models for this element </para>
-            </listitem>
-          </itemizedlist>
-        </para>
-        <para> The <tag>modelGrp</tag> element may be used to group alternative <tag>model</tag>
-          elements intended for a single kind of output. The <tag>modelSequence</tag> element is
+        <para>The <tag>modelSequence</tag> element is
           provided for the case where a sequence of models is to be processed, functioning as a
-          single unit. Common use case would be to use modelSequence to generate table of contents
-          along with the reading text as shown in the example below: </para>
+          single unit.</para>
+        <para>As discussed earlier, when multiple <code>model</code> elements occur as direct children of the <code>elementSpec</code>, they are treated as mutually exclusive and only one of the models will be applied during the transformation.</para>
+        <para>Nevertheless, sometimes it is necessary to apply two or more behaviour functions to the same source element. Let's consider a verse line, where apart from the content of the line we may want the verse number presented to the side (typically not for each verse, but for every fifth or so).</para>
+        <para>To achieve this effect, we might want to apply two models in a sequence: first one using the <code>n</code> attribute as the <code>parameter</code> to produce the ordinal, and a second one, to transform the actual content of the line.</para>
+              <para>
+          <code>modelSequence</code> element is a wrapper that can be used around any group of nested <code>model</code> (and <code>modelSequence</code>) elements, to ensure that they are all applied. Models are evaluated (checking if predicate tests are satisfied in the current context), and applied in the sequence determined by the ODD document order.</para>
+              <para>
+        Please note that since predicate rules still apply, therefore in the example below, the first model in the sequence will only be applied for every 5th verse.</para>
+        
+         <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="l"&gt;
+    &lt;modelSequence&gt;
+      &lt;model predicate="(number(@n) mod 5) = 0" behaviour="inline"&gt;
+         &lt;param name="content" value="@n"/&gt;
+      &lt;/model&gt;
+      &lt;model behaviour="block"/&gt;
+    &lt;modelSequence&gt;
+&lt;/elementSpec&gt;</programlisting>
+
+<note>
+              <para>
+                        <code>modelSequence</code> is not the only way to achieve similar effect, depending on the precise requirements, alternative approaches would modify the <code>content</code> parameter, or use <code>pb:template</code> extension. Particularly to produce nested markup structures the latter method is most useful.</para>
+                </note>
+        <figure>
+          <title>Numbered verse lines example from <link xlink:href="https://neolatina.dhlab.uj.edu.pl/exist/apps/neolatina/s48-1">Neolatina Sarmatica</link>.</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="pm-verse.jpg"/>
+            </imageobject>
+          </mediaobject>
+    </figure>
+   
+        <para>Another use case would be to use modelSequence to generate table of contents
+          preceding the reading text as shown in the example below: </para>
         <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="body"&gt;
   &lt;modelSequence&gt;
     &lt;model behaviour="index"&gt;
@@ -645,17 +693,37 @@
   &lt;/modelSequence&gt;
 &lt;/elementSpec&gt;</programlisting>
       </section>
-
+        <section xml:id="pm-syntax-modelGrp">
+        <title>
+                <tag>modelGrp</tag> (processing model group) </title>
+        <para> The <tag>modelGrp</tag> element may be used to group <tag>model</tag>s for better readability of the code, for example
+          elements intended for the same output format.</para>
+          <note>
+                    <para>This element, though present in the specification, has little use in practice and we <link xlink:href="https://github.com/TEIC/TEI/issues/2856">do not recommend</link> its use.</para>
+                </note>
+      </section>
+</section>
       <section xml:id="behaviours">
         <title>Behaviours</title>
-        <para> The <link xlink:show="new"
-            xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-model.html">TEI
-            guidelines</link> document a number of default behaviours. TEI Publisher allows users to
-          add their own behaviours, either within the ODD itself or by writing <link
-            linkend="extension-modules">XQuery code</link>. The following section lists the default
-          behaviours. </para>
+        <para> The <link xlink:show="new" xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-model.html">TEI
+            Guidelines</link> link a number of suggested behaviours. TEI Publisher implements all these, supplemented with a few <emphasis>additional</emphasis> ones. Users may also add their own custom behaviours, either within the ODD itself, or by implementing custom behaviours in <link linkend="extension-modules">XQuery</link>. </para>
+        <para>Illustration below shows relative frequency of use for available behaviours in the TEI Publisher ODD. <code>inline</code> and <code>block</code> behaviours are used in more than 50% of models. Close to 10% of models uses <code>pass-through</code> behaviour which in majority of cases corresponds with the use of <link linkend="pb-template"><code>pb:template</code> extension</link>.</para>
+        <para>Several other behaviours are used relatively frequently: <code>alternate</code>, <code>link</code>, <code>heading</code>, <code>list</code> and <code>listItem</code> as well as <code>omit</code>, <code>webcomponent</code>, <code>paragraph</code> and <code>break</code>.</para>
+        <para>Other behaviours are very closely tied to the specific elements they tend to be solely used for, e.g. <code>table</code> and related <code>row</code> and <code>cell</code> behaviours are used solely by their eponymous elements in TEI (and with slight difference in naming, by <code>table</code>, <code>tr</code>, <code>td</code> and 
+        <code>th</code> elements in DocBook, respectively).</para>
+        <para>What follows, in ODD customization practice, we'll typically need to use just a handful of most frequent behaviours, therefore it pays off to familiarize yourself with these first.</para>
+            <figure>
+          <title>Behaviour distribution in TEI Publisher ODD</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="behaviour-distribution.jpg"/>
+            </imageobject>
+          </mediaobject>
+    </figure>
         <section xml:id="behaviours-available">
           <title>Available Behaviours</title>
+          <para>This section lists the behaviours suggested by the TEI
+          Guidelines. Please note that not all are necessarily used in practice.</para>
           <para> Behaviour functions accept a range of parameters, depending on the function in
             question. Where these parameters are left unspecified in the <tag>model</tag>, default
             values are used. All functions take at least one parameter:
