@@ -1,0 +1,199 @@
+name: Build and Publish Demo Apps Container
+
+on:
+  push:
+    # Build demo apps container on release tags
+    tags:
+      - v*
+  workflow_dispatch:
+    # Allow manual triggering
+
+env:
+  IMAGE_NAME: jinks-demo
+  JINKS_IMAGE: ghcr.io/eeditiones/jinks
+
+jobs:
+  generate-apps:
+    name: Generate Demo Apps
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Pull jinks image
+        run: docker pull ${JINKS_IMAGE}:latest
+      
+      - name: Start jinks container
+        run: |
+          docker run -d \
+            --name jinks-server \
+            -p 8080:8080 \
+            ${JINKS_IMAGE}:latest
+      
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      
+      - name: Install jinks-cli
+        run: npm install -g @teipublisher/jinks-cli
+      
+      - name: Generate tei-publisher app
+        working-directory: demo
+        run: |
+          jinks create -c tp_config.json 
+
+      - name: Generate tp-serafin app
+        working-directory: demo
+        run: |
+          jinks create -c ser_config.json 
+
+      - name: Generate tp-annotator app
+        working-directory: demo
+        run: |
+          jinks create -c ann_config.json 
+      
+      - name: Verify deployed apps
+        run: jinks list
+
+      - name: Extract XAR files for generated apps
+        working-directory: demo
+        run: |
+          # Get app abbreviations from config files
+          for config in *_config.json; do
+            abbrev=$(jq -r '.pkg.abbrev' "$config")
+            echo "Downloading XAR for $abbrev..."
+            
+            # Download XAR using the jinks API actions/download endpoint
+            # This packages the app from /db/apps/{abbrev} and returns it as XAR
+            curl -s -u "tei:simple" -X POST \
+              "http://localhost:8080/exist/apps/jinks/api/actions/download?root=/db/apps/$abbrev" \
+              -o "${abbrev}.xar" || {
+                echo "Failed to download $abbrev.xar via jinks API, trying app API..."
+                # Fallback: try the app's own download endpoint
+                curl -s -u "tei:simple" \
+                  "http://localhost:8080/exist/apps/$abbrev/api/apps/download" \
+                  -o "${abbrev}.xar" || {
+                  echo "Failed to download $abbrev.xar"
+                  exit 1
+                }
+              }
+            
+            echo "Downloaded ${abbrev}.xar ($(stat -f%z "${abbrev}.xar" 2>/dev/null || stat -c%s "${abbrev}.xar") bytes)"
+          done
+      
+      
+      - name: List generated XAR files
+        working-directory: demo
+        run: |
+          echo "Generated XAR files:"
+          ls -lh *.xar || echo "No XAR files found!"
+      
+      - name: Upload XAR artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: demo-apps-xars
+          path: demo/*.xar
+          retention-days: 30
+      
+      - name: Stop jinks container
+        if: always()
+        run: docker stop jinks-server || true
+
+  build-demo-image:
+    name: Build Demo Apps Container
+    needs: generate-apps
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        id: buildx
+        with:
+          install: true
+      
+      - name: Download XAR artifacts
+        uses: actions/download-artifact@v6
+        with:
+          name: demo-apps-xars
+          path: demo/
+      
+      - name: Verify XAR files
+        working-directory: demo
+        run: |
+          echo "XAR files to include in image:"
+          ls -lh *.xar
+          if [ ! -f "tei-publisher.xar" ] || [ ! -f "tp-serafin.xar" ] || [ ! -f "tp-annotator.xar" ]; then
+            echo "Error: Missing required XAR files"
+            exit 1
+          fi
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-demo
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push demo apps image
+        uses: docker/build-push-action@v6
+        with:
+          context: demo
+          file: demo/Dockerfile.demo
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            JINKS_VERSION=latest
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          sbom: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache,mode=max
+
