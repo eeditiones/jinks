@@ -703,12 +703,12 @@
                 </note>
       </section>
       <section xml:id="behaviours">
-        <title>Behaviours</title>
+        <title>behaviours</title>
         <para> The <link xlink:show="new" xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-model.html">TEI
-            Guidelines</link> link a number of suggested behaviours. TEI Publisher implements all these, supplemented with a few <emphasis>additional</emphasis> ones. Users may also add their own custom behaviours, either within the ODD itself, or by implementing custom behaviours in <link linkend="extension-modules">XQuery</link>. </para>
-        <para>Illustration below shows relative frequency of use for available behaviours in the TEI Publisher ODD. <code>inline</code> and <code>block</code> behaviours are used in more than 50% of models. Close to 10% of models uses <code>pass-through</code> behaviour which in majority of cases corresponds with the use of <link linkend="pb-template"><code>pb:template</code> extension</link>.</para>
+            Guidelines</link> list a number of suggested behaviours. TEI Publisher implements all these, supplemented with a few <emphasis>additional</emphasis> ones. Users may also add their own custom behaviours, either within the ODD itself, or by implementing custom behaviours in <link linkend="extension-modules">XQuery</link>. </para>
+        <para>Illustration below shows relative frequency of use of behaviours in the TEI Publisher ODD. <code>inline</code> and <code>block</code> behaviours are used in more than 50% of models. Close to 10% of models uses <code>pass-through</code> behaviour which in majority of cases corresponds with the use of <link linkend="pb-template"><code>pb:template</code> extension</link>.</para>
         <para>Several other behaviours are used relatively frequently: <code>alternate</code>, <code>link</code>, <code>heading</code>, <code>list</code> and <code>listItem</code> as well as <code>omit</code>, <code>webcomponent</code>, <code>paragraph</code> and <code>break</code>.</para>
-        <para>Other behaviours are very closely tied to the specific elements they tend to be solely used for, e.g. <code>table</code> and related <code>row</code> and <code>cell</code> behaviours are used solely by their eponymous elements in TEI (and with slight difference in naming, by <code>table</code>, <code>tr</code>, <code>td</code> and 
+        <para>Other behaviours are very closely tied to the specific elements they tend to be solely used for, e.g. <code>table</code> and related <code>row</code> and <code>cell</code> behaviours are used exclusively by their eponymous elements in TEI (and by <code>table</code>, <code>tr</code>, <code>td</code> and 
         <code>th</code> elements in DocBook, respectively).</para>
         <para>What follows, in ODD customization practice, we'll typically need to use just a handful of most frequent behaviours, therefore it pays off to familiarize yourself with these first.</para>
             <figure>
@@ -720,26 +720,27 @@
           </mediaobject>
     </figure>
         <section xml:id="behaviours-available">
-          <title>Available Behaviours</title>
-          <para>This section lists the behaviours suggested by the TEI
-          Guidelines. Please note that not all are necessarily used in practice.</para>
+          <title>Standard behaviours</title>
+          <para>This section lists the behaviours supported by TEI Processing Model library out of the box. 
+          These include all behaviours suggested by the TEI Guidelines and several additional ones, commonly used in TEI Publisher-based editorial projects.
+          </para>
           <para> Behaviour functions accept a range of parameters, depending on the function in
-            question. Where these parameters are left unspecified in the <tag>model</tag>, default
-            values are used. All functions take at least one parameter:
-              <parameter>content</parameter>. It will be added by default unless specified and
-            contains the nested content of the currently processed node. You may change this by
-            explicitely setting a <parameter> content</parameter> parameter inside the model. </para>
+            question. Where these parameters are not explicitly specified in the <tag>model</tag>, default
+            values are used.</para>
+          <para>All behaviour functions have at least one parameter called 
+              <parameter>content</parameter> (with a slight exception of <code>alternate</code> behaviour, where equivalent parameter is called <parameter>default</parameter>). By default the <code>content</code> is set to XPath expression <code>.</code>, which means
+              the currently processed node. You may adjust this by
+            explicitly changing the <parameter>content</parameter> parameter value in the <code>model</code>. </para>
           <para> In the parameter lists below we skip the <parameter>content</parameter> parameter
             as it is available for every behaviour. Optional parameters are marked as <emphasis>
-              optional</emphasis> in parenthesis, followed by the output mode they apply for, if
+              optional</emphasis> in parentheses, followed by the output mode they apply to, if
             relevant. </para>
           <variablelist>
             <varlistentry>
               <term>alternate</term>
               <listitem>
-                <para>Display alternating elements for displaying the preferred version and an
-                  alternative, both at once or by some method of toggling between the two. The
-                  concrete implementation depends on the output format.</para>
+                <para>Present <emphasis>default</emphasis> and <emphasis>alternative</emphasis> content. The
+                  concrete implementation depends on the output format. Typical web-oriented implementation relies on using a dynamic tooltip to display the alternate content.</para>
                 <informaltable>
                   <thead>
                     <tr>
@@ -829,6 +830,7 @@
                   may span several columns/rows.</para>
               </listitem>
             </varlistentry>
+            <!-- MT: should we postulate deprecation of cit? it is unnecessarily specific, could be easily handled by block behaviour -->
             <varlistentry>
               <term>cit</term>
               <listitem>
@@ -852,13 +854,15 @@
             <varlistentry>
               <term>document</term>
               <listitem>
-                <para>Start a new output document.</para>
+                <para>Create output document wrapper. The
+                  concrete implementation depends heavily on the output format. For example, in the case of LaTeX output this 
+                  behaviour sets the document preamble, where options for the paper size, document layout, packages used and so on can be defined.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term>figure</term>
               <listitem>
-                <para>Make a figure with provided title argument as caption</para>
+                <para>Make a figure with provided title argument as caption.</para>
                 <informaltable>
                   <thead>
                     <tr>
@@ -916,7 +920,7 @@
             <varlistentry>
               <term>heading</term>
               <listitem>
-                <para>Creates a heading.</para>
+                <para>Create a heading.</para>
                 <informaltable>
                   <thead>
                     <tr>
@@ -937,7 +941,7 @@
             <varlistentry>
               <term>inline</term>
               <listitem>
-                <para>Outputs an inline element.</para>
+                <para>Output an inline element.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -967,7 +971,7 @@
             <varlistentry>
               <term>list</term>
               <listitem>
-                <para> Creates an ordered or unordered list, depending on the type attribute (e.g.
+                <para> Create an ordered or unordered list, depending on the type attribute (e.g.
                     <parameter> type="ordered"</parameter>). If a label is present before each item,
                   a description list is output instead, using the label as definition term. </para>
                 <informaltable>
@@ -980,7 +984,7 @@
                   <tbody>
                     <tr>
                       <td>type</td>
-                      <td> The type of list: use "ordered" for an enumerated list, or "custom" to
+                      <td>The type of list: use "ordered" for an enumerated list, or "custom" to
                         specify item labels in combination with the <option>n</option> parameter on
                         each <command>listItem</command>. The default is "unordered" for a list of
                         bullet points. </td>
@@ -992,7 +996,7 @@
             <varlistentry>
               <term>listItem</term>
               <listitem>
-                <para>Outputs an item in a list.</para>
+                <para>Output an item in a list.</para>
                 <informaltable>
                   <thead>
                     <tr>
@@ -1012,13 +1016,13 @@
             <varlistentry>
               <term>metadata</term>
               <listitem>
-                <para>Outputs a metadata section, e.g. a &lt;head&gt; in HTML.</para>
+                <para>Output a metadata section, e.g. a &lt;head&gt; in HTML.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term>note</term>
               <listitem>
-                <para> create a note, often out of line, depending on the value of
+                <para>create a note, often out of line, depending on the value of
                     <code>place</code> ; could be "margin", "footnote", "endnote", "inline" </para>
                 <informaltable>
                   <thead>
@@ -1043,13 +1047,19 @@
             <varlistentry>
               <term>omit</term>
               <listitem>
-                <para> Do nothing, skip this element, do not process children </para>
+                <para>Do nothing: skip this element, do not process children.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term>paragraph</term>
               <listitem>
                 <para> Create a paragraph. </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>pass-through</term>
+              <listitem>
+                <para>Process the content without creating any kind of wrapper. Most often used together with <code>pb:template</code> to create more complex output markup or just with <code>content</code> parameter, to limit processing to selected content. The latter can be also used to specify arbitrary order for processing source fragments.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -1087,9 +1097,9 @@
             <varlistentry>
               <term>webcomponent (TEI Publisher extension)</term>
               <listitem>
-                <para> Outputs a custom HTML element (usually referencing a webcomponent) using the
-                  value of parameter <parameter>name</parameter> as tag name. All other parameters
-                  are copied into corresponding attributes (properties of the webcomponent). </para>
+                <para>Output a custom HTML element using the
+                  value of parameter <parameter>name</parameter> as the custom tag name. All other parameters
+                  are translated into corresponding attributes (properties of the webcomponent). </para>
                 <informaltable>
                   <thead>
                     <tr>
