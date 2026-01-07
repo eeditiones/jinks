@@ -479,7 +479,9 @@
                   <parameter>@useSourceRendition</parameter> : whether to obey any rendition
                   attribute which is present in the source document</para>
               </listitem>
-              
+              <listitem>
+                  <para><parameter>@pb:mode</parameter> : <link linkend="pm-mode">processing mode</link> to set to any subsequently called models</para>
+              </listitem>
               <listitem>
                 <para>
                   <tag>param</tag> : allows to pass parameters to @behaviour function; parameters
@@ -703,7 +705,7 @@
                 </note>
       </section>
     </section>
-      <section xml:id="behaviours">
+    <section xml:id="behaviours">
         <title>Behaviours</title>
         <para> The <link xlink:show="new" xlink:href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-model.html">TEI
             Guidelines</link> list a number of suggested behaviours. TEI Publisher implements all these, supplemented with a few <emphasis>additional</emphasis> ones. Users may also add their own custom behaviours, either within the ODD itself, or by implementing custom behaviours in <link linkend="extension-modules">XQuery</link>. </para>
@@ -1119,12 +1121,107 @@
             </varlistentry>
           </variablelist>
         </section>
+        <section xml:id="pb-behaviour">
+          <title>Custom behaviours in the ODD</title>
+          <para>The two dozen behaviours supported by TEI Processing Model library out of the box are enough to cover most
+          standard tasks, but sometimes a custom behaviour may make the ODD code clearer and easier to maintain.</para>
+          <para>By combining <link linkend="pb-template">code templates</link> with parameters we can create a very simple
+            mechanism to define new behaviours right inside the ODD!</para>
+          <para> Take the TEI Publisher documentation as an example: it is written in Docbook 5 and
+            transformed via ODD. The documentation includes some videos which are hosted on youtube.
+            In DocBook these are represented by <tag>videodata</tag> elements inside a
+              <tag>videoobject</tag>.</para>
+          <programlisting xml:space="preserve">&lt;figure xml:id="edit-odd"&gt;
+    &lt;title&gt;Screencast&lt;/title&gt;
+    &lt;mediaobject&gt;
+      &lt;videoobject&gt;
+        &lt;videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/&gt;
+      &lt;/videoobject&gt;
+    &lt;/mediaobject&gt;
+&lt;/figure&gt;</programlisting>
+          <para> In the HTML output we would need to transform this into an <tag>iframe</tag>, so
+            the reader can view the video embedded in the page. We can achieve this with a <tag>
+              pb:template</tag> as sketched in the previous section, but it would be nice to turn
+            this into a general-purpose behaviour, which we can re-use in other situations requiring
+            an iframe. The TEI Publisher Processing Model library allows us to define a behaviour right inside the
+            ODD as follows: </para>
+
+          <programlisting xml:space="preserve">&lt;pb:behaviour ident="iframe" output="web"&gt;
+    &lt;pb:param name="src"/&gt;
+    &lt;pb:param name="width"/&gt;
+    &lt;pb:param name="height"/&gt;
+    &lt;pb:template xmlns=""&gt;
+        &lt;iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"&gt;&lt;/iframe&gt;
+    &lt;/pb:template&gt;
+&lt;/pb:behaviour&gt;</programlisting>
+
+          <note>
+            <title>Note</title>
+            <para>Note how we have to reset the namespace on the <tag>pb:template</tag>? This is
+              required because the default namespace in an ODD document is the TEI namespace. You
+              therefore need to reset it whenever you want to output elements in another or no
+              namespace inside a template. Without this, the <code>iframe</code> would end up in the TEI
+              namespace. Web browsers will usually ignore it, but it would be incorrect
+              nevertheless.</para>
+          </note>
+          <para> All behaviours should be defined in the TEI header of the ODD file (or – to be exact – the <tag>
+              tagsDecl</tag> part of the <tag>encodingDesc</tag>). You may create multiple behaviour
+            declarations with the same <parameter>@ident</parameter>, provided that they apply to
+            different <parameter>@output</parameter> modes. Parameters declared via
+              <tag>pb:param</tag> without <parameter>@value</parameter> attribute are expected to be
+            passed to the behaviour from the calling model. A parameter may be empty though. If you
+            define an XPath expression as <parameter>@value</parameter> attribute, the result of the
+            XPath evaluation will be used as value for the parameter. </para>
+          <para> The new behaviour defined above will be named <function>iframe</function> and takes three
+            parameters: <parameter>src</parameter>, <parameter>width</parameter> and <parameter>
+              height</parameter>. It can now be used by a <tag>model</tag> as follows: </para>
+          <programlisting xml:space="preserve">&lt;model behaviour="iframe"&gt;
+    &lt;param name="width" value="@width"/&gt;
+    &lt;param name="height" value="@depth"/&gt;
+    &lt;param name="src" value="@fileref"/&gt;
+&lt;/model&gt;</programlisting>
+          <para> For further code examples, please have a look at <link xlink:href="odd/docbook.odd"
+              role="source">docbook.odd</link>, which is used for viewing the documentation. </para>
+          <note>
+            <title>Note</title>
+            <para>The graphical ODD editor in TEI Publisher does not yet
+              support defining your own behaviours via <tag>pb-behaviour</tag>. You have to make
+              these changes in the source XML using an XML editor. You can,
+              however, use the graphical editor to continue editing the ODD afterwards. It makes sure not to overwrite your hand-written code upon save. </para>
+          </note>
+        </section>
+        <section xml:id="custom-behaviour-xquery">
+        <title>Custom Behaviours in XQuery</title>
+        
+        <para>While TEI Publisher does provide ways to create custom behaviours in XQuery 
+        this should only be used when well justified: custom
+          XQuery behaviours limit the portability of the ODD and negatively influence maintenance. It is recommended 
+          to rely on standard behaviours, <link linkend="pb-behaviour"><tag>pb:behaviour</tag></link> and <link linkend="pb-template"><tag>pb:template</tag></link>
+          extensions of the ODD syntax wherever possible.</para>
+          
+          <para>Avoiding custom behaviours works quite well for HTML output, nevertheless edge cases exist where creating custom behaviours in XQuery makes sense. Follow instructions from the <link linkend="extension-modules">XQuery extension modules</link> chapter for this approach.</para>
+          <para>
+          
+          Avoiding custom behaviours works quite well for HTML output and we have realized
+          complex projects with no extension behaviours. Things may become more
+          difficult for LaTeX output: there are hundreds of packages to use, and
+          users typically define their own macros or environments for all recurring typesetting
+          tasks. For example, to print a TEI <tag>persName</tag>, experienced LaTeX users would
+          normally create a corresponding <code>\persName</code> macro and handle the formatting
+          details there. Similarly, processing highly specific XML sources, for example to produce the reference pages for the TEI Guidelines themselves, is best handled via custom XQuery behaviours.</para>
       </section>
-      <section xml:id="pb-template">
+    </section>
+      
+    <section xml:id="pb-template">
           <title>Custom markup templates with <tag>pb:template</tag>
           </title>
-          <para> TEI Publisher supports an extension to the ODD syntax in its own namespace (
-              <parameter> http://teipublisher.com/1.0</parameter>). </para>
+          <para>
+          The standard supported behaviours are sufficient to cover most
+          typical tasks, but more complex HTML markup or
+          procedural output formats like LaTeX require more customization and control over the
+          generated output. The TEI Publisher library therefore extends the processing model syntax with
+          a custom element for defining code templates. The <code>pb:template</code> element belongs to TEI Publisher, not TEI namespace (
+              <parameter> http://teipublisher.com/1.0</parameter>).</para>
           <para> Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element
             containing a code template. The template is expanded first, and the result is passed to
             the behaviour specified for the model, in place of the
@@ -1179,6 +1276,291 @@
         &lt;/model&gt;
         </programlisting>
         </section>
+    <section xml:id="extension-modules">
+        <title>XQuery extension modules</title>
+        <para> Where possible, developers should stick to the standard behaviours, or use the <link linkend="pb-behaviour"><tag>pb:behaviour</tag></link> and <link linkend="pb-template"><tag>pb:template</tag></link>
+          extensions of the ODD syntax. However, there might be
+          situations in which it is necessary to generate a specific type of complex output, which
+          requires the full power of XQuery. To facilitate this, the implementation allows
+          extension modules to be configured, with definitions of custom functions and behaviours which may be then used in the ODD.
+          </para>
+        
+          <para> Configuration is done via an XML file which must reside in the same collection as
+            the source ODD files. It contains a series of <tag>output</tag> elements, representing
+            particular output modes (e.g. web or print) via <parameter>@mode</parameter> attribute.
+              <tag> output</tag> element without a mode groups modules available for all output
+            modes. </para>
+          <para> Each <tag>output</tag> element lists modules to be loaded for specified output
+            mode. Each definition may optionally be limited to a specific ODD, name of which is
+            specified in the <parameter>@odd</parameter> attribute. </para>
+          <programlisting language="xml" xml:space="preserve">&lt;modules&gt;
+    &lt;!-- functions or behaviours common to all output modes --&gt;
+    &lt;output&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&gt;
+    &lt;/output&gt;
+    &lt;!-- General fo extension functions --&gt;
+    &lt;output mode="print"&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&gt;
+    &lt;/output&gt;
+    &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
+    &lt;output mode="web" odd="documentation"&gt;
+      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&gt;
+    &lt;/output&gt;
+&lt;/modules&gt;</programlisting>
+          <para> Whenever the library tries to locate a processing model function for a given
+            behaviour, it will <emphasis role="bold">first</emphasis> check any extension module it
+            knows to see if it contains a matching function. One can thus <emphasis role="bold">
+              overwrite</emphasis> the default functions as well as define new ones. </para>
+          <para> An extension module may also contain general purpose XQuery functions you want to
+            call from within an ODD parameter, e.g. for formatting a date, outputting a number etc.
+            To make these functions available to all output modes, just skip the
+              <parameter>@mode</parameter> attribute. </para>
+              
+          
+            <para>Starting with tei-publisher-lib 3.1.0, the module import path given in the "at"
+              attribute no longer needs to be absolute. A relative path (e.g.
+                <filename>ext-html.xql</filename>) will be interpreted relative to the
+                <filename>modules</filename> collection. </para>
+          
+        
+        <section xml:id="extension-modules-behaviours">
+          <title>Implementing Custom Functions and Behaviours</title>
+          <para>To be recognized by the library, an extension function must accept at least 4
+            default arguments, plus any number of custom parameters. The required parameters
+            are:</para>
+          <variablelist>
+            <varlistentry>
+              <term>$config</term>
+              <listitem>
+                <para> a map containing configuration information as well as function references to
+                  be called. The most important ones are <function>$config?apply($config,
+                    $node)</function> and <function>$config?apply-children($config, $node,
+                    $content)</function>. Both are function items and when called, continue
+                  processing with either a single <parameter> $node</parameter> or a sequence of
+                  nodes in <parameter>$content</parameter>. </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>$node</term>
+              <listitem>
+                <para>the TEI element being processed at the moment</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>$class</term>
+              <listitem>
+                <para> a list of HTML class names to be used. This includes automatically generated
+                  class names as well as those passed via <parameter>@cssClass</parameter> on a
+                  model item. </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>$content</term>
+              <listitem>
+                <para> because <parameter>content</parameter> is defined for every model rule, it is
+                  always passed to a behaviour function (though it might be empty) </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para> For all additional parameters, the processing model implementation tries to fill
+            each custom parameter with a corresponding value by looking through the <tag>param</tag>
+            children of the <tag>model</tag> in the ODD to find one with a name matching the
+            variable name. If no matching parameter can be found, the function argument will be set
+            to the empty sequence. You should not enforce a type or cardinality for any of the
+            custom parameters as this may lead to unexpected errors. The parameters may be empty or
+            contain more than one item. </para>
+          <para> For example, a custom behaviour called <code>code</code> for syntax highlighting in
+            an extension module named <filename>ext-html.xql</filename> might look as follows: </para>
+          <programlisting language="xquery" xml:space="preserve">xquery version "3.1";
+(:~ : Non-standard extension functions, mainly used for the documentation. :)
+module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
+    &lt;pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
+    {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
+    &lt;/pre&gt;
+};</programlisting>
+          <para> It defines one function, <function>pmf:code</function>, which can be called from
+            the ODD as follows, provided that the <filename>ext-html.xql</filename> module has been
+            configured as described in the <link linkend="extension-configuration">previous
+              section</link>. </para>
+          <programlisting language="xml" xml:space="preserve">
+&lt;model behaviour="code"&gt; 
+    &lt;param name="lang" value="@lang"/&gt; 
+&lt;/model&gt;
+        </programlisting>
+        </section>
+        <section xml:id="extension-modules-behaviour-parameters">
+          <title>Custom Behaviours Accepting User-Defined Parameters</title>
+          <para>Sometimes you may like to implement a generic behaviour which takes arbitrary
+            parameters from the user. This means the parameter list of your behaviour will not be
+            fixed.</para>
+          <para> To facilitate this, a behaviour function may declare a final parameter
+              <code>$optional as map(*)</code>. If the processor finds <tag>param</tag> children in
+            the model which cannot be mapped to an explicitly declared parameter, it stores all such
+            extra parameters as a key/value pairs in the <parameter>$optional</parameter> map.
+          </para>
+        </section>
+      </section>
+            <section xml:id="setting-parameters">
+        <title>Setting ODD parameters</title>
+        <para>There are several scenarios, where it's useful to pass a parameter to the ODD, or set it at some point in the processing, to be retrieved later: </para>
+        <itemizedlist>
+            <listitem><para>to access <link linkend="global-variables">global configuration parameters</link>, e.g. to determine the path to the registers or primary data collection to avoid redundance in hard-coding it in the ODD</para></listitem>
+            <listitem>to access <link linkend="external-parameters">external parameters</link>, informing the ODD processor about elements of the application context, e.g. user-selected language, or if we are in the table of content, breadcrumbs, register or perhaps a reading view</listitem>
+          <listitem>
+              <para>to influence processing of the subsequently called models for particular use case by setting a <link linkend="pm-mode">processing mode</link></para>
+          </listitem>
+          <listitem>
+            <para>to <link linkend="pm-set-param">set a parameter</link> value in a processing model and have it available to all subsequently processed models to avoid repeated computation of a value, that can be re-used, e.g. expanding the facsimile prefix into reusable URL fragment</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>The last two scenarios have a lot in common, in fact setting a processing mode is a special case of setting an arbitrary parameter. Both features are
+          intended for relatively rare cases, where the standard mechanisms for handling the flow of
+          processing are not enough. This mainly applies to cases in which you have to process the
+          same document fragment multiple times in the same processing context (usually
+            the edition view).</para>
+        <section xml:id="global-variables">
+        <title>Global Configuration Variables</title>
+        <para>Sometimes you may want to access global configuration parameters, e.g. to determine
+          the data root collection of the current application.</para>
+        <para>TEI Publisher imports some commonly needed elements of the global application configuration from the <code>odd-global.xqm</code> module.</para>
+        <programlisting language="xml" xml:space="preserve"><![CDATA[<modules>
+    <!-- Import global variables and functions from modules/odd-global.xqm -->
+    <module uri="http://e-editiones.org/tei-publisher/odd-global" prefix="global" at="odd-global.xqm"/>
+    ...
+</modules>]]></programlisting>
+
+<note role="todo"><para>Discuss how to add custom global configuration elements</para></note>
+      </section>
+        <section xml:id="external-parameters">
+          <title>External Parameters</title>
+          <para> The script calling the processing model may pass external parameters into the ODD.
+            They will be available in the variable <parameter>$parameters</parameter>, which is an
+            XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator. </para>
+          <para>For example, one can use this feature to control how specific parts of the document
+            are output, without having to define a separate output mode, which would result in much
+            more code. Below we display a shortened header for the document, containing simply its
+            title, but only if the parameter "header" is set to "short":</para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
+    &lt;model predicate="$parameters?header='short' behaviour="block" cssClass="header-short"&gt;
+      &lt;param name="content" value="titleStmt"/&gt;
+    &lt;/model&gt;
+  ...
+&lt;/elementSpec&gt;</programlisting>
+          <para> The <tag>pb-view</tag> webcomponent also lets you define arbitrary parameters to be
+            passed to the ODD via <tag>pb-param</tag>. For example, the breadcrumbs shown above this
+            documentation page are realized by setting a parameter <parameter>mode</parameter> and
+            can be queried in model predicates with
+              <parameter>$parameters?mode='breadcrumbs'</parameter> . </para>
+          <programlisting language="xml" xml:space="preserve">&lt;section class="breadcrumbs"&gt;
+    &lt;pb-view id="title-view1" src="document1" subscribe="transcription"&gt;
+        &lt;pb-param name="mode" value="breadcrumbs"/&gt;
+    &lt;/pb-view&gt;
+&lt;/section&gt;</programlisting>
+          <para>If the parameter is set, the processing model rules in the ODD will output the
+            headings of all ancestor sections of the current division only, ignoring everything
+            else. This approach helps to reuse the same ODD for viewing specific aspects of the
+            document.</para>
+          <para> A dedicated user interface webcomponent <link xlink:show="new"
+              xlink:href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0">
+              <tag>pb-toggle-feature</tag>
+            </link> exists for toggling between two values of a parameter. Example below would
+            produce a checkbox which when on results in the value of <parameter>
+              $parameters?mode</parameter> set to <parameter>diplomatic</parameter>, otherwise to
+              <parameter> norm</parameter>. </para>
+          <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
+        </section>
+        <section xml:id="pm-mode">
+          <title>Processing Modes </title>
+          <para>Distinguishing between processing modes is a common feature in XSLT. It comes handy
+            if you need to process the same XML more than once for different purposes. 
+            </para>
+            <para>
+            One example would be to render a person reference once in the running text, and again, as a
+            footnote, but in that case enhanced with the associated commentary but stripped of any
+            information regarding textual features such as scribal
+            errrors in the spelling of the name, or gaps and stains on the parchment. </para>
+            <para>As a rule of thumb, setting
+            a mode is helpful where it would not be possible to distinguish the scenario to apply
+            neither by the context in which the element appears in the XML source nor by the
+            external parameter passed into the ODD.</para>
+            
+          <para>TEI Publisher supports an extension attribute,
+              <code>@pb:mode</code>, on a <code>model</code>. The value of the attribute will be
+            taken as the name of the mode, and subsequently called models can test for it in a
+              <code>predicate</code>
+             in via special variable, <code>$mode</code></para>
+             <para>For example, if you set <code>pb:mode</code> attribute to <code>register</code> on a model
+             with
+              <code>&lt;model behaviour="block" pb:mode="register"&gt;</code>, then subsequently called models (i.e. models for all 
+              nodes nested within the current element) can be tested for the mode in a predicate, e.g. <code>&lt;model predicate="$mode='register'" .../&gt;</code>. </para>
+              
+               <para>None of the examples shipping with TEI Publisher needs this
+          feature, but in some specific editions we do encounter situations which cannot be handled
+          without them. Illustration below presents such a case, where in the edition text only one of the possible expansions is presented (<emphasis>Dat(ae)</emphasis>), but the apparatus below gives a rendition of all potential readings (<emphasis>Dat(ae) or Dat(um)</emphasis>). Both the edited text and the apparatus are generated from the same TEI fragment, but processed twice, under two models differentiated by mode, one resulting in an inline phrase, and the other in a footnote.</para>
+          
+           <figure>
+          <title>Use case for applying different processing modes to the same TEI element <link xlink:href="http://dantiscus.al.uw.edu.pl/?f=letterSummary&amp;letter=116&amp;view=6#ftntid286509376">in Dantiscus' correspondence edition</link></title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="dantiscus-processing-modes.jpg"/>
+            </imageobject>
+          </mediaobject>
+    </figure>
+        </section>
+
+        <section xml:id="pm-set-param">
+          <title>Setting parameters within the ODD</title>
+          <para>A logical follow-up for setting the processing mode described in the previous
+            section and <link linkend="external-parameters">passing external parameters</link>, this
+            extension allows to set an arbitrary parameter which is passed on to all models
+            subsequently called as a result of processing the current element. </para>
+          <para>The syntax is almost the same as for the standard <code>param</code>, which would be set on the <code>model</code>. 
+          Just the name of the element changes to
+              <code>&lt;pb:set-param&gt;</code>, marking this as a special parameter which is
+            <emphasis>"inherited"</emphasis> by subsequent models. </para>
+          <para>Common motivation to use this feature would be for processing efficiency, to compute certain
+            value once and just use it many times afterwards. Let's imagine that every paragraph
+            exposes a citation button which always starts with the author, title and other
+            information from the publication statement part of the TEI file and only ends with a
+            paragraph number. We could easily prepare the initial sequence on the entire text or a division level and
+            have it available to all nested paragraphs, thus saving the processing time required to
+            look up from the paragraph to the TEI header every time. </para>
+        </section>
+
+      </section>
+
+      <section xml:id="pm-extensions-xquery">
+        <title>XQuery or XPath</title>
+        <para>The implementation directly translates processing model instructions into an XQuery
+          3.1 module by generating executable XQuery code. This is straightforward as the resulting
+          XQuery will closely resemble the specification in the ODD, thus being easy to debug. It
+          also leads to very efficient code, which is as fast or even faster as a hand-written,
+          optimized transformation.</para>
+        <para> As a welcome side effect, any valid XQuery expression might be used wherever the spec
+          expects an XPath expression, e.g. in predicates or parameters. For example, one can define
+          variables inside a parameter using a standard XQuery <code language="xquery">let $x := ...
+            return ...</code> syntax. </para>
+      </section>
+      <section xml:id="pm-extensions-default">
+        <title>Default Processing Model Rules</title>
+        <para> It is possible to define a default <tag>elementSpec</tag> to be applied to all
+          elements which are not already matched by another elementSpec. For example, if no <tag>
+            elementSpec</tag> is present for an element, its text content is output. To change this
+          behaviour and omit content elements without specification, you may want to define a
+          default <tag>elementSpec</tag> as shown below: </para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="*"&gt; &lt;model behaviour="omit"/&gt; &lt;/elementSpec&gt;</programlisting>
+        <para>You can also define models to be applied to all text nodes, e.g. if you need to
+          normalize certain nodes:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="text()"&gt;
+  &lt;model behaviour="text"/&gt;
+&lt;/elementSpec&gt;</programlisting>
+        <para>Note that outputting text nodes is a performance critical operation, so use with care.
+          Too complex processing may dramatically slow down rendering.</para>
+      </section>
     <section xml:id="odd-chaining">
     <title>Chaining the ODDs</title>
         <para>In the spirit of reuse, it is considered best practice to chain the ODD files together and only change
@@ -1830,387 +2212,6 @@
     </section>
 
 
-    <section xml:id="pm-extensions">
-      <title>Extensions to the Processing Model Specification</title>
-      <section xml:id="pm-extensions-xquery">
-        <title>XQuery Instead of XPath</title>
-        <para>The implementation directly translates processing model instructions into an XQuery
-          3.1 module by generating executable XQuery code. This is straightforward as the resulting
-          XQuery will closely resemble the specification in the ODD, thus being easy to debug. It
-          also leads to very efficient code, which is as fast or even faster as a hand-written,
-          optimized transformation.</para>
-        <para> As a welcome side effect, any valid XQuery expression might be used wherever the spec
-          expects an XPath expression, e.g. in predicates or parameters. For example, one can define
-          variables inside a parameter using a standard XQuery <code language="xquery">let $x := ...
-            return ...</code> syntax. </para>
-      </section>
-      <section xml:id="pm-extensions-default">
-        <title>Default Processing Model Rules</title>
-        <para> It is possible to define a default <tag>elementSpec</tag> to be applied to all
-          elements which are not already matched by another elementSpec. For example, if no <tag>
-            elementSpec</tag> is present for an element, its text content is output. To change this
-          behaviour and omit content elements without specification, you may want to define a
-          default <tag>elementSpec</tag> as shown below: </para>
-        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="*"&gt; &lt;model behaviour="omit"/&gt; &lt;/elementSpec&gt;</programlisting>
-        <para>You can also define models to be applied to all text nodes, e.g. if you need to
-          normalize certain nodes:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="text()"&gt;
-  &lt;model behaviour="text"/&gt;
-&lt;/elementSpec&gt;</programlisting>
-        <para>Note that outputting text nodes is a performance critical operation, so use with care.
-          Too complex processing may dramatically slow down rendering.</para>
-      </section>
-
-
-      <section xml:id="setting-parameters">
-        <title>Setting processing parameters for the ODD</title>
-
-        <para>Depending on the application context we often wish to differentiate the desired
-          processing output. For example when displaying the list of documents available in an
-          edition we usually only want to see a rather short entry comprising of the author and
-          title, but when viewing an individual document we certainly want to present all associated
-          metadata, not to mention arrange that information visually in a distinct way. </para>
-        <para>To this end, we can pass external parameters into the ODD, which inform the processor
-          which of the processing scenarios we wish to follow.</para>
-
-        <para>In a <link linkend="external-parameters">External parameters</link> section you can
-          read more about this, the most common, use case for passing parameters in the ODD.</para>
-        <para> In version 3.0.0 of the <code>tei-publisher-lib</code> we added two carefully chosen
-          features to our implementation of the TEI Processing Model: </para>
-        <itemizedlist>
-          <listitem>
-            <para>a method to specify a processing mode passed to all subsequently called
-              models</para>
-          </listitem>
-          <listitem>
-            <para>a way to set a parameter, so it will be available to subsequently processed
-              models</para>
-          </listitem>
-        </itemizedlist>
-
-
-        <para> The first is implemented as a specialization of the second. Both features are
-          intended for relatively rare cases, where the standard mechanisms for handling the flow of
-          processing are not enough. This mainly applies to cases in which you have to process the
-          same part of the TEI document multiple times in the same processing context (usually
-            <code>pb-view</code>). None of the examples shipping with TEI Publisher needs these
-          features, but in elaborate editions we do encounter situations which cannot be handled
-          without them. </para>
-        <section xml:id="external-parameters">
-          <title>External Parameters</title>
-          <para> The script calling the processing model may pass external parameters into the ODD.
-            They will be available in the variable <parameter>$parameters</parameter>, which is an
-            XQuery map. Access parameters using <code>?</code>, the XQuery lookup operator. </para>
-          <para>For example, one can use this feature to control how specific parts of the document
-            are output, without having to define a separate output mode, which would result in much
-            more code. Below we display a shortened header for the document, containing simply its
-            title, but only if the parameter "header" is set to "short":</para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec mode="change" ident="fileDesc"&gt;
-    &lt;model predicate="$parameters?header='short' behaviour="block" cssClass="header-short"&gt;
-      &lt;param name="content" value="titleStmt"/&gt;
-    &lt;/model&gt;
-  ...
-&lt;/elementSpec&gt;</programlisting>
-          <para> The <tag>pb-view</tag> webcomponent also lets you define arbitrary parameters to be
-            passed to the ODD via <tag>pb-param</tag>. For example, the breadcrumbs shown above this
-            documentation page are realized by setting a parameter <parameter>mode</parameter> and
-            can be queried in model predicates with
-              <parameter>$parameters?mode='breadcrumbs'</parameter> . </para>
-          <programlisting language="xml" xml:space="preserve">&lt;section class="breadcrumbs"&gt;
-    &lt;pb-view id="title-view1" src="document1" subscribe="transcription"&gt;
-        &lt;pb-param name="mode" value="breadcrumbs"/&gt;
-    &lt;/pb-view&gt;
-&lt;/section&gt;</programlisting>
-          <para>If the parameter is set, the processing model rules in the ODD will output the
-            headings of all ancestor sections of the current division only, ignoring everything
-            else. This approach helps to reuse the same ODD for viewing specific aspects of the
-            document.</para>
-          <para> A dedicated user interface webcomponent <link xlink:show="new"
-              xlink:href="https://cdn.tei-publisher.com/api.html#pb-toggle-feature.0">
-              <tag>pb-toggle-feature</tag>
-            </link> exists for toggling between two values of a parameter. Example below would
-            produce a checkbox which when on results in the value of <parameter>
-              $parameters?mode</parameter> set to <parameter>diplomatic</parameter>, otherwise to
-              <parameter> norm</parameter>. </para>
-          <programlisting language="xml" xml:space="preserve">&lt;pb-toggle-feature name="mode" on="diplomatic" off="norm"&gt;Diplomatic View&lt;/pb-toggle-feature&gt;</programlisting>
-        </section>
-        <section xml:id="pm-mode">
-          <title>Processing Modes </title>
-          <para>Distinguishing between processing modes is a common feature in XSLT. It comes handy
-            if you need to process the same XML more than once for different purposes. One common
-            example would be to render a person reference once in the running text and again, as a
-            footnote, but then perhaps together with the associated commentary but without
-            information about textual features related to the process of writing, like scribal
-            errrors in the spelling or gaps and stains on the parchment. As a rule of thumb, setting
-            a mode is helpful where it would not be possible to distinguish the scenario to apply
-            neither by the context in which the element appears in the XML source nor by the
-            external parameter passed into the ODD. </para>
-          <para>tei-publisher-lib 3 allows you to specify this new extension attribute,
-              <code>@pb:mode</code>, on a <code>model</code>. The value of the attribute will be
-            taken as the name of the mode, and subsequently called models can check it (e.g. in a
-              <code>model</code>
-            <emphasis>predicate</emphasis>) via this special variable, e.g.
-              <code>$mode="register"</code> if your model definition specified this value, e.g.
-              <code>&lt;model behaviour="block" pb:mode="register"&gt;</code>. </para>
-        </section>
-
-        <section xml:id="pm-set-param">
-          <title>Setting Parameters within the ODD</title>
-          <para>A logical follow-up for setting the processing mode described in the previous
-            section and <link linkend="external-parameters">passing external parameters</link>, this
-            extension allows to set an arbitrary parameter which is passed on to all models
-            subsequently called as a result of processing the current element. </para>
-          <para>The syntax is almost the same as for the standard <code>&lt;param name="foo"
-              value="baz"/&gt;</code>. Just the name of the element changes to
-              <code>&lt;pb:set-param&gt;</code>, marking this as a special parameter which is
-            "inherited" by subsequent models. </para>
-          <para>Common motivation to use this feature would be for efficiency, to compute certain
-            value once and just use it many times afterwards. Let's imagine that every paragraph
-            exposes a citation button which always starts with the author, title and other
-            information from the publication statement part of the TEI file and only ends with a
-            paragraph number. We could easily prepare the initial sequence on a division level and
-            have it available to all nested paragraphs, thus saving the processing time required to
-            look up from the paragraph to the TEI header every time. </para>
-        </section>
-
-      </section>
-      <section xml:id="pm-extensions-templates">
-        <title>Code Templates and Custom Behaviours</title>
-        <para>The two dozen behaviours defined by the TEI processing model are enough to cover most
-          standard HTML output tasks like a listItem or heading, but more complex HTML markup or
-          even other output formats like LaTeX require more customization and control over the
-          generated output. The TEI Publisher library thus extends the processing model syntax with
-          two custom elements for defining code templates.</para>
-        <para>While TEI Publisher does provide ways to write your own behaviours in XQuery and thus
-          extend the ones defined in the guidelines, this should only be used as last resort: custom
-          XQuery behaviours limit the portability of the ODD and are bad for maintenance.</para>
-        <para> Avoiding custom behaviours works quite well for HTML output and we have realized
-          complex projects with just two or three extension behaviours. Things start to become more
-          difficult if you try to output LaTeX though: there are hundreds of packages to use, and
-          users typically define their own macros or environments for all recurring typesetting
-          tasks. For example, to print a TEI <tag>persName</tag>, experienced LaTeX users would
-          normally create a corresponding <code>\persName</code> macro and handle the formatting
-          details there. Unfortunately, out of the box the TEI processing model does not facilitate
-          this level of customization. </para>
-        
-        <section xml:id="pb-behaviour">
-          <title>Defining New Behaviours in the ODD</title>
-          <para>By combining code templates with parameters we can come up with a very simple
-            mechanism to define new behaviours right inside the ODD!</para>
-          <para> Take the TEI Publisher documentation as an example: it is written in Docbook 5 and
-            transformed via ODD. The documentation includes some videos which are hosted on youtube.
-            In DocBook these are represented by <tag>videodata</tag> elements inside a
-              <tag>videoobject</tag>.</para>
-          <programlisting xml:space="preserve">&lt;figure xml:id="edit-odd"&gt;
-    &lt;title&gt;Screencast&lt;/title&gt;
-    &lt;mediaobject&gt;
-      &lt;videoobject&gt;
-        &lt;videodata fileref="https://www.youtube.com/embed/avRO-b2BwUI?rel=0" width="853" depth="480"/&gt;
-      &lt;/videoobject&gt;
-    &lt;/mediaobject&gt;
-&lt;/figure&gt;</programlisting>
-          <para> In the HTML output we would need to transform this into an <tag>iframe</tag>, so
-            the reader can view the video embedded in the page. We can achieve this with a <tag>
-              pb:template</tag> as sketched in the previous section, but it would be nice to turn
-            this into a general-purpose behaviour, which we can re-use in other situations requiring
-            an iframe. The TEI Publisher library allows us to define a behaviour right inside the
-            ODD as follows: </para>
-
-          <programlisting xml:space="preserve">&lt;pb:behaviour ident="iframe" output="web"&gt;
-    &lt;pb:param name="src"/&gt;
-    &lt;pb:param name="width"/&gt;
-    &lt;pb:param name="height"/&gt;
-    &lt;pb:template xmlns=""&gt;
-        &lt;iframe src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"&gt;&lt;/iframe&gt;
-    &lt;/pb:template&gt;
-&lt;/pb:behaviour&gt;</programlisting>
-
-          <note>
-            <title>Note</title>
-            <para> Note how we have to reset the namespace on the <tag>pb:template</tag> ? This is
-              required because the default namespace in an ODD document is the TEI namespace. You
-              therefore need to reset it whenever you want to output elements in another or no
-              namespace inside a template. Without this, the iframe would end up in the TEI
-              namespace. Web browsers will usually ignore it, but it would be incorrect
-              nevertheless. </para>
-          </note>
-          <para> All behaviours should be included in the TEI header or – to be exact: the <tag>
-              tagsDecl</tag> inside the <tag>encodingDesc</tag>. You may have multiple behaviour
-            declarations with the same <parameter>@ident</parameter>, given that they apply to
-            different <parameter>@output</parameter> modes. Parameters specified via
-              <tag>pb:param</tag> without <parameter>@value</parameter> attribute are expected to be
-            passed to the behaviour from the calling model. A parameter may be empty though. If you
-            define an XPath expression as <parameter>@value</parameter> attribute, the result of the
-            XPath evaluation will be used as value for the parameter. </para>
-          <para> The new behaviour will be named <function>iframe</function> and takes three
-            parameters: <parameter>src</parameter>, <parameter>width</parameter> and <parameter>
-              height</parameter>. It can now be called from a <tag>model</tag> as follows: </para>
-          <programlisting xml:space="preserve">&lt;model behaviour="iframe"&gt;
-    &lt;param name="width" value="@width"/&gt;
-    &lt;param name="height" value="@depth"/&gt;
-    &lt;param name="src" value="@fileref"/&gt;
-&lt;/model&gt;</programlisting>
-          <para> For further code examples, please have a look at <link xlink:href="odd/docbook.odd"
-              role="source">docbook.odd</link>, which is used for viewing the documentation. </para>
-          <note>
-            <title>Note</title>
-            <para> At the time of writing, the graphical ODD editor in TEI Publisher does not yet
-              support defining your own behaviours via <tag>pb-behaviour</tag>. You have to make
-              these changes in the source XML using eXide, oXygen or another XML editor. You can,
-              however, use the graphical editor to continue editing the ODD afterwards. It is smart
-              enough to not overwrite your hand-written code upon save. </para>
-          </note>
-        </section>
-      </section>
-
-      <section xml:id="extension-modules">
-        <title>Extension Modules</title>
-        <para> Where possible, developers should stick to the standard behaviours defined by the TEI
-          guidelines, or use the <tag>pb-behaviour</tag> and <tag>pb-template</tag>
-          <link linkend="pb-behaviour">extensions</link> of the ODD syntax. However, there might be
-          situations in which it is necessary to generate a specific type of complex output, which
-          requires the full power of XQuery. To facilitate this, the implementation allows
-          additional extension modules to be configured: </para>
-        <section xml:id="extension-configuration">
-          <title>Configuration</title>
-          <para> Configuration is done via an XML file which must reside in the same collection as
-            the source ODD files. It contains a series of <tag>output</tag> elements, representing
-            particular output modes (e.g. web or print) via <parameter>@mode</parameter> attribute.
-              <tag> output</tag> element without a mode groups modules available for all output
-            modes. </para>
-          <para> Each <tag>output</tag> element lists modules to be loaded for specified output
-            mode. Each definition may optionally be limited to a specific ODD, name of which is
-            specified in the <parameter>@odd</parameter> attribute. </para>
-          <programlisting language="xml" xml:space="preserve">&lt;modules&gt;
-    &lt;!-- functions or behaviours common to all output modes --&gt;
-    &lt;output&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/common-functions" prefix="tc" at="xmldb:exist:///db/apps/my-app/modules/common.xql"/&gt;
-    &lt;/output&gt;
-    &lt;!-- General fo extension functions --&gt;
-    &lt;output mode="print"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/&gt;
-    &lt;/output&gt;
-    &lt;!-- Special web configuration for the documentation (to handle &lt;code&gt;) --&gt;
-    &lt;output mode="web" odd="documentation"&gt;
-      &lt;module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/&gt;
-    &lt;/output&gt;
-&lt;/modules&gt;</programlisting>
-          <para> Whenever the library tries to locate a processing model function for a given
-            behaviour, it will <emphasis role="bold">first</emphasis> check any extension module it
-            knows to see if it contains a matching function. One can thus <emphasis role="bold">
-              overwrite</emphasis> the default functions as well as define new ones. </para>
-          <para> An extension module may also contain general purpose XQuery functions you want to
-            call from within an ODD parameter, e.g. for formatting a date, outputting a number etc.
-            To make those functions available to all output modes, just skip the
-              <parameter>@mode</parameter> attribute. </para>
-          <note>
-            <title>Note</title>
-            <para>Starting with tei-publisher-lib 3.1.0, the module import path given in the "at"
-              attribute no longer needs to be absolute. A relative path (e.g.
-                <filename>ext-html.xql</filename>) will be interpreted relative to the
-                <filename>modules</filename> collection. </para>
-          </note>
-        </section>
-        <section xml:id="extension-modules-behaviours">
-          <title>Implementing Custom Behaviours</title>
-          <para>To be recognized by the library, an extension function must accept at least 4
-            default arguments, plus any number of custom parameters. The required parameters
-            are:</para>
-          <variablelist>
-            <varlistentry>
-              <term>$config</term>
-              <listitem>
-                <para> a map containing configuration information as well as function references to
-                  be called. The most important ones are <function>$config?apply($config,
-                    $node)</function> and <function>$config?apply-children($config, $node,
-                    $content)</function>. Both are function items and when called, continue
-                  processing with either a single <parameter> $node</parameter> or a sequence of
-                  nodes in <parameter>$content</parameter>. </para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>$node</term>
-              <listitem>
-                <para>the TEI element being processed at the moment</para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>$class</term>
-              <listitem>
-                <para> a list of HTML class names to be used. This includes automatically generated
-                  class names as well as those passed via <parameter>@cssClass</parameter> on a
-                  model item. </para>
-              </listitem>
-            </varlistentry>
-            <varlistentry>
-              <term>$content</term>
-              <listitem>
-                <para> because <parameter>content</parameter> is defined for every model rule, it is
-                  always passed to a behaviour function (though it might be empty) </para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
-          <para> For all additional parameters, the processing model implementation tries to fill
-            each custom parameter with a corresponding value by looking through the <tag>param</tag>
-            children of the <tag>model</tag> in the ODD to find one with a name matching the
-            variable name. If no matching parameter can be found, the function argument will be set
-            to the empty sequence. You should not enforce a type or cardinality for any of the
-            custom parameters as this may lead to unexpected errors. The parameters may be empty or
-            contain more than one item. </para>
-          <para> For example, a custom behaviour called <code>code</code> for syntax highlighting in
-            an extension module named <filename>ext-html.xql</filename> might look as follows: </para>
-          <programlisting language="xquery" xml:space="preserve">xquery version "3.1";
-(:~ : Non-standard extension functions, mainly used for the documentation. :)
-module namespace pmf="http://www.tei-c.org/tei-simple/xquery/ext-html";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-
-declare function pmf:code($config as map(*), $node as element(), $class as xs:string+, $content as node()*, $lang as item()?) {
-    &lt;pre class="code {$class}" data-language="{if ($lang) then $lang else 'xquery'}"&gt;
-    {replace(string-join($content/node()), "^\s+?(.*)\s+$", "$1")}
-    &lt;/pre&gt;
-};</programlisting>
-          <para> It defines one function, <function>pmf:code</function>, which can be called from
-            the ODD as follows, provided that the <filename>ext-html.xql</filename> module has been
-            configured as described in the <link linkend="extension-configuration">previous
-              section</link>. </para>
-          <programlisting language="xml" xml:space="preserve">
-&lt;model behaviour="code"&gt; 
-    &lt;param name="lang" value="@lang"/&gt; 
-&lt;/model&gt;
-        </programlisting>
-        </section>
-        <section xml:id="extension-modules-behaviour-parameters">
-          <title>Custom Behaviours Accepting User-Defined Parameters</title>
-          <para>Sometimes you may like to implement a generic behaviour which takes arbitrary
-            parameters from the user. This means the parameter list of your behaviour will not be
-            fixed.</para>
-          <para> To facilitate this, a behaviour function may declare a final parameter
-              <code>$optional as map(*)</code>. If the processor finds <tag>param</tag> children in
-            the model which cannot be mapped to an explicitly declared parameter, it stores all such
-            extra parameters as a key/value pairs in the <parameter>$optional</parameter> map.
-          </para>
-        </section>
-      </section>
-      <section>
-        <title>Accessing Global Configuration Variables/Functions</title>
-        <para>Sometimes you may want to access global configuration parameters, e.g. to determine
-          the data root collection of the current application. <parameter>tei-publisher-lib
-            4.0.0</parameter> imported the entire <filename>modules/config.xqm</filename> into the
-          XQuery code generated from the ODD, and exposed it in the <parameter>global</parameter>
-          namespace. This way one could access the data root as
-            <parameter>$global:data-root</parameter> inside a predicate or parameter expression in
-          the ODD. However, the complexity of config.xqm caused unnecessary overhead and failures on
-          Windows.</para>
-        <para>Version 4.0.1 instead allows you to explicitely import one or more modules in the ODD
-          processing configuration file (<filename>odd/configuration.xml</filename> or
-            <filename>resources/odd/configuration.xml</filename>). </para>
-        <programlisting language="xml" xml:space="preserve"><![CDATA[<modules>
-    <!-- Import global variables and functions from modules/odd-global.xqm -->
-    <module uri="http://e-editiones.org/tei-publisher/odd-global" prefix="global" at="odd-global.xqm"/>
-    ...
-</modules>]]></programlisting>
-      </section>
-    </section>
   </section>
   <section xml:id="anatomy">
     <title>Anatomy of a profile</title>
