@@ -1120,6 +1120,65 @@
           </variablelist>
         </section>
       </section>
+      <section xml:id="pb-template">
+          <title>Custom markup templates with <tag>pb:template</tag>
+          </title>
+          <para> TEI Publisher supports an extension to the ODD syntax in its own namespace (
+              <parameter> http://teipublisher.com/1.0</parameter>). </para>
+          <para> Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element
+            containing a code template. The template is expanded first, and the result is passed to
+            the behaviour specified for the model, in place of the
+              <parameter>content</parameter> parameter accepted by all behaviours. The very simple
+            case of outputting a <tag>persName</tag> in LaTeX could therefore be written as: </para>
+
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
+    &lt;model behaviour="inline" output="latex"&gt;
+        &lt;pb:template&gt;\persName{[[content]]}&lt;/pb:template&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+          <para> The template can reference other parameters defined within the <tag>model</tag> by
+            enclosing the parameter name in double brackets. In the example above we're referencing
+            the default parameter <parameter>content</parameter>, which does not need to be explicitly
+            specified. Here it therefore retains its default value, which in this situation is the content
+            of the <tag>persName</tag> tag. The parameter will be processed in a normal way before it is passed into
+            the template, so if <tag>persName</tag> contains any nested TEI markup, the matching
+            processing models will be applied first.</para>
+          <para>The result of expanding the template is then passed to the behaviour (
+              <code>inline</code> in the example above).</para>
+          <para> You may also specify additional parameters to be included in the template. For
+            example, the TEI document may contain a glossary of terms which are referenced in the
+            text using <code>&lt;term ref="#termid"&gt;text&lt;/term&gt;</code>. In LaTeX this would
+            translate to <code>\glslink{ref}{text}</code>, which can be easily produced by the
+            following <tag>model</tag> : </para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="term" mode="add"&gt;
+    &lt;model behaviour="inline" output="latex"&gt;
+        &lt;param name="ref" value="substring-after(@ref, '#')"/&gt;
+        &lt;pb:template&gt;\glslink{[[ref]]}{[[content]]}&lt;/pb:template&gt;
+    &lt;/model&gt;
+&lt;/elementSpec&gt;</programlisting>
+          <para> We define an additional parameter <parameter>ref</parameter>, which contains the id
+            string from the <parameter>@ref</parameter> attribute, stripping out the leading '#'. </para>
+          <para>The templating mechanism is not limited to LaTeX, but may be used to generate
+            HTML or FO markup, for example, if you have to generate a complex, nested HTML fragment for a
+            single TEI element. This is difficult, and sometimes impossible, to achieve without
+            templates.</para>
+          <para>The following example uses the <parameter>pb-popover</parameter> webcomponent to
+            display the <code>tei:persName</code> from a person register for a given <code>tei:persName/@key</code> of your
+            TEI document. </para>
+          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
+        &lt;model behaviour="inline" cssClass="popover"&gt;
+            &lt;param name="content" value="."/&gt;
+            &lt;param name="key" value="@key"/&gt;
+            &lt;param name="person-from-register" value="doc('/path/to/person.xml')//person[@id = @key]/persName[@type='full']/string()"&gt;
+            &lt;pb:template xmlns="" xml:space="preserve"&gt;
+                &lt;pb-popover data-ref="[[key]]"&gt;
+                    &lt;span slot="default"&gt;[[content]]&lt;/span&gt;
+                    &lt;span slot="alternate"&gt;[[person-from-register]]&lt;/span&gt;
+                &lt;/pb-popover&gt;
+            &lt;/pb:template&gt;
+        &lt;/model&gt;
+        </programlisting>
+        </section>
     <section xml:id="odd-chaining">
     <title>Chaining the ODDs</title>
         <para>In the spirit of reuse, it is considered best practice to chain the ODD files together and only change
@@ -1933,66 +1992,7 @@
           normally create a corresponding <code>\persName</code> macro and handle the formatting
           details there. Unfortunately, out of the box the TEI processing model does not facilitate
           this level of customization. </para>
-        <section xml:id="pb-template">
-          <title> Introducing <tag>pb:template</tag>
-          </title>
-          <para> TEI Publisher supports an extension to the ODD syntax in its own namespace (
-              <parameter> http://teipublisher.com/1.0</parameter>). </para>
-          <para> Within the ODD, a <tag>model</tag> may define a <tag>pb:template</tag> element
-            containing a code template. The template is expanded first and the result is passed into
-            the behaviour specified for the model, replacing the default
-              <parameter>content</parameter> parameter accepted by all behaviours. The very simple
-            case of outputting a <tag>persName</tag> in LaTeX could thus be written as: </para>
-
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
-    &lt;model behaviour="inline" output="latex"&gt;
-        &lt;pb:template&gt;\persName{[[content]]}&lt;/pb:template&gt;
-    &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-          <para> The template can reference other parameters defined within the <tag>model</tag> by
-            enclosing the parameter name in double brackets. In the example above we're referencing
-            the default parameter <parameter>content</parameter>, which contains the nested content
-            of the <tag>persName</tag> tag. The parameter will be processed before it is passed into
-            the template, so if <tag>persName</tag> contains nested TEI markup, the corresponding
-            processing model rules will be applied first. </para>
-          <para> The result of expanding the template then becomes the new
-              <parameter>content</parameter> parameter to be passed to the behaviour (
-              <code>inline</code> in the example above), which is processed in the normal way as
-            defined in the TEI guidelines. </para>
-          <para> You may also specify additional parameters to be included in the template. For
-            example, the TEI document may contain a glossary of terms which are referenced in the
-            text using <code>&lt;term ref="#termid"&gt;text&lt;/term&gt;</code>. In LaTeX this would
-            translate to <code>\glslink{ref}{text}</code>, which can be easily produced by the
-            following <tag>model</tag> : </para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="term" mode="add"&gt;
-    &lt;model behaviour="inline" output="latex"&gt;
-        &lt;param name="ref" value="substring-after(@ref, '#')"/&gt;
-        &lt;pb:template&gt;\glslink{[[ref]]}{[[content]]}&lt;/pb:template&gt;
-    &lt;/model&gt;
-&lt;/elementSpec&gt;</programlisting>
-          <para> We define an additional parameter <parameter>ref</parameter>, which contains the id
-            string from the <parameter>@ref</parameter> attribute, stripping out the leading '#'. </para>
-          <para>The templating mechanism is not limited to LaTeX, but may also be used to generate
-            HTML or FO, for example, if you have to generate a complex HTML fragment to represent a
-            single TEI element. This is hard and sometimes impossible to achieve without
-            templates</para>
-          <para>This following sample uses the <parameter>pb-popover</parameter> webcomponent to
-            display the tei:persName from a person register for a given tei:persName/@key of your
-            TEI document. </para>
-          <programlisting language="xml" xml:space="preserve">&lt;elementSpec ident="persName" mode="add"&gt;
-        &lt;model behaviour="inline" cssClass="popover"&gt;
-            &lt;param name="content" value="."/&gt;
-            &lt;param name="key" value="@key"/&gt;
-            &lt;param name="person-from-register" value="doc('/path/to/person.xml')//person[@id = @key]/persName[@type='full']/text()"&gt;
-            &lt;pb:template xmlns="" xml:space="preserve"&gt;
-                &lt;pb-popover data-ref="[[key]]"&gt;
-                    &lt;span slot="default"&gt;[[content]]&lt;/span&gt;
-                    &lt;span slot="alternate"&gt;[[person-from-register]]&lt;/span&gt;
-                &lt;/pb-popover&gt;
-            &lt;/pb:template&gt;
-        &lt;/model&gt;
-        </programlisting>
-        </section>
+        
         <section xml:id="pb-behaviour">
           <title>Defining New Behaviours in the ODD</title>
           <para>By combining code templates with parameters we can come up with a very simple
