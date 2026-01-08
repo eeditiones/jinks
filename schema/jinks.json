@@ -1145,6 +1145,23 @@
                 "roaster"
             ]
         },
+        "ci": {
+            "type": "object",
+            "description": "CI/CD configuration for continuous integration and deployment",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "enum": ["github", "gitlab"],
+                    "description": "CI/CD provider to use. 'github' for GitHub Actions, 'gitlab' for GitLab CI",
+                    "default": "github"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Whether to enable CI/CD configuration generation",
+                    "default": true
+                }
+            }
+        },
         "templating": {
             "type": "object",
             "description": "General settings for the templating system. Most settings will only be used in HTML template frontmatter.",

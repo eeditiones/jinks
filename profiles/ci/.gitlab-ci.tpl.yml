@@ -1,0 +1,215 @@
+# GitLab CI configuration for TEI Publisher applications
+
+stages:
+  - build
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  ANT_OPTS: "-Djava.io.tmpdir=$CI_PROJECT_DIR/tmp"
+  EXIST_VERSION: "6.4.0"
+  JAVA_VERSION: "11"
+  EXPERIMENTAL: "false"
+
+cache:
+  paths:
+    - .m2/repository/
+    - node_modules/
+
+# Speed up apt-get installs
+.speed_up_apt: &speed_up_apt
+  - echo 'set man-db/auto-update false' | debconf-communicate >/dev/null
+  - dpkg-reconfigure -f noninteractive man-db
+
+# Base build template
+.build_template: &build_template
+  stage: build
+  before_script:
+    - *speed_up_apt
+    - apt-get update -qq && apt-get install -y -qq ant libxml2-utils bats docker.io curl
+    - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+    - apt-get install -y nodejs
+    - systemctl start docker || true
+  script:
+    # Validate XML files
+    - xmllint --noout $(find . -type f -name '*.xml')
+    # Build with Ant
+    - ant
+    # Authenticate GitHub CLI (if GH_TOKEN is set)
+    - |
+      if [ -n "$GH_TOKEN" ]; then
+        echo "$GH_TOKEN" | gh auth login --with-token
+      fi
+    # Download Expath dependencies
+    - |
+      cd build/
+      if command -v gh &> /dev/null; then
+        gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar' || true
+        gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar' || true
+        gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar' || true
+        gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar' || true
+        gh release download -R eXist-db/expath-crypto-module -p '*.xar' -O '_crypto.xar' || true
+        gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar' || true
+      fi
+    - ls -la
+    # Start eXist-db container
+    - |
+      docker run -dit -p 8080:8080 -v $CI_PROJECT_DIR/build:/exist/autodeploy \
+        --name exist --rm --health-interval=1s --health-start-period=2s \
+        duncdrum/existdb:${EXIST_VERSION}-slim || true
+    # Wait for server to start
+    - |
+      echo "Waiting for server to start..."
+      timeout=60
+      elapsed=0
+      while [ $elapsed -lt $timeout ]; do
+        if docker logs exist 2>&1 | grep -q "Server has started"; then
+          echo "Server started!"
+          break
+        fi
+        echo "Still waiting... ($elapsed/$timeout seconds)"
+        sleep 4
+        elapsed=$((elapsed + 4))
+      done
+  after_script:
+    # Debug logs on failure
+    - |
+      if [ "$CI_JOB_STATUS" = "failed" ]; then
+        echo "=== ERROR Logs ==="
+        docker logs exist 2>&1 | grep 'ERROR' || true
+        echo "=== Copying logs ==="
+        docker cp exist:/exist/logs/exist.log ./exist.log 2>/dev/null || true
+      fi
+  artifacts:
+    paths:
+      - build/*.xar
+      - exist.log
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master")
+    - if: $CI_PIPELINE_SOURCE == "push"
+
+# Base test template
+.test_template: &test_template
+  stage: test
+  needs:
+    - job: build
+      artifacts: true
+  image: cypress/browsers:latest
+  services:
+    - docker:dind
+  before_script:
+    - *speed_up_apt
+    - apt-get update -qq && apt-get install -y -qq bats docker.io curl
+    - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+    - apt-get install -y nodejs
+    - systemctl start docker || true
+    # Start eXist-db container (same as build job)
+    - |
+      docker run -dit -p 8080:8080 -v $CI_PROJECT_DIR/build:/exist/autodeploy \
+        --name exist --rm --health-interval=1s --health-start-period=2s \
+        duncdrum/existdb:${EXIST_VERSION}-slim || true
+    # Wait for server to start
+    - |
+      echo "Waiting for server to start..."
+      timeout=60
+      elapsed=0
+      while [ $elapsed -lt $timeout ]; do
+        if docker logs exist 2>&1 | grep -q "Server has started"; then
+          echo "Server started!"
+          break
+        fi
+        echo "Still waiting... ($elapsed/$timeout seconds)"
+        sleep 4
+        elapsed=$((elapsed + 4))
+      done
+  script:
+    # Run BATS tests
+    - bats --tap test/*.bats
+    # Run Cypress tests
+    - |
+      if [ "$EXPERIMENTAL" = "true" ]; then
+        npx cypress run --browser firefox || true
+      else
+        npx cypress run --browser firefox
+      fi
+  after_script:
+    # Debug logs on failure
+    - |
+      if [ "$CI_JOB_STATUS" = "failed" ]; then
+        echo "=== ERROR Logs ==="
+        docker logs exist 2>&1 | grep 'ERROR' || true
+        echo "=== Copying logs ==="
+        docker cp exist:/exist/logs/exist.log ./exist.log 2>/dev/null || true
+      fi
+  artifacts:
+    when: on_failure
+    paths:
+      - test/cypress/screenshots/
+      - test/cypress/videos/
+      - exist.log
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master")
+    - if: $CI_PIPELINE_SOURCE == "push"
+  allow_failure:
+    variable: EXPERIMENTAL
+    value: "true"
+
+# Build jobs - parallel execution for different configurations
+build:6.4.0:java11:
+  <<: *build_template
+  image: openjdk:11-jdk-slim
+  variables:
+    EXIST_VERSION: "6.4.0"
+    JAVA_VERSION: "11"
+    EXPERIMENTAL: "false"
+
+build:release:java11:
+  <<: *build_template
+  image: openjdk:11-jdk-slim
+  variables:
+    EXIST_VERSION: "release"
+    JAVA_VERSION: "11"
+    EXPERIMENTAL: "false"
+
+build:latest:java21:
+  <<: *build_template
+  image: openjdk:21-jdk-slim
+  variables:
+    EXIST_VERSION: "latest"
+    JAVA_VERSION: "21"
+    EXPERIMENTAL: "true"
+
+# Test jobs - parallel execution matching build jobs
+test:6.4.0:java11:
+  <<: *test_template
+  variables:
+    EXIST_VERSION: "6.4.0"
+    JAVA_VERSION: "11"
+    EXPERIMENTAL: "false"
+  needs:
+    - job: build:6.4.0:java11
+      artifacts: true
+
+test:release:java11:
+  <<: *test_template
+  variables:
+    EXIST_VERSION: "release"
+    JAVA_VERSION: "11"
+    EXPERIMENTAL: "false"
+  needs:
+    - job: build:release:java11
+      artifacts: true
+
+test:latest:java21:
+  <<: *test_template
+  variables:
+    EXIST_VERSION: "latest"
+    JAVA_VERSION: "21"
+    EXPERIMENTAL: "true"
+  needs:
+    - job: build:latest:java21
+      artifacts: true
+  allow_failure: true
