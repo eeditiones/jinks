@@ -40,7 +40,9 @@ build({
 console.log('Compiling SASS for tei-publisher web components');
 // Compile SASS for tei-publisher web components
 const sassResult = sass.compile('profiles/theme-base10/resources/sass/pico-components.sass', {
-    style: 'compressed'
+    style: 'compressed',
+    quietDeps: true,
+    silenceDeprecations: ['if-function']
 });
 
 // Ensure the output directory exists
@@ -58,7 +60,9 @@ sassOutputDirs.forEach(outputDir => {
 // Compile SASS for jinks
 console.log('Compiling SASS for jinks');
 const sassJinksResult = sass.compile('resources/styles/pico-jinks.sass', {
-    style: 'compressed'
+    style: 'compressed',
+    quietDeps: true,
+    silenceDeprecations: ['if-function']
 });
 
 // Write the compiled CSS
