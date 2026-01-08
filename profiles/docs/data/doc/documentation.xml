@@ -1217,7 +1217,7 @@
           <note>
             <title>Note</title>
             <para>The graphical ODD editor in TEI Publisher does not yet
-              support defining your own behaviours via <tag>pb-behaviour</tag>. You have to make
+              support defining your own behaviours via <tag>pb:behaviour</tag>. You have to make
               these changes in the source XML using an XML editor. You can,
               however, use the graphical editor to continue editing the ODD afterwards. It makes sure not to overwrite your hand-written code upon save. </para>
           </note>
@@ -1780,7 +1780,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </itemizedlist>
         <para> To create arbitary complex LaTeX output, you may want to use the <link
             linkend="pb-template">
-            <tag>pb-template</tag> extension </link> to the ODD syntax. It is heavily used to e.g.
+            <tag>pb:template</tag> extension </link> to the ODD syntax. It is heavily used to e.g.
           generate the LaTeX version of this documentation. See also <link
             xlink:href="odd/serafin.odd" role="source">serafin.odd</link> or <link
             xlink:href="odd/vangogh.odd" role="source">vangogh.odd</link> for examples. </para>
@@ -3288,22 +3288,20 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
       the index. These requests need to be received and processed by the server with the eXist
       instance running and only then data will be returned to the browser. </para>
 
-    <para>Previous versions of TEI Publisher included a number of XQuery modules implementing the
-      server-side functionality, located in <parameter>modules</parameter> collection. In version 7,
-      a new approach has been introduced. A formal <link xlink:href="../api.html" xlink:show="new"
-        >API specification</link>, based on the <link xlink:show="new"
-        xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>, defines all the
+    <para>TEI Publisher, and all applications created with it, use a formal API specification <link xlink:href="../api.html" xlink:show="new"
+        >(click this link to see it)</link>, based on the <link xlink:show="new"
+        xlink:href="http://spec.openapis.org/oas/v3.0.3">Open API standard</link>, which defines all the
       server-side API endpoints available in Publisher. The library responsible for interpreting the
       Open API specification and routing requests to XQuery endpoints is called <link
         xlink:href="https://github.com/eeditiones/roaster">roaster</link> and can also be used
-      outside TEI Publisher.</para>
+      independently.</para>
 
-    <para>The image below presents a section of the API handling all ODD-related operations:
+    <para>The image below presents a section of the core TEI Publisher API handling all ODD-related operations:
       creating, retrieving, updating, deleting, recompiling; syntax check for a code fragment
       (lint); retrieving a list of all available ODDs.</para>
 
     <figure>
-      <title>TEI Publisher API page – the odd endpoint</title>
+      <title>TEI Publisher API page – the <emphasis>odd</emphasis> endpoints</title>
       <mediaobject>
         <imageobject>
           <imagedata fileref="api-spec.png" width="900px"/>
@@ -3349,15 +3347,13 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     </section>
     <section xml:id="api-custom-endpoints">
       <title>Extending the API</title>
-      <para>Every application or profile may add additional API endpoints on top of the core API.
-        For example, the IIIF profile adds an API endpoint to generate a IIIF manifest from a TEI
-        document, and the timeline profile provides endpoints for retrieving timeline data.
-        Applications or blueprints may also implement endpoints in the same way.</para>
-      <para>TEI Publisher 10 allows an arbitrary number of Open API configurations, each defining
-        different endpoints. In previous versions, generated applications were supposed to extend a
-        single configuration called <filename>custom-api.json</filename> and
-          <filename>custom-api.xql</filename>. This is now discouraged. Instead, define one or more
-        separate <filename>.json</filename> and <filename>.xql</filename> for your application or
+      <para>Every Jinks profile or custom application may add additional API endpoints on top of the core API.
+        For example, the <emphasis>IIIF profile</emphasis> adds an API endpoint to generate a IIIF manifest from a TEI
+        document, and the <emphasis>timeline</emphasis> profile provides endpoints for retrieving timeline data.
+        Custom applications and blueprints may implement endpoints in the same way.</para>
+      <para>TEI Publisher allows an arbitrary number of Open API configurations, each defining
+        different endpoints. Simply provide one or more relevant
+     <filename>.json</filename> and <filename>.xql</filename> files for your application or
         profile and register them via the configuration in <filename>config.json</filename>.</para>
 
       <para>To learn more about the Open API functionality supported by roaster and the different
@@ -3436,7 +3432,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         A request to <code>/test/adagia.xml</code> will be handled by the Open API route matching
         the path <code>"/{docid}"</code>, which then calls the XQuery function
           <function>vapi:view</function> to retrieve the HTML template associated with the TEI
-        document and return it to the browser:</para>
+        document and return it to the browser:</para>      
       <programlisting language="javascript" xml:space="preserve"><![CDATA[
 "/{docid}": {
 	"get": {
@@ -3449,9 +3445,9 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
 	}
 }
 ]]></programlisting>
-      <para>Addressing by relative path is convenient for a heterogenous collection like the one in
-        TEI Publisher, but for a more homogenous edition, you may prefer other addressing schemes,
-        e.g. using an identifier. For example, the Alfred Escher Briefedition uses URLs like <link
+ <para>This default can be easily changed to <emphasis>addressing by id</emphasis> in Jinks configuration. Nevertheless 
+ some editions may prefer other addressing schemes,
+        e.g. using a virtual collection and identifier. For example, the Alfred Escher Briefedition uses URLs like <link
           xlink:href="https://briefedition.alfred-escher.ch/briefe/B0017" xlink:show="new"
           >https://briefedition.alfred-escher.ch/briefe/B0017</link>. Using an abstract identifier
         has the advantage that bookmarked URLs remain accessible even if the implementation changes
