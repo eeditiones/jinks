@@ -124,6 +124,10 @@
                     "type": "string",
                     "description": "The HTML page to use for browse available document collections. Path is relative to the `templates` subdirectory."
                 },
+                "site-root": {
+                    "type": "string",
+                    "description": "The root URL of the site. If not specified, the root URL is the same as the context path."
+                },
                 "view": {
                     "type": "string",
                     "enum": ["div", "page", "single"]
@@ -153,6 +157,13 @@
                 "language": {
                     "type": "string",
                     "description": "Default language pre-selected for the app"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of languages supported by the app"
                 },
                 "data": {
                     "type": "string",

@@ -1,7 +1,7 @@
 <nav class="menubar">
     <ul>
         <li class="logo">
-            <a href="[[ $context-path ]]"></a>
+            <a href="[[ head(($context?defaults?site-root, $context-path)) ]]"></a>
         </li>
         [% for $item in $menu?items?* %]
         [% if $item?url or $item?url = ''%]
@@ -130,7 +130,7 @@
         [% if $menu?language %]
         <li class="hidden-mobile">
             <pb-lang name="lang">
-                [% for $lang in map:keys($languages) %]
+                [% for $lang in filter(map:keys($languages), function($lang) { contains($context?defaults?languages?*, $lang) }) %]
                 <option value="[[ $lang ]]">[[ $languages?($lang) ]]</option>
                 [% endfor %]
             </pb-lang>
