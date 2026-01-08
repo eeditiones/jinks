@@ -22,6 +22,10 @@ jobs:
            - exist-version: latest
              java-version: 21
              experimental: true
+           - exist-version: release
+             java-version: 11
+             experimental: true
+             webcomponents-version: next
 
     steps:
       # Checkout code
@@ -43,6 +47,20 @@ jobs:
         run: |
           xmllint --noout \
             $(find . -type f -name '*.xml')
+
+      # Install webcomponents version for testing (only when specified in matrix)
+      - name: Setup Node.js
+        if: matrix.webcomponents-version != ''
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies
+        if: matrix.webcomponents-version != ''
+        run: npm ci
+      - name: Install webcomponents version
+        if: matrix.webcomponents-version != ''
+        run: npm install @teipublisher/pb-components@${{ matrix.webcomponents-version }}
 
       # Build
       - name: Install Java
@@ -125,5 +143,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v6
         with:
-          name: CiM-exist-${{ matrix.exist-version }}-screenshots
+          name: CiM-exist-${{ matrix.exist-version }}-${{ matrix.webcomponents-version || 'default' }}-screenshots
           path: test/cypress/screenshots/
