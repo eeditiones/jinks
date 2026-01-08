@@ -1,5 +1,5 @@
 <?teipublisher output="web"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -58,7 +58,7 @@
                 </elementSpec>
                 <elementSpec ident="hi" mode="change">
                     <model predicate="@rend='strong'" behaviour="pass-through">
-            <pb:template xmlns="" xml:space="preserve"><strong>[[content]]</strong></pb:template>
+            <pb:template xml:space="preserve"><strong xmlns="">[[content]]</strong></pb:template>
         </model>
                     <model behaviour="inline" useSourceRendition="true"/>
                 </elementSpec>
@@ -67,7 +67,7 @@
             <param name="content" value="list"/>
             <param name="header" value="head"/>
             <param name="desc" value="p"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <pb:template xml:space="preserve"><div xmlns="" class="center-l">
             <span class="label"><pb-i18n key="menu.partners"/></span>
             <header class="center-l row">
                 [[header]]
@@ -82,7 +82,7 @@
             <desc>Outputs the project highlights in a grid</desc>
             <param name="title" value="head"/>
             <param name="content" value="list/item"/>
-            <pb:template xmlns="" xml:space="preserve"><section id="highlights" class="section-highlight">
+            <pb:template xml:space="preserve"><section xmlns="" id="highlights" class="section-highlight">
   <header class="center-l row">
   [[title]]
   </header>
@@ -90,14 +90,14 @@
 </section></pb:template>
         </model>
                     <model predicate="ancestor::div[@type='section']" behaviour="pass-through">
-            <pb:template xmlns="" xml:space="preserve"><article class="teaser">[[content]]</article></pb:template>
+            <pb:template xml:space="preserve"><article xmlns="" class="teaser">[[content]]</article></pb:template>
         </model>
                     <model predicate="@type='section'" behaviour="pass-through">
             <param name="header" value="* except div"/>
             <param name="label" value="@n"/>
             <param name="content" value="div"/>
             <param name="rend" value="@rend"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <pb:template xml:space="preserve"><div xmlns="" class="center-l">
     <span class="label">[[label]]</span>
     <div class="row [[rend]]">
       <header>
@@ -113,7 +113,7 @@
             <param name="header" value="* except (listOrg|listPerson)"/>
             <param name="content" value="(listOrg|listPerson)/*"/>
             <param name="label" value="@n"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <pb:template xml:space="preserve"><div xmlns="" class="center-l">
   <span class="label">[[label]]</span>
   <header class="row"><!-- horizontal alignment by default change by adding class="header-left" -->
   [[header]]
@@ -126,7 +126,7 @@
             <param name="header" value="(head, p[1])"/>
             <param name="content" value="p[position() &gt; 1]"/>
             <param name="rend" value="@rend"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l">
+            <pb:template xml:space="preserve"><div xmlns="" class="center-l">
     <span class="label">[[label]]</span>
     <header class="row [[rend]]">
       [[header]]
@@ -139,12 +139,14 @@
                     <model predicate="@type='hero'" behaviour="pass-through">
             <param name="heading" value="head/node()"/>
             <param name="content" value="p/node()"/>
-            <param name="link" value="$parameters?browse-url"/>
+            <param name="links" value="list[@type='links']"/>
             <param name="rend" value="@rend"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="center-l row [[rend]]">
+            <pb:template xml:space="preserve"><div xmlns="" class="center-l row [[rend]]">
   <h1>[[heading]]</h1>
-  <p>[[content]]<br/>
-  <a class="explore-link" href="[[link]]"><pb-i18n key="menu.explore"/></a></p>
+  <div>
+    <p>[[content]]</p>
+    [[links]]
+  </div>
 </div></pb:template>
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
@@ -159,7 +161,7 @@
             <param name="role" value="roleName"/>
             <param name="content" value="note/node()"/>
             <param name="email" value="ptr[@type='email']/@target"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="member-card">
+            <pb:template xml:space="preserve"><div xmlns="" class="member-card">
   <div class="member-card--top">
     <div class="label">[[label]]</div>
     <img src="[[logo]]" alt="[[name]]" class="member-logo"/>
@@ -187,7 +189,7 @@
             <param name="email" value="ptr[@type='email']/@target"/>
             <param name="content" value="note/node()"/>
             <param name="avatar" value="ptr[@type='avatar']/@target"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="member-card">
+            <pb:template xml:space="preserve"><div xmlns="" class="member-card">
   <div class="member-card--top">
     <div class="label">[[label]]</div>
     <img src="[[avatar]]" alt="[[name]]" class="avatar"/>
@@ -208,6 +210,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="item" mode="change">
+                    <model predicate="parent::list/@type='links'" behaviour="listItem"/>
                     <model predicate="ancestor::div[@type='highlights']" behaviour="pass-through">
             <desc>Output a highlight card</desc>
             <param name="pos" value="count(preceding-sibling::item) + 1"/>
@@ -216,15 +219,15 @@
             <param name="image" value="ptr[@type='image']/@target"/>
             <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
             <param name="title" value="desc"/>
-            <param name="action-button" value="ref"/>
-            <pb:template xmlns="" xml:space="preserve"><article class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
+            <param name="links" value="list[@type='links']"/>
+            <pb:template xml:space="preserve"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
     <span class="label label-dark">[[label]]</span>
     <div class="desc">
         <h3><a href="[[url]]">[[title]]</a></h3>
         <p>
             [[content]]
         </p> 
-        [[action-button]]
+        [[links]]
     </div>
 </article></pb:template>
         </model>
@@ -232,28 +235,25 @@
             <desc>Output a logo card</desc>
             <param name="image" value="ref/graphic/@url"/>
             <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[url]]" class="partner-logo"><img src="[[image]]"/></a></pb:template>
+            <pb:template xml:space="preserve"><a xmlns="" href="[[url]]" class="partner-logo"><img src="[[image]]"/></a></pb:template>
         </model>
                     <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
-                    <model predicate="ancestor::div[@type='highlights'] and parent::item" behaviour="pass-through">
-            <desc>Output a ref button</desc>
-            <param name="url" value="if (@target != '#') then @target else $parameters?browse-url"/>
-            <param name="explore-label" value="if (normalize-space(.)) then normalize-space(.) else 'menu.explore'"/>
-            <pb:template xmlns="" xml:space="preserve">
-                            <a class="explore-link" href="[[url]]">
-                            <pb-i18n key="[[explore-label]]">[[explore-label]]</pb-i18n>
-                            </a>
-                            </pb:template>
-        </model>
-                    <model predicate="@target='#'" behaviour="link">
-            <param name="uri" value="$parameters?browse-url"/>
+                    <model predicate="ancestor::list[@type='links']" behaviour="link" cssClass="button-link">
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else @target"/>
+            <pb:template xml:space="preserve"><pb-i18n xmlns="" key="menu.[[content]]">[[content]]</pb-i18n></pb:template>
         </model>
                     <model predicate="@target" behaviour="link">
             <param name="uri" value="@target"/>
         </model>
                     <model behaviour="inline"/>
+                </elementSpec>
+            <elementSpec ident="list" mode="change">
+                    <model predicate="@type='links'" behaviour="list" cssClass="buttons"/>
+                    <model behaviour="list" useSourceRendition="true">
+            <param name="content" value="item"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>

@@ -133,14 +133,25 @@ header.row {
     background-position: var(--jinks-hero-background-position);
 }
 
-.hero div {
+.hero > div {
     align-self: flex-end;
     margin-block-start: var(--s4);
     margin-block-end: var(--s4);
     width: 100%;
 }
 
-.explore-link {
+.buttons {
+    display: flex;
+    margin: var(--s1) 0;
+    padding: 0;
+}
+.buttons > li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.button-link {
     display: inline-block;
     padding: var(--s-1, 0.5rem) var(--s1, 1rem);
     margin: var(--s-1, 0.5rem);
@@ -155,7 +166,7 @@ header.row {
     margin-block-start: var(--s0);
 }
 
-.explore-link:after {
+.button-link:after {
     content: " →"
 }
 
@@ -169,6 +180,12 @@ header.row {
     color: var(--jinks-colors-light);
     --pico-color: var(--jinks-colors-light);
     --pico-h2-color: var(--jinks-colors-light);
+}
+
+.section-dark a:not(.button-link):link,
+.section-dark a:not(.button-link):visited {
+    color: var(--jinks-colors-light);
+    text-decoration: underline;
 }
 
 .section-highlight {
@@ -264,7 +281,7 @@ header.row {
     text-decoration: none;
 }
 
-.highlight-card .explore-link {
+.highlight-card .button-link {
     color: var(--card-text-color);
     border: thin solid var(--jinks-border-color);
     background: var(--jinks-colors-500);

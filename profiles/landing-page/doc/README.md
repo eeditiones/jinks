@@ -1,5 +1,7 @@
 # Landing Page Configuration Options
 
+**Note:** If you add a landing page to an existing application, you have to run the _Fix ODDs_ action!!!
+
 <!-- START: Generated documentation. Keep this line -->
 
 | Property | Description | Default |
