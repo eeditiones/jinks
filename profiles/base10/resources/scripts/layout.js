@@ -1,4 +1,7 @@
 function addResizeHandler(resizeContainer, elementsToResize, direction) {
+    if (!resizeContainer) {
+        return;
+    }
     const resizeData = {
         tracking: false,
         startWidth: null,
