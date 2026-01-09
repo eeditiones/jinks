@@ -20,15 +20,40 @@ RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && cd tei-publisher-lib \
     && ant 
 
-# Build tei-publisher-app
+[% if $pkg?abbrev = "tei-publisher-docs" %]
+# Build tei-publisher-app with local webcomponents (only for docs blueprint)
 COPY . [[$pkg?abbrev]]/
 RUN  cd  [[$pkg?abbrev]] \
     && sed -i 's/$config:webcomponents :=.*;/$config:webcomponents := "local";/' modules/config.xqm \
     && ant xar-local
+[% else %]
+# Build app inside container
+COPY . [[$pkg?abbrev]]/
+RUN  cd  [[$pkg?abbrev]] \
+    && ant
+[% endif %]
 
 ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
 ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002.xar
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 003.xar
+
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+# Additional external XAR dependencies
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $url := if ($dep instance of xs:string) then $dep else $dep?url %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) %]
+# Private repository - using BuildKit secret: [[ $tokenName ]]
+RUN --mount=type=secret,id=[[ $tokenName ]] \
+    TOKEN=$(cat /run/secrets/[[ $tokenName ]]) && \
+    curl -H "Authorization: token $TOKEN" -L -o [[ $fileName ]].xar "[[ $url ]]"
+[% else %]
+# Public repository
+ADD [[ $url ]] [[ $fileName ]].xar
+[% endif %]
+[% endfor %]
+[% endif %]
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
 
@@ -43,17 +68,18 @@ ONBUILD COPY --from=builder /tmp/[[$pkg?abbrev]]/build/*.xar /exist/autodeploy/0
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
 FROM  ghcr.io/jinntec/base:main AS build_prod
 
-# NOTE the start URL http://localhost:8080/exist/apps/tei-publisher/index.html 
+# NOTE the start URL http://localhost:8080/exist/apps/[[$pkg?abbrev]]/index.html 
 ARG PUBLISHER_VERSION
 
 ARG USR=nonroot
 USER ${USR}
 
-# Copy EXPATH dependencies
-# DP: TBD see Jinntec/tp-app-base#4
+# Copy latest release of EXPATH dependencies
+# DP: see Jinntec/tp-app-base#4
 ONBUILD ADD --chown=${USR} https://github.com/eeditiones/jinks-templates/releases/latest/download/jinks-templates.xar /exist/autodeploy/004.xar
+ONBUILD ADD --chown=${USR} https://github.com/eeditiones/tei-publisher-libs/releases/latest/download/tei-publisher-lib.xar /exist/autodeploy/005.xar
 
-# This assumes that local xar file is persent for building prod images
+# This assumes that a local xar file is persent for building prodocution images
 COPY --chown=${USR} ./build/*.xar /exist/autodeploy/
 
 FROM build_${BUILD}
