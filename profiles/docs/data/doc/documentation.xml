@@ -1440,7 +1440,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <para>There are several scenarios, where it's useful to pass a parameter to the ODD, or set it at some point in the processing, to be retrieved later: </para>
         <itemizedlist>
             <listitem><para>to access <link linkend="global-variables">global configuration parameters</link>, e.g. to determine the path to the registers or primary data collection to avoid redundance in hard-coding it in the ODD</para></listitem>
-            <listitem>to access <link linkend="external-parameters">external parameters</link>, informing the ODD processor about elements of the application context, e.g. user-selected language, or if we are in the table of content, breadcrumbs, register or perhaps a reading view</listitem>
+            <listitem><para><link linkend="external-parameters">external parameters</link>, informing the ODD processor about elements of the application context, e.g. user-selected language, or if we are in the table of content, breadcrumbs, register or perhaps a reading view</para></listitem>
           <listitem>
               <para>to influence processing of the subsequently called models for particular use case by setting a <link linkend="pm-mode">processing mode</link></para>
           </listitem>
@@ -3432,7 +3432,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
         A request to <code>/test/adagia.xml</code> will be handled by the Open API route matching
         the path <code>"/{docid}"</code>, which then calls the XQuery function
           <function>vapi:view</function> to retrieve the HTML template associated with the TEI
-        document and return it to the browser:</para>      
+        document and return it to the browser:</para>
       <programlisting language="javascript" xml:space="preserve"><![CDATA[
 "/{docid}": {
 	"get": {
@@ -3803,81 +3803,109 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
   </section>
 
   
-  
-  <section xml:id="facets">
-    <title>Facet Search Configuration</title>
-    <para>Facets allow users to quickly navigate through a set of documents or query results by
-      selecting from predefined categories or properties. This way, users can "drill down" into the
-      set, reducing the number of displayed items with every step. For demonstration purposes, TEI
-      Publisher configures two facets by default: "Genre" and "Language". You can see those to the
-      left of the document list on the start page, or below the search box on the search result
-      page.</para>
-    <figure>
-      <title>Facets on the start page</title>
+  <section xml:id="search">
+  <title>Search</title>
+  <para>TEI Publisher (as eXist-db) make extensive use of the <productname>Lucene</productname> indexing engine to implement filtering and ordering of data. In particular, all search-related features heavily depend on full text, facets and fields of the Lucene index. It is therefore paramount to specify these correctly for your data collection.</para>
+  <para>In the context of the TEI Publisher application, when searching, we are applying certain criteria to the collection of all available entries. As a result, we select only entries matching the filtering criteria. By entries we usually mean elements from the <code>data-default</code> collection, typically represented by individual TEI files, less often <emphasis>virtual documents</emphasis>. Either way, the data collection needs an index configuration, matching the kinds of queries we expect to run.</para>
+  <para>From the eXist database perspective there are 3 types of query criteria, which can be applied in conjunction:</para>
+      <itemizedlist>
+        <listitem>
+        <label><emphasis>full text</emphasis> queries</label>
+          <para>matching the text content of the entry, for which the full text index is defined; therefore, if we want to search in the entire TEI document (both metadata and transcription), we need an index on <code>TEI</code>, if only the transcription part, on <code>TEI/text</code></para>
+          <para>full text queries can match entire words exactly, but we may also use wildcard characters (<code>?</code> and <code>*</code>) to search for patterns, e.g. <code>ben*</code> would match anything starting with <emphasis>ben</emphasis>, like <emphasis>benefactor</emphasis>, <emphasis>benevolent</emphasis> or the name <emphasis>Ben</emphasis></para>
+        </listitem>
+        <listitem>
+            <label><emphasis>field</emphasis> queries</label>
+            <para>similar to the full text query, but searching only through the predefined field, which can be defined as necessary; for example, we can associate a field called <code>abstract</code> with a <code>TEI/text</code> node and define it as <code>&lt;field name="abstract" expression="ancestor::tei:TEI//tei:abstract"/&gt;
+</code></para>
+            <para>Please note that the field is always defined in relation to the node, for which the index is defined</para>
+        </listitem>
+        <listitem>
+            <label>facet queries</label>
+               <para>like a fields, a facet can be defined with an arbitrary content, which will be attached to the indexed parent node; main difference is it can be only used for exact checks: only if the indexed node has the exact facet value associated, it will be matched by the query</para> 
+        </listitem>
+  </itemizedlist>
+  <para>Illustration above shows user interface elements related to all query types. Facets are selected with checkboxes, while full-text and field queries are input in the <guibutton>Search</guibutton> box at the top of the sidebar. The <guibutton>Query scope</guibutton> allows users to choose between default full-text search (here called just <emphasis>content</emphasis>, and more constrained field searches.</para>
+   <figure>
+      <title>Search options: full-text, fields and facets</title>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="facets.png"/>
+          <imagedata fileref="search-options.jpg"/>
         </imageobject>
       </mediaobject>
     </figure>
-    <para> From a user perspective, the main concept behind facets is the <emphasis>drill
-        down</emphasis> : initially the user sees all facet values associated with the set of
-      documents or search results displayed. The number behind each value denotes the number of
-      items in the set having the particular facet set. As the user selects one facet, the set
-      necessarily becomes smaller, so non-matching facet values will disappear and the numbers
-      adjust accordingly. </para>
-    <para> Facets are a new feature in eXist 5.0. They are super fast because eXist will create them
-      when indexing the document. No extra computation is needed when the user clicks on a facet to
-      drill down into a displayed set: all information is already available in the index. To see a
-      more complex example of facets in action, visit our <link xlink:show="new"
-        xlink:href="https://tei-publisher.org/exist/apps/vangogh/index.html">Van Gogh</link> demo. </para>
-    <para>If you would like to configure other or additional facets, you need to edit three
-      files:</para>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <filename>collection.xconf</filename>
-        </term>
-        <listitem>
-          <para> The <filename>collection.xconf</filename> tells eXist how to index the collection.
-            The default configuration in TEI Publisher creates two Lucene full-text indexes for TEI
-            on <tag>tei:text</tag> and <tag>tei:div</tag>. Each of those may have facets attached.
-            Every facet must have a <parameter>dimension</parameter> and an
+  <section xml:id="index-configuration">
+      <title>Index configuration</title>
+     
+          <para> The <filename>collection.xconf</filename> tells eXist database how to index the collection.
+            The default configuration in TEI Publisher creates several Lucene full-text indexes, the most 
+            important one for TEI associated with <tag>tei:text</tag>. It has a number of fields and facets attached.
+            </para>
+            <para>
+            Every field and facet must have an
               <parameter>expression</parameter> attribute. The expression is an arbitrary
-            XPath/XQuery string. For every element being indexed, the expression is evaluated once
-            and the result defines the string values which will be associated with the specified
-            facet dimension. </para>
-          <para> For a description of how full-text indexes and facets are defined in the <filename>
+            XPath/XQuery expression. For every element being indexed, the expression is evaluated once
+            and the result defines the values which will be associated with the indexed elements. </para>
+            <para>Apart from <parameter>expression</parameter>, fields require a <parameter>name</parameter>, 
+            while facets need a <parameter>dimension</parameter>.</para>
+          <note><para> For a detailed description of how full-text indexes and facets are defined in the <filename>
               collection.xconf</filename>, please refer to the <link xlink:show="new"
               xlink:href="http://exist-db.org/exist/apps/doc/lucene">eXist documentation</link>.
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <filename>index.xql</filename>
-        </term>
-        <listitem>
-          <para> If you open the default <filename>collection.xconf</filename>, you'll see that most
-            facet expressions call a function <function>nav:get-metadata</function>. This function
-            is declared in <filename>index.xql</filename>. By externalizing most of the code into a
+          </para></note>
+          
+        <para> If you open the default <filename>collection.xconf</filename>, you'll see that most
+            facet or field expressions call a function <function>nav:get-metadata</function>. This function
+            is declared in <filename>index.xql</filename> helper file. By externalizing most of the code into a
             separate function, we can keep the index configuration clean and short. </para>
-          <para> The default <filename>index.xql</filename> already does some advanced
-            preprocessing, in particular for the "genre" facet: each of the sample documents
+        <note><para> The default <filename>index.xql</filename> already does some advanced
+            preprocessing, for example for the "genre" facet: each of the sample documents
             references a central taxonomy (contained in <filename>data/taxonomy.xml</filename>). The
             references are resolved at indexing time by following the <tag>catRef</tag> element's
               <parameter>@target</parameter> attribute. Note that we create a hierarchical facet,
             because e.g. "Philosophy" is a sub-category of "Prose". The code in function <function>
-              idx:get-genre</function> will automatically include the super-category. </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <filename>config.xqm</filename>
-        </term>
-        <listitem>
-          <para> While the other two files cover the server-side creation of facets, we also need a
-            place where we define how facets should be displayed in the user interface. The main
+              idx:get-genre</function> will automatically include the super-category. </para></note>
+              
+      <para>Example below shows an excerpt from TEI Publisher standard index for the <code>TEI/text</code> nodes. 
+      Please note that sometimes both fields and facets are defined under the same field name as the facet dimension. 
+      They may, but don't necessary need to be computed in the same way, for example the date field holds a string value, 
+      while the facet dimension is a sequence of year-month-day items, which is used for the hierarchical facet.</para>
+      <programlisting language="xml" xml:space="preserve">
+&lt;text match="/tei:TEI/tei:text">
+    &lt;field name="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+    &lt;field name="person" expression="nav:get-metadata(ancestor::tei:TEI, 'person')"/>
+    &lt;field name="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date')"/>
+    &lt;field name="file" expression="util:document-name(.)"/>
+    &lt;field name="text" expression="."/>
+    
+    &lt;facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
+    &lt;facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
+    &lt;facet dimension="person" expression="nav:get-metadata(ancestor::tei:TEI, 'person')"/>
+    &lt;facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
+&lt;/text>
+      </programlisting>
+  </section>
+  <section xml:id="facets">
+    <title>Facets</title>
+    <para>Facets allow users to quickly navigate through a set of documents or query results by
+      selecting from predefined categories or properties. This way, users can "drill down" into the
+      set, reducing the number of displayed items with every step. TEI
+      Publisher provides default index configuration which can be extended to match custom-defined facets.</para>
+    
+    <para> From a user perspective, the main concept behind facets is the <emphasis>drill
+        down</emphasis> : initially the user sees all facet values associated with the set of
+      search results displayed. The number behind each value denotes the number of
+      items in the set, matching this particular facet. As the user selects a facet value, the set
+      necessarily becomes smaller, as the non-matching facet values disappear and the numbers
+      adjust accordingly. </para>
+    <para> Facets are super fast because eXist will create them
+      when indexing the document. No extra computation is needed when the user clicks on a facet to
+      drill down into a displayed set: all information is already available in the index. To see an
+      example of facets in action, just go to the <link xlink:href="TODO">Browse</link> page of Documentation and Demo. </para>
+    <para>If you would like to configure additional facets, you need to prepare relevant indexes as described in 
+    <link linkend="index-configuration">index configuration</link> chapter and additionally edit the <code>facets-config.xqm</code></para>
+    
+          <para> While the index configuration is responsible for the server-side creation of facets, we need a
+            place to define how facets should be displayed in the user interface. The <code>facets-config</code>
             configuration module: <filename>config.xqm</filename> declares a variable <parameter>
               $config:facets</parameter>. It should contain an array of maps, where each map defines
             the settings for one dimension, e.g.: </para>
@@ -3886,7 +3914,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
  : Display configuration for facets to be shown in the sidebar. The facets themselves
  : are configured in the index configuration, collection.xconf.
  :)
-declare variable $config:facets := [
+declare variable $facets-config:facets := [
     map {
         "dimension": "genre",
         "heading": "Genre",
@@ -3964,25 +3992,22 @@ declare variable $config:facets := [
             <varlistentry>
               <term>source</term>
               <listitem>
-                <para>In addition to checkboxes, a combo box can be displayed into which users can
+                <para>In addition to checkboxes, an autocomplete <emphasis>combo box</emphasis> can be displayed into which users can
                   type to search for and select a facet. This is in particular useful for
-                  potentially long facet lists. The <code>source</code> property should point to an
+                  long lists of possible facet values. The <code>source</code> property should point to an
                   API endpoint from which the current list of matching facets is being retrieved.
                   TEI Publisher provides a default implementation of this API function in
-                    <filename>modules/lib/api/search.xql</filename>,
+                    <filename>profiles/base10/modules/lib/api/search.xql</filename>,
                   <code>sapi:list-facets</code>.</para>
                 <para>If an <code>output</code> function is provided, facet labels are passed to it
-                  before display. Note that the combo box won't work with hierarchical
+                  before display. Note that the combo box will not work with hierarchical
                   facets.</para>
               </listitem>
             </varlistentry>
-          </variablelist>
-        </listitem>
-      </varlistentry>
     </variablelist>
   </section>
 
-  
+  </section>
 
   
   <section xml:id="specific-profiles">
