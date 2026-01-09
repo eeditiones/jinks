@@ -46,31 +46,7 @@
                how IT specialists, responsible for the technical side of editions, complete their
                tasks.</p>
          </div>
-         <div type="about" xml:lang="de" n="About" rend="two-column">
-            <head>Arbeitsumgebung für die Erstellung und Veröffentlichung digitaler
-               wissenschaftlicher Editionen</head>
-            <p>Der Jinks Application Manager wurde als Arbeitsumgebung für die Erstellung und
-               Veröffentlichung digitaler wissenschaftlicher Editionen konzipiert. Editionen, die
-               mit diesem Framework erstellt wurden, sollen den vielfältigen Anforderungen
-               verschiedener geisteswissenschaftlicher Disziplinen (Editionswissenschaft,
-               Literaturwissenschaft, Linguistik, Geschichte und mehr) gerecht werden. Jinks baut
-               auf einer gemeinsamen Basis auf und bietet gleichzeitig Auswahl- und
-               Anpassungsmöglichkeiten für die Editorinnen und Editoren sowie Entwicklerinnen und
-               Entwickler.</p>
-            <p>Die Plattform folgt dem internationalen Standard zur Kodierung von Textdaten, TEI,
-               und nutzt TEI Publisher für die Darstellung. Dadurch ermöglicht sie die Publikation
-               unterschiedlichster Materialien: von der grundlegenden Präsentation von Texten und
-               Dokumenten in digitaler Form bis hin zu komplexen wissenschaftlichen Editionen.
-               Verschiedene Formen der Textausgabe (Transkriptionen, Übersetzungen, Faksimiles) und
-               Annotationen werden unterstützt.</p>
-            <p>Werkzeuge und Arbeitsumgebung allein reichen jedoch alleine nicht aus. Um den
-               Bedürfnissen der Editorinnen und Editoren bestmöglich zu entsprechen, ist ein
-               konsistenter und effizienter Prozess zur Erstellung und Veröffentlichung digitaler
-               wissenschaftlicher Editionen erforderlich. Dieses Projekt bietet einen solchen
-               Prozess an. Er beinhaltet gute Praxisbeispiele und Workflows und berücksichtigt
-               sowohl die Arbeit wissenschaftlicher Editorinnen und Editoren, als auch die für die
-               technische Seite der Edition verantwortlichen IT-Spezialist:innen.</p>
-         </div>
+         
          <div type="highlights" xml:lang="en">
             <head>Explore</head>
             <list>
@@ -82,7 +58,7 @@
                      <item><ref target="#">Open</ref></item>
                   </list>
                </item>
-               <item n="Demo">
+               <item n="Demo" corresp="https://e-editiones.org/apps/tp-serafin">
                   <desc>Correspondence Edition</desc>
                   <note>Showcases a typical correspondence edition using the letters to Mikołaj
                      Serafin as an example. Highlights: parallel view with transcription and
@@ -93,7 +69,7 @@
                      <item><ref target="../serafin/">Open</ref></item>
                   </list>
                </item>
-               <item n="Demo">
+               <item n="Demo" corresp="https://e-editiones.org/apps/tp-workbench">
                   <desc>Workbench</desc>
                   <note>TEI Publisher also provides tools to simplify the edition workflow: the
                      web-based annotation editor helps to extend a base transcription with semantic
@@ -102,6 +78,14 @@
                   <ptr type="image" target="resources/images/typewriter2.jpg"/>
                   <list type="links">
                      <item><ref target="../workbench/">Open</ref></item>
+                  </list>
+               </item>
+               <item n="Manage">
+                  <desc>Jinks</desc>
+                  <note>Jinks is TEI Publisher's central application manager. Use it to maintain or kickstart new applications.</note>
+                  <ptr type="image" target="resources/images/library.jpg"/>
+                  <list type="links">
+                     <item><ref target="../jinks/">Open</ref></item>
                   </list>
                </item>
             </list>
@@ -118,6 +102,9 @@
                whole community can reuse and benefit from their work.</p>
             <div>
                <head>Brought to you by</head>
+               <figure>
+                  <graphic url="resources/images/e-editiones-logo-color-inverted.svg" width="220px"/>
+               </figure>
                <p>TEI Publisher is not a <hi rend="bold">commercial project</hi>. We strongly
                   believe in Open Source, <hi rend="bold">standards and reusability</hi>. The TEI
                   Processing Model and TEI Publisher are a major step towards true interoperability,
@@ -166,35 +153,7 @@
                   more general interest back to the TEI Publisher.</p>
             </div>
          </div>
-         <div type="section" xml:lang="de" n="More" rend="two-column">
-            <head>Weitere Ressourcen</head>
-            <p>Nutzen Sie diesen Abschnitt für kurze Beschreibungen und Links zu weiteren Ressourcen
-               in der Sammlung.</p>
-            <p>Das Jinks-Editionsprojekt wird von einem engagierten Team aus Historiker:innen,
-               digitalen Archivar:innen und Designer:innen entwickelt, die sich für die Geschichte
-               der Renaissance begeistern.</p>
-            <div>
-               <head>Sammlung von Quellen im TEI-Standard kodiert</head>
-               <p>Faszinierende Sammlung von Quellen nach TEI-Standard, inklusive Aufzeichnungen von
-                  Herrschern und Angehörigen der gesellschaftlichen Elite europäischer Staaten, die
-                  Einblick geben in die Mechanismen von Macht, das Verhältnis zwischen Zentrum und
-                  Peripherie eines Staates und die Lebensweise verschiedener gesellschaftlicher
-                  Gruppen. Die Quellen offenbaren die Mobilität ihrer Vertreter:innen, die Netzwerke
-                  von Kontakten und deren Engagement im sozialen, politischen und wirtschaftlichen
-                  Leben.</p>
-               <p><ref target="#" rend="explore-link">Entdecken</ref></p>
-            </div>
-            <div>
-               <head>Sammlung von Quellen im TEI-Standard kodiert</head>
-               <p>Faszinierende Sammlung von Quellen nach TEI-Standard, inklusive Aufzeichnungen von
-                  Herrschern und Angehörigen der gesellschaftlichen Elite europäischer Staaten, die
-                  Einblick geben in die Mechanismen von Macht, das Verhältnis zwischen Zentrum und
-                  Peripherie eines Staates und die Lebensweise verschiedener gesellschaftlicher
-                  Gruppen. Die Quellen offenbaren die Mobilität ihrer Vertreter:innen, die Netzwerke
-                  von Kontakten und deren Engagement im sozialen, politischen und wirtschaftlichen
-                  Leben.</p>
-            </div>
-         </div>
+         
          <div type="partners" xml:lang="en" n="Partners">
             <head>Project Team &amp; Partners</head>
             <p>The Jinks edition project is brought to life by</p>

@@ -31,6 +31,12 @@ header p {
     font-size: 1.25rem;
 }
 
+div.tei-figure {
+    text-align: center;
+    margin: var(--s1) 0;
+    width: 100%;
+}
+
 .hero h1 strong {
     color: var(--jinks-colors-accent);
     font-style: italic;
@@ -213,23 +219,15 @@ header.row {
 .highlights {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "area-1 area-2"
-        "area-1 area-3";
+    grid-auto-rows: 1fr;
     gap: var(--s-1);
     min-height: 36rem;
 }
 
-.area-1 {
-    grid-area: area-1;
-}
-.area-2 {
-    grid-area: area-2;
-}
-.area-3 {
-    grid-area: area-3;
-}
+/* First item spans all rows in column 1 */
+/* .highlights > *:first-child {
+    grid-row: 1 / 2;
+} */
 
 .highlight-card {
     --from: color-mix(in srgb, var(--jinks-colors-700) 22%, transparent);
