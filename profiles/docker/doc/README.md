@@ -104,7 +104,7 @@ For packages hosted in private repositories (e.g., GitHub, GitLab), you can spec
         "externalXar": {
             "private-package": {
                 "url": "https://github.com/your-org/private-repo/releases/download/v1.0.0/package.xar",
-                "token": "github_token"
+                "token": "GITHUB_TOKEN"
             }
         }
     }
@@ -114,10 +114,14 @@ For packages hosted in private repositories (e.g., GitHub, GitLab), you can spec
 When building the Docker image, you must provide the secret:
 
 ```bash
-docker build --secret id=github_token,env=GITHUB_TOKEN -t my-app .
+docker build --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN -t my-app .
 ```
 
-The token name (e.g., `github_token`) should match an environment variable or file that contains your authentication token. Docker BuildKit will securely pass this token during the build process without embedding it in the image layers.
+**Note for GitHub Actions**: `GITHUB_TOKEN` is automatically provided by GitHub Actions for every workflow run. You can use `"token": "GITHUB_TOKEN"` directly in your `externalXar` configuration, and the CI workflow will automatically pass it as a BuildKit secret. No additional secret configuration is needed.
+
+**Note for GitLab CI**: `CI_JOB_TOKEN` is automatically provided by GitLab CI for every job. You can use `"token": "CI_JOB_TOKEN"` directly in your `externalXar` configuration, and the CI workflow will automatically pass it as a BuildKit secret. Note that `CI_JOB_TOKEN` has limited scope (mainly for GitLab project access and package registries), so for external repositories (e.g., GitHub), you'll need to set up a custom CI/CD variable.
+
+For local builds or other CI systems, the token name should match an environment variable that contains your authentication token. Docker BuildKit will securely pass this token during the build process without embedding it in the image layers.
 
 ## Building the Docker Image
 

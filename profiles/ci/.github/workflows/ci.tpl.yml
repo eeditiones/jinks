@@ -13,8 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       fail-fast: false
@@ -67,31 +65,75 @@ jobs:
       - name: Build with Ant
         run: ant
 
-      # For private repos use secret org token
-      - name: authenticate gh cli
-        timeout-minutes: 1
-        run: gh auth status
+      - name: Make buildkit default
+        uses: docker/setup-buildx-action@v3
+        id: buildx
 
-      - name: Add Expath Dependency
-        working-directory: build/
+      # Build Docker image with buildx
+      - name: Build Docker image
+        env:
+          DOCKER_BUILDKIT: 1
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% let $hasSecrets := false() %]
+[% let $allGithubToken := true() %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% if ($dep instance of map(*) and exists($dep?token)) %]
+[% let $hasSecrets := true() %]
+[% if ($dep?token != "GITHUB_TOKEN") %]
+[% let $allGithubToken := false() %]
+[% endif %]
+[% endif %]
+[% endfor %]
+[% if $hasSecrets and $allGithubToken %]
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+[% else if $hasSecrets %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) and $tokenName != "GITHUB_TOKEN" %]
+          [[ $tokenName ]]: ${{ secrets.[[ $tokenName ]] }}
+[% endif %]
+[% endfor %]
+[% endif %]
         run: |
-          gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar'
-          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar'
-          gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar'
-          gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar'
-          gh release download -R eXist-db/expath-crypto-module -p '*.xar' -O '_crypto.xar'
-          gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar'
+          docker buildx build \
+            --build-arg EXIST_VERSION=${{ matrix.exist-version }} \
+            --build-arg BUILD=local \
+            --load \
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% let $hasSecrets := false() %]
+[% let $allGithubToken := true() %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% if ($dep instance of map(*) and exists($dep?token)) %]
+[% let $hasSecrets := true() %]
+[% if ($dep?token != "GITHUB_TOKEN") %]
+[% let $allGithubToken := false() %]
+[% endif %]
+[% endif %]
+[% endfor %]
+[% if $hasSecrets and $allGithubToken %]
+            --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+[% else if $hasSecrets %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) %]
+            --secret id=[[ $tokenName ]],env=[[ $tokenName ]] \
+[% endif %]
+[% endfor %]
+[% endif %]
+[% endif %]
+            -t ${{ github.repository }}-ci:${{ matrix.exist-version }} \
+            .
 
-      - name: Check Contents
-        working-directory: build/
-        run: ls
-
-      # Install
       - name: Start exist-ci containers
         run: |
-          docker run -dit -p 8080:8080 -v ${{ github.workspace }}/build:/exist/autodeploy \
-          --name exist --rm --health-interval=1s --health-start-period=2s \
-          duncdrum/existdb:${{ matrix.exist-version }}-slim
+            docker run -dit -p 8080:[[ $docker?ports?http ]] \
+              --name exist --rm --health-interval=1s --health-start-period=2s \
+              ${{ github.repository }}-ci:${{ matrix.exist-version }}
+ 
 
       - name: Wait for server to start
         timeout-minutes: 1

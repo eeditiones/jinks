@@ -52,11 +52,77 @@ cache:
         gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar' || true
       fi
     - ls -la
-    # Start eXist-db container
+    # Set up Docker Buildx
+    - docker buildx create --use --name builder || docker buildx use builder
+    - docker buildx inspect --bootstrap
+    # Build Docker image with buildx if Dockerfile exists
     - |
-      docker run -dit -p 8080:8080 -v $CI_PROJECT_DIR/build:/exist/autodeploy \
-        --name exist --rm --health-interval=1s --health-start-period=2s \
-        duncdrum/existdb:${EXIST_VERSION}-slim || true
+      if [ -f "Dockerfile" ]; then
+        export DOCKER_BUILDKIT=1
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% let $hasSecrets := false() %]
+[% let $allJobToken := true() %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% if ($dep instance of map(*) and exists($dep?token)) %]
+[% let $hasSecrets := true() %]
+[% if ($dep?token != "CI_JOB_TOKEN") %]
+[% let $allJobToken := false() %]
+[% endif %]
+[% endif %]
+[% endfor %]
+[% if $hasSecrets and not($allJobToken) %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) and $tokenName != "CI_JOB_TOKEN" %]
+        export [[ $tokenName ]]="${[[ $tokenName ]]}"
+[% endif %]
+[% endfor %]
+[% endif %]
+        docker buildx build \
+          --build-arg EXIST_VERSION=${EXIST_VERSION} \
+          --build-arg BUILD=local \
+          --load \
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% let $hasSecrets := false() %]
+[% let $allJobToken := true() %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% if ($dep instance of map(*) and exists($dep?token)) %]
+[% let $hasSecrets := true() %]
+[% if ($dep?token != "CI_JOB_TOKEN") %]
+[% let $allJobToken := false() %]
+[% endif %]
+[% endif %]
+[% endfor %]
+[% if $hasSecrets and $allJobToken %]
+          --secret id=CI_JOB_TOKEN,env=CI_JOB_TOKEN \
+[% else if $hasSecrets %]
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) %]
+          --secret id=[[ $tokenName ]],env=[[ $tokenName ]] \
+[% endif %]
+[% endfor %]
+[% endif %]
+[% endif %]
+          -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
+          . || true
+      fi
+    # Start eXist-db container - use built image or fallback to base image
+    - |
+      if [ -f "Dockerfile" ]; then
+        docker run -dit -p 8080:[[ $docker?ports?http ]] \
+          --name exist --rm --health-interval=1s --health-start-period=2s \
+          ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} || true
+      else
+        docker run -dit -p 8080:8080 \
+          -v $CI_PROJECT_DIR/build:/exist/autodeploy \
+          --name exist --rm --health-interval=1s --health-start-period=2s \
+          duncdrum/existdb:${EXIST_VERSION}-slim || true
+      fi
     # Wait for server to start
     - |
       echo "Waiting for server to start..."
@@ -105,11 +171,18 @@ cache:
     - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
     - apt-get install -y nodejs
     - systemctl start docker || true
-    # Start eXist-db container (same as build job)
+    # Start eXist-db container - use built image from build job or fallback
     - |
-      docker run -dit -p 8080:8080 -v $CI_PROJECT_DIR/build:/exist/autodeploy \
-        --name exist --rm --health-interval=1s --health-start-period=2s \
-        duncdrum/existdb:${EXIST_VERSION}-slim || true
+      if docker images | grep -q "${CI_PROJECT_NAME}-ci:${EXIST_VERSION}"; then
+        docker run -dit -p 8080:[[ $docker?ports?http ]] \
+          --name exist --rm --health-interval=1s --health-start-period=2s \
+          ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} || true
+      else
+        docker run -dit -p 8080:8080 \
+          -v $CI_PROJECT_DIR/build:/exist/autodeploy \
+          --name exist --rm --health-interval=1s --health-start-period=2s \
+          duncdrum/existdb:${EXIST_VERSION}-slim || true
+      fi
     # Wait for server to start
     - |
       echo "Waiting for server to start..."
