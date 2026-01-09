@@ -110,6 +110,15 @@
             },
             "description": "List of ODDs used by this profile"
         },
+        "data": {
+            "type": "object",
+            "patternProperties": {
+                "^[^\\s]+$": {
+                    "type": "string"
+                }
+            },
+            "description": "Map of XML files to use for the application. The key is the name of the data file and the value is the relative path. Each XML file will be loaded and made available as a context variable with the name of the key.",
+        },
         "defaults": {
             "type": "object",
             "properties": {

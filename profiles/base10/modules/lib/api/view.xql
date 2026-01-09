@@ -95,7 +95,7 @@ declare function vapi:view($request as map(*)) {
             let $mergedConfig := vapi:merge-config($jsonConfig, $config)
             let $model := map:merge((
                 $mergedConfig,
-                vapi:load-context-data($frontmatter),
+                vapi:load-context-data($mergedConfig, $frontmatter),
                 map {
                     "doc": map {
                         "content": $data,
@@ -211,11 +211,11 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
         map {
             "context-path": $config:context-path
         },
-        $extConfig,
-        vapi:load-context-data($frontmatter)
+        $extConfig
     ))
+    let $context := map:merge(($config, vapi:load-context-data($config, $frontmatter)))
     return
-        tmpl:process($template, $config, map {
+        tmpl:process($template, $context, map {
             "plainText": false(),
             "resolver": vapi:resolver#1,
             "modules": map {
@@ -242,9 +242,10 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
  : - odd: the odd of the document
  : - view: the view of the document
  :)
-declare %private function vapi:load-context-data($context as map(*)) {
-    if (exists($context?data) and $context?data instance of map(*)) then
-        map:for-each($context?data, function($key, $value) {
+declare %private function vapi:load-context-data($context as map(*), $frontmatter as map(*)) {
+    for $entry in ($context?data, $frontmatter?data)
+    return
+        map:for-each($entry, function($key, $value) {
             let $data := config:get-document($value)
             let $config := tpu:parse-pi(root($data), $config:default-view, $config:default-odd)
             return
@@ -255,8 +256,6 @@ declare %private function vapi:load-context-data($context as map(*)) {
                     "view": $config?view
                 })
         })
-    else
-        ()
 };
 
 declare function vapi:text($request as map(*)) {
