@@ -1,16 +1,17 @@
 FROM mcr.microsoft.com/devcontainers/java:8-bullseye
 
-ARG EXIST_VERSION=6.4.0
-ARG PUBLISHER_LIB_VERSION=6.0.2
-ARG ROUTER_VERSION=1.11.0
+ARG EXIST_VERSION=[[ $docker?eXist ]]
+ARG PUBLISHER_LIB_VERSION=[[ $docker?tei-publisher-lib ]]
+ARG JINKS_TEMPLATES_VERSION=[[ $docker?jinks-templates ]]
+ARG ROUTER_VERSION=[[ $docker?roaster ]]
 ARG EDITOR_VERSION=1.0.1
-ARG JWT_VERSION=2.0.0
-ARG CRYPTO_VERSION=6.0.1
-ARG HTTP_PORT=8080
-ARG HTTPS_PORT=8443
+ARG JWT_VERSION=[[ $docker?jwt ]]
+ARG CRYPTO_VERSION=[[ $docker?crypto ]]
+ARG HTTP_PORT=[[ $docker?ports?http ]]
+ARG HTTPS_PORT=[[ $docker?ports?https ]]
 
-ARG INSTALL_NER="false"
-ARG INSTALL_TEXLIVE="false"
+ARG INSTALL_NER="[[ string($docker?features?ner) ]]"
+ARG INSTALL_TEXLIVE="[[ string($docker?features?tex) ]]"
 
 #custom-----> Start custom code
 
@@ -61,12 +62,18 @@ RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.c
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
 
+# Build jinks-templates
+RUN git clone https://github.com/eeditiones/jinks-templates.git \
+    && cd jinks-templates \
+    && ant \
+    && cp build/*.xar /usr/local/exist/autodeploy/004.xar
+
 # If tei-publisher-lib version is "master", build it. Otherwise download the specified version.
 RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
         git clone https://github.com/eeditiones/tei-publisher-lib.git \
         && cd tei-publisher-lib \
         && ant \
-        && cp build/*.xar /usr/local/exist/autodeploy; \
+        && cp build/*.xar /usr/local/exist/autodeploy/005.xar; \
     else \
         curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
     fi
@@ -75,6 +82,29 @@ RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https:/
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/jwt-${JWT_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar
+
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+# Additional external XAR dependencies
+[% for $fileName in map:keys($docker?externalXar) %]
+[% let $dep := $docker?externalXar($fileName) %]
+[% let $url := if ($dep instance of xs:string) then $dep else $dep?url %]
+[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
+[% if exists($tokenName) %]
+# Private repository - using environment variable: [[ $tokenName ]]
+# Note: For devcontainer, set the token as a build arg or environment variable
+ARG [[ $tokenName ]]=
+RUN if [ -n "${[[ $tokenName ]]}" ]; then \
+      curl -H "Authorization: token ${[[ $tokenName ]]}" -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]"; \
+    else \
+      echo "Warning: Token [[ $tokenName ]] not provided, attempting public download"; \
+      curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]" || true; \
+    fi
+[% else %]
+# Public repository
+RUN curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]"
+[% endif %]
+[% endfor %]
+[% endif %]
 
 WORKDIR /usr/local/exist
 

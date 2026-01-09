@@ -254,4 +254,4 @@ The Docker profile is automatically selected when you choose the CI profile, ens
 
 - The default admin password is empty (`""`). Change it after first startup for security.
 - The Dockerfile uses `ONBUILD` instructions, so the image can be used as a base for custom builds.
-- For production deployments, consider using the `build_prod` target which uses pre-built packages from GitHub releases for faster builds.
+- For production deployments, consider using the `build_prod` target which uses pre-built packages and a hardened exist-db.
