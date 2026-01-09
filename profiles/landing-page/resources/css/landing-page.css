@@ -23,9 +23,12 @@ section {
     background-color: transparent;
 }
 
+section:empty {
+    display: none;
+}
+
 header p {
     font-size: 1.25rem;
-    font-weight: 500;
 }
 
 .hero h1 strong {
@@ -281,10 +284,8 @@ header.row {
     text-decoration: none;
 }
 
-.highlight-card .button-link {
-    color: var(--card-text-color);
-    border: thin solid var(--jinks-border-color);
-    background: var(--jinks-colors-500);
+.highlight-card a.button-link {
+    color: var(--jinks-color-primary);
 }
 
 .highlight-card .desc p {
@@ -468,7 +469,7 @@ header.row {
 
 .label {
     display: inline-block;
-    padding: var(--s-1) var(--s1);
+    padding: var(--s-2) var(--s-1);
     margin-block-end: var(--s2);
     justify-content: center;
     align-items: center;
@@ -488,7 +489,7 @@ header.row {
 }
 
 .label-dark {
-    color: var(--jinks-colors-700);
+    color: var(--jinks-colors-light);
     border: thin solid var(--jinks-colors-500);
     background: var(--jinks-colors-500);
 }
