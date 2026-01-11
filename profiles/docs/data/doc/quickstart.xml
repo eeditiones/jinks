@@ -1,5 +1,5 @@
 <?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="2" media="print fo epub markdown"?>
-<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
     version="5.0" xml:lang="en">
     <info>
@@ -280,11 +280,17 @@
             provides a few selected demos, and also allows you to upload your own documents to the
                 <filename>demo</filename> collection as well as to play around with different ODDs
             or create your own.</para>
+        <para>If you know previous TEI Publisher versions, you may miss certain features in the
+                <productname>Documentation and Demo</productname>, in particular, the web-based
+            annotation editor. These features have been moved to their own applications. Check out
+            the <link xlink:href="../../tp-workbench" xlink:show="new"><productname>Workbench</productname></link> for web-based annotations and editing, as well
+            as the <link xlink:href="../../tp-serafin" xlink:show="new"><productname>Serafin Correspondence</productname></link> example for a more
+            sophisticated integration of people and places register data.</para>
         <note>
             <para>The <productname>TEI Publisher Documentation and Demo</productname> app
                 corresponds to one of the pre-configured blueprints available in Jinks, which you'll
                 find under the name <guilabel>Documentation + Demo</guilabel> on the
-                    <guilabel>Profiles</guilabel> tab in Jinks. </para>
+                    <guilabel>Profiles</guilabel> tab in Jinks.</para>
         </note>
         <section xml:id="browsing">
             <title>Browsing Documents</title>
@@ -312,14 +318,59 @@
                     a look at each of them to see what TEI Publisher can achieve out of the
                     box.</para>
         </section>
-        <section xml:id="selected-use-cases">
-            <title>Selected Use Cases</title>
+        <section xml:id="document-view">
+            <title>The Document View</title>
             <para>The document view can vary, sometimes substantially, depending on the sample
                 document you are looking at. This is a natural consequence of TEI's versatility and
-                broad scope of its application. What follows, requirements for the document view –
-                both its layout and composition as well as processing rules governing the
-                transformation of the text of the document itself – will differ to a great extent.
-                Sample documents which are included in TEI Publisher's installation package do not
+                broad scope of its application. However, key elements of the user interface
+                intentionally remain the same across examples and applications. This starts with the
+                central toolbar, showing a series of buttons by default:</para>
+            <figure>
+                <title>Central toolbar in demo collection</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="content-toolbar.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <variablelist>
+                <varlistentry>
+                    <term>Select ODD</term>
+                    <listitem>
+                        <para>The <guilabel>Select ODD</guilabel> dropdown allows you to change the currently
+                            used ODD. Note that most texts require a particular ODD. However, if you develop
+                            your own ODD, this dropdown allows you to quickly switch e.g. between different
+                            versions.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Page navigation</term>
+                    <listitem>
+                        <para>Those two buttons allow you to navigate to the next/previous page in a
+                            longer text</para>
+                        <note>
+                            <para>Alternatively, you can use the left/right keys on your
+                                keyboard!</para>
+                        </note>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Content zoom</term>
+                    <listitem>
+                        <para>Increases the font size for the content of the document to improve
+                            readability</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Some examples may contribute additional buttons (e.g. the Cortés letter).</para>
+            <para>Depending on the text you may also see one or two sidebars to the left and right
+                of the content area. These can be resized or minimized.</para>
+            <para>TEI Publisher 10 tries to enforce a consistent layout across all applications. See
+                the section on <link xlink:href="documentation.xml?id=themes-and-styling">Layout, Themes and Styling</link> in the reference guide.</para>
+        </section>
+        <section xml:id="selected-use-cases">
+            <title>Selected Use Cases</title>
+            <para>Sample documents which are included in TEI Publisher's installation package do not
                 exhaust its applications but rather aim to present some chosen use cases:</para>
             <figure>
                 <title>Browsing Demo collection</title>
@@ -471,7 +522,7 @@
                 basic semantics of the text, not to provide authoritative mapping of complete set of
                 MS Word features to TEI. Refer to <link xlink:show="new"
                     xlink:href="documentation.xml?id=docx">DOCX handling</link> section for more
-                information. </para>
+                information.</para>
         </section>
 
     </section>
@@ -809,19 +860,14 @@
                                 <emphasis>inside</emphasis> the docker image. If you connect to a
                             remote server, it will be a directory on the server. Sync therefore is
                             particularly convenient to use during the development, to create
-                            snapshots to be committed to the source control repository, like Git.
-                        </para>
+                            snapshots to be committed to the source control repository, like
+                            Git.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>Which option to choose depends on your development workflow. Some people prefer to
-                do all development inside the database and only sync or download every now and then.
-                This does not require any additional setup. </para>
-            <para>However, experienced developers would usually do it the other way around: have the
-                code on the file system in a directory connected to Git, and do the main development
-                there. This way you can make sure you'll always be able to restore the previous
-                state, even if the database crashes, your computer breaks, customization attempt
-                goes sideways or whatever bad may happen.</para>
+            <para>Both actions allow you to quickly retrieve a copy of your work. For more
+                information regarding development workflows and later updates, please refer to the
+                <link xlink:href="documentation.xml?id=development-workflow">reference guide</link>.</para>
         </section>
         <section xml:id="jinks-apply-updates">
             <title>Applying updates</title>
