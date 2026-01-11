@@ -1,5 +1,5 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="print fo epub markdown"?>
-<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="2" media="print fo epub markdown"?>
+<?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
   version="5.0" xml:lang="en">
   <info>
@@ -282,19 +282,160 @@
   </section>
   
   <section xml:id="development-workflow">
-      <title>Development Workflow</title>
-      <note role="todo">
-        <para>To be written</para>
+    <title>Development Workflows</title>
+    <para>This chapter discusses the different ways to interact with the database while you are
+      developing your own digital edition. In essence, one can distinguish two basic approaches:<orderedlist>
+        <listitem>
+          <para>development is primarily done inside the database using tools like eXide, Jinks or
+            oXygen</para>
+        </listitem>
+        <listitem>
+          <para>main development takes place in a local directory using whatever editor and tools
+            you prefer</para>
+        </listitem>
+      </orderedlist></para>
+    <para>In reality, you will likely mix both. For example, even if you are mainly working in a
+      directory, you may still want to use the visual ODD editor, occasionally update the
+      application with Jinks etc. You therefore need ways to sync from database to file system and
+      the other way around.</para>
+    <para>But whichever way you choose, it is important to always have an up to data backup in a
+      safe place in case anything goes wrong. The best way to achieve this is to use a versioning
+      system like git. We strongly recommend to set up a git repository whenever you start work on a
+      digital edition.</para>
+  <section>
+    <title>Approach 1: Developing inside the Database</title>
+    <para>This will be the easier approach as it does not require additional tooling (except for git
+      – see below). It will work perfectly fine if:<itemizedlist>
+        <listitem>
+          <para>you are mainly interested in changing the presentation of the data via ODD and TEI
+            Processing Model</para>
+        </listitem>
+        <listitem>
+          <para>your application can rely on the existing profiles and requires only minor
+            customization by changing the configuration in Jinks</para>
+        </listitem>
+        <listitem>
+          <para>you do not need (or only very little) custom CSS, javascript or additional API
+            endpoints</para>
+        </listitem>
+      </itemizedlist></para>
+    <para>If those conditions apply, you will mostly work with the visual ODD editor (for addressing
+      the presentation) and Jinks for theming and other configuration changes. If you have to add
+      single source files (like CSS styles), eXide provides a reliable editor.</para>
+    <para>However, it is vital to keep an up to date copy of your application somewhere save. Jinks
+      itself provides two actions for retrieving a copy (see the bottom toolbar):</para>
+    <variablelist>
+      <varlistentry>
+        <term><guilabel>Download</guilabel></term>
+        <listitem>
+          <para>Packages the application into a single archive (a so called XAR), which you can
+            later re-install into eXist-db using the Package Manager in the Dashboard. This is a
+            quick choice to get a fully functional copy or for passing the application on to other
+            people to try out.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><guilabel>Sync</guilabel></term>
+        <listitem>
+          <para>Synchronizes the file hierarchy into a local disk directory. Note that
+              <emphasis>local</emphasis> means the machine where eXist-db is running. If you are
+            using docker, the directory will be <emphasis>inside</emphasis> the docker image. If you
+            connect to a remote server, it will be a directory on the server. Sync therefore is
+            particularly convenient to use during development, to create snapshots to be committed
+            to the source control repository, like Git.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>Because <guilabel>Sync</guilabel> won't work for everyone, let's start with the
+        <guilabel>Download</guilabel> option: running the action will result in a file ending with
+        <filename>.xar</filename> being downloaded to your browser. This is a normal ZIP archive and
+      you can use standard utilities to extract the files into a directory of your choice. If your
+      system does not recognize the <filename>.xar</filename> as a ZIP and refuses to process it,
+      simply change the file ending.</para>
+    <note>
+      <para>Contrary to an ordinary ZIP file, a <filename>.xar</filename> has a standardized
+        internal structure and comes with metadata, which informs eXist-db about how to install the
+        data, create indexes and so on.</para>
+    </note>
+    <para>The extracted archive contains everything, which would be required to restore the current
+      state of the application. At this point, we strongly recommend to initialize this directory as
+      a git repository and push it to a service like Github.</para>
+      <para>You can also rebuild the <filename>.xar</filename> – e.g. after making local changes to
+        files – using the build scripts included in the archive. The build step will result in
+        another, updated <filename>.xar</filename> being written into the <filename>build</filename>
+        subdirectory and you can install this new archive into any
+          <productname>eXist-db</productname> using the <productname>dashboard</productname> (or
+        command line utility like <productname>xst</productname>, see below).</para>
+  </section>
+  <section>
+    <title>Approach 2: Developing in a local directory</title>
+    <para>If an application reaches a certain complexity, you may prefer to switch to a
+        directory-first approach. This is also how TEI Publisher itself is developed. The
+        advantages:</para>
+      <itemizedlist>
+        <listitem>
+          <para>you have a safe copy of your work in a local directory at any point</para>
+        </listitem>
+        <listitem>
+          <para>you can immediately commit changes to git or undo them later if needed</para>
+        </listitem>
+        <listitem>
+          <para>you can use any tools you like, including the editor of your choice</para>
+        </listitem>
+      </itemizedlist>
+      <para>If you make your changes in a directory first, you obviously have to synchronize them to
+        the database. The easiest way to do so is to rebuild the <filename>.xar</filename> every
+        time and install it via the <productname>dashboard</productname>. However, reinstalling the
+        entire application may take a while and therefore slow you down.</para>
+      <para>You can also upload single files using eXide, the file browser in jinks or oXygen's
+        eXist-db integration. But again, this is a manual process.</para>
+      <para>Therefore, most TEI Publisher developers prefer using a development environment (IDE)
+        like Visual Studio Code, Cursor or Antigravity. They all allow you to install an eXist-db
+        extension, which – apart from providing XQuery language support – comes with a helpful
+        synchronization utility. Applications generated by Jinks already contain the necessary
+        configuration (in file <filename>.existdb.json</filename>) to run this synchronization
+        utility.</para>
+    <figure>
+      <title>Cursor editor with active sync task in bottom panel</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="cursor-sync.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+      <para>Once activated, the sync utility will continously watch for changes in the monitored
+        directories and synchronize them to the database.</para>
+      <para>While convenient, there are some caveats of this approach:</para>
+      <itemizedlist>
+        <listitem>
+          <para>if you use the visual ODD editor, you need to download the modified ODD yourself as
+            it only exists in the database</para>
+        </listitem>
+        <listitem>
+          <para>if you modify the application configuration in jinks and apply it, there will likely
+            be changes to files in the database, but not in your local directory</para>
+        </listitem>
+      </itemizedlist>
+      <para>In those cases, use either the <guilabel>Sync</guilabel> action to automatically sync
+        from database to local directory, or download a fresh <filename>.xar</filename> and unpack
+        it manually.</para>
+      <note>
+        <para>Note, however, that if you have the sync task running in your editor, replaced files
+          will be again written into the database. While this does usually not cause much damage, it
+          is better to stop the task temporarily.</para>
       </note>
-    </section>
-
+  </section>
+  </section>
   <section xml:id="odd">
     <title>TEI Processing Model</title>
-    <para> TEI Publisher derives its name from TEI and the TEI Processing Model (TEI PM). TEI Processing
-      Model is a part of the standard TEI vocabulary and TEI ODD specification format. It is
-      described in the <link xlink:show="new" xlink:href="https://tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPMPM">Documentation
-        Elements</link> chapter of the TEI P5 Guidelines. Here we discuss it at length from a practical perspective, including
-      TEI Publisher specific extensions and edge case examples. For hands-on introduction to this topic you may want to follow the <link xlink:href="quickstart.xml?id=pm-tutorial" >Quickstart</link> tutorial.</para>
+    <para>TEI Publisher derives its name from TEI and the TEI Processing Model (TEI PM). TEI
+      Processing Model is a part of the standard TEI vocabulary and TEI ODD specification format. It
+      is described in the <link xlink:show="new"
+        xlink:href="https://tei-c.org/release/doc/tei-p5-doc/en/html/TD.html#TDPMPM">Documentation
+        Elements</link> chapter of the TEI P5 Guidelines. Here we discuss it at length from a
+      practical perspective, including TEI Publisher specific extensions and edge case examples. For
+      hands-on introduction to this topic you may want to follow the <link
+        xlink:href="quickstart.xml?id=pm-tutorial">Quickstart</link> tutorial.</para>
     <para>TEI Processing Model specification uses 
       TEI ODD syntax to define how an XML document should be transformed.
       TEI ODD (short for One Document Does it All) was originally designed to
