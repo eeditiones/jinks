@@ -47,13 +47,13 @@ fi
 echo "Creating apps..."
 $JINKS_CMD create -c tp_config.json
 $JINKS_CMD create -c ser_config.json
-$JINKS_CMD create -c ann_config.json
+$JINKS_CMD create -c workbench_config.json
 
 $JINKS_CMD list
 
 $JINKS_CMD run tei-publisher download
 $JINKS_CMD run tp-serafin download
-$JINKS_CMD run tp-annotator download
+$JINKS_CMD run tp-workbench download
 
 docker stop jinks-server
 

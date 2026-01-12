@@ -79,10 +79,10 @@ jobs:
         run: |
           jinks create -c ser_config.json 
 
-      - name: Generate tp-annotator app
+      - name: Generate tp-workbench app
         working-directory: demo
         run: |
-          jinks create -c ann_config.json 
+          jinks create -c workbench_config.json 
       
       - name: Verify deployed apps
         run: jinks list
@@ -160,7 +160,7 @@ jobs:
         run: |
           echo "XAR files to include in image:"
           ls -lh *.xar
-          if [ ! -f "tei-publisher.xar" ] || [ ! -f "tp-serafin.xar" ] || [ ! -f "tp-annotator.xar" ]; then
+          if [ ! -f "tei-publisher.xar" ] || [ ! -f "tp-serafin.xar" ] || [ ! -f "tp-workbench.xar" ]; then
             echo "Error: Missing required XAR files"
             exit 1
           fi
