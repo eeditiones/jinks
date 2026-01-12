@@ -19,6 +19,11 @@ When the Docker profile is selected, it generates:
    - Automatic installation and deployment of your application
    - VS Code extensions for eXist-db, XML, and OpenAPI
 
+3. **BATS smoke tests** (`test/01-smoke.bats`) for verifying application health:
+   - Tests container health and HTTP connectivity
+   - Verifies package deployment and log cleanliness
+   - Can be run locally or automatically in CI/CD workflows
+
 The generated Dockerfile uses a multi-stage build process with two targets:
 - `build_local`: Builds everything from source (for development)
 - `build_prod`: Uses pre-built XAR packages from GitHub releases (for production)
@@ -244,9 +249,40 @@ The devcontainer automatically installs these VS Code extensions:
 - `42crunch.vscode-openapi`: OpenAPI support
 - `redhat.vscode-xml`: XML language support
 
+## Smoke Tests
+
+The Docker profile includes [BATS (Bash Automated Testing System)](https://bats-core.readthedocs.io/en/stable/) smoke tests that verify your application is running correctly. These tests are generated at `test/01-smoke.bats` and can be run against a running Docker container.
+
+### Test Coverage
+
+The smoke tests verify:
+
+- **Container health**: JVM responds, container is healthy, server started cleanly
+- **HTTP connectivity**: Container can be reached via HTTP on port 8080
+- **Application deployment**: Package and dependencies are deployed correctly
+- **Log cleanliness**: No errors, fatal errors, or warnings in logs
+
+### Running the Tests
+
+The tests expect a running Docker container named "exist" on port 8080:
+
+```bash
+# Start your container
+docker run -dit -p 8080:8080 --name exist my-app:local
+
+# Run the smoke tests
+bats --tap test/01-smoke.bats
+```
+
+The tests automatically compute the expected number of deployed packages based on your application's expath dependencies configuration.
+
+### Integration with CI/CD
+
+These smoke tests are automatically executed in CI/CD workflows when the CI profile is enabled. See the [CI profile documentation](../ci/doc/README.md) for more information.
+
 ## Integration with CI/CD
 
-The Docker profile is automatically selected when you choose the CI profile, ensuring that your CI/CD workflows can build and test your application in a containerized environment. See the [CI profile documentation](../ci/doc/README.md) for more information.
+The Docker profile is automatically selected when you choose the CI profile, ensuring that your CI/CD workflows can build and test your application in a containerized environment. The generated BATS smoke tests are automatically executed as part of the CI workflow. See the [CI profile documentation](../ci/doc/README.md) for more information.
 
 ## Requirements
 
