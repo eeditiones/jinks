@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="1" media="latex print fo epub markdown"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="1" media="print fo epub markdown"?>
 <?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
     version="5.0" xml:lang="en">
@@ -31,9 +31,6 @@
                     xlink:href="https://hub.docker.com/r/existdb/teipublisher">docker image</link>,
                 eXist will already be set up to include both Jinks and TEI Publisher<!-- as well as
             the... TODO: add here any demos that will also be included -->. </para>
-            <note role="todo">
-                <para>Docker image paths need to be adjusted!</para>
-            </note>
             <procedure>
                 <step>
                     <para> Install <link xlink:show="new" xlink:href="https://www.docker.com/"
@@ -43,13 +40,8 @@
                             desktop</link> app. </para>
                 </step>
                 <step>
-                    <para>To download the image run the following in a console</para>
-                    <synopsis>docker pull existdb/teipublisher:latest</synopsis>
-                </step>
-                <step>
-                    <para>once the download is complete, you can run the image with the following
-                        command:</para>
-                    <synopsis>docker run -p 8081:8080 -p 8444:8443 --name teipublisher existdb/teipublisher:latest</synopsis>
+                    <para>Run the following command. This will automatically download the image if not yet available:</para>
+                    <synopsis>docker run -p 8080:8080 -v exist-data:/exist/data --name teipublisher existdb/teipublisher:latest</synopsis>
                     <para>Startup should be fast because the database is already pre-populated.
                         However, changes you make may not persist if the docker container is deleted
                         or updated to a newer release. If you want to be sure that your changes are
@@ -61,9 +53,9 @@
                         <varlistentry>
                             <term>-p</term>
                             <listitem>
-                                <para>Maps a port on your local machine (8081 and 8444) to the port
+                                <para>Maps a port on your local machine (8080) to the port
                                     used by eXist within the container. eXist will always run on
-                                    8080 for HTTP and 8443 for HTTPS. If those ports are already
+                                    8080 for HTTP. If those ports are already
                                     occupied by different services on your machine, choose a
                                     different port for the first number.</para>
                             </listitem>
@@ -90,11 +82,9 @@
                             </listitem>
                         </varlistentry>
                     </variablelist>
-                    <para>Once the container has started, you can access the eXist dashboard in your
+                    <para>Once the container has started, you can access TEI Publisher in your
                         browser by navigating to</para>
-                    <synopsis>http://localhost:8081</synopsis>
-                    <para>From the dashboard you can click on the TEI Publisher, Shakespeare or Van
-                        Gogh icons to open the corresponding applications.</para>
+                    <synopsis>http://localhost:8080</synopsis>
                 </step>
                 <step>
                     <para>To stop the container run</para>
