@@ -36,6 +36,9 @@
         <delete dir="${basedir}/resources/i18n/common" failonerror="false" />
         <delete dir="${basedir}/resources/images/leaflet" failonerror="false" />
         <delete dir="${basedir}/resources/images/openseadragon" failonerror="false" />
+        <delete failonerror="false">
+            <fileset dir="${basedir}/demo" includes="*.xar" />
+        </delete>
     </target>
 
     <target name="npm.install">
