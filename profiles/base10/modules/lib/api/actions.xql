@@ -39,7 +39,7 @@ declare %private function action:generate-code() {
         if ($pi?output) then
             tokenize($pi?output)
         else
-            ("web", "print", "latex", "epub", "fo", "markdown")
+            $config:odd-media
     let $report :=
         pmu:process-odd (
             (:    $odd as document-node():)

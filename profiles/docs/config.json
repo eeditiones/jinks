@@ -5,9 +5,12 @@
     "label": "Documentation + Demo",
     "description": "TEI Publisher documentation and demo",
     "version": "1.0.0",
-    "order": 101,
+    "order": 103,
     "defaults": {
         "data-default": ""
+    },
+    "data": {
+        "landing": "landing/home.xml"
     },
     "depends": [
         "base10",
@@ -20,6 +23,7 @@
         "demo-data",
         "docker",
         "ci"
+        "landing-page"
     ],
     "pkg": {
         "abbrev": "tei-publisher-docs"
@@ -31,12 +35,16 @@
         "upload": {
             "enabled": true,
             "target": "demo"
+        },
+        "playground": {
+            "enabled": true
         }
     },
     "collection-config": {
         "doc": {
             "odd": "docbook.odd",
-            "template": "documentation.html"
+            "template": "documentation.html",
+            "media": ["web", "print", "fo", "epub", "markdown"]
         },
         "demo": {
             "template": "basic.html"
@@ -55,7 +63,7 @@
         "items": [
             {
                 "id": "Start",
-                "url": ""
+                "url": "browse.html"
             },
             {
                 "id": "documentation",

@@ -64,6 +64,7 @@
                 <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
                 <field name="dbk.file" expression="util:document-name(.)"/>
                 <field name="dbk.text" expression="."/>
+                <field name="category" expression="./@label"/>
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="nav:get-metadata(., 'language')"/>
             </text>

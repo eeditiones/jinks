@@ -1,7 +1,7 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" depth="5" fill="2" media="latex print fo epub markdown"?>
-<?xml-model href="https://docbook.org/xml/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="2"?>
+<?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
-    version="5.0" xml:lang="en">
+    version="5.0" xml:lang="en" label="b">
     <info>
         <title>Gentle Introduction to TEI Publisher</title>
         <author>
@@ -17,39 +17,36 @@
     <section xml:id="introduction">
         <title>Introduction</title>
 
-        <section xml:id="introduction-foreword">
-            <para>TEI Publisher provides a flexible and sustainable <emphasis>toolbox</emphasis>
-                which enables scholars with limited technical skills to publish their material
-                without forcing it into a one-size-fits-all framework. Our mantra is to stop
-                reinventing the wheel with every new digital project and reuse what others have
-                already built instead. And, most importantly, help to improve the shared base by
-                adding what's missing into the communal pool. <note role="todo"> link to how to
-                    contribute/extend </note>
-            </para>
-            <para>TEI Publisher provides a smooth and fast entry path for editors with little
-                technical experience while remaining endlessly flexible and extensible for advanced
-                users. </para>
-            <para>Numerous projects realized with TEI Publisher worldwide prove that it is:</para>
-            <orderedlist>
-                <listitem>
-                    <para>a truly universal tool for any kind of digital publication, from scholarly
-                        editions to journals, monographs, lexicons, and much more</para>
-                </listitem>
-                <listitem>
-                    <para>suitable even for very complex and multi-faceted material</para>
-                </listitem>
-                <listitem>
-                    <para>sustainable and future-proof</para>
-                </listitem>
-                <listitem>
-                    <para>capable of generating high quality, camera ready material for print
-                        publishing</para>
-                </listitem>
-                <listitem>
-                    <para>suitable for any XML, not only TEI (this documentation is written in
-                        DocBook!)</para>
-                </listitem>
-            </orderedlist>
+        <para>TEI Publisher provides a flexible and sustainable <emphasis>toolbox</emphasis>
+            which enables scholars with limited technical skills to publish their material
+            without forcing it into a one-size-fits-all framework. Our mantra is to stop
+            reinventing the wheel with every new digital project and reuse what others have
+            already built instead. And, most importantly, help to improve the shared base by
+            adding what's missing into the communal pool.</para>
+        <para>TEI Publisher provides a smooth and fast entry path for editors with little
+            technical experience while remaining endlessly flexible and extensible for advanced
+            users. </para>
+        <para>Numerous projects realized with TEI Publisher worldwide prove that it is:</para>
+        <orderedlist>
+            <listitem>
+                <para>a truly universal tool for any kind of digital publication, from scholarly
+                    editions to journals, monographs, lexicons, and much more</para>
+            </listitem>
+            <listitem>
+                <para>suitable even for very complex and multi-faceted material</para>
+            </listitem>
+            <listitem>
+                <para>sustainable and future-proof</para>
+            </listitem>
+            <listitem>
+                <para>capable of generating high quality, camera ready material for print
+                    publishing</para>
+            </listitem>
+            <listitem>
+                <para>suitable for any XML, not only TEI (this documentation is written in
+                    DocBook!)</para>
+            </listitem>
+        </orderedlist>
 
             <section xml:id="intro-jinks">
                 <title>Overview</title>
@@ -204,7 +201,6 @@
                     </varlistentry>
                 </variablelist>
             </section>
-        </section>
         <section xml:id="e-editiones">
             <title>e-editiones.org</title>
             <para> Since its first incarnation in 2015, TEI Publisher has gained substantial
@@ -277,21 +273,66 @@
     </section>
     <section xml:id="tp">
         <title>Guided Tour</title>
+        <para>If you are browsing this documentation through the official website or you have
+            installed TEI Publisher via the docker image, you'll find four applications on the start
+            page:</para>
+        <note>
+            <para>If you installed TEI Publisher without docker, you'll only see two applications
+                here. You can <link linkend="using-jinks">generate the others yourself</link>
+                though.</para>
+        </note>
+        <figure>
+            <title>Start page showing four installed applications</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="home-explore.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <variablelist>
+            <varlistentry>
+                <term>Documentation and Demo</term>
+                <listitem>
+                    <para>Provides the documentation you are reading and a few selected
+                        examples</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><link xlink:href="../../tp-serafin" xlink:show="new">Correspondence Edition</link></term>
+                <listitem>
+                    <para>A more complex example, showcasing a parallel view with transcription and
+                        translation, entity register of people and places, correspondence navigation
+                        and a timeline.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><link xlink:href="../../tp-workbench" xlink:show="new">Workbench</link></term>
+                <listitem>
+                    <para>Tools to help with the edition workflow: a web-based annotation editor and
+                        an online editor for working directly on a TEI text.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><link xlink:href="../../jinks" xlink:show="new">Jinks</link></term>
+                <listitem>
+                    <para>TEI Publisher's application manager: all other apps were generated by
+                        this.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
         <para>For a first overview we recommend to start with the <productname>TEI Publisher
                 Documentation and Demo</productname> application. This includes the documentation,
             provides a few selected demos, and also allows you to upload your own documents to the
                 <filename>demo</filename> collection as well as to play around with different ODDs
             or create your own.</para>
+        
         <note>
-            <para>The <productname>TEI Publisher Documentation and Demo</productname> app
-                corresponds to one of the pre-configured blueprints available in Jinks, which you'll
-                find under the name <guilabel>Documentation + Demo</guilabel> on the
-                    <guilabel>Profiles</guilabel> tab in Jinks. </para>
+            <para>The first three apps
+                correspond to one of the pre-configured blueprints available in Jinks. See <link linkend="using-jinks">below</link> for more information
+            on profiles and blueprints.</para>
         </note>
         <section xml:id="browsing">
             <title>Browsing Documents</title>
-            <section xml:id="start-page">
-                <title>The Start Page</title>
                 <para>The start page of <productname>TEI Publisher Documentation and
                         Demo</productname> serves as an entry point to explore and
                     experiment.</para>
@@ -315,16 +356,72 @@
                     aspects are handled using different ODDs and view templates. We suggest to have
                     a look at each of them to see what TEI Publisher can achieve out of the
                     box.</para>
-            </section>
+            <para>Every example – including the documentation – can also be downloaded in different
+                media formats. Not all formats will be available for every sample. TEI Publisher
+                supports ePub, Markdown and PDF. For the PDF there are three options: using Print
+                CSS, FO or LaTeX as intermediate format. FO and LaTeX are disabled by default. For
+                further information refer to the <link xlink:href="documentation.xml?id=output-media">reference guide</link>.</para>
+            <figure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="download-menu.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section xml:id="document-view">
+            <title>The Document View</title>
+            <para>The document view can vary, sometimes substantially, depending on the sample
+                document you are looking at. This is a natural consequence of TEI's versatility and
+                broad scope of its application. However, key elements of the user interface
+                intentionally remain the same across examples and applications. This starts with the
+                central toolbar, showing a series of buttons by default:</para>
+            <figure>
+                <title>Central toolbar in demo collection</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="content-toolbar.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <variablelist>
+                <varlistentry>
+                    <term>Select ODD</term>
+                    <listitem>
+                        <para>The <guilabel>Select ODD</guilabel> dropdown allows you to change the currently
+                            used ODD. Note that most texts require a particular ODD. However, if you develop
+                            your own ODD, this dropdown allows you to quickly switch e.g. between different
+                            versions.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Page navigation</term>
+                    <listitem>
+                        <para>Those two buttons allow you to navigate to the next/previous page in a
+                            longer text</para>
+                        <note>
+                            <para>Alternatively, you can use the left/right keys on your
+                                keyboard!</para>
+                        </note>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Content zoom</term>
+                    <listitem>
+                        <para>Increases the font size for the content of the document to improve
+                            readability</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Some examples may contribute additional buttons (e.g. the Cortés letter).</para>
+            <para>Depending on the text you may also see one or two sidebars to the left and right
+                of the content area. These can be resized or minimized.</para>
+            <para>TEI Publisher 10 tries to enforce a consistent layout across all applications. See
+                the section on <link xlink:href="documentation.xml?id=themes-and-styling">Layout, Themes and Styling</link> in the reference guide.</para>
         </section>
         <section xml:id="selected-use-cases">
             <title>Selected Use Cases</title>
-            <para>The document view can vary, sometimes substantially, depending on the sample
-                document you are looking at. This is a natural consequence of TEI's versatility and
-                broad scope of its application. What follows, requirements for the document view –
-                both its layout and composition as well as processing rules governing the
-                transformation of the text of the document itself – will differ to a great extent.
-                Sample documents which are included in TEI Publisher's installation package do not
+            <para>Sample documents which are included in TEI Publisher's installation package do not
                 exhaust its applications but rather aim to present some chosen use cases:</para>
             <figure>
                 <title>Browsing Demo collection</title>
@@ -476,7 +573,7 @@
                 basic semantics of the text, not to provide authoritative mapping of complete set of
                 MS Word features to TEI. Refer to <link xlink:show="new"
                     xlink:href="documentation.xml?id=docx">DOCX handling</link> section for more
-                information. </para>
+                information.</para>
         </section>
 
     </section>
@@ -814,19 +911,14 @@
                                 <emphasis>inside</emphasis> the docker image. If you connect to a
                             remote server, it will be a directory on the server. Sync therefore is
                             particularly convenient to use during the development, to create
-                            snapshots to be committed to the source control repository, like Git.
-                        </para>
+                            snapshots to be committed to the source control repository, like
+                            Git.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>Which option to choose depends on your development workflow. Some people prefer to
-                do all development inside the database and only sync or download every now and then.
-                This does not require any additional setup. </para>
-            <para>However, experienced developers would usually do it the other way around: have the
-                code on the file system in a directory connected to Git, and do the main development
-                there. This way you can make sure you'll always be able to restore the previous
-                state, even if the database crashes, your computer breaks, customization attempt
-                goes sideways or whatever bad may happen.</para>
+            <para>Both actions allow you to quickly retrieve a copy of your work. For more
+                information regarding development workflows and later updates, please refer to the
+                <link xlink:href="documentation.xml?id=development-workflow">reference guide</link>.</para>
         </section>
         <section xml:id="jinks-apply-updates">
             <title>Applying updates</title>

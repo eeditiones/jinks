@@ -48,7 +48,7 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/places"><pb-i18n key="menu.places"/></a></li>
-                <li>[[ $data?root/head((tei:placeName[@type = ('reg', 'main', 'full')], tei:placeName))/string() ]]</li>
+                <li>[[ $entity-data?root/head((tei:placeName[@type = ('reg', 'main', 'full')], tei:placeName))/string() ]]</li>
             </ul>
         </nav>
     </li>
@@ -59,6 +59,6 @@
     </pb-leaflet-map>
     [% endtemplate %]
     <section class="place">
-        [[ page:transform($data?root, map { "mode": "register-details" }) ]]
+        [[ page:transform($entity-data?root, map { "mode": "register-details" }) ]]
     </section>
 </template>

@@ -1,15 +1,17 @@
 # Landing Page Configuration Options
 
+**Note:** If you add a landing page to an existing application, you have to run the _Fix ODDs_ action!!!
+
 <!-- START: Generated documentation. Keep this line -->
 
 | Property | Description | Default |
 |----------|-------------|-------
 | `landing.bottom.background-color` | Background color for the bottom section | `"rgba(0, 0, 0, 0.4)"` |
-| `landing.bottom.background-image` | Background image for the bottom section. Path should be relative to `resources/css`. | `"../images/typewriter-on-books.jpg"` |
+| `landing.bottom.background-image` | Background image for the bottom section. Path should be relative to `resources/css`. | `"../images/typewriter3.jpg"` |
 | `landing.bottom.background-repeat` | Background repeat for the bottom section | `"no-repeat"` |
 | `landing.bottom.background-size` | Background size for the bottom section | `"cover"` |
 | `landing.hero.background-color` | Background color for the hero section | `"rgba(0, 0, 0, 0.6)"` |
-| `landing.hero.background-image` | Background image for the hero section. Path should be relative to `resources/css`. | `"../images/typewriter.jpg"` |
+| `landing.hero.background-image` | Background image for the hero section. Path should be relative to `resources/css`. | `"../images/typewriter1.jpg"` |
 | `landing.hero.background-position` | Background position for the hero section | `"center"` |
 | `landing.hero.background-repeat` | Background repeat for the hero section | `"no-repeat"` |
 | `landing.hero.background-size` | Background size for the hero section | `"cover"` |

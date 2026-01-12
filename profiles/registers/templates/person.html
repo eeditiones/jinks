@@ -37,12 +37,12 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li><a href="[[ $context-path ]]/people"><pb-i18n key="menu.people"/></a></li>
-                <li>[[ $data?root/head((tei:persName[@type = ('reg', 'main', 'full')], tei:persName))/string() ]]</li>
+                <li>[[ $entity-data?root/head((tei:persName[@type = ('reg', 'main', 'full')], tei:persName))/string() ]]</li>
             </ul>
         </nav>
     </li>
     [% endtemplate %]
     <section class="person">
-        [[ page:transform($data?root, map { "mode": "register-details" , "webcomponents": true()}) ]]
+        [[ page:transform($entity-data?root, map { "mode": "register-details" , "webcomponents": true()}) ]]
     </section>
 </template>

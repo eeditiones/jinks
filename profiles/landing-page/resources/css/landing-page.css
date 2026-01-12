@@ -23,9 +23,18 @@ section {
     background-color: transparent;
 }
 
+section:empty {
+    display: none;
+}
+
 header p {
     font-size: 1.25rem;
-    font-weight: 500;
+}
+
+div.tei-figure {
+    text-align: center;
+    margin: var(--s1) 0;
+    width: 100%;
 }
 
 .hero h1 strong {
@@ -133,14 +142,25 @@ header.row {
     background-position: var(--jinks-hero-background-position);
 }
 
-.hero div {
+.hero > div {
     align-self: flex-end;
     margin-block-start: var(--s4);
     margin-block-end: var(--s4);
     width: 100%;
 }
 
-.explore-link {
+.buttons {
+    display: flex;
+    margin: var(--s1) 0;
+    padding: 0;
+}
+.buttons > li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.button-link {
     display: inline-block;
     padding: var(--s-1, 0.5rem) var(--s1, 1rem);
     margin: var(--s-1, 0.5rem);
@@ -155,7 +175,7 @@ header.row {
     margin-block-start: var(--s0);
 }
 
-.explore-link:after {
+.button-link:after {
     content: " →"
 }
 
@@ -169,6 +189,12 @@ header.row {
     color: var(--jinks-colors-light);
     --pico-color: var(--jinks-colors-light);
     --pico-h2-color: var(--jinks-colors-light);
+}
+
+.section-dark a:not(.button-link):link,
+.section-dark a:not(.button-link):visited {
+    color: var(--jinks-colors-light);
+    text-decoration: underline;
 }
 
 .section-highlight {
@@ -193,23 +219,15 @@ header.row {
 .highlights {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "area-1 area-2"
-        "area-1 area-3";
+    grid-auto-rows: 1fr;
     gap: var(--s-1);
     min-height: 36rem;
 }
 
-.area-1 {
-    grid-area: area-1;
-}
-.area-2 {
-    grid-area: area-2;
-}
-.area-3 {
-    grid-area: area-3;
-}
+/* First item spans all rows in column 1 */
+/* .highlights > *:first-child {
+    grid-row: 1 / 2;
+} */
 
 .highlight-card {
     --from: color-mix(in srgb, var(--jinks-colors-700) 22%, transparent);
@@ -223,6 +241,7 @@ header.row {
     background-size: cover;
     background-repeat: no-repeat;
     background-blend-mode: multiply;
+    background-position: center;
     transition: all 1s ease-out;
     margin-block-end: 0;
     display: flex;
@@ -263,10 +282,8 @@ header.row {
     text-decoration: none;
 }
 
-.highlight-card .explore-link {
-    color: var(--card-text-color);
-    border: thin solid var(--jinks-border-color);
-    background: var(--jinks-colors-500);
+.highlight-card a.button-link {
+    color: var(--jinks-color-primary);
 }
 
 .highlight-card .desc p {
@@ -450,7 +467,7 @@ header.row {
 
 .label {
     display: inline-block;
-    padding: var(--s-1) var(--s1);
+    padding: var(--s-2) var(--s-1);
     margin-block-end: var(--s2);
     justify-content: center;
     align-items: center;
@@ -470,7 +487,7 @@ header.row {
 }
 
 .label-dark {
-    color: var(--jinks-colors-700);
+    color: var(--jinks-colors-light);
     border: thin solid var(--jinks-colors-500);
     background: var(--jinks-colors-500);
 }
@@ -481,6 +498,16 @@ header.row {
     }
     .partner-logo img {
         margin-block: var(--s-1);
+    }
+    .two-column.row, .long-desc {
+        flex-direction: column;
+    }
+    #bottom > div {
+        flex-direction: column;
+    }
+    #bottom div div {
+        border-left: none;
+        padding-inline-start: 0;
     }
 }
 

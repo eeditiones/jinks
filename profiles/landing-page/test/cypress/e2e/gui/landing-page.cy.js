@@ -56,12 +56,12 @@ describe('TEI-Publisher Landing Page', () => {
 
     it('displays explore link', () => {
       // Hero section should have explore/browse link
-      cy.get('header.hero .explore-link, .hero a[href*="browse"], a.explore-link')
+      cy.get('header.hero .button-link, .hero a[href*="browse"], a.button-link')
         .should('exist')
     })
 
     it('explore link navigates to browse page', () => {
-      cy.get('a.explore-link, .hero a[href*="browse"]')
+      cy.get('a.button-link, .hero a[href*="browse"]')
         .first()
         .should('have.attr', 'href')
         .and('include', 'browse')

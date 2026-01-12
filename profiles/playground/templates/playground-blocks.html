@@ -1,5 +1,6 @@
 <template>
     [% template toggle %]
+    [% if $context?features?playground?enabled %]
     <li>
         <details class="dropdown-button">
             <summary><pb-i18n key="document.selectODD">Select ODD</pb-i18n></summary>
@@ -10,6 +11,7 @@
             </ul>
         </details>
     </li>
+    [% endif %]
     [% endtemplate %]
 
     [% template after 1 %]

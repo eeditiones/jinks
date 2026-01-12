@@ -110,6 +110,15 @@
             },
             "description": "List of ODDs used by this profile"
         },
+        "data": {
+            "type": "object",
+            "patternProperties": {
+                "^[^\\s]+$": {
+                    "type": "string"
+                }
+            },
+            "description": "Map of XML files to use for the application. The key is the name of the data file and the value is the relative path. Each XML file will be loaded and made available as a context variable with the name of the key."
+        },
         "defaults": {
             "type": "object",
             "properties": {
@@ -123,6 +132,10 @@
                 "browse": {
                     "type": "string",
                     "description": "The HTML page to use for browse available document collections. Path is relative to the `templates` subdirectory."
+                },
+                "site-root": {
+                    "type": "string",
+                    "description": "The root URL of the site. If not specified, the root URL is the same as the context path."
                 },
                 "view": {
                     "type": "string",
@@ -153,6 +166,13 @@
                 "language": {
                     "type": "string",
                     "description": "Default language pre-selected for the app"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of languages supported by the app"
                 },
                 "data": {
                     "type": "string",
