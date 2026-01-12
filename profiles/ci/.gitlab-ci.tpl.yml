@@ -59,24 +59,10 @@ cache:
     - |
       if [ -f "Dockerfile" ]; then
         export DOCKER_BUILDKIT=1
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
-[% let $hasSecrets := false() %]
-[% let $allJobToken := true() %]
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and not(every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
 [% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% if ($dep instance of map(*) and exists($dep?token)) %]
-[% let $hasSecrets := true() %]
-[% if ($dep?token != "CI_JOB_TOKEN") %]
-[% let $allJobToken := false() %]
-[% endif %]
-[% endif %]
-[% endfor %]
-[% if $hasSecrets and not($allJobToken) %]
-[% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
-[% if exists($tokenName) and $tokenName != "CI_JOB_TOKEN" %]
-        export [[ $tokenName ]]="${[[ $tokenName ]]}"
+[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token) and $docker?externalXar($fileName)?token != "CI_JOB_TOKEN") %]
+        export [[ string($docker?externalXar($fileName)?token) ]]="${[[ string($docker?externalXar($fileName)?token) ]]}"
 [% endif %]
 [% endfor %]
 [% endif %]
@@ -84,29 +70,14 @@ cache:
           --build-arg EXIST_VERSION=${EXIST_VERSION} \
           --build-arg BUILD=local \
           --load \
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
-[% let $hasSecrets := false() %]
-[% let $allJobToken := true() %]
-[% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% if ($dep instance of map(*) and exists($dep?token)) %]
-[% let $hasSecrets := true() %]
-[% if ($dep?token != "CI_JOB_TOKEN") %]
-[% let $allJobToken := false() %]
-[% endif %]
-[% endif %]
-[% endfor %]
-[% if $hasSecrets and $allJobToken %]
+[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and (every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
           --secret id=CI_JOB_TOKEN,env=CI_JOB_TOKEN \
-[% else if $hasSecrets %]
+[% else if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) %]
 [% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
-[% if exists($tokenName) %]
-          --secret id=[[ $tokenName ]],env=[[ $tokenName ]] \
+[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
+          --secret id=[[ string($docker?externalXar($fileName)?token) ]],env=[[ string($docker?externalXar($fileName)?token) ]] \
 [% endif %]
 [% endfor %]
-[% endif %]
 [% endif %]
           -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
           . || true

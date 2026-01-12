@@ -40,17 +40,14 @@ ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CR
 [% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
 # Additional external XAR dependencies
 [% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% let $url := if ($dep instance of xs:string) then $dep else $dep?url %]
-[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
-[% if exists($tokenName) %]
-# Private repository - using BuildKit secret: [[ $tokenName ]]
-RUN --mount=type=secret,id=[[ $tokenName ]] \
-    TOKEN=$(cat /run/secrets/[[ $tokenName ]]) && \
-    curl -H "Authorization: token $TOKEN" -L -o [[ $fileName ]].xar "[[ $url ]]"
+[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
+# Private repository - using BuildKit secret: [[ string($docker?externalXar($fileName)?token) ]]
+RUN --mount=type=secret,id=[[ string($docker?externalXar($fileName)?token) ]] \
+    TOKEN=$(cat /run/secrets/[[ string($docker?externalXar($fileName)?token) ]]) && \
+    curl -H "Authorization: token $TOKEN" -L -o [[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
 [% else %]
 # Public repository
-ADD [[ $url ]] [[ $fileName ]].xar
+ADD [[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]] [[ $fileName ]].xar
 [% endif %]
 [% endfor %]
 [% endif %]

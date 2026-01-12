@@ -86,22 +86,19 @@ RUN curl -L -o /usr/local/exist/autodeploy/jwt-${JWT_VERSION}.xar https://exist-
 [% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
 # Additional external XAR dependencies
 [% for $fileName in map:keys($docker?externalXar) %]
-[% let $dep := $docker?externalXar($fileName) %]
-[% let $url := if ($dep instance of xs:string) then $dep else $dep?url %]
-[% let $tokenName := if ($dep instance of map(*) and exists($dep?token)) then $dep?token else () %]
-[% if exists($tokenName) %]
-# Private repository - using environment variable: [[ $tokenName ]]
+[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
+# Private repository - using environment variable: [[ string($docker?externalXar($fileName)?token) ]]
 # Note: For devcontainer, set the token as a build arg or environment variable
-ARG [[ $tokenName ]]=
-RUN if [ -n "${[[ $tokenName ]]}" ]; then \
-      curl -H "Authorization: token ${[[ $tokenName ]]}" -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]"; \
+ARG [[ string($docker?externalXar($fileName)?token) ]]=
+RUN if [ -n "${[[ string($docker?externalXar($fileName)?token) ]]}" ]; then \
+      curl -H "Authorization: token ${[[ string($docker?externalXar($fileName)?token) ]]}" -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"; \
     else \
-      echo "Warning: Token [[ $tokenName ]] not provided, attempting public download"; \
-      curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]" || true; \
+      echo "Warning: Token [[ string($docker?externalXar($fileName)?token) ]] not provided, attempting public download"; \
+      curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]" || true; \
     fi
 [% else %]
 # Public repository
-RUN curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ $url ]]"
+RUN curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
 [% endif %]
 [% endfor %]
 [% endif %]
