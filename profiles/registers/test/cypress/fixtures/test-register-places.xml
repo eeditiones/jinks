@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="pb-places">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Test Place Register</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Test fixture for register profile tests</p>
+            </publicationStmt>
+        </fileDesc>
+    </teiHeader>
+    <standOff>
+        <listPlace>
+            <place xml:id="test-place-1">
+                <placeName type="main">Test Place One</placeName>
+                <placeName type="sort">Place One, Test</placeName>
+                <location>
+                    <geo>52.2297 21.0122</geo>
+                </location>
+                <country>Test Country</country>
+                <region>Test Region</region>
+                <note>Test place for register integration tests</note>
+            </place>
+            <place xml:id="test-place-2">
+                <placeName type="main">Test Place Two</placeName>
+                <placeName type="sort">Place Two, Test</placeName>
+                <location>
+                    <geo>50.0647 19.9450</geo>
+                </location>
+                <country>Test Country</country>
+                <region>Test Region</region>
+                <note>Another test place for register integration tests</note>
+            </place>
+        </listPlace>
+    </standOff>
+</TEI>
+
