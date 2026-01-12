@@ -247,14 +247,18 @@ declare %private function vapi:load-context-data($context as map(*), $frontmatte
     return
         map:for-each($entry, function($key, $value) {
             let $data := config:get-document($value)
-            let $config := tpu:parse-pi(root($data), $config:default-view, $config:default-odd)
             return
-                map:entry($key, map {
-                    "content": $data,
-                    "path": $value,
-                    "odd": replace($config?odd, '^(.*)\.odd', '$1'),
-                    "view": $config?view
-                })
+                if (exists($data)) then
+                    let $config := tpu:parse-pi(root($data), $config:default-view, $config:default-odd)
+                    return
+                        map:entry($key, map {
+                            "content": $data,
+                            "path": $value,
+                            "odd": replace($config?odd, '^(.*)\.odd', '$1'),
+                            "view": $config?view
+                        })
+                else
+                    ()
         })
 };
 
