@@ -12,7 +12,7 @@ COPY *.xar /exist/autodeploy/
 
 # Pre-populate the database by launching it once
 # This ensures all apps are installed and ready
-# RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "" ]
+RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "" ]
 
 EXPOSE 8080 8443
 
