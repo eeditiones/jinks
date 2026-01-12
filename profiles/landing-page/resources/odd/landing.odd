@@ -220,13 +220,12 @@
             <param name="label" value="@n"/>
             <param name="content" value="note/node()"/>
             <param name="image" value="ptr[@type='image']/@target"/>
-            <param name="url" value="if (ref/@target != '#') then head(ref/@target) else $parameters?browse-url"/>
             <param name="title" value="desc"/>
             <param name="links" value="list[@type='links']"/>
             <pb:template xml:space="preserve"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
     <span class="label label-dark">[[label]]</span>
     <div class="desc">
-        <h3><a href="[[url]]">[[title]]</a></h3>
+        <h3>[[title]]</h3>
         <p>
             [[content]]
         </p> 
@@ -245,10 +244,12 @@
                 <elementSpec ident="ref" mode="change">
                     <model predicate="ancestor::list[@type='links']" behaviour="link" cssClass="button-link">
             <param name="uri" value="if (@target='#') then $parameters?browse-url else @target"/>
+            <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
             <pb:template xml:space="preserve"><pb-i18n xmlns="" key="menu.[[content]]">[[content]]</pb-i18n></pb:template>
         </model>
                     <model predicate="@target" behaviour="link">
-            <param name="uri" value="@target"/>
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else @target"/>
+            <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
