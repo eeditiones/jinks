@@ -81,8 +81,53 @@ The CI workflows automatically handle authentication for private XAR packages:
 - CI runs on pull/merge requests targeting `main` or `master` branches
 - Only one provider's files are generated at a time (GitHub Actions OR GitLab CI, not both)
 
+## Generated Files
+
+The CI profile generates the following files based on configuration:
+
+- **`.github/workflows/ci.yml`** (GitHub Actions) or **`.gitlab-ci.yml`** (GitLab CI) - Main CI workflow configuration
+- **`.github/FUNDING.yml`** (GitHub Actions only) - Automatically generated for applications with IDs containing `https://e-editiones.org`
+- **`.github/workflows/docker-publish.yml`** (GitHub Actions only) - Special workflow for publishing Docker images, generated when:
+  - Package abbreviation is `"tei-publisher"`
+  - The `docs` blueprint is selected
+
+## Conditional File Generation
+
+Some files are generated conditionally:
+
+### FUNDING.yml
+
+The `FUNDING.yml` file is automatically generated for GitHub Actions when:
+- The application's qualified name (ID) contains `https://e-editiones.org`
+- CI provider is set to `"github"`
+
+This file enables GitHub Sponsors and funding links for e-editiones.org projects.
+
+### docker-publish.yml
+
+The `docker-publish.yml` workflow is generated for GitHub Actions when:
+- Package abbreviation is `"tei-publisher"`
+- The `docs` blueprint is selected
+- CI provider is set to `"github"`
+
+This workflow:
+- Pulls the `jinks-demo` image from the jinks repository
+- Runs the full test suite from the tei-publisher-app repository
+- Publishes multi-arch Docker images to both `ghcr.io/eeditiones/teipublisher` and `existdb/teipublisher` registries
+
+## Matrix Testing
+
+The CI workflows test your application across multiple configurations:
+
+- **eXist-db versions**: 6.4.0, release, latest
+- **Java versions**: 11, 21
+
+This ensures your application works across different eXist-db and Java runtime environments.
+
 ## Requirements
 
 - The CI profile requires the Docker profile (automatically included)
 - CI workflows expect BATS tests at `test/*.bats` (provided by Docker profile)
 - CI workflows expect Cypress tests at `test/cypress/e2e/**/*.cy.js` (provided by base10 profile)
+- For GitHub Actions: Requires GitHub repository with Actions enabled
+- For GitLab CI: Requires GitLab project with CI/CD enabled
