@@ -301,8 +301,9 @@
     <para>But whichever way you choose, it is important to always have an up to data backup in a
       safe place in case anything goes wrong. The best way to achieve this is to use a versioning
       system like git. We strongly recommend to set up a git repository whenever you start work on a
-      digital edition.</para>
-  <section>
+      digital edition. For beginners, a graphical git client like <link xlink:href="https://github.com/apps/desktop">GitHub Desktop</link> might
+      be the best choice.</para>
+  <section xml:id="development-workflow-in-database">
     <title>Approach 1: Developing inside the Database</title>
     <para>This will be the easier approach as it does not require additional tooling (except for git
       – see below). It will work perfectly fine if:<itemizedlist>
@@ -361,13 +362,13 @@
       state of the application. At this point, we strongly recommend to initialize this directory as
       a git repository and push it to a service like Github.</para>
       <para>You can also rebuild the <filename>.xar</filename> – e.g. after making local changes to
-        files – using the build scripts included in the archive. The build step will result in
+        files – <link linkend="development-workflow-building">using the build scripts</link> included in the archive. The build step will result in
         another, updated <filename>.xar</filename> being written into the <filename>build</filename>
         subdirectory and you can install this new archive into any
           <productname>eXist-db</productname> using the <productname>dashboard</productname> (or
         command line utility like <productname>xst</productname>, see <link linkend="development-workflow-links">below</link>).</para>
   </section>
-  <section>
+  <section xml:id="development-workflow-local">
     <title>Approach 2: Developing in a local directory</title>
     <para>If an application reaches a certain complexity, you may prefer to switch to a
         directory-first approach. This is also how TEI Publisher itself is developed. The
@@ -425,6 +426,42 @@
           is better to stop the task temporarily.</para>
       </note>
   </section>
+    <section xml:id="development-workflow-building">
+      <title>Building</title>
+      <para>To build an application, you at least need to have <link
+          xlink:href="installation.xml?id=java">Java</link> and the build tool <link
+          xlink:href="https://ant.apache.org/">Apache Ant</link>. Both should be installed so they
+        are found in your environment if you open a terminal or shell. Typing <code>ant</code>
+        should produce output similar to the following: </para>
+      <programlisting><![CDATA[Buildfile: /Users/wolfgang/Downloads/serafin/build.xml
+
+clean:
+
+release.true:
+
+release.false:
+     [echo] Not a release, moving on ...
+
+check-release:
+
+git.revision:
+
+prepare:
+    [mkdir] Created dir: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
+     [copy] Copying 245 files to /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
+
+xar:
+      [zip] Building zip: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0.xar
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds]]>
+      </programlisting>
+      <para>Expert: if you would like to run the test suite or provide a <link xlink:href="web-components-loading">local copy of TEI Publisher's
+        webcomponents</link>, you'll also need to have <link xlink:href="https://nodejs.org/en">nodejs</link> with the <code>npm</code> command 
+        available in your terminal.</para>
+    </section>
     <section xml:id="development-workflow-links">
       <title>Useful Resources</title>
       <para>Here are links to some of the utilities mentioned above:</para>
@@ -446,6 +483,12 @@
           <term><link xlink:href="https://open-vsx.org/extension/eXist-db/existdb-vscode">eXist-db VSCode Extension</link></term>
           <listitem>
             <para>Adds XQuery language support and a sync task to Visual Studio Code and other IDEs derived from it</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><link xlink:href="https://github.com/apps/desktop">GitHub Desktop</link></term>
+          <listitem>
+            <para>A graphical client to create and manage git repositories</para>
           </listitem>
         </varlistentry>
       </variablelist>
