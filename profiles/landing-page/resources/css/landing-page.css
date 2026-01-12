@@ -499,6 +499,16 @@ header.row {
     .partner-logo img {
         margin-block: var(--s-1);
     }
+    .two-column.row, .long-desc {
+        flex-direction: column;
+    }
+    #bottom > div {
+        flex-direction: column;
+    }
+    #bottom div div {
+        border-left: none;
+        padding-inline-start: 0;
+    }
 }
 
 @media (max-width: 1023px) {
