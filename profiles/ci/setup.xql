@@ -25,13 +25,22 @@ function ci:setup($context as map(*)) {
             util:log("INFO", "ci: CI configuration disabled, skipping...")
         else
             let $_ := util:log("INFO", "ci: Generating CI configuration for provider: " || $provider)
-            return
+            let $ciFiles :=
                 if ($provider = "github") then
-                    ci:generate-github-actions($context)
+                    let $workflow := ci:generate-github-actions($context)
+                    (: Generate FUNDING.yml if conditions are met (GitHub-specific) :)
+                    let $funding := ci:generate-funding($context)
+                    (: Generate docker-publish.yml if conditions are met (GitHub-specific) :)
+                    let $dockerPublish := ci:generate-docker-publish($context)
+                    return
+                        ($workflow, $funding, $dockerPublish)
                 else if ($provider = "gitlab") then
                     ci:generate-gitlab-ci($context)
                 else
                     util:log("WARN", "ci: Unknown CI provider: " || $provider || ", skipping CI configuration")
+            
+            return
+                $ciFiles
 };
 
 (:~
@@ -58,4 +67,46 @@ declare %private function ci:generate-gitlab-ci($context as map(*)) {
     
     return
         cpy:copy-template($context, ".gitlab-ci.tpl.yml", $targetPath)
+};
+
+(:~
+ : Generate FUNDING.yml file if conditions are met:
+ : - The qualified name (id) contains "https://e-editiones.org"
+ :
+ : @param $context the context map
+ :)
+declare %private function ci:generate-funding($context as map(*)) {
+    let $id := head(($context?id, ""))
+    let $hasEeditionesId := contains($id, "https://e-editiones.org")
+    
+    return
+        if ($hasEeditionesId) then
+            let $_ := path:mkcol($context, ".github")
+            let $targetPath := ".github/FUNDING.yml"
+            return
+                cpy:copy-resource($context, ".github/FUNDING.yml", $targetPath)
+        else
+            ()
+};
+
+(:~
+ : Generate docker-publish.yml workflow file if conditions are met:
+ : - "docs" blueprint is selected
+ : - pkg?abbrev == "tei-publisher"
+ :
+ : @param $context the context map
+ :)
+declare %private function ci:generate-docker-publish($context as map(*)) {
+    let $abbrev := head(($context?pkg?abbrev, ""))
+    let $profiles := $context?profiles?*
+    let $hasDocs := "docs" = $profiles
+    
+    return
+        if ($abbrev = "tei-publisher" and $hasDocs) then
+            let $_ := path:mkcol($context, ".github/workflows")
+            let $targetPath := ".github/workflows/docker-publish.yml"
+            return
+                cpy:copy-template($context, ".github/workflows/tp-docker-publish.tpl.yml", $targetPath)
+        else
+            ()
 };
