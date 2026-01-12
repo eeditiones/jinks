@@ -1,4 +1,4 @@
-<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="2" media="print fo epub markdown"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="2"?>
 <?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
     version="5.0" xml:lang="en">
@@ -358,6 +358,18 @@
                     aspects are handled using different ODDs and view templates. We suggest to have
                     a look at each of them to see what TEI Publisher can achieve out of the
                     box.</para>
+            <para>Every example – including the documentation – can also be downloaded in different
+                media formats. Not all formats will be available for every sample. TEI Publisher
+                supports ePub, Markdown and PDF. For the PDF there are three options: using Print
+                CSS, FO or LaTeX as intermediate format. FO and LaTeX are disabled by default. For
+                further information refer to the <link xlink:href="documentation.xml?id=output-media">reference guide</link>.</para>
+            <figure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="download-menu.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
         </section>
         <section xml:id="document-view">
             <title>The Document View</title>

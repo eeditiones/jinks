@@ -1912,7 +1912,27 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             <para>A specialization of the web output mode targetted at epub documents</para>
           </listitem>
         </varlistentry>
+        <varlistentry>
+          <term>markdown</term>
+          <listitem>
+            <para>Plain text enhanced with markdown</para>
+          </listitem>
+        </varlistentry>
       </variablelist>
+      <note>
+        <para>By default, the base10 profile only enables the output modes <code>web</code>,
+            <code>print</code> and <code>epub</code>. The <productname>markdown</productname>
+          profile obviously adds <code>markdown</code> to the list. If you would like to use the
+            <code>latex</code> or <code>fo</code> mode, you have to configure this in the
+            <filename>config.json</filename>:</para>
+        <programlisting language="json"><![CDATA[{
+  …
+  "defaults": {
+    "media": ["web", "print", "fo", "latex", "epub"]
+  }
+  …
+}]]></programlisting>
+      </note>
       <para>The quality of the generated output may vary a lot for the fo and latex modes, depending
         on the type of input document. The following section provides more details on the
         configuration of the FO output option:</para>
