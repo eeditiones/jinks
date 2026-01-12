@@ -86,6 +86,7 @@ The CI workflows automatically handle authentication for private XAR packages:
 The CI profile generates the following files based on configuration:
 
 - **`.github/workflows/ci.yml`** (GitHub Actions) or **`.gitlab-ci.yml`** (GitLab CI) - Main CI workflow configuration
+- **`.github/dependabot.yml`** (GitHub Actions only) - Dependabot configuration for automatically updating GitHub Actions and npm dependencies
 - **`.github/FUNDING.yml`** (GitHub Actions only) - Automatically generated for applications with IDs containing `https://e-editiones.org`
 - **`.github/workflows/docker-publish.yml`** (GitHub Actions only) - Special workflow for publishing Docker images, generated when:
   - Package abbreviation is `"tei-publisher"`
@@ -94,6 +95,17 @@ The CI profile generates the following files based on configuration:
 ## Conditional File Generation
 
 Some files are generated conditionally:
+
+### dependabot.yml
+
+The `dependabot.yml` file is automatically generated for GitHub Actions when:
+- CI provider is set to `"github"`
+
+This file configures Dependabot to:
+- Check for GitHub Actions updates daily
+- Check for npm package updates daily
+
+This helps keep your CI workflows and npm dependencies up to date automatically.
 
 ### FUNDING.yml
 

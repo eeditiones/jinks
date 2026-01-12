@@ -28,12 +28,14 @@ function ci:setup($context as map(*)) {
             let $ciFiles :=
                 if ($provider = "github") then
                     let $workflow := ci:generate-github-actions($context)
+                    (: Generate dependabot.yml (GitHub-specific) :)
+                    let $dependabot := ci:generate-dependabot($context)
                     (: Generate FUNDING.yml if conditions are met (GitHub-specific) :)
                     let $funding := ci:generate-funding($context)
                     (: Generate docker-publish.yml if conditions are met (GitHub-specific) :)
                     let $dockerPublish := ci:generate-docker-publish($context)
                     return
-                        ($workflow, $funding, $dockerPublish)
+                        ($workflow, $dependabot, $funding, $dockerPublish)
                 else if ($provider = "gitlab") then
                     ci:generate-gitlab-ci($context)
                 else
@@ -67,6 +69,19 @@ declare %private function ci:generate-gitlab-ci($context as map(*)) {
     
     return
         cpy:copy-template($context, ".gitlab-ci.tpl.yml", $targetPath)
+};
+
+(:~
+ : Generate dependabot.yml file for GitHub Actions
+ :
+ : @param $context the context map
+ :)
+declare %private function ci:generate-dependabot($context as map(*)) {
+    let $_ := path:mkcol($context, ".github")
+    let $targetPath := ".github/dependabot.yml"
+    
+    return
+        cpy:copy-resource($context, ".github/dependabot.yml", $targetPath)
 };
 
 (:~
