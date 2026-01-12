@@ -5,8 +5,12 @@ ARG PUBLISHER_LIB_VERSION=[[ $docker?tei-publisher-lib ]]
 ARG JINKS_TEMPLATES_VERSION=[[ $docker?jinks-templates ]]
 ARG ROUTER_VERSION=[[ $docker?roaster ]]
 ARG EDITOR_VERSION=1.0.1
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 ARG JWT_VERSION=[[ $docker?jwt ]]
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 ARG CRYPTO_VERSION=[[ $docker?crypto ]]
+[% endif %]
 ARG HTTP_PORT=[[ $docker?ports?http ]]
 ARG HTTPS_PORT=[[ $docker?ports?https ]]
 
@@ -80,10 +84,14 @@ RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
 
 RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 RUN curl -L -o /usr/local/exist/autodeploy/jwt-${JWT_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar
+[% endif %]
 
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% if exists($docker?externalXar) %]
 # Additional external XAR dependencies
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]

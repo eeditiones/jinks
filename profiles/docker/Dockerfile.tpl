@@ -5,8 +5,12 @@ ARG BUILD=local
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
 ARG ROUTER_VERSION=[[ $docker?roaster ]]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 ARG JWT_VERSION=[[ $docker?jwt ]]
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 ARG CRYPTO_VERSION=[[ $docker?crypto ]]
+[% endif %]
 
 WORKDIR /tmp
 
@@ -34,8 +38,12 @@ RUN  cd  [[$pkg?abbrev]] \
 [% endif %]
 
 ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002.xar
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 003.xar
+[% endif %]
 
 [% if exists($docker?externalXar) %]
 # Additional external XAR dependencies
