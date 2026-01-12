@@ -20,7 +20,7 @@ RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && cd tei-publisher-lib \
     && ant 
 
-[% if $pkg?abbrev = "tei-publisher-docs" %]
+[% if "docs" = $context?profiles?* %]
 # Build tei-publisher-app with local webcomponents (only for docs blueprint)
 COPY . [[$pkg?abbrev]]/
 RUN  cd  [[$pkg?abbrev]] \
@@ -37,7 +37,7 @@ ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.
 ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002.xar
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 003.xar
 
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 %]
+[% if exists($docker?externalXar) %]
 # Additional external XAR dependencies
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
@@ -76,7 +76,7 @@ USER ${USR}
 ONBUILD ADD --chown=${USR} https://github.com/eeditiones/jinks-templates/releases/latest/download/jinks-templates.xar /exist/autodeploy/004.xar
 ONBUILD ADD --chown=${USR} https://github.com/eeditiones/tei-publisher-libs/releases/latest/download/tei-publisher-lib.xar /exist/autodeploy/005.xar
 
-# This assumes that a local xar file is persent for building prodocution images
+# This assumes that a local xar file is persent for building production images
 COPY --chown=${USR} ./build/*.xar /exist/autodeploy/
 
 FROM build_${BUILD}
