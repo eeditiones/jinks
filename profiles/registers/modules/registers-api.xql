@@ -129,7 +129,7 @@ declare function rview:detail-html($request as map(*)) {
         else
             collection($config:data-default)//tei:placeName[@key = $id]/ancestor::tei:TEI
     let $extConfig := map {
-        "data": map {
+        "entity-data": map {
             "id": $id,
             "root": $entry,
             "letters": $mentions,
