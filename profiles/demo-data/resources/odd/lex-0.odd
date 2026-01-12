@@ -1,11 +1,12 @@
-<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web"?>
+<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print"?>
 <TEI xmlns:pb="http://teipublisher.com/1.0" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
                 <title>TEI Lex-0 
                  
-                  <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
+                  
+                 <desc>ODD for the "Damen Conversations Lexikon" (simple TEI Lex-0 encoding)</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -43,6 +44,7 @@
                 <rendition selector=".author::after">
                     content: ", ";
                 </rendition>
+                <rendition source="lex-0.css"/>
             </tagsDecl>
         </encodingDesc>
         <revisionDesc>
@@ -59,6 +61,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="form" mode="add">
+                    <model output="print" behaviour="omit"/>
                     <model behaviour="heading">
             <param name="level" value="2"/>
             <outputRendition xml:space="preserve">
@@ -105,7 +108,7 @@
                     <model predicate="@type='entry'" behaviour="inline">
             <param name="content" value="."/>
             <param name="search" value="normalize-space(.)"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-link emit="detail" history="" params="{{&#34;search&#34;: &#34;[[search]]&#34;}}">
+            <pb:template xml:space="preserve"><pb-link xmlns="" emit="detail" history="" params="{{&#34;search&#34;: &#34;[[search]]&#34;}}">
   [[content]]
 </pb-link></pb:template>
         </model>
@@ -134,13 +137,13 @@
                 <param name="title" value="titleStmt/title"/>
                 <param name="content" value="(titleStmt/author, publicationStmt/date)"/>
                 <param name="level" value="3"/>
-                <pb:template xmlns="" xml:space="preserve">
-                    <h3>[[title]]<span>[[content]]</span></h3>
+                <pb:template xml:space="preserve">
+                    <h3 xmlns="">[[title]]<span>[[content]]</span></h3>
                 </pb:template>
             </model>
             <model behaviour="pass-through">
                 <param name="content" value="root($parameters?root)//front/div[@type='preface']"/>
-                <pb:template xmlns="" xml:space="preserve"><details>
+                <pb:template xml:space="preserve"><details xmlns="">
   <summary>Preface</summary>
   <div>[[content]]</div>
 </details></pb:template>
@@ -155,7 +158,7 @@
             <desc>Output register data if register profile is enabled</desc>
             <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
             <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="register">
+            <pb:template xml:space="preserve"><div xmlns="" class="register">
 <h3>People</h3>
 <ul>
 [[people]]
@@ -167,6 +170,7 @@
 </ul>
 </div></pb:template>
         </model>
+                    <model output="print" behaviour="document"/>
                     <model behaviour="document">
             <param name="content" value="teiHeader/fileDesc"/>
         </model>
@@ -181,8 +185,10 @@
             <outputRendition xml:space="preserve">
             
             
+            
             text-align: left;
 hyphen: auto;
+            
             
             
             </outputRendition>
