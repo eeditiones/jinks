@@ -280,6 +280,15 @@ pb-link .btn.accent a {
     justify-content: center;
 }
 
+[role="group"] pb-navigation {
+    width: auto;
+}
+
+[role="group"]:has(pb-navigation > span+svg),
+[role="group"]:has(pb-navigation > svg+span) {
+    gap: 0.75rem;
+}
+
 button.icon svg, .dropdown-button summary svg, [role="group"] svg, button svg, .btn svg {
     width: 1rem;
     height: 1rem;
