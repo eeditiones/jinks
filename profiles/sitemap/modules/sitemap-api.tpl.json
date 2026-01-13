@@ -1,0 +1,103 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – Sitemap API",
+        "description": "Endpoint to generate sitemap.xml by crawling the application"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "actions",
+            "description": "Sitemap generation action"
+        }
+    ],
+    "paths": {
+        "/sitemap.xml": {
+            "get": {
+                "summary": "Get sitemap.xml",
+                "description": "Get the generated sitemap.xml",
+                "tags": ["actions"],
+                "operationId": "sitemap:get-sitemap",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/actions/sitemap": {
+            "post": {
+                "summary": "Generate sitemap.xml",
+                "description": "Crawl the application and generate a sitemap.xml containing all document URLs and their pages",
+                "tags": ["actions"],
+                "operationId": "sitemap:generate-sitemap",
+                "parameters": [
+                    {
+                        "name": "baseUri",
+                        "in": "query",
+                        "description": "Optional base URI for the sitemap. If not provided, will be determined from the request.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

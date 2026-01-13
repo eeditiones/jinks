@@ -1,0 +1,32 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "category": "development",
+    "id": "https://e-editiones.org/app/tei-publisher/sitemap",
+    "label": "Sitemap",
+    "description": "Adds an action to generate a sitemap ...",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "api": [
+        {
+            "spec": "sitemap-api.json",
+            "prefix": "sitemap",
+            "path": "sitemap.xql",
+            "id": "http://tei-publisher.org/api/sitemap"
+        }
+    ],
+    "actions": [
+        {
+            "name": "sitemap",
+            "label": "Sitemap",
+            "description": "Generate a sitemap.xml containing all document URLs and their pages"
+        }
+    ],
+    "features": {
+        "sitemap": {
+            "base-uri": "http://dev.tei-publisher.com/exist/apps/tp10"
+        }
+    }
+}

@@ -107,7 +107,7 @@ declare function capi:documents($request as map(*)) {
     return
         array {
             for $doc in $worksAll?all
-            let $config := tpu:parse-pi(root($doc), (), ())
+            let $config := tpu:parse-pi(root($doc), $config:default-view, $config:default-odd)
             let $teiHeader := nav:get-header($config, root($doc)/*)
             let $relPath := config:get-identifier($doc)
             let $header :=
@@ -120,7 +120,9 @@ declare function capi:documents($request as map(*)) {
             return
                 map {
                     "path": $relPath,
-                    "content": $header
+                    "content": $header,
+                    "view": $config?view,
+                    "lastModified": xmldb:last-modified(util:collection-name($doc), util:document-name($doc))
                 }
         }
 };
