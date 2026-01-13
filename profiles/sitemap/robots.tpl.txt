@@ -1,0 +1,12 @@
+User-agent: *
+
+Disallow: /api/
+Disallow: /resources/
+Disallow: /transform/
+Disallow: /test/
+Disallow: /data/
+Disallow: /modules/
+
+[% if $context?features?sitemap?base-uri %]
+Sitemap: [[ $context?features?sitemap?base-uri ]]/sitemap.xml
+[% endif %]
