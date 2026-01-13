@@ -41,4 +41,4 @@ jobs:
           git push
       
       - name: Validate dependencies
-        run: node scripts/validate-dependencies.js
+        run: npm run validate:dependencies

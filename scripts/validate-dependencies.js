@@ -126,11 +126,20 @@ async function validateDependencies() {
   if (configPackageJson.jinks) {
     if (configPackageJson.jinks.cdn) {
       for (const [pkg, cdnInfo] of Object.entries(configPackageJson.jinks.cdn)) {
-        if (!cdnInfo.base || !cdnInfo.bundle) {
-          errors.push(`Invalid CDN config for ${pkg}: missing base or bundle`);
+        if (!cdnInfo.base) {
+          errors.push(`Invalid CDN config for ${pkg}: missing base`);
         }
-        if (!cdnInfo.bundle.includes('{{version}}')) {
-          warnings.push(`CDN bundle URL for ${pkg} doesn't contain {{version}} placeholder`);
+        // Check that at least one asset type is defined
+        const assetTypes = Object.keys(cdnInfo).filter(key => key !== 'base');
+        if (assetTypes.length === 0) {
+          errors.push(`Invalid CDN config for ${pkg}: no asset types defined (bundle, css, etc.)`);
+        }
+        // Validate that all asset type templates contain {{version}} placeholder
+        for (const assetType of assetTypes) {
+          const template = cdnInfo[assetType];
+          if (typeof template === 'string' && !template.includes('{{version}}')) {
+            warnings.push(`CDN ${assetType} URL for ${pkg} doesn't contain {{version}} placeholder`);
+          }
         }
       }
     }
