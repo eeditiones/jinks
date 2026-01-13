@@ -165,10 +165,22 @@ Both scripts automatically detect shared dependencies by comparing the root and 
 ## Files
 
 - **`config/package.json`**: Dependency registry with versions and CDN templates
+- **`config/package-lock.json`**: Lock file required by Dependabot (generated with `npm install --package-lock-only`)
 - **`scripts/sync-dependencies.js`**: Script to sync shared dependencies
 - **`scripts/validate-dependencies.js`**: Script to validate dependencies
 - **`.github/dependabot.yml`**: Dependabot configuration for automated updates
 - **`.github/workflows/sync-dependencies.yml`**: GitHub Action to auto-sync on PRs
+
+## Creating/Updating package-lock.json
+
+The `package-lock.json` file is required for Dependabot to work. To create or update it without installing `node_modules`:
+
+```bash
+cd config/
+npm install --package-lock-only
+```
+
+This generates the lock file based on `package.json` without creating a `node_modules` directory, which is ideal since `config/` dependencies are only used for version tracking, not for local installation.
 
 ## Integration Points
 
