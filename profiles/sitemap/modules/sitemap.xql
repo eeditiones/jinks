@@ -29,7 +29,8 @@ declare function sitemap:get-sitemap($request as map(*)) {
  :)
 declare function sitemap:generate-sitemap($request as map(*)) {
     let $appBase := 
-        "http://localhost:" || request:get-server-port() ||
+        request:get-scheme() || "://" || request:get-server-name() || ":" || 
+        request:get-server-port() ||
         request:get-context-path() || "/apps/" ||
         substring-after($config:app-root, repo:get-root())
     let $config := json-doc($config:app-root || "/context.json")
