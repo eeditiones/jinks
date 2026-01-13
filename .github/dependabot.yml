@@ -1,12 +1,48 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "weekly"
+  # Monitor jinks' own dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "jinks"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+  
+  # Monitor generated-app dependencies in config/
+  - package-ecosystem: "npm"
+    directory: "/config"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "generated-apps"
+      - "registry"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    # Group updates for better PR management
+    groups:
+      ui-frameworks:
+        patterns:
+          - "@picocss/pico"
+          - "@teipublisher/pb-components"
+      validation:
+        patterns:
+          - "ajv*"
+      testing:
+        patterns:
+          - "cypress*"
+    pull-request-branch-name:
+      separator: "/"
+  
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

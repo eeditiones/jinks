@@ -1,0 +1,44 @@
+name: Sync Dependencies
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Sync shared dependencies
+        run: node scripts/sync-dependencies.js
+      
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain config/package.json)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit updates
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add config/package.json
+          git commit -m "chore: sync shared dependencies from root package.json"
+          git push
+      
+      - name: Validate dependencies
+        run: node scripts/validate-dependencies.js
