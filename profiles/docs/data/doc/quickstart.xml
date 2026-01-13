@@ -588,30 +588,56 @@
                 <productname>eXist-db's</productname> Dashboard. If you have not installed
                 <productname>Jinks</productname> yet, use the Package Manager in the Dashboard to do
             so.</para>
-        <para>Opening Jinks for the first time, you'll see the main administration page with three
-            columns: the sidebar to the left shows the list of installed applications which were
-            created with Jinks (if any). The central column contains the main configuration form
-            with several tabs. The right column presents the configuration, as is currently in
-            effect for the application. The configuration is in JSON format and will initially show
-            as an empty object (empty curly brackets). As you fill out the form, you'll see how the
-            JSON configuration is populated with corresponding entries.</para>
+        
+        <para>Opening Jinks for the first time, you'll see a login page. The default user is `tei` 
+            and the password `simple`. If you managed to login you see the main administration page 
+            with three columns.</para> 
+
         <figure>
-            <title>Jinks with basic config</title>
+            <title>Jinks Login</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="jinks-config.png"/>
+                    <imagedata fileref="jinks-login.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
         <section xml:id="using-jinks-first-steps">
             <title>First Steps</title>
+            <itemizedlist>
+                <listitem>
+                    <para>The sidebar to the left shows the list of installed applications which
+                        were created with Jinks (if any). In the screenshot there is tp10 and barth
+                        app. </para>
+                </listitem>
+                <listitem>
+                    <para>The central column contains the main configuration form with several tabs.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>The right column presents the configuration, as is currently in effect for
+                        the application. The configuration is in JSON format and will initially show
+                        as an empty object (empty curly brackets). As you fill out the form, you'll
+                        see how the JSON configuration is populated with corresponding
+                        entries.</para>
+                </listitem>
+            </itemizedlist>
             <para>To start, you must fill at least the top three input fields under the first tab,
                     <guilabel>Application Configuration</guilabel>. In the first box,
-                    <guilabel>Abbreviation</guilabel>, provide a short but unique name. It will
-                serve as a collection name in the database, where the application is stored. </para>
+                <guilabel>Abbreviation</guilabel>, provide a short but unique name. In the screenshot the abbreviation is <guilabel>barth</guilabel>. It will serve as a collection name in the database, where the
+                application is stored. </para>
             <para><emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace,
                 brackets and special characters. It may only contain alphanumeric characters
                 (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
+
+            <figure>
+                <title>Jinks Application Configuration</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-config.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
             <para>After filling out the abbreviation field, suggestions for the following two text
                 boxes are provided automatically. The <option>label</option> is the title of the
                 application, and will be used to caption the app in the Dashboard and elsewhere. It
@@ -625,6 +651,16 @@
                     <guilabel>Profiles</guilabel> tab, search for the <guilabel>Demo Data</guilabel>
                 feature in the <guilabel>Data Packages</guilabel> subsection and enable that
                 checkbox.</para>
+            
+            <figure>
+                <title>Jinks Profiles - Demo Data</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-profile.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>            
+            
             <para>You are now ready to run the generator for the first time: click on the
                     <guibutton>Apply</guibutton> button in the bottom toolbar of
                     <productname>Jinks</productname>. You'll see a wait indicator appear next to the
@@ -644,10 +680,28 @@
             <para>Once the application is installed, a dialog will open. If you are creating a new
                 app, it will inform you that the package has been deployed, along with a link which
                 you can click to open the newly created application.</para>
+            <figure>
+                <title>Jinks Dialog</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-dialog.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>  
             <para>If you followed this section to the letter, and added only the <guilabel>Demo
                     Data</guilabel> feature, the created application should present three sermons by
                 theologician Karl Barth. Clicking on one of those will display the text of the
                 sermon.</para>
+            <para>In Jinks itself you can now see your new created application in the left column. </para>
+            <figure>
+                <title>Jinks Profiles Tab</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-barth.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>  
+            
 
         </section>
         <section xml:id="jinks-adding-features">
@@ -660,10 +714,10 @@
                     Registers</guilabel> profile in the <guilabel>Features</guilabel> category.
                 Enable it and click <guibutton>Apply</guibutton> again.</para>
             <figure>
-                <title>Jinks profiles tab</title>
+                <title>Jinks Entity Registers Feature</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="jinks-profiles.png"/>
+                        <imagedata fileref="jinks-entity-registers.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -681,10 +735,10 @@
                 differ):</para>
             <programlisting language="json" xml:space="preserve">{
   "pkg": {
-    "abbrev": "mytest"
+    "abbrev": "barth"
   },
-  "label": "mytest",
-  "id": "https://e-editiones.org/apps/mytest",
+  "label": "barth",
+  "id": "https://e-editiones.org/apps/barth",
   "extends": [
     "base10",
     "demo-data",
@@ -699,10 +753,10 @@
                 below:</para>
             <programlisting language="json" xml:space="preserve">{
   "pkg": {
-    "abbrev": "mytest"
+    "abbrev": "barth"
   },
-  "label": "mytest",
-  "id": "https://e-editiones.org/apps/mytest",
+  "label": "barth",
+  "id": "https://e-editiones.org/apps/barth",
   "extends": [
     "base10",
     "demo-data",
