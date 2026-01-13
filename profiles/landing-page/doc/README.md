@@ -1,5 +1,13 @@
 # Landing Page Configuration Options
 
+This profiles adds a landing page to an application, featuring various sections which are commonly used. The content of the sections is provided by a TEI document, which will be rendered via `landing-page.odd`. The default content is taken from `data/landing/landing.xml`. You can change the TEI file to be used in the configuration by setting the `data.landing` parameter. For example, the Documentation and Demo blueprint sets this to:
+
+```json
+"data": {
+    "landing": "landing/home.xml"
+}
+```
+
 **Note:** If you add a landing page to an existing application, you have to run the _Fix ODDs_ action!!!
 
 <!-- START: Generated documentation. Keep this line -->
