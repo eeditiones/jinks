@@ -113,15 +113,24 @@ declare %private function generator:filter-conflicts($messages as map(*)*) {
 declare function generator:prepare($settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($settings, $config)
     let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+    (: Dynamically build CDN URLs map from config/package.json :)
     let $cdnUrls := 
-        if (map:size($dependencies) > 0) then
-            map {
-                "swagger-ui-css": config:cdn-url($dependencies, 'swagger-ui-dist', 'css'),
-                "swagger-ui-bundle": config:cdn-url($dependencies, 'swagger-ui-dist', 'bundle'),
-                "fore-css": config:cdn-url($dependencies, '@jinntec/fore', 'css'),
-                "fore-bundle": config:cdn-url($dependencies, '@jinntec/fore', 'bundle'),
-                "jinn-codemirror-bundle": config:cdn-url($dependencies, '@jinntec/jinn-codemirror', 'bundle')
-            }
+        if (map:size($dependencies) > 0 and exists($dependencies?jinks?cdn)) then
+            map:merge(
+                for $package in map:keys($dependencies?jinks?cdn)
+                let $cdnConfig := $dependencies?jinks?cdn($package)
+                return
+                    if ($cdnConfig instance of map(*)) then
+                        (: Build entries for each asset type (bundle, css, etc.) :)
+                        for $assetType in map:keys($cdnConfig)
+                        where $assetType != 'base' (: Skip the base URL :)
+                        let $cdnUrl := config:cdn-url($dependencies, $package, $assetType)
+                        where exists($cdnUrl)
+                        return
+                            map:entry($package || '-' || $assetType, $cdnUrl)
+                    else
+                        ()
+            )
         else
             map {}
     let $baseConfigWithDeps := 
@@ -134,10 +143,51 @@ declare function generator:prepare($settings as map(*), $config as map(*)) {
             $baseConfig
     let $mergedConfig :=
         fold-right($baseConfigWithDeps?profiles?*, $baseConfigWithDeps, function($profile, $config) {
-            generator:call-prepare(generator:profile-path($profile), $config)
+            let $configAfterPrepare := generator:call-prepare(generator:profile-path($profile), $config)
+            (: If jinntap profile is present, populate features.jinntap from config/package.json :)
+            return
+                if ($profile = "jinntap" and map:size($dependencies) > 0) then
+                    let $jinntapVersion := replace(($dependencies?dependencies('@jinntec/jinntap'), $dependencies?devDependencies('@jinntec/jinntap'))[1], '^[\^~]', '')
+                    let $jinntapCdnConfig := $dependencies?jinks?cdn('@jinntec/jinntap')
+                    let $jinntapCdn := 
+                        if ($jinntapCdnConfig instance of map(*) and exists($jinntapCdnConfig?base)) then
+                            $jinntapCdnConfig?base
+                        else
+                            "https://cdn.jsdelivr.net/npm/@jinntec/jinntap"
+                    let $jinntapFeatures := 
+                        if (exists($jinntapVersion)) then
+                            map:merge((
+                                $configAfterPrepare?features?jinntap,
+                                map {
+                                    "version": $jinntapVersion,
+                                    "cdn": $jinntapCdn
+                                }
+                            ))
+                        else
+                            $configAfterPrepare?features?jinntap
+                    return
+                        if (exists($jinntapFeatures)) then
+                            map:merge(($configAfterPrepare, map {
+                                "features": map:merge((
+                                    $configAfterPrepare?features,
+                                    map { "jinntap": $jinntapFeatures }
+                                ))
+                            }))
+                        else
+                            $configAfterPrepare
+                else
+                    $configAfterPrepare
         })
+    (: Process styles array after all profiles are merged to replace hardcoded CDN URLs :)
+    let $processedStyles := 
+        if (exists($mergedConfig?styles)) then
+            config:process-styles($mergedConfig?styles, $cdnUrls, $dependencies)
+        else
+            $mergedConfig?styles
     return
-        $mergedConfig
+        map:merge(($mergedConfig, map {
+            "styles": $processedStyles
+        }))
 };
 
 declare %private function generator:call-prepare($collection as xs:string, $baseConfig as map(*)?) {

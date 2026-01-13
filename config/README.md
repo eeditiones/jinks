@@ -45,8 +45,8 @@ The `jinks` field contains metadata specific to jinks templating:
 }
 ```
 
-- **`cdn`**: CDN URL templates for packages loaded from CDN. The `{{version}}` placeholder is replaced with the actual version from dependencies.
-- **`overrides`**: Profile-specific version overrides (optional, for future use)
+- **`cdn`**: CDN URL templates for packages loaded from CDN. The `{{version}}` placeholder is replaced with the actual version from dependencies. Each package can define multiple asset types (e.g., `bundle`, `css`). The CDN map keys are constructed as `{package-name}-{asset-type}`.
+- **`overrides`**: Profile-specific version overrides (currently used for `fore` version differences between profiles)
 
 ## How It Works
 
@@ -60,17 +60,23 @@ When jinks generates an application:
 
 ### 2. Template Usage
 
-Templates access dependencies via the context:
+Templates access dependencies via the context. CDN map keys are constructed as `{package-name}-{asset-type}` (e.g., `@teipublisher/pb-components-bundle`, `fore-bundle`, `swagger-ui-css`).
+
+**Important**: For map keys containing special characters (like `@`), use function call syntax: `$cdn?('key')` instead of `$cdn?key`.
 
 ```html
 <!-- Use CDN URL from dependencies -->
 [% if exists($cdn?fore-bundle) %]
 <script type="module" src="[[ $cdn?fore-bundle ]]"></script>
+[% elif exists($cdn?('@teipublisher/pb-components-bundle')) %]
+<script type="module" src="[[ $cdn?('@teipublisher/pb-components-bundle') ]]"></script>
 [% else %]
 <!-- Fallback to hardcoded URL -->
 <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@2.0.0/dist/fore.js"></script>
 [% endif %]
 ```
+
+**Styles Array Processing**: The `styles` array in profile `config.json` files is automatically processed to replace hardcoded CDN URLs with templated versions from `config/package.json`.
 
 ### 3. Version Synchronization
 
@@ -106,14 +112,29 @@ Shared dependencies (used by both jinks and generated apps) are automatically sy
        "cdn": {
          "new-package": {
            "base": "https://cdn.jsdelivr.net/npm/new-package",
-           "bundle": "@{{version}}/dist/bundle.js"
+           "bundle": "@{{version}}/dist/bundle.js",
+           "css": "@{{version}}/dist/styles.css"
          }
        }
      }
    }
    ```
 
-3. Update templates to use `$cdn?new-package-bundle` (or compute it in `modules/generator.xql`)
+3. Update templates to use the CDN map. The key format is `{package-name}-{asset-type}`:
+   ```html
+   [% if exists($cdn?new-package-bundle) %]
+   <script type="module" src="[[ $cdn?new-package-bundle ]]"></script>
+   [% endif %]
+   ```
+   
+   For packages with special characters (like `@`), use function call syntax:
+   ```html
+   [% if exists($cdn?('@scope/package-bundle')) %]
+   <script type="module" src="[[ $cdn?('@scope/package-bundle') ]]"></script>
+   [% endif %]
+   ```
+
+4. The CDN map is automatically built by `modules/generator.xql` from the `jinks.cdn` configuration.
 
 ### Updating Versions
 
@@ -139,6 +160,8 @@ This checks:
 - **`npm run sync:dependencies`**: Sync shared dependencies from root `package.json` to `config/package.json`
 - **`npm run validate:dependencies`**: Validate dependency consistency and npm registry existence
 
+Both scripts automatically detect shared dependencies by comparing the root and config `package.json` files.
+
 ## Files
 
 - **`config/package.json`**: Dependency registry with versions and CDN templates
@@ -149,9 +172,19 @@ This checks:
 
 ## Integration Points
 
-1. **Template System** (`modules/generator.xql`): Loads dependencies and computes CDN URLs
-2. **API Pages** (`modules/api.xql`): Adds dependencies to context for jinks UI pages
+1. **Template System** (`modules/generator.xql`): 
+   - Loads `config/package.json` and makes it available as `$dependencies`
+   - Dynamically builds `$cdn` map from `jinks.cdn` configuration
+   - Processes `styles` arrays to replace hardcoded CDN URLs with templated versions
+   - Auto-populates profile-specific dependencies (e.g., `jinntap` version from `config/package.json`)
+
+2. **API Pages** (`modules/api.xql`): Adds dependencies and CDN URLs to context for jinks UI pages
+
 3. **Templates**: Use `$cdn` map for CDN URLs instead of hardcoded versions
+   - Simple keys: `$cdn?fore-bundle`
+   - Keys with special characters: `$cdn?('@teipublisher/pb-components-bundle')`
+
+4. **Generated Config** (`profiles/base10/modules/generated-config.tpl.xql`): Derives `$config:webcomponents` from `$dependencies` when available
 
 ## Benefits
 

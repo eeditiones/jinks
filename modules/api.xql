@@ -147,15 +147,24 @@ declare function api:page($request as map(*)) {
     return
         if (exists($doc)) then
             let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+            (: Dynamically build CDN URLs map from config/package.json :)
             let $cdnUrls := 
-                if (map:size($dependencies) > 0) then
-                    map {
-                        "swagger-ui-css": config:cdn-url($dependencies, 'swagger-ui-dist', 'css'),
-                        "swagger-ui-bundle": config:cdn-url($dependencies, 'swagger-ui-dist', 'bundle'),
-                        "fore-css": config:cdn-url($dependencies, '@jinntec/fore', 'css'),
-                        "fore-bundle": config:cdn-url($dependencies, '@jinntec/fore', 'bundle'),
-                        "jinn-codemirror-bundle": config:cdn-url($dependencies, '@jinntec/jinn-codemirror', 'bundle')
-                    }
+                if (map:size($dependencies) > 0 and exists($dependencies?jinks?cdn)) then
+                    map:merge(
+                        for $package in map:keys($dependencies?jinks?cdn)
+                        let $cdnConfig := $dependencies?jinks?cdn($package)
+                        return
+                            if ($cdnConfig instance of map(*)) then
+                                (: Build entries for each asset type (bundle, css, etc.) :)
+                                for $assetType in map:keys($cdnConfig)
+                                where $assetType != 'base' (: Skip the base URL :)
+                                let $cdnUrl := config:cdn-url($dependencies, $package, $assetType)
+                                where exists($cdnUrl)
+                                return
+                                    map:entry($package || '-' || $assetType, $cdnUrl)
+                            else
+                                ()
+                    )
                 else
                     map {}
             let $context := map {

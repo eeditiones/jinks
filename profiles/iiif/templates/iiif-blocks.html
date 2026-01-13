@@ -7,8 +7,9 @@
         <script type="module" src="[[$script?cdn]]/src/pb-tify.js"></script>
         [% elif $script?webcomponents = 'local' %]
         <script type="module" src="[[ $context-path ]]/resources/lib/pb-tify.js"></script>
-        [% elif $script?webcomponents = '' %]
-        [% else %]
+        [% elif exists($cdn?('@teipublisher/pb-components-bundle')) %]
+        <script type="module" src="[[ replace($cdn?('@teipublisher/pb-components-bundle'), 'pb-components-bundle.js', 'pb-tify.js') ]]"></script>
+        [% elif exists($script?webcomponents) and exists($script?cdn) %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-tify.js"></script>
         [% endif %]
     [% endif %]

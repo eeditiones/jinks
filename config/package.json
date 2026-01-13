@@ -8,7 +8,9 @@
     "@teipublisher/pb-components": "3.0.4",
     "@jinntec/fore": "^2.8.0",
     "swagger-ui-dist": "5.31.0",
-    "@jinntec/jinn-codemirror": "1.18.2"
+    "@jinntec/jinn-codemirror": "1.18.2",
+    "theme-toggles": "^4.10.1",
+    "@jinntec/jinntap": "^1.27.0"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
@@ -38,6 +40,15 @@
       "@jinntec/jinn-codemirror": {
         "base": "https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror",
         "bundle": "@{{version}}/dist/jinn-codemirror-bundle.js"
+      },
+      "theme-toggles": {
+        "base": "https://cdn.jsdelivr.net/npm/theme-toggles",
+        "css": "@{{version}}/css/classic.min.css"
+      },
+      "@jinntec/jinntap": {
+        "base": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap",
+        "css": "@{{version}}/dist/jinn-tap.css",
+        "bundle": "@{{version}}/dist/index.es.js"
       }
     },
     "overrides": {

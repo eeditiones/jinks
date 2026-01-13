@@ -30,8 +30,12 @@
         [% for $component in $script?extra-components?* %]
         <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
         [% endfor %]
-        [% elif $script?webcomponents = '' %]
-        [% else %]
+        [% elif exists($cdn?('@teipublisher/pb-components-bundle')) %]
+        <script type="module" src="[[ $cdn?('@teipublisher/pb-components-bundle') ]]"></script>
+        [% for $component in $script?extra-components?* %]
+        <script type="module" src="[[ replace($cdn?('@teipublisher/pb-components-bundle'), 'pb-components-bundle.js', $component || '.js') ]]"></script>
+        [% endfor %]
+        [% elif exists($script?webcomponents) and exists($script?cdn) %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
@@ -41,7 +45,7 @@
         [% if $script?fore %]
             [% if exists($cdn?fore-bundle) %]
             <script type="module" src="[[ $cdn?fore-bundle ]]"></script>
-            [% else %]
+            [% elif exists($script?fore) %]
             <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
             [% endif %]
         [% endif %]
