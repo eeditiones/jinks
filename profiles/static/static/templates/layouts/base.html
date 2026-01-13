@@ -39,7 +39,11 @@
         [% endif %]
 
         [% if $script?fore %]
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+            [% if exists($cdn?fore-bundle) %]
+            <script type="module" src="[[ $cdn?fore-bundle ]]"></script>
+            [% else %]
+            <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+            [% endif %]
         [% endif %]
 
         [% block scripts %][% endblock %]
