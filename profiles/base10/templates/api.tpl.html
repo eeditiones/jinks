@@ -2,8 +2,13 @@
     <head>
         <meta charset="utf-8"/>
         <title>TEI Publisher API Documentation</title>
+        [% if exists($cdn?swagger-ui-css) %]
+        <link rel="stylesheet" href="[[ $cdn?swagger-ui-css ]]"/>
+        <script src="[[ $cdn?swagger-ui-bundle ]]" charset="UTF-8"></script>
+        [% else %]
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.18.1/swagger-ui.min.css"/>
         <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.18.1/swagger-ui-bundle.min.js" charset="UTF-8"></script>
+        [% endif %]
     </head>
     <body>
         <div id="swagger"></div>

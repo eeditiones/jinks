@@ -29,7 +29,11 @@
                 overflow: auto;
             }
         </style>
+        [% if exists($cdn?jinn-codemirror-bundle) %]
+        <script type="module" src="[[ $cdn?jinn-codemirror-bundle ]]"></script>
+        [% else %]
         <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
+        [% endif %]
     </head>
     <body>
     <div class="fixed-layout">

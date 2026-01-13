@@ -112,8 +112,28 @@ declare %private function generator:filter-conflicts($messages as map(*)*) {
  :)
 declare function generator:prepare($settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($settings, $config)
+    let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+    let $cdnUrls := 
+        if (map:size($dependencies) > 0) then
+            map {
+                "swagger-ui-css": config:cdn-url($dependencies, 'swagger-ui-dist', 'css'),
+                "swagger-ui-bundle": config:cdn-url($dependencies, 'swagger-ui-dist', 'bundle'),
+                "fore-css": config:cdn-url($dependencies, '@jinntec/fore', 'css'),
+                "fore-bundle": config:cdn-url($dependencies, '@jinntec/fore', 'bundle'),
+                "jinn-codemirror-bundle": config:cdn-url($dependencies, '@jinntec/jinn-codemirror', 'bundle')
+            }
+        else
+            map {}
+    let $baseConfigWithDeps := 
+        if (map:size($dependencies) > 0) then
+            map:merge(($baseConfig, map { 
+                "dependencies": $dependencies,
+                "cdn": $cdnUrls
+            }))
+        else
+            $baseConfig
     let $mergedConfig :=
-        fold-right($baseConfig?profiles?*, $baseConfig, function($profile, $config) {
+        fold-right($baseConfigWithDeps?profiles?*, $baseConfigWithDeps, function($profile, $config) {
             generator:call-prepare(generator:profile-path($profile), $config)
         })
     return

@@ -146,10 +146,24 @@ declare function api:page($request as map(*)) {
     let $doc := api:resolver("pages/" || $request?parameters?page)?content
     return
         if (exists($doc)) then
+            let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+            let $cdnUrls := 
+                if (map:size($dependencies) > 0) then
+                    map {
+                        "swagger-ui-css": config:cdn-url($dependencies, 'swagger-ui-dist', 'css'),
+                        "swagger-ui-bundle": config:cdn-url($dependencies, 'swagger-ui-dist', 'bundle'),
+                        "fore-css": config:cdn-url($dependencies, '@jinntec/fore', 'css'),
+                        "fore-bundle": config:cdn-url($dependencies, '@jinntec/fore', 'bundle'),
+                        "jinn-codemirror-bundle": config:cdn-url($dependencies, '@jinntec/jinn-codemirror', 'bundle')
+                    }
+                else
+                    map {}
             let $context := map {
                 "title": "jinks",
                 "profiles": api:profiles(),
-                "context-path": $config:context-path
+                "context-path": $config:context-path,
+                "dependencies": $dependencies,
+                "cdn": $cdnUrls
             }
             let $output := tmpl:process($doc, $context, map {
                 "plainText": false(), 
