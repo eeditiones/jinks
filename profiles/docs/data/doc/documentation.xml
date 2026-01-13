@@ -16,12 +16,48 @@
   </info>
   <section xml:id="intro">
       <title>Introduction</title>
-      <para>This reference manual discusses various aspects and technical layers of creation, customization and maintenance of scholarly publications based on data encoded - primarily, but not exclusively - in TEI and other XML vocabularies.</para>
-       <para>This introduction provides a gentle overview of motivations and rationale behind Jinks and TEI Publisher design. For hands-on, technical discussion of particular topics, skip directly to the relevant chapters.</para>
+      <para><link xlink:href="tldr.xml">TL;DR</link>: shortcut for the impatient reader</para>
+      <para><link xlink:href="quickstart.xml">Quickstart</link>: gentle introduction for the beginner</para>
+      <para>TEI Publisher reference manual covers various aspects and technical layers of creation, customization and maintenance of publications based on data encoded primarily in XML. In particular, but not exclusively, we will be discussing <emphasis>scholarly</emphasis> publications based on data encoded in TEI.</para>
+       <note><para>This introductory chapter provides a gentle overview of motivations and rationale behind Jinks and TEI Publisher design. For hands-on, technical discussion of particular topics, skip directly to the relevant chapters.</para></note>
     
-    <para>Bridging the gap between a computer-processable representation of sources and tangible, published edition is not a trivial step. It involves precise analysis and modeling, tedious work, and careful orchestration across multiple layers of the technological stack. From afar, there are significant overlaps between all scholarly publications. Yet the closer we look, the more we notice differences, from subtle to quite fundamental.</para>
-    <para>It's not easy to find a way to reconcile the variety and allow for the flexibility within a shared, standards-based framework. After all, where is the common ground between a collection of Renaissance correspondence, Buddhist inscriptions, anthology of inaugural poems, and a lexicon of ancient individuals, of whom we only know a few words from their tombstones? Is there a way to accommodate the needs and wishes of editors, at the same time taking into account the technical and economic sustainability, as well as future re-use and interoperability of the scholarly datasets?</para>
-    <note role="todo">add diagrams and general explanation</note>
+    <para>Bridging the gap between a computer-processable representation of sources and tangible, published edition is not a trivial step. It involves precise analysis and modeling, tedious work, and careful orchestration across multiple layers of the technological stack. From the raw data, to the publication - be it an online website or a printed volume - there are many ways to approach the challenge from the technical perspective. For the scholars and content curators, the challenge is rather seen as an obstacle: lengthy, cumbersome and risk-laden but unavoidable process.</para>
+    <figure>
+        <title>XML data transformed to output with TEI Publisher</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="tp-diagram.jpg" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    <para> It's not easy to find a way to reconcile the variety and allow for the flexibility within a shared, standards-based framework. From afar, there are significant overlaps between all scholarly publications. Yet the closer we look, the more we notice differences, from subtle to quite fundamental. After all, where is the common ground between a collection of Renaissance correspondence, Buddhist inscriptions, anthology of inaugural poems, and a lexicon of ancient individuals, of whom we only know a few words from their tombstones? Is there a way to accommodate the needs and wishes of editors, at the same time taking into account the technical and economic sustainability, as well as future re-use and interoperability of the scholarly datasets?</para>
+    <para>The motivation behind TEI Publisher was to provide a tool which enables scholars and editors to publish their materials without becoming programmers, but also does not force them into a one-size-fits-all framework. The solution is based on several foundational principles:</para>
+    <itemizedlist>
+        <listitem><label>divide and conquer</label>
+            <para>Split complex problems into smaller tasks. This is reflected in modular design at all levels.</para>
+        </listitem>
+        <listitem><label>do not reinvent the wheel</label>
+            <para>Interface with existing systems and libraries where solutions already exist.</para>
+        </listitem>
+        <listitem><label>standardize where you can</label>
+            <para>Based on open standards: from well-documented XML vocabularies (like TEI, JATS, DocBook) and formats (JSON) for the representation of data, to support for widely used protocols and specifications (e.g. Open API Specification, IIIF, DTS).</para>
+        </listitem>
+        <listitem><label>customize where you must</label>
+            <para>Never force a concrete solution: all elements are designed as customizable.</para>
+        </listitem>
+        <listitem><label>community-driven</label>
+            <para>TEI Publisher framework features and components are a response to real needs of user community: developed to provide a generalized solution to a repeated practical requirement.</para>
+        </listitem>
+        <listitem><label>open source</label>
+            <para>All components are released under open licenses, assuring that all work continues to benefit the entire community.</para>
+        </listitem>
+    </itemizedlist>
+    <section xml:id="jinks">
+    <title>Jinks: edition in few clicks</title>
+    <para>With the <link xlink:href="quickstart.xml?id=intro-jinks#intro-jinks">Jinks</link> application manager, the core TEI Publisher idea of assembling an edition from the modular "lego" blocks is taken to the next level. The core of TEI Publisher is now decomposed into a set of small, modular profiles, which can be combined and configured to assemble concrete applications. Each profile provides end-to-end implementation for a particular aspect of a digital edition, e.g. support for a certain input format, integration of facsimile images, timelines or map display. Check the <link xlink:href="quickstart.xml?id=using-jinks#using-jinks">hands-on tutorial</link> for a walk through.</para>
+    <para>Using Jinks is very simple on the surface, nevertheless it operates over the complex, heterogeneous spectrum of conceivable scholarly projects. Therefore it still requires from the user the usual intellectual and scholarly rigour to assure the end result matches the expectations. Similarly, to customize or create a new feature profile, the understanding of the orchestration across the technical layers is necessary.</para>
+    </section>
+     
   </section>
   <section xml:id="data-organization">
     <title>Data</title>
@@ -61,7 +97,7 @@
       <varlistentry>
         <term><code>data-exclude</code></term>
         <listitem>
-          <para>Expert: an array of XPath expressions pointing to documents to be filtered out when browsing documents. Use this to hide certain documents in browsable collections.</para>
+          <para>An array of XPath expressions pointing to documents to be filtered out when browsing documents. Use this to hide certain documents in browsable collections.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -102,20 +138,8 @@
   …
 }</programlisting>
     </section>
-    <section xml:id="indexing">
-        <title>Indexing and encoding requirements</title>
-              <note role="todo"><para>
-                  indexing: where to find default index setup, how to reindex with the action
-                  </para><para>
-                  general requirements for the full text search (div)
-                 </para><para> profile requirements for indexes
-                  </para><para>profile requirements for data structures
-              </para></note>
-
-    </section>
     <section xml:id="hierarchical-collections">
       <title>Hierarchical data collections</title>
-      <note role="todo">perhaps move to the new Browse chapter</note>
       <para>Many editions will simply present a flat list of documents, e.g. a collection of
         letters, monographs or plays. The structure of the data is therefore very simple, all the
         files are stored on the same level in the <code>data-default</code> collection. </para>
@@ -1674,7 +1698,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
     ...
 </modules>]]></programlisting>
 
-<note role="todo"><para>Discuss how to add custom global configuration elements</para></note>
+<!--<note role="todo">-->
+<!--                    <para>Discuss how to add custom global configuration elements</para>-->
+<!--                </note>-->
       </section>
         <section xml:id="external-parameters">
           <title>External Parameters</title>
@@ -4129,7 +4155,7 @@ import module namespace docbook-nav="http://www.tei-c.org/tei-simple/navigation/
     <para> Facets are super fast because eXist will create them
       when indexing the document. No extra computation is needed when the user clicks on a facet to
       drill down into a displayed set: all information is already available in the index. To see an
-      example of facets in action, just go to the <link xlink:href="TODO">Browse</link> page of Documentation and Demo. </para>
+      example of facets in action, just go to the <link xlink:href="/exist/apps/tei-publisher/browse.html" xlink:show="new">Browse</link> page of Documentation and Demo. </para>
     <para>If you would like to configure additional facets, you need to prepare relevant indexes as described in 
     <link linkend="index-configuration">index configuration</link> chapter and additionally edit the <code>facets-config.xqm</code></para>
     
