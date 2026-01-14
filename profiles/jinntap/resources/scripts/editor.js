@@ -78,7 +78,27 @@ function initEditor(contextPath, doc) {
         const saveDialog = document.getElementById("saveDialog");
         const saveForm = document.querySelector('#saveDialog form');
 
-        saveBtn.addEventListener("click", function () {
+        let isDisabled = false;
+
+        window.pbEvents.subscribe('pb-login', null, (ev) => {
+            console.log('pb-login', ev.detail);
+            isDisabled = ev.detail.user === null;
+            if (isDisabled) {
+                saveBtn.classList.add('disabled');
+                saveBtn.style.pointerEvents = 'none';
+                saveBtn.style.opacity = '0.5';
+            } else {
+                saveBtn.classList.remove('disabled');
+                saveBtn.style.pointerEvents = '';
+                saveBtn.style.opacity = '';
+            }
+        });
+
+        saveBtn.addEventListener("click", function (e) {
+            if (isDisabled) {
+                e.preventDefault();
+                return;
+            }
             if (doc) {
                 save(contextPath, editor);
             } else {
