@@ -40,28 +40,53 @@ cache:
     - docker buildx inspect --bootstrap
     # Build Docker image with buildx
     - |
-      export DOCKER_BUILDKIT=1
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and not(every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
+      export DOCKER_BUILDKIT=1[# Export custom tokens (not CI_JOB_TOKEN) as environment variables #]
+[% if exists($docker?externalXar) 
+    and map:size($docker?externalXar) > 0 
+    and (some $fileName in map:keys($docker?externalXar) 
+      satisfies ($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token))) 
+    and not(every $fileName in map:keys($docker?externalXar) 
+      satisfies (not($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token)) 
+        or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
+
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token) and $docker?externalXar($fileName)?token != "CI_JOB_TOKEN") %]
       export [[ string($docker?externalXar($fileName)?token) ]]="${[[ string($docker?externalXar($fileName)?token) ]]}"
 [% endif %]
 [% endfor %]
-[% endif %]
-      docker buildx build \
+[% endif %]      docker buildx build \
         --build-arg EXIST_VERSION=${EXIST_VERSION} \
         --build-arg BUILD=local \
-        --load \
-[% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and (every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
+        --load \[# Use CI_JOB_TOKEN if all external XARs use it #]
+[% if exists($docker?externalXar) 
+    and map:size($docker?externalXar) > 0 
+    and (some $fileName in map:keys($docker?externalXar) 
+      satisfies ($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token))) 
+    and (every $fileName in map:keys($docker?externalXar) 
+      satisfies (not($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token)) 
+        or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
         --secret id=CI_JOB_TOKEN,env=CI_JOB_TOKEN \
-[% else if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) %]
+[% endif %]
+[# Pass each custom token as a separate secret (if not all use CI_JOB_TOKEN) #]
+[% if exists($docker?externalXar) 
+    and map:size($docker?externalXar) > 0 
+    and (some $fileName in map:keys($docker?externalXar) 
+      satisfies ($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token))) 
+    and not((every $fileName in map:keys($docker?externalXar) 
+      satisfies (not($docker?externalXar($fileName) instance of map(*) 
+        and exists($docker?externalXar($fileName)?token)) 
+        or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN"))) %]
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
         --secret id=[[ string($docker?externalXar($fileName)?token) ]],env=[[ string($docker?externalXar($fileName)?token) ]] \
 [% endif %]
 [% endfor %]
-[% endif %]
-        -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
+[% endif %]        -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
         .
     # Save Docker image as tar artifact for test job
     - |
