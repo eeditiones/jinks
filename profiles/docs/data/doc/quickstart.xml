@@ -90,8 +90,8 @@
                     all profiles and the applications generated from it.</para>
                 <para>Creation of an application is no longer a one-time generative step, but it can
                     be approached iteratively: new features may be added or removed, configuration
-                    for the existing ones modified. The same user interface, which allowed us to
-                    select, pre-configure and generate our application can be used to reconfigure
+                    for the existing ones modified. The same user interface which allowed us to
+                    select, pre-configure and generate our application, can be used to reconfigure
                     and regenerate it at any later point. </para>
 
                 <para>As new profiles are added to the public library - or new versions are released
@@ -408,21 +408,27 @@
                 <varlistentry>
                     <term>Content zoom</term>
                     <listitem>
-                        <para>Increases the font size for the content of the document to improve
+                        <para>Controls the font size for the content of the document to improve
                             readability</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Recompile ODD</term>
+                    <listitem>
+                        <para>Only available when logged in; this button triggers regenerating the ODD used to display the current document and reloads the page</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
             <para>Some examples may contribute additional buttons (e.g. the Cortés letter).</para>
             <para>Depending on the text you may also see one or two sidebars to the left and right
                 of the content area. These can be resized or minimized.</para>
-            <para>TEI Publisher 10 tries to enforce a consistent layout across all applications. See
+            <para>TEI Publisher 10 tries to provide a consistent layout across all applications. See
                 the section on <link xlink:href="documentation.xml?id=themes-and-styling">Layout, Themes and Styling</link> in the reference guide.</para>
         </section>
         <section xml:id="selected-use-cases">
             <title>Selected Use Cases</title>
             <para>Sample documents which are included in TEI Publisher's installation package do not
-                exhaust its applications but rather aim to present some chosen use cases:</para>
+                represent the full scope of its applications. Selection is based on community-provided use cases:</para>
             <figure>
                 <title>Browsing Demo collection</title>
                 <mediaobject>
@@ -606,8 +612,8 @@
             <itemizedlist>
                 <listitem>
                     <para>The sidebar to the left shows the list of installed applications which
-                        were created with Jinks (if any). In the screenshot there is tp10 and barth
-                        app. </para>
+                        were created with Jinks (if any). In the screenshot there are two applications: <code>tp10</code> and <code>barth</code>.
+                    </para>
                 </listitem>
                 <listitem>
                     <para>The central column contains the main configuration form with several tabs.
@@ -625,10 +631,11 @@
                     <guilabel>Application Configuration</guilabel>. In the first box,
                 <guilabel>Abbreviation</guilabel>, provide a short but unique name. In the screenshot the abbreviation is <guilabel>barth</guilabel>. It will serve as a collection name in the database, where the
                 application is stored. </para>
-            <para><emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace,
+            <note><para>
+                <emphasis role="bold">NB:</emphasis>Abbreviation may not contain whitespace,
                 brackets and special characters. It may only contain alphanumeric characters
                 (letters and numbers) supplemented with dashes (-) and underscore (_). </para>
-
+            </note>
             <figure>
                 <title>Jinks Application Configuration</title>
                 <mediaobject>
@@ -707,8 +714,8 @@
         <section xml:id="jinks-adding-features">
             <title>Adding Features</title>
             <para>The sermons contain mentions of places and people. To make use of the information
-                available about these in the dataset, we can enable the profile dedicated to that
-                very purpose.</para>
+                available about these in the dataset, we can enable the profile dedicated for this
+                purpose.</para>
             <para>Switch back to <productname>Jinks</productname>, go to the
                     <guilabel>Profiles</guilabel> tab and find the <guilabel>Entity
                     Registers</guilabel> profile in the <guilabel>Features</guilabel> category.
@@ -721,14 +728,14 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The <guilabel>Command Output</guilabel> dialog will now present a list of files
-                which were updated. Close it and return to the generated app. Looking at the
+            <para>The <guilabel>Command Output</guilabel> dialog will now present a list of updated files.
+                Close it and return to the generated app. Looking at the
                 menubar, you will notice that there are new menu items for
                     <guilabel>People</guilabel> and <guilabel>Places</guilabel>, leading to separate
                 pages for browsing those entities.</para>
             <para>We might also like to show a list of places and people mentioned in the current
                 document, when viewing one of the sermons. This sub-feature is not enabled by
-                default, because editions may want to limit it to some pages.</para>
+                default, because editions may not necessarily want limit it to some pages, or not to use it at all.</para>
             <para>To enable it globally, go back to Jinks and look at the editor to the right, which
                 shows you a JSON representation of the currently active configuration for the
                 application. Right now it should look like this (though the order of properties may
@@ -997,9 +1004,8 @@
                 overwrite any change you have applied locally in your app.</para>
             <para>Whenever you press <guibutton>Apply</guibutton>, the <guilabel>Command
                     Output</guilabel> dialog will show you a list of files. To the left of each file
-                you'll see a label. In most cases (hopefully) this should show "update" with a green
-                background. However, there might also be read labels static "conflict" next to some
-                files.</para>
+                you'll see a label. In most cases this will just show <emphasis>update</emphasis> with a green
+                background. However, next to some files, brown <emphasis>conflict</emphasis> label may appear.</para>
             <figure>
                 <title>Command output dialog showing a conflict</title>
                 <mediaobject>
@@ -1008,19 +1014,23 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>A "conflict" means that <productname>Jinks</productname> detected changes you made
+            <para>A <emphasis>conflict</emphasis> means that <productname>Jinks</productname> detected changes you made
                 to this file since it was last updated, and it refused to overwrite this file with
                 the original version coming from one of the profiles. For example, if I would change
                     <filename>teipublisher.odd</filename> in my app (via the ODD editor), Jinks
                 would detect this next time I press <guibutton>Apply</guibutton> and mark it as a
                 conflict.</para>
-            <para>It will be up to you to decide how to handle the conflict. If it was introduced by
-                mistake, you can tell <productname>Jinks</productname> to ignore the conflict and
-                overwrite the file with the upstream version by clicking the <guilabel>Overwrite
+            <para>It is up to you to decide how to handle the conflict. You can tell <productname>Jinks</productname> 
+                to ignore the conflict and
+                overwrite the file with the <emphasis>upstream</emphasis> version by clicking the <guilabel>Overwrite
                     with next update</guilabel> button to the right of the entry.</para>
-            <para>You may also decide that the change is valid, meaning that the conflict is
-                expected and will stay. In this case, you may want to "whitelist" the file. You can
-                do so by adding it to the "skip" property in config.json, which expects an array of
+            <note><para>Conflict over the <filename>teipublisher.odd</filename> would be an example of a change that likely should be reverted. 
+            Custom ODD rules for your application should be given in your own ODD, which extends the <filename>teipublisher.odd</filename>, 
+            instead of directly changing the base ODD.</para></note>
+            <para>You may also decide that the change is intentional, meaning that the conflict is
+                expected and will stay. In this case, you may want to <emphasis>whitelist</emphasis> the file. 
+                Files referenced by the whitelist will not be touched by future updates. You can
+                do so by adding it to the <emphasis>skip</emphasis> property in <filename>config.json</filename>, which expects an array of
                 paths relative to your application root:</para>
             <programlisting language="json" xml:space="preserve"><![CDATA[{
     …
@@ -1032,15 +1042,15 @@
 }]]></programlisting>
             <para>The paths are interpreted as regular expressions, so in the example above, we're
                 skipping <filename>landing.odd</filename> as well as all i18n files ending with
-                    <filename>.json</filename>. Files referenced by the skip list will not be
-                touched by future updates.</para>
+                    <filename>.json</filename>. </para>
+            <para>With new <emphasis>upstream</emphasis> versions of TEI Publisher or one of the profiles, you may need a hybrid approach, 
+            namely add some of the <emphasis>upstream</emphasis> changes, while retaining some of yours. In such case you need to manually edit the file in question.</para>
             <note>
-                <para>To avoid conflicts it is important that most of your changes go into files you
-                    have added yourself. On many levels TEI Publisher 10 provides configuration
+                <para>To avoid unnecessary conflicts, it is important that customization changes go into files you
+                    have added yourself. It is easily possible, because TEI Publisher on many levels provides configuration
                     options, which allow you to add custom CSS stylesheets, javascript, or API
-                    endpoints to your application without changing what is already there. Those
-                    added custom files will never trigger a conflict, because they only exist within
-                    your application.</para>
+                    endpoints to your application without changing what is already there. Added, custom files will never trigger a conflict, 
+                    because they only exist within your application.</para>
             </note>
         </section>
         <section xml:id="jinks-operation-modes">
