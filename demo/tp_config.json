@@ -1,9 +1,26 @@
 {
-  "label" : "tei-publisher",
-  "id" : "https://e-editiones.org/apps/tei-publisher",
-  "extends" : [ "base10", "markdown", "demo-data", "docbook", "jats", "iiif", "playground", "landing-page", "docs", "theme-base10", "docker", "docx", "upload" ],
-  "pkg" : {
-    "abbrev" : "tei-publisher"
-  },
-  "description" : "TEI Publisher Documentation and Demo"
+    "label": "tei-publisher",
+    "id": "https://e-editiones.org/apps/tei-publisher",
+    "extends": [
+        "base10",
+        "markdown",
+        "demo-data",
+        "docbook",
+        "jats",
+        "iiif",
+        "playground",
+        "landing-page",
+        "docs",
+        "theme-base10",
+        "docker",
+        "docx",
+        "upload"
+    ],
+    "pkg": {
+        "abbrev": "tei-publisher"
+    },
+    "defaults": {
+        "site-root": "/exist/apps/tei-publisher"
+    },
+    "description": "TEI Publisher Documentation and Demo"
 }

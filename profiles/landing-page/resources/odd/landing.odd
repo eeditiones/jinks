@@ -242,14 +242,19 @@
                     <model behaviour="listItem"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
-                    <model predicate="ancestor::list[@type='links']" behaviour="link" cssClass="button-link">
-            <param name="uri" value="if (@target='#') then $parameters?browse-url else @target"/>
+                    <model predicate="ancestor::div[@type='highlights'] and ancestor::list[@type='links']" behaviour="link" cssClass="button-link">
+            <desc>Special treatment of refs in hightlights section</desc>
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
             <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
             <pb:template xml:space="preserve"><pb-i18n xmlns="" key="menu.[[content]]">[[content]]</pb-i18n></pb:template>
         </model>
-                    <model predicate="@target" behaviour="link">
-            <param name="uri" value="if (@target='#') then $parameters?browse-url else @target"/>
+                    <model predicate="ancestor::div[@type='highlights'] and @target" behaviour="link">
+            <desc>Special treatment of refs in hightlights section</desc>
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
             <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
+        </model>
+                    <model predicate="@target" behaviour="link">
+            <param name="uri" value="@target"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
