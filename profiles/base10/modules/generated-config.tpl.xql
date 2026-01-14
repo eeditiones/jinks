@@ -89,6 +89,24 @@ declare variable $config:address-by-id as xs:boolean := [%if $defaults?address-b
 
 declare variable $config:default-language as xs:string := "[[ $context?defaults?language ]]";
 
+declare variable $config:context-path :=
+    [% if $defaults?context-path %]
+    "[[ $defaults?context-path ]]"
+    [% else %]
+    let $prop := util:system-property("teipublisher.context-path")
+    return
+        if (exists($prop)) then
+            if ($prop = "auto") then
+                request:get-context-path() || substring-after($config:app-root, "/db") 
+            else
+                $prop
+        else if (exists(request:get-header("X-Forwarded-Host")))
+            then ""
+        else
+            request:get-context-path() || substring-after($config:app-root, "/db")
+    [% endif %]
+;
+
 (:~
  : Use the JSON configuration to determine which configuration applies for which collection
  :)
