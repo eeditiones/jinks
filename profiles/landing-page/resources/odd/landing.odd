@@ -244,13 +244,13 @@
                 <elementSpec ident="ref" mode="change">
                     <model predicate="ancestor::div[@type=('highlights', 'hero')] and ancestor::list[@type='links']" behaviour="link" cssClass="button-link">
             <desc>Special treatment of refs in hightlights section</desc>
-            <param name="uri" value="if (@target='#') then $parameters?browse-url else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else if (starts-with(@target, '#')) then @target else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
             <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
             <pb:template xml:space="preserve"><pb-i18n xmlns="" key="menu.[[content]]">[[content]]</pb-i18n></pb:template>
         </model>
                     <model predicate="ancestor::div[@type=('highlights', 'hero')] and @target" behaviour="link">
             <desc>Special treatment of refs in hightlights section</desc>
-            <param name="uri" value="if (@target='#') then $parameters?browse-url else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
+            <param name="uri" value="if (@target='#') then $parameters?browse-url else if (starts-with(@target, '#')) then @target else (substring-before($parameters?context-path, '/apps/') || '/apps/' || @target)"/>
             <param name="target" value="if (@rend='new') then '_blank' else '_self'"/>
         </model>
                     <model predicate="@target" behaviour="link">
