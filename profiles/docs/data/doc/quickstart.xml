@@ -817,16 +817,33 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+            <para>Either use your own images or the ones from the following sample:<link
+                    xlink:href="images/karl-barth/logo-white.png" xlink:show="new"
+                    >logo-white.png</link>, <link xlink:href="images/karl-barth/type.jpeg"
+                    xlink:show="new">type.jpeg</link> and <link
+                    xlink:href="images/karl-barth/Karl_Barth.jpg" xlink:show="new"
+                    >Karl_Barth.jpg</link>. They are available from <link
+                    xlink:href="https://github.com/eeditiones/jinks/tree/main/profiles/docs/data/doc/images/karl-barth"
+                    xlink:show="new">Github Jinks repository</link> as well. It is possible to upload multiple resources into a database collection at once. </para>
+            <figure>
+                <title>Jinks: Upload files</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-upload.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
             <para>With the images uploaded, we can add them to the configuration. All settings
                 related to the look and feel of an application go into the <code>"theme"</code>
                 property of the config. For example, to change the logo, splash screen image and
                 menubar background, we could change the configuration as follows:</para>
             <programlisting language="json" xml:space="preserve"><![CDATA[{
   "pkg": {
-    "abbrev": "mytest"
+    "abbrev": "barth"
   },
-  "label": "mytest",
-  "id": "https://e-editiones.org/apps/mytest",
+  "label": "barth",
+  "id": "https://e-editiones.org/apps/barth",
   "extends": [
     "base10",
     "demo-data",
@@ -840,7 +857,7 @@
     "toolbar": {
       "navigation": false
     }
-  },
+  }</programlisting>
   "theme": {
     "logo": {
       "image": "../images/logo-white.png"
@@ -898,8 +915,17 @@
                 creating your own ODD for text transformations. Jinks provides a control for this on
                 the <guilabel>Application Configuration</guilabel> tab. Since we're dealing with
                 Karl Barth, let's add an ODD called <filename>barth.odd</filename>.</para>
+            <figure>
+                <title>Create your own ODD</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="jinks-create-odd.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
             <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
-                entries:</para>
+                entries:</para>            
             <programlisting language="json" xml:space="preserve">"odds": [
     "barth.odd"
   ],
@@ -974,6 +1000,15 @@
                             particularly convenient to use during the development, to create
                             snapshots to be committed to the source control repository, like
                             Git.</para>
+                        <figure>
+                            <title>Jinks Sync Action</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="jinks-sync.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -994,7 +1029,7 @@
                     <para>a new version of TEI Publisher becomes available, which means you will
                         update the version of Jinks installed, and – as a consequence – some of the
                         profiles your app is using will have changed
-                        <emphasis>upstream</emphasis>.</para>
+                        <emphasis>upstream</emphasis>.</para>                    
                 </listitem>
             </orderedlist>
             <para>
