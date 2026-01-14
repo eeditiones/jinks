@@ -1,8 +1,8 @@
-## Timeline Components
+# Timeline Components
 
-### Requirements
+## Requirements
 
-For the timeline component to work, a field and a facet, both called `date`, need to be defined on each document in `collection.xconf`:
+For the timeline component to work, a field and a facet, both called `date`, need to be defined for each document in `collection.xconf`:
 
 1. the field should provide a single date per document with type `xs:date`
 2. the facet indexes the three components of the date, i.e. year, month and day in a hierarchical fashion
@@ -14,7 +14,7 @@ By default, both are already declared in the `collection.xconf` of the `base10` 
 <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
 ```
 
-### Configuration
+## Configuration
 
 ```json
 "features": {
@@ -25,5 +25,10 @@ By default, both are already declared in the `collection.xconf` of the `base10` 
 }
 ```
 
-* `enabled`: enables the timeline when browsing documents.
-* `document-view`: show timeline also in single document view. Only works for correspondence and expects a `<correspContext>` containing pointers to the next and/or previous letter.
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `true` | Enables the timeline in the browsing documents page |
+| `document-view` | boolean | `false` |  shows the timeline in the single document view. It only works for correspondence and expects a `<correspContext>` element in the source document containing pointers to the next and/or previous letter |
+

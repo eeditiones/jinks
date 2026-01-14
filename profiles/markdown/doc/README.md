@@ -7,4 +7,4 @@ Additionally, the feature adds the following:
 * a markdown preview page in the browser
 * an option to directly view or download the raw markdown
 
-Corresponding entries in the download menus will become available if the document viewed also supports markdown output.
+Corresponding entries in the download menus will become available if the document being displayed also supports markdown output.
