@@ -1,16 +1,21 @@
 FROM mcr.microsoft.com/devcontainers/java:8-bullseye
 
-ARG EXIST_VERSION=6.4.0
-ARG PUBLISHER_LIB_VERSION=6.0.2
-ARG ROUTER_VERSION=1.11.0
+ARG EXIST_VERSION=[[ $docker?eXist ]]
+ARG PUBLISHER_LIB_VERSION=[[ $docker?tei-publisher-lib ]]
+ARG JINKS_TEMPLATES_VERSION=[[ $docker?jinks-templates ]]
+ARG ROUTER_VERSION=[[ $docker?roaster ]]
 ARG EDITOR_VERSION=1.0.1
-ARG JWT_VERSION=2.0.0
-ARG CRYPTO_VERSION=6.0.1
-ARG HTTP_PORT=8080
-ARG HTTPS_PORT=8443
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
+ARG JWT_VERSION=[[ $docker?jwt ]]
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
+ARG CRYPTO_VERSION=[[ $docker?crypto ]]
+[% endif %]
+ARG HTTP_PORT=[[ $docker?ports?http ]]
+ARG HTTPS_PORT=[[ $docker?ports?https ]]
 
-ARG INSTALL_NER="false"
-ARG INSTALL_TEXLIVE="false"
+ARG INSTALL_NER="[[ string($docker?features?ner) ]]"
+ARG INSTALL_TEXLIVE="[[ string($docker?features?tex) ]]"
 
 #custom-----> Start custom code
 
@@ -61,20 +66,50 @@ RUN curl -L -o exist-distribution-${EXIST_VERSION}-unix.tar.bz2 https://github.c
     && rm exist-distribution-${EXIST_VERSION}-unix.tar.bz2 \
     && mv /usr/local/exist-distribution-${EXIST_VERSION} /usr/local/exist
 
+# Build jinks-templates
+RUN git clone https://github.com/eeditiones/jinks-templates.git \
+    && cd jinks-templates \
+    && ant \
+    && cp build/*.xar /usr/local/exist/autodeploy/004.xar
+
 # If tei-publisher-lib version is "master", build it. Otherwise download the specified version.
 RUN if [ "${PUBLISHER_LIB_VERSION}" = "master" ]; then \
         git clone https://github.com/eeditiones/tei-publisher-lib.git \
         && cd tei-publisher-lib \
         && ant \
-        && cp build/*.xar /usr/local/exist/autodeploy; \
+        && cp build/*.xar /usr/local/exist/autodeploy/005.xar; \
     else \
         curl -L -o /usr/local/exist/autodeploy/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/tei-publisher-lib-${PUBLISHER_LIB_VERSION}.xar; \
     fi
 
 RUN curl -L -o /usr/local/exist/autodeploy/roaster-${ROUTER_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar
 RUN curl -L -o /usr/local/exist/autodeploy/atom-editor-${EDITOR_VERSION}.xar https://github.com/wolfgangmm/existdb-langserver/raw/master/resources/atom-editor-${EDITOR_VERSION}.xar
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 RUN curl -L -o /usr/local/exist/autodeploy/expath-crypto-module-${CRYPTO_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar
+[% endif %]
+[% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 RUN curl -L -o /usr/local/exist/autodeploy/jwt-${JWT_VERSION}.xar https://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar
+[% endif %]
+
+[% if exists($docker?externalXar) %]
+# Additional external XAR dependencies
+[% for $fileName in map:keys($docker?externalXar) %]
+[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
+# Private repository - using environment variable: [[ string($docker?externalXar($fileName)?token) ]]
+# Note: For devcontainer, set the token as a build arg or environment variable
+ARG [[ string($docker?externalXar($fileName)?token) ]]=
+RUN if [ -n "${[[ string($docker?externalXar($fileName)?token) ]]}" ]; then \
+      curl -H "Authorization: token ${[[ string($docker?externalXar($fileName)?token) ]]}" -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"; \
+    else \
+      echo "Warning: Token [[ string($docker?externalXar($fileName)?token) ]] not provided, attempting public download"; \
+      curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]" || true; \
+    fi
+[% else %]
+# Public repository
+RUN curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
+[% endif %]
+[% endfor %]
+[% endif %]
 
 WORKDIR /usr/local/exist
 

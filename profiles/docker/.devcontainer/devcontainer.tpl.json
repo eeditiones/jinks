@@ -6,8 +6,11 @@
             "HTTP_PORT": "[[ $docker?ports?http ]]",
             "HTTPS_PORT": "[[ $docker?ports?https ]]",
             "PUBLISHER_LIB_VERSION": "[[ $docker?tei-publisher-lib ]]",
+            "JINKS_TEMPLATES_VERSION": "[[ $docker?jinks-templates ]]",
             "ROUTER_VERSION": "[[ $docker?roaster ]]",
             "EXIST_VERSION": "[[ $docker?eXist ]]",
+            "JWT_VERSION": "[[ $docker?jwt ]]",
+            "CRYPTO_VERSION": "[[ $docker?crypto ]]",
             "INSTALL_NER": "[[ string($docker?features?ner) ]]",
             "INSTALL_TEXLIVE": "[[ string($docker?features?tex) ]]"
         }

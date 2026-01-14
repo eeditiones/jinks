@@ -1161,6 +1161,36 @@
                             "description": "Enable TeX/LaTeX support"
                         }
                     }
+                },
+                "externalXar": {
+                    "type": "object",
+                    "description": "Additional external XAR packages to include in Docker image. Keys are file names (without .xar extension), values are URLs (strings) or objects with url and optional token for private repositories.",
+                    "patternProperties": {
+                        "^[a-zA-Z0-9_-]+$": {
+                            "oneOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "Public URL to a .xar file"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "URL to the .xar file"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Name of the BuildKit secret to use for authentication (e.g., 'github_token', 'gitlab_token'). The secret must be provided during docker build with --secret id=<token>,env=<ENV_VAR>"
+                                        }
+                                    },
+                                    "required": ["url"]
+                                }
+                            ]
+                        }
+                    }
                 }
             },
             "required": [
@@ -1168,6 +1198,23 @@
                 "crypto",
                 "roaster"
             ]
+        },
+        "ci": {
+            "type": "object",
+            "description": "CI/CD configuration for continuous integration and deployment",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "enum": ["github", "gitlab"],
+                    "description": "CI/CD provider to use. 'github' for GitHub Actions, 'gitlab' for GitLab CI",
+                    "default": "github"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Whether to enable CI/CD configuration generation",
+                    "default": true
+                }
+            }
         },
         "templating": {
             "type": "object",

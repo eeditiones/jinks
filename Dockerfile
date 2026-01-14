@@ -6,7 +6,7 @@ FROM ghcr.io/eeditiones/builder:latest AS builder
 
 ARG ROUTER_VERSION=1.11.0
 ARG CRYPTO_VERSION=6.0.1
-ARG JWT_VERSION=2.0.0
+ARG JWT_VERSION=2.0.1
 
 WORKDIR /tmp
 

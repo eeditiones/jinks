@@ -22,6 +22,10 @@ jobs:
            - exist-version: latest
              java-version: 21
              experimental: true
+           - exist-version: release
+             java-version: 11
+             experimental: true
+             webcomponents-version: next
 
     steps:
       # Checkout code
@@ -43,6 +47,45 @@ jobs:
         run: |
           xmllint --noout \
             $(find . -type f -name '*.xml')
+
+      - name: Validate ODD files
+        working-directory: profiles/base10/resources/odd
+        run: |
+          errors=0
+          total=0
+          while IFS= read -r odd_file; do
+            total=$((total + 1))
+            relative_path="${odd_file#../../../}"
+            output=$(xmllint --noout --schema teipublisher_odds.xsd "$odd_file" 2>&1 | grep -v "Schemas parser warning" | grep -v "^$")
+            exit_code=$?
+            if [ $exit_code -eq 0 ]; then
+              echo "✓ $relative_path"
+            else
+              echo "✗ $relative_path"
+              echo "$output" | sed 's/^/  /'
+              errors=$((errors + 1))
+            fi
+          done < <(find ../../../profiles -name "*.odd" -type f)
+          echo "Validated $total ODD file(s)"
+          if [ $errors -gt 0 ]; then
+            echo "Validation failed: $errors error(s) found"
+            exit 1
+          fi
+          echo "All ODD files validated successfully"
+          
+      # Install webcomponents version for testing (only when specified in matrix)
+      - name: Setup Node.js
+        if: matrix.webcomponents-version != ''
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies
+        if: matrix.webcomponents-version != ''
+        run: npm ci
+      - name: Install webcomponents version
+        if: matrix.webcomponents-version != ''
+        run: npm install @teipublisher/pb-components@${{ matrix.webcomponents-version }}
 
       # Build
       - name: Install Java
@@ -125,5 +168,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v6
         with:
-          name: CiM-exist-${{ matrix.exist-version }}-screenshots
+          name: CiM-exist-${{ matrix.exist-version }}-${{ matrix.webcomponents-version || 'default' }}-screenshots
           path: test/cypress/screenshots/

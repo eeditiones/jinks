@@ -232,7 +232,7 @@ describe('index page', () => {
         .should('be.visible')
 
       cy.get('[type="checkbox"]')
-        .check('docker')
+        .check('ci')
       cy.get('#appConfig')
         .contains('docker')
       
