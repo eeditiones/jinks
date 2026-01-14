@@ -1,21 +1,21 @@
 # Static Profile Documentation
 
-The static profile enables generation of a static HTML version of your TEI Publisher application. A static website consists of pre-generated HTML files that can be served by any web server. Unlike a dynamic website that generates pages on-demand (requiring a database and server-side processing), a static site has all pages created in advance. This makes it cheap to host – you can even deploy it to free services like GitHub Pages, or any basic web hosting. And because the static generator creates a static snapshot of your application, it is a good way to obtain a copy for long-term preservation and archiving.
+The static profile enables generation of a static HTML version of your TEI Publisher application. A static website consists of pre-generated HTML files that can be served by any web server. Unlike a dynamic website that generates pages on-demand (requiring a database and server-side processing), a static site has all the pages created in advance. This makes it cheap to host – you can even deploy it to free services like GitHub Pages, or any basic web hosting. And because the static generator creates a static snapshot of your application, it is a convenient way to obtain a copy for long-term preservation and archiving.
 
-However, bear in mind that static versions come at a cost: there is no server-side indexing, so search and browsing possibilities will be very limited without facets or dynamic filtering. Everything needs to be pre-generated and the outcome will never be as feature-rich as the dynamic original. And due to the restrictions of a static version, you'll need to adopt your HTML templates and take precautions in the ODD to support both: the dynamic and static output. Unless you are planning to go for a static-only site, this means a bit of extra work.
+However, bear in mind that static versions come at a cost: there is no server-side indexing, so search and browsing possibilities will be very limited without facets or dynamic filtering. Everything needs to be pre-generated and the outcome will never be as feature-rich as the dynamic original. And due to the restrictions of a static version, you will need to adapt your HTML templates, and take precautions in the ODD to support both: the dynamic and static output. Unless you are planning to go for a static-only site, this means a bit of additional work.
 
-In general, static generation will work best for rather small editions, e.g. a monograph or a correspondence with just a few dozen letters. TEI Publisher 10 demonstrates this with the Serafin correspondence: looking at the static output, you'll notice that the browsing view is very simple, the letter by letter navigation is missing, etc. However, you do get the people and places registers, and even a basic client-side search facility, albeit limited to simple by-word full text search.
+In general, static generation will work best for rather small editions, e.g. a monograph or a correspondence with just a few dozen letters. TEI Publisher 10 demonstrates this with the Serafin correspondence: while examining the static output, you will notice that the browsing view is very simple, the letter by letter navigation is missing, etc. However, people and places registers are still available, and even a basic client-side search feature, albeit limited to simple by-word full text search.
 
 ## Try it
 
-To generate a static version, the application needs to be prepared for it, i.e. it must have the required configuration and should provide adopted HTML templates for the static pages to be rendered.
+To generate a static version, the application needs to be prepared for it, i.e. it must have the required configuration and should provide adapted HTML templates for the static pages to be rendered.
 
 To try this out:
 
 1. start a new app using the _Serafin Correspondence_ blueprint
 2. add the _Static generator_ feature
 3. generate the app by clicking _Apply_
-4. once completed, you should see an additional button _Generate static_ in the _Actions_ toolbar in jinks
+4. once completed, you should see an additional button _Generate static_ in the _Actions_ toolbar in Jinks
 5. click on it and wait
 6. open the generated application and select _Static Version_ from the _Administration_ menu
 
@@ -36,7 +36,7 @@ This process is mainly configured in the `static` section of the `config.json`, 
 
 ### Output Structure
 
-When the static generation completes, you'll find a folder structure in the `output` subcollection below your application root. Here's what a typical output looks like:
+When the static generation completes, you will find a folder structure in the `output` subcollection below your application root. A typical output looks as follows:
 
 ```
 output/
