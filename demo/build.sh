@@ -1,8 +1,22 @@
 #!/bin/bash
 
+# Step into script dir
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 # Check if npx is available
 if ! command -v npx &> /dev/null; then
     echo "Error: npx command not found. Please install Node.js and npm."
+    exit 1
+fi
+
+# Check if port 8080 is already in use
+if lsof -Pi :8080 -sTCP:LISTEN -t >/dev/null 2>&1; then
+    echo "Error: Port 8080 is already in use."
+    echo "Please stop the service using port 8080 or choose a different port."
+    echo ""
+    echo "Process using port 8080:"
+    lsof -Pi :8080 -sTCP:LISTEN
     exit 1
 fi
 
