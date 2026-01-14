@@ -73,12 +73,12 @@ When jinks generates an application:
 
 Templates access dependencies via the context. CDN map keys are constructed as `{package-name}-{asset-type}` (e.g., `@teipublisher/pb-components-bundle`, `fore-bundle`, `swagger-ui-css`).
 
-**Important**: For map keys containing special characters (like `@`), use function call syntax: `$cdn?('key')` instead of `$cdn?key`.
+**Important**: Always use function call syntax for map key access: `$cdn?('key')` instead of `$cdn?key`. This ensures consistency and works correctly with all key names, including those with special characters.
 
 ```html
 <!-- Use CDN URL from dependencies -->
-[% if exists($cdn?fore-bundle) %]
-<script type="module" src="[[ $cdn?fore-bundle ]]"></script>
+[% if exists($cdn?('fore-bundle')) %]
+<script type="module" src="[[ $cdn?('fore-bundle') ]]"></script>
 [% elif exists($cdn?('@teipublisher/pb-components-bundle')) %]
 <script type="module" src="[[ $cdn?('@teipublisher/pb-components-bundle') ]]"></script>
 [% else %]
@@ -131,14 +131,14 @@ Shared dependencies (used by both jinks and generated apps) are automatically sy
    }
    ```
 
-3. Update templates to use the CDN map. The key format is `{package-name}-{asset-type}`:
+3. Update templates to use the CDN map. The key format is `{package-name}-{asset-type}`. Always use function call syntax for consistency:
    ```html
-   [% if exists($cdn?new-package-bundle) %]
-   <script type="module" src="[[ $cdn?new-package-bundle ]]"></script>
+   [% if exists($cdn?('new-package-bundle')) %]
+   <script type="module" src="[[ $cdn?('new-package-bundle') ]]"></script>
    [% endif %]
    ```
    
-   For packages with special characters (like `@`), use function call syntax:
+   For packages with special characters (like `@`), also use function call syntax:
    ```html
    [% if exists($cdn?('@scope/package-bundle')) %]
    <script type="module" src="[[ $cdn?('@scope/package-bundle') ]]"></script>
@@ -226,9 +226,9 @@ This generates the lock file based on `package.json` without creating a `node_mo
 
 2. **API Pages** (`modules/api.xql`): Adds dependencies and CDN URLs to context for jinks UI pages
 
-3. **Templates**: Use `$cdn` map for CDN URLs instead of hardcoded versions
-   - Simple keys: `$cdn?fore-bundle`
-   - Keys with special characters: `$cdn?('@teipublisher/pb-components-bundle')`
+3. **Templates**: Use `$cdn` map for CDN URLs instead of hardcoded versions. Always use function call syntax: `$cdn?('key')`
+   - Example: `$cdn?('fore-bundle')`
+   - Example with special characters: `$cdn?('@teipublisher/pb-components-bundle')`
 
 4. **Generated Config** (`profiles/base10/modules/generated-config.tpl.xql`): Derives `$config:webcomponents` from `$dependencies` when available
 
