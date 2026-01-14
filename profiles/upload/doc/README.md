@@ -1,6 +1,6 @@
-# Upload Facility
+# The Upload Documents component
 
-The Upload Facility adds a document upload component to the sidebar on the browse documents page, allowing users to upload documents directly to a specified collection.
+The Upload Documents feature adds a document upload component to the sidebar on the browse documents page, allowing users to upload documents directly to a specified collection.
 
 ## Overview
 
