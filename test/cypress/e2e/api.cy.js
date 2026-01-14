@@ -273,6 +273,99 @@ describe('API', () => {
     })
   })
 
+  // Regression test for collection path resolution during app updates
+  describe('generator updates [side-effects]', () => {
+    let appId
+
+    after(() => {
+      if (appId) {
+        const appUri = `https://e-editiones.org/apps/${appId}`
+        const repoXQuery = `repo:undeploy('${appUri}'), repo:remove('${appUri}')`
+
+        cy.request({
+          method: 'GET',
+          url: 'http://localhost:8080/exist/rest/db',
+          auth: { user: 'admin', pass: '' },
+          qs: {
+            _query: repoXQuery,
+            _wrap: 'no'
+          },
+          failOnStatusCode: false
+        }).then(({ status, body }) => {
+          // Cleanup may fail if app wasn't deployed, which is fine
+          if (status === 200) {
+            cy.wrap(body).should('match', /result="ok"/)
+          }
+        })
+      }
+    })
+
+    it('POST /api/generator can update app with CI profile without collection errors', () => {
+      appId = 'test-ci-update-' + Date.now()
+      const config = {
+        config: {
+          id: `https://e-editiones.org/apps/${appId}`,
+          label: 'CI Update Test',
+          type: 'app',
+          base: 'base10',
+          feature: ['ci'],
+          ci: {
+            provider: 'github'
+          },
+          docker: {
+            ports: { http: 8080 }
+          }
+        },
+        resolve: []
+      }
+
+      // First generation - creates the app with CI profile
+      cy.request({
+        method: 'POST',
+        url: '/api/generator',
+        qs: { overwrite: 'all' },
+        headers: { 'content-type': 'application/json' },
+        body: config
+      }).then(firstRes => {
+        cy.wrap(firstRes).its('status').should('eq', 200)
+
+        // Second generation - update the same app (this is where the bug occurred)
+        // Using 'quick' triggers the _update path which checks last-modified timestamps
+        cy.request({
+          method: 'POST',
+          url: '/api/generator',
+          qs: { overwrite: 'quick' },
+          headers: { 'content-type': 'application/json' },
+          body: config,
+          failOnStatusCode: false
+        }).then(secondRes => {
+          // Should succeed without "Collection .github/workflows not found" error
+          cy.wrap(secondRes).its('status').should('eq', 200)
+
+          // Verify no error messages in response
+          const responseStr = JSON.stringify(secondRes.body)
+          cy.wrap(responseStr).should('not.include', 'Collection .github/workflows not found')
+          cy.wrap(responseStr).should('not.include', 'XMLDBException')
+          cy.wrap(responseStr).should('not.include', 'Could not locate collection')
+
+          // Verify response structure indicates success
+          cy.wrap(secondRes.body).should('be.an', 'object')
+          if (secondRes.body.messages) {
+            // Check that no error messages are present
+            const messages = Array.isArray(secondRes.body.messages) 
+              ? secondRes.body.messages 
+              : []
+            const errorMessages = messages.filter(msg => 
+              msg && typeof msg === 'object' && 
+              (msg.type === 'error' || msg.message?.includes('Collection') || msg.message?.includes('not found'))
+            )
+            cy.wrap(errorMessages.length).should('eq', 0, 'No error messages should be present')
+          }
+        })
+      })
+    })
+  })
+
   // Order: view group endpoint
   describe('view', () => {
     it('GET /{file}.md returns markdown (static) or HTML (template)', () => {

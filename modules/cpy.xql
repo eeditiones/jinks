@@ -99,6 +99,7 @@ declare function cpy:copy-template($context as map(*), $source as xs:string, $ta
     let $relPath := substring-after($path, $context?target || "/")
     return
         cpy:overwrite($context, $relPath, $source, function() { $expanded }, function() {(
+            path:mkcol($context, path:parent($relPath)),
             xmldb:store(path:parent($path), path:basename($path), $expanded),
             sm:chown(xs:anyURI($path), $context?pkg?user?name),
             sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
@@ -200,7 +201,8 @@ declare %private function cpy:overwrite($context as map(*), $relPath as xs:strin
         let $path := path:resolve-path($context?target, $relPath)
         let $mime := xmldb:get-mime-type(xs:anyURI($path))
         let $expectedHash := cpy:load-hash($context, $relPath)
-        let $lastModified := xmldb:last-modified(path:parent($sourcePath), path:basename($sourcePath))
+        let $absSourcePath := path:resolve-path($context?source, $sourcePath)
+        let $lastModified := xmldb:last-modified(path:parent($absSourcePath), path:basename($absSourcePath))
         return
             (: Check timestamp of .jinks.json first to determine if source was modified since last run :)
             (: Templated source files should always be updated though :)
