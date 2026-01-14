@@ -35,65 +35,42 @@ cache:
     - xmllint --noout $(find . -type f -name '*.xml')
     # Build with Ant
     - ant
-    # Authenticate GitHub CLI (if GH_TOKEN is set)
-    - |
-      if [ -n "$GH_TOKEN" ]; then
-        echo "$GH_TOKEN" | gh auth login --with-token
-      fi
-    # Download Expath dependencies
-    - |
-      cd build/
-      if command -v gh &> /dev/null; then
-        gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar' || true
-        gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar' || true
-        gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar' || true
-        gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar' || true
-        gh release download -R eXist-db/expath-crypto-module -p '*.xar' -O '_crypto.xar' || true
-        gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar' || true
-      fi
-    - ls -la
     # Set up Docker Buildx
     - docker buildx create --use --name builder || docker buildx use builder
     - docker buildx inspect --bootstrap
-    # Build Docker image with buildx if Dockerfile exists
+    # Build Docker image with buildx
     - |
-      if [ -f "Dockerfile" ]; then
-        export DOCKER_BUILDKIT=1
+      export DOCKER_BUILDKIT=1
 [% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and not(every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token) and $docker?externalXar($fileName)?token != "CI_JOB_TOKEN") %]
-        export [[ string($docker?externalXar($fileName)?token) ]]="${[[ string($docker?externalXar($fileName)?token) ]]}"
+      export [[ string($docker?externalXar($fileName)?token) ]]="${[[ string($docker?externalXar($fileName)?token) ]]}"
 [% endif %]
 [% endfor %]
 [% endif %]
-        docker buildx build \
-          --build-arg EXIST_VERSION=${EXIST_VERSION} \
-          --build-arg BUILD=local \
-          --load \
+      docker buildx build \
+        --build-arg EXIST_VERSION=${EXIST_VERSION} \
+        --build-arg BUILD=local \
+        --load \
 [% if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) and (every $fileName in map:keys($docker?externalXar) satisfies (not($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) or $docker?externalXar($fileName)?token = "CI_JOB_TOKEN")) %]
-          --secret id=CI_JOB_TOKEN,env=CI_JOB_TOKEN \
+        --secret id=CI_JOB_TOKEN,env=CI_JOB_TOKEN \
 [% else if exists($docker?externalXar) and map:size($docker?externalXar) > 0 and (some $fileName in map:keys($docker?externalXar) satisfies ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token))) %]
 [% for $fileName in map:keys($docker?externalXar) %]
 [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
-          --secret id=[[ string($docker?externalXar($fileName)?token) ]],env=[[ string($docker?externalXar($fileName)?token) ]] \
+        --secret id=[[ string($docker?externalXar($fileName)?token) ]],env=[[ string($docker?externalXar($fileName)?token) ]] \
 [% endif %]
 [% endfor %]
 [% endif %]
-          -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
-          . || true
-      fi
-    # Start eXist-db container - use built image or fallback to base image
+        -t ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} \
+        .
+    # Save Docker image as tar artifact for test job
     - |
-      if [ -f "Dockerfile" ]; then
-        docker run -dit -p 8080:[[ $docker?ports?http ]] \
-          --name exist --rm --health-interval=1s --health-start-period=2s \
-          ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} || true
-      else
-        docker run -dit -p 8080:8080 \
-          -v $CI_PROJECT_DIR/build:/exist/autodeploy \
-          --name exist --rm --health-interval=1s --health-start-period=2s \
-          duncdrum/existdb:${EXIST_VERSION}-slim || true
-      fi
+      docker save ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} -o docker-image-${EXIST_VERSION}.tar
+    # Start eXist-db container
+    - |
+      docker run -dit -p 8080:[[ $docker?ports?http ]] \
+        --name exist --rm --health-interval=1s --health-start-period=2s \
+        ${CI_PROJECT_NAME}-ci:${EXIST_VERSION}
     # Wait for server to start
     - |
       echo "Waiting for server to start..."
@@ -108,12 +85,14 @@ cache:
         sleep 4
         elapsed=$((elapsed + 4))
       done
+    # Debug logs (non-failing step)
+    - |
+      echo "=== Checking for errors ==="
+      docker logs exist 2>&1 | grep 'ERROR' || echo "No ERROR messages found"
   after_script:
-    # Debug logs on failure
+    # Copy logs on failure
     - |
       if [ "$CI_JOB_STATUS" = "failed" ]; then
-        echo "=== ERROR Logs ==="
-        docker logs exist 2>&1 | grep 'ERROR' || true
         echo "=== Copying logs ==="
         docker cp exist:/exist/logs/exist.log ./exist.log 2>/dev/null || true
       fi
@@ -121,6 +100,7 @@ cache:
     paths:
       - build/*.xar
       - exist.log
+      - docker-image-*.tar
     expire_in: 1 week
     when: always
   rules:
@@ -142,18 +122,14 @@ cache:
     - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
     - apt-get install -y nodejs
     - systemctl start docker || true
-    # Start eXist-db container - use built image from build job or fallback
+    # Load Docker image from build job artifact
     - |
-      if docker images | grep -q "${CI_PROJECT_NAME}-ci:${EXIST_VERSION}"; then
-        docker run -dit -p 8080:[[ $docker?ports?http ]] \
-          --name exist --rm --health-interval=1s --health-start-period=2s \
-          ${CI_PROJECT_NAME}-ci:${EXIST_VERSION} || true
-      else
-        docker run -dit -p 8080:8080 \
-          -v $CI_PROJECT_DIR/build:/exist/autodeploy \
-          --name exist --rm --health-interval=1s --health-start-period=2s \
-          duncdrum/existdb:${EXIST_VERSION}-slim || true
-      fi
+      docker load -i docker-image-${EXIST_VERSION}.tar
+    # Start eXist-db container using built image from build job
+    - |
+      docker run -dit -p 8080:[[ $docker?ports?http ]] \
+        --name exist --rm --health-interval=1s --health-start-period=2s \
+        ${CI_PROJECT_NAME}-ci:${EXIST_VERSION}
     # Wait for server to start
     - |
       echo "Waiting for server to start..."
@@ -171,6 +147,10 @@ cache:
   script:
     # Run BATS tests
     - bats --tap test/*.bats
+    # Debug logs after BATS tests (non-failing step)
+    - |
+      echo "=== Checking for errors after BATS tests ==="
+      docker logs exist 2>&1 | grep 'ERROR' || echo "No ERROR messages found"
     # Run Cypress tests
     - |
       if [ "$EXPERIMENTAL" = "true" ]; then
@@ -178,12 +158,14 @@ cache:
       else
         npx cypress run --browser firefox
       fi
+    # Debug logs after Cypress tests (non-failing step)
+    - |
+      echo "=== Checking for errors after Cypress tests ==="
+      docker logs exist 2>&1 | grep 'ERROR' || echo "No ERROR messages found"
   after_script:
-    # Debug logs on failure
+    # Copy logs on failure
     - |
       if [ "$CI_JOB_STATUS" = "failed" ]; then
-        echo "=== ERROR Logs ==="
-        docker logs exist 2>&1 | grep 'ERROR' || true
         echo "=== Copying logs ==="
         docker cp exist:/exist/logs/exist.log ./exist.log 2>/dev/null || true
       fi
