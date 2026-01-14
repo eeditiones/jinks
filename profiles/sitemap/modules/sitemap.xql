@@ -34,12 +34,7 @@ declare function sitemap:generate-sitemap($request as map(*)) {
         request:get-context-path() || "/apps/" ||
         substring-after($config:app-root, repo:get-root())
     let $config := json-doc($config:app-root || "/context.json")
-    let $baseUri :=
-        if ($config?features?sitemap?base-uri) then
-            $config?features?sitemap?base-uri
-        else
-            $appBase
-    let $sitemap := sitemap:generate($appBase, $baseUri)
+    let $sitemap := sitemap:generate($appBase, $config)
     let $stored := xmldb:store($config:app-root, "sitemap.xml", $sitemap, "application/xml")
     return [
         map {
@@ -56,17 +51,23 @@ declare function sitemap:generate-sitemap($request as map(*)) {
  : @param $baseUri The base URI to use in sitemap URLs (can be different, e.g., production URL)
  : @return sitemap.xml document
  :)
-declare %private function sitemap:generate($appBase as xs:string, $baseUri as xs:string) as document-node() {
+declare %private function sitemap:generate($appBase as xs:string, $config as map(*)) as document-node() {
+    let $baseUri :=
+        if ($config?features?sitemap?base-uri) then
+            $config?features?sitemap?base-uri
+        else
+            $appBase
     let $urls := sitemap:crawl($appBase, $baseUri)
     return
         document {
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             {
+                for $url in $config?features?sitemap?custom?*
+                return
+                    <url><loc>{$baseUri || "/" || $url}</loc></url>,
                 for $url in $urls
                 return
-                    <url>
-                        <loc>{$url}</loc>
-                    </url>
+                    <url><loc>{$url}</loc></url>
             }
             </urlset>
         }
