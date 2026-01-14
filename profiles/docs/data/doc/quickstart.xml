@@ -1,7 +1,6 @@
 <?teipublisher odd="docbook.odd" template="documentation.html" fill="1" depth="2"?>
 <?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
-    version="5.0" xml:lang="en" label="b">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en" label="b">
     <info>
         <title>Gentle Introduction to TEI Publisher</title>
         <author>
@@ -206,8 +205,7 @@
             <para> Since its first incarnation in 2015, TEI Publisher has gained substantial
                 following with numerous academic and commercial projects around the globe, which are
                 relying on it for their editorial and publishing needs. Grass-roots user initiative
-                led in 2020 to the foundation of an international non-profit association <link
-                    xlink:show="new" xlink:href="https://e-editiones.org">e-editiones.org</link>
+                led in 2020 to the foundation of an international non-profit association <link xlink:show="new" xlink:href="https://e-editiones.org">e-editiones.org</link>
                 with the focus on further joint development of TEI Publisher, open standards and
                 best practices for digital editions. </para>
 
@@ -218,8 +216,7 @@
             <para> A growing number of projects from small to large that have decided to publish
                 their materials with TEI Publisher gives us all not only the opportunity but also
                 the responsibility to make the project thrive for years to come and to make it truly
-                sustainable option for XML publishing! Consider joining <link xlink:show="new"
-                    xlink:href="https://e-editiones.org">e-editiones.org</link> through your
+                sustainable option for XML publishing! Consider joining <link xlink:show="new" xlink:href="https://e-editiones.org">e-editiones.org</link> through your
                 affiliated institution or individually to support our efforts. </para>
 
             <para>We invite the community to contribute to the project – by means of code, ideas,
@@ -236,23 +233,14 @@
                         showcases for various TEI applications.</para>
                 </listitem>
                 <listitem>
-                    <para> Report your issues, feature requests or ideas for discussion via <link
-                            xlink:show="new"
-                            xlink:href="https://github.com/eeditiones/tei-publisher-app/issues"
-                            >GitHub issue tracker</link>. </para>
+                    <para> Report your issues, feature requests or ideas for discussion via <link xlink:show="new" xlink:href="https://github.com/eeditiones/tei-publisher-app/issues">GitHub issue tracker</link>. </para>
                 </listitem>
                 <listitem>
-                    <para> Discuss with us on <link xlink:show="new"
-                            xlink:href="https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg"
-                            >e-editiones slack chat</link> or through the <link xlink:show="new"
-                            xlink:href="https://admin.hostpoint.ch/mailman/listinfo/community_e-editiones.org"
-                            >mailing list</link> and <link xlink:show="new"
-                            xlink:href="https://twitter.com/EEditiones">@EEditiones twitter</link>.
+                    <para> Discuss with us on <link xlink:show="new" xlink:href="https://join.slack.com/t/e-editiones/shared_invite/zt-e19jc03q-OFaVni~_lh6emSHen6pswg">e-editiones slack chat</link> or through the <link xlink:show="new" xlink:href="https://admin.hostpoint.ch/mailman/listinfo/community_e-editiones.org">mailing list</link> and <link xlink:show="new" xlink:href="https://twitter.com/EEditiones">@EEditiones twitter</link>.
                     </para>
                 </listitem>
                 <listitem>
-                    <para> Contribute to translations via <link xlink:show="new"
-                            xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please
+                    <para> Contribute to translations via <link xlink:show="new" xlink:href="https://crwd.in/tei-publisher">Crowdin</link>. Please
                         contact us if your target language is not listed and you'd like to work on
                         it. </para>
                 </listitem>
@@ -274,10 +262,10 @@
     <section xml:id="tp">
         <title>Guided Tour</title>
         <para>If you are browsing this documentation through the official website or you have
-            installed TEI Publisher via the docker image, you'll find four applications on the start
+            installed TEI Publisher via the docker image, you will find four applications on the start
             page:</para>
         <note>
-            <para>If you installed TEI Publisher without docker, you'll only see two applications
+            <para>If you installed TEI Publisher without docker, you will only see two applications
                 here. You can <link linkend="using-jinks">generate the others yourself</link>
                 though.</para>
         </note>
@@ -350,8 +338,7 @@
                     </mediaobject>
                 </figure>
                 <para>The usual starting point is the <emphasis role="bold">Demo
-                        Collection</emphasis> with which users can explore a range of <link
-                        linkend="selected-use-cases">selected use cases</link>, demonstrating
+                        Collection</emphasis> with which users can explore a range of <link linkend="selected-use-cases">selected use cases</link>, demonstrating
                     various genres, encoding styles and presentation layouts. Various customization
                     aspects are handled using different ODDs and view templates. We suggest to have
                     a look at each of them to see what TEI Publisher can achieve out of the
@@ -468,8 +455,7 @@
                         <listitem>
                             <para> A letter from <emphasis role="bold">Van Gogh</emphasis> to Paul
                                 Gauguin written in 1888. This intentionally reproduces the flexible
-                                column layout pioneered by the <link xlink:show="new"
-                                    xlink:href="http://vangoghletters.org">Vincent Van Gogh
+                                column layout pioneered by the <link xlink:show="new" xlink:href="http://vangoghletters.org">Vincent Van Gogh
                                     Letters</link> online edition, which is a model example for
                                 correspondence.</para>
                         </listitem>
@@ -480,8 +466,7 @@
                         century lexicons and dictionaries:</para>
                     <itemizedlist>
                         <listitem>
-                            <para> A manuscript collocative dictionary of Polish <emphasis
-                                    role="bold">Bogactwa mowy polskiej</emphasis> featuring
+                            <para> A manuscript collocative dictionary of Polish <emphasis role="bold">Bogactwa mowy polskiej</emphasis> featuring
                                 interactive highlights for regions of interest of the facsimile when
                                 hovering over dictionary headwords. Internal composition is based on
                                 the <code>entryFree</code> element with a rich
@@ -507,12 +492,9 @@
                     features out of the box, so fewer samples are necessary.</para>
                 <para>We'd like to stress that preparing showcases above has been only possible
                     thanks to numerous projects releasing their sources openly, in particular the
-                        <link xlink:show="new" xlink:href="http://firstfolio.bodleian.ox.ac.uk"
-                        >Bodleian First Folio</link>, <link xlink:show="new"
-                        xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link>,
+                        <link xlink:show="new" xlink:href="http://firstfolio.bodleian.ox.ac.uk">Bodleian First Folio</link>, <link xlink:show="new" xlink:href="http://www.deutschestextarchiv.de">Deutsches Textarchiv</link>,
                         <link xlink:show="new" xlink:href="http://vangoghletters.org">Vincent Van
-                        Gogh Museum</link> and <link xlink:show="new"
-                        xlink:href="https://www.textcreationpartnership.org/tcp-eebo">
+                        Gogh Museum</link> and <link xlink:show="new" xlink:href="https://www.textcreationpartnership.org/tcp-eebo">
                         EEBO-TCP</link>. We'd also like to thank William Graves and Anna Skolimowska
                     for sharing their correspondence material. </para>
             </note>
@@ -524,8 +506,7 @@
                 and the processing model <link linkend="pm-tutorial">will be given below</link> in the corresponding chapter.
                 
                 A detailed discussion of
-                the Processing Model can be found in the <link
-                    xlink:href="documentation.xml?id=pm-syntax">reference manual</link>.</para> 
+                the Processing Model can be found in the <link xlink:href="documentation.xml?id=pm-syntax">reference manual</link>.</para> 
             <para>For now it
                 is sufficient to say this is where decisions if a TEI element should be rendered
                 inline, with a tooltip, or as a marginal note, are made. Simplifying things a bit,
@@ -533,8 +514,7 @@
                 is an effect of applying the rules from ODD file to the source document. When
                 opening a document of the Demo collection, it is possible to see in the URL the
                     <parameter>odd</parameter> parameter indicating which ODD file is being used to
-                process the document, e.g. <link xlink:href="../demo/F-rom.xml?odd=shakespeare"
-                    >demo/F-rom.xml?odd=shakespeare</link>.</para>
+                process the document, e.g. <link xlink:href="../demo/F-rom.xml?odd=shakespeare">demo/F-rom.xml?odd=shakespeare</link>.</para>
             <para>Most demos come with their own ODD. However, all of them – at least if they deal
                 with TEI – extend the base ODD, <filename>teipublisher.odd</filename>.</para>
         </section>
@@ -574,11 +554,10 @@
                 handful of elements. Refer to the <link linkend="pm-tutorial">Changing the presentation via ODD</link> chapter to learn about the ODDs and the Processing
                 Model.</para>
             <para>If you upload a Microsoft Word document, the upload will automatically trigger the
-                conversion of Word to TEI, using a special ODD for the tranformation. Please note
+                conversion of Word to TEI, using a special ODD for the transformation. Please note
                 that the focus of this conversion is to preserve textual content, structure and
                 basic semantics of the text, not to provide authoritative mapping of complete set of
-                MS Word features to TEI. Refer to <link xlink:show="new"
-                    xlink:href="documentation.xml?id=docx">DOCX handling</link> section for more
+                MS Word features to TEI. Refer to <link xlink:show="new" xlink:href="documentation.xml?id=docx">DOCX handling</link> section for more
                 information.</para>
         </section>
 
@@ -595,8 +574,8 @@
                 <productname>Jinks</productname> yet, use the Package Manager in the Dashboard to do
             so.</para>
         
-        <para>Opening Jinks for the first time, you'll see a login page. The default user is `tei` 
-            and the password `simple`. If you managed to login you see the main administration page 
+        <para>Opening Jinks for the first time, you will see a login page. The default user is <code>tei</code> 
+            and the password <code>simple</code>. If you managed to login you see the main administration page 
             with three columns.</para> 
 
         <figure>
@@ -622,7 +601,7 @@
                 <listitem>
                     <para>The right column presents the configuration, as is currently in effect for
                         the application. The configuration is in JSON format and will initially show
-                        as an empty object (empty curly brackets). As you fill out the form, you'll
+                        as an empty object (empty curly brackets). As you fill out the form, you will
                         see how the JSON configuration is populated with corresponding
                         entries.</para>
                 </listitem>
@@ -670,7 +649,7 @@
             
             <para>You are now ready to run the generator for the first time: click on the
                     <guibutton>Apply</guibutton> button in the bottom toolbar of
-                    <productname>Jinks</productname>. You'll see a wait indicator appear next to the
+                    <productname>Jinks</productname>. you will see a wait indicator appear next to the
                 button. The process may take a while as it consists of multiple steps:</para>
             <procedure>
                 <step>
@@ -697,7 +676,7 @@
             </figure>  
             <para>If you followed this section to the letter, and added only the <guilabel>Demo
                     Data</guilabel> feature, the created application should present three sermons by
-                theologician Karl Barth. Clicking on one of those will display the text of the
+                theologian Karl Barth. Clicking on one of those will display the text of the
                 sermon.</para>
             <para>In Jinks itself you can now see your new created application in the left column. </para>
             <figure>
@@ -817,14 +796,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Either use your own images or the ones from the following sample:<link
-                    xlink:href="images/karl-barth/logo-white.png" xlink:show="new"
-                    >logo-white.png</link>, <link xlink:href="images/karl-barth/type.jpeg"
-                    xlink:show="new">type.jpeg</link> and <link
-                    xlink:href="images/karl-barth/Karl_Barth.jpg" xlink:show="new"
-                    >Karl_Barth.jpg</link>. They are available from <link
-                    xlink:href="https://github.com/eeditiones/jinks/tree/main/profiles/docs/data/doc/images/karl-barth"
-                    xlink:show="new">Github Jinks repository</link> as well. It is possible to upload multiple resources into a database collection at once. </para>
+            <para>Either use your own images or the ones from the following sample:<link xlink:href="images/karl-barth/logo-white.png" xlink:show="new">logo-white.png</link>, <link xlink:href="images/karl-barth/type.jpeg" xlink:show="new">type.jpeg</link> and <link xlink:href="images/karl-barth/Karl_Barth.jpg" xlink:show="new">Karl_Barth.jpg</link>. They are available from <link xlink:href="https://github.com/eeditiones/jinks/tree/main/profiles/docs/data/doc/images/karl-barth" xlink:show="new">GitHub Jinks repository</link> as well. It is possible to
+                upload multiple resources into a database collection at once. </para>
             <figure>
                 <title>Jinks: Upload files</title>
                 <mediaobject>
@@ -836,8 +809,8 @@
             
             <para>With the images uploaded, we can add them to the configuration. All settings
                 related to the look and feel of an application go into the <code>"theme"</code>
-                property of the config. For example, to change the logo, splash screen image and
-                menubar background, we could change the configuration as follows:</para>
+                property of the configuration file. For example, to change the logo, splash screen
+                image and menubar background, we could change the configuration as follows:</para>
             <programlisting language="json" xml:space="preserve"><![CDATA[{
   "pkg": {
     "abbrev": "barth"
@@ -906,7 +879,7 @@
                 <para>TEI Publisher comes with a small number of predefined color schemes, but you
                     can add your own palette. Using a well-chosen, limited color palette is in
                     general considered good practice in web design, which is why we avoid using
-                    hardcoded colors.</para>
+                    hard-coded colors.</para>
             </note>
         </section>
         <section xml:id="odd-creation">
@@ -924,7 +897,7 @@
                 </mediaobject>
             </figure>
             
-            <para>After clicking <guibutton>Add</guibutton>, you'll see two new configuration
+            <para>After clicking <guibutton>Add</guibutton>, you will see two new configuration
                 entries:</para>            
             <programlisting language="json" xml:space="preserve">"odds": [
     "barth.odd"
@@ -967,7 +940,7 @@
                 <para>You only need the <guilabel>Fix ODDs</guilabel> action if you add or update an
                     ODD in an already existing application, i.e. an application already installed
                     into the database – or if there were <emphasis>upstream updates</emphasis> to
-                    the profiles you use (see the section on appying updates below).</para>
+                    the profiles you use (see the section on applying updates below).</para>
                 <para>The same goes for the <guilabel>Reindex Data</guilabel> action: you only need
                     to call it, if you changed the index configuration for an existing app.</para>
             </note>
@@ -977,8 +950,8 @@
             <para>
                 <productname>Jinks</productname> operates within the database, which means all files
                 it generates and modifies exist inside the database only. To keep track of changes
-                and to have a backup, you always want to download the generated files to the
-                filesystem. There are two actions for this:</para>
+                and to have a backup, you always want to download the generated files to the file
+                system. There are two actions for this:</para>
             <variablelist>
                 <varlistentry>
                     <term><guilabel>Download</guilabel></term>
@@ -1039,7 +1012,7 @@
                 overwrite any change you have applied locally in your app.</para>
             <para>Whenever you press <guibutton>Apply</guibutton>, the <guilabel>Command
                     Output</guilabel> dialog will show you a list of files. To the left of each file
-                you'll see a label. In most cases this will just show <emphasis>update</emphasis> with a green
+                you will see a label. In most cases this will just show <emphasis>update</emphasis> with a green
                 background. However, next to some files, brown <emphasis>conflict</emphasis> label may appear.</para>
             <figure>
                 <title>Command output dialog showing a conflict</title>
@@ -1081,10 +1054,11 @@
             <para>With new <emphasis>upstream</emphasis> versions of TEI Publisher or one of the profiles, you may need a hybrid approach, 
             namely add some of the <emphasis>upstream</emphasis> changes, while retaining some of yours. In such case you need to manually edit the file in question.</para>
             <note>
-                <para>To avoid unnecessary conflicts, it is important that customization changes go into files you
-                    have added yourself. It is easily possible, because TEI Publisher on many levels provides configuration
-                    options, which allow you to add custom CSS stylesheets, javascript, or API
-                    endpoints to your application without changing what is already there. Added, custom files will never trigger a conflict, 
+                <para>To avoid unnecessary conflicts, it is important that customization changes go
+                    into files you have added yourself. It is easily possible, because TEI Publisher
+                    on many levels provides configuration options, which allow you to add custom CSS
+                    stylesheets, JavasSript, or API endpoints to your application without changing
+                    what is already there. Added, custom files will never trigger a conflict,
                     because they only exist within your application.</para>
             </note>
         </section>
@@ -1119,11 +1093,10 @@
                         <listitem>
                             <para>is the most drastic and dangerous of the modes: it completely
                                 deletes the installed application and recreates everything from the
-                                configuration. <emphasis>Don't use it unless you you have the
-                                    current version safely backed up and really know what you are
-                                    doing: you are certain you want to start from scratch, or you
-                                    are a developer working on a profile for
-                                Jinks</emphasis>!</para>
+                                configuration. <emphasis>Don't use it unless you have the current
+                                    version safely backed up and really know what you are doing: you
+                                    are certain you want to start from scratch, or you are a
+                                    developer working on a profile for Jinks</emphasis>!</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -1133,10 +1106,10 @@
     </section>
     <section xml:id="pm-tutorial">
         <title>Changing the presentation via ODD</title>
-        <para>If you followed the steps so far and opened one of the sermons, you'll notice that –
-            while the default rendition of the text looks ok – some details are not quite right. For
-            example, each sermon begins with the bible passage of the day and this should stand out
-            a bit more.</para>
+        <para>If you followed the steps so far and opened one of the sermons, you will notice that –
+            while the default rendition of the text looks fine – some details are not quite right.
+            For example, each sermon begins with the bible passage of the day and this should stand
+            out a bit more.</para>
         <para>We therefore need to change the ODD, <filename>barth.odd</filename>, which we created
             in the <link linkend="odd-creation">previous chapter</link>. You have the choice between writing the ODD by hand (it is TEI
             after all) or using a form-based visual ODD editor. Both approaches can be combined and
@@ -1156,10 +1129,10 @@
                 </link> open on the side. It is located in the same collection as your odd, i.e.
                 <filename>/db/apps/tei-publisher/odd</filename>. </para>
             <para>For example, to modify the element spec for <tag>dateline</tag>, check <filename>
-                    teipublisher.odd</filename>, where you'll find a definition already. Copy it over to
+                    teipublisher.odd</filename>, where you will find a definition already. Copy it over to
                 your ODD and start modifying it. </para>
             <para>Pay attention to the <option>@mode</option> attribute on <tag>elementSpec</tag>.
-                You must set this to <parameter>change</parameter> if you are overwriting an elementSpec
+                You must set this to <parameter>change</parameter> if you are overwriting an <tag>elementSpec</tag>
                 which already exists in the inherited ODDs. If not, set it to
                 <parameter>add</parameter>. </para>
         </note>
@@ -1179,7 +1152,7 @@
         </figure>
         <para>To be able to customize the display of your data it is crucial to understand its XML
             structure well. You can check the underlying XML using the corresponding links in the
-                <guimenuitem>Download</guimenuitem> menu: you'll see that the whole bible passage is
+                <guimenuitem>Download</guimenuitem> menu: you will see that the whole bible passage is
             marked up as an <tag>epigraph</tag> with a nested <tag>cit</tag>. The actual bible text
             is wrapped into a <tag>quote</tag> and the reference is encoded with a <tag>ref</tag>
             with <code>type="can"</code> and <code>subtype="bible"</code>:</para>
@@ -1191,7 +1164,7 @@
 </epigraph>]]></programlisting>
         <para>First, we may want to add some space before and after the epigraph, indent the bible
             text a little and render it in italics.</para>
-        <para> To create a processing model addressing this need we have to know 3 things: </para>
+        <para> To create a processing model addressing this need we have to know three things: </para>
         <itemizedlist>
             <listitem>
                 <para>
@@ -1221,7 +1194,7 @@
                 <tag>elementSpec</tag> primarily documents the structure, content, and purpose of an
             element. It is a core element in any ODD but the schema-related functions are not
             relevant for the discussion here. What is important for us is this is where processing
-            models are defined. The <parameter> @ident</parameter> attribute of the
+            models are defined. The <parameter>@ident</parameter> attribute of the
                 <tag>elementSpec</tag> identifies the name of the element to which the spec (and
             therefore processing model) applies. </para>
         <para>An <tag>elementSpec</tag> may contain one or more <tag>model</tag> elements to specify
@@ -1256,9 +1229,10 @@ padding: 0 2rem;</synopsis>
                 </mediaobject>
             </figure>
             <para>Once you're done with the change, click on the button with the disk symbol in the
-                toolbar to the left to save and compile the ODD. A popup will appear, reporting the result of the compilation process:</para>
+                toolbar to the left to save and compile the ODD. A pop-up will appear, reporting the
+                result of the compilation process:</para>
             <figure>
-                <title>Popup displayed after saving ODD</title>
+                <title>Pop-up displayed after saving ODD</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="odd-popup.png"/>
@@ -1268,12 +1242,16 @@ padding: 0 2rem;</synopsis>
             <note>
                 <para>TEI Publisher compiles the ODD into executable XQuery code. For each output media format supported, one
                     XQuery module is created as reported in the screenshot.</para>
-                <para>Eventually this process may fail, e.g. if you entered incorrect XPath expressions somewhere.
-                    In this case the popup will report the failure for each output format. It still saves the resulting
-                    XQuery code into a file with the marker <code>.invalid</code> in its name, e.g. <filename>barth-web.invalid.xql</filename>. If you cannot figure out
-                    your mistake otherwise, it sometimes helps to open the invalid XQuery in eXide, enter a space somewhere to trigger validation
-                    and look at the error message eXide gives you, which is often quite helpful. Don't be afraid of the XQuery code: 
-                    the mapping between the ODD and the generated XQuery is actually quite straightforward.</para>
+                <para>Eventually this process may fail, e.g. if you entered incorrect XPath
+                    expressions somewhere. In this case the pop-up will report the failure for each
+                    output format. It still saves the resulting XQuery code into a file with the
+                    marker <code>.invalid</code> in its name, e.g.
+                        <filename>barth-web.invalid.xql</filename>. If you cannot figure out your
+                    mistake otherwise, it sometimes helps to open the invalid XQuery in eXide, enter
+                    a space somewhere to trigger validation and look at the error message eXide
+                    gives you, which is often quite helpful. Don't be afraid of the XQuery code: the
+                    mapping between the ODD and the generated XQuery is actually quite
+                    straightforward.</para>
                 <para>This said, the visual ODD editor does also run syntax checks on all XPath statements and you should pay attention
                     to any red markers to avoid running into issues.</para>
             </note>
@@ -1289,7 +1267,7 @@ padding: 0 2rem;</synopsis>
                         your ODD.</para>
                 </listitem>
                 <listitem>
-                    <para>if you made changes to outputRenditions only, you may need to clear your
+                    <para>if you made changes to <tag>outputRendition</tag>s only, you may need to clear your
                         browser's cached version. For most browsers, holding the
                             <emphasis>Shift</emphasis> key while clicking on the
                             <emphasis>Reload</emphasis> button does the job.</para>
@@ -1311,7 +1289,7 @@ padding: 0 2rem;</synopsis>
         <section>
             <title>Conditions and multiple models</title>
             <para>Next, we'd like to format the bible quote and make the text italic. If you add an
-                elementSpec for quote, you'll see that it has two models by default. The first one
+                <tag>elementSpec</tag> for quote, you will see that it has two models by default. The first one
                 has a condition, which is reflected in the description and the corresponding XPath
                 printed in red below. Conditions allow you to distinguish uses of the same element
                 in different contexts. In the given scenario, <tag>quote</tag> will be rendered
@@ -1347,8 +1325,7 @@ padding: 0 2rem;</synopsis>
                     <synopsis language="xquery">@type="can" and ancestor::epigraph</synopsis>
                 </step>
                 <step>
-                    <para>add an outputRendition to center the
-                        text:</para>
+                    <para>add an <tag>outputRendition</tag> to center the text:</para>
                     <synopsis language="css">text-align: center;</synopsis>
                 </step>
             </procedure>
@@ -1368,7 +1345,7 @@ padding: 0 2rem;</synopsis>
                     alternate</parameter> behaviour accepts two parameters:
                     <parameter>default</parameter> and <parameter>alternate</parameter>. An
                 alternate switches between two alternative states. On the web this could take the
-                form of a popup, in print it is usually implemented as a footnote.</para>
+                form of a pop-up, in print it is usually implemented as a footnote.</para>
             <para>The link behaviour accepts two extra parameters:</para>
             <variablelist>
                 <varlistentry>
@@ -1410,7 +1387,7 @@ padding: 0 2rem;</synopsis>
                 <step>
                     <para>a link is an inline element. To still render it as a block and center it,
                         we can change the CSS in the
-                        outputRendition:</para>
+                        <tag>outputRendition</tag>:</para>
                     <programlisting language="css">display: block;
 text-align: center;</programlisting>
                 </step>
@@ -1424,11 +1401,12 @@ text-align: center;</programlisting>
                 </mediaobject>
             </figure>
             <para>Clicking on the bible reference will now open a new tab and load the external
-                bibleserver service, which nicely displays the bible passage in context.</para>
+                    <emphasis>bibleserver</emphasis> service, which nicely displays the bible
+                passage in context.</para>
             <note>
-                <para>Obviously the bibleserver provides a much more modern version of Luther's
-                    bible than the one Karl Barth used back in 1915. The proper <link
-                        xlink:href="https://kbga.karl-barth.ch/texts/27003">Karl Barth
+                <para>Obviously the <emphasis>bibleserver</emphasis> provides a much more modern
+                    version of Luther's bible than the one Karl Barth used back in 1915. The proper
+                        <link xlink:href="https://kbga.karl-barth.ch/texts/27003">Karl Barth
                         Gesamtausgabe</link> integrates the correct version (published 1912) as XML,
                     but that version unfortunately is not freely available.</para>
             </note>
@@ -1442,9 +1420,8 @@ text-align: center;</programlisting>
         <title>Further steps</title>
         <para>This brief introduction aims to give a very basic orientation in using Jinks and TEI
             Publisher. For more in depth discussion of various subjects you may want to check the
-                <link xlink:href="documentation.xml">Reference Manual</link> and <link
-                xlink:href="webcomponents.xml">Web Components</link>.</para>
-        <para>e-editiones runs a series of monthly community meetups and also maintans a Slack
+                <link xlink:href="documentation.xml">Reference Manual</link> and <link xlink:href="webcomponents.xml">Web Components</link>.</para>
+        <para>e-editiones runs a series of monthly community meet-ups and also maintains a Slack
             community, which provide a space for discussion, coordination of efforts and community
             support. Check the <link xlink:href="https://www.e-editiones.org">website</link> to find
             meeting announcements and recordings of past presentations and workshops.</para>
