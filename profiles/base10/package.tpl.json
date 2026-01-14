@@ -4,9 +4,9 @@
     "description": "[[ $label ]]",
     "license": "GPL-3.0",
     "dependencies": {
-        "@teipublisher/pb-components": "[[ $dependencies?dependencies?('@teipublisher/pb-components') ]]",
-        "@jinntec/fore": "[[ $dependencies?dependencies?('@jinntec/fore') ]]",
-        "@picocss/pico": "[[ $dependencies?dependencies?('@picocss/pico') ]]"
+        "@teipublisher/pb-components": "[% if exists($dependencies?effectiveVersions?('@teipublisher/pb-components')) %][[ $dependencies?effectiveVersions?('@teipublisher/pb-components') ]][% else %][[ $dependencies?dependencies?('@teipublisher/pb-components') ]][% endif %]",
+        "@jinntec/fore": "[% if exists($dependencies?effectiveVersions?('@jinntec/fore')) %][[ $dependencies?effectiveVersions?('@jinntec/fore') ]][% else %][[ $dependencies?dependencies?('@jinntec/fore') ]][% endif %]",
+        "@picocss/pico": "[% if exists($dependencies?effectiveVersions?('@picocss/pico')) %][[ $dependencies?effectiveVersions?('@picocss/pico') ]][% else %][[ $dependencies?dependencies?('@picocss/pico') ]][% endif %]"
     },
     "devDependencies": {
         "ajv": "[[ $dependencies?devDependencies?ajv ]]",

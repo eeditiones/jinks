@@ -45,8 +45,19 @@ The `jinks` field contains metadata specific to jinks templating:
 }
 ```
 
-- **`cdn`**: CDN URL templates for packages loaded from CDN. The `{{version}}` placeholder is replaced with the actual version from dependencies. Each package can define multiple asset types (e.g., `bundle`, `css`). The CDN map keys are constructed as `{package-name}-{asset-type}`.
-- **`overrides`**: Profile-specific version overrides (currently used for `fore` version differences between profiles)
+- **`cdn`**: CDN URL templates for packages loaded from CDN. The `{{version}}` placeholder is replaced with the actual version from dependencies (or override if present). Each package can define multiple asset types (e.g., `bundle`, `css`). The CDN map keys are constructed as `{package-name}-{asset-type}`.
+- **`overrides`**: Profile-specific version overrides. When a profile needs a different version than the default, add it here. The generator checks active profiles in order and uses the first matching override. Example:
+  ```json
+  "overrides": {
+    "legacy-forms": {
+      "@jinntec/fore": "^2.0.0"
+    },
+    "static": {
+      "@jinntec/fore": "^2.0.0"
+    }
+  }
+  ```
+  If multiple profiles have overrides for the same package, the first profile in the active profiles list takes precedence.
 
 ## How It Works
 
@@ -141,6 +152,29 @@ Shared dependencies (used by both jinks and generated apps) are automatically sy
 - **Manual**: Edit `config/package.json` directly
 - **Automated**: Dependabot will create PRs for updates
 - **Shared deps**: Run `npm run sync:dependencies` to sync from root `package.json`
+
+### Profile-Specific Overrides
+
+If a profile needs a different version than the default:
+
+1. Add override to `config/package.json`:
+   ```json
+   {
+     "jinks": {
+       "overrides": {
+         "profile-name": {
+           "package-name": "^different-version"
+         }
+       }
+     }
+   }
+   ```
+
+2. The generator automatically applies overrides when building CDN URLs and generating `package.json`
+
+3. Overrides are checked in profile order - first matching override wins
+
+4. When Dependabot updates the base version, overrides are preserved (profiles continue using their specified versions)
 
 ### Validating Dependencies
 

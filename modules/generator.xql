@@ -113,7 +113,13 @@ declare %private function generator:filter-conflicts($messages as map(*)*) {
 declare function generator:prepare($settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($settings, $config)
     let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
-    (: Dynamically build CDN URLs map from config/package.json :)
+    (: Get active profiles list for override checking :)
+    let $activeProfiles := 
+        if (exists($baseConfig?profiles)) then
+            $baseConfig?profiles
+        else
+            array {}
+    (: Dynamically build CDN URLs map from config/package.json, applying profile-specific overrides :)
     let $cdnUrls := 
         if (map:size($dependencies) > 0 and exists($dependencies?jinks?cdn)) then
             map:merge(
@@ -124,7 +130,7 @@ declare function generator:prepare($settings as map(*), $config as map(*)) {
                         (: Build entries for each asset type (bundle, css, etc.) :)
                         for $assetType in map:keys($cdnConfig)
                         where $assetType != 'base' (: Skip the base URL :)
-                        let $cdnUrl := config:cdn-url($dependencies, $package, $assetType)
+                        let $cdnUrl := config:cdn-url($dependencies, $package, $assetType, $activeProfiles)
                         where exists($cdnUrl)
                         return
                             map:entry($package || '-' || $assetType, $cdnUrl)
@@ -133,10 +139,34 @@ declare function generator:prepare($settings as map(*), $config as map(*)) {
             )
         else
             map {}
+    (: Pre-compute effective versions (with overrides applied) for template use :)
+    let $effectiveVersions := 
+        if (map:size($dependencies) > 0) then
+            (: Collect all unique package names from both dependencies and devDependencies :)
+            let $allPackages := distinct-values((
+                map:keys($dependencies?dependencies),
+                map:keys($dependencies?devDependencies)
+            ))
+            return
+                map:merge(
+                    for $package in $allPackages
+                    let $effectiveVersion := config:effective-version($dependencies, $package, $activeProfiles)
+                    where exists($effectiveVersion)
+                    return map:entry($package, $effectiveVersion)
+                )
+        else
+            map {}
+    let $dependenciesWithEffective := 
+        if (map:size($dependencies) > 0) then
+            map:merge(($dependencies, map {
+                "effectiveVersions": $effectiveVersions
+            }))
+        else
+            $dependencies
     let $baseConfigWithDeps := 
         if (map:size($dependencies) > 0) then
             map:merge(($baseConfig, map { 
-                "dependencies": $dependencies,
+                "dependencies": $dependenciesWithEffective,
                 "cdn": $cdnUrls
             }))
         else
@@ -147,7 +177,12 @@ declare function generator:prepare($settings as map(*), $config as map(*)) {
             (: If jinntap profile is present, populate features.jinntap from config/package.json :)
             return
                 if ($profile = "jinntap" and map:size($dependencies) > 0) then
-                    let $jinntapVersion := replace(($dependencies?dependencies('@jinntec/jinntap'), $dependencies?devDependencies('@jinntec/jinntap'))[1], '^[\^~]', '')
+                    let $jinntapVersionWithPrefix := config:effective-version($dependencies, '@jinntec/jinntap', $activeProfiles)
+                    let $jinntapVersion := 
+                        if (exists($jinntapVersionWithPrefix)) then
+                            replace($jinntapVersionWithPrefix, '^[\^~]', '')
+                        else
+                            ()
                     let $jinntapCdnConfig := $dependencies?jinks?cdn('@jinntec/jinntap')
                     let $jinntapCdn := 
                         if ($jinntapCdnConfig instance of map(*) and exists($jinntapCdnConfig?base)) then

@@ -69,18 +69,51 @@ declare function config:process-styles($styles as array(*)?, $cdnUrls as map(*)?
 };
 
 (:~
- : Build a CDN URL from the dependencies registry.
+ : Get the effective version for a package, checking profile-specific overrides.
+ : 
+ : @param $dependencies The dependencies map from config/package.json
+ : @param $package The package name
+ : @param $activeProfiles Array of active profile names
+ : @return The effective version (with prefix like ^ or ~) or empty sequence
+ :)
+declare function config:effective-version($dependencies as map(*)?, $package as xs:string, $activeProfiles as array(*)?) as xs:string? {
+    if (not(exists($dependencies)) or map:size($dependencies) = 0) then
+        ()
+    else
+        (: Check for profile-specific overrides (check in order, first match wins) :)
+        let $overrideVersion := 
+            if (exists($activeProfiles) and array:size($activeProfiles) > 0 and exists($dependencies?jinks?overrides)) then
+                head((
+                    for $profile in $activeProfiles?*
+                    where exists($dependencies?jinks?overrides($profile))
+                    let $profileOverrides := $dependencies?jinks?overrides($profile)
+                    where $profileOverrides instance of map(*) and exists($profileOverrides($package))
+                    return $profileOverrides($package)
+                ))
+            else
+                ()
+        return
+            if (exists($overrideVersion)) then
+                $overrideVersion
+            else
+                (: Use default version from dependencies :)
+                ($dependencies?dependencies($package), $dependencies?devDependencies($package))[1]
+};
+
+(:~
+ : Build a CDN URL from the dependencies registry, applying profile-specific overrides if present.
  : 
  : @param $dependencies The dependencies map from config/package.json
  : @param $package The package name
  : @param $asset The asset type (bundle, css, etc.)
+ : @param $activeProfiles Optional array of active profile names for override checking
  : @return The complete CDN URL with version replaced
  :)
-declare function config:cdn-url($dependencies as map(*)?, $package as xs:string, $asset as xs:string) as xs:string? {
+declare function config:cdn-url($dependencies as map(*)?, $package as xs:string, $asset as xs:string, $activeProfiles as array(*)?) as xs:string? {
     if (not(exists($dependencies)) or map:size($dependencies) = 0) then
         ()
     else
-        let $versionWithPrefix := ($dependencies?dependencies($package), $dependencies?devDependencies($package))[1]
+        let $versionWithPrefix := config:effective-version($dependencies, $package, $activeProfiles)
         let $version := 
             if (exists($versionWithPrefix)) then
                 replace($versionWithPrefix, '^[\^~]', '')
@@ -100,4 +133,16 @@ declare function config:cdn-url($dependencies as map(*)?, $package as xs:string,
                     $base || $path
             else
                 ()
+};
+
+(:~
+ : Build a CDN URL from the dependencies registry (backward compatibility - no overrides).
+ : 
+ : @param $dependencies The dependencies map from config/package.json
+ : @param $package The package name
+ : @param $asset The asset type (bundle, css, etc.)
+ : @return The complete CDN URL with version replaced
+ :)
+declare function config:cdn-url($dependencies as map(*)?, $package as xs:string, $asset as xs:string) as xs:string? {
+    config:cdn-url($dependencies, $package, $asset, ())
 };
