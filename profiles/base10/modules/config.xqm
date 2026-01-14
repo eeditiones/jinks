@@ -320,6 +320,11 @@ declare variable $config:register-map := map {
         "id": "pb-keywords",
         "default": "term-default",
         "prefix": "category-"
+    },
+    "work": map {
+        "id": "pb-works",
+        "default": "work-default",
+        "prefix": "work-"
     }
 };
 
