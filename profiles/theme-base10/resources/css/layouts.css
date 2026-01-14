@@ -213,6 +213,11 @@
     float: left;
 }
 
+.fixed-layout > main > .center {
+    display: flex;
+    justify-content: center;
+}
+
 @media (max-width: 768px) {
     .fixed-layout main {
         display: block;

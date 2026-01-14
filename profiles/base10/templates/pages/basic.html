@@ -7,5 +7,7 @@
     }
     ---
     <!-- Basic template for a page with a single document -->
-    <pb-view class="overflow" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]"/>
+    <div class="center">
+        <pb-view src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]"/>
+    </div>
 </template>
