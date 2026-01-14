@@ -1,9 +1,9 @@
 # Features for toggles in the toolbar
 
-This feature includes a toggle section, to control some aspects of the presentation of the edition text, such as:
+This feature includes a toggle section to control some aspects of the presentation of the edition text, such as:
 
-* source or edited text (e.g. text from the source vs expanded or normalized by the editor)
-* display columns and lines of the source
+* source or edited text (e.g. faithful transcription of the source vs normalized by the editor)
+* optional display of the columns and lines of the source
 * interactive elements vs undisturbed reading view
 
 ## Requirements
@@ -26,7 +26,7 @@ Appropriate processing model rules are largely already contained in `teipublishe
 }
 ```
 
-To enable in-edition navigation in your app, set `toolbar-toggles/enabled` to `true` together with selected toggle switch either in your `config.json` or the frontmatter of an HTML template, as in the example above. 
+To enable toggle options in your app, set `toolbar-toggles/enabled` to `true` together with selected toggle switch either in your `config.json` or the frontmatter of an HTML template, as in the example above. 
 
 ## Credits
 
