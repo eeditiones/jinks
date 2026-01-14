@@ -1,8 +1,22 @@
 /// <reference types="cypress" />
 
 const yaml = require('js-yaml')
+const Ajv7 = require('ajv')
+const addFormats = require('ajv-formats')
 
-describe('CI Templates', () => {
+const ajv7 = new Ajv7({ allErrors: true, strict: false })
+addFormats(ajv7)
+
+describe('GitHub Actions CI Templates', () => {
+  let githubWorkflowSchema
+
+  before(() => {
+    // Load GitHub Actions workflow schema from JSON Schema Store
+    cy.request('https://www.schemastore.org/github-workflow.json').then(res => {
+      githubWorkflowSchema = res.body
+      ajv7.addSchema(githubWorkflowSchema, 'https://json.schemastore.org/github-workflow.json')
+    })
+  })
   beforeEach(() => {
     cy.loginApi()
   })
@@ -57,6 +71,28 @@ describe('CI Templates', () => {
         // Verify 'run: |' appears somewhere after DOCKER_BUILDKIT (within reasonable distance)
         const runIndex = lines.findIndex((line, idx) => idx > dockerBuildkitIndex && idx < dockerBuildkitIndex + 10 && line.includes('run: |'))
         cy.wrap(runIndex).should('be.greaterThan', -1, 'run: | should appear after DOCKER_BUILDKIT')
+
+        // Check for blank lines in the docker buildx build command (should not have blank lines between --load and -t)
+        if (runIndex >= 0) {
+          // Find the --load line and the -t line within the run block
+          let loadIndex = -1
+          let tagIndex = -1
+          for (let i = runIndex; i < Math.min(runIndex + 20, lines.length); i++) {
+            if (lines[i].includes('--load')) {
+              loadIndex = i
+            }
+            if (lines[i].includes('-t ${{') || lines[i].includes('-t ${')) {
+              tagIndex = i
+              break
+            }
+          }
+          if (loadIndex >= 0 && tagIndex >= 0 && tagIndex > loadIndex) {
+            // Check for blank lines between --load and -t
+            const linesBetween = lines.slice(loadIndex + 1, tagIndex)
+            const blankLines = linesBetween.filter(line => line.trim() === '')
+            cy.wrap(blankLines.length).should('eq', 0, `Found ${blankLines.length} blank line(s) between --load and -t in docker buildx build command`)
+          }
+        }
 
         // Validate YAML structure
         const validation = validateYaml(result)
@@ -200,128 +236,34 @@ describe('CI Templates', () => {
         cy.writeFile('test/cypress/downloads/github-with-custom-token.yml', res.body.result)
       })
     })
-  })
 
-  describe('GitLab CI template', () => {
-    let gitlabTemplate
-
-    before(() => {
-      cy.readFile('profiles/ci/.gitlab-ci.tpl.yml').then(template => {
-        gitlabTemplate = template
-      })
-    })
-
-    it('POST /api/templates expands GitLab template without externalXar (no blank lines)', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/templates',
-        headers: { 'content-type': 'application/json' },
-        body: {
-          template: gitlabTemplate,
+    it('generated GitHub Actions workflows validate against official JSON schema', () => {
+      // Test all three scenarios: no externalXar, GITHUB_TOKEN, and custom token
+      const scenarios = [
+        {
+          name: 'without externalXar',
           params: {
             docker: {
               ports: { http: 8080 }
             }
-          },
-          mode: 'text'
-        }
-      }).then(res => {
-        cy.wrap(res).its('status').should('eq', 200)
-        cy.wrap(res).its('body').should('be.an', 'object')
-        cy.wrap(res.body).should('have.property', 'result')
-        cy.wrap(res.headers).its('content-type').should('include', 'application/json')
-
-        const result = res.body.result
-        const lines = result.split('\n')
-        
-        // Find export DOCKER_BUILDKIT line and verify no blank line follows
-        const dockerBuildkitIndex = lines.findIndex(line => line.includes('export DOCKER_BUILDKIT=1'))
-        cy.wrap(dockerBuildkitIndex).should('be.greaterThan', -1)
-        
-        // Next line should be 'docker buildx build' with no blank line in between
-        const nextLine = lines[dockerBuildkitIndex + 1]
-        cy.wrap(nextLine).should('include', 'docker buildx build')
-        cy.wrap(nextLine.trim()).should('not.be.empty')
-
-        // Validate YAML structure
-        const validation = validateYaml(result)
-        cy.wrap(validation.valid).should('be.true', `YAML validation failed: ${validation.error || 'unknown error'}`)
-        cy.wrap(validation.parsed).should('have.property', 'stages')
-        cy.wrap(validation.parsed).should('have.property', 'variables')
-
-        // Check for error strings in output
-        cy.wrap(result.toLowerCase()).should('not.include', 'error:')
-        cy.wrap(result).should('not.match', /\[% .* %\]/, 'Template blocks should be processed, not left in output')
-
-        // Save output file for manual inspection
-        cy.writeFile('test/cypress/downloads/gitlab-without-externalxar.yml', result)
-      })
-    })
-
-    it('POST /api/templates expands GitLab template with CI_JOB_TOKEN', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/templates',
-        headers: { 'content-type': 'application/json' },
-        body: {
-          template: gitlabTemplate,
+          }
+        },
+        {
+          name: 'with GITHUB_TOKEN',
           params: {
             docker: {
               ports: { http: 8080 },
               externalXar: {
                 'test.xar': {
                   url: 'https://example.com/test.xar',
-                  token: 'CI_JOB_TOKEN'
+                  token: 'GITHUB_TOKEN'
                 }
               }
             }
-          },
-          mode: 'text'
-        }
-      }).then(res => {
-        cy.wrap(res).its('status').should('eq', 200)
-        
-        // Save output file for debugging even if test fails
-        cy.writeFile('test/cypress/downloads/gitlab-with-ci-job-token.yml', res.body.result)
-        
-        cy.wrap(res.body.result).should('include', 'CI_JOB_TOKEN')
-        cy.wrap(res.body.result).should('include', '--secret id=CI_JOB_TOKEN')
-
-        // Validate YAML structure
-        const validation = validateYaml(res.body.result)
-        if (!validation.valid) {
-          cy.log('YAML validation error:', validation.error)
-          cy.log('First 500 chars of result:', res.body.result.substring(0, 500))
-        }
-        cy.wrap(validation.valid).should('be.true', `YAML validation failed: ${validation.error || 'unknown error'}`)
-
-        // Check for actual error messages (not commands that contain "error" or "failed")
-        // Look for error patterns at start of line, not in shell conditions or YAML keys
-        const errorPattern = /^(Error|ERROR|error):\s|^Error while|^failed\s|^Failed\s|^FAILED\s/
-        cy.wrap(res.body.result.split('\n').some(line => {
-          const trimmed = line.trim()
-          return errorPattern.test(trimmed) && !trimmed.includes('allow_failure') && !trimmed.includes('CI_JOB_STATUS')
-        })).should('be.false', 'Should not contain error messages')
-        
-        // Check that template blocks are processed
-        cy.wrap(res.body.result).should('not.include', '[% if')
-        cy.wrap(res.body.result).should('not.include', '[% else')
-        cy.wrap(res.body.result).should('not.include', '[% endif')
-        cy.wrap(res.body.result).should('not.include', '[% for')
-        cy.wrap(res.body.result).should('not.include', '[% endfor')
-
-        // Save output file for manual inspection
-        cy.writeFile('test/cypress/downloads/gitlab-with-ci-job-token.yml', res.body.result)
-      })
-    })
-
-    it('POST /api/templates expands GitLab template with custom token', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/templates',
-        headers: { 'content-type': 'application/json' },
-        body: {
-          template: gitlabTemplate,
+          }
+        },
+        {
+          name: 'with custom token',
           params: {
             docker: {
               ports: { http: 8080 },
@@ -332,97 +274,108 @@ describe('CI Templates', () => {
                 }
               }
             }
-          },
-          mode: 'text'
+          }
         }
-      }).then(res => {
-        cy.wrap(res).its('status').should('eq', 200)
-        
-        // Save output file for debugging even if test fails
-        cy.writeFile('test/cypress/downloads/gitlab-with-custom-token.yml', res.body.result)
-        
-        cy.wrap(res.body.result).should('include', 'CUSTOM_TOKEN')
-        cy.wrap(res.body.result).should('include', 'export CUSTOM_TOKEN')
-        cy.wrap(res.body.result).should('include', '--secret id=CUSTOM_TOKEN')
+      ]
 
-        // Validate YAML structure
-        const validation = validateYaml(res.body.result)
-        if (!validation.valid) {
-          cy.log('YAML validation error:', validation.error)
-          cy.log('First 500 chars of result:', res.body.result.substring(0, 500))
-        }
-        cy.wrap(validation.valid).should('be.true', `YAML validation failed: ${validation.error || 'unknown error'}`)
-
-        // Check for actual error messages (not commands that contain "error" or "failed")
-        // Look for error patterns at start of line, not in shell conditions or YAML keys
-        const errorPattern = /^(Error|ERROR|error):\s|^Error while|^failed\s|^Failed\s|^FAILED\s/
-        cy.wrap(res.body.result.split('\n').some(line => {
-          const trimmed = line.trim()
-          return errorPattern.test(trimmed) && !trimmed.includes('allow_failure') && !trimmed.includes('CI_JOB_STATUS')
-        })).should('be.false', 'Should not contain error messages')
-        
-        // Check that template blocks are processed
-        cy.wrap(res.body.result).should('not.include', '[% if')
-        cy.wrap(res.body.result).should('not.include', '[% else')
-        cy.wrap(res.body.result).should('not.include', '[% endif')
-        cy.wrap(res.body.result).should('not.include', '[% for')
-        cy.wrap(res.body.result).should('not.include', '[% endfor')
-
-        // Save output file for manual inspection
-        cy.writeFile('test/cypress/downloads/gitlab-with-custom-token.yml', res.body.result)
+      scenarios.forEach(scenario => {
+        cy.request({
+          method: 'POST',
+          url: '/api/templates',
+          headers: { 'content-type': 'application/json' },
+          body: {
+            template: githubTemplate,
+            params: scenario.params,
+            mode: 'text'
+          }
+        }).then(res => {
+          cy.wrap(res).its('status').should('eq', 200)
+          
+          // Parse YAML to JSON for schema validation
+          const workflowYaml = res.body.result
+          const workflowJson = yaml.load(workflowYaml)
+          
+          // Validate against GitHub Actions workflow schema
+          const schema = ajv7.getSchema('https://json.schemastore.org/github-workflow.json')
+          if (!schema) {
+            throw new Error('GitHub Actions workflow schema not loaded')
+          }
+          
+          cy.validateJsonSchema(ajv7, schema.schema, workflowJson, `GitHub Actions workflow (${scenario.name})`)
+        })
       })
     })
   })
 
-  describe('Template validation', () => {
-    it('POST /api/templates returns 200 for valid template with empty params', () => {
+  describe('TEI Publisher Docker Publish workflow template', () => {
+    let publishTemplate
+
+    before(() => {
+      cy.readFile('profiles/ci/.github/workflows/tp-docker-publish.tpl.yml').then(template => {
+        publishTemplate = template
+      })
+    })
+
+    it('POST /api/templates expands tp-docker-publish template', () => {
       cy.request({
         method: 'POST',
         url: '/api/templates',
         headers: { 'content-type': 'application/json' },
         body: {
-          template: 'Simple template without placeholders',
+          template: publishTemplate,
           params: {},
           mode: 'text'
         }
       }).then(res => {
         cy.wrap(res).its('status').should('eq', 200)
+        cy.wrap(res).its('body').should('be.an', 'object')
         cy.wrap(res.body).should('have.property', 'result')
-        cy.wrap(res.body.result).should('eq', 'Simple template without placeholders')
+
+        const result = res.body.result
+
+        // Validate YAML structure
+        const validation = validateYaml(result)
+        cy.wrap(validation.valid).should('be.true', `YAML validation failed: ${validation.error || 'unknown error'}`)
+        cy.wrap(validation.parsed).should('have.property', 'name')
+        cy.wrap(validation.parsed).should('have.property', 'on')
+        cy.wrap(validation.parsed).should('have.property', 'jobs')
+
+        // Check that template blocks are processed (not left as literal [% ... %])
+        cy.wrap(result).should('not.include', '[% if')
+        cy.wrap(result).should('not.include', '[% else')
+        cy.wrap(result).should('not.include', '[% endif')
+        cy.wrap(result).should('not.include', '[% for')
+        cy.wrap(result).should('not.include', '[% endfor')
+
+        // Save output file for manual inspection
+        cy.writeFile('test/cypress/downloads/tp-docker-publish.yml', result)
       })
     })
 
-    it('POST /api/templates returns 200 for template with variable interpolation', () => {
+    it('generated tp-docker-publish workflow validates against official JSON schema', () => {
       cy.request({
         method: 'POST',
         url: '/api/templates',
         headers: { 'content-type': 'application/json' },
         body: {
-          template: 'Hello [[ $name ]]',
-          params: { name: 'World' },
+          template: publishTemplate,
+          params: {},
           mode: 'text'
         }
       }).then(res => {
         cy.wrap(res).its('status').should('eq', 200)
-        cy.wrap(res.body.result).should('include', 'Hello')
-        cy.wrap(res.body.result).should('include', 'World')
-      })
-    })
-
-    it('POST /api/templates returns 200 for template with conditional logic', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/templates',
-        headers: { 'content-type': 'application/json' },
-        body: {
-          template: '[% if $show %]Visible[% else %]Hidden[% endif %]',
-          params: { show: true },
-          mode: 'text'
+        
+        // Parse YAML to JSON for schema validation
+        const workflowYaml = res.body.result
+        const workflowJson = yaml.load(workflowYaml)
+        
+        // Validate against GitHub Actions workflow schema
+        const schema = ajv7.getSchema('https://json.schemastore.org/github-workflow.json')
+        if (!schema) {
+          throw new Error('GitHub Actions workflow schema not loaded')
         }
-      }).then(res => {
-        cy.wrap(res).its('status').should('eq', 200)
-        cy.wrap(res.body.result).should('include', 'Visible')
-        cy.wrap(res.body.result).should('not.include', 'Hidden')
+        
+        cy.validateJsonSchema(ajv7, schema.schema, workflowJson, 'tp-docker-publish workflow')
       })
     })
   })

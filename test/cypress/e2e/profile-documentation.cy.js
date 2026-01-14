@@ -3,7 +3,7 @@ describe('Profile Documentation', () => {
     cy.loginApi()
   })
 
-  it('should show article with titles and mardown', () => {
+  it('should show article with titles and markdown', () => {
     cy.visit('/profile/theme-base10')
     cy.get('h1')
       .should('be.visible')

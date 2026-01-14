@@ -165,6 +165,57 @@ describe('API', () => {
       })
     })
 
+    it('POST /api/templates returns 200 for valid template with empty params', () => {
+      cy.request({
+        method: 'POST',
+        url: '/api/templates',
+        headers: { 'content-type': 'application/json' },
+        body: {
+          template: 'Simple template without placeholders',
+          params: {},
+          mode: 'text'
+        }
+      }).then(res => {
+        cy.wrap(res).its('status').should('eq', 200)
+        cy.wrap(res.body).should('have.property', 'result')
+        cy.wrap(res.body.result).should('eq', 'Simple template without placeholders')
+      })
+    })
+
+    it('POST /api/templates returns 200 for template with variable interpolation', () => {
+      cy.request({
+        method: 'POST',
+        url: '/api/templates',
+        headers: { 'content-type': 'application/json' },
+        body: {
+          template: 'Hello [[ $name ]]',
+          params: { name: 'World' },
+          mode: 'text'
+        }
+      }).then(res => {
+        cy.wrap(res).its('status').should('eq', 200)
+        cy.wrap(res.body.result).should('include', 'Hello')
+        cy.wrap(res.body.result).should('include', 'World')
+      })
+    })
+
+    it('POST /api/templates returns 200 for template with conditional logic', () => {
+      cy.request({
+        method: 'POST',
+        url: '/api/templates',
+        headers: { 'content-type': 'application/json' },
+        body: {
+          template: '[% if $show %]Visible[% else %]Hidden[% endif %]',
+          params: { show: true },
+          mode: 'text'
+        }
+      }).then(res => {
+        cy.wrap(res).its('status').should('eq', 200)
+        cy.wrap(res.body.result).should('include', 'Visible')
+        cy.wrap(res.body.result).should('not.include', 'Hidden')
+      })
+    })
+
     it('GET /api/source returns source or not found', () => {
       cy.request({
         url: '/api/source',
