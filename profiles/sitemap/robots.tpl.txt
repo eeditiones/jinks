@@ -1,11 +1,17 @@
 User-agent: *
 
 Disallow: /api/
+Disallow: /*/api/*
 Disallow: /resources/
+Disallow: /*/resources/*
 Disallow: /transform/
+Disallow: /*/transform/*
 Disallow: /test/
+Disallow: /*/test/*
 Disallow: /data/
+Disallow: /*/data/*
 Disallow: /modules/
+Disallow: /*/modules/*
 
 [% if $context?features?sitemap?base-uri %]
 Sitemap: [[ $context?features?sitemap?base-uri ]]/sitemap.xml
