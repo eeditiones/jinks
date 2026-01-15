@@ -67,7 +67,7 @@ To allow for toggling the explanatory notes, set the `description` property to `
 "features": {
     "register": {
         "enabled": true,
-        "description: "select"
+        "description": "select"
     }
 }
 ```
