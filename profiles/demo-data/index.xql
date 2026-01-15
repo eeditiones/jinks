@@ -69,21 +69,23 @@ declare function idx:get-metadata($root as element(), $field as xs:string) {
             case "date" return
                 idx:get-date(($header//tei:correspDesc/tei:correspAction[@type="sent"]/tei:date[1]))
             case "genre" return (
-                idx:get-genre($header)
+                idx:get-genre($header),
+                root($root)//dbk:info/dbk:keywordset[@role="genre"]/dbk:keyword,
+                root($root)//article-meta/kwd-group[@kwd-group-type="genre"]/kwd
             )
             case "category" return
                 (root($root)/tei:TEI/@n, "ZZZ")[1]
             case "feature" return (
                 idx:get-classification($header, 'feature'),
-                $root/dbk:info/dbk:keywordset[@vocab="#feature"]/dbk:keyword
+                $root/dbk:info/dbk:keywordset[@role="feature"]/dbk:keyword
             )
             case "form" return (
                 idx:get-classification($header, 'form'),
-                $root/dbk:info/dbk:keywordset[@vocab="#form"]/dbk:keyword
+                $root/dbk:info/dbk:keywordset[@role="form"]/dbk:keyword
             )
             case "period" return (
                 idx:get-classification($header, 'period'),
-                $root/dbk:info/dbk:keywordset[@vocab="#period"]/dbk:keyword
+                $root/dbk:info/dbk:keywordset[@role="period"]/dbk:keyword
             )
             case "content" return (
                 root($root)//body,
