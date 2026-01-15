@@ -4,11 +4,11 @@
  * @param {string} content - The editor content to send
  * @returns {Promise} A promise that resolves when the request is complete
  */
-async function save(baseUri, editor) {
+async function save(baseUri, editor, newFile = false) {
     const doc = editor.metadata.name;
 
     try {
-        const response = await fetch(`${baseUri}/api/document/${encodeURIComponent(doc)}`, {
+        const response = await fetch(`${baseUri}/api/document/${encodeURIComponent(doc)}?${newFile ? 'create=true' : ''}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/xml'
@@ -35,6 +35,8 @@ async function save(baseUri, editor) {
                 const url = new URL(json.path, window.location.href);
                 url.searchParams.set('template', 'editor.html');
                 history.pushState({}, '', url.toString());
+
+                document.querySelector('.toolbar [aria-label="breadcrumb"] li:last-child').textContent = json.path;
             }
         } else {
             document.dispatchEvent(new CustomEvent('jinn-toast', {
@@ -117,7 +119,7 @@ function initEditor(contextPath, doc) {
                 editor.metadata.title = docTitle;
                 saveDialog.close();
                 this.reset();
-                save(contextPath, editor);
+                save(contextPath, editor, true);
             }
         });
 

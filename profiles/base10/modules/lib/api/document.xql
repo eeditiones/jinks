@@ -110,20 +110,21 @@ declare %private function dapi:mkcol ($collection, $path) {
 
 declare function dapi:save ($request as map(*)) {
     let $id := $request?parameters?id
+    let $create := $request?parameters?create
     let $path := if ($id => contains("/")) then (
         (: the id is actually a path, like `demo/subcollection/my-doc.xml`. Split it up and remove the last part :)
         tokenize($id, "/")[position() < last()] => string-join("/")
     ) else (
-        ()
+        substring-after($config:data-default, $config:data-root || "/")
     )
     (: Again, the ID might be a whole path. :)
     let $resource-name := tokenize($id, "/")[last()]
     (: Ensure the collection exists :)
-    let $_ := dapi:mkcol($config:data-default, $path)
+    let $_ := dapi:mkcol($config:data-root, $path)
     let $body := $request?body
     return try {
         let $path := xmldb:store(
-            string-join(($config:data-default, $path), "/"),
+            string-join(($config:data-root, $path), "/"),
             $resource-name,
             $body
         )

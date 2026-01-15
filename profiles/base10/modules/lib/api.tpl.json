@@ -892,6 +892,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "create",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
                     }
                 ],
                 "responses": {
