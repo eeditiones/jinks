@@ -26,42 +26,38 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Validate dependencies (check if sync needed)
+        id: validate
+        continue-on-error: true
+        run: npm run validate:dependencies
+      
       - name: Sync shared dependencies
+        if: steps.validate.outcome == 'failure'
         run: npm run sync:dependencies
       
-      - name: Check for changes
-        id: changes
+      - name: Update package-lock.json
+        if: steps.validate.outcome == 'failure'
+        working-directory: config
+        run: npm install --package-lock-only
+      
+      - name: Check if package.json changed
+        id: package_changed
+        if: steps.validate.outcome == 'failure'
         run: |
-          git status
-          git diff config/package.json || true
-          if ! git diff --quiet config/package.json; then
-            echo "Changes detected in config/package.json"
+          if ! git diff --quiet config/package.json 2>/dev/null; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
-            echo "No changes detected in config/package.json"
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
       
       - name: Commit updates
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.package_changed.outputs.changed == 'true'
         run: |
           git config --local user.email "eeditiones-bot@users.noreply.github.com"
           git config --local user.name "eeditiones-bot"
-          git add config/package.json
+          git add config/package.json config/package-lock.json
           git commit -m "chore: sync shared dependencies from root package.json"
-          
-          # Determine the branch to push to
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BRANCH="${{ github.head_ref }}"
-          else
-            BRANCH="${{ github.ref_name }}"
-          fi
-          
-          echo "Pushing to branch: $BRANCH"
-          git push origin HEAD:$BRANCH || {
-            echo "Push failed. This might be expected for PRs from forks."
-            exit 0
-          }
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
       
-      - name: Validate dependencies
+      - name: Validate dependencies (final check)
         run: npm run validate:dependencies

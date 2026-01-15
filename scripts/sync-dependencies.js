@@ -101,9 +101,10 @@ function syncDependencies() {
       // Update in correct category
       const target = isDevDep ? configPackageJson.devDependencies : configPackageJson.dependencies;
       if (target[dep] !== version) {
+        const oldVersion = target[dep] || 'added';
         target[dep] = version;
         updated = true;
-        updates.push(`${dep}: ${target[dep] || 'added'} → ${version}`);
+        updates.push(`${dep}: ${oldVersion} → ${version}`);
       }
     }
   });
