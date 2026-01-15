@@ -49,6 +49,8 @@
     [% template styles %]
     [% if $features?jinntap?version = "dev" %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]/jinn-tap/jinn-tap.css" />
+    [% elif exists($cdn?('@jinntec/jinntap-css')) %]
+    <link rel="stylesheet" href="[[ $cdn?('@jinntec/jinntap-css') ]]"/>
     [% else %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
     [% endif %]
@@ -57,6 +59,8 @@
     [% template scripts %]
     [% if $features?jinntap?version = "dev" %]
     <script type="module" src="[[ $features?jinntap?cdn ]]/jinn-tap/src/index.js"></script>
+    [% elif exists($cdn?('@jinntec/jinntap-bundle')) %]
+    <script type="module" src="[[ $cdn?('@jinntec/jinntap-bundle') ]]"></script>
     [% else %]
     <script type="module" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/index.es.js"></script>
     [% endif %]
@@ -105,7 +109,11 @@
         [% if ($features?collab?enable and $features?jinntap?schema) %]
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="[[ $context?features?jinntap?schema ]]"
                   token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]" sidebar="#attributes-panel">
+            [% if exists($features?jinntap?version) and $features?jinntap?version != "dev" %]
+            <img slot="aside" class="logo" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% else %]
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% endif %]
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>
@@ -120,7 +128,11 @@
         [% elif $features?collab?enable %]
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]"
                   token="[[ jt:jwt-token() ]]" server="[[ $features?collab?server ]]" sidebar="#attributes-panel">
+            [% if exists($features?jinntap?version) and $features?jinntap?version != "dev" %]
+            <img slot="aside" class="logo" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% else %]
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% endif %]
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>
@@ -134,7 +146,11 @@
         </jinn-tap>
         [% elif $features?jinntap?schema %]
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" schema="[[ $context?features?jinntap?schema ]]" sidebar="#attributes-panel">
+            [% if exists($features?jinntap?version) and $features?jinntap?version != "dev" %]
+            <img slot="aside" class="logo" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% else %]
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% endif %]
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>
@@ -148,7 +164,11 @@
         </jinn-tap>
         [% else %]
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" notes="disconnected" sidebar="#attributes-panel">
+            [% if exists($features?jinntap?version) and $features?jinntap?version != "dev" %]
+            <img slot="aside" class="logo" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% else %]
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
+            [% endif %]
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>

@@ -146,10 +146,33 @@ declare function api:page($request as map(*)) {
     let $doc := api:resolver("pages/" || $request?parameters?page)?content
     return
         if (exists($doc)) then
+            let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+            (: Dynamically build CDN URLs map from config/package.json :)
+            let $cdnUrls := 
+                if (map:size($dependencies) > 0 and exists($dependencies?jinks?cdn)) then
+                    map:merge(
+                        for $package in map:keys($dependencies?jinks?cdn)
+                        let $cdnConfig := $dependencies?jinks?cdn($package)
+                        return
+                            if ($cdnConfig instance of map(*)) then
+                                (: Build entries for each asset type (bundle, css, etc.) :)
+                                for $assetType in map:keys($cdnConfig)
+                                where $assetType != 'base' (: Skip the base URL :)
+                                let $cdnUrl := config:cdn-url($dependencies, $package, $assetType)
+                                where exists($cdnUrl)
+                                return
+                                    map:entry($package || '-' || $assetType, $cdnUrl)
+                            else
+                                ()
+                    )
+                else
+                    map {}
             let $context := map {
                 "title": "jinks",
                 "profiles": api:profiles(),
-                "context-path": $config:context-path
+                "context-path": $config:context-path,
+                "dependencies": $dependencies,
+                "cdn": $cdnUrls
             }
             let $output := tmpl:process($doc, $context, map {
                 "plainText": false(), 

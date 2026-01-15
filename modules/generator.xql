@@ -112,12 +112,117 @@ declare %private function generator:filter-conflicts($messages as map(*)*) {
  :)
 declare function generator:prepare($settings as map(*), $config as map(*)) {
     let $baseConfig := generator:config($settings, $config)
+    let $dependencies := generator:load-json($config:app-root || "/config/package.json", map {})
+    (: Get active profiles list for override checking :)
+    let $activeProfiles := 
+        if (exists($baseConfig?profiles)) then
+            $baseConfig?profiles
+        else
+            array {}
+    (: Dynamically build CDN URLs map from config/package.json, applying profile-specific overrides :)
+    let $cdnUrls := 
+        if (map:size($dependencies) > 0 and exists($dependencies?jinks?cdn)) then
+            map:merge(
+                for $package in map:keys($dependencies?jinks?cdn)
+                let $cdnConfig := $dependencies?jinks?cdn($package)
+                return
+                    if ($cdnConfig instance of map(*)) then
+                        (: Build entries for each asset type (bundle, css, etc.) :)
+                        for $assetType in map:keys($cdnConfig)
+                        where $assetType != 'base' (: Skip the base URL :)
+                        let $cdnUrl := config:cdn-url($dependencies, $package, $assetType, $activeProfiles)
+                        where exists($cdnUrl)
+                        return
+                            map:entry($package || '-' || $assetType, $cdnUrl)
+                    else
+                        ()
+            )
+        else
+            map {}
+    (: Pre-compute effective versions (with overrides applied) for template use :)
+    let $effectiveVersions := 
+        if (map:size($dependencies) > 0) then
+            (: Collect all unique package names from both dependencies and devDependencies :)
+            let $allPackages := distinct-values((
+                map:keys($dependencies?dependencies),
+                map:keys($dependencies?devDependencies)
+            ))
+            return
+                map:merge(
+                    for $package in $allPackages
+                    let $effectiveVersion := config:effective-version($dependencies, $package, $activeProfiles)
+                    where exists($effectiveVersion)
+                    return map:entry($package, $effectiveVersion)
+                )
+        else
+            map {}
+    let $dependenciesWithEffective := 
+        if (map:size($dependencies) > 0) then
+            map:merge(($dependencies, map {
+                "effectiveVersions": $effectiveVersions
+            }))
+        else
+            $dependencies
+    let $baseConfigWithDeps := 
+        if (map:size($dependencies) > 0) then
+            map:merge(($baseConfig, map { 
+                "dependencies": $dependenciesWithEffective,
+                "cdn": $cdnUrls
+            }))
+        else
+            $baseConfig
     let $mergedConfig :=
-        fold-right($baseConfig?profiles?*, $baseConfig, function($profile, $config) {
-            generator:call-prepare(generator:profile-path($profile), $config)
+        fold-right($baseConfigWithDeps?profiles?*, $baseConfigWithDeps, function($profile, $config) {
+            let $configAfterPrepare := generator:call-prepare(generator:profile-path($profile), $config)
+            (: If jinntap profile is present, populate features.jinntap from config/package.json :)
+            return
+                if ($profile = "jinntap" and map:size($dependencies) > 0) then
+                    let $jinntapVersionWithPrefix := config:effective-version($dependencies, '@jinntec/jinntap', $activeProfiles)
+                    let $jinntapVersion := 
+                        if (exists($jinntapVersionWithPrefix)) then
+                            replace($jinntapVersionWithPrefix, '^[\^~]', '')
+                        else
+                            ()
+                    let $jinntapCdnConfig := $dependencies?jinks?cdn('@jinntec/jinntap')
+                    let $jinntapCdn := 
+                        if ($jinntapCdnConfig instance of map(*) and exists($jinntapCdnConfig?base)) then
+                            $jinntapCdnConfig?base
+                        else
+                            "https://cdn.jsdelivr.net/npm/@jinntec/jinntap"
+                    let $jinntapFeatures := 
+                        if (exists($jinntapVersion)) then
+                            map:merge((
+                                $configAfterPrepare?features?jinntap,
+                                map {
+                                    "version": $jinntapVersion,
+                                    "cdn": $jinntapCdn
+                                }
+                            ))
+                        else
+                            $configAfterPrepare?features?jinntap
+                    return
+                        if (exists($jinntapFeatures)) then
+                            map:merge(($configAfterPrepare, map {
+                                "features": map:merge((
+                                    $configAfterPrepare?features,
+                                    map { "jinntap": $jinntapFeatures }
+                                ))
+                            }))
+                        else
+                            $configAfterPrepare
+                else
+                    $configAfterPrepare
         })
+    (: Process styles array after all profiles are merged to replace hardcoded CDN URLs :)
+    let $processedStyles := 
+        if (exists($mergedConfig?styles)) then
+            config:process-styles($mergedConfig?styles, $cdnUrls, $dependencies)
+        else
+            $mergedConfig?styles
     return
-        $mergedConfig
+        map:merge(($mergedConfig, map {
+            "styles": $processedStyles
+        }))
 };
 
 declare %private function generator:call-prepare($collection as xs:string, $baseConfig as map(*)?) {

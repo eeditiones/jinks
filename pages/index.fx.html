@@ -5,10 +5,17 @@
     <title>[[$title]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
+    [% if exists($cdn?('fore-css')) %]
+    <link rel="stylesheet" type="text/css" href="[[ $cdn?('fore-css') ]]"/>
+    <link rel="stylesheet" href="[[$context?path]]/pages/styles.css"/>
+    <script type="module" src="[[ $cdn?('jinn-codemirror-bundle') ]]"></script>
+    <script type="module" src="[[ $cdn?('fore-bundle') ]]"></script>
+    [% else %]
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@jinntec/fore@2.0.0/resources/fore.css"/>
     <link rel="stylesheet" href="[[$context?path]]/pages/styles.css"/>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.17.0/dist/jinn-codemirror-bundle.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@2.0.0/dist/fore.js"></script>
+    [% endif %]
 </head>
 <body>
     <fx-fore>

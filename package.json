@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "node build.cjs",
-    "test": "npx cypress run"
+    "test": "npx cypress run",
+    "sync:dependencies": "node scripts/sync-dependencies.js",
+    "validate:dependencies": "node scripts/validate-dependencies.js"
   },
   "repository": {
     "type": "git",
