@@ -90,7 +90,7 @@ declare variable $config:address-by-id as xs:boolean := [%if $defaults?address-b
 declare variable $config:default-language as xs:string := "[[ $context?defaults?language ]]";
 
 declare variable $config:context-path :=
-    [% if $defaults?context-path %]
+    [% if map:contains($defaults, "context-path") %]
     "[[ $defaults?context-path ]]"
     [% else %]
     let $prop := util:system-property("teipublisher.context-path")
