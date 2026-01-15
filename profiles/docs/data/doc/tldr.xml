@@ -94,7 +94,7 @@
             
             <para>
                 <emphasis role="bold">
-                    <important>Please be aware that the TEI Publisher Dev Docker Container is not hardened for use on public servers!</important>
+                    Please be aware that the TEI Publisher Dev Docker Container is not hardened for use on public servers!
                     To run TEI Publisher on the server please make sure to read <link xlink:href="tldr.xml#production">Running TEI Publisher in Production</link> below.
                 </emphasis>
             </para>
@@ -117,11 +117,21 @@
                     profile</link>. Jinks is the new TEI Publisher application manager. The <link xlink:href="/" xlink:show="new">TEI Publisher homepage</link> consists of three different <emphasis role="bold">Jinks profiles</emphasis> and Jinks itself:</para>
             <itemizedlist>
                 <listitem>
-                    <link xlink:href="/exist/apps/tei-publisher/browse.html" xlink:show="new">Documentation &amp; Demo </link> - this article is part of the profile for self-guided learning.</listitem>
+                    <para>
+                        <link xlink:href="/exist/apps/tei-publisher/browse.html" xlink:show="new">Documentation &amp; Demo </link> - this article is part of the profile for self-guided learning.
+                    </para>
+                </listitem>                    
                 <listitem>
-                    <link xlink:href="/exist/apps/tp-serafin/" xlink:show="new">Serafin</link>- Real-world correspondence edition example</listitem>
+                    <para>    
+                        <link xlink:href="/exist/apps/tp-serafin/" xlink:show="new">Serafin</link>- Real-world correspondence edition example
+                    </para>
+                </listitem>
                 <listitem>
-                    <link xlink:href="/exist/apps/tp-workbench/">Workbench</link> - Interactive TEI editing</listitem>
+                    <para>
+                        <link xlink:href="/exist/apps/tp-workbench/">Workbench</link> - Interactive TEI editing
+                    </para>
+                </listitem>
+                    
             </itemizedlist>
             <para>Via the <link xlink:href="/exist/apps/dashboard" xlink:show="new">eXist-db Dashboard</link> you can see the TEI Publisher application manager <link xlink:href="/exist/apps/jinks" xlink:show="new">Jinks</link> itself, all applications created with Jinks, and all other
              eXist-db applications.</para>
@@ -140,18 +150,24 @@
                     <para>General introduction to TEI Publisher. Enjoy it from start to finish or jump straight into <link xlink:href="quickstart.xml?id=using-jinks">Hands on with Jinks</link> tutorial to create your own app.</para>
                 </listitem>
                 <listitem>
-                    Everything there is to know about <link xlink:href="documentation.xml?id=odd">TEI Processing
-                    Model</link>; not always an easy read but worth it in the end.
+                    <para>
+                        Everything there is to know about <link xlink:href="documentation.xml?id=odd">TEI Processing
+                        Model</link>; not always an easy read but worth it in the end.
+                    </para>
                 </listitem>
                 <listitem>
-                    <link xlink:href="documentation.xml?id=anatomy">Anatomy of
-                    a Jinks profile</link>: nerves and muscles of Publisher and how to train your own. For developers planning to customize or create Jinks profiles and applications.
+                    <para>
+                        <link xlink:href="documentation.xml?id=anatomy">Anatomy of
+                        a Jinks profile</link>: nerves and muscles of Publisher and how to train your own. For developers planning to customize or create Jinks profiles and applications.
+                    </para>
                 </listitem>
                     
                 <listitem>
-                    <link xlink:href="https://www.e-editiones.org/pages/getting-started/" xlink:show="new">Getting started</link>: a collection of resources and tutorials
-                    around TEI and TEI Publisher curated by e-editiones. </listitem>
-<!--                <listitem>TBD: Dashboard</listitem>-->
+                    <para>
+                        <link xlink:href="https://www.e-editiones.org/pages/getting-started/" xlink:show="new">Getting started</link>: a collection of resources and tutorials
+                        around TEI and TEI Publisher curated by e-editiones. 
+                    </para>
+                </listitem>
             </itemizedlist>   
         </para>
     </section>    
@@ -164,7 +180,7 @@
                 <listitem>
                     <para>
                         <emphasis role="bold">
-                            <important>Make sure TEI Publisher runs on a hardened (secured by minimizing vulnerabilities) eXist-db.</important>
+                            Make sure TEI Publisher runs on a hardened (secured by minimizing vulnerabilities) eXist-db.
                         </emphasis>
                     </para>
                     <para>You can use community-provided hardened eXist-db images, e.g. <link xlink:href="https://hub.docker.com/layers/duncdrum/existdb/release-nonroot-slim/images/sha256-0957a844af0a9d4b1b246c361956d9f13985b7b4b66e0ebc27736f14eacc2eab" xlink:show="new">duncdrum/existdb:release-nonroot-slim</link> in a Docker Compose setup,
@@ -174,19 +190,25 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <emphasis role="bold">
-                            <important>It is strongly recommended to use a <link xlink:href="https://en.wikipedia.org/wiki/Proxy_server" xlink:show="new">proxy server
-                    </link>in production environments!</important>
-                        </emphasis>
+                        <important>                            
+                            <para>
+                            <emphasis role="bold">
+                            It is strongly recommended to use a <link xlink:href="https://en.wikipedia.org/wiki/Proxy_server" xlink:show="new">proxy server
+                        </link>in production environments!
+                        </emphasis></para>
+                        </important>
                     </para>
                     <para>See <link xlink:href="documentation.xml?id=proxy">running behind a
                             proxy</link>.</para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="https://www.e-editiones.org/pages/get-in-touch/" xlink:show="new">Get in
                         touch</link> in case you or your IT Department are having any security concerns
                     about hosting TEI Publisher or eXist-db. See <link xlink:href="documentation.xml?id=hosting" xlink:show="new">Hosting
-                        Options</link> if you'd like to outsource this service.</listitem>
+                        Options</link> if you'd like to outsource this service.
+                    </para>
+                </listitem>
             </itemizedlist>
         </para>
     </section>    
@@ -196,21 +218,33 @@
             <title>TEI Publisher </title>
             <itemizedlist>
                 <listitem>
+                    <para>
                     <link xlink:href="documentation.xml?id=templates">Jinks
                         Templates</link>
+                    </para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="documentation.xml?id=api">Server Side API</link>
+                    </para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="documentation.xml?id=url-routing">URL
                         Routing</link>
+                    </para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="documentation.xml?id=facets">Facet Search
                         Configuration</link>
+                    </para>
                 </listitem>
-                <listitem>Tool: <link xlink:href="https://www.npmjs.com/package/@teipublisher/jinks-cli" xlink:show="new">@tei-publisher/jinks-cli</link>  - nodejs command line interface for jinks
+                <listitem>
+                    <para>Tool: <link
+                            xlink:href="https://www.npmjs.com/package/@teipublisher/jinks-cli"
+                            xlink:show="new">@tei-publisher/jinks-cli</link> - nodejs command line
+                        interface for jinks</para>
                 </listitem>
             </itemizedlist>
         </section>
@@ -218,16 +252,25 @@
             <title>eXist-db</title>
             <itemizedlist>
                 <listitem>
+                    <para>
                     <link xlink:href="https://exist-db.org/exist/apps/doc/tuning" xlink:show="new">Tuning the
                         Database</link>
+                    </para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="https://exist-db.org/exist/apps/doc/indexing" xlink:show="new">Configuring Database Indexes</link>
+                    </para>
                 </listitem>
                 <listitem>
+                    <para>
                     <link xlink:href="https://exist-db.org/exist/apps/doc/production_good_practice" xlink:show="new">Production Use - Good Practice</link>
+                    </para>
                 </listitem>
-                <listitem>Tool: <link xlink:href="https://www.npmjs.com/package/@existdb/xst" xlink:show="new">@existdb/xst</link> - nodejs command line interface for eXist-db</listitem>
+                <listitem>
+                    <para>Tool: <link xlink:href="https://www.npmjs.com/package/@existdb/xst" xlink:show="new">@existdb/xst</link> - nodejs command line interface for eXist-db
+                    </para>
+                </listitem>
             </itemizedlist>
         </section>                
     </section>
