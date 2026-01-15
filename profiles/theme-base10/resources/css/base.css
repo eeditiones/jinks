@@ -322,8 +322,25 @@ pb-popover {
 /* Display KWIC search results */
 .results .card header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
+}
+
+.results {
+    padding: 1rem;
+    --jinks-breadcrumbs-max: none;
+}
+
+.results nav[aria-label="breadcrumb"] {
+    white-space: normal;
+}
+
+.results nav[aria-label="breadcrumb"] ul {
+    flex-wrap: wrap;
+}
+
+.results nav[aria-label="breadcrumb"] ul li {
+    padding: 0 0.5rem;
 }
 
 .results .card header .count {
@@ -476,6 +493,7 @@ aside nav[aria-label="breadcrumb"] ul li a {
 [aria-label=breadcrumb] {
     font-size: var(--jinks-breadcrumbs-font-size);
     white-space: nowrap;
+    position: relative;
 }
 
 nav[aria-label="breadcrumb"] ul li {

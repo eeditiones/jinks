@@ -133,19 +133,23 @@ declare function teis:get-breadcrumbs($config as map(*), $hit as node(), $parent
     let $work := root($hit)/*
     let $work-title := nav:get-document-title($config, $work)/string()
     return
-        <div class="breadcrumbs">
-            <a class="breadcrumb" href="{$parent-id}">{$work-title}</a>
-            {
-                for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
-                let $id := util:node-id(
-                    if ($config?view = "page") then ($parentDiv/preceding::tei:pb[1], $parentDiv)[1] else $parentDiv
-                )
-                return
-                    <a class="breadcrumb" href="{$parent-id || "?action=search&amp;root=" || $id || "&amp;view=" || $config?view || "&amp;odd=" || $config?odd}">
-                    {$parentDiv/tei:head/string()}
-                    </a>
-            }
-        </div>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li><a href="{$parent-id}">{$work-title}</a></li>
+                {
+                    for $parentDiv in $hit/ancestor-or-self::tei:div[tei:head]
+                    let $id := util:node-id(
+                        if ($config?view = "page") then ($parentDiv/preceding::tei:pb[1], $parentDiv)[1] else $parentDiv
+                    )
+                    return
+                        <li>
+                            <a href="{$parent-id || "?action=search&amp;root=" || $id || "&amp;view=" || $config?view || "&amp;odd=" || $config?odd}">
+                            {$parentDiv/tei:head/string()}
+                            </a>
+                        </li>
+                }
+            </ul>
+        </nav>
 };
 
 (:~
