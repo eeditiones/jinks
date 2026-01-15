@@ -710,7 +710,14 @@ declare %private function dapi:toc-div($node, $model as map(*), $target as xs:st
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
             let $nodeId :=  if ($parent) then util:node-id($parent) else util:node-id($root)
             let $xmlId := if ($parent) then $parent/@xml:id else $root/@xml:id
-            let $subsect := if ($parent) then attribute hash { util:node-id($root) } else ()
+            let $hash := 
+                if ($view != 'page' and not(nav:get-section-for-node($model?config, $div) is $root)) then
+                    if ($root/@xml:id) then 
+                        attribute hash { $root/@xml:id }
+                    else
+                        attribute hash { util:node-id($root) }
+                else 
+                    ()
             return
                     <li>
                     {
@@ -718,7 +725,7 @@ declare %private function dapi:toc-div($node, $model as map(*), $target as xs:st
                             map {
                                 "xmlId": $xmlId,
                                 "nodeId": $nodeId,
-                                "label": ($subsect, $html),
+                                "label": ($hash, $html),
                                 "hasDivs": $hasDivs,
                                 "target": $target
                             },
