@@ -10,8 +10,13 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -22,23 +27,41 @@ jobs:
         run: npm ci
       
       - name: Sync shared dependencies
-        run: node scripts/sync-dependencies.js
+        run: npm run sync:dependencies
       
       - name: Check for changes
         id: changes
         run: |
-          if [ -n "$(git status --porcelain config/package.json)" ]; then
+          git status
+          git diff config/package.json || true
+          if ! git diff --quiet config/package.json; then
+            echo "Changes detected in config/package.json"
             echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes detected in config/package.json"
+            echo "changed=false" >> $GITHUB_OUTPUT
           fi
       
       - name: Commit updates
         if: steps.changes.outputs.changed == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "eeditiones-bot@users.noreply.github.com"
+          git config --local user.name "eeditiones-bot"
           git add config/package.json
           git commit -m "chore: sync shared dependencies from root package.json"
-          git push
+          
+          # Determine the branch to push to
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.head_ref }}"
+          else
+            BRANCH="${{ github.ref_name }}"
+          fi
+          
+          echo "Pushing to branch: $BRANCH"
+          git push origin HEAD:$BRANCH || {
+            echo "Push failed. This might be expected for PRs from forks."
+            exit 0
+          }
       
       - name: Validate dependencies
         run: npm run validate:dependencies
