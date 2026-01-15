@@ -710,7 +710,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         
         formData.forEach((value, key) => {
-            if (key === 'description' && value.length > 0) {
+            if (key === 'description') {
                 appConfig.description = value;
             } else if (!['base', 'feature', 'theme', 'blueprint', 'abbrev', 'description', 'custom-odd', 'overwrite', 'color-palette', 'bootstrap', 'bootstrap-type'].includes(key)) {
                 appConfig[key] = value;
@@ -924,7 +924,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //     process(true);
     // });
 
-    form.querySelectorAll('input[type="text"]:not(.action)').forEach((control) => control.addEventListener('change', update));
+    form.querySelectorAll('input[type="text"]:not(.action),textarea[name="description"]').forEach((control) => control.addEventListener('change', update));
     form.querySelectorAll('input[type="radio"][name="base"]').forEach((control) => {
         control.addEventListener('change', (ev) => {
             toggleFeature(ev);
