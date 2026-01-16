@@ -18,8 +18,9 @@
         <script type="module" src="[[$script?cdn]]/src/pb-leaflet-map.js"></script>
         [% elif $script?webcomponents = 'local' %]
         <script type="module" src="[[ $context-path ]]/resources/lib/pb-leaflet-map.js"></script>
-        [% elif $script?webcomponents = '' %]
-        [% else %]
+        [% elif exists($cdn?('@teipublisher/pb-components-bundle')) %]
+        <script type="module" src="[[ replace($cdn?('@teipublisher/pb-components-bundle'), 'pb-components-bundle.js', 'pb-leaflet-map.js') ]]"></script>
+        [% elif exists($script?webcomponents) and exists($script?cdn) %]
         <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-leaflet-map.js"></script>
         [% endif %]
     [% endif %]

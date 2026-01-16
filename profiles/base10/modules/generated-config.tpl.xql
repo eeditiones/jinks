@@ -7,7 +7,14 @@ module namespace config="https://e-editiones.org/tei-publisher/generator/config"
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-declare variable $config:webcomponents := "[[$script?webcomponents]]";
+declare variable $config:webcomponents := 
+    [% if exists($dependencies?dependencies?('@teipublisher/pb-components')) %]
+    "[[ replace($dependencies?dependencies?('@teipublisher/pb-components'), '^[\^~]', '') ]]"
+    [% elif exists($script?webcomponents) %]
+    "[[$script?webcomponents]]"
+    [% else %]
+    ""
+    [% endif %];
 declare variable $config:webcomponents-cdn := "[[$script?cdn]]";
 declare variable $config:fore := "[[$script?fore]]";
 
