@@ -108,6 +108,26 @@ declare %private function dapi:mkcol ($collection, $path) {
     dapi:mkcol-recursive($collection, tokenize($path, "/"))
 };
 
+declare %private function dapi:is-writable($path as xs:string) {
+    let $perms := sm:get-permissions(xs:anyURI($path))/sm:permission
+    let $mode := $perms/@mode (: This regex matches the Ws in rWxrWxrWx :)
+    let $writeFlags := analyze-string($mode, '.(.)..(.)..(.).')//fn:group/string()
+    let $current-user := sm:id()//sm:real/sm:username/string()
+    let $current-groups := sm:id()//sm:real//sm:group/string()
+    return
+        if ($writeFlags[1] = 'w' and $perms/@owner = $current-user) then
+            (: User writable :)
+            true()
+        else if ($writeFlags[2] = 'w' and $perms/@group = $current-groups) then
+            (: Group writable :)
+            true()
+        else if ($writeFlags[3] = 'w') then
+            (: World writable :)
+            true()
+        else
+            false()
+};
+
 declare function dapi:save ($request as map(*)) {
     let $id := $request?parameters?id
     let $path := if ($id => contains("/")) then (
@@ -120,19 +140,38 @@ declare function dapi:save ($request as map(*)) {
     let $resource-name := tokenize($id, "/")[last()]
     (: Ensure the collection exists :)
     let $_ := dapi:mkcol($config:data-default, $path)
+    let $collection := string-join(($config:data-default, $path), "/")
     let $body := $request?body
-    return try {
-        let $path := xmldb:store(
-            string-join(($config:data-default, $path), "/"),
-            $resource-name,
-            $body
+    return if (
+        not(doc-available(xs:anyURI($collection || "/" || $resource-name))) and
+            not(dapi:is-writable(xs:anyURI($collection)))
+    ) then (
+        error(
+            $errors:FORBIDDEN,
+            "The collection " || $collection || " is not writable"
         )
-        return router:response(
-            200,
-            "application/json",
-            map {"status": "ok", "path": config:get-relpath(doc($path))}
+    ) else if (
+        doc-available(xs:anyURI($collection || "/" || $resource-name)) and
+            not(dapi:is-writable(xs:anyURI($collection || "/" || $resource-name)))
+    ) then (
+        error(
+            $errors:FORBIDDEN,
+            "The resource " ||
+                $collection ||
+                "/" ||
+                $resource-name ||
+                " is not writable"
         )
-    } catch * { error($errors:BAD_REQUEST, $err:description) }
+    ) else (
+        try {
+            let $path := xmldb:store($collection, $resource-name, $body)
+            return router:response(
+                200,
+                "application/json",
+                map {"status": "ok", "path": config:get-relpath(doc($path))}
+            )
+        } catch * { error($errors:BAD_REQUEST, $err:description) }
+    )
 };
 
 declare function dapi:source($request as map(*)) {
