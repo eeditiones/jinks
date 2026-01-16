@@ -489,6 +489,10 @@ declare function static:prepare($jsonConfig as map(*)) {
                 "templating": map:merge((
                     $jsonConfig?templating,
                     map:entry("use", $jsonConfig?static?templating?use)
+                )),
+                "defaults": map:merge((
+                    $jsonConfig?defaults,
+                    map:entry("browse", "")
                 ))
             }
         ))

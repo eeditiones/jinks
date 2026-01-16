@@ -5,10 +5,13 @@
         </li>
         [% for $item in $menu?items?* %]
         [% if $item?url or $item?url = ''%]
+        [% let $url = if (starts-with($item?url, 'http')) then $item?url else $context-path || '/' || $item?url %]
         <li class="hidden-mobile">
-            <a href="[[ $context-path ]]/[[ $item?url ]]"><pb-i18n key="menu.[[ $item?id ]]">[[ $item?id
-                    ]]</pb-i18n></a>
+            <a href="[[ replace($url, 'browse\.html', $context?defaults?browse) ]]">
+                <pb-i18n key="menu.[[ $item?id ]]">[[ $item?id ]]</pb-i18n>
+            </a>
         </li>
+        [% endlet %]
         [% endif %]
         [% endfor %]
 
