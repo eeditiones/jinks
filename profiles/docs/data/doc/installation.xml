@@ -42,12 +42,12 @@
                 <step>
                     <para>Run the following command. This will automatically download the image if not yet available:</para>
                     <synopsis>docker run -p 8080:8080 -v exist-data:/exist/data --name teipublisher existdb/teipublisher:latest</synopsis>
-                    <para>Startup should be fast because the database is already pre-populated.
-                        However, changes you make may not persist if the docker container is deleted
-                        or updated to a newer release. If you want to be sure that your changes are
-                        safe, you should specify a local volume for storing the database by
-                        adding:</para>
-                    <synopsis>-v exist-data:/exist/data</synopsis>
+                    <para>Startup should be fast because the database is already pre-populated.</para>
+                    <note>
+                        <title>Caveat</title>
+                        <para>If you already had a previous version of TEI Publisher installed via docker, use a different name for <option>-v</option>, e.g. <code>exist-data10</code>. Otherwise you may
+                            get the old version.</para>
+                    </note>
                     <para>See below for an explanation of the parameters:</para>
                     <variablelist>
                         <varlistentry>

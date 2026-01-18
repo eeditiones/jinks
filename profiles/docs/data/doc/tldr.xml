@@ -102,10 +102,13 @@
             
             <para>Make sure Docker is running and start TEI Publisher using the official pre-built
                 Docker image by running the following command from your terminal: </para>
-            <para>
             <programlisting>docker run -p 8080:8080 -v exist-data:/exist/data
                 existdb/teipublisher:latest</programlisting>
-            </para>
+            <note>
+                <title>Caveat</title>
+                <para>If you already had a previous version of TEI Publisher installed via docker, use a different name for <option>-v</option>, e.g. <code>exist-data10</code>. Otherwise you may
+                    get the old version.</para>
+            </note>
             <para>Point your browser to <link xlink:href="http://localhost:8080/exist/apps/tei-publisher/doc/tldr.xml" xlink:show="new">localhost:8080/exist/apps/tei-publisher/doc/tldr.xml</link> to verify everthing
                 works fine. You should see this page but now served by the TEI Publisher Dev Docker
                 Container you just started.</para>
