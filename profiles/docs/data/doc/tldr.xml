@@ -106,7 +106,8 @@
                 existdb/teipublisher:latest</programlisting>
             <note>
                 <title>Caveat</title>
-                <para>If you already had a previous version of TEI Publisher installed via docker, use a different name for <option>-v</option>, e.g. <code>exist-data10</code>. Otherwise you may
+                <para>If you already had a previous version of TEI Publisher installed via docker, make sure to run a <code>docker pull existdb/teipublisher:latest</code> first.</para>
+                <para>Also use a different name for <option>-v</option> in the <code>run</code> command, e.g. <code>exist-data10</code>. Otherwise you may
                     get the old version.</para>
             </note>
             <para>Point your browser to <link xlink:href="http://localhost:8080/exist/apps/tei-publisher/doc/tldr.xml" xlink:show="new">localhost:8080/exist/apps/tei-publisher/doc/tldr.xml</link> to verify everthing
