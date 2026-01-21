@@ -98,9 +98,17 @@ function setupFacsimileIntegration(editor) {
             return;
         }
 
-        const facs = closestPageBegin.getAttribute("facs");
+        let facs = closestPageBegin.getAttribute("facs");
         if (!facs) {
             return;
+        }
+        const n = closestPageBegin.getAttribute("n");
+        if (!n) {
+            return;
+        }
+
+        if (facs.startsWith("iiif:")) {
+            facs = facs.substring("iiif:".length);
         }
 
         // TODO: Any other way to integrate more cleanly with pb-components>
