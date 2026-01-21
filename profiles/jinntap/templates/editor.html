@@ -94,7 +94,7 @@
             for $url in $doc//tei:text//tei:pb/@facs
             return
                 if (starts-with($url, 'iiif:')) then
-                    substring-after('iiif:', $url)
+                    substring-after($url, 'iiif:')
                 else
                     string($url)
         }
