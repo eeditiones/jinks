@@ -86,12 +86,12 @@ Standard configuration is as follows:
 
 ```xml
 <text qname="tei:place">
-    <field name="name" expression="tei:placeName"/>
-    <field name="sort-name" expression="head((tei:placeName[@type='sort'], tei:placeName)) =&gt; normalize-unicode('NFD')     =&gt; replace('\p{IsCombiningDiacriticalMarks}', '')"/>
+    <field name="name" expression="tei:placeName"></field>
+    <field name="sort-name" expression="head((tei:placeName[@type='sort'], tei:placeName)) =&gt; normalize-unicode('NFD')     =&gt; replace('\p{IsCombiningDiacriticalMarks}', '')" ></field>
 </text>
 <text qname="tei:person">
-    <field name="name" expression="tei:persName"/>
-    <field name="sort-name" expression="head((tei:persName[@type='sort'], tei:persName))=&gt; normalize-unicode('NFD')     =&gt; replace('\p{IsCombiningDiacriticalMarks}', '')"/>
+    <field name="name" expression="tei:persName"></field>
+    <field name="sort-name" expression="head((tei:persName[@type='sort'], tei:persName))=&gt; normalize-unicode('NFD')     =&gt; replace('\p{IsCombiningDiacriticalMarks}', '')"></field>
 </text>
 ```
 
