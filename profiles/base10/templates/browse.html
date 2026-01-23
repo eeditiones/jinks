@@ -72,20 +72,6 @@
     
     <pb-custom-form class="options">
         <fieldset>
-            <label for="search.sort"><pb-i18n key="browse.sort"></pb-i18n>:</label>
-            <select name="sort" id="search.sort">
-                [% let $current = page:parameter($context, 'sort', $context?features?browse?sort?default) %]
-                [% for $option in $context?features?browse?sort?options?* %]
-                [% if $current = $option?value %]
-                <option value="[[ $option?value ]]" selected="selected" data-i18n="[[ $option?key ]]"></option>
-                [% else %]
-                <option value="[[ $option?value ]]" data-i18n="[[ $option?key ]]"></option>
-                [% endif %]
-                [% endfor %]
-                [% endlet %]
-            </select>
-        </fieldset>
-        <fieldset>
             <label for="search.field"><pb-i18n key="search.scope"></pb-i18n>:</label>
             <select name="field" id="search.field">
                 [% let $current = page:parameter($context, 'field', $context?features?browse?field?default) %]
@@ -94,6 +80,20 @@
                 <option value="[[ $option?value ]]" selected="selected" data-i18n="[[ $option?key ]]"></option>
                 [% else %]
                 <option value="[[ $option?value ]]"  data-i18n="[[ $option?key ]]"></option>
+                [% endif %]
+                [% endfor %]
+                [% endlet %]
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="search.sort"><pb-i18n key="browse.sort"></pb-i18n>:</label>
+            <select name="sort" id="search.sort">
+                [% let $current = page:parameter($context, 'sort', $context?features?browse?sort?default) %]
+                [% for $option in $context?features?browse?sort?options?* %]
+                [% if $current = $option?value %]
+                <option value="[[ $option?value ]]" selected="selected" data-i18n="[[ $option?key ]]"></option>
+                [% else %]
+                <option value="[[ $option?value ]]" data-i18n="[[ $option?key ]]"></option>
                 [% endif %]
                 [% endfor %]
                 [% endlet %]
