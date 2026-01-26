@@ -1,10 +1,10 @@
 # Feature for editing metadata
 
-The feature allows for editing the contents of a teiHeader element as its separate page, or in the jinntap editor.
+The feature allows for editing the contents of the `teiHeader` element as a separate page, or within the the jinntap editor.
 
 ## Stand-alone
 
-The editor is available as a stand-alone version. It has its own page that can be opened by clicking the `Edit metadata` buttom in the browse collection page. This is intended
+The editor is available as a stand-alone version. It has its own page that can be opened by clicking the `Edit metadata` button in the browse collection page. This is intended
 for big forms where there are many separate fields that require visual space.
 
 ## In jinn-tap
