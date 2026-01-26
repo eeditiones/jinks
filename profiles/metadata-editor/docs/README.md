@@ -15,11 +15,11 @@ sense to edit them alongside the body of a manuscript.
 ## Customization
 
 The profile comes with a basic example that edits the title of a document, and the author(s). This
-is meant as an axample that can be customized later on.
+is meant as an example that can be customized later on.
 
-The changes should be made in the `form.html` file, where Fore is used to define a form for the
-teiHeader. To add for example an input field for the `teiHeader/sourceDesc/bibl` element, add
-something like this to add editing capabilites for it.
+The changes should be made in the `form.html` file, where Fore is used to define a form for the 
+`teiHeader`. To add for example an input field for the `teiHeader/sourceDesc/bibl` element, include
+something like the following to make the element editable.
 
 ```html
 <fieldset>
