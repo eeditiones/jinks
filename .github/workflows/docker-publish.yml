@@ -46,7 +46,7 @@ jobs:
       - name: Start docker image
         run: docker run --publish 8080:8080 --name db --detach ${{ env.TEST_TAG }}
       - name: Run Cypress e2e test
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           browser: firefox
       - name: Retrieve eXist log
