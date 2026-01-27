@@ -14,8 +14,8 @@ sense to edit them alongside the body of an edition.
 
 ## Customization
 
-The profile comes with a basic example that edits the title of a document, and the author(s). This
-is meant as an example that can be customized later on.
+The profile comes with a basic example that edits the title of a document (first `title` element within `titleStmt`, and the author(s) (any `author` element within `titleStmt`).  This
+is meant as an example to be customized later on. The sample form shows you how to edit existing elements in the `teiHeader` with two different behaviours: the example form expects that there is only one  `title` element and that is why only the first one can be edited; on the other hand, the form expects that there is one or more authors. 
 
 The changes should be made in the `form.html` file, where [Fore](https://jinntec.github.io/Fore/doc/index.html) is used to define a form for the 
 `teiHeader`. To add for example an input field for the `teiHeader/sourceDesc/bibl` element, include
