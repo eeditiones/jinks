@@ -115,7 +115,8 @@ declare function capi:documents($request as map(*)) {
                     "display": "browse",
                     "doc": $relPath,
                     "context-path": $request?parameters?link,
-                    "static": true()
+                    "static": true(),
+                    "root": $doc
                 }, $config?odd)
             return
                 map {
