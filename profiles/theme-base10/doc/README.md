@@ -32,6 +32,7 @@ The following table shows the current list of settings which can be changed via 
 | `fonts.heading.weight` | Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc. | `"400"` |
 | `fonts.menubar.size` | Font size for the menubar. Use `rem` for relative size. | `"14px"` |
 | `fonts.toc.size` | Font size for table of contents. Use `rem` for relative size. | `"1.125rem"` |
+| `icons` | List of icon files to include in the theme. Path should be relative to resources/css. | `[0 items]` |
 | `layout.after.hidden` | If true, the after sidebar will be initially hidden | `false` |
 | `layout.after.toggle` | If true, add a toggle button to the after sidebar to collapse and expand | `true` |
 | `layout.after.width` | Width of the after sidebar | `"min(30vw, 356px)"` |
