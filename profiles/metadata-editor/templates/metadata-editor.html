@@ -31,13 +31,15 @@
 
     [% include "templates/form.html" %]
 
+	<fx-group>
 	<fieldset>
 	  <fx-trigger >
-		<button href="#" class="icon" data-tooltip="Save" data-placement="bottom">
+		<button href="#" data-tooltip="Save" data-placement="bottom">
 		  Save
 		</button>
 		<fx-send submission="save"></fx-send>
 	  </fx-trigger>
 	</fieldset>
+	</fx-group>
   </fx-fore>
 </template>
