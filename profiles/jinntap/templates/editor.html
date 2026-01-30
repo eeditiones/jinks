@@ -88,25 +88,12 @@
 
     [% template before %]
     [% if ($features?iiif?viewer = "pb-facsimile") %]
-    [% let $facsimiles =
-        let $doc := $context?doc?content
-        return array {
-            for $url in $doc//tei:text//tei:pb/@facs
-            return
-                if (starts-with($url, 'iiif:')) then
-                    substring-after($url, 'iiif:')
-                else
-                    string($url)
-        }
-    %]
     <pb-facsimile
-         base-uri="[[ $features?iiif?base_uri ]]"
+         base-uri=""
          show-navigator="true"
          show-navigation-control="true"
          show-full-page-control="true"
-         show-sequence-control="true"
-         facsimiles="[[ serialize($facsimiles, map{'method': 'json'} ) ]]"></pb-facsimile>
-    [% endlet %]
+         show-sequence-control="true"></pb-facsimile>
     [% endif %]
     [% endtemplate %]
 
