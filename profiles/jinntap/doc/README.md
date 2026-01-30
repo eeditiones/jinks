@@ -266,3 +266,7 @@ The Cortez example in the demo content profile is set up in a way that will work
 profile. To see it, create a new application with the demo data profile, the jinntap profile and the
 IIIF profile. Set the `features.iiif.viewer` option to `pb-facsimile` and open the the
 `CIDTC-3823-cortez.xml` demo document.
+
+## Credits
+
+Integrating facsimiles with the JinnTap profile is commisioned by [the Office of the Historian](https://history.state.gov/), U.S. Department of State.
