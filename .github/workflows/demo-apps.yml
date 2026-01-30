@@ -90,30 +90,11 @@ jobs:
       - name: Extract XAR files for generated apps
         working-directory: demo
         run: |
-          # Get app abbreviations from config files
-          for config in *_config.json; do
-            abbrev=$(jq -r '.pkg.abbrev' "$config")
-            echo "Downloading XAR for $abbrev..."
-
-            # Download XAR using the jinks API actions/download endpoint
-            # This packages the app from /db/apps/{abbrev} and returns it as XAR
-            curl -s -u "tei:simple" -X POST \
-              "http://localhost:8080/exist/apps/jinks/api/actions/download?root=/db/apps/$abbrev" \
-              -o "${abbrev}.xar" || {
-                echo "Failed to download $abbrev.xar via jinks API, trying app API..."
-                # Fallback: try the app's own download endpoint
-                curl -s -u "tei:simple" \
-                  "http://localhost:8080/exist/apps/$abbrev/api/apps/download" \
-                  -o "${abbrev}.xar" || {
-                  echo "Failed to download $abbrev.xar"
-                  exit 1
-                }
-              }
-
-            echo "Downloaded ${abbrev}.xar ($(stat -f%z "${abbrev}.xar" 2>/dev/null || stat -c%s "${abbrev}.xar") bytes)"
-          done
-
-
+          jinks run tei-publisher download
+          jinks run tp-serafin download
+          jinks run tp-workbench download
+      
+      
       - name: List generated XAR files
         working-directory: demo
         run: |
