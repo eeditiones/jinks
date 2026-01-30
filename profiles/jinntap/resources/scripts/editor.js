@@ -85,9 +85,27 @@ async function copyToClipboard(editor) {
 }
 
 /**
- * @param editor {HTMLElement}
+ * @param {HTMLElement} editor
+ * @param {HTMLElement} pbFacsimile
+ * @param {string} baseUri
+ * @param {string} doc
  */
-function setupFacsimileIntegration(editor) {
+async function setupFacsimileIntegration(editor, pbFacsimile, baseUri, doc) {
+	const result = await fetch(
+		`${baseUri}/api/facsimiles/${encodeURIComponent(doc)}`,
+	);
+	if (!result.ok) {
+		return;
+	}
+	const facsimileByFacs = await result.json();
+	pbFacsimile.setAttribute(
+		"facsimiles",
+		JSON.stringify(Object.values(facsimileByFacs)),
+	);
+
+	// Force the pb-facsimiles to rerender and see it has new facsimiles
+	pbFacsimile.replaceWith(pbFacsimile.cloneNode());
+
 	editor.addEventListener("click", (event) => {
 		/**
 		 * @type {HTMLElement}
@@ -124,11 +142,11 @@ function initEditor(contextPath, doc) {
 	const editor = document.querySelector("jinn-tap");
 	const pbFacsimile = document.querySelector("pb-facsimile");
 
-	if (pbFacsimile) {
-		setupFacsimileIntegration(editor);
-	}
-
 	editor.addEventListener("ready", () => {
+		if (pbFacsimile) {
+			setupFacsimileIntegration(editor, pbFacsimile, contextPath, doc);
+		}
+
 		const saveBtn = editor.querySelector(".saveBtn");
 		const copyBtn = editor.querySelector(".copyBtn");
 		const saveDialog = document.getElementById("saveDialog");
