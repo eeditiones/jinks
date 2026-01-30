@@ -505,7 +505,7 @@
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
             <param name="subscribe" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="order" value="count($get(.)/preceding::pb[ancestor::text]) + 1"/>
             <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="$parameters?context-path || &#34;/&#34; || substring-after(document-uri(root($parameters?root)), $global:data-root || '/') || '/manifest.json'"/>
         </model>
@@ -518,7 +518,7 @@
             <param name="content" value="@n"/>
             <param name="emit" value="'transcription'"/>
             <param name="subscribe" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+            <param name="order" value="count($get(.)/preceding::pb[ancestor::text]) + 1"/>
             <param name="emit-on-load" value="'emit-on-load'"/>
             <param name="facs" value="let $ref := if ($global:address-by-id)                          then                              root($parameters?root)/descendant-or-self::TEI/@xml:id                          else                              substring-after(document-uri(root($parameters?root)), $global:data-root || '/')                         return 'api/iiif/' || $ref"/>
         </model>

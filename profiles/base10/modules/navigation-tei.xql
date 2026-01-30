@@ -43,7 +43,7 @@ declare function nav:get-section($config as map(*), $doc) {
     if ($doc instance of element(tei:div)) then
         $doc
     else
-        let $div := ($doc//tei:div)[1]
+        let $div := ($doc//tei:text[not(ancestor::tei:text)]//tei:div)[1]
         return
             if ($div) then
                 $div
@@ -99,7 +99,7 @@ declare function nav:sort($sortBy as xs:string, $items as element()*) {
 
 
 declare function nav:get-first-page-start($config as map(*), $data as element()) {
-    let $pb := ($data//tei:pb)[1]
+    let $pb := ($data//tei:text[not(ancestor::tei:text)]//tei:pb)[1]
     return
         if ($pb) then
             $pb
@@ -113,7 +113,7 @@ declare function nav:get-content($config as map(*), $div as element()) {
         case element(tei:teiHeader) return
             $div
         case element(tei:pb) return
-            let $nextPage := $div/following::tei:pb[1]
+            let $nextPage := $div/following::tei:pb[ancestor::tei:text][1]
             let $chunk :=
                 nav:milestone-chunk($div, $nextPage,
                     if ($nextPage) then
@@ -139,8 +139,9 @@ declare function nav:get-subsections($config as map(*), $root as node()) {
     (: In case headings are not available, the divisions are passed instead and 
     one must take care in the ODD to provide models for processing divs as TOC :)
 
-    let $headed := $root//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
-    let $subsections := if (count($headed)) then $headed else $root//tei:div except $root//tei:div//tei:div
+    (: limit the TOC context to the main tei:text element, to prevent including divisions from standOff, teiHeader etc :)
+    let $headed := $root//tei:text[not(ancestor::tei:text)]//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
+    let $subsections := if (count($headed)) then $headed else $root//tei:text[not(ancestor::tei:text)]//tei:div except $root//tei:div//tei:div
 
     (: respect the pagination-depth setting :)
     return $subsections/self::tei:div[count(ancestor::tei:div) < $config?depth]
@@ -219,7 +220,7 @@ declare function nav:next-page($config as map(*), $div) {
  : By-division view: compute and return the previous division to show in sequence.
  :)
 declare function nav:previous-page($config as map(*), $div) {
-    let $preceding := $div/preceding::tei:div[count(ancestor-or-self::tei:div) <= $config?depth][1]
+    let $preceding := ($div/preceding::tei:div[ancestor::tei:text][count(ancestor-or-self::tei:div) <= $config?depth])[1]
     let $parent := $div/ancestor::tei:div[1]
     let $previous := if ($preceding << $parent) then $parent else $preceding
     return
@@ -228,7 +229,7 @@ declare function nav:previous-page($config as map(*), $div) {
              : For this we need to traverse the tree upwards and check each ancestor.
              :)
             let $nearest := filter(
-                $previous/ancestor-or-self::tei:div[count(ancestor-or-self::tei:div) <= $config?depth], 
+                $previous/ancestor-or-self::tei:div[ancestor::tei:text][count(ancestor-or-self::tei:div) <= $config?depth], 
                 function($ancestor) {
                     exists(nav:filler($config, $ancestor)/descendant-or-self::tei:div[. is $previous])
                 }
@@ -262,7 +263,7 @@ declare function nav:get-previous($config as map(*), $div as element(), $view as
     let $previous :=
         switch ($view)
             case "page" return
-                $div/preceding::tei:pb[1]
+                ($div/preceding::tei:pb[ancestor::tei:text])[1]
             case "body" return
                 ($div/preceding-sibling::*, $div/../preceding-sibling::*)[1]
             default return
