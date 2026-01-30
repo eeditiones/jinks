@@ -59,32 +59,11 @@ If the documents are referencing images, the configuration needs to set its `"ty
 
 ### Assumptions
 
-It makes some assumptions on the XML format. The beginnings of pages should be encoded as `<pb n="1"
-xml:id="my-id" facs="my-facsimile" />` with the `@facs` attribute in `pb` pointing to the manifest
-of that facsimile.
+The same conditions for IIIF manifest generation are assumed here. Refer to the IIIF profile to see
+how it is set up.
 
 The textual content of the transcription should always be preceded by a `<pb />` element to point to
 the facsimile of the first page.
-
-```xml
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-  <teiHeader>
-    <fileDesc>
-      <titleStmt><title>An example of facsimile in jinn-tap</title></titleStmt>
-    </fileDesc>
-  </teiHeader>
-  <text>
-    <body>
-      <div>
-        <pb n="79" xml:id="p1" facs="15929_000_IDL5772_BOss12034_IIIp79.jpg" />
-        <p>Contents of the first page of the facsimile</p>
-        <pb n="80" xml:id="p2" facs="15929_000_IDL5772_BOss12034_IIIp80.jpg" />
-        <p>Contents of the second page of the facsimile</p>
-      </div>
-    </body>
-  </text>
-</TEI>
-```
 
 The Cortez example in the demo content profile is set up in a way that will work with the jinntap
 profile. To see it, create a new application with the demo data profile, the jinntap profile and the

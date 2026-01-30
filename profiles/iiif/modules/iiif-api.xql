@@ -122,3 +122,15 @@ declare function iiif:manifest($request as map(*)) {
             iiifc:metadata($doc, $id)
         ))
 };
+
+(:~
+ : Get the facsimiles that are relevant for the given document file
+ :)
+declare function iiif:facsimiles ($request as map(*)) {
+    let $id := $request?parameters?path
+    let $document := config:get-document($id)
+    let $milestones := iiifc:milestones($document)
+    let $entries := for $milestone in $milestones
+      return map:entry($milestone/@facs, $iiifc:IMAGE_API_BASE || iiifc:milestone-id($milestone))
+    return map:merge($entries)
+};
