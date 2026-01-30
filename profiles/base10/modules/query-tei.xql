@@ -172,7 +172,7 @@ declare function teis:expand($data as node()) {
                     else
                         $data/ancestor::tei:text
                 else
-                    (: if there's only one pb in the document, it's whole
+                    (: if there's only one pb in the document, its whole
                       text part should be returned :)
                     if (count($data/ancestor::tei:text//tei:pb) = 1) then
                         ($data/ancestor::tei:text)
