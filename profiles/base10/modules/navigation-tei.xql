@@ -140,8 +140,8 @@ declare function nav:get-subsections($config as map(*), $root as node()) {
     one must take care in the ODD to provide models for processing divs as TOC :)
 
     (: limit the TOC context to the main tei:text element, to prevent including divisions from standOff, teiHeader etc :)
-    let $headed := $root//tei:text[not(ancestor::tei:text)]//tei:div[tei:head] except $root//tei:div[tei:head]//tei:div
-    let $subsections := if (count($headed)) then $headed else $root//tei:text[not(ancestor::tei:text)]//tei:div except $root//tei:div//tei:div
+    let $headed := $root//tei:div[tei:head][ancestor::tei:text] except $root//tei:div[tei:head]//tei:div
+    let $subsections := if (count($headed)) then $headed else $root//tei:div[ancestor::tei:text] except $root//tei:div//tei:div
 
     (: respect the pagination-depth setting :)
     return $subsections/self::tei:div[count(ancestor::tei:div) < $config?depth]
