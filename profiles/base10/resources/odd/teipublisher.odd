@@ -101,6 +101,10 @@
                     <model behaviour="paragraph"/>
                 </elementSpec>
                 <elementSpec ident="add" mode="change">
+                    <model predicate="@place" behaviour="pass-through">
+                        <param name="place" value="@place"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="[[place]] tei-add">[[content]]</span></pb:template>
+                    </model>    
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
@@ -223,7 +227,7 @@
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
             <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
-            <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', (session:get-attribute('lang'), 'en')[1], (), ()) } catch * { @when/string() }"/>
+            <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { @when/string() }"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -231,6 +235,14 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="birth" mode="add">
+                    <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
+                        <desc>Birth date in individual register page</desc>
+                        <param name="place" value="(placeName, 'lang', $parameters?language)"/>
+                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="register">
+                            <pb-i18n key="odd.birth"/> [[date]], [[place]]
+                            </div></pb:template>
+                    </model>
                     <model predicate="parent::person and date" behaviour="inline">
             <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
         </model>
@@ -244,6 +256,14 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="death" mode="add">
+                    <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
+                        <desc>Birth date in individual register page</desc>
+                        <param name="place" value="placeName"/>
+                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="register">
+                            <pb-i18n key="odd.death"/> [[date]], [[place]]
+                            </div></pb:template>
+                    </model>
                     <model predicate="parent::person and date" behaviour="inline">
             <param name="content" value="(date, if (placeName) then (' (', placeName, ')') else ())"/>
         </model>
