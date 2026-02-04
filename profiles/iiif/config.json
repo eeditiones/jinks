@@ -27,7 +27,7 @@
         "iiif": {
             "viewer": "pb-tify",
             "base_uri": "https://apps.existsolutions.com/cantaloupe/iiif/2/",
-            "milestone_xpath": "//tei:pb",
+            "milestone_xpath": "//tei:text//tei:pb",
             "replace_facs": {
                 "regex": "^[^:]+:(.*)",
                 "replace": "$1"
