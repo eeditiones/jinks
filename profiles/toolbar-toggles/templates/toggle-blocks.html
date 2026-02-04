@@ -9,6 +9,15 @@
                 </pb-toggle-feature>
             </li>
             [% endif %]
+
+            [% if $features?toolbar-toggles?toggle-normalized %]
+            <li>
+                <pb-toggle-feature name="toggle-normalized" selector=".lb"
+                    action="toggle" default="off" emit="transcription" subscribe="transcription">
+                    <pb-i18n key="document.normalized">Normalized View</pb-i18n>
+                </pb-toggle-feature>
+            </li>
+            [% endif %]
         [% endif %]
     [% endtemplate %]
 </template>
