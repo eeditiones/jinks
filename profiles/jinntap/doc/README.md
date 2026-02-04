@@ -67,8 +67,7 @@ the facsimile of the first page.
 
 The Cortez example in the demo content profile is set up in a way that will work with the jinntap
 profile. To see it, create a new application with the demo data profile, the jinntap profile and the
-IIIF profile. Set the `features.iiif.viewer` option to `pb-facsimile` and open the the
-`CIDTC-3823-cortez.xml` demo document.
+IIIF profile. Set the `features.iiif.viewer` option to `pb-facsimile` and open the `CIDTC-3823-cortez.xml` demo document.
 
 ## Credits
 
