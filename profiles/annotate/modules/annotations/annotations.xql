@@ -515,7 +515,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 (: current element is start node? :)
                 if ($node is $start?1) then
                     (: entire element is wrapped :)
-                    anno:wrap($annotation, function() {
+                    anno:wrap(config:document-type($node), $annotation, function() {
                         $node,
                         anno:transform($node/following-sibling::node(), $start, $end, true(), $annotation)
                     })
@@ -542,7 +542,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
             case text() return
                 if ($node is $start?1) then (
                     text { substring($node, 1, $start?2 - 1) },
-                    anno:wrap($annotation, function() {
+                    anno:wrap(config:document-type($node/..), $annotation, function() {
                         if ($node is $end?1) then
                             substring($node, $start?2, $end?2 - $start?2)
                         else
@@ -566,8 +566,8 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 $node
 };
 
-declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    annocfg:annotations($annotation?type, $annotation?properties, $content)
+declare function anno:wrap($doctype as xs:string, $annotation as map(*), $content as function(*)) {
+    annocfg:annotations($doctype, $annotation?type, $annotation?properties, $content)
 };
 
 (: TODO: Move to registers:)
