@@ -457,7 +457,7 @@
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return (collection($global:data-default)//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
+                <param name="content" value="let $id := @xml:id return (collection($global:data-default)//text//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2><pb-i18n key="register-details.document-list"/></h2>
   <ul>
@@ -914,7 +914,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references
                     occur; (shown in register details view only); trying to match by key
                     or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
@@ -928,7 +928,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
                 <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
-                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
                 <param name="level" value="4"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
@@ -990,7 +990,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references
                     occur; (shown in register details view only); trying to match by key
                     or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
@@ -1003,7 +1003,7 @@ flex-wrap: wrap;
             <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="block">
                 <desc>Link to the list of documents, where references occur via facet query</desc>
                 <param name="uri" value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id"/>
-                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
                         <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
