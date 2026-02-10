@@ -64,13 +64,23 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
         case "work" return
             <named-content content-type="work" specific-use="{$properties?specific-use}">{$content()}</named-content>
         case "hi" return
-            <styled-content>
-            { 
-                if ($properties?rend) then attribute style-type { $properties?rend } else (),
-                if ($properties?rendition) then attribute style { $properties?rendition } else (),
-                $content()
-            }
-            </styled-content>
+            switch ($properties?rend)
+                case "b" case "bold" return
+                    <bold>{$content()}</bold>
+                case "i" case "italic" return
+                    <italic>{$content()}</italic>
+                case "u" case "underline" return
+                    <underline>{$content()}</underline>
+                case "s" case "strike" return
+                    <strike>{$content()}</strike>
+                default return
+                    <styled-content>
+                    { 
+                        if ($properties?rend) then attribute style-type { $properties?rend } else (),
+                        if ($properties?rendition) then attribute style { $properties?rendition } else (),
+                        $content()
+                    }
+                    </styled-content>
         case "abbreviation" return
             <abbrev>
             {
@@ -78,18 +88,6 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
                 $content()
             }
             </abbrev>
-        case "sic" return
-            (: JATS doesn't have sic/corr, use styled-content with style-type :)
-            <styled-content style-type="sic">
-                {$content()}
-                {if ($properties?corr) then <named-content content-type="correction">{$properties?corr}</named-content> else ()}
-            </styled-content>
-        case "reg" return
-            (: JATS doesn't have orig/reg, use styled-content :)
-            <styled-content style-type="original">
-                {$content()}
-                {if ($properties?reg) then <named-content content-type="regularized">{$properties?reg}</named-content> else ()}
-            </styled-content>
         case "note" return 
             let $parsed := parse-xml-fragment($properties?content) => anno:fix-namespaces()
             let $id := util:uuid()
@@ -108,18 +106,6 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
                 $content()
             }
             </named-content>
-        case "app" return
-            (: JATS doesn't have app/lem/rdg, use styled-content with alternatives :)
-            <styled-content style-type="apparatus">
-                <named-content content-type="lemma">{$content()}</named-content>
-                {
-                    for $prop in map:keys($properties)[starts-with(., 'rdg')]
-                    let $n := replace($prop, "^.*\[(.*)\]$", "$1")
-                    order by number($n)
-                    return
-                        <named-content content-type="reading" rid="{$properties('wit[' || $n || ']')}">{$properties($prop)}</named-content>
-                }
-            </styled-content>
         case "link" return
             <ext-link xlink:href="{$properties?target}">{$content()}</ext-link>
         case "pb" return
@@ -157,6 +143,95 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
         case "work" return
             collection($config:data-default)//named-content[@content-type = "work"][@rid = $key]
         default return ()
+};
+
+(:~
+ : Extend the document header with revision information and process annotations.
+ : For JATS, this is a no-op since JATS doesn't have the same header structure as TEI.
+ :)
+declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    anno:extend-header($node/node(), $log)
+                }
+            case element(article) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/back)) then
+                        <back>
+                            <fn-group content-type="footnotes">
+                                {
+                                    root($node)//body//fn[@id]
+                                }
+                            </fn-group>
+                        </back>
+                    else
+                        ()
+                }
+            case element(back) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/fn-group)) then
+                        <fn-group content-type="footnotes">
+                            {
+                                root($node)//body//fn[@id]
+                            }
+                        </fn-group>
+                    else
+                        ()
+                }
+            case element(fn-group) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    root($node)//body//fn[@id]
+                }
+            case element(fn) return
+                if ($node/@id) then
+                    ()
+                else
+                    $node
+            case element(article-meta) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if (not($node/pub-history)) then
+                        if ($log?message != "") then
+                            <pubHistory>
+                                <event event-type="{$log?status}">
+                                    <event-desc>{$log?message}</event-desc>
+                                    <date iso-8601-date="{current-dateTime()}"/>
+                                </event>
+                            </pubHistory>
+                        else
+                            ()
+                    else
+                        (),
+                    anno:extend-header($node/node(), $log)
+                }
+            case element(pub-history) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/node(),
+                    if ($log?message != "") then
+                        <event event-type="{$log?status}">
+                            <event-desc>{$log?message}</event-desc>
+                            <date iso-8601-date="{current-dateTime()}"/>
+                        </event>
+                    else
+                        ()
+                }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log)
+                }
+            default return
+                $node
 };
 
 declare %private function anno:fix-namespaces($nodes as item()*) {
