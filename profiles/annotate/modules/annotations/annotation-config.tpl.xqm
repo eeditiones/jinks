@@ -3,6 +3,7 @@ xquery version "3.1";
 module namespace anno="http://teipublisher.com/api/annotations/config";
 
 import module namespace errors = "http://e-editiones.org/roaster/errors";
+import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
 [% for $doctype in map:keys($context?features?annotate?configs) %]
 [% let $config = $context?features?annotate?configs($doctype) %]
@@ -19,7 +20,15 @@ declare variable $anno:reference-key := 'key';
  : Return the entity reference key for the given node.
  :)
 declare function anno:get-key($node as element()) as xs:string? {
-    $node/@*[local-name(.) = $anno:reference-key]
+    let $doctype := config:document-type($node)
+    return
+        switch($doctype)
+            [% for $doctype in map:keys($context?features?annotate?configs) %]
+            case "[[ $doctype ]]" return
+                [[ $doctype ]]:get-key($node)
+            [% endfor %]
+            default return
+                error($errors:NOT_FOUND, "Unsupported doctype: " || $doctype)
 };
 
 (:~
