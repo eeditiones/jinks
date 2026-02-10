@@ -11,7 +11,7 @@ are many separate fields that require visual space.
 
 ## In jinn-tap
 
-The editor also integrates with jinn-tap. This is intended for few fields where it makes
+The editor also integrates with jinn-tap: See `Edit metadata` button on the upper-right corner of the breadcrumbs area. This is intended for few fields where it makes
 sense to edit them alongside the body of an edition.
 
 ## Customization
