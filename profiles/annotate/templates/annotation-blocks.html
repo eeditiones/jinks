@@ -1,6 +1,6 @@
 <div>
     [% template document-actions %]
-    <a href="[[ $context-path ]]/[[ $options?relpath ]]?template=annotate.html&amp;odd=annotations.odd"
+    <a href="[[ $context-path ]]/[[ $options?relpath ]]?template=annotate-[[$options?type]].html&amp;odd=annotations.odd"
         data-tooltip="Annotate Document" data-placement="bottom">
         <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-highlighter"
@@ -15,7 +15,7 @@
     [% template menu.admin %]
     [% if exists($context?doc) %]
     <li>
-        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=annotate.html&amp;odd=annotations.odd" target="annotate">Annotate Document</a>
+        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=annotate-[[$context?doc?type]].html&amp;odd=annotations.odd" target="annotate">Annotate Document</a>
     </li>
     [% endif %]
     [% endtemplate %]
