@@ -37,6 +37,82 @@
     ---
     [% template content-top %]
 	[% include 'templates/pages/annotation/annotate-toolbar.html' %]
+    <nav class="toolbar">
+        <ul>
+            <li>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"><pb-i18n key="breadcrumb.document-root">Documents</pb-i18n></a>
+                        </li>
+                        <li>
+                            [[ $context?doc?path ]]
+                        </li>
+                    </ul>
+                </nav>
+            </li>
+        </ul>
+        <ul>
+            [% block annotation-toolbar %][% endblock %]
+        </ul>
+		<ul>
+            <li>
+                <span role="group">
+                    <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page" keyboard="left"
+                        data-i18n="[title]annotations.previous-page" title="Previous">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                                d="M328 112L184 256l144 144" />
+                        </svg>
+                    </pb-navigation>
+                    <pb-navigation emit="transcription" subscribe="transcription" unit="page" keyboard="right"
+                        data-i18n="[title]annotations.next-page" title="Next">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                                d="M184 112l144 144-144 144" />
+                        </svg>
+                    </pb-navigation>
+                </span>
+            </li>
+            <li>
+                <span role="group">
+                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+                </span>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <span role="group">
+                    <button data-i18n="[title]annotations.reload" id="reload-all">
+                        <svg>
+                            <use href="#arrow-clockwise"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.save" data-shortcut="⌘+⇧+s,ctrl+⇧+s" id="document-save">
+                        <svg>
+                            <use href="#floppy-save"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d" id="document-download">
+                        <svg>
+                            <use href="#download-archive"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.undo" id="undo-history">
+                        <svg>
+                            <use href="#arrow-counterclockwise"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.toggle" id="toggle-markup">
+                        <svg>
+                            <use href="#eye-fill"></use>
+                        </svg>
+                    </button>
+                </span>
+            </li>
+        </ul>
+    </nav>
     [% endtemplate %]
 
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
@@ -134,6 +210,7 @@
             <header><pb-i18n key="annotations.details"/></header>
             <iron-form id="edit-form">
                 <form action="">
+<<<<<<< HEAD
                     <div class="annotation-form person organization place term work">
                         [% let $doctype = config:document-type(root($doc?content)/*) %]
                         <input class="form-ref" name="[[ $context?features?annotate?configs($doctype)?key ]]" data-i18n="[placeholder]annotations.reference"
@@ -207,6 +284,9 @@
                             </div>
                         </jinn-xml-editor>
                     </div>
+=======
+                    [% block annotation-form %][% endblock %]
+>>>>>>> 9b0bb409 (fix(annotate): support notes)
                     <div class="annotation-form edit">
                         <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
                         <input name="content" data-i18n="[placeholder]annotations.correction"></input>

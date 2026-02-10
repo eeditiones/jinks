@@ -57,3 +57,27 @@ declare function anno:entity-type($node as element()) as xs:string? {
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     [[ string-join(map:keys($context?features?annotate?configs) ! (. || ':occurrences($type, $key)'), ', ') ]]
 };
+
+(:~
+ : Extend the document header with revision information and process annotations.
+ : This function dispatches to the appropriate doctype-specific implementation.
+ : The doctype is determined from the root element of the first node in $nodes.
+ :)
+declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
+    let $root-node :=
+        if ($nodes[1] instance of document-node()) then
+            $nodes[1]/*
+        else if ($nodes[1] instance of element()) then
+            $nodes[1]
+        else
+            $nodes[1]/..
+    let $doctype := config:document-type($root-node)
+    return
+        switch ($doctype)
+            [% for $doctype in map:keys($context?features?annotate?configs) %]
+            case "[[ $doctype ]]" return
+                [[ $doctype ]]:extend-header($nodes, $log)
+            [% endfor %]
+            default return
+                $nodes
+};

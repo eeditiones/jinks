@@ -134,6 +134,113 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
         default return ()
 };
 
+(:~
+ : Add a revisionDesc to the TEI header and move notes with a @target into standOff/listAnnotation.
+ :)
+declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case document-node() return
+                document {
+                    anno:extend-header($node/node(), $log)
+                }
+            case element(tei:TEI) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/tei:standOff)) then
+                        <standOff xmlns="http://www.tei-c.org/ns/1.0">
+                            <listAnnotation>
+                                {
+                                    for $note in root($node)/tei:text//tei:note[@target]
+                                    return
+                                        $note
+                                }
+                            </listAnnotation>
+                        </standOff>
+                    else
+                        ()
+                }
+            case element(tei:standOff) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    if (not($node/tei:listAnnotation)) then
+                        <listAnnotation xmlns="http://www.tei-c.org/ns/1.0">
+                        {
+                            for $note in root($node)/tei:text//tei:note[@target]
+                            return
+                                $note
+                        }
+                        </listAnnotation>
+                    else
+                        ()
+                }
+            case element(tei:listAnnotation) return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log),
+                    for $note in root($node)/tei:text//tei:note[@target]
+                    return
+                        $note
+                }
+            case element(tei:note) return
+                if ($node/ancestor::tei:text and $node/@target) then
+                    ()
+                else
+                    $node
+            case element(tei:teiHeader) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if (not($node/tei:revisionDesc)) then
+                        if ($log?message != "") then
+                            <revisionDesc xmlns="http://www.tei-c.org/ns/1.0">
+                                <listChange>
+                                    <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                                </listChange>
+                            </revisionDesc>
+                        else
+                            ()
+                    else
+                        (),
+                    anno:extend-header($node/node(), $log)
+                }
+            case element(tei:revisionDesc) return
+                if (not($node/tei:listChange)) then
+                    element { node-name($node) } {
+                        $node/@*,
+                        $node/node(),
+                        if ($log?message != "") then
+                            <listChange xmlns="http://www.tei-c.org/ns/1.0">
+                                <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                            </listChange>
+                        else
+                            ()
+                    }
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        anno:extend-header($node/node(), $log)
+                    }
+            case element(tei:listChange) return
+                element { node-name($node) } {
+                    $node/@*,
+                    $node/node(),
+                    if ($log?message != "") then
+                        <change xmlns="http://www.tei-c.org/ns/1.0" when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
+                    else
+                        ()
+                }
+            case element() return
+                element { node-name($node) } {
+                    $node/@*,
+                    anno:extend-header($node/node(), $log)
+                }
+            default return
+                $node
+};
+
 declare %private function anno:fix-namespaces($nodes as item()*) {
     for $node in $nodes
     return
