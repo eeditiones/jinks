@@ -50,10 +50,10 @@ declare function anno:annotations($doctype as xs:string, $type as xs:string, $pr
  :)
 declare function anno:entity-type($node as element()) as xs:string? {
     head((
-    [[ string-join(map:keys($context?features?annotate?configs) ! . || ':entity-type($node)', ', ') ]]
+    [[ string-join(map:keys($context?features?annotate?configs) ! (. || ':entity-type($node)'), ', ') ]]
     ))
 };
 
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
-    [[ string-join(map:keys($context?features?annotate?configs) ! . || ':occurrences($type, $key)', ', ') ]]
+    [[ string-join(map:keys($context?features?annotate?configs) ! (. || ':occurrences($type, $key)'), ', ') ]]
 };
