@@ -84,10 +84,79 @@ async function copyToClipboard(editor) {
     );
 }
 
+/**
+ * @param {HTMLElement} editor
+ * @param {HTMLElement} pbFacsimile
+ * @param {string} baseUri
+ * @param {string} doc
+ */
+async function setupFacsimileIntegration(editor, pbFacsimile, baseUri, doc) {
+    const result = await fetch(
+        `${baseUri}/api/facsimiles/${encodeURIComponent(doc)}`,
+    );
+    if (!result.ok) {
+        return;
+    }
+    const facsimileByFacs = await result.json();
+    pbFacsimile.setAttribute(
+        "facsimiles",
+        JSON.stringify(Object.values(facsimileByFacs)),
+    );
+
+    // Force the pb-facsimiles to rerender and see it has new facsimiles
+    pbFacsimile.replaceWith(pbFacsimile.cloneNode());
+
+    editor.addEventListener("click", (event) => {
+        /**
+         * @type {HTMLElement}
+         */
+        const clickedNode = event.target;
+        const closestPageBegin = clickedNode.closest("tei-pb");
+        if (!closestPageBegin) {
+            return;
+        }
+
+        let facs = closestPageBegin.getAttribute("facs");
+        if (!facs) {
+            return;
+        }
+        const n = closestPageBegin.getAttribute("n");
+        if (!n) {
+            return;
+        }
+
+        const facsimile = facsimileByFacs[facs];
+
+        // TODO: Any other way to integrate more cleanly with pb-components>
+        document.dispatchEvent(
+            new CustomEvent("pb-show-annotation", {
+                detail: {
+                    // Both the element and the file need to be sent in the
+                    // event. The file is checked (but ignored) and the element
+                    // is used to look up the correct facsimile
+                    element: facsimile,
+                    file: facsimile,
+                    order: parseInt(n, 10),
+                    key: "__default__",
+                },
+            }),
+        );
+    });
+}
+
 function initEditor(contextPath, doc) {
     const editor = document.querySelector("jinn-tap");
+    const pbFacsimile = document.querySelector("pb-facsimile");
+
+    if (pbFacsimile) {
+        setupFacsimileIntegration(editor);
+    }
 
     editor.addEventListener("ready", () => {
+        if (pbFacsimile) {
+            setupFacsimileIntegration(editor, pbFacsimile, contextPath, doc);
+        }
+
         const saveBtn = editor.querySelector(".saveBtn");
         const copyBtn = editor.querySelector(".copyBtn");
         const saveDialog = document.getElementById("saveDialog");

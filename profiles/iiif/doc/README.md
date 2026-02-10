@@ -88,6 +88,10 @@ In all other cases, the `@facs` will be interpreted as an URL relative to the `b
 
 The endpoint will also contact the configured image api service (deterimined by the `base_uri` setting) to retrieve measurements for each image. This is required for the IIIF manifest to be valid.
 
+## Integration with Jinntap editor profile
+
+This profile can integrate with the Jinntap profile. It extracts the facsimile locations from the TEI XML, and links the `pb` elements to the facsimile viewer. It requires using the pb-facsimile viewer, the pb-tify viewer is not supported.
+
 ## Credits
 
 This feature has been primarily funded via [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
