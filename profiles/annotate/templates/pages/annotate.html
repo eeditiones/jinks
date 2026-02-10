@@ -228,13 +228,17 @@
     <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"></pb-document>
     <main>
-        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-            <pb-param name="header" value="short"></pb-param>
+        <pb-view id="title-view1" src="document1" view="single">
+            <pb-param name="mode" value="breadcrumb"></pb-param>
         </pb-view>
-        <pb-view-annotate id="view1" src="document1" odd="annotations" key="key" append-footnotes="append-footnotes"
+        [% let $doctype = config:document-type(root($doc?content)/*) %]
+        <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]" 
+            key="[[ $context?features?annotate?configs($doctype)?key ]]" 
+            append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
         </pb-view-annotate>
+        [% endlet %]
     </main>
 
     [% template after %]
@@ -317,8 +321,10 @@
             <iron-form id="edit-form">
                 <form action="">
                     <div class="annotation-form person organization place term work">
-                        <input class="form-ref" name="key" data-i18n="[placeholder]annotations.reference"
+                        [% let $doctype = config:document-type(root($doc?content)/*) %]
+                        <input class="form-ref" name="[[ $context?features?annotate?configs($doctype)?key ]]" data-i18n="[placeholder]annotations.reference"
                             placeholder="Reference"></input>
+                        [% endlet %]
                         <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
                         <pb-restricted group="tei">
                             <button data-i18n="[title]annotations.edit-entity" id="edit-entity">
