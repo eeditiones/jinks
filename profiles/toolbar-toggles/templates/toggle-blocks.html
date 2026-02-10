@@ -9,7 +9,9 @@
                 </pb-toggle-feature>
             </li>
             [% endif %]
+        [% endif %]
 
+        [% if exists($context?doc) and $features?toolbar-toggles?enabled %]
             [% if $features?toolbar-toggles?toggle-normalized %]
             <li>
                 <pb-toggle-feature name="toggle-normalized" selector=".lb"
