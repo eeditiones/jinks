@@ -1,7 +1,7 @@
 # Feature for editing metadata
 
 The feature allows for editing the contents of the `teiHeader` element as a separate page, or within
-the the jinntap editor.
+the jinntap editor.
 
 ## Stand-alone
 
