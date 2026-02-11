@@ -36,7 +36,7 @@ jobs:
         run: |
           echo 'set man-db/auto-update false' | sudo debconf-communicate >/dev/null
           sudo dpkg-reconfigure man-db
-          
+
       - name: Install Test Dependencies
         run: |
           sudo apt-get update
@@ -72,7 +72,7 @@ jobs:
             exit 1
           fi
           echo "All ODD files validated successfully"
-          
+
       # Install webcomponents version for testing (only when specified in matrix)
       - name: Setup Node.js
         if: matrix.webcomponents-version != ''
@@ -104,12 +104,14 @@ jobs:
         working-directory: build/
         run: |
           gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar'
-          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar'
+          # Pinned Roaster to 1.11.0 because of a regression with pb-components. The login endpoint is called with
+          # a wrong username/password, causing the user to be logged out.
+          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar' v1.11.0
           gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar'
           gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar'
           gh release download -R eXist-db/expath-crypto-module -p '*.xar' -O '_crypto.xar'
           gh release download -R eXistSolutions/exist-jwt -p '*.xar' -O '_jwt.xar'
-          
+
       - name: Check Contents
         working-directory: build/
         run: ls
@@ -122,7 +124,7 @@ jobs:
           duncdrum/existdb:${{ matrix.exist-version }}-slim
 
       - name: Wait for server to start
-        timeout-minutes: 1 
+        timeout-minutes: 1
         run: |
           echo "Waiting for server to start..."
           until docker logs exist 2>&1 | grep -q "Server has started"; do
@@ -133,7 +135,7 @@ jobs:
       # Test
       - name: Run smoke test
         run: bats --tap test/*.bats
-  
+
       - name: debug logs
         if: failure()
         run: docker logs exist | grep 'ERROR'
@@ -152,11 +154,11 @@ jobs:
           path: exist.log
 
       - name: Run Cypress e2e test
-        if: matrix.experimental != true 
+        if: matrix.experimental != true
         uses: cypress-io/github-action@v7
         with:
           browser: firefox
-      
+
       - name: Run Cypress e2e test (expect fail)
         if: matrix.experimental == true
         continue-on-error: true
