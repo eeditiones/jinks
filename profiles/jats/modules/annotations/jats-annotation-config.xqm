@@ -84,7 +84,7 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
         case "abbreviation" return
             <abbrev>
             {
-                if ($properties?expan) then attribute alt-text { $properties?expan } else (),
+                if ($properties?expan) then attribute alt { $properties?expan } else (),
                 $content()
             }
             </abbrev>
@@ -107,7 +107,7 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             }
             </named-content>
         case "link" return
-            <ext-link xlink:href="{$properties?target}">{$content()}</ext-link>
+            <ext-link ext-link-type="uri" xlink:href="{$properties?target}">{$content()}</ext-link>
         case "pb" return
             (: JATS uses milestone-start for page breaks :)
             <milestone-start content-type="page" n="{$properties?n}">
