@@ -133,15 +133,15 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     switch ($type)
         case "person" return
-            collection($config:data-default)//named-content[@content-type = "person"][@rid = $key]
+            collection($config:data-default)//named-content[@content-type = "person"][@specific-use = $key]
         case "place" return
-            collection($config:data-default)//named-content[@content-type = "place"][@rid = $key]
+            collection($config:data-default)//named-content[@content-type = "place"][@specific-use = $key]
         case "term" return
-            collection($config:data-default)//named-content[@content-type = "term"][@rid = $key]
+            collection($config:data-default)//named-content[@content-type = "term"][@specific-use = $key]
         case "organization" return
-            collection($config:data-default)//named-content[@content-type = "organization"][@rid = $key]
+            collection($config:data-default)//named-content[@content-type = "organization"][@specific-use = $key]
         case "work" return
-            collection($config:data-default)//named-content[@content-type = "work"][@rid = $key]
+            collection($config:data-default)//named-content[@content-type = "work"][@specific-use = $key]
         default return ()
 };
 
@@ -189,6 +189,7 @@ declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
                 element { node-name($node) } {
                     $node/@*,
                     anno:extend-header($node/node(), $log),
+                    $node//fn[@id],
                     root($node)//body//fn[@id]
                 }
             case element(fn) return
@@ -201,12 +202,12 @@ declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
                     $node/@*,
                     if (not($node/pub-history)) then
                         if ($log?message != "") then
-                            <pubHistory>
+                            <pub-history>
                                 <event event-type="{$log?status}">
                                     <event-desc>{$log?message}</event-desc>
                                     <date iso-8601-date="{current-dateTime()}"/>
                                 </event>
-                            </pubHistory>
+                            </pub-history>
                         else
                             ()
                     else

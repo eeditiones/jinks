@@ -112,21 +112,21 @@
     </nav>
     [% endtemplate %]
 
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    [% let $doctype = config:document-type(root($doc?content)/*) %]
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"></pb-document>
     <main>
         <pb-view id="title-view1" src="document1" view="single">
             <pb-param name="mode" value="breadcrumb"></pb-param>
         </pb-view>
-        [% let $doctype = config:document-type(root($doc?content)/*) %]
         <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]" 
             key="[[ $context?features?annotate?configs($doctype)?key ]]" 
             append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
         </pb-view-annotate>
-        [% endlet %]
     </main>
+    [% endlet %]
 
     [% template after %]
     <fx-fore ignore-expressions="pb-authority" class="preview edit-panel">
