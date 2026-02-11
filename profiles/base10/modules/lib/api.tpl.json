@@ -2579,7 +2579,10 @@
 						"name": "string",
 						"in": "query",
 						"schema": {
-							"type": "string"
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
 						},
 						"required": true
 					},
