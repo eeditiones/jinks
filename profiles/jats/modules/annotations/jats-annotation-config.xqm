@@ -4,6 +4,8 @@ module namespace anno="http://teipublisher.com/api/annotations/config/jats";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
+declare namespace xlink="http://www.w3.org/1999/xlink";
+
 (:~
  : Name of the attribute to use as reference key for entities
  :)
