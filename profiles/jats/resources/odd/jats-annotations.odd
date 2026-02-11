@@ -66,6 +66,9 @@
                         <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]/node()"/>
                     </model>
                 </elementSpec>
+                <elementSpec ident="ext-link" mode="change">
+                    <model behaviour="inline" cssClass="annotation annotation-ref" useSourceRendition="true"/>
+                </elementSpec>
                 <elementSpec ident="bold" mode="change">
                     <model behaviour="inline" cssClass="annotation annotation-hi" useSourceRendition="true"/>
                 </elementSpec>
@@ -80,6 +83,11 @@
                 </elementSpec>
                 <elementSpec ident="styled-content" mode="add">
                     <model behaviour="inline" cssClass="annotation annotation-hi" useSourceRendition="true"/>
+                </elementSpec>
+                <elementSpec ident="abbrev" mode="change">
+                    <model behaviour="pass-through">
+                        <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-abbreviation" data-type="abbreviation" data-annotation="{{&#34;expan&#34;: &#34;[[expan]]&#34;}}">[[content]]</span></pb:template>
+                    </model>
                 </elementSpec>
             </schemaSpec>
         </body>
