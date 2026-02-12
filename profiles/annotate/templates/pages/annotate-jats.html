@@ -61,7 +61,7 @@
     <li>
         <span role="group">
             <button class="annotation-action" data-i18n="[title]annotations.ref" data-shortcut="⌘+⇧+l,ctrl+⇧+l"
-                data-type="link" disabled="disabled" title="Reference">
+                data-type="ref" disabled="disabled" title="Reference">
                 <svg>
                     <use href="#link-45deg"></use>
                 </svg>
@@ -134,17 +134,9 @@
         </label>
         <input name="rendition" placeholder="rendition"></input>
     </div>
-    <div class="annotation-form link">
-        <input name="target" placeholder="target"></input>
+    <div class="annotation-form ref">
+        <input name="xlink:href" placeholder="href"></input>
     </div>
-    <pb-repeat class="annotation-form app" initial="1">
-        <template>
-            <input name="wit" placeholder="wit"></input>
-            <input name="rdg" placeholder="rdg"></input>
-        </template>
-    </pb-repeat>
-    <input class="annotation-form sic" name="corr"
-        data-i18n="[placeholder]annotations.correction" placeholder="Correction"></input>
     <input class="annotation-form abbreviation" name="expan"
         data-i18n="[placeholder]annotations.expansion" placeholder="Expansion"></input>
     <input class="annotation-form reg" name="reg" data-i18n="[placeholder]annotations.reg"
