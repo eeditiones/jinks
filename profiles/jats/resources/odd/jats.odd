@@ -88,6 +88,20 @@
             </outputRendition>
         </model>
                 </elementSpec>
+                <elementSpec ident="underline" mode="add">
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            text-decoration: underline;
+            </outputRendition>
+        </model>
+                </elementSpec>
+                <elementSpec ident="strike" mode="add">
+                    <model behaviour="inline">
+            <outputRendition xml:space="preserve">
+            text-decoration: line-through;
+            </outputRendition>
+        </model>
+                </elementSpec>
                 <elementSpec ident="table-wrap" mode="add">
                     <model behaviour="block"/>
                 </elementSpec>
