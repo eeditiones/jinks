@@ -108,8 +108,8 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
                 $content()
             }
             </named-content>
-        case "link" return
-            <ext-link ext-link-type="uri" xlink:href="{$properties?target}">{$content()}</ext-link>
+        case "ref" return
+            <ext-link ext-link-type="uri" xlink:href="{$properties?('xlink:href')}">{$content()}</ext-link>
         case "pb" return
             (: JATS uses milestone-start for page breaks :)
             <milestone-start content-type="page" n="{$properties?n}">
