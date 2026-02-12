@@ -51,19 +51,20 @@
                     <model predicate="@content-type = 'work'" behaviour="inline" cssClass="annotation annotation-work authority"/>
                     <model behaviour="inline"/>
                 </elementSpec>
-                <elementSpec ident="note" mode="change">
-                    <model predicate="@type='annotation'" behaviour="omit"/>
-                    <model behaviour="note">
-                        <param name="place" value="@place"/>
-                        <param name="label" value="@n"/>
+                <elementSpec ident="fn" mode="change">
+                    <model predicate="label" behaviour="note">
+                        <param name="n" value="label/string()" />
+                        <param name="content" value="node() except label" />
                     </model>
+                    <model behaviour="note" />
                 </elementSpec>
                 <elementSpec ident="xref" mode="change">
                     <model predicate="@ref-type='bibr'" behaviour="link">
                         <param name="uri" value="'#' || @rid"/>
                     </model>
                     <model predicate="@ref-type='fn'" behaviour="note">
-                        <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]/node()"/>
+                        <param name="content" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]/(node() except label)"/>
+                        <param name="n" value="let $rid := @rid return root($parameters?root)//fn[@id=$rid]/label"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="ext-link" mode="change">
