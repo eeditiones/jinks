@@ -120,7 +120,7 @@
             <pb-param name="mode" value="breadcrumb"></pb-param>
         </pb-view>
         <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]" 
-            key="[[ $context?features?annotate?configs($doctype)?key ]]" 
+            key="[[ $context?features?annotate?configs?($doctype)?key ]]" 
             append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
