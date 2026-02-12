@@ -78,8 +78,8 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
                 default return
                     <styled-content>
                     { 
-                        if ($properties?rend) then attribute style-type { $properties?rend } else (),
-                        if ($properties?rendition) then attribute style { $properties?rendition } else (),
+                        if ($properties?style-type) then attribute style-type { $properties?style-type } else (),
+                        if ($properties?style) then attribute style { $properties?style } else (),
                         $content()
                     }
                     </styled-content>
