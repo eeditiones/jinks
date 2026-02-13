@@ -1,0 +1,33 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "label": "JATS Publisher",
+    "description": "A workspace for displaying, editing and annotating JATS documents.",
+    "id": "https://e-editiones.org/apps/jats-publisher",
+    "type": "blueprint",
+    "version": "1.0.0",
+    "depends": [
+        "base10",
+        "demo-data",
+        "jats",
+        "annotate",
+        "jinntap",
+        "upload",
+        "ci"
+    ],
+    "skipSource": [
+        "repo.xml",
+        "expath-pkg.xml",
+        "build.xml"
+    ],
+    "defaults": {
+        "data-default": "jats",
+        "odd": "jats.odd"
+    },
+    "features": {
+        "upload": {
+            "enabled": true,
+            "target": "jats",
+            "accept": ".xml, .tei, .odd, .docx, .md, .mei"
+        }
+    }
+}
