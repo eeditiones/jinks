@@ -6,10 +6,12 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 
+[% let $key = $context?features?annotate?configs?tei?key %]
+
 (:~
  : Name of the attribute to use as reference key for entities
  :)
-declare variable $anno:reference-key := 'key';
+declare variable $anno:reference-key := '[[ $key ]]';
 
 (:~
  : Return the entity reference key for the given node.
@@ -44,15 +46,15 @@ declare function anno:entity-type($node as element()) as xs:string? {
 declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
         case "person" return
-            <persName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</persName>
+            <persName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key]]}">{$content()}</persName>
         case "place" return
-            <placeName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</placeName>
+            <placeName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</placeName>
         case "term" return
-            <term xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</term>
+            <term xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</term>
         case "organization" return
-            <orgName xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}">{$content()}</orgName>
+            <orgName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</orgName>
         case "work" return
-            <bibl xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}" type="work">{$content()}</bibl>
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}" type="work">{$content()}</bibl>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
             { 
@@ -122,15 +124,15 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     switch ($type)
         case "person" return
-            collection($config:data-default)//tei:persName[@key = $key]
+            collection($config:data-default)//tei:persName[@[[ $key ]] = $key]
         case "place" return
-            collection($config:data-default)//tei:placeName[@key = $key]
+            collection($config:data-default)//tei:placeName[@[[ $key ]] = $key]
         case "term" return
-            collection($config:data-default)//tei:term[@key = $key]
+            collection($config:data-default)//tei:term[@[[ $key ]] = $key]
         case "organization" return
-            collection($config:data-default)//tei:orgName[@key = $key]
+            collection($config:data-default)//tei:orgName[@[[ $key ]] = $key]
         case "work" return
-            collection($config:data-default)//tei:bibl[@key = $key]
+            collection($config:data-default)//tei:bibl[@[[ $key ]] = $key]
         default return ()
 };
 
@@ -254,3 +256,4 @@ declare %private function anno:fix-namespaces($nodes as item()*) {
             default return
                 $node
 };
+[% endlet %]
