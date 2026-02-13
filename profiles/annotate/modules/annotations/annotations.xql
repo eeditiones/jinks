@@ -409,7 +409,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 (: current element is start node? :)
                 if ($node is $start?1) then
                     (: entire element is wrapped :)
-                    anno:wrap(config:document-type($node), $annotation, function() {
+                    anno:wrap(config:document-type(root($node)), $annotation, function() {
                         $node,
                         anno:transform($node/following-sibling::node(), $start, $end, true(), $annotation)
                     })
@@ -436,7 +436,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
             case text() return
                 if ($node is $start?1) then (
                     text { substring($node, 1, $start?2 - 1) },
-                    anno:wrap(config:document-type($node/..), $annotation, function() {
+                    anno:wrap(config:document-type(root($node)), $annotation, function() {
                         if ($node is $end?1) then
                             substring($node, $start?2, $end?2 - $start?2)
                         else
