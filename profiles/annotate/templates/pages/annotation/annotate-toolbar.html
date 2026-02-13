@@ -1,0 +1,333 @@
+<nav class="toolbar">
+    <ul>
+        <li>
+            <nav aria-label="breadcrumb">
+                <ul>
+                    <li>
+                        <a
+                            href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"
+                        >
+                            <pb-i18n key="breadcrumb.document-root">
+                                Documents
+                            </pb-i18n>
+                        </a>
+                    </li>
+                    <li>[[ $context?doc?path ]]</li>
+                </ul>
+            </nav>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <span role="group">
+                <button
+                    class="annotation-action authority"
+                    data-i18n="[title]annotations.person"
+                    data-shortcut="⌘+⇧+p,ctrl+⇧+p"
+                    data-type="person"
+                    disabled="disabled"
+                    title="Person"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#person-fill"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action authority"
+                    data-i18n="[title]annotations.organisation"
+                    data-shortcut="⌘+⇧+o,ctrl+⇧+o"
+                    data-type="organization"
+                    disabled="disabled"
+                    title="organization"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#people-fill"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action authority"
+                    data-i18n="[title]annotations.place"
+                    data-shortcut="⌘+⇧+q,ctrl+⇧+q"
+                    data-type="place"
+                    disabled="disabled"
+                    title="Place"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#globe-europe-africa-fill"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action authority"
+                    data-i18n="[title]annotations.term"
+                    data-shortcut="⌘+⇧+t,ctrl+⇧+t"
+                    data-type="term"
+                    disabled="disabled"
+                    title="Term"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#bookmark-star-fill"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action authority"
+                    data-i18n="[title]annotations.work"
+                    data-shortcut="⌘+⇧+q,ctrl+⇧+w"
+                    data-type="work"
+                    disabled="disabled"
+                    title="Work"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#book-fill"></use>
+                    </svg>
+                </button>
+            </span>
+        </li>
+        <li>
+            <span role="group">
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.date"
+                    data-shortcut="⌘+⇧+d,ctrl+⇧+d"
+                    data-type="date"
+                    disabled="disabled"
+                    title="Date"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#calendar2-day"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.abbreviation"
+                    data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+                    data-type="abbreviation"
+                    disabled="disabled"
+                    title="Abbreviation"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#abbreviation"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-shortcut="⌘+⇧+s,ctrl+⇧+s"
+                    data-type="sic"
+                    disabled="disabled"
+                    title="Sic"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#strikethrough"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.reg"
+                    data-shortcut="⌘+⇧+g,ctrl+⇧+g"
+                    data-type="reg"
+                    disabled="disabled"
+                    title="Regularization"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#braces"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.app"
+                    data-shortcut="⌘+⇧+v,ctrl+⇧+v"
+                    data-type="app"
+                    disabled="disabled"
+                    title="Apparatus"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#chat-text"></use>
+                    </svg>
+                </button>
+            </span>
+        </li>
+        <li>
+            <span role="group">
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.ref"
+                    data-shortcut="⌘+⇧+l,ctrl+⇧+l"
+                    data-type="link"
+                    disabled="disabled"
+                    title="Reference"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#link-45deg"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.hi"
+                    data-shortcut="⌘+⇧+h,ctrl+⇧+h"
+                    data-type="hi"
+                    disabled="disabled"
+                    title="Highlight"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#type-bold"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action before"
+                    data-i18n="[title]annotations.pb"
+                    data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+                    data-type="pb"
+                    disabled="disabled"
+                    title="Page break"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#file-break"></use>
+                    </svg>
+                </button>
+            </span>
+        </li>
+        <li>
+            <span role="group">
+                <button
+                    class="annotation-action after"
+                    data-i18n="[title]annotations.note"
+                    data-shortcut="⌘+⇧+f,ctrl+⇧+f"
+                    data-type="note"
+                    disabled="disabled"
+                    title="Note"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#chat-dots"></use>
+                    </svg>
+                </button>
+                <button
+                    class="annotation-action"
+                    data-i18n="[title]annotations.modify"
+                    data-shortcut="⌘+⇧+m,ctrl+⇧+m"
+                    data-type="edit"
+                    disabled="disabled"
+                    title="Edit"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#pencil-square"></use>
+                    </svg>
+                </button>
+            </span>
+        </li>
+        <li>
+            <button data-i18n="[title]annotations.ner.title" id="ner-action">
+                <svg viewBox="0 0 24 24">
+                    <use href="#search-heart"></use>
+                </svg>
+            </button>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <span role="group">
+                <pb-navigation
+                    emit="transcription"
+                    subscribe="transcription"
+                    direction="backward"
+                    unit="page"
+                    keyboard="left"
+                    data-i18n="[title]annotations.previous-page"
+                    title="Previous"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="ionicon"
+                        viewBox="0 0 512 512"
+                    >
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="48"
+                            d="M328 112L184 256l144 144"
+                        />
+                    </svg>
+                </pb-navigation>
+                <pb-navigation
+                    emit="transcription"
+                    subscribe="transcription"
+                    unit="page"
+                    keyboard="right"
+                    data-i18n="[title]annotations.next-page"
+                    title="Next"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="ionicon"
+                        viewBox="0 0 512 512"
+                    >
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="48"
+                            d="M184 112l144 144-144 144"
+                        />
+                    </svg>
+                </pb-navigation>
+            </span>
+        </li>
+        <li>
+            <span role="group">
+                <pb-zoom
+                    emit="transcription"
+                    direction="in"
+                    icon="icons:zoom-in"
+                ></pb-zoom>
+                <pb-zoom
+                    emit="transcription"
+                    direction="out"
+                    icon="icons:zoom-out"
+                ></pb-zoom>
+            </span>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <span role="group">
+                <button data-i18n="[title]annotations.reload" id="reload-all">
+                    <svg viewBox="0 0 24 24">
+                        <use href="#arrow-clockwise"></use>
+                    </svg>
+                </button>
+                <button
+                    data-i18n="[title]annotations.save"
+                    data-shortcut="⌘+⇧+s,ctrl+⇧+s"
+                    id="document-save"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#floppy-save"></use>
+                    </svg>
+                </button>
+                <button
+                    data-i18n="[title]annotations.download"
+                    data-shortcut="⌘+⇧+d,ctrl+⇧+d"
+                    id="document-download"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#download-archive"></use>
+                    </svg>
+                </button>
+                <button data-i18n="[title]annotations.undo" id="undo-history">
+                    <svg viewBox="0 0 24 24">
+                        <use href="#arrow-counterclockwise"></use>
+                    </svg>
+                </button>
+                <button
+                    data-i18n="[title]annotations.toggle"
+                    id="toggle-markup"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <use href="#eye-fill"></use>
+                    </svg>
+                </button>
+            </span>
+        </li>
+    </ul>
+</nav>

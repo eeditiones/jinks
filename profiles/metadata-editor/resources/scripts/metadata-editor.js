@@ -124,7 +124,6 @@ export class MetadataEditor {
         const metadata = document.documentElement;
 
         this._instance.setInstanceData(metadata);
-        this._fore.refresh(true);
         this._fore.querySelector("#on-init").perform();
     }
 
@@ -139,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     const metadataPanel = document.getElementById("metadata-panel");
+    // Hide the panel initially
+    metadataPanel.classList.add("hidden");
 
     const metadataEditor = new MetadataEditor(editors[0], metadataPanel);
 });

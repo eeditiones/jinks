@@ -1,0 +1,46 @@
+<template>
+    [% template scripts %]
+    [% if exists($context?doc) and $context?features?metadata-editor?enabled and $context?features?jinntap?enabled %]
+    <script type="module" src="[[ $context-path ]]/resources/scripts/metadata-editor.js"></script>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template document-actions %]
+    <a href="[[ $context-path ]]/[[ $options?relpath ]]?template=metadata-editor.html" data-tooltip="Edit teiHeader in Metadata Editor"
+        data-placement="bottom">
+        <button>
+            <svg class="icon">
+                <use href="#metadata-editor-icon"></use>
+            </svg>
+            <span>Edit Metadata</span>
+        </button>
+    </a>
+    [% endtemplate %]
+
+    [% template toolbar %]
+    [% if exists($context?doc) and $context?features?metadata-editor?enabled and $context?features?jinntap?enabled %]
+    <li>
+        <a href="#" class="toolbar-button" id="metadataPanelBtn" data-tooltip="Edit metadata" data-placement="left">
+            <i class="bi bi-code-square"></i>
+        </a>
+    </li>
+    [% endif %]
+    [% endtemplate %]
+
+    [% template after %]
+    [% if exists($context?doc) and $context?features?metadata-editor?enabled and $context?features?jinntap?enabled %]
+    <fx-fore xpath-default-namespace="http://www.tei-c.org/ns/1.0" id="metadata-panel" ignore-expressions="fx-function" class="hidden">
+        <fx-model>
+            <!-- This will be filled with the teiHeader element -->
+            <fx-instance id="default"></fx-instance>
+        </fx-model>
+		<fx-action id="on-init">
+		  <fx-refresh force="true"></fx-refresh>
+		</fx-action>
+
+        [% include "templates/form.html" %]
+
+	</fx-fore>
+    [% endif %]
+    [% endtemplate %]
+</template>
