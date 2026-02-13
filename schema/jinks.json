@@ -579,6 +579,34 @@
                         }
                     },
                     "description": "If true, upload and ODD management will be disabled"
+                },
+                "annotate": {
+                    "type": "object",
+                    "properties": {
+                        "configs": {
+                            "description": "Configures the XQuery modules used to map annotations to XML elements",
+                            "type": "object",
+                            "patternProperties": {
+                                "^[^\\s]+$": {
+                                    "type": "object",
+                                    "properties": {
+                                        "key": {
+                                            "type": "string",
+                                            "description": "The attribute to use as reference key for entities"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The namespace URI of the XQuery module"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "description": "The path to the XQuery module, relative to `modules/annotations`"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
