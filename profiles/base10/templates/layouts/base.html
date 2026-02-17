@@ -52,8 +52,10 @@
 
         [% if $script?fore %]
             [% if $script?webcomponents = "local" %]
+            <link rel="stylesheet" href="[[ $context-path ]]/resources/lib/fore.css"/>
             <script type="module" src="[[ $context-path ]]/resources/lib/fore.js"></script>
             [% else %]
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/resources/fore.css"/>
             <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
             [% endif %]
         [% endif %]
