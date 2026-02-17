@@ -19,31 +19,31 @@ jobs:
   generate-apps:
     name: Generate Demo Apps
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Pull jinks image
         run: docker pull ${JINKS_IMAGE}:latest
-      
+
       - name: Start jinks container
         run: |
           docker run -d \
             --name jinks-server \
             -p 8080:8080 \
             ${JINKS_IMAGE}:latest
-      
+
       - name: Wait for server to be ready
         run: |
           echo "Waiting for eXist-db to start..."
@@ -60,30 +60,30 @@ jobs:
           done
           echo "Timeout waiting for server"
           exit 1
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
-      
+
       - name: Install jinks-cli
         run: npm install -g @teipublisher/jinks-cli
-      
+
       - name: Generate tei-publisher app
         working-directory: demo
         run: |
-          jinks create -c tp_config.json 
+          jinks create -c tp_config.json
 
       - name: Generate tp-serafin app
         working-directory: demo
         run: |
-          jinks create -c ser_config.json 
+          jinks create -c ser_config.json
 
       - name: Generate tp-workbench app
         working-directory: demo
         run: |
-          jinks create -c workbench_config.json 
-      
+          jinks create -c workbench_config.json
+
       - name: Verify deployed apps
         run: jinks list
 
@@ -94,7 +94,7 @@ jobs:
           for config in *_config.json; do
             abbrev=$(jq -r '.pkg.abbrev' "$config")
             echo "Downloading XAR for $abbrev..."
-            
+
             # Download XAR using the jinks API actions/download endpoint
             # This packages the app from /db/apps/{abbrev} and returns it as XAR
             curl -s -u "tei:simple" -X POST \
@@ -109,24 +109,39 @@ jobs:
                   exit 1
                 }
               }
-            
+
             echo "Downloaded ${abbrev}.xar ($(stat -f%z "${abbrev}.xar" 2>/dev/null || stat -c%s "${abbrev}.xar") bytes)"
           done
-      
-      
+
+
       - name: List generated XAR files
         working-directory: demo
         run: |
           echo "Generated XAR files:"
           ls -lh *.xar || echo "No XAR files found!"
-      
+
+      - name: Run Cypress tests on tei-publisher
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tei-publisher
+
+      - name: Run Cypress tests on tp-serafin
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-serafin
+
+      - name: Run Cypress tests on tp-workbench
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-workbench
+
       - name: Upload XAR artifacts
         uses: actions/upload-artifact@v6
         with:
           name: demo-apps-xars
           path: demo/*.xar
           retention-days: 30
-      
+
       - name: Stop jinks container
         if: always()
         run: docker stop jinks-server || true
@@ -135,26 +150,26 @@ jobs:
     name: Build Demo Apps Container
     needs: generate-apps
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-      
+
       - name: Download XAR artifacts
         uses: actions/download-artifact@v7
         with:
           name: demo-apps-xars
           path: demo/
-      
+
       - name: Verify XAR files
         working-directory: demo
         run: |
@@ -164,7 +179,7 @@ jobs:
             echo "Error: Missing required XAR files"
             exit 1
           fi
-      
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -174,7 +189,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern=v{{major}}
             type=raw,value=latest,enable={{is_default_branch}}
-      
+
       - name: Add latest tag for releases
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -182,14 +197,14 @@ jobs:
           echo -e "${{ steps.meta.outputs.tags }}\nghcr.io/${{ github.repository }}-demo:latest" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
         id: tags_with_latest
-      
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build and push demo apps image
         timeout-minutes: 25
         uses: docker/build-push-action@v6
@@ -206,4 +221,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache,mode=max
-
