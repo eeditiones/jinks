@@ -347,7 +347,7 @@
                 "toolbar-toggles": {
                     "type": "object",
                     "description": "Properties for the toolbar toggles",
-                    "properties": { 
+                    "properties": {
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the toolbar toggles will be displayed"
@@ -583,34 +583,29 @@
                     },
                     "description": "If true, upload and ODD management will be disabled"
                 },
-                "metadata-editor": {
+                "annotate": {
                     "type": "object",
-                    "description": "Configures the metadata editor integration",
                     "properties": {
-                        "enabled": {
-                            "type": "boolean"
-                        }
-                    }
-                },
-                "forms": {
-                    "type": "object",
-                    "description": "Configures the forms framework ('fore') integration",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean"
-                        },
-                        "fore": {
+                        "configs": {
+                            "description": "Configures the XQuery modules used to map annotations to XML elements",
                             "type": "object",
-                            "properties": {
-                                "cdn": {
-                                    "type": "string",
-                                    "description": "The CDN URL for Fore",
-                                    "examples": [ "https://cdn.jsdelivr.net/npm/@jinntec/fore" ]
-                                },
-                                "version": {
-                                    "type": "string",
-                                    "description": "The version of Fore to use",
-                                    "examples": [ "1.9.0", "local" ]
+                            "patternProperties": {
+                                "^[^\\s]+$": {
+                                    "type": "object",
+                                    "properties": {
+                                        "key": {
+                                            "type": "string",
+                                            "description": "The attribute to use as reference key for entities"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The namespace URI of the XQuery module"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "description": "The path to the XQuery module, relative to `modules/annotations`"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -618,7 +613,7 @@
                 }
             }
         },
-        "theme": { 
+        "theme": {
             "type": "object",
             "properties": {
                 "body": {

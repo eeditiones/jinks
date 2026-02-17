@@ -496,14 +496,20 @@ declare function config:default-config($docUri as xs:string?) {
             $defaultConfig
 };
 
-declare function config:document-type($div as element()) {
-    switch (namespace-uri($div))
-        case "http://www.tei-c.org/ns/1.0" return
-            "tei"
-        case "http://docbook.org/ns/docbook" return
-            "docbook"
-        default return
-            "jats"
+declare function config:document-type($div as node()) {
+    let $root :=
+        if ($div instance of document-node()) then
+            $div/*
+        else
+            $div
+    return
+        switch (namespace-uri($root))
+            case "http://www.tei-c.org/ns/1.0" return
+                "tei"
+            case "http://docbook.org/ns/docbook" return
+                "docbook"
+            default return
+                "jats"
 };
 
 declare function config:get-document($idOrName as xs:string) {

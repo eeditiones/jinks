@@ -18,10 +18,21 @@
             "enable": true
         }
     },
-    "odds": [ "jats.odd" ],
+    "odds": [ "jats.odd", "jats-annotations.odd" ],
     "collection-config": {
         "jats": {
             "odd": "jats.odd"
+        }
+    },
+    "features": {
+        "annotate": {
+            "configs": {
+                "jats": {
+                    "key": "specific-use",
+                    "id": "http://teipublisher.com/api/annotations/config/jats",
+                    "path": "jats-annotation-config.xqm"
+                }
+            }
         }
     }
 }
