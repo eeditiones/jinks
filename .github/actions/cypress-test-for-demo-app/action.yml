@@ -1,0 +1,24 @@
+name: Run tests for demo app
+description: Run Cypress tests for a demo app checked out in demo/XXX/
+inputs:
+  app-name:
+    required: true
+    description: The app name to run test for
+
+runs:
+  using: composite
+  steps:
+    - name: Extract ${{ inputs.app-name }} app
+      working-directory: demo
+      shell: bash
+      run: |
+        unzip "$INPUT_APP_NAME.xar" -d "$INPUT_APP_NAME"
+      env:
+        INPUT_APP_NAME: ${{ inputs.app-name }}
+
+    - name: Run ${{ inputs.app-name }} tests
+      shell: bash
+      working-directory: demo/${{ inputs.app-name }}
+      run: |
+        npm install
+        npm run test
