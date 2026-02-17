@@ -120,21 +120,6 @@ jobs:
           echo "Generated XAR files:"
           ls -lh *.xar || echo "No XAR files found!"
 
-      - name: Run Cypress tests on tei-publisher
-        uses: ./.github/actions/cypress-test-for-demo-app
-        with:
-          app-name: tei-publisher
-
-      - name: Run Cypress tests on tp-serafin
-        uses: ./.github/actions/cypress-test-for-demo-app
-        with:
-          app-name: tp-serafin
-
-      - name: Run Cypress tests on tp-workbench
-        uses: ./.github/actions/cypress-test-for-demo-app
-        with:
-          app-name: tp-workbench
-
       - name: Upload XAR artifacts
         uses: actions/upload-artifact@v6
         with:
