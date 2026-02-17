@@ -12,7 +12,7 @@ runs:
       working-directory: demo
       shell: bash
       run: |
-        unzip "$INPUT_APP_NAME.xar" -d "$INPUT_APP_NAME"
+        xst download "/db/apps/$INPUT_APP_NAME" . --verbose
       env:
         INPUT_APP_NAME: ${{ inputs.app-name }}
 
