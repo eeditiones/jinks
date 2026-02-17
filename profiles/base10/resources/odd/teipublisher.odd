@@ -457,7 +457,7 @@
             <model predicate="$parameters?mode='register-details'" behaviour="block">
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return (collection($global:data-default)//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
+                <param name="content" value="let $id := @xml:id return (collection($global:data-default)//text//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
   <h2><pb-i18n key="register-details.document-list"/></h2>
   <ul>
@@ -630,9 +630,11 @@
             <param name="type" value="if (@type='prev') then 'previous' else @type"/>
             <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
             <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
-                                            <svg class="icon">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
-                                            </svg>
+                                <pb-i18n key="odd.nav-[[type]].before"/>
+                                <svg class="icon">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
+                                </svg>
+                                <pb-i18n key="odd.nav-[[type]].after"/>
                             </li></pb:template>
         </model>
                     <model predicate="parent::correspContext and @type" behaviour="pass-through">
@@ -647,9 +649,11 @@
             <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
             <pb:template xmlns="" xml:space="preserve"><li><pb-popover>
                             <a href="[[target]]" emit="transcription" subscribe="transcription" slot="default">
+                                <pb-i18n key="odd.nav-[[type]].before"/>
                                 <svg class="icon">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
                                 </svg>
+                                <pb-i18n key="odd.nav-[[type]].after"/>
                             </a>
                             <template slot="alternate"><pb-i18n key="odd.[[type]]"/>:  [[ content ]]</template>
             </pb-popover></li></pb:template>
@@ -914,7 +918,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references
                     occur; (shown in register details view only); trying to match by key
                     or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
@@ -928,7 +932,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
                 <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
-                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI)"/>
                 <param name="level" value="4"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
@@ -990,7 +994,7 @@ flex-wrap: wrap;
                 <desc>List of documents (from data-default collection), where references
                     occur; (shown in register details view only); trying to match by key
                     or ref attributes</desc>
-                <param name="content" value="let $id := @xml:id return collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
                 <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
@@ -1003,7 +1007,7 @@ flex-wrap: wrap;
             <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="block">
                 <desc>Link to the list of documents, where references occur via facet query</desc>
                 <param name="uri" value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id"/>
-                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
+                <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
                         <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
