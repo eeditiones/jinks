@@ -114,7 +114,26 @@
 					}
 				}
 			}
-		}
+		},
+        "/api/actions/zip": {
+            "post": {
+                "description": "Generate a zip file of the static files",
+                "operationId": "sg:generate-static-zip",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/zip": {
+                                "schema":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {
