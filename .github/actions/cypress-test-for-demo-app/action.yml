@@ -8,6 +8,15 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 'lts/*'
+
+    - name: Install XST
+      shell: bash
+      run: npm i -g @existdb/xst
+
     - name: Extract ${{ inputs.app-name }} app
       working-directory: demo
       shell: bash

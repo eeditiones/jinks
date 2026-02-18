@@ -1,4 +1,4 @@
-name: Run tests for demo appps
+name: Run tests for demo apps
 
 on:
   push:
@@ -13,8 +13,8 @@ env:
   JINKS_IMAGE: ghcr.io/eeditiones/jinks
 
 jobs:
-  generate-and-test-apps:
-    name: Generate and test Demo Apps
+  generate-apps:
+    name: Generate Demo Apps
     runs-on: ubuntu-latest
 
     steps:
@@ -92,30 +92,167 @@ jobs:
         run: |
           jinks create -c workbench_config.json
 
-      - name: Verify deployed apps
-        run: jinks list
+      - name: Tag docker container for reusing in next steps
+        run: |
+          docker commit jinks-server temp/jinks-server:$GITHUB_SHA
+          mkdir -p path/to/artifacts
+          docker save temp/jinks-server:$GITHUB_SHA > path/to/artifacts/docker-image.tar
+
+      - name: Temporarily save Docker image
+        uses: actions/upload-artifact@v6
+        with:
+          name: docker-artifact
+          path: path/to/artifacts
+          retention-days: 1
+
+  run-tests-for-tei-publisher:
+    name: Run tests on tei publisher
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Retrieve saved Docker image
+        uses: actions/download-artifact@v7
+        with:
+          name: docker-artifact
+          path: path/to/artifacts
+      - name: Docker load
+        run: |
+          cd path/to/artifacts
+          docker load < docker-image.tar
+
+      - name: Start jinks container
+        run: |
+          docker run -d \
+            --name jinks-server \
+            -p 8080:8080 \
+            temp/jinks-server:$GITHUB_SHA
+
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+
 
       - name: Run Cypress tests on tei-publisher
         uses: ./.github/actions/cypress-test-for-demo-app
         with:
           app-name: tei-publisher
 
-      - name: Run Cypress tests on tp-serafin
-        uses: ./.github/actions/cypress-test-for-demo-app
-        with:
-          app-name: tp-serafin
+      - name: Stop jinks container
+        if: always()
+        run: docker stop jinks-server || true
 
-      - name: Run Cypress tests on tp-workbench
+  run-tests-for-tp-workbench:
+    name: Run tests on workbench
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Retrieve saved Docker image
+        uses: actions/download-artifact@v7
+        with:
+          name: docker-artifact
+          path: path/to/artifacts
+      - name: Docker load
+        run: |
+          cd path/to/artifacts
+          docker load < docker-image.tar
+
+      - name: Start jinks container
+        run: |
+          docker run -d \
+            --name jinks-server \
+            -p 8080:8080 \
+            tmp/jinks-server:$GITHUB_SHA
+
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+
+
+      - name: Run Cypress tests on tei-publisher
         uses: ./.github/actions/cypress-test-for-demo-app
         with:
           app-name: tp-workbench
 
-      - name: Upload XAR artifacts
-        uses: actions/upload-artifact@v6
+      - name: Stop jinks container
+        if: always()
+        run: docker stop jinks-server || true
+
+  run-tests-for-tp-serafin:
+    name: Run tests on serafin
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Retrieve saved Docker image
+        uses: actions/download-artifact@v7
         with:
-          name: demo-apps-xars
-          path: demo/*.xar
-          retention-days: 30
+          name: docker-artifact
+          path: path/to/artifacts
+      - name: Docker load
+        run: |
+          cd path/to/artifacts
+          docker load < docker-image.tar
+
+      - name: Start jinks container
+        run: |
+          docker run -d \
+            --name jinks-server \
+            -p 8080:8080 \
+            tmp/jinks-server:$GITHUB_SHA
+
+      - name: Wait for server to be ready
+        run: |
+          echo "Waiting for eXist-db to start..."
+          timeout=120
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Still waiting... ($elapsed seconds)"
+            sleep 5
+            elapsed=$((elapsed + 5))
+          done
+          echo "Timeout waiting for server"
+          exit 1
+
+
+      - name: Run Cypress tests on tei-publisher
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-serafin
 
       - name: Stop jinks container
         if: always()
