@@ -1,7 +1,7 @@
 /*
  * This file contains the javascript code, which connects the various elements of the
  * user interface for the annotation editor.
- * 
+ *
  * You should not need to change this unless you want to add new features.
  */
 
@@ -98,7 +98,7 @@ document.addEventListener("pb-page-loaded", () => {
 	let previewOdd = "teipublisher";
 	let currentUser = null;
 	const doc = view.getDocument();
-	
+
 	function restoreAnnotations(doc, annotations) {
 		console.log('loading annotations from local storage: %o', annotations);
 		view.annotations = annotations;
@@ -192,7 +192,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(ref) {
-		refInput.forEach((input) => { 
+		refInput.forEach((input) => {
             input.value = ref;
             input.dispatchEvent(new Event('input'));
         });
@@ -203,11 +203,11 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Called if user selects or deselects an occurrence
-	 * 
+	 *
 	 * @param {any} data form data
 	 * @param {any} o range data associated with the selected occurrence
 	 * @param {boolean} inBatch true if this is a batch operation
-	 * @returns 
+	 * @returns
 	 */
 	function selectOccurrence(data, o, inBatch) {
 		try {
@@ -406,9 +406,9 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Handler called if user clicks on an annotation action.
-	 * 
+	 *
 	 * @param {HTMLButton} button the button
-	 * @returns 
+	 * @returns
 	 */
 	function actionHandler(button) {
 		if (selection) {
@@ -444,7 +444,7 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Handler called if user clicks the mark-all occurrences button.
-	 * 
+	 *
 	 * @param {Event} ev event
 	 */
 	function markAll(ev) {
@@ -518,7 +518,7 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Save and merge all occurrences
-	 * 
+	 *
 	 */
 	function saveOccurrences(data) {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
@@ -619,14 +619,20 @@ document.addEventListener("pb-page-loaded", () => {
 
 	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
-	document.getElementById('ner-action').addEventListener('click', () => {
-		if (view.annotations.length > 0) {
-			document.getElementById('ner-denied-dialog').show();
-		} else {
-			ner();
-		}
-	});
-	document.getElementById('ner-run').addEventListener('click', () => runNER());
+	const nerActionButton = document.getElementById('ner-action');
+	if (nerActionButton) {
+		nerActionButton.addEventListener('click', () => {
+			if (view.annotations.length > 0) {
+				document.getElementById('ner-denied-dialog').show();
+			} else {
+				ner();
+			}
+		});
+	}
+	const nerRunButton = document.getElementById('ner-run');
+	if (nerRunButton) {
+		document.getElementById('ner-run').addEventListener('click', () => runNER());
+	}
 	// reload source TEI, discarding current annotations
 	document.getElementById('reload-all').addEventListener('click', () => {
 		function reload() {
@@ -755,7 +761,7 @@ document.addEventListener("pb-page-loaded", () => {
 	}, {
 		once: true
 	});
-	
+
 	// todo: what's this for? -> fishes the type and query params from iron-form and opens dialog
 	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
 		elem.addEventListener("click", () => {
@@ -806,7 +812,7 @@ document.addEventListener("pb-page-loaded", () => {
 	const authEditor = document.getElementById('authority-editor');
 	authEditor.addEventListener('geolocation', (ev) => {
 		const coords = ev.detail.coordinates.split(/\s+/);
-		
+
 		pbEvents.ifReady(document.querySelector('pb-leaflet-map'))
 			.then(() =>
 			pbEvents.emit('pb-geolocation', null, {
@@ -884,7 +890,7 @@ document.addEventListener("pb-page-loaded", () => {
 			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}.history`, JSON.stringify(view.getHistory()));
 		}
 	});
-	
+
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent.replace(/\s+/g, " ");
