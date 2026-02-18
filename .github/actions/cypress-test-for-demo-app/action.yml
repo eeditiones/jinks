@@ -8,6 +8,54 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Retrieve saved Docker image
+      uses: actions/download-artifact@v7
+      with:
+        name: docker-artifact
+        path: path/to/artifacts
+    - name: Docker load
+      shell: bash
+      run: |
+        cd path/to/artifacts
+        docker load < docker-image.tar
+
+    - name: Start jinks container
+      shell: bash
+      run: |
+        docker run -d \
+        --name jinks-server \
+        -p 8080:8080 \
+        temp/jinks-server:$GITHUB_SHA
+
+    - name: Wait for server to be ready
+      shell: bash
+      run: |
+        echo "Waiting for eXist-db to start..."
+        timeout=120
+        elapsed=0
+        while [ $elapsed -lt $timeout ]; do
+        if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
+        echo "Server is ready!"
+        exit 0
+        fi
+        echo "Still waiting... ($elapsed seconds)"
+        sleep 5
+        elapsed=$((elapsed + 5))
+        done
+        echo "Timeout waiting for server"
+        exit 1
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 'lts/*'
+
+    - name: Install XST
+      shell: bash
+      run: npm i -g @existdb/xst
+
     - name: Extract ${{ inputs.app-name }} app
       working-directory: demo
       shell: bash
@@ -22,3 +70,8 @@ runs:
       run: |
         npm install
         npm run test
+
+    - name: Stop jinks container
+      if: always()
+      shell: bash
+      run: docker stop jinks-server || true
