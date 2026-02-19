@@ -69,8 +69,7 @@ describe('TEI-Publisher Search Results', () => {
         .should('have.value', 'test query')
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('performs new search when query is modified and submitted', () => {
+    it('performs new search when query is modified and submitted', () => {
       // Modify search query
       cy.get('pb-search:not(.mobile)')
         .first()

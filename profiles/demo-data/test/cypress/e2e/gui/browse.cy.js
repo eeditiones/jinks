@@ -79,8 +79,7 @@ describe('TEI-Publisher Browse Collection', () => {
         .should('have.value', 'test query')
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('performs search on enter key', () => {
+    it('performs search on enter key', () => {
       // Get initial total
       cy.getPaginationAttrs()
       cy.get('@total').as('initialTotal')
@@ -104,8 +103,7 @@ describe('TEI-Publisher Browse Collection', () => {
       // The search results page uses a different pagination mechanism
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('displays search results after query', () => {
+    it('displays search results after query', () => {
       // Perform search using shadow DOM
       cy.get('pb-search:not(.mobile)')
         .first()
@@ -131,8 +129,7 @@ describe('TEI-Publisher Browse Collection', () => {
         .should('have.length.at.least', 1)
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('handles empty search results gracefully', () => {
+    it('handles empty search results gracefully', () => {
       // Search for something unlikely to exist using shadow DOM
       cy.get('pb-search:not(.mobile)')
         .first()
@@ -155,8 +152,7 @@ describe('TEI-Publisher Browse Collection', () => {
       cy.get('main', { timeout: 10000 }).should('be.visible')
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('clears search query', () => {
+    it('clears search query', () => {
       // Clear search using shadow DOM
       cy.get('pb-search:not(.mobile)')
         .first()
@@ -167,8 +163,7 @@ describe('TEI-Publisher Browse Collection', () => {
         .should('have.value', '')
     })
 
-    // This test makes Cypress fail with a SIGSEGV error
-    it.skip('restores original results after clearing search', () => {
+    it('restores original results after clearing search', () => {
       // Get initial total
       cy.getPaginationAttrs()
       cy.get('@total').as('initialTotal')
