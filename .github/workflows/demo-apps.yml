@@ -1,4 +1,4 @@
-name: Demo Apps - Build, Test, Publish
+name: apps and images
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - '**'
     tags:
       - v*
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 env:
@@ -13,9 +15,102 @@ env:
   JINKS_IMAGE: ghcr.io/eeditiones/jinks
 
 jobs:
+  test-jinks:
+    name: Test Jinks Image
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.4.0]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Build Jinks image for testing
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=${{ matrix.EXIST_BASE }}
+          load: true
+          tags: exist-db
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+      - name: Start docker image
+        run: docker run --publish 8080:8080 --name db --detach exist-db
+      - name: Run Cypress e2e test
+        uses: cypress-io/github-action@v7
+        with:
+          browser: firefox
+      - name: Retrieve eXist log
+        if: failure()
+        run: docker cp db:/exist/logs/exist.log .
+      - name: Publish log as artifact
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: jinks-deploy-exist-${{ matrix.EXIST_BASE }}-log
+          path: ./exist.log
+      - name: Stop docker
+        run: docker stop db || true
+
+  push-jinks:
+    name: Push Jinks Image
+    needs: test-jinks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        id: buildx
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      - name: Add latest tag for releases
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
+          echo -e "${{ steps.meta.outputs.tags }}\nghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        id: tags_with_latest
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push Jinks image
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v')
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            PUBLISHER_VERSION=main
+            EXIST_VERSION=6.4.0
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          sbom: true
+          tags: ${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
+
   generate-apps:
     name: Generate Demo Apps
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
 
     steps:
       - name: Checkout repository
@@ -122,7 +217,7 @@ jobs:
 
   deploy-jinks-demo:
     name: Deploy Jinks Demo Image
-    needs: [run-tests-for-tei-publisher, run-tests-for-tp-workbench, run-tests-for-tp-serafin]
+    needs: [push-jinks, generate-apps, run-tests-for-tei-publisher, run-tests-for-tp-workbench, run-tests-for-tp-serafin]
     runs-on: ubuntu-latest
 
     steps:
@@ -209,6 +304,7 @@ jobs:
     name: Run tests on tei-publisher
     runs-on: ubuntu-latest
     needs: generate-apps
+    if: github.event_name != 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -221,6 +317,7 @@ jobs:
     name: Run tests on tp-workbench
     runs-on: ubuntu-latest
     needs: generate-apps
+    if: github.event_name != 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -233,6 +330,7 @@ jobs:
     name: Run tests on tp-serafin
     runs-on: ubuntu-latest
     needs: generate-apps
+    if: github.event_name != 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
