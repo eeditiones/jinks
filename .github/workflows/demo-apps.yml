@@ -1,15 +1,12 @@
-name: Build and Publish Demo Apps Container
+name: Demo Apps - Build, Test, Publish
 
 on:
   push:
-    # Build demo apps container on all pushes (for testing)
     branches:
       - '**'
-    # Push images on release tags only
     tags:
       - v*
   workflow_dispatch:
-    # Allow manual triggering
 
 env:
   IMAGE_NAME: jinks-demo
@@ -24,6 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 11
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -34,7 +37,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull jinks image
+      - name: Build Jinks from source
+        run: ant
+
+      - name: Pull jinks base image
         run: docker pull ${JINKS_IMAGE}:latest
 
       - name: Start jinks container
@@ -42,24 +48,17 @@ jobs:
           docker run -d \
             --name jinks-server \
             -p 8080:8080 \
+            -v ${{ github.workspace }}/build:/exist/autodeploy \
             ${JINKS_IMAGE}:latest
 
-      - name: Wait for server to be ready
+      - name: Wait for server to start
+        timeout-minutes: 10
         run: |
-          echo "Waiting for eXist-db to start..."
-          timeout=120
-          elapsed=0
-          while [ $elapsed -lt $timeout ]; do
-            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
-              echo "Server is ready!"
-              exit 0
-            fi
-            echo "Still waiting... ($elapsed seconds)"
-            sleep 5
-            elapsed=$((elapsed + 5))
+          echo "Waiting for server to start..."
+          until docker logs exist 2>&1 | grep -q "Server has started"; do
+            echo "Still waiting..."
+            sleep 4
           done
-          echo "Timeout waiting for server"
-          exit 1
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -71,18 +70,15 @@ jobs:
 
       - name: Generate tei-publisher app
         working-directory: demo
-        run: |
-          jinks create -c tp_config.json
+        run: jinks create -c tp_config.json
 
       - name: Generate tp-serafin app
         working-directory: demo
-        run: |
-          jinks create -c ser_config.json
+        run: jinks create -c ser_config.json
 
       - name: Generate tp-workbench app
         working-directory: demo
-        run: |
-          jinks create -c workbench_config.json
+        run: jinks create -c workbench_config.json
 
       - name: Verify deployed apps
         run: jinks list
@@ -93,13 +89,25 @@ jobs:
           jinks run tei-publisher download
           jinks run tp-serafin download
           jinks run tp-workbench download
-      
-      
+
       - name: List generated XAR files
         working-directory: demo
         run: |
           echo "Generated XAR files:"
           ls -lh *.xar || echo "No XAR files found!"
+
+      - name: Commit container for test jobs
+        run: |
+          docker commit jinks-server temp/jinks-server:$GITHUB_SHA
+          mkdir -p path/to/artifacts
+          docker save temp/jinks-server:$GITHUB_SHA > path/to/artifacts/docker-image.tar
+
+      - name: Upload container artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: docker-artifact
+          path: path/to/artifacts
+          retention-days: 3
 
       - name: Upload XAR artifacts
         uses: actions/upload-artifact@v6
@@ -146,6 +154,15 @@ jobs:
             exit 1
           fi
 
+      - name: Set JINKS_VERSION
+        id: jv
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          else
+            echo "version=latest" >> $GITHUB_OUTPUT
+          fi
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -179,7 +196,7 @@ jobs:
           file: demo/Dockerfile.demo
           platforms: linux/amd64,linux/arm64
           build-args: |
-            JINKS_VERSION=latest
+            JINKS_VERSION=${{ steps.jv.outputs.version }}
           builder: ${{ steps.buildx.outputs.name }}
           push: ${{ startsWith(github.ref, 'refs/tags/v') }}
           sbom: true
@@ -187,3 +204,42 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache,mode=max
+
+  run-tests-for-tei-publisher:
+    name: Run tests on tei-publisher
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Cypress tests on tei-publisher
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tei-publisher
+
+  run-tests-for-tp-workbench:
+    name: Run tests on tp-workbench
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Cypress tests on tp-workbench
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-workbench
+
+  run-tests-for-tp-serafin:
+    name: Run tests on tp-serafin
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Cypress tests on tp-serafin
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-serafin
