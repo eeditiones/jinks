@@ -1,5 +1,5 @@
 name: Run tests for demo app
-description: Run Cypress tests for a demo app checked out in demo/XXX/
+description: Run Cypress tests for a demo app (extracts app from XAR artifact, runs tests)
 inputs:
   app-name:
     required: true
@@ -8,8 +8,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout
-      uses: actions/checkout@v6
     - name: Retrieve saved Docker image
       uses: actions/download-artifact@v7
       with:
@@ -29,46 +27,37 @@ runs:
         -p 8080:8080 \
         temp/jinks-server:$GITHUB_SHA
 
-    - name: Wait for server to be ready
+    - name: Wait for server to start
       shell: bash
       run: |
-        echo "Waiting for eXist-db to start..."
-        timeout=120
-        elapsed=0
-        while [ $elapsed -lt $timeout ]; do
-        if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
-        echo "Server is ready!"
-        exit 0
-        fi
-        echo "Still waiting... ($elapsed seconds)"
-        sleep 5
-        elapsed=$((elapsed + 5))
+        echo "Waiting for server to start..."
+        until docker logs jinks-server 2>&1 | grep -q "Server has started"; do
+          echo "Still waiting..."
+          sleep 4
         done
-        echo "Timeout waiting for server"
-        exit 1
+
+    - name: Download XAR artifacts
+      uses: actions/download-artifact@v7
+      with:
+        name: demo-apps-xars
+        path: demo/
+
+    - name: Extract ${{ inputs.app-name }} app from XAR
+      shell: bash
+      run: |
+        mkdir -p demo/${{ inputs.app-name }}
+        unzip -o demo/${{ inputs.app-name }}.xar -d demo/${{ inputs.app-name }}
 
     - name: Set up Node.js
       uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
 
-    - name: Install XST
-      shell: bash
-      run: npm i -g @existdb/xst
-
-    - name: Extract ${{ inputs.app-name }} app
-      working-directory: demo
-      shell: bash
-      run: |
-        xst download "/db/apps/$INPUT_APP_NAME" . --verbose
-      env:
-        INPUT_APP_NAME: ${{ inputs.app-name }}
-
-    - name: Run ${{ inputs.app-name }} tests
+    - name: Install and run tests
       shell: bash
       working-directory: demo/${{ inputs.app-name }}
       run: |
-        npm install
+        npm install 
         npx cypress run --browser firefox
 
     - name: Stop jinks container

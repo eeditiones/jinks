@@ -55,7 +55,7 @@ jobs:
         timeout-minutes: 10
         run: |
           echo "Waiting for server to start..."
-          until docker logs exist 2>&1 | grep -q "Server has started"; do
+          until docker logs jinks-server 2>&1 | grep -q "Server has started"; do
             echo "Still waiting..."
             sleep 4
           done
@@ -120,9 +120,9 @@ jobs:
         if: always()
         run: docker stop jinks-server || true
 
-  build-demo-image:
-    name: Build Demo Apps Container
-    needs: generate-apps
+  deploy-jinks-demo:
+    name: Deploy Jinks Demo Image
+    needs: [run-tests-for-tei-publisher, run-tests-for-tp-workbench, run-tests-for-tp-serafin]
     runs-on: ubuntu-latest
 
     steps:
@@ -212,7 +212,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Run Cypress tests on tei-publisher
         uses: ./.github/actions/cypress-test-for-demo-app
         with:
@@ -225,7 +224,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Run Cypress tests on tp-workbench
         uses: ./.github/actions/cypress-test-for-demo-app
         with:
@@ -238,7 +236,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Run Cypress tests on tp-serafin
         uses: ./.github/actions/cypress-test-for-demo-app
         with:
