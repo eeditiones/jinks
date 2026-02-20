@@ -93,7 +93,6 @@ document.addEventListener("pb-page-loaded", () => {
 	let emptyElement = false;
 	let elementPosition = "around"; //default position of the annotation element to be inserted; can be also "before" (for <pb/>) or "after" (for <note>)
 	let text = "";
-	let enablePreview = true;
 	let currentEntityInfo = null;
 	let previewOdd = "teipublisher";
 	let currentUser = null;
@@ -451,7 +450,6 @@ document.addEventListener("pb-page-loaded", () => {
 		ev.preventDefault();
 		ev.stopPropagation();
 		window.pbEvents.emit("pb-start-update", "transcription", {});
-		enablePreview = false;
 		const data = form.serializeForm();
 		const checkboxes = document.querySelectorAll(
 			"#occurrences li input[type='checkbox']:not([checked])"
@@ -467,7 +465,6 @@ document.addEventListener("pb-page-loaded", () => {
 				console.error(e);
 			}
 			findOther(checkboxes[0]._info);
-			enablePreview = true;
 			preview(view.annotations);
 		}
 		window.pbEvents.emit("pb-end-update", "transcription", {});
@@ -873,9 +870,6 @@ document.addEventListener("pb-page-loaded", () => {
 		const doc = view.getDocument();
 		if (doc && doc.path) {
 			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}`, JSON.stringify(ev.detail.ranges));
-		}
-		if (enablePreview && !ev.detail.refresh) {
-			preview(ev.detail.ranges);
 		}
 	});
 	window.pbEvents.subscribe('pb-annotations-history', 'transcription', (ev) => {
