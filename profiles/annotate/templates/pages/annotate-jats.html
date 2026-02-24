@@ -1,0 +1,196 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/pages/annotate.html"
+        }
+    }
+    ---
+    [% template annotation-toolbar %]
+    <li>
+        <span role="group">
+            <button class="annotation-action authority" data-i18n="[title]annotations.person"
+                data-shortcut="⌘+⇧+p,ctrl+⇧+p" data-type="person" disabled="disabled" title="Person">
+                <svg>
+                    <use href="#person-fill"></use>
+                </svg>
+            </button>
+            <button class="annotation-action authority" data-i18n="[title]annotations.organisation"
+                data-shortcut="⌘+⇧+o,ctrl+⇧+o" data-type="organization" disabled="disabled"
+                title="organization">
+                <svg>
+                    <use href="#people-fill"></use>
+                </svg>
+            </button>
+            <button class="annotation-action authority" data-i18n="[title]annotations.place"
+                data-shortcut="⌘+⇧+q,ctrl+⇧+q" data-type="place" disabled="disabled" title="Place">
+                <svg>
+                    <use href="#globe-europe-africa-fill"></use>
+                </svg>
+            </button>
+            <button class="annotation-action authority" data-i18n="[title]annotations.term"
+                    data-shortcut="⌘+⇧+t,ctrl+⇧+t" data-type="term" disabled="disabled" title="Term">
+                <svg>
+                    <use href="#bookmark-star-fill"></use>
+                </svg>
+            </button>
+            <button class="annotation-action authority" data-i18n="[title]annotations.work" 
+                    data-shortcut="⌘+⇧+q,ctrl+⇧+w" data-type="work" disabled="disabled" title="Work">
+                    <svg>
+                        <use href="#book-fill"></use>
+                    </svg>
+            </button>
+        </span>
+    </li>
+    <li>
+        <span role="group">
+            <button class="annotation-action" data-i18n="[title]annotations.date" data-shortcut="⌘+⇧+d,ctrl+⇧+d"
+                data-type="date" disabled="disabled" title="Date">
+                <svg>
+                    <use href="#calendar2-day"></use>
+                </svg>
+            </button>
+            <button class="annotation-action" data-i18n="[title]annotations.abbreviation" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
+                    data-type="abbreviation" disabled="disabled" title="Abbreviation">
+                <svg>
+                    <use href="#abbreviation"></use>
+                </svg>
+            </button>
+        </span>
+    </li>
+    <li>
+        <span role="group">
+            <button class="annotation-action" data-i18n="[title]annotations.ref" data-shortcut="⌘+⇧+l,ctrl+⇧+l"
+                data-type="ref" disabled="disabled" title="Reference">
+                <svg>
+                    <use href="#link-45deg"></use>
+                </svg>
+            </button>
+            <button class="annotation-action" data-i18n="[title]annotations.hi" data-shortcut="⌘+⇧+h,ctrl+⇧+h" data-type="hi"
+                disabled="disabled" title="Highlight">
+                <svg>
+                    <use href="#type-bold"></use>
+                </svg>
+            </button>
+            <button class="annotation-action before" data-i18n="[title]annotations.pb" data-shortcut="⌘+⇧+b,ctrl+⇧+b" data-type="pb"
+                disabled="disabled" title="Page break">
+                <svg>
+                    <use href="#file-break"></use>
+                </svg>
+            </button>
+        </span>
+    </li>
+    <li>
+        <span role="group">
+            <button class="annotation-action after" data-i18n="[title]annotations.note" data-shortcut="⌘+⇧+f,ctrl+⇧+f"
+                data-type="note" disabled="disabled" title="Note">
+                <svg>
+                    <use href="#chat-dots"></use>
+                </svg>
+            </button>
+            <button class="annotation-action" data-i18n="[title]annotations.modify" data-shortcut="⌘+⇧+m,ctrl+⇧+m"
+                data-type="edit" disabled="disabled" title="Edit">
+                <svg>
+                    <use href="#pencil-square"></use>
+                </svg>
+            </button>
+        </span>
+    </li>
+    <li>
+        <button data-i18n="[title]annotations.ner.title" id="ner-action">
+            <svg>
+                <use href="#search-heart"></use>
+            </svg>
+        </button>
+    </li>
+    [% endtemplate %]
+
+    [% template annotation-form %]
+    <div class="annotation-form person organization place term work">
+        [% let $doctype = config:document-type(root($doc?content)/*) %]
+        <input class="form-ref" name="[[ $context?features?annotate?configs($doctype)?key ]]" data-i18n="[placeholder]annotations.reference"
+            placeholder="Reference"></input>
+        [% endlet %]
+        <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
+        <pb-restricted group="tei">
+            <button data-i18n="[title]annotations.edit-entity" id="edit-entity">
+                <svg>
+                    <use href="#pencil-square"></use>
+                </svg>
+            </button>
+        </pb-restricted>
+    </div>
+    <div class="annotation-form date">
+        <label>when <input name="when" placeholder="yyyy-mm-dd" type="text"></input></label>
+        <label>from <input name="from" placeholder="yyyy-mm-dd" type="text"></input></label>
+        <label>to <input name="to" placeholder="yyyy-mm-dd" type="text"></input></label>
+    </div>
+    <div class="annotation-form hi">
+        <label>
+            <input type="checkbox" name="rend" value="bold" /> bold
+        </label>
+        <label>
+            <input type="checkbox" name="rend" value="italic" /> italics
+        </label>
+        <label>
+            <input type="checkbox" name="rend" value="underline" /> underline
+        </label>
+        <label>
+            <input type="checkbox" name="rend" value="strike" /> strike through
+        </label>
+        <input name="style" placeholder="style"></input>
+        <input name="style-type" placeholder="style-type"></input>
+    </div>
+    <div class="annotation-form ref">
+        <input name="xlink:href" placeholder="href"></input>
+    </div>
+    <input class="annotation-form abbreviation" name="expan"
+        data-i18n="[placeholder]annotations.expansion" placeholder="Expansion"></input>
+    <input class="annotation-form reg" name="reg" data-i18n="[placeholder]annotations.reg"
+        placeholder="Regularization"></input>
+    <div class="annotation-form pb">
+        <input name="n" data-i18n="[placeholder]annotations.pagenum"></input>
+        <input name="facs" data-i18n="[placeholder]annotations.facs"></input>
+    </div>
+    <div class="annotation-form note">
+        <jinn-xml-editor name="content"
+            placeholder="[Inline text/markup or sequence of paragraphs]"
+            schema="resources/scripts/annotations/tei.json" schema-root="note"
+            namespace="http://www.tei-c.org/ns/1.0">
+            <div slot="toolbar">
+                <button data-command="selectElement"
+                    title="Select element around current cursor position">&lt;|&gt;</button>
+                <button data-command="encloseWith"
+                    title="Enclose selection in new element">&lt;...&gt;</button>
+                <button data-command="removeEnclosing" title="Remove enclosing tags"
+                    class="sep">&lt;X&gt;</button>
+                <button data-command="snippet"
+                    data-params="&lt;placeName key=&quot;$|1|&quot;&gt;$|_|&lt;/placeName&gt;"
+                    title="Insert placeName">&lt;placeName&gt;</button>
+                <button data-command="snippet"
+                    data-params="&lt;persName key=&quot;$|1|&quot;&gt;$|_|&lt;/persName&gt;"
+                    title="Insert persName">&lt;persName&gt;</button>
+            </div>
+        </jinn-xml-editor>
+    </div>
+    [% endtemplate %]
+
+    [% template authority-config %]
+    <pb-authority-lookup subscribe="transcription" emit="transcription">
+        <pb-authority connector="Custom" name="organization" edit="">
+            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+        </pb-authority>
+        <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
+        <pb-authority connector="Custom" name="place" edit="">
+            <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
+        </pb-authority>
+        <pb-authority connector="Custom" name="work" edit="">
+            <pb-authority connector="GND" prefix="gnd" />
+        </pb-authority>
+        <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
+        <pb-authority connector="Custom" name="person" edit="">
+            <pb-authority connector="GND" prefix="gnd"></pb-authority>
+        </pb-authority>
+    </pb-authority-lookup>
+    [% endtemplate %]
+</template>

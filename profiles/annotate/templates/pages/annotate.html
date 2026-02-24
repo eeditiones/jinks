@@ -36,20 +36,99 @@
     }
     ---
     [% template content-top %]
-	[% include 'templates/pages/annotation/annotate-toolbar.html' %]
+    <nav class="toolbar">
+        <ul>
+            <li>
+                <nav aria-label="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"><pb-i18n key="breadcrumb.document-root">Documents</pb-i18n></a>
+                        </li>
+                        <li>
+                            [[ $context?doc?path ]]
+                        </li>
+                    </ul>
+                </nav>
+            </li>
+        </ul>
+        <ul>
+            [% block annotation-toolbar %][% endblock %]
+        </ul>
+		<ul>
+            <li>
+                <span role="group">
+                    <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page" keyboard="left"
+                        data-i18n="[title]annotations.previous-page" title="Previous">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                                d="M328 112L184 256l144 144" />
+                        </svg>
+                    </pb-navigation>
+                    <pb-navigation emit="transcription" subscribe="transcription" unit="page" keyboard="right"
+                        data-i18n="[title]annotations.next-page" title="Next">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                                d="M184 112l144 144-144 144" />
+                        </svg>
+                    </pb-navigation>
+                </span>
+            </li>
+            <li>
+                <span role="group">
+                    <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                    <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+                </span>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <span role="group">
+                    <button data-i18n="[title]annotations.reload" id="reload-all">
+                        <svg>
+                            <use href="#arrow-clockwise"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.save" data-shortcut="⌘+⇧+s,ctrl+⇧+s" id="document-save">
+                        <svg>
+                            <use href="#floppy-save"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.download" data-shortcut="⌘+⇧+d,ctrl+⇧+d" id="document-download">
+                        <svg>
+                            <use href="#download-archive"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.undo" id="undo-history">
+                        <svg>
+                            <use href="#arrow-counterclockwise"></use>
+                        </svg>
+                    </button>
+                    <button data-i18n="[title]annotations.toggle" id="toggle-markup">
+                        <svg>
+                            <use href="#eye-fill"></use>
+                        </svg>
+                    </button>
+                </span>
+            </li>
+        </ul>
+    </nav>
     [% endtemplate %]
 
-    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ $doc?odd ]]" view="[[ $doc?view ]]"
+    [% let $doctype = config:document-type(root($doc?content)/*) %]
+    <pb-document id="document1" path="[[ $doc?path ]]" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]" view="[[ $doc?view ]]"
             root-path="[[ $config:data-root ]]" source-view="[[ $page:EXIDE ]]"></pb-document>
     <main>
-        <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-            <pb-param name="header" value="short"></pb-param>
+        <pb-view id="title-view1" src="document1" view="single">
+            <pb-param name="mode" value="breadcrumb"></pb-param>
         </pb-view>
-        <pb-view-annotate id="view1" src="document1" odd="annotations" key="key" append-footnotes="append-footnotes"
+        <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]"
+            key="[[ $context?features?annotate?configs?($doctype)?key ]]"
+            append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
         </pb-view-annotate>
     </main>
+    [% endlet %]
 
     [% template after %]
     <fx-fore ignore-expressions="pb-authority" class="preview edit-panel">
@@ -130,72 +209,7 @@
             <header>Annotation Details</header>
             <iron-form id="edit-form">
                 <form action="">
-                    <div class="annotation-form person organization place term work">
-                        <input class="form-ref" name="key" data-i18n="[placeholder]annotations.reference"
-                            placeholder="Reference"></input>
-                        <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
-                        <pb-restricted group="tei">
-                            <button data-i18n="[title]annotations.edit-entity" id="edit-entity">
-                                <svg>
-                                    <use href="#pencil-square"></use>
-                                </svg>
-                            </button>
-                        </pb-restricted>
-                    </div>
-                    <div class="annotation-form date">
-                        <label>when <input name="when" placeholder="yyyy-mm-dd" type="text"></input></label>
-                        <label>from <input name="from" placeholder="yyyy-mm-dd" type="text"></input></label>
-                        <label>to <input name="to" placeholder="yyyy-mm-dd" type="text"></input></label>
-                    </div>
-                    <div class="annotation-form hi">
-                        <label>
-                            <input type="checkbox" name="rend" value="b" /> bold
-                        </label>
-                        <label>
-                            <input type="checkbox" name="rend" value="i" /> italicised
-                        </label>
-                        <input name="rendition" placeholder="rendition"></input>
-                    </div>
-                    <div class="annotation-form link">
-                        <input name="target" placeholder="target"></input>
-                    </div>
-                    <pb-repeat class="annotation-form app" initial="1">
-                        <template>
-                            <input name="wit" placeholder="wit"></input>
-                            <input name="rdg" placeholder="rdg"></input>
-                        </template>
-                    </pb-repeat>
-                    <input class="annotation-form sic" name="corr"
-                        data-i18n="[placeholder]annotations.correction" placeholder="Correction"></input>
-                    <input class="annotation-form abbreviation" name="expan"
-                        data-i18n="[placeholder]annotations.expansion" placeholder="Expansion"></input>
-                    <input class="annotation-form reg" name="reg" data-i18n="[placeholder]annotations.reg"
-                        placeholder="Regularization"></input>
-                    <div class="annotation-form pb">
-                        <input name="n" data-i18n="[placeholder]annotations.pagenum"></input>
-                        <input name="facs" data-i18n="[placeholder]annotations.facs"></input>
-                    </div>
-                    <div class="annotation-form note">
-                        <jinn-xml-editor name="content"
-                            placeholder="[Inline text/markup or sequence of paragraphs]"
-                            schema="resources/scripts/annotations/tei.json" schema-root="note"
-                            namespace="http://www.tei-c.org/ns/1.0">
-                            <div slot="toolbar">
-                                <button data-command="selectElement"
-                                    title="Select element around current cursor position">&lt;|&gt;</button>
-                                <button data-command="encloseWith"
-                                    title="Enclose selection in new element">&lt;...&gt;</button>
-                                <button data-command="removeEnclosing" title="Remove enclosing tags"
-                                    class="sep">&lt;X&gt;</button>
-                                <button data-command="snippet"
-                                    data-params="&lt;placeName key=&quot;$|1|&quot;&gt;$|_|&lt;/placeName&gt;"
-                                    title="Insert placeName">&lt;placeName&gt;</button>
-                                <button data-command="snippet"
-                                    data-params="&lt;persName key=&quot;$|1|&quot;&gt;$|_|&lt;/persName&gt;"
-                                    title="Insert persName">&lt;persName&gt;</button>
-                            </div>
-                        </jinn-xml-editor>
-                    </div>
+                    [% block annotation-form %][% endblock %]
                     <div class="annotation-form edit">
                         <p><pb-i18n key="annotations.modify-info"></pb-i18n></p>
                         <input name="content" data-i18n="[placeholder]annotations.correction"
@@ -214,7 +228,7 @@
             </header>
             <div id="authority-editor"></div>
 
-			[% include 'templates/pages/annotation/annotate-authorities.html' %]
+            [% block authority-config %][% endblock %]
         </fx-group>
 
         <fx-group ref="occurrences" class="occurrences card">

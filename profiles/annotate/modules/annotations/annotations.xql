@@ -62,7 +62,7 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
                 return
                     map:entry($id, anno:apply($node, $ordered))
             )
-            let $merged := anno:merge($doc, $map) => anno:strip-exist-id() => anno:extend-header($log)
+            let $merged := annocfg:extend-header(anno:merge($doc, $map) => anno:strip-exist-id(), $log)
             let $output := document {
                 $srcDoc/(processing-instruction()|comment()),
                 $merged
@@ -111,112 +111,6 @@ declare %private function anno:strip-exist-id($nodes as node()*) {
                 $node
 };
 
-(:~
- : Add a revisionDesc to the TEI header and move notes with a @target into standOff/listAnnotation.
- :)
-declare %private function anno:extend-header($nodes as node()*, $log as map(*)?) {
-    for $node in $nodes
-    return
-        typeswitch($node)
-            case document-node() return
-                document {
-                    anno:extend-header($node/node(), $log)
-                }
-            case element(tei:TEI) return
-                element { node-name($node) } {
-                    $node/@*,
-                    anno:extend-header($node/node(), $log),
-                    if (not($node/tei:standOff)) then
-                        <standOff xmlns="http://www.tei-c.org/ns/1.0">
-                            <listAnnotation>
-                                {
-                                    for $note in root($node)/tei:text//tei:note[@target]
-                                    return
-                                        $note
-                                }
-                            </listAnnotation>
-                        </standOff>
-                    else
-                        ()
-                }
-            case element(tei:standOff) return
-                element { node-name($node) } {
-                    $node/@*,
-                    anno:extend-header($node/node(), $log),
-                    if (not($node/tei:listAnnotation)) then
-                        <listAnnotation xmlns="http://www.tei-c.org/ns/1.0">
-                        {
-                            for $note in root($node)/tei:text//tei:note[@target]
-                            return
-                                $note
-                        }
-                        </listAnnotation>
-                    else
-                        ()
-                }
-            case element(tei:listAnnotation) return
-                element { node-name($node) } {
-                    $node/@*,
-                    anno:extend-header($node/node(), $log),
-                    for $note in root($node)/tei:text//tei:note[@target]
-                    return
-                        $note
-                }
-            case element(tei:note) return
-                if ($node/ancestor::tei:text and $node/@target) then
-                    ()
-                else
-                    $node
-            case element(tei:teiHeader) return
-                element { node-name($node) } {
-                    $node/@*,
-                    if (not($node/tei:revisionDesc)) then
-                        if ($log?message != "") then
-                            <revisionDesc xmlns="http://www.tei-c.org/ns/1.0">
-                                <listChange>
-                                    <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
-                                </listChange>
-                            </revisionDesc>
-                        else
-                            ()
-                    else
-                        (),
-                    anno:extend-header($node/node(), $log)
-                }
-            case element(tei:revisionDesc) return
-                if (not($node/tei:listChange)) then
-                    element { node-name($node) } {
-                        $node/@*,
-                        $node/node(),
-                        if ($log?message != "") then
-                            <listChange xmlns="http://www.tei-c.org/ns/1.0">
-                                <change when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
-                            </listChange>
-                        else
-                            ()
-                    }
-                else
-                    element { node-name($node) } {
-                        $node/@*,
-                        anno:extend-header($node/node(), $log)
-                    }
-            case element(tei:listChange) return
-                element { node-name($node) } {
-                    $node/@*,
-                    $node/node(),
-                    if ($log?message != "") then
-                        <change xmlns="http://www.tei-c.org/ns/1.0" when="{current-dateTime()}" who="{$log?user}" status="{$log?status}">{$log?message}</change>
-                    else
-                        ()
-                }
-            case element() return
-                element { node-name($node) } {
-                    $node/@*,
-                    anno:extend-header($node/node(), $log)
-                }
-            default return
-                $node
-};
 
 declare %private function anno:merge($nodes as node()*, $elements as map(*)) {
     for $node in $nodes
@@ -462,7 +356,7 @@ declare %private function anno:find-offset($nodes as node()*, $offset as xs:int,
                     let $found := anno:find-offset($node/node(), $offset, $pos, ())
                     return
                         if (exists($found)) then $found else anno:find-offset(tail($nodes), $offset - anno:string-length($node), $pos, ())
-                case comment() return
+                case comment() | element(xref) return
                     anno:find-offset(tail($nodes), $offset - string-length($node), $pos, ())
                 case text() return
                     let $len := string-length($node)
@@ -491,7 +385,7 @@ declare %private function anno:string-length($nodes as node()*, $length as xs:in
         let $node := head($nodes)
         let $newLength :=
             typeswitch ($node)
-                case element(tei:note) | comment() return
+                case element(tei:note) | comment() | element(xref) return
                     $length
                 case element(tei:choice) return
                     anno:string-length($node/tei:sic | $node/tei:abbr, $length)
@@ -515,7 +409,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 (: current element is start node? :)
                 if ($node is $start?1) then
                     (: entire element is wrapped :)
-                    anno:wrap($annotation, function() {
+                    anno:wrap(config:document-type(root($node)), $annotation, function() {
                         $node,
                         anno:transform($node/following-sibling::node(), $start, $end, true(), $annotation)
                     })
@@ -542,7 +436,7 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
             case text() return
                 if ($node is $start?1) then (
                     text { substring($node, 1, $start?2 - 1) },
-                    anno:wrap($annotation, function() {
+                    anno:wrap(config:document-type(root($node)), $annotation, function() {
                         if ($node is $end?1) then
                             substring($node, $start?2, $end?2 - $start?2)
                         else
@@ -566,8 +460,8 @@ declare %private function anno:transform($nodes as node()*, $start, $end, $inAnn
                 $node
 };
 
-declare function anno:wrap($annotation as map(*), $content as function(*)) {
-    annocfg:annotations($annotation?type, $annotation?properties, $content)
+declare function anno:wrap($doctype as xs:string, $annotation as map(*), $content as function(*)) {
+    annocfg:annotations($doctype, $annotation?type, $annotation?properties, $content)
 };
 
 (: TODO: Move to registers:)

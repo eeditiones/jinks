@@ -30,5 +30,16 @@
             "path": "annotations/annotations.xql",
             "spec": "annotations/api.json"
         }
-    ]
+    ],
+    "features": {
+        "annotate": {
+            "configs": {
+                "tei": {
+                    "key": "key",
+                    "id": "http://teipublisher.com/api/annotations/config/tei",
+                    "path": "tei-annotation-config.xqm"
+                }
+            }
+        }
+    }
 }
