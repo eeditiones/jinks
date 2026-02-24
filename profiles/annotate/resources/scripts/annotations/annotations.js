@@ -1,16 +1,22 @@
 /*
  * This file contains the javascript code, which connects the various elements of the
  * user interface for the annotation editor.
- * 
+ *
  * You should not need to change this unless you want to add new features.
  */
 
 function disableButtons(disable, range) {
-	document.querySelectorAll(".annotation-action:not([data-type=edit])").forEach((button) => {
-		button.disabled = disable;
-	});
+	document
+		.querySelectorAll(".annotation-action:not([data-type=edit])")
+		.forEach((button) => {
+			button.disabled = disable;
+		});
 	const editBtn = document.querySelector(".annotation-action[data-type=edit]");
-	if (!disable && range.startContainer === range.endContainer && range.startContainer.nodeType === Node.TEXT_NODE) {
+	if (
+		!disable &&
+		range.startContainer === range.endContainer &&
+		range.startContainer.nodeType === Node.TEXT_NODE
+	) {
 		editBtn.disabled = false;
 	} else {
 		editBtn.disabled = true;
@@ -25,10 +31,12 @@ function disableButtons(disable, range) {
 function getNewFileHandle(name) {
 	const opts = {
 		suggestedName: name,
-		types: [{
-			description: 'XML Document',
-			accept: { 'application/xml': ['.xml'] },
-		}],
+		types: [
+			{
+				description: "XML Document",
+				accept: { "application/xml": [".xml"] },
+			},
+		],
 	};
 	return window.showSaveFilePicker(opts);
 }
@@ -62,14 +70,14 @@ async function verifyPermission(fileHandle, withWrite) {
 	if (withWrite) {
 		opts.writable = true;
 		// For Chrome 86 and later...
-		opts.mode = 'readwrite';
+		opts.mode = "readwrite";
 	}
 	// Check if we already have permission, if so, return true.
-	if (await fileHandle.queryPermission(opts) === 'granted') {
+	if ((await fileHandle.queryPermission(opts)) === "granted") {
 		return true;
 	}
 	// Request permission to the file, if the user grants permission, return true.
-	if (await fileHandle.requestPermission(opts) === 'granted') {
+	if ((await fileHandle.requestPermission(opts)) === "granted") {
 		return true;
 	}
 	// The user did nt grant permission, return false.
@@ -86,7 +94,9 @@ document.addEventListener("pb-page-loaded", () => {
 	const saveBtn = document.getElementById("form-save");
 	const refInput = document.querySelectorAll(".form-ref");
 	const nerDialog = document.getElementById("ner-dialog");
-	const trackHistory = document.getElementById('commit').hasAttribute('track-history');
+	const trackHistory = document
+		.getElementById("commit")
+		.hasAttribute("track-history");
 
 	let autoSave = false;
 	let type = "";
@@ -97,34 +107,42 @@ document.addEventListener("pb-page-loaded", () => {
 	let previewOdd = "teipublisher";
 	let currentUser = null;
 	const doc = view.getDocument();
-	
+
 	function restoreAnnotations(doc, annotations) {
-		console.log('loading annotations from local storage: %o', annotations);
+		console.log("loading annotations from local storage: %o", annotations);
 		view.annotations = annotations;
-		const history = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}.history`);
+		const history = window.localStorage.getItem(
+			`tei-publisher.annotations.${doc.path}.history`,
+		);
 		if (history) {
 			view.clearHistory(JSON.parse(history));
 		}
 		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
-		window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
+		window.localStorage.removeItem(
+			`tei-publisher.annotations.${doc.path}.history`,
+		);
 		preview(annotations);
 	}
 
 	// check if annotations were saved to local storage
-	pbEvents.subscribe('pb-annotations-loaded', 'transcription', () => {
+	pbEvents.subscribe("pb-annotations-loaded", "transcription", () => {
 		if (doc && doc.path) {
-			const ranges = window.localStorage.getItem(`tei-publisher.annotations.${doc.path}`);
+			const ranges = window.localStorage.getItem(
+				`tei-publisher.annotations.${doc.path}`,
+			);
 			if (ranges) {
 				const annotations = JSON.parse(ranges);
 				if (annotations.length > 0) {
 					const params = new URL(document.location).searchParams;
-					if (params.has('apply')) {
+					if (params.has("apply")) {
 						restoreAnnotations(doc, annotations);
 					} else {
-						document.getElementById('restore-dialog').confirm()
-						.then(() => {
-							restoreAnnotations(doc, annotations);
-						});
+						document
+							.getElementById("restore-dialog")
+							.confirm()
+							.then(() => {
+								restoreAnnotations(doc, annotations);
+							});
 					}
 				}
 			}
@@ -139,9 +157,9 @@ document.addEventListener("pb-page-loaded", () => {
 	 */
 	function showForm(type, data) {
 		form.reset();
-        refInput.forEach((input) => {
-            input.dispatchEvent(new Event('input'));
-        });
+		refInput.forEach((input) => {
+			input.dispatchEvent(new Event("input"));
+		});
 		if (autoSave) {
 			saveBtn.style.display = "none";
 		} else {
@@ -161,20 +179,25 @@ document.addEventListener("pb-page-loaded", () => {
 			Object.keys(data).forEach((key) => {
 				const field = form.querySelector(`[name="${key}"]`);
 				if (field) {
-					if (field.type === 'checkbox') {
-						const values = Array.isArray(data[key]) ? data[key] : data[key].split(/\s+/);
+					if (field.type === "checkbox") {
+						const values = Array.isArray(data[key])
+							? data[key]
+							: data[key].split(/\s+/);
 						form.querySelectorAll(`[name="${key}"]`).forEach((input) => {
 							input.checked = values.indexOf(input.value) != -1;
 						});
 					} else {
 						field.value = data[key];
-                        field.dispatchEvent(new Event('input'));
+						field.dispatchEvent(new Event("input"));
 					}
 				}
 			});
-			form.querySelectorAll('pb-repeat').forEach(repeat => repeat.setData(data));
-		} else if (type === 'edit') {
-			form.querySelector('.annotation-form.edit [name=content]').value = selection;
+			form
+				.querySelectorAll("pb-repeat")
+				.forEach((repeat) => repeat.setData(data));
+		} else if (type === "edit") {
+			form.querySelector(".annotation-form.edit [name=content]").value =
+				selection;
 		}
 	}
 
@@ -191,10 +214,11 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} data details of the selected authority entry
 	 */
 	function authoritySelected(ref) {
-		refInput.forEach((input) => { 
-            input.value = ref;
-            input.dispatchEvent(new Event('input'));
-        });
+		refInput.forEach((input) => {
+			input.value = ref;
+			input.dispatchEvent(new Event("input"));
+		});
+
 		if (autoSave) {
 			save();
 		}
@@ -202,11 +226,11 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Called if user selects or deselects an occurrence
-	 * 
+	 *
 	 * @param {any} data form data
 	 * @param {any} o range data associated with the selected occurrence
 	 * @param {boolean} inBatch true if this is a batch operation
-	 * @returns 
+	 * @returns
 	 */
 	function selectOccurrence(data, o, inBatch) {
 		try {
@@ -237,6 +261,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} info details of the selected authority entry
 	 */
 	function findOther(info) {
+		let strings = "";
 		if (info) {
 			strings = info.strings || [];
 			strings.push(text);
@@ -247,11 +272,11 @@ document.addEventListener("pb-page-loaded", () => {
 			const key = view.getKey(type);
 			const occur = view.search(type, strings);
 			occurrences.innerHTML = "";
-			document.querySelector('#occurrences .messages').innerHTML = '';
+			document.querySelector("#occurrences .messages").innerHTML = "";
 			occur.forEach((o) => {
 				const li = document.createElement("li");
 				const cb = document.createElement("input");
-                cb.type = "checkbox";
+				cb.type = "checkbox";
 				cb._options = o;
 				cb._info = info;
 				if (o.annotated && o[key] === info.id) {
@@ -273,7 +298,7 @@ document.addEventListener("pb-page-loaded", () => {
 				li.appendChild(span);
 				occurrences.appendChild(li);
 
-				const mark = span.querySelector('mark');
+				const mark = span.querySelector("mark");
 				mark.addEventListener("mouseenter", () => {
 					view.scrollTo(o);
 				});
@@ -292,12 +317,14 @@ document.addEventListener("pb-page-loaded", () => {
 	function save() {
 		view.saveHistory();
 		const data = form.serializeForm();
-		form.querySelectorAll(`.annotation-form.${type} jinn-xml-editor`).forEach((editor) => {
-			const value = editor.content;
-			if (value) {
-				data[editor.getAttribute('name')] = value;
-			}
-		});
+		form
+			.querySelectorAll(`.annotation-form.${type} jinn-xml-editor`)
+			.forEach((editor) => {
+				const value = editor.content;
+				if (value) {
+					data[editor.getAttribute("name")] = value;
+				}
+			});
 		if (!autoSave) {
 			hideForm();
 		}
@@ -313,10 +340,10 @@ document.addEventListener("pb-page-loaded", () => {
 					type,
 					properties: data,
 					before: emptyElement,
-					position : elementPosition
+					position: elementPosition,
 				});
 			} catch (e) {
-				document.getElementById('runtime-error-dialog').show('Error', e);
+				document.getElementById("runtime-error-dialog").show("Error", e);
 			}
 		}
 	}
@@ -328,7 +355,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 */
 	function preview(annotations, doStore, changeLog) {
 		if (doStore) {
-			document.dispatchEvent(new CustomEvent('reset-panels'));
+			document.dispatchEvent(new CustomEvent("reset-panels"));
 		}
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
@@ -336,7 +363,7 @@ document.addEventListener("pb-page-loaded", () => {
 
 		const data = {
 			annotations,
-			log: changeLog
+			log: changeLog,
 		};
 		return new Promise((resolve, reject) => {
 			fetch(`${endpoint}/api/annotations/merge/${doc.path}`, {
@@ -346,68 +373,78 @@ document.addEventListener("pb-page-loaded", () => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(data)
+				body: JSON.stringify(data),
 			})
-			.then((response) => {
-				if (response.ok) {
-					return response.json();
-				}
-				if (response.status === 403) {
-					document.getElementById('permission-denied-dialog').show();
-					throw new Error(response.statusText);
-				}
-				document.getElementById('error-dialog').show();
-				throw new Error(response.statusText);
-			})
-			.then((json) => {
-				const changeList = document.getElementById("changes");
-				changeList.innerHTML = "";
-				document.getElementById("json").innerText = '';
-				document.getElementById("output").code = json.content;
-				if (doStore) {
-					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}`);
-					window.localStorage.removeItem(`tei-publisher.annotations.${doc.path}.history`);
-					view.clearHistory();
-					hideForm();
-					window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
-				} else {
-					document.getElementById("json").innerText = JSON.stringify(annotations, null, 2);
-					json.changes.forEach((change) => {
-						const pre = document.createElement("pb-code-highlight");
-						pre.setAttribute("language", "xml");
-						pre.textContent = change;
-						changeList.appendChild(pre);
-					});
-				}
-				resolve(json.content);
-				fetch(
-					`${endpoint}/api/preview?odd=${previewOdd}.odd&base=${encodeURIComponent(
-						endpoint
-					)}%2F`,
-					{
-						method: "POST",
-						mode: "cors",
-						credentials: "same-origin",
-						headers: {
-							"Content-Type": "application/xml",
-						},
-						body: json.content,
+				.then((response) => {
+					if (response.ok) {
+						return response.json();
 					}
-				)
-					.then((response) => response.text())
-					.then((html) => {
-						const iframe = document.getElementById("html");
-						iframe.srcdoc = html;
-					});
-			});
+					if (response.status === 403) {
+						document.getElementById("permission-denied-dialog").show();
+						throw new Error(response.statusText);
+					}
+					document.getElementById("error-dialog").show();
+					throw new Error(response.statusText);
+				})
+				.then((json) => {
+					const changeList = document.getElementById("changes");
+					changeList.innerHTML = "";
+					document.getElementById("json").innerText = "";
+					document.getElementById("output").code = json.content;
+					if (doStore) {
+						window.localStorage.removeItem(
+							`tei-publisher.annotations.${doc.path}`,
+						);
+						window.localStorage.removeItem(
+							`tei-publisher.annotations.${doc.path}.history`,
+						);
+						view.clearHistory();
+						hideForm();
+						window.pbEvents.emit("pb-refresh", "transcription", {
+							preserveScroll: true,
+						});
+					} else {
+						document.getElementById("json").innerText = JSON.stringify(
+							annotations,
+							null,
+							2,
+						);
+						json.changes.forEach((change) => {
+							const pre = document.createElement("pb-code-highlight");
+							pre.setAttribute("language", "xml");
+							pre.textContent = change;
+							changeList.appendChild(pre);
+						});
+					}
+					resolve(json.content);
+					fetch(
+						`${endpoint}/api/preview?odd=${previewOdd}.odd&base=${encodeURIComponent(
+							endpoint,
+						)}%2F`,
+						{
+							method: "POST",
+							mode: "cors",
+							credentials: "same-origin",
+							headers: {
+								"Content-Type": "application/xml",
+							},
+							body: json.content,
+						},
+					)
+						.then((response) => response.text())
+						.then((html) => {
+							const iframe = document.getElementById("html");
+							iframe.srcdoc = html;
+						});
+				});
 		});
 	}
 
 	/**
 	 * Handler called if user clicks on an annotation action.
-	 * 
+	 *
 	 * @param {HTMLButton} button the button
-	 * @returns 
+	 * @returns
 	 */
 	function actionHandler(button) {
 		if (selection) {
@@ -420,7 +457,7 @@ document.addEventListener("pb-page-loaded", () => {
 				elementPosition = "before";
 			}
 			// if class contains 'before' or 'after' value, it's an empty element
-			emptyElement = (elementPosition == "before");
+			emptyElement = elementPosition == "before";
 			if (button.classList.contains("toggle")) {
 				save();
 				return;
@@ -430,7 +467,7 @@ document.addEventListener("pb-page-loaded", () => {
 				autoSave = true;
 				window.pbEvents.emit("pb-authority-lookup", "transcription", {
 					type,
-					query: selection
+					query: selection,
 				});
 			}
 			window.pbEvents.emit("show-annotation", "transcription", {});
@@ -443,7 +480,7 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Handler called if user clicks the mark-all occurrences button.
-	 * 
+	 *
 	 * @param {Event} ev event
 	 */
 	function markAll(ev) {
@@ -452,7 +489,7 @@ document.addEventListener("pb-page-loaded", () => {
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		const data = form.serializeForm();
 		const checkboxes = document.querySelectorAll(
-			"#occurrences li input[type='checkbox']:not([checked])"
+			"#occurrences li input[type='checkbox']:not([checked])",
 		);
 		if (checkboxes.length > 0) {
 			view.saveHistory();
@@ -476,7 +513,7 @@ document.addEventListener("pb-page-loaded", () => {
 	function searchCollection(saveAll) {
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		const endpoint = document.querySelector("pb-page").getEndpoint();
-		let strings = '';
+		let strings = "";
 		if (currentEntityInfo) {
 			strings = currentEntityInfo.strings || [];
 			strings.push(text);
@@ -485,37 +522,42 @@ document.addEventListener("pb-page-loaded", () => {
 		}
 		const doc = view.getDocument();
 		const params = new URLSearchParams();
-		params.set('type', type);
-		params.set('properties', JSON.stringify(form.serializeForm()));
-		params.set('exclude', doc.path);
-		params.set('format', saveAll ? 'annotations' : 'offsets');
-		strings.forEach(s => params.append('string', s));
+		params.set("type", type);
+		params.set("properties", JSON.stringify(form.serializeForm()));
+		params.set("exclude", doc.path);
+		params.set("format", saveAll ? "annotations" : "offsets");
+		strings.forEach((s) => params.append("string", s));
 
-		fetch(`${endpoint}/api/nlp/strings/${doc.getCollection()}?${params.toString()}`, {
-			method: "GET",
-			mode: "cors",
-			credentials: "same-origin"
-		})
-		.then((response) => {
-			window.pbEvents.emit("pb-end-update", "transcription", {});
-			if (response.ok) {
-				return response.json();
-			}
-		})
-		.then((json) => {
-			const docs = Object.keys(json);
-			document.querySelector('#occurrences .messages').innerHTML = `Found matches in ${docs.length} other documents`;
-			if (saveAll) {
-				saveOccurrences(json);
-			} else {
-				review(docs, json, strings, currentUser);
-			}
-		}).catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
+		fetch(
+			`${endpoint}/api/nlp/strings/${doc.getCollection()}?${params.toString()}`,
+			{
+				method: "GET",
+				mode: "cors",
+				credentials: "same-origin",
+			},
+		)
+			.then((response) => {
+				window.pbEvents.emit("pb-end-update", "transcription", {});
+				if (response.ok) {
+					return response.json();
+				}
+			})
+			.then((json) => {
+				const docs = Object.keys(json);
+				document.querySelector("#occurrences .messages").innerHTML =
+					`Found matches in ${docs.length} other documents`;
+				if (saveAll) {
+					saveOccurrences(json);
+				} else {
+					review(docs, json, strings, currentUser);
+				}
+			})
+			.catch(() => window.pbEvents.emit("pb-end-update", "transcription", {}));
 	}
 
 	/**
 	 * Save and merge all occurrences
-	 * 
+	 *
 	 */
 	function saveOccurrences(data) {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
@@ -528,18 +570,17 @@ document.addEventListener("pb-page-loaded", () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
-		})
-		.then((response) => {
+		}).then((response) => {
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			if (response.ok) {
 				reviewDialog.close();
 				return;
 			}
 			if (response.status === 403) {
-				document.getElementById('permission-denied-dialog').show();
+				document.getElementById("permission-denied-dialog").show();
 				throw new Error(response.statusText);
 			}
-			document.getElementById('error-dialog').show();
+			document.getElementById("error-dialog").show();
 			throw new Error(response.statusText);
 		});
 	}
@@ -549,16 +590,21 @@ document.addEventListener("pb-page-loaded", () => {
 		fetch(`${endpoint}/api/nlp/status`, {
 			method: "GET",
 			mode: "cors",
-			credentials: "same-origin"
+			credentials: "same-origin",
 		})
-		.then((response) => {
-			if (response.ok) {
-				document.getElementById('ner-action').style.display = 'inline-block';
-				response.json().then(json => console.log(`NER: found spaCy version ${json.spacy_version}.`));
-			} else {
-				console.error("NER endpoint not available");
-			}
-		}).catch(() => console.error("NER endpoint not available"));
+			.then((response) => {
+				if (response.ok) {
+					document.getElementById("ner-action").style.display = "inline-block";
+					response
+						.json()
+						.then((json) =>
+							console.log(`NER: found spaCy version ${json.spacy_version}.`),
+						);
+				} else {
+					console.error("NER endpoint not available");
+				}
+			})
+			.catch(() => console.error("NER endpoint not available"));
 	}
 
 	function ner() {
@@ -566,82 +612,99 @@ document.addEventListener("pb-page-loaded", () => {
 		fetch(`${endpoint}/api/nlp/status/models`, {
 			method: "GET",
 			mode: "cors",
-			credentials: "same-origin"
+			credentials: "same-origin",
 		})
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-		})
-		.then((json) => {
-			const list = [];
-			json.forEach((item) => {
-				list.push(`<paper-item>${item}</paper-item>`);
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+			})
+			.then((json) => {
+				const list = [];
+				json.forEach((item) => {
+					list.push(`<paper-item>${item}</paper-item>`);
+				});
+				nerDialog.querySelector("paper-listbox").innerHTML = list.join("\n");
+				nerDialog.open();
 			});
-			nerDialog.querySelector('paper-listbox').innerHTML = list.join('\n');
-			nerDialog.open();
-		});
 	}
 
 	function runNER() {
 		const endpoint = document.querySelector("pb-page").getEndpoint();
-		const cb = nerDialog.querySelector('paper-checkbox');
+		const cb = nerDialog.querySelector("paper-checkbox");
 		let url;
 		if (cb && cb.checked) {
-			const lang = nerDialog.querySelector('paper-input').value;
+			const lang = nerDialog.querySelector("paper-input").value;
 			url = `${endpoint}/api/nlp/patterns/${doc.path}?lang=${lang}`;
 		} else {
-			const model = nerDialog.querySelector('paper-dropdown-menu').selectedItemLabel;
-			console.log('Using model %s', model)
+			const model = nerDialog.querySelector(
+				"paper-dropdown-menu",
+			).selectedItemLabel;
+			console.log("Using model %s", model);
 			url = `${endpoint}/api/nlp/entities/${doc.path}?model=${model}`;
 		}
 		window.pbEvents.emit("pb-start-update", "transcription", {});
 		fetch(url, {
 			method: "GET",
 			mode: "cors",
-			credentials: "same-origin"
+			credentials: "same-origin",
 		})
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-		}).then((json) => {
-			view.annotations = json[doc.path];
-			window.pbEvents.emit("pb-end-update", "transcription", {});
-			preview(view.annotations);
-		});
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+			})
+			.then((json) => {
+				view.annotations = json[doc.path];
+				window.pbEvents.emit("pb-end-update", "transcription", {});
+				preview(view.annotations);
+			});
 	}
 
 	hideForm();
 
 	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
-	document.getElementById('ner-action').addEventListener('click', () => {
-		if (view.annotations.length > 0) {
-			document.getElementById('ner-denied-dialog').show();
-		} else {
-			ner();
-		}
-	});
-	document.getElementById('ner-run').addEventListener('click', () => runNER());
+
+	const nerActionButton = document.getElementById("ner-action");
+	if (nerActionButton) {
+		nerActionButton.addEventListener("click", () => {
+			if (view.annotations.length > 0) {
+				document.getElementById("ner-denied-dialog").show();
+			} else {
+				ner();
+			}
+		});
+	}
+
+	const nerRunButton = document.getElementById("ner-run");
+	if (nerRunButton) {
+		document
+			.getElementById("ner-run")
+			.addEventListener("click", () => runNER());
+	}
+
 	// reload source TEI, discarding current annotations
-	document.getElementById('reload-all').addEventListener('click', () => {
+	document.getElementById("reload-all").addEventListener("click", () => {
 		function reload() {
-			window.pbEvents.emit("pb-refresh", "transcription", { preserveScroll: true });
+			window.pbEvents.emit("pb-refresh", "transcription", {
+				preserveScroll: true,
+			});
 			hideForm();
-			document.dispatchEvent(new CustomEvent('reset-panels'));
+			document.dispatchEvent(new CustomEvent("reset-panels"));
 		}
 		if (view.annotations.length > 0) {
-			document.getElementById('confirm-reload-dialog').confirm()
-			.then(reload);
+			document.getElementById("confirm-reload-dialog").confirm().then(reload);
 		} else {
 			reload();
 		}
 	});
 	// reload the preview action
-	document.getElementById("reload-preview").addEventListener("click", () => preview(view.annotations));
+	document
+		.getElementById("reload-preview")
+		.addEventListener("click", () => preview(view.annotations));
 	// undo action
-	document.getElementById('undo-history').addEventListener('click', () => {
+	document.getElementById("undo-history").addEventListener("click", () => {
 		hideForm();
 		view.popHistory();
 	});
@@ -652,32 +715,34 @@ document.addEventListener("pb-page-loaded", () => {
 	const saveDocBtn = document.getElementById("document-save");
 	saveDocBtn.addEventListener("click", () => {
 		if (trackHistory) {
-			document.dispatchEvent(new CustomEvent('pb-before-save', {
-				detail: {
-					user: currentUser,
-					export: false
-				}
-			}));
+			document.dispatchEvent(
+				new CustomEvent("pb-before-save", {
+					detail: {
+						user: currentUser,
+						export: false,
+					},
+				}),
+			);
 		} else {
 			preview(view.annotations, true);
 		}
 	});
 	if (saveDocBtn.dataset.shortcut) {
-		window.hotkeys(saveDocBtn.dataset.shortcut, () => preview(view.annotations, true));
+		window.hotkeys(saveDocBtn.dataset.shortcut, () =>
+			preview(view.annotations, true),
+		);
 	}
 
 	function _saveOrExport(exportFile = false, details) {
 		if (exportFile) {
 			const doc = document.getElementById("document1");
-			getNewFileHandle(doc.getFileName())
-			.then((fh) => {
+			getNewFileHandle(doc.getFileName()).then((fh) => {
 				if (verifyPermission(fh, true)) {
-					preview(view.annotations, true, details)
-					.then((xml) => {
+					preview(view.annotations, true, details).then((xml) => {
 						writeFile(fh, xml);
 					});
 				} else {
-					alert('Permission denied to store files locally');
+					alert("Permission denied to store files locally");
 				}
 			});
 		} else {
@@ -685,13 +750,13 @@ document.addEventListener("pb-page-loaded", () => {
 		}
 	}
 
-	document.getElementById('commit').addEventListener('pb-commit', (ev) => {
-		const exportFile = ev.detail.export === 'true';
-		if (ev.detail.message !== '') {
+	document.getElementById("commit").addEventListener("pb-commit", (ev) => {
+		const exportFile = ev.detail.export === "true";
+		if (ev.detail.message !== "") {
 			_saveOrExport(exportFile, {
 				user: ev.detail.user,
 				message: ev.detail.message,
-				status: ev.detail.status
+				status: ev.detail.status,
 			});
 		} else {
 			_saveOrExport(exportFile);
@@ -699,22 +764,24 @@ document.addEventListener("pb-page-loaded", () => {
 	});
 
 	// save and download merged TEI to local file
-	const downloadBtn = document.getElementById('document-download');
-	if ('showSaveFilePicker' in window) {
-		downloadBtn.addEventListener('click', () => {
+	const downloadBtn = document.getElementById("document-download");
+	if ("showSaveFilePicker" in window) {
+		downloadBtn.addEventListener("click", () => {
 			if (trackHistory) {
-				document.dispatchEvent(new CustomEvent('pb-before-save', {
-					detail: {
-						user: currentUser,
-						export: true
-					}
-				}));
+				document.dispatchEvent(
+					new CustomEvent("pb-before-save", {
+						detail: {
+							user: currentUser,
+							export: true,
+						},
+					}),
+				);
 			} else {
 				_saveOrExport(true);
 			}
 		});
 	} else {
-		downloadBtn.style.display = 'none';
+		downloadBtn.style.display = "none";
 	}
 	// ---- END: save and export ----
 
@@ -726,35 +793,39 @@ document.addEventListener("pb-page-loaded", () => {
 	markAllBtn.addEventListener("click", markAll);
 
 	// search occurrences across entire collection
-	const searchBtn = document.getElementById('search-collection');
-	searchBtn.addEventListener('click', () => {
+	const searchBtn = document.getElementById("search-collection");
+	searchBtn.addEventListener("click", () => {
 		searchCollection(false);
 	});
 
-	const searchSaveBtn = document.getElementById('save-all');
-    searchSaveBtn.addEventListener('click', () => {
-        searchCollection(true);
-    });
+	const searchSaveBtn = document.getElementById("save-all");
+	searchSaveBtn.addEventListener("click", () => {
+		searchCollection(true);
+	});
 
 	// display configured keyboard shortcuts on mouseover
-	document.addEventListener('pb-page-ready', () => {
-		document.querySelectorAll('[data-shortcut]').forEach((elem) => {
-			const shortcut = elem.dataset.shortcut;
-            const keys = shortcut.split(/\s*,\s*/);
-			let output = keys[0];
-			if (navigator.userAgent.indexOf('Mac OS X') === -1) {
-                output = keys[1];
-            }
-			const title = elem.getAttribute('title') || '';
-			elem.title = `${title} [${output.replaceAll('+', ' ')}]`;
-		});
-		checkNERAvailable();
-	}, {
-		once: true
-	});
-	
+	document.addEventListener(
+		"pb-page-ready",
+		() => {
+			document.querySelectorAll("[data-shortcut]").forEach((elem) => {
+				const shortcut = elem.dataset.shortcut;
+				const keys = shortcut.split(/\s*,\s*/);
+				let output = keys[0];
+				if (navigator.userAgent.indexOf("Mac OS X") === -1) {
+					output = keys[1];
+				}
+				const title = elem.getAttribute("title") || "";
+				elem.title = `${title} [${output.replaceAll("+", " ")}]`;
+			});
+			checkNERAvailable();
+		},
+		{
+			once: true,
+		},
+	);
+
 	// todo: what's this for? -> fishes the type and query params from iron-form and opens dialog
-	document.querySelectorAll('.form-ref [slot="prefix"]').forEach(elem => {
+	document.querySelectorAll('.form-ref [slot="prefix"]').forEach((elem) => {
 		elem.addEventListener("click", () => {
 			window.pbEvents.emit("pb-authority-lookup", "transcription", {
 				type,
@@ -763,24 +834,26 @@ document.addEventListener("pb-page-loaded", () => {
 			// todo:
 			// authorityDialog.open();
 			window.pbEvents.emit("show-annotation", "transcription", {});
-
 		});
 	});
 
 	/**
 	 * Reference changed: update authority information and search for other occurrences
 	 */
-	refInput.forEach(input => {
+	refInput.forEach((input) => {
 		input.addEventListener("input", () => {
 			const ref = input.value;
-			const authorityInfo = input.parentElement.querySelector('.authority-info');
+			const authorityInfo =
+				input.parentElement.querySelector(".authority-info");
 			if (ref && ref.length > 0) {
 				authorityInfo.innerHTML = `Loading ${ref}...`;
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(type, input.value, authorityInfo)
-					.then(info => {
-						document.getElementById('edit-entity').style.display = info.editable ? 'block' : 'none';
+					.then((info) => {
+						document.getElementById("edit-entity").style.display = info.editable
+							? "block"
+							: "none";
 
 						currentEntityInfo = info;
 						findOther(info);
@@ -794,26 +867,29 @@ document.addEventListener("pb-page-loaded", () => {
 		});
 	});
 
-	const editEntity = document.getElementById('edit-entity');
-	editEntity.addEventListener('click', () => {
-		const ref = editEntity.parentNode.parentNode.querySelector('.form-ref');
-		document.dispatchEvent(new CustomEvent('pb-authority-edit-entity', { detail: {id: ref.value, type }}));
+	const editEntity = document.getElementById("edit-entity");
+	editEntity.addEventListener("click", () => {
+		const ref = editEntity.parentNode.parentNode.querySelector(".form-ref");
+		document.dispatchEvent(
+			new CustomEvent("pb-authority-edit-entity", {
+				detail: { id: ref.value, type },
+			}),
+		);
 	});
 
-	const authEditor = document.getElementById('authority-editor');
-	authEditor.addEventListener('geolocation', (ev) => {
+	const authEditor = document.getElementById("authority-editor");
+	authEditor.addEventListener("geolocation", (ev) => {
 		const coords = ev.detail.coordinates.split(/\s+/);
-		
-		pbEvents.ifReady(document.querySelector('pb-leaflet-map'))
-			.then(() =>
-			pbEvents.emit('pb-geolocation', null, {
+
+		pbEvents.ifReady(document.querySelector("pb-leaflet-map")).then(() =>
+			pbEvents.emit("pb-geolocation", null, {
 				coordinates: {
 					latitude: coords[0],
-					longitude: coords[1]
+					longitude: coords[1],
 				},
 				label: ev.detail.name,
-				clear: true
-			})
+				clear: true,
+			}),
 		);
 	});
 
@@ -837,48 +913,56 @@ document.addEventListener("pb-page-loaded", () => {
 	/**
 	 * handle button to toggle the tabcontainer to display at the bottom of the window versus on the right side
 	 */
-	document.querySelector('#toggle-markup').addEventListener('click', (ev) => {
-		const markupPanel = document.querySelector('#markupPanel');
-		if( markupPanel.classList.contains('on')) {
-			markupPanel.classList.remove('on');
-			ev.target.setAttribute('icon' , 'icons:visibility-off');
+	document.querySelector("#toggle-markup").addEventListener("click", (ev) => {
+		const markupPanel = document.querySelector("#markupPanel");
+		if (markupPanel.classList.contains("on")) {
+			markupPanel.classList.remove("on");
+			ev.target.setAttribute("icon", "icons:visibility-off");
 		} else {
-			markupPanel.classList.add('on');
-			ev.target.setAttribute('icon', 'icons:visibility');
+			markupPanel.classList.add("on");
+			ev.target.setAttribute("icon", "icons:visibility");
 			preview(view.annotations);
 		}
 	});
 
-	window.pbEvents.subscribe('pb-login', null, (ev) => {
+	window.pbEvents.subscribe("pb-login", null, (ev) => {
 		currentUser = ev.detail.user;
 	});
 	window.pbEvents.subscribe("pb-authority-select", "transcription", (ev) =>
-		authoritySelected(ev.detail.properties.ref)
+		authoritySelected(ev.detail.properties.ref),
 	);
 	document.addEventListener("authority-created", (ev) =>
-		authoritySelected(ev.detail.ref)
+		authoritySelected(ev.detail.ref),
 	);
 
 	window.pbEvents.subscribe("pb-selection-changed", "transcription", (ev) => {
 		disableButtons(!ev.detail.hasContent, ev.detail.range);
 		if (ev.detail.hasContent) {
-			selection = ev.detail.range.cloneContents().textContent.replace(/\s+/g, " ");
+			selection = ev.detail.range
+				.cloneContents()
+				.textContent.replace(/\s+/g, " ");
 		}
 	});
 	/* Annotations changed: reload the preview panels */
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
 		const doc = view.getDocument();
 		if (doc && doc.path) {
-			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}`, JSON.stringify(ev.detail.ranges));
+			window.localStorage.setItem(
+				`tei-publisher.annotations.${doc.path}`,
+				JSON.stringify(ev.detail.ranges),
+			);
 		}
 	});
-	window.pbEvents.subscribe('pb-annotations-history', 'transcription', (ev) => {
+	window.pbEvents.subscribe("pb-annotations-history", "transcription", (ev) => {
 		const doc = view.getDocument();
 		if (doc && doc.path) {
-			window.localStorage.setItem(`tei-publisher.annotations.${doc.path}.history`, JSON.stringify(view.getHistory()));
+			window.localStorage.setItem(
+				`tei-publisher.annotations.${doc.path}.history`,
+				JSON.stringify(view.getHistory()),
+			);
 		}
 	});
-	
+
 	window.pbEvents.subscribe("pb-annotation-edit", "transcription", (ev) => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent.replace(/\s+/g, " ");
@@ -892,15 +976,15 @@ document.addEventListener("pb-page-loaded", () => {
 				query: text,
 			});
 			//authorityDialog.open();
-
 		}
-		window.pbEvents.emit("annotation-edit", "transcription", {ref: ev.detail.properties[view.key] || ''});
+		window.pbEvents.emit("annotation-edit", "transcription", {
+			ref: ev.detail.properties[view.key] || "",
+		});
 
 		showForm(type, ev.detail.properties);
 	});
 
-
-/*
+	/*
 	document.addEventListener("show-annotation-form", (ev) => {
 		showForm('edit');
 	});
@@ -919,20 +1003,20 @@ document.addEventListener("pb-page-loaded", () => {
 					.lookup(ev.detail.type, ev.detail.id, ev.detail.container)
 					.then(() => ev.detail.ready())
 					.catch((msg) => {
-						const div = document.createElement('div');
-						const h = document.createElement('h3');
+						const div = document.createElement("div");
+						const h = document.createElement("h3");
 						if (msg) {
 							h.innerHTML = msg;
 						} else {
-							h.innerHTML = 'Not found';
+							h.innerHTML = "Not found";
 						}
 						div.appendChild(h);
-						const pre = document.createElement('pre');
-						pre.className = 'error-notFound';
+						const pre = document.createElement("pre");
+						pre.className = "error-notFound";
 						const json = JSON.parse(ev.detail.span.dataset.annotation);
 						pre.innerText = JSON.stringify(json, null, 2);
 						div.appendChild(pre);
-						ev.detail.container.innerHTML = '';
+						ev.detail.container.innerHTML = "";
 						ev.detail.container.appendChild(div);
 						ev.detail.ready();
 					});
@@ -951,19 +1035,19 @@ document.addEventListener("pb-page-loaded", () => {
 			`);
 		});
 
-		let css = document.head.querySelector('#annotation_colors');
+		let css = document.head.querySelector("#annotation_colors");
 		if (!css) {
-			css = document.createElement('style');
-			css.id = 'annotation_colors';
+			css = document.createElement("style");
+			css.id = "annotation_colors";
 			document.head.appendChild(css);
 		}
-		css.innerHTML = styles.join('\n');
+		css.innerHTML = styles.join("\n");
 	});
 
 	// wire the ODD selector for the preview
-	const oddSelector = document.querySelector('pb-select-odd');
+	const oddSelector = document.querySelector("pb-select-odd");
 	oddSelector.odd = previewOdd;
-	window.pbEvents.subscribe('pb-refresh', 'preview', (ev) => {
+	window.pbEvents.subscribe("pb-refresh", "preview", (ev) => {
 		previewOdd = ev.detail.odd;
 		preview(view.annotations);
 	});
