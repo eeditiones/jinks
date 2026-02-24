@@ -1,8 +1,10 @@
-// Change these two variables to make sense in your document
+// Change these variables to make sense in your document
 // The TEXT_TO_ANNOTATE should point to some name, organization, etcetera
 const TEXT_TO_ANNOTATE = "Piet Heyn";
 // What to annotate this as
 const ANNOTATE_AS = "person";
+// What attribute to use for annotations
+const ANNOTATE_KEY = ANNOTATE_KEY;
 
 /**
  * @param {HTMLElement} contents
@@ -85,7 +87,7 @@ describe("Annotations", () => {
 				const annotationData = JSON.parse(
 					annotation.getAttribute("data-annotation"),
 				);
-				expect(annotationData["key"]).to.exist;
+				expect(annotationData[ANNOTATE_KEY]).to.exist;
 			});
 
 		cy.get("#occurrences").find("li").last().find("mark").trigger("mouseenter");
@@ -114,7 +116,7 @@ describe("Annotations", () => {
 				const annotationData = JSON.parse(
 					annotation.getAttribute("data-annotation"),
 				);
-				expect(annotationData["key"]).to.exist;
+				expect(annotationData[ANNOTATE_KEY]).to.exist;
 			});
 	});
 });
