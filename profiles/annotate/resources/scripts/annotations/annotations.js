@@ -218,6 +218,7 @@ document.addEventListener("pb-page-loaded", () => {
 			input.value = ref;
 			input.dispatchEvent(new Event("input"));
 		});
+
 		if (autoSave) {
 			save();
 		}
@@ -664,14 +665,25 @@ document.addEventListener("pb-page-loaded", () => {
 
 	// apply annotation action
 	saveBtn.addEventListener("click", () => save());
-	document.getElementById("ner-action").addEventListener("click", () => {
-		if (view.annotations.length > 0) {
-			document.getElementById("ner-denied-dialog").show();
-		} else {
-			ner();
-		}
-	});
-	document.getElementById("ner-run").addEventListener("click", () => runNER());
+
+	const nerActionButton = document.getElementById("ner-action");
+	if (nerActionButton) {
+		nerActionButton.addEventListener("click", () => {
+			if (view.annotations.length > 0) {
+				document.getElementById("ner-denied-dialog").show();
+			} else {
+				ner();
+			}
+		});
+	}
+
+	const nerRunButton = document.getElementById("ner-run");
+	if (nerRunButton) {
+		document
+			.getElementById("ner-run")
+			.addEventListener("click", () => runNER());
+	}
+
 	// reload source TEI, discarding current annotations
 	document.getElementById("reload-all").addEventListener("click", () => {
 		function reload() {
