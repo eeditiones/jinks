@@ -55,3 +55,8 @@ declare variable $config:register-root := $config:data-root || "/registers";
 [% else %]
     declare variable $config:address-by-id := false();
 [% endif %]
+
+(:~
+ : The map with the register IDs
+:)
+declare variable $config:register-map as map(*) := $defaults?register-map;
