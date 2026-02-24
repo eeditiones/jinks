@@ -1,11 +1,21 @@
-# This workflow builds a xar archive, deploys it into exist and execute a simple smoke test.
+# Build XAR, deploy into eXist, run smoke and Cypress tests.
 
-name: Build and Test
+name: jinks
 
-on: [push]
+concurrency:
+  group: jinks-build-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ '**' ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     env:
