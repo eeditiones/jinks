@@ -59,4 +59,4 @@ declare variable $config:register-root := $config:data-root || "/registers";
 (:~
  : The map with the register IDs
 :)
-declare variable $config:register-map as map(*) := $defaults?register-map;
+declare variable $config:register-map as map(*) := [% $defaults?register-map %];
