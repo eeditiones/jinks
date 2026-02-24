@@ -1021,7 +1021,7 @@ flex-wrap: wrap;
                     <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'toc', 'register', 'register-details')" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id($global:register-map?person?id)) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -1055,7 +1055,7 @@ flex-wrap: wrap;
         </model>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id($global:register-map?person?id)) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -1063,7 +1063,7 @@ flex-wrap: wrap;
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id($global:register-map?place?id))/placeName[@type='main']/string()"/>
         </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
@@ -1083,7 +1083,7 @@ flex-wrap: wrap;
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
+            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id($global:register-map?place?id)) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -1091,7 +1091,7 @@ flex-wrap: wrap;
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))/placeName[@type='main']/string()"/>
+            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id($global:register-map?organization?id))/placeName[@type='main']/string()"/>
         </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
@@ -1111,7 +1111,7 @@ flex-wrap: wrap;
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="orgName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))"/>
+            <param name="alternate" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id($global:register-map?organization?id))"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
