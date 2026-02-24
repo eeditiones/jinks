@@ -260,6 +260,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} info details of the selected authority entry
 	 */
 	function findOther(info) {
+		let strings = "";
 		if (info) {
 			strings = info.strings || [];
 			strings.push(text);
