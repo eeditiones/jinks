@@ -100,10 +100,10 @@ describe("Annotations", () => {
 		cy.get("#occurrences").find("li").last().find("mark").trigger("mouseenter");
 		cy.get("pb-view-annotate").shadow().find("p").last().should("be.visible");
 
-		cy.get("#mark-all").click();
+		cy.get("#mark-all").scrollIntoView({ offset: 0 }).click();
 
 		// Now, Save!
-		cy.get("#document-save").click();
+		cy.get("#document-save").should("be.visible").click();
 
 		cy.get("#commit [title='Merge and save annotations to TEI']").click();
 
