@@ -723,6 +723,12 @@ document.addEventListener("pb-page-loaded", () => {
 					},
 				}),
 			);
+			setTimeout(
+				() =>
+					// This event opened the save dialog. Make sure it is scrolled into view.
+					document.getElementById("commit").scrollIntoView(),
+				100,
+			);
 		} else {
 			preview(view.annotations, true);
 		}
@@ -775,6 +781,12 @@ document.addEventListener("pb-page-loaded", () => {
 							export: true,
 						},
 					}),
+				);
+				setTimeout(
+					() =>
+						// This event opened the save dialog. Make sure it is scrolled into view.
+						document.getElementById("commit").scrollIntoView(),
+					100,
 				);
 			} else {
 				_saveOrExport(true);
