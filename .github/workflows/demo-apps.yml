@@ -121,7 +121,7 @@ jobs:
           ls -lh *.xar || echo "No XAR files found!"
       
       - name: Upload XAR artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: demo-apps-xars
           path: demo/*.xar
