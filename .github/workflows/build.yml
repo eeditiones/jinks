@@ -148,7 +148,7 @@ jobs:
 
       - name: Upload logs artifact
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: jinks-exist-${{ matrix.exist-version }}-log
           path: exist.log
@@ -168,7 +168,7 @@ jobs:
 
       - name: Upload cypress sceenshots
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: CiM-exist-${{ matrix.exist-version }}-${{ matrix.webcomponents-version || 'default' }}-screenshots
           path: test/cypress/screenshots/
