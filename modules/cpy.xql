@@ -92,19 +92,35 @@ declare function cpy:expand-template($source as xs:string, $template as xs:strin
     }
 };
 
-declare function cpy:copy-template($context as map(*), $source as xs:string, $target as xs:string) {
+declare function cpy:copy-template (
+    $context as map(*),
+    $source as xs:string,
+    $target as xs:string
+) {
     let $template := cpy:resource-as-string($context, $source)
     let $expanded := cpy:expand-template($source, $template?content, $context)
     let $path := path:resolve-path($context?target, $target)
     let $relPath := substring-after($path, $context?target || "/")
-    return
-        cpy:overwrite($context, $relPath, $source, function() { $expanded }, function() {(
-            path:mkcol($context, path:parent($relPath)),
-            xmldb:store(path:parent($path), path:basename($path), $expanded),
-            sm:chown(xs:anyURI($path), $context?pkg?user?name),
-            sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
-            sm:chmod(xs:anyURI($path), $context?pkg?permissions)
-        )[1]})
+    return cpy:overwrite(
+        $context,
+        $relPath,
+        $source,
+        function () { $expanded },
+        function () {
+            (
+                let $parent := path:parent($relPath)
+                return if (not($parent)) then (
+                    (: No parent, no collection needed :)
+                ) else (
+                    path:mkcol($context, path:parent($relPath))
+                ),
+                xmldb:store(path:parent($path), path:basename($path), $expanded),
+                sm:chown(xs:anyURI($path), $context?pkg?user?name),
+                sm:chgrp(xs:anyURI($path), $context?pkg?user?group),
+                sm:chmod(xs:anyURI($path), $context?pkg?permissions)
+            )[1]
+        }
+    )
 };
 
 declare function cpy:copy-resource($context as map(*), $source as xs:string, $target as xs:string) {
