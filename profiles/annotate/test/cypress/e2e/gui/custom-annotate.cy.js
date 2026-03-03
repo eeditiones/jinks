@@ -107,9 +107,71 @@ describe("Annotations", () => {
 
 		cy.get("#commit [title='Merge and save annotations to TEI']").click();
 
+		// Wait for the save to go through
+		cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
+			return new Cypress.Promise((resolve) => {
+				pbViewAnnotate.addEventListener("pb-annotations-loaded", resolve, {
+					once: true,
+				});
+			});
+		});
+
 		cy.get("#reload-all").click();
 
+		cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
+			return new Cypress.Promise((resolve) => {
+				pbViewAnnotate.ownerDocument.addEventListener(
+					"pb-end-update",
+					resolve,
+					{
+						once: true,
+					},
+				);
+			});
+		});
+
 		// Annotation should stay
+		cy.get("pb-view-annotate")
+			.shadow()
+			.find("#view")
+			.then(([contents]) => {
+				const textNode = findTheTextNode(contents);
+
+				const annotation = textNode.parentElement.closest(".annotation");
+
+				return annotation;
+			})
+			.should("exist")
+			.should(([annotation]) => {
+				const annotationData = JSON.parse(
+					annotation.getAttribute("data-annotation"),
+				);
+				expect(annotationData[ANNOTATE_KEY]).to.exist;
+			})
+			.scrollIntoView()
+			.should(([annotation]) => {
+				// Something only adds a click event later than expected. So click in the 'should' so Cypress halts until the popup is open
+				annotation.click();
+				expect(annotation).to.have.attr("aria-expanded", "true");
+			});
+
+		cy.get("pb-view-annotate")
+			.shadow()
+			.find(".annotation-popup paper-icon-button")
+			.first()
+			.click();
+
+		// We should expect errors here... The value 'A manual edit!' will not be valid in any back-end. Causing many errors
+		cy.on("uncaught:exception", (_err) => {
+			return false;
+		});
+		// Finally, make a  manual edit and assert it stays
+		cy.get(`input[name="${ANNOTATE_KEY}"]`)
+			.clear()
+			.type("A manual edit!")
+			.blur();
+
+		// Annotation should get the new value
 		cy.get("pb-view-annotate")
 			.shadow()
 			.find("#view")
@@ -123,7 +185,7 @@ describe("Annotations", () => {
 				const annotationData = JSON.parse(
 					annotation.getAttribute("data-annotation"),
 				);
-				expect(annotationData[ANNOTATE_KEY]).to.exist;
+				expect(annotationData[ANNOTATE_KEY]).to.equal("A manual edit!");
 			});
 	});
 });

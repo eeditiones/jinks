@@ -85,7 +85,14 @@ async function verifyPermission(fileHandle, withWrite) {
 }
 
 document.addEventListener("pb-page-loaded", () => {
+	/**
+	 * @type {HTMLFormElement}
+	 */
 	const form = document.getElementById("edit-form");
+
+	form.addEventListener("change", () => {
+		save();
+	});
 	let selection = null;
 	let activeSpan = null;
 	const view = document.getElementById("view1");
@@ -333,15 +340,16 @@ document.addEventListener("pb-page-loaded", () => {
 				target: activeSpan,
 				properties: data,
 			});
-			activeSpan = null;
 		} else {
 			try {
-				view.addAnnotation({
+				const newSpan = view.addAnnotation({
 					type,
 					properties: data,
 					before: emptyElement,
 					position: elementPosition,
 				});
+
+				activeSpan = newSpan;
 			} catch (e) {
 				document.getElementById("runtime-error-dialog").show("Error", e);
 			}
