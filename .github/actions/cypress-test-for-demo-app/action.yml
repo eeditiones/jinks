@@ -1,0 +1,66 @@
+name: Run tests for demo app
+description: Run Cypress tests for a demo app (extracts app from XAR artifact, runs tests)
+inputs:
+  app-name:
+    required: true
+    description: The app name to run test for
+
+runs:
+  using: composite
+  steps:
+    - name: Retrieve saved Docker image
+      uses: actions/download-artifact@v7
+      with:
+        name: docker-artifact
+        path: path/to/artifacts
+    - name: Docker load
+      shell: bash
+      run: |
+        cd path/to/artifacts
+        docker load < docker-image.tar
+
+    - name: Start jinks container
+      shell: bash
+      run: |
+        docker run -d \
+        --name jinks-server \
+        -p 8080:8080 \
+        temp/jinks-server:$GITHUB_SHA
+
+    - name: Wait for server to start
+      shell: bash
+      run: |
+        echo "Waiting for server to start..."
+        until docker logs jinks-server 2>&1 | grep -q "Server has started"; do
+          echo "Still waiting..."
+          sleep 4
+        done
+
+    - name: Download XAR artifacts
+      uses: actions/download-artifact@v7
+      with:
+        name: demo-apps-xars
+        path: demo/
+
+    - name: Extract ${{ inputs.app-name }} app from XAR
+      shell: bash
+      run: |
+        mkdir -p demo/${{ inputs.app-name }}
+        unzip -o demo/${{ inputs.app-name }}.xar -d demo/${{ inputs.app-name }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 'lts/*'
+
+    - name: Install and run tests
+      shell: bash
+      working-directory: demo/${{ inputs.app-name }}
+      run: |
+        npm install 
+        npx cypress run --browser firefox
+
+    - name: Stop jinks container
+      if: always()
+      shell: bash
+      run: docker stop jinks-server || true
