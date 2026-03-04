@@ -238,7 +238,7 @@ describe('API', () => {
       })
     })
 
-    // TODO(DP): see #104 
+    // TODO(DP): see #104
     it('POST /api/resolve with fake id/path is accepted', () => {
       cy.request({
         method: 'POST',
@@ -352,16 +352,56 @@ describe('API', () => {
           cy.wrap(secondRes.body).should('be.an', 'object')
           if (secondRes.body.messages) {
             // Check that no error messages are present
-            const messages = Array.isArray(secondRes.body.messages) 
-              ? secondRes.body.messages 
+            const messages = Array.isArray(secondRes.body.messages)
+              ? secondRes.body.messages
               : []
-            const errorMessages = messages.filter(msg => 
-              msg && typeof msg === 'object' && 
+            const errorMessages = messages.filter(msg =>
+              msg && typeof msg === 'object' &&
               (msg.type === 'error' || msg.message?.includes('Collection') || msg.message?.includes('not found'))
             )
             cy.wrap(errorMessages.length).should('eq', 0, 'No error messages should be present')
           }
         })
+      })
+    })
+
+    it('POST /api/generator can generate a new theme profile', () => {
+      const appId = 'test-ci-theme-' + Date.now()
+      const config = {
+        config: {
+          label: 'mynewtheme',
+          id: appId,
+          description: '',
+          pkg: {
+            abbrev: 'df'
+          },
+          extends: [
+            'new-profile'
+          ],
+          profile: {
+            type: 'theme'
+          },
+          depends: [
+            'base10',
+            'theme-base10'
+          ],
+          theme: {
+            colors: {
+              palette: 'beige'
+            }
+          }
+        },
+        resolve: []
+      }
+
+      cy.request({
+        method: 'POST',
+        url: '/api/generator',
+        qs: { overwrite: 'all' },
+        headers: { 'content-type': 'application/json' },
+        body: config
+      }).then(firstRes => {
+        cy.wrap(firstRes).its('status').should('eq', 200)
       })
     })
   })

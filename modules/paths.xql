@@ -10,15 +10,18 @@ declare function path:resolve-path($parents as xs:string*, $relPath as xs:string
             $relPath
         else
             replace(string-join(($parents, $relPath), "/"), "/{2,}", "/"),
-        "/+$", 
+        "/+$",
         ""
     )
 };
 
-declare function path:parent($path as xs:string) {
-    replace($path, "^(.*?)/[^/]+$", "$1")
+declare function path:parent ($path as xs:string) {
+    if (not(contains($path, "/"))) then (
+		    (: Path is directl in parent :)
+    ) else (
+        replace($path, "^(.*?)/[^/]+$", "$1")
+	  )
 };
-
 declare function path:basename($path as xs:string) {
     replace($path, "^.*?/([^/]+)$", "$1")
 };
@@ -28,7 +31,7 @@ declare function path:mkcol($context as map(*), $path as xs:string) {
     let $nil :=
         path:mkcol(
             $absPath,
-            ($context?pkg?user?name, $context?pkg?user?group), 
+            ($context?pkg?user?name, $context?pkg?user?group),
             $context?pkg?permissions
         )
     return
@@ -74,7 +77,7 @@ declare function path:get-package-target($uri as xs:string?) {
     if (not(repo:list()[. = $uri])) then
         ()
     else
-        let $repoXML := 
+        let $repoXML :=
             repo:get-resource($uri, "repo.xml")
             => util:binary-to-string()
             => parse-xml()
