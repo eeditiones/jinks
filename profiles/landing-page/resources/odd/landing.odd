@@ -56,6 +56,17 @@
         </model>
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="ptr" mode="change">
+                    <model predicate="@type='avatar'" behaviour="pass-through">
+                        <param name="avatar" value="@target"/>
+                        <param name="name" value="parent::*/persName"/>
+                            <pb:template xml:space="preserve"><img xmlns="" foo="foo" src="[[avatar]]" alt="[[name]]" class="avatar"/></pb:template>
+                    </model>
+                    <model predicate="@target" behaviour="link">
+                        <param name="uri" value="@target"/>
+                        <param name="content" value="if (@type) then @type else ."/>
+                    </model>
+                </elementSpec>
                 <elementSpec ident="hi" mode="change">
                     <model predicate="@rend='strong'" behaviour="pass-through">
             <pb:template xml:space="preserve"><strong xmlns="">[[content]]</strong></pb:template>
@@ -184,15 +195,16 @@
                 <elementSpec ident="person" mode="change">
                     <model behaviour="pass-through">
             <param name="label" value="@n"/>
+            <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
             <param name="name" value="persName"/>
             <param name="role" value="occupation"/>
             <param name="email" value="ptr[@type='email']/@target"/>
             <param name="content" value="note/node()"/>
-            <param name="avatar" value="ptr[@type='avatar']/@target"/>
+            <param name="avatar" value="ptr[@type='avatar']"/>
             <pb:template xml:space="preserve"><div xmlns="" class="member-card">
   <div class="member-card--top">
-    <div class="label">[[label]]</div>
-    <img src="[[avatar]]" alt="[[name]]" class="avatar"/>
+    <div class="[[label-class]]">[[label]]</div>
+    [[avatar]]
   </div>
   <div class="member-card--middle">
       <header>
