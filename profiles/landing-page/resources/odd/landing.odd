@@ -222,6 +222,13 @@
 </div></pb:template>
         </model>
                 </elementSpec>
+                <elementSpec ident="note" mode="change">
+                <model behaviour="inline" predicate="ancestor::div[@type='highlights']"/>
+                <model behaviour="note">
+                    <param name="place" value="@place"/>
+                    <param name="label" value="@n"/>
+                </model>
+                </elementSpec>
                 <elementSpec ident="item" mode="change">
                     <model predicate="parent::list/@type='links'" behaviour="listItem"/>
                     <model predicate="ancestor::div[@type='highlights'] and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
