@@ -295,6 +295,17 @@ header.row {
     color: var(--card-text-color);
 }
 
+/* if highlights article is wrapped in a, make it full height */
+.highlights > a {
+    min-height: 100%;
+    text-decoration: none;
+}
+
+/* make sure article takes all available height, even if wrapped */
+.highlights article {
+    min-height: 100%;
+}
+
 #about {
     background-image: var(--jinks-feature-background);
 }
