@@ -51,11 +51,18 @@ declare %private function sg:zip-entries($app-collection as xs:string) {
                 else if (util:binary-doc-available($resource)) then
                     <entry name="{$relative-path}" type="uri">{$resource}</entry>
                 else
-                    <entry name="{$relative-path}" type="text">
-                    {
-                        serialize(doc($resource), map { "indent": false() })
-                    }
-                    </entry>
+                    let $mime := xmldb:get-mime-type($resource)
+                    let $options := 
+                        if ($mime = "text/html") then
+                            map { "method": "html", "indent": false() }
+                        else
+                            map { "indent": false() }
+                    return
+                        <entry name="{$relative-path}" type="text">
+                        {
+                            serialize(doc($resource), $options)
+                        }
+                        </entry>
         else
             ()
     })
