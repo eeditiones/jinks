@@ -191,11 +191,6 @@ declare function dts:document($request as map(*)) {
                                     $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
                                 else
                                     $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "application/pdf" return
-                                if ($parsedMediaType[3] = "media=latex") then
-                                    $pm-config:latex-transform($xml, map { "root": root($xml) }, $config?odd)
-                                else
-                                    $pm-config:fo-transform($xml, map { "root": root($xml) }, $config?odd)
                             case "application/epub+zip" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
                             default return dts:check-pi(root($xml))
                     return
