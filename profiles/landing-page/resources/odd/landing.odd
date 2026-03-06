@@ -231,9 +231,9 @@
                 </elementSpec>
                 <elementSpec ident="item" mode="change">
                     <model predicate="parent::list/@type='links'" behaviour="listItem"/>
-                    <model predicate="ancestor::div[@type='highlights'] and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
-            <desc>For the highlights, first check if an application with URI given in @context is actually installed</desc>
-        </model>
+                    <model predicate="ancestor::div[@type='highlights'][@ana='demo'] and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
+                        <desc>For the demo highlights, first check if an application with URI given in @context is actually installed</desc>
+                    </model>
                     <model predicate="ancestor::div[@type='highlights']" behaviour="pass-through">
             <desc>Output a highlight card linking to an installed application</desc>
             <param name="pos" value="count(preceding-sibling::item) + 1"/>
