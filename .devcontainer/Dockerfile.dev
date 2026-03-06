@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/java:8-bullseye
+# Java 8 (eXist-db compatible). Bookworm = Debian 12, supported to June 2028; bullseye to Aug 2026.
+FROM mcr.microsoft.com/devcontainers/java:8-bookworm
 
 ARG EXIST_VERSION=6.4.0
 ARG PUBLISHER_LIB_VERSION=6.0.1
@@ -22,6 +23,8 @@ RUN su vscode -c "source /usr/local/sdkman/bin/sdkman-init.sh && sdk install ant
 ENV ANT_HOME=/usr/local/sdkman/candidates/ant/current
 ENV PATH=${PATH}:${ANT_HOME}/bin
 
+# Remove Yarn APT repo from base image (GPG key often broken); Node is provided by devcontainer feature
+RUN rm -f /etc/apt/sources.list.d/yarn.list 2>/dev/null || true
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends bzip2
 
@@ -89,15 +92,7 @@ RUN bin/client.sh -l --no-gui --xpath "system:get-version()"
 
 EXPOSE ${HTTP_PORT} ${HTTPS_PORT} 8001
 
-ENV JAVA_OPTS \
-    -Djetty.port=${HTTP_PORT} \
-    -Djetty.ssl.port=${HTTPS_PORT} \
-    -Dfile.encoding=UTF8 \
-    -Dsun.jnu.encoding=UTF-8 \
-    -XX:+UseG1GC \
-    -XX:+UseStringDeduplication \
-    -XX:+UseContainerSupport \
-    -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \ 
-    -XX:+ExitOnOutOfMemoryError
+ARG JVM_MAX_RAM_PERCENTAGE=75.0
+ENV JAVA_OPTS="-Djetty.port=${HTTP_PORT} -Djetty.ssl.port=${HTTPS_PORT} -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF-8 -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+UseContainerSupport -XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE} -XX:+ExitOnOutOfMemoryError"
 
 ENTRYPOINT [ "/usr/local/exist/bin/startup.sh" ]
