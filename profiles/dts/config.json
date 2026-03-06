@@ -1,11 +1,15 @@
 {
     "$schema": "../../schema/jinks.json",
     "type": "feature",
+    "category": "development",
     "id": "https://e-editiones.org/app/tei-publisher/dts",
     "version": "1.0.0",
     "label": "Distributed Text Services",
     "description": "Add DTS (Distributed Text Services) support to TEI Publisher",
     "order": 100,
+    "depends": [
+        "base10"
+    ],
     "api": [
         {
             "prefix": "dts",

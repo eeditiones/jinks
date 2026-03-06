@@ -40,7 +40,8 @@
             <desc>link to bible passage</desc>
             <param name="target" value="@target"/>
             <param name="level" value="2"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-popover remote="http://localhost:8080/exist/apps/barth/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;ref=Lb_[[target]]&amp;mediaType=text/html">
+            <param name="path" value="$parameters?context-path"/>
+            <pb:template xml:space="preserve"><pb-popover xmlns="" remote="[[path]]/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;ref=Lb_[[target]]&amp;mediaType=text/html">
   <span slot="default">[[content]]</span>
 </pb-popover></pb:template>
             <outputRendition xml:space="preserve">
@@ -50,7 +51,8 @@
                     <model predicate="@type='can' and @subtype='bible'" behaviour="inline">
             <desc>link to bible passage</desc>
             <param name="target" value="@target"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-popover remote="http://localhost:8080/exist/apps/barth/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;ref=Lb_[[target]]&amp;mediaType=text/html">
+            <param name="path" value="$parameters?context-path"/>
+            <pb:template xml:space="preserve"><pb-popover xmlns="" remote="[[path]]/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;ref=Lb_[[target]]&amp;mediaType=text/html">
   <span slot="default">[[content]]</span>
 </pb-popover></pb:template>
             <outputRendition xml:space="preserve">
@@ -61,7 +63,7 @@
             <desc>placeholder for unavailable next/prev links</desc>
             <param name="type" value="if (@type='prev') then 'previous' else @type"/>
             <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
-            <pb:template xmlns="" xml:space="preserve"><li class="unavailable">
+            <pb:template xml:space="preserve"><li xmlns="" class="unavailable">
                                             <svg class="icon">
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
                                             </svg>
@@ -77,7 +79,7 @@
             <param name="type" value="if (@type='prev') then 'previous' else @type"/>
             <param name="target" value="@target"/>
             <param name="svg" value="$parameters?context-path || '/resources/css/correspondence-icons.svg'"/>
-            <pb:template xmlns="" xml:space="preserve"><li><pb-popover>
+            <pb:template xml:space="preserve"><li xmlns=""><pb-popover>
                             <a href="[[target]]" emit="transcription" subscribe="transcription" slot="default">
                                 <svg class="icon">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="[[svg]]#[[type]]"/>
