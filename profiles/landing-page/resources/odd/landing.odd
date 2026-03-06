@@ -195,6 +195,7 @@
                 <elementSpec ident="person" mode="change">
                     <model behaviour="pass-through">
             <param name="label" value="@n"/>
+            <param name="rend" value="@rend"/>
             <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
             <param name="name" value="persName"/>
             <param name="role" value="occupation"/>
