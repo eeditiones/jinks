@@ -305,6 +305,34 @@
                     }
                 }
             }
+        },
+        "/api/dts/list": {
+            "get": {
+                "summary": "List DTS-enabled servers",
+                "description": "Returns the list of installed applications that extend the DTS profile (entry URL, title, description).",
+                "operationId": "dts:servers",
+                "tags": ["dts"],
+                "responses": {
+                    "200": {
+                        "description": "Array of server entries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "entry": { "type": "string" },
+                                            "title": { "type": "string" },
+                                            "description": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "security": [

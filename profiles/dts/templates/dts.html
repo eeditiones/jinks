@@ -28,6 +28,13 @@
         ]
     }
     ---
+    <script id="dts-config" type="application/json">
+        {
+            "base-path": "[[ $context-path ]]",
+            "servers": [[ serialize($context?features?dts?servers, map { "method": "json" }) ]]
+        }
+    </script>
+
     [% template before %]
     <aside id="dts-server">
         <select id="dts-server-list"></select>
