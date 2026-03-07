@@ -21,18 +21,18 @@ declare %private function dts:base-path() {
 
 (:~ 
  : DTS Entry Endpoint
- : @see https://distributed-text-services.github.io/specifications/entry-point/1.0rc1.html
+ : @see https://dtsapi.org/specifications/versions/v1.0/#entry-endpoint
  : @param request The request map
- : @return the base path for the 3 endpoints: collection, navigation and documents
+ : @return the base path for the 3 endpoints: collection, navigation and document
  :)
 declare function dts:entry($request as map(*)) {
     let $base := dts:base-path()
     return
         map {
-            "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
+            "@context": "https://dtsapi.org/context/v1.0.json",
             "@type": "EntryPoint",
-            "@id": "/api/dts",
-            "dtsVersion": "1.0.rc",
+            "@id": $base,
+            "dtsVersion": "1.0",
             "collection": $base || "/collection/{?id,page,nav}",
             "navigation": $base || "/navigation/{?resource,ref,start,end,down,tree,page}",
             "document": $base || "/document/{?resource,ref,start,end,tree,mediaType}"
@@ -41,7 +41,7 @@ declare function dts:entry($request as map(*)) {
 
 (:~ 
  : DTS Collection Endpoint
- : @see https://distributed-text-services.github.io/specifications/collection/1.0rc1.html
+ : @see https://dtsapi.org/specifications/versions/v1.0/#collection-endpoint
  : @param request The request map
  : @return the collection information for the given id
  :)
@@ -62,11 +62,11 @@ declare function dts:collection($request as map(*)) {
                     ()
             return map:merge((
                 map {
-                    "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
+                    "@context": "https://dtsapi.org/context/v1.0.json",
                     "@id": $collectionInfo?id,
-                    "dtsVersion": "1.0.rc",
+                    "dtsVersion": "1.0",
+                    "@type": "Collection",
                     "title": $collectionInfo?title,
-                    "totalItems": $resources?total,
                     "totalChildren": $resources?total,
                     "totalParents": count($parentInfo),
                     "dublinCore": $collectionInfo?dublinCore,
@@ -117,12 +117,14 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
             "total": count($collectionInfo?members?*),
             "items": 
                 for $resource in $collectionInfo?members?*
-                return
-                    map {
+                    return
+                        map {
                         "@id": $resource?id,
                         "title": $resource?title,
                         "dublinCore": $resource?dublinCore,
                         "@type": "Collection",
+                        "totalParents": 1,
+                        "totalChildren": count($resource?members?*),
                         "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
                     }
         }
@@ -150,6 +152,7 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
                                 "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}",
                                 "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;down}",
                                 "mediaTypes": array {
+                                    "application/tei+xml",
                                     "application/xml",
                                     for $media in $config?media
                                     return
@@ -168,98 +171,193 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
 };
 
 (:~ 
- : DTS Documents Endpoint
- : @see https://distributed-text-services.github.io/specifications/document/1.0rc1.html
+ : DTS Document Endpoint
+ : @see https://dtsapi.org/specifications/versions/v1.0/#document-endpoint
  : @param request The request map
- : @return the document information for the given resource
+ : @return the document content for the given resource
  :)
 declare function dts:document($request as map(*)) {
-    let $collection := dts:collection-by-id($dts-config:members, substring-before($request?parameters?resource, "/"), (), false())
-    let $doc := doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))
-    let $mediaType := $request?parameters?mediaType
-    let $parsedMediaType := tokenize($mediaType, ";")
+    let $resource := $request?parameters?resource
     return
-        if ($doc) then
-            let $xml := dts:resolve-fragment($doc, $request?parameters?ref)
-            return
-                if ($xml instance of document-node()) then (
-                    let $config := tpu:parse-pi($xml, ())
-                    let $output :=
-                        switch ($parsedMediaType[1])
-                            case "text/html" return
-                                if ($parsedMediaType[3] = "media=print") then
-                                    $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
-                                else
-                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
-                            case "application/epub+zip" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
-                            default return dts:check-pi(root($xml))
-                    return
-                        router:response(200, $parsedMediaType[1], $output)
-                ) else if ($xml instance of element()) then
-                    let $output :=
-                        switch ($parsedMediaType[1])
-                            case "text/html" return
-                                 let $config := tpu:parse-pi(root($xml), ())
-                                 return
-                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
-                            default return
-                                document {
-                                    <TEI xmlns="http://www.tei-c.org/ns/1.0">
-                                        <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
-                                            {$xml}
-                                        </dts:wrapper>
-                                    </TEI>
-                                }
-                    return
-                        router:response(200, if ($parsedMediaType[1] = "text/html") then "text/html" else "application/xml", $output)
-                else
-                    router:response(404, "text/text", "Fragment not found")
+        if (empty($resource) or $resource = "") then
+            response:set-status-code(400)
+        else if (($request?parameters?ref and ($request?parameters?start or $request?parameters?end)) or
+                (exists($request?parameters?start) and empty($request?parameters?end)) or
+                (exists($request?parameters?end) and empty($request?parameters?start))) then
+            response:set-status-code(400)
         else
-            router:response(404, "text/text", "Resource not found")
+            let $collection := dts:collection-by-id($dts-config:members, substring-before($resource, "/"), (), false())
+            let $doc := doc($collection?path || "/" || substring-after($resource, "/"))
+            let $mediaType := $request?parameters?mediaType
+            let $parsedMediaType := tokenize(($mediaType, "application/xml")[1], ";")
+            return
+                if (empty($collection) or empty($doc)) then
+                    router:response(404, "text/plain", "Resource not found")
+                else
+                    let $xml := dts:resolve-fragment($doc, $request?parameters?ref, $request?parameters?start, $request?parameters?end)
+                    return
+                        if (empty($xml)) then
+                            router:response(404, "text/plain", "Fragment not found")
+                        else
+                            let $collection-link := "<" || dts:base-path() || "/collection?id=" || encode-for-uri(substring-before($resource, "/")) || ">; rel=""collection"""
+                            return
+                                (response:set-header("Link", $collection-link),
+                                if ($xml instance of document-node()) then
+                                    let $config := tpu:parse-pi($xml, ())
+                                    let $output :=
+                                        switch ($parsedMediaType[1])
+                                            case "text/html" return
+                                                if ($parsedMediaType[3] = "media=print") then
+                                                    $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
+                                                else
+                                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                                            case "application/epub+zip" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
+                                            default return dts:check-pi(root($xml))
+                                    let $content-type := if ($parsedMediaType[1] = "application/xml" or $parsedMediaType[1] = "") then "application/tei+xml" else $parsedMediaType[1]
+                                    return router:response(200, $content-type, $output)
+                                else if ($xml instance of element()) then
+                                    let $output :=
+                                        switch ($parsedMediaType[1])
+                                            case "text/html" return
+                                                 let $config := tpu:parse-pi(root($xml), ())
+                                                 return
+                                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                                            default return
+                                                document {
+                                                    <TEI xmlns="http://www.tei-c.org/ns/1.0">
+                                                        <dts:wrapper xmlns:dts="https://w3id.org/api/dts#">
+                                                            {$xml}
+                                                        </dts:wrapper>
+                                                    </TEI>
+                                                }
+                                    let $content-type := if ($parsedMediaType[1] = "text/html") then "text/html" else "application/tei+xml"
+                                    return router:response(200, $content-type, $output)
+                                else
+                                    router:response(404, "text/plain", "Fragment not found"))
 };
 
 (:~ 
  : DTS Navigation Endpoint
- : @see https://distributed-text-services.github.io/specifications/navigation/1.0rc1.html
+ : @see https://dtsapi.org/specifications/versions/v1.0/#navigation-endpoint
  : @param request The request map
  : @return the navigation information for the given resource
  :)
 declare function dts:navigation($request as map(*)) {
-    let $collection := dts:collection-by-id($dts-config:members, substring-before($request?parameters?resource, "/"), (), false())
-    let $doc := 
-        doc($collection?path || "/" || substring-after($request?parameters?resource, "/"))//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
-    let $config := tpu:parse-pi(root($doc), ())
+    let $resource := $request?parameters?resource
     return
-        map {
-            "@context": "https://distributed-text-services.github.io/specifications/context/1.0rc1.json",
-            "dtsVersion": "1.0rc1",
-            "@type": "Navigation",
-            "@id": dts:base-path() || "/navigation?resource=" || $request?parameters?resource,
-            "resource":
-                let $id := util:document-name($doc)
-                return
-                    map:merge((
-                        map {
-                            "@id": $collection?id || "/" || $id,
-                            "title": $id,
-                            "@type": "Resource",
-                            "totalParents": 1,
-                            "totalChildren": 0,
-                            "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collection?id) || "{&amp;page,nav}",
-                            "document": dts:base-path() || "/document?resource=" || encode-for-uri($collection?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}"
-                        },
-                        dts:metadata($doc)
-                    )),
-            (: "citationTrees": [
-                map {
-                    "@type": "CitationTree",
-                    "citeStructure": [
-                        dts:cite-structure($doc//tei:body)
-                    ]
+        if (empty($resource) or $resource = "") then
+            response:set-status-code(400)
+        else if (($request?parameters?ref and ($request?parameters?start or $request?parameters?end)) or
+                ($request?parameters?start and empty($request?parameters?end)) or
+                ($request?parameters?end and empty($request?parameters?start))) then
+            response:set-status-code(400)
+        else
+            let $collection := dts:collection-by-id($dts-config:members, substring-before($resource, "/"), (), false())
+            let $doc :=
+                doc($collection?path || "/" || substring-after($resource, "/"))//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
+            return
+                if (empty($collection) or empty($doc)) then
+                    response:set-status-code(404)
+                else
+                    let $config := tpu:parse-pi(root($doc), ())
+                    let $down-param := $request?parameters?down
+                    let $down := if (exists($down-param)) then xs:int($down-param) else 0
+                    let $ref := $request?parameters?ref
+                    let $ref-unit := if (exists($ref)) then dts:ref-citable-unit($doc, $ref, $config?odd) else ()
+                    return
+                        if (exists($ref) and empty($ref-unit)) then
+                            response:set-status-code(404)
+                        else
+                            let $member :=
+                                if (exists($ref)) then
+                                    dts:navigation-by-ref($doc, $config?odd, $ref, $down-param, $down)
+                                else
+                                    dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $down, 0)
+                            let $resourceId := $collection?id || "/" || util:document-name($doc)
+                            return
+                                map:merge((
+                                    map {
+                                        "@context": "https://dtsapi.org/context/v1.0.json",
+                                        "dtsVersion": "1.0",
+                                        "@type": "Navigation",
+                                        "@id": dts:base-path() || "/navigation?resource=" || encode-for-uri($resource) || (if (exists($down-param)) then "&amp;down=" || $down else ""),
+                                        "resource":
+                                            map:merge((
+                                                map {
+                                                    "@id": $resourceId,
+                                                    "title": util:document-name($doc),
+                                                    "@type": "Resource",
+                                                    "totalParents": 1,
+                                                    "totalChildren": 0,
+                                                    "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collection?id) || "{&amp;page,nav}",
+                                                    "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,down,tree,page}",
+                                                    "document": dts:base-path() || "/document?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,tree,mediaType}",
+                                                    "citationTrees": array {
+                                                        map {
+                                                            "@type": "CitationTree",
+                                                            "citeStructure": array {
+                                                                dts:cite-structure($doc//tei:body)
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                dts:metadata($doc)
+                                            )),
+                                        "member": $member
+                                    },
+                                    (if (exists($ref)) then map { "ref": $ref-unit } else map {})
+                                ))
+};
+
+(:~ When ref is present and down is not provided, return empty array; else siblings (down=0) or subtree (down>0 or -1). :)
+declare %private function dts:navigation-by-ref($doc as document-node(), $odd as xs:string, $ref as xs:string, $down-param as xs:anyAtomicType?, $down as xs:int) as array(*) {
+    let $node := dts:resolve-ref-node($doc, $ref)
+    return
+        if (empty($node)) then array { }
+        else if (empty($down-param)) then array { }
+        else if ($down = 0) then
+            array {
+                for $sibling in $node/parent::tei:div/tei:div
+                return map {
+                    "@type": "CitableUnit",
+                    "citeType": "Division",
+                    "level": count($sibling/ancestor::tei:div) + 1,
+                    "dublinCore": map { "title": dts:heading(head(($sibling/tei:head, $sibling/@n)), $odd) },
+                    "parent": dts:get-identifier($sibling/parent::tei:div),
+                    "identifier": dts:get-identifier($sibling)
                 }
-            ], :)
-            "member": dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $request?parameters?down, 0)
-        }
+            }
+        else
+            array {
+                dts:ref-citable-unit($doc, $ref, $odd),
+                dts:navigation-tree($node/tei:div, $odd, $down, 1)
+            }
+};
+
+declare %private function dts:ref-citable-unit($doc as document-node(), $ref as xs:string, $odd as xs:string) as map(*)? {
+    let $node := dts:resolve-ref-node($doc, $ref)
+    return
+        if (empty($node)) then ()
+        else
+            map {
+                "identifier": dts:get-identifier($node),
+                "@type": "CitableUnit",
+                "level": count($node/ancestor::tei:div) + 1,
+                "parent": dts:get-identifier($node/parent::tei:div),
+                "citeType": "Division",
+                "dublinCore": map { "title": dts:heading(head(($node/tei:head, $node/@n)), $odd) }
+            }
+};
+
+declare %private function dts:resolve-ref-node($doc as document-node(), $ref as xs:string) as element()? {
+    let $by-id := $doc/id($ref)
+    return
+        if ($by-id instance of element()) then $by-id
+        else
+            let $by-node-id := util:node-by-id($doc, substring-after($ref, "exist:"))
+            return
+                if ($by-node-id instance of element()) then $by-node-id
+                else ()
 };
 
 declare %private function dts:metadata($doc as element()) {
@@ -384,8 +482,14 @@ declare %private function dts:get-identifier($node as node()?) {
         head(($node/@xml:id/string(), "exist:" || util:node-id($node)))
 };
 
-declare %private function dts:resolve-fragment($doc as document-node(), $ref as xs:string?) {
-    if (empty($ref)) then
+declare %private function dts:resolve-fragment($doc as document-node(), $ref as xs:string?, $start as xs:string?, $end as xs:string?) as node()? {
+    if (exists($start) and exists($end)) then
+        let $start-node := dts:resolve-ref-node($doc, $start)
+        let $end-node := dts:resolve-ref-node($doc, $end)
+        return
+            if (empty($start-node) or empty($end-node)) then ()
+            else $start-node
+    else if (empty($ref)) then
         $doc
     else
         let $xml := $doc/id($ref)

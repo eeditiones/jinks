@@ -1,6 +1,7 @@
 /**
- * DTS Client - Distributed Text Services API Client
- * Handles connection to DTS Entry Endpoint and displays server information
+ * DTS Client - Distributed Text Services API Client (DTS 1.0)
+ * Handles connection to DTS Entry Endpoint and displays server information.
+ * @see https://dtsapi.org/specifications/versions/v1.0/
  */
 
 // Initialize DTS client when DOM is ready
@@ -135,8 +136,7 @@ function initializeDTSClient() {
             const response = await fetch(serverUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/ld+json'
                 }
             });
 
@@ -164,11 +164,12 @@ function initializeDTSClient() {
      * Display server information in the info div
      */
     function displayServerInfo(data) {
+        const documentUrl = data.document ?? data.documents ?? '#';
         serverInfoDiv.innerHTML = `
             <p><strong>Collection Endpoint:</strong> <a href="${data.collection || '#'}" target="_blank">${data.collection || 'N/A'}</a></p>
-            <p><strong>Documents Endpoint:</strong> <a href="${data.document || '#'}" target="_blank">${data.documents || 'N/A'}</a></p>
+            <p><strong>Document Endpoint:</strong> <a href="${documentUrl}" target="_blank">${documentUrl === '#' ? 'N/A' : documentUrl}</a></p>
             <p><strong>Navigation Endpoint:</strong> <a href="${data.navigation || '#'}" target="_blank">${data.navigation || 'N/A'}</a></p>
-
+            ${data.dtsVersion ? `<p><strong>DTS Version:</strong> ${data.dtsVersion}</p>` : ''}
             <details>
                 <summary>Raw JSON Response</summary>
                 <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
@@ -218,12 +219,11 @@ function initializeDTSClient() {
             const rootCollectionUrl = expandUriTemplate(serverConfig.collection, {});
             console.log('DTS Client: Root collection URL:', rootCollectionUrl);
             
-            // Make API call to collection endpoint
+            // Make API call to collection endpoint (DTS 1.0: application/ld+json)
             const response = await fetch(rootCollectionUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/ld+json'
                 }
             });
 
@@ -232,8 +232,9 @@ function initializeDTSClient() {
             }
 
             const collectionData = await response.json();
-            displayCollectionTable(collectionData, 'Root Collection');
-            displayRawResponse(collectionData, 'Root Collection');
+            const rootTitle = resolveDublinCoreValue(collectionData.title) || 'Root Collection';
+            displayCollectionTable(collectionData, rootTitle);
+            displayRawResponse(collectionData, rootTitle);
             handlePagination(collectionData);
             
 
@@ -250,8 +251,9 @@ function initializeDTSClient() {
         const mediaTypes = member.mediaTypes || [];
         let buttons = '<span role="group">';
         
-        // Default XML/TEI button
-        buttons += `<button class="dts-action-btn view-document" data-media-type="application/xml" data-tooltip="View as TEI/XML">
+        // Default TEI/XML button (DTS 1.0 recommends application/tei+xml)
+        const defaultTeiType = mediaTypes.includes('application/tei+xml') ? 'application/tei+xml' : 'application/xml';
+        buttons += `<button class="dts-action-btn view-document" data-media-type="${defaultTeiType}" data-tooltip="View as TEI/XML">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-xml" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z"/>
             </svg>
@@ -320,7 +322,7 @@ function initializeDTSClient() {
         if (collectionData.member && Array.isArray(collectionData.member)) {
             collectionData.member.forEach(member => {
                 const memberType = member['@type'] || 'Unknown';
-                const memberTitle = member.title || member.label || 'Untitled';
+                const memberTitle = resolveDublinCoreValue(member.title) || member.label || 'Untitled';
                 const memberId = member['@id'] || member.id || '';
                 
                 // Determine if this is a collection or document
@@ -413,12 +415,11 @@ function initializeDTSClient() {
             const expandedUrl = expandUriTemplate(navigationUrlTemplate, { resource: resourceId, down: 2 });
             console.log('DTS Client: Fetching metadata from navigation URL:', expandedUrl);
             
-            // Make API call to navigation endpoint
+            // Make API call to navigation endpoint (DTS 1.0: application/ld+json)
             const response = await fetch(expandedUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/ld+json'
                 }
             });
 
@@ -441,6 +442,20 @@ function initializeDTSClient() {
     }
 
     /**
+     * Resolve a Dublin Core value (DTS 1.0: may be string, array of {lang, value}, or array of URIs)
+     */
+    function resolveDublinCoreValue(value) {
+        if (value == null || value === '') return '';
+        if (Array.isArray(value)) {
+            const first = value[0];
+            if (first && typeof first === 'object' && 'value' in first) return first.value;
+            if (typeof first === 'string') return first;
+            return '';
+        }
+        return String(value);
+    }
+
+    /**
      * Display document structure in the aside element
      */
     function displayDocumentStructure(navigationData) {
@@ -452,8 +467,8 @@ function initializeDTSClient() {
 
         const resource = navigationData.resource || {};
         const members = navigationData.member || [];
-        
-        const title = resource.title || 'Unknown Title';
+
+        const title = resolveDublinCoreValue(resource.title) || 'Unknown Title';
         const dublinCore = resource.dublinCore || {};
         
         // Store the document URL template for fragment requests
@@ -476,14 +491,18 @@ function initializeDTSClient() {
             structureHtml = '<div class="document-structure"><p>No structure information available</p></div>';
         }
 
-        // Generate metadata items for all non-null dublinCore fields
+        // Generate metadata items for all non-null dublinCore fields (DTS 1.0: value may be {lang, value}[] or literal)
         const metadataItems = Object.entries(dublinCore)
             .filter(([key, value]) => value !== null && value !== undefined && value !== '')
-            .map(([key, value]) => `
+            .map(([key, value]) => {
+                const displayValue = resolveDublinCoreValue(value);
+                if (displayValue === '' || displayValue === null) return '';
+                return `
                 <div class="metadata-item">
-                    <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}
+                    <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${displayValue}
                 </div>
-            `).join('');
+            `;
+            }).filter(Boolean).join('');
 
         asideElement.innerHTML = `
             <div class="dts-document-metadata">
@@ -540,7 +559,7 @@ function initializeDTSClient() {
         let html = '';
         
         currentUnits.forEach(unit => {
-            const title = unit.dublinCore?.title || 'Untitled';
+            const title = resolveDublinCoreValue(unit.dublinCore?.title) || 'Untitled';
             const identifier = unit.identifier || '';
             
             // Find children of this unit (units with higher level and this unit as parent)
@@ -627,7 +646,7 @@ function initializeDTSClient() {
             
             const memberId = member['@id'] || member.id || '';
             const memberDocumentUrl = member.document || '';
-            const mediaType = button.getAttribute('data-media-type') || 'application/xml';
+            const mediaType = button.getAttribute('data-media-type') || 'application/tei+xml';
             
             button.addEventListener('click', function() {
                 // For documents, open in new tab using the document URL with media type
@@ -643,7 +662,7 @@ function initializeDTSClient() {
     /**
      * View a document in a new tab
      */
-    function viewDocument(documentId, documentUrl, mediaType = 'application/xml') {
+    function viewDocument(documentId, documentUrl, mediaType = 'application/tei+xml') {
         if (!documentUrl) {
             console.error('DTS Client: No document URL provided');
             return;
@@ -689,11 +708,11 @@ function initializeDTSClient() {
             
             const resourceId = resourceMatch[1];
             
-            // Expand the URI template to get the actual document URL with ref parameter
+            // Expand the URI template to get the actual document URL with ref parameter (DTS 1.0: application/tei+xml)
             const expandedUrl = expandUriTemplate(window.currentDocumentUrlTemplate, { 
                 resource: resourceId,
                 ref: identifier,
-                mediaType: 'application/xml'
+                mediaType: 'application/tei+xml'
             });
             
             console.log('DTS Client: Requesting document fragment:', expandedUrl);
@@ -728,12 +747,11 @@ function initializeDTSClient() {
             const expandedUrl = expandUriTemplate(collectionUrl, {});
             console.log('DTS Client: Expanded collection URL:', expandedUrl);
 
-            // Make API call to collection endpoint
+            // Make API call to collection endpoint (DTS 1.0: application/ld+json)
             const response = await fetch(expandedUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/ld+json'
                 }
             });
 
@@ -742,7 +760,7 @@ function initializeDTSClient() {
             }
 
             const collectionData = await response.json();
-            const collectionTitle = collectionData.title || collectionData.label || `Collection: ${collectionId}`;
+            const collectionTitle = resolveDublinCoreValue(collectionData.title) || collectionData.label || `Collection: ${collectionId}`;
             displayCollectionTable(collectionData, collectionTitle);
             displayRawResponse(collectionData, `Collection: ${collectionId}`);
             handlePagination(collectionData);
@@ -1044,12 +1062,11 @@ function initializeDTSClient() {
             // Construct URL for the specific page
             const pageUrl = constructPageUrl(pageNumber);
 
-            // Make API call to collection endpoint with page parameter
+            // Make API call to collection endpoint with page parameter (DTS 1.0: application/ld+json)
             const response = await fetch(pageUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/ld+json'
                 }
             });
 

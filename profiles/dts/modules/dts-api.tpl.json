@@ -41,36 +41,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Server configuration information",
+                        "description": "DTS Entry Point with URI templates for collection, navigation and document endpoints",
                         "content": {
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
+                                    "required": ["@context", "@id", "@type", "dtsVersion", "collection", "navigation", "document"],
                                     "properties": {
-                                        "@context": {
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "@id": {
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "@type": {
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "collection": {
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "documents": {
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "navigation": {
-                                            "type": "string",
-                                            "nullable": false
-                                        }
+                                        "@context": { "type": "string" },
+                                        "@id": { "type": "string" },
+                                        "@type": { "type": "string", "enum": ["EntryPoint"] },
+                                        "dtsVersion": { "type": "string", "example": "1.0" },
+                                        "collection": { "type": "string", "description": "URI template for Collection endpoint" },
+                                        "navigation": { "type": "string", "description": "URI template for Navigation endpoint" },
+                                        "document": { "type": "string", "description": "URI template for Document endpoint" }
                                     }
                                 }
                             }
@@ -125,22 +109,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Collection metadata",
+                        "description": "Collection or Resource metadata (application/ld+json)",
                         "content": {
                             "application/ld+json": {
-                                "schema": {
-                                    "type": "object"
-                                }
+                                "schema": { "type": "object" }
                             }
                         }
-                    }
+                    },
+                    "404": { "description": "Collection or resource not found" }
                 }
             }
         },
         "/api/dts/document": {
             "get": {
                 "summary": "Document endpoint",
-                "description": "The Document endpoint is used to access and modify the content of document, as opposed to metadata (which is found in collections).",
+                "description": "The Document endpoint is used to access the content of a document. Requires resource; ref and start/end are mutually exclusive.",
                 "operationId": "dts:document",
                 "tags": [
                     "dts"
@@ -149,16 +132,32 @@
                     {
                         "name": "resource",
                         "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true,
+                        "schema": { "type": "string" }
                     },
                     {
                         "name": "ref",
                         "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "schema": { "type": "string" },
+                        "description": "Single node identifier; cannot be used with start/end"
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Start of range; requires end"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "End of range; requires start"
+                    },
+                    {
+                        "name": "tree",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "CitationTree identifier when using non-default tree"
                     },
                     {
                         "name": "mediaType",
@@ -166,6 +165,7 @@
                         "schema": {
                             "type": "string",
                             "enum": [
+                                "application/tei+xml",
                                 "application/xml",
                                 "application/pdf; media=latex",
                                 "application/pdf; media=fo",
@@ -174,49 +174,22 @@
                                 "text/html; charset=utf-8; media=print",
                                 "text/html; charset=utf-8"
                             ],
-                            "default": "application/xml"
+                            "default": "application/tei+xml"
                         },
-                        "description": "The media type of the document to return"
+                        "description": "Response media type (DTS recommends application/tei+xml for TEI)"
                     },
                     {
                         "name": "token",
                         "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "schema": { "type": "string" }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "TEI/XML of the document",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "application/pdf": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "application/epub+zip": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "text/markdown": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
+                        "description": "Document or fragment (TEI/XML by default; Link header points to collection)"
+                    },
+                    "400": { "description": "Missing resource or invalid parameter combination (ref with start/end; start without end or vice versa)" },
+                    "404": { "description": "Resource or fragment not found" }
                 }
             }
         },
@@ -232,30 +205,53 @@
                     {
                         "name": "resource",
                         "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Single node identifier; cannot be used with start/end"
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Start of range; requires end"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "End of range; requires start"
                     },
                     {
                         "name": "down",
                         "in": "query",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "description": "Depth of citation subtree; -1 for full tree; omit for ref-only info"
                         }
+                    },
+                    {
+                        "name": "tree",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "CitationTree identifier for non-default tree"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": { "type": "integer" }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Navigation information",
-                        "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
+                        "description": "Navigation (application/ld+json) with resource, optional ref/start/end, member array"
+                    },
+                    "400": { "description": "Missing resource; ref with start/end; start without end or vice versa" },
+                    "404": { "description": "Resource or ref/start/end not found" }
                 }
             }
         },
