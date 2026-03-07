@@ -42,7 +42,10 @@ function initializeDTSClient() {
 
     // Store server configuration for API calls
     let serverConfig = null;
-    
+
+    // DTS client config (base-path, etc.) from #dts-config
+    const dtsConfig = readDTSConfig();
+
     // Collection navigation state
     let currentCollectionId = null;
     let collectionHistory = [];
@@ -67,15 +70,41 @@ function initializeDTSClient() {
     loadDTSServers();
 
     /**
+     * Read JSON config from #dts-config script element.
+     * @returns {{ 'base-path'?: string, servers?: array }} config object or {}
+     */
+    function readDTSConfig() {
+        const el = document.getElementById('dts-config');
+        if (!el || el.getAttribute('type') !== 'application/json') return {};
+        try {
+            return JSON.parse(el.textContent || '{}');
+        } catch (e) {
+            console.warn('DTS Client: Invalid #dts-config JSON', e);
+            return {};
+        }
+    }
+
+    /**
+     * Resolve a URL from config base-path and a relative path.
+     * @param {string} relativePath - e.g. 'api/dts/list'
+     * @returns {string} absolute or relative URL
+     */
+    function getDTSListUrl(relativePath) {
+        const base = (dtsConfig['base-path'] || '').replace(/\/+$/, '');
+        const path = (relativePath || '').replace(/^\/+/, '');
+        return base ? `${base}/${path}` : path || '';
+    }
+
+    /**
      * Load available DTS servers from the API
      */
     async function loadDTSServers() {
+        const listUrl = getDTSListUrl('api/dts/list');
         try {
-            const response = await fetch('../jinks/api/dts/list', {
+            const response = await fetch(listUrl, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/json'
                 }
             });
 
@@ -93,25 +122,36 @@ function initializeDTSClient() {
     }
 
     /**
-     * Populate the server list select element
+     * Populate the server list select element.
+     * Merges servers from #dts-config (entry, title) with the API response.
      */
     function populateServerList(servers) {
         // Clear existing options
         serverListSelect.innerHTML = '';
-        
+
         // Add default option
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Select a DTS server...';
         serverListSelect.appendChild(defaultOption);
-        
-        // Add server options
-        servers.forEach(server => {
+
+        const seen = new Set();
+        const addOption = (server) => {
+            const entry = server?.entry;
+            if (!entry || seen.has(entry)) return;
+            seen.add(entry);
             const option = document.createElement('option');
-            option.value = server.entry;
-            option.textContent = server.title;
+            option.value = entry;
+            option.textContent = server.title ?? entry;
             serverListSelect.appendChild(option);
-        });
+        };
+
+        // Add servers from dts-config first
+        const configServers = Array.isArray(dtsConfig.servers) ? dtsConfig.servers : [];
+        configServers.forEach(addOption);
+
+        // Add servers from API
+        (Array.isArray(servers) ? servers : []).forEach(addOption);
     }
 
     /**

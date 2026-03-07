@@ -19,6 +19,35 @@ declare %private function dts:base-path() {
         replace($path, "/+", "/")
 };
 
+(:~ Base path for a given collection (app) - used when listing DTS servers. :)
+declare %private function dts:base-path-for-collection($collection as xs:string) {
+    let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $collection, "api", "dts"), "/")
+    return replace($path, "/+", "/")
+};
+
+(:~ Load JSON from the repo; returns empty map if not available. :)
+declare %private function dts:load-json($path as xs:string) as map(*) {
+    if (util:binary-doc-available($path)) then json-doc($path) else map { }
+};
+
+(:~
+ : List DTS-enabled servers (applications that extend the DTS profile).
+ : @return array of map { entry, title, description }
+ :)
+declare function dts:servers($request as map(*)) as array(*) {
+    array {
+        for $collection in xmldb:get-child-collections(repo:get-root())
+        let $config := dts:load-json(repo:get-root() || "/" || $collection || "/config.json")
+        where (array:flatten(array { $config?extends }) = "dts")
+        return
+            map {
+                "entry": dts:base-path-for-collection($collection),
+                "title": $config?label,
+                "description": $config?description
+            }
+    }
+};
+
 (:~ 
  : DTS Entry Endpoint
  : @see https://dtsapi.org/specifications/versions/v1.0/#entry-endpoint
