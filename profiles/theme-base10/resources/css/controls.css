@@ -280,7 +280,8 @@ pb-link .btn.accent a {
     justify-content: center;
 }
 
-[role="group"] pb-navigation {
+[role="group"] pb-navigation:has(> span+svg),
+[role="group"] pb-navigation:has(> svg+span) {
     width: auto;
 }
 
