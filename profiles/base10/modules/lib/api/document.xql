@@ -653,16 +653,19 @@ declare function dapi:get-collection($data) {
 };
 
 declare %private function dapi:extract-footnotes($html as element()*, $root as node()?) {
+        if ($html) then
         map {
-        "footnotes": $html/div[@class="footnotes"],
-        "content":
-            element { node-name($html) } {
-                $html/@* except $html/@id,
-                (: Ensure that the root has an id. Needed for static navigation. :)
-                attribute id { "exist-" || util:node-id($root) },
-                $html/node() except $html/div[@class="footnotes"]
-            }
-    }
+            "footnotes": $html/div[@class="footnotes"],
+            "content":
+                element { node-name($html) } {
+                    $html/@* except $html/@id,
+                    (: Ensure that the root has an id. Needed for static navigation. :)
+                    attribute id { "exist-" || util:node-id($root) },
+                    $html/node() except $html/div[@class="footnotes"]
+                }
+        }
+    else
+        ()
 };
 
 declare function dapi:table-of-contents($request as map(*)) {
