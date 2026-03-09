@@ -79,7 +79,7 @@ jobs:
           platforms: linux/amd64,linux/arm64 
 
       - name: Make buildkit default
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         id: buildx
 
 
