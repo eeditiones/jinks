@@ -78,24 +78,24 @@
     --jinks-content-line-height: [[ $theme?fonts?content?line-height ]];
 
     --jinks-heading-font-family: [[ $theme?fonts?heading?family ]];
-    --jinks-heading-font-weight: 600 !important;
+    --jinks-heading-font-weight: [[ $theme?fonts?heading?weight ]] !important;
     --jinks-heading-line-height: 1.2;
 
     --jinks-h1-font-size: 1.625em;
-    --jinks-h1-font-weight: 600;
+    --jinks-h1-font-weight: var(--jinks-heading-font-weight);
     --jinks-h1-line-height: 130%;
 
     --jinks-h2-font-size: 1.25em;
-    --jinks-h2-font-weight: 600;
+    --jinks-h2-font-weight: var(--jinks-heading-font-weight);
     --jinks-h2-line-height: 120%;
 
     --jinks-h3-font-size: 1.125em;
-    --jinks-h3-font-weight: 600;
+    --jinks-h3-font-weight: var(--jinks-heading-font-weight);
     --jinks-h3-line-height: 140%;
 
     --jinks-h4-font-size: 1em;
     --jinks-h4-line-height: 140%;
-    --jinks-h4-font-weight: 500;
+    --jinks-h4-font-weight: calc(var(--jinks-heading-font-weight) - 100);
 
     --jinks-breadcrumbs-font-size: [[ $theme?fonts?breadcrumbs?size ]];
     --jinks-breadcrumbs-max: [[ $theme?breadcrumbs?max]];
