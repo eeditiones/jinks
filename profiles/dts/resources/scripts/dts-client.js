@@ -812,34 +812,47 @@ function initializeDTSClient() {
     }
 
     /**
+     * Encode a value once for use in a URI (avoids double-encoding).
+     */
+    function encodeUriValue(value) {
+        if (value == null || value === '') return '';
+        const s = String(value);
+        try {
+            return s.includes('%') ? encodeURIComponent(decodeURIComponent(s)) : encodeURIComponent(s);
+        } catch (_) {
+            return encodeURIComponent(s);
+        }
+    }
+
+    /**
      * Expand URI template according to RFC 6570
      */
     function expandUriTemplate(template, variables = {}) {
         let url = template;
-        
+
         // Handle simple variable substitution {id}
         Object.keys(variables).forEach(key => {
-            const value = encodeURIComponent(variables[key]);
+            const value = encodeUriValue(variables[key]);
             url = url.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
         });
-        
+
         // Handle query parameter expansion {&param1,param2}
         url = url.replace(/\{&([^}]+)\}/g, (match, params) => {
             const paramList = params.split(',').map(p => p.trim());
             const queryParams = [];
-            
+
             paramList.forEach(param => {
                 if (variables[param] !== undefined) {
-                    queryParams.push(`${param}=${encodeURIComponent(variables[param])}`);
+                    queryParams.push(`${param}=${encodeUriValue(variables[param])}`);
                 }
             });
-            
+
             return queryParams.length > 0 ? '&' + queryParams.join('&') : '';
         });
-        
+
         // Handle other template expressions by removing them if no variables provided
         url = url.replace(/\{[^}]+\}/g, '');
-        
+
         return url;
     }
 

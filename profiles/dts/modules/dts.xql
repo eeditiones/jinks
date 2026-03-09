@@ -229,8 +229,11 @@ declare function dts:document($request as map(*)) {
                             router:response(404, "text/plain", "Fragment not found")
                         else
                             let $collection-link := "<" || dts:base-path() || "/collection?id=" || encode-for-uri(substring-before($resource, "/")) || ">; rel=""collection"""
+                            let $doc-filename := (tokenize($resource, "/")[last()], "document.xml")[1]
+                            let $disposition-filename := if (matches($doc-filename, "\.(xml|tei)$", "i")) then $doc-filename else $doc-filename || ".xml"
                             return
                                 (response:set-header("Link", $collection-link),
+                                response:set-header("Content-Disposition", "inline; filename=""" || $disposition-filename || """"),
                                 if ($xml instance of document-node()) then
                                     let $config := tpu:parse-pi($xml, ())
                                     let $output :=
