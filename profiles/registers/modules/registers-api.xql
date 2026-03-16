@@ -118,7 +118,7 @@ declare function rview:output-person-all($list as array(*)*, $letter as xs:strin
 };
 
 declare function rview:detail-html($request as map(*)) {
-    let $id := xmldb:decode-uri($request?parameters?id)
+    let $id := xmldb:decode-uri(xs:anyURI($request?parameters?id))
     let $entry := collection($config:register-root)/id($id) => head()
     let $config := tpu:parse-pi(root($entry), $request?parameters?view, $request?parameters?odd)
     let $mentions := 

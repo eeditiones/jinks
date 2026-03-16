@@ -42,7 +42,7 @@ declare function pages:load-xml($view as xs:string?, $root as xs:string?, $doc a
 declare function pages:load-xml($data as node()*, $view as xs:string?, $root as xs:string?, $doc as xs:string) {
     let $config :=
         (: parse processing instructions and remember original context :)
-        map:merge((tpu:parse-pi(root($data[1]), $view), map { "context": $data }))
+        map:merge((tpu:parse-pi(root($data[1]), $view), map { "context": $data }), map { "duplicates": "use-last" })
     return
         map {
             "config": $config,

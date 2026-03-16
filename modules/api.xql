@@ -188,7 +188,7 @@ declare function api:profile-documentation($request as map(*)) {
                 }
             }
         }
-    }))
+    }), map { "duplicates": "use-last" })
     return
         tmpl:process($template, $context, map {
             "plainText": false(),

@@ -485,7 +485,7 @@ declare %private function dapi:work2epub($request as map(*), $id as xs:string, $
 };
 
 declare function dapi:get-fragment($request as map(*)) {
-    let $path := xmldb:decode-uri($request?parameters?doc)
+    let $path := xmldb:decode-uri(xs:anyURI($request?parameters?doc))
     let $docs := config:get-document($path)
     return
         if($docs)
@@ -670,7 +670,7 @@ declare %private function dapi:extract-footnotes($html as element()*, $root as n
 
 declare function dapi:table-of-contents($request as map(*)) {
     let $collapse := $request?parameters?collapse
-    let $doc := xmldb:decode-uri($request?parameters?id)
+    let $doc := xmldb:decode-uri(xs:anyURI($request?parameters?id))
     let $documents := config:get-document($doc)
     return
         if($documents)
