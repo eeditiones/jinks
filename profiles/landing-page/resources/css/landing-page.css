@@ -63,6 +63,14 @@ footer div {
     align-items: center;
 }
 
+footer a {
+    color: var(--jinks-colors-light);
+}
+
+footer a:hover {
+    color: var(--jinks-colors-medium);
+}
+
 /* floating menu bar */
 
 .landing-layout .page-header {
@@ -304,6 +312,13 @@ header.row {
 /* make sure article takes all available height, even if wrapped */
 .highlights article {
     min-height: 100%;
+    height: 36rem;
+}
+
+.highlights summary {
+    color: var(--jinks-colors-light);
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 #about {
