@@ -35,11 +35,9 @@ Any adjustments concerning the contents must be made in the ODD (see models with
 ## Layout
 
 By default, the metadata panel appears in a sidebar to the right. This behaviour is set in `templates/metadata-blocks.html`:
+
 ```html
-<template>
-    [% template after %]
-...
-</template>
+<template> [% template after %] ... </template>
 ```
 
 ## Credits

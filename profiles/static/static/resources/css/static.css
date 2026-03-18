@@ -4,7 +4,7 @@ main > * {
     flex: 1;
 }
 
-[aria-label=breadcrumb] .content {
+[aria-label="breadcrumb"] .content {
     font-size: var(--jinks-breadcrumbs-font-size);
 }
 
@@ -14,7 +14,7 @@ main > * {
     vertical-align: super;
     color: var(--pb-footnote-color, var(--jinks-color-primary, #333333));
     text-decoration: none;
-    padding: var(--pb-footnote-padding, 0 0 0 .25em);
+    padding: var(--pb-footnote-padding, 0 0 0 0.25em);
     line-height: 1;
 }
 
@@ -23,7 +23,8 @@ main > * {
     font-size: var(--jinks-footnote-font-size, var(--pb-content-font-size, 75%));
 }
 
-.content, .footnotes {
+.content,
+.footnotes {
     font-family: var(--jinks-content-font-family);
     font-size: var(--jinks-content-font-size);
     max-width: var(--pb-view-max-width);
@@ -53,8 +54,10 @@ pb-geolocation svg {
 }
 
 .content {
-    font-size: clamp(calc(var(--pb-content-font-size, 1rem) * var(--pb-min-zoom, 0.5)),
-            calc(var(--pb-content-font-size, 1rem) * var(--pb-zoom-factor)),
-            calc(var(--pb-content-font-size, 1rem) * var(--pb-max-zoom, 3.0)));
+    font-size: clamp(
+        calc(var(--pb-content-font-size, 1rem) * var(--pb-min-zoom, 0.5)),
+        calc(var(--pb-content-font-size, 1rem) * var(--pb-zoom-factor)),
+        calc(var(--pb-content-font-size, 1rem) * var(--pb-max-zoom, 3))
+    );
     line-height: calc(var(--pb-content-line-height, 1.5) * var(--pb-zoom-factor));
 }

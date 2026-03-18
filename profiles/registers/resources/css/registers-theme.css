@@ -2,7 +2,10 @@
     width: 100vw;
 }
 
-.person, .people .list, .places .list, .place {
+.person,
+.people .list,
+.places .list,
+.place {
     /* determines the number of columns for the pb-split-list */
     --pb-categorized-list-columns: var(--jinks-registers-columns);
     padding-top: 1rem;
@@ -70,7 +73,8 @@ pb-leaflet-map {
 }
 
 @media (max-width: 768px) {
-    .people .list, .places .list {
+    .people .list,
+    .places .list {
         --pb-categorized-list-columns: 1;
     }
 

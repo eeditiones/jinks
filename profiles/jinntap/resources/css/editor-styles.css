@@ -52,7 +52,7 @@ jinn-toast {
 
 .jinn-tap-aside .attribute-panel {
     padding: 1.5rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .attribute-panel summary {
@@ -62,7 +62,7 @@ jinn-toast {
 .table-menu {
     margin-inline: var(--s1);
     background-color: var(--jinn-tap-background-color);
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     border-radius: var(--jinks-form-border-radius);
     padding: 0 var(--s0);
 
@@ -125,7 +125,7 @@ tei-table > tei-head {
     line-height: 1.25;
 }
 
-tei-title[level='m'] {
+tei-title[level="m"] {
     font-style: italic;
 }
 
@@ -161,31 +161,31 @@ tei-p {
     position: relative;
 }
 
-[rend='center'] {
+[rend="center"] {
     text-align: center;
 }
 
-[rend='right'] {
+[rend="right"] {
     text-align: right;
 }
 
-[rend='justify'] {
+[rend="justify"] {
     text-align: justify;
 }
 
-tei-hi[rend='b'] {
+tei-hi[rend="b"] {
     font-weight: bold;
 }
 
-tei-hi[rend='i'] {
+tei-hi[rend="i"] {
     font-style: italic;
 }
 
-tei-hi[rend='u'] {
+tei-hi[rend="u"] {
     text-decoration: underline;
 }
 
-tei-hi[rend='code'] {
+tei-hi[rend="code"] {
     font-family: monospace;
 }
 
@@ -241,7 +241,7 @@ tei-item > tei-list {
     margin-top: 0;
 }
 
-tei-list[rend='ordered'] {
+tei-list[rend="ordered"] {
     list-style-type: decimal;
 }
 
@@ -273,7 +273,7 @@ tei-dateline {
 }
 
 tei-opener {
-    margin: .75rem 0 1rem 0;
+    margin: 0.75rem 0 1rem 0;
 }
 
 tei-closer {
@@ -288,7 +288,7 @@ tei-listAnnotation::before {
     padding: 1rem 0 0;
     margin-top: 2rem;
     border-top: 1px solid #ccc;
-    content: '';
+    content: "";
     display: block;
     width: 220px;
 }
@@ -303,7 +303,7 @@ tei-note::before {
 }
 
 tei-note::before {
-    content: '?';
+    content: "?";
     margin-right: 0.5rem;
 }
 tei-note[n]::before {
@@ -312,7 +312,7 @@ tei-note[n]::before {
 }
 
 tei-note[_reference]::before {
-    content: attr(_reference) '.';
+    content: attr(_reference) ".";
 }
 
 tei-note:not([_reference]) {
@@ -330,7 +330,7 @@ tei-anchor::before {
     content: attr(_reference);
 }
 tei-anchor::after {
-    content: '\200B';
+    content: "\200B";
 }
 
 tei-abbr {
@@ -383,7 +383,7 @@ tr:has(td:first-child tei-pb) {
         display: inline-block;
 
         /* Display this the same as an lb in normal content */
-        content: 'pb';
+        content: "pb";
         background-color: #ffa500;
         font-size: 1rem;
         font-weight: normal;
@@ -398,7 +398,7 @@ tei-lb {
 }
 
 tei-lb::after {
-    content: '\A';
+    content: "\A";
     white-space: pre;
 }
 
@@ -411,7 +411,7 @@ tei-p.is-empty::before {
 }
 
 a.reference::after {
-    content: '↗';
+    content: "↗";
     margin-left: 4px;
     font-size: 0.75rem;
     vertical-align: super;
@@ -434,14 +434,14 @@ tei-ref {
     text-decoration: underline;
 }
 
-tei-quote{
+tei-quote {
     &::before {
         content: "“";
         font-size: var(--s2);
         position: absolute;
     }
     > * {
-        padding-left: 2rem
+        padding-left: 2rem;
     }
 }
 
@@ -451,7 +451,7 @@ tei-quote{
 
 .table-menu {
     .divider::before {
-        content: '';
+        content: "";
         height: 2rem;
         border-left: 4px solid var(--pico-table-border-color);
         border-radius: 2px;

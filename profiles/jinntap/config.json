@@ -18,14 +18,12 @@
             }
         ]
     },
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "defaults": {
         "upload": "annotate"
     },
     "templating": {
-        "use": [ "templates/editor-blocks.html" ]
+        "use": ["templates/editor-blocks.html"]
     },
     "features": {
         "collab": {

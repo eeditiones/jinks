@@ -21,9 +21,10 @@ The demo container (`ghcr.io/eeditiones/jinks-demo`) includes three pre-generate
 The demo container is automatically built by the CI workflow (`.github/workflows/demo-apps.yml`) on:
 
 - **Push to any branch** - Generates apps and builds image (for testing)
-- **Release tags (v*)** - Generates apps, builds, and pushes versioned images to GHCR
+- **Release tags (v\*)** - Generates apps, builds, and pushes versioned images to GHCR
 
 The workflow:
+
 1. Starts a jinks container
 2. Uses jinks-cli to generate apps from the config files
 3. Downloads XAR files for each generated app
@@ -40,6 +41,7 @@ docker run -p 8080:8080 ghcr.io/eeditiones/jinks-demo:latest
 ```
 
 Access the applications:
+
 - tei-publisher: http://localhost:8080/exist/apps/tei-publisher/
 - tp-serafin: http://localhost:8080/exist/apps/tp-serafin/
 - tp-annotator: http://localhost:8080/exist/apps/tp-annotator/
@@ -51,7 +53,6 @@ To build the demo container locally:
 1. Generate the XAR files using jinks-cli against a running jinks instance
 2. Place the XAR files in this directory
 3. Build the image:
-   ```bash
-   docker build -f Dockerfile.demo -t jinks-demo:local .
-   ```
-
+    ```bash
+    docker build -f Dockerfile.demo -t jinks-demo:local .
+    ```

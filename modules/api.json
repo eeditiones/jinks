@@ -91,59 +91,59 @@
             }
         },
         "/{file}.md": {
-			"get": {
-				"summary": "Retrieve the HTML template for a markdown file and render it",
-				"description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
-				"tags": ["view"],
-				"operationId": "api:doc",
-				"x-error-handler": "vapi:handle-error",
-				"parameters": [
-					{
-						"name": "file",
-						"in": "path",
-						"description": "Relative path to the document",
-						"required": true,
-						"schema": {
-							"type": "string",
-							"example": "markdown.md"
-						},
-						"allowReserved": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "HTML view for the document",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "The document was not found",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "An error occurred",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
+            "get": {
+                "summary": "Retrieve the HTML template for a markdown file and render it",
+                "description": "Get the HTML template associated with the given markdown document. This is called whenever the users tries to view a markdown file. The actual content of the document will then be loaded by the template.",
+                "tags": ["view"],
+                "operationId": "api:doc",
+                "x-error-handler": "vapi:handle-error",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "path",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "markdown.md"
+                        },
+                        "allowReserved": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML view for the document",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The document was not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/configurations": {
             "get": {
                 "operationId": "api:configurations",
@@ -172,13 +172,13 @@
                 "operationId": "api:expand-config",
                 "requestBody": {
                     "required": true,
-					"content": {
+                    "content": {
                         "application/json": {
-							"schema": {
-								"type": "object"
-							}
-						}
-					}
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -204,11 +204,7 @@
                         "in": "query",
                         "schema": {
                             "type": "string",
-                            "enum": [
-                                "quick",
-                                "all",
-                                "reinstall"
-                            ],
+                            "enum": ["quick", "all", "reinstall"],
                             "default": "default"
                         },
                         "required": true,
@@ -225,13 +221,13 @@
                 ],
                 "requestBody": {
                     "required": true,
-					"content": {
+                    "content": {
                         "application/json": {
-							"schema": {
-								"type": "object"
-							}
-						}
-					}
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -261,10 +257,10 @@
                     }
                 ],
                 "requestBody": {
-					"required": true,
-					"content": {
+                    "required": true,
+                    "content": {
                         "application/json": {
-							"schema": {
+                            "schema": {
                                 "oneOf": [
                                     { "type": "string" },
                                     {
@@ -272,7 +268,10 @@
                                         "properties": {
                                             "template": { "type": "string" },
                                             "params": { "type": "object" },
-                                            "mode": { "type": "string", "enum": ["html", "xml", "text"] }
+                                            "mode": {
+                                                "type": "string",
+                                                "enum": ["html", "xml", "text"]
+                                            }
                                         },
                                         "required": ["template"]
                                     }
@@ -306,36 +305,36 @@
             }
         },
         "/api/source": {
-			"get": {
-				"description": "Get the source of a file in the application",
-				"x-constraints": {
-					"groups": ["tei"]
-				},
-				"operationId": "api:source",
-				"parameters": [
-					{
-						"name": "path",
-						"in": "query",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
+            "get": {
+                "description": "Get the source of a file in the application",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
+                "operationId": "api:source",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/resolve": {
             "post": {
                 "description": "Mark a conflict as resolved",
@@ -359,36 +358,36 @@
                     }
                 ],
                 "responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object"
-								}
-							}
-						}
-					}
-				}
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/login": {
-			"post": {
-				"summary": "Login or logout the user",
-				"description": "Login the given user or logout current user",
-				"tags": ["user"],
-				"operationId": "auth:login",
-				"parameters": [
-					{
-						"name": "logout",
-						"in": "query",
-						"description": "Set to 'true' to logout current user",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
+            "post": {
+                "summary": "Login or logout the user",
+                "description": "Login the given user or logout current user",
+                "tags": ["user"],
+                "operationId": "auth:login",
+                "parameters": [
+                    {
+                        "name": "logout",
+                        "in": "query",
+                        "description": "Set to 'true' to logout current user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
                     "required": false,
                     "content": {
                         "multipart/form-data": {
@@ -425,40 +424,40 @@
                         }
                     }
                 },
-				"responses": {
-					"200": {
-						"description": "OK - Login successful or logout completed",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"user": {
-											"type": "string"
-										},
-										"groups": {
-											"type": "array",
-											"items": {
-												"type": "string"
-											}
-										},
-										"dba": {
-											"type": "boolean"
-										},
-										"domain": {
-											"type": "string"
-										}
-									}
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Wrong user or password, or logout when not logged in"
-					}
-				}
-			}
-		},
+                "responses": {
+                    "200": {
+                        "description": "OK - Login successful or logout completed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "string"
+                                        },
+                                        "groups": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "dba": {
+                                            "type": "boolean"
+                                        },
+                                        "domain": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong user or password, or logout when not logged in"
+                    }
+                }
+            }
+        },
         "/api/collections/{collection}": {
             "get": {
                 "summary": "List resources in a collection",
@@ -539,9 +538,7 @@
             "post": {
                 "summary": "Create a new collection",
                 "description": "Create a new collection in the specified parent collection",
-                "tags": [
-                    "collections"
-                ],
+                "tags": ["collections"],
                 "operationId": "api:create-collection",
                 "parameters": [
                     {
@@ -573,10 +570,7 @@
                                     "properties": {
                                         "status": {
                                             "type": "string",
-                                            "enum": [
-                                                "ok",
-                                                "fail"
-                                            ]
+                                            "enum": ["ok", "fail"]
                                         },
                                         "message": {
                                             "type": "string"

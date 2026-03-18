@@ -1,35 +1,27 @@
-describe('login page', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
+describe("login page", () => {
+    beforeEach(() => {
+        cy.visit("/");
+    });
 
-  it('should succeed with keyboard', () => {
-    cy.get('pb-login')
-      .find('pb-dialog')
-      .should('be.visible')
-      .find('input[name="user"]')
-      .type('tei')
-    cy.press(Cypress.Keyboard.Keys.TAB)
-    cy.get('pb-login')
-      .find('pb-dialog input[name="password"]')
-      .type('simple')
-    cy.get('pb-login')
-        .find('button[slot="footer"]')
-        .click()
-    cy.get('pb-login')
-      .should('have.attr', 'logged-in')
-  })
+    it("should succeed with keyboard", () => {
+        cy.get("pb-login")
+            .find("pb-dialog")
+            .should("be.visible")
+            .find('input[name="user"]')
+            .type("tei");
+        cy.press(Cypress.Keyboard.Keys.TAB);
+        cy.get("pb-login").find('pb-dialog input[name="password"]').type("simple");
+        cy.get("pb-login").find('button[slot="footer"]').click();
+        cy.get("pb-login").should("have.attr", "logged-in");
+    });
 
-  it('should fail without credentials', () => {
-    cy.get('pb-login')
-        .find('pb-dialog')
-        .should('be.visible')
-        .find('input[name="user"]')
-        .type('tei')
-    cy.get('pb-login')
-        .find('button[slot="footer"]')
-        .click()
-    cy.get('pb-login')
-        .should('not.have.attr', 'logged-in')
-  })
-})
+    it("should fail without credentials", () => {
+        cy.get("pb-login")
+            .find("pb-dialog")
+            .should("be.visible")
+            .find('input[name="user"]')
+            .type("tei");
+        cy.get("pb-login").find('button[slot="footer"]').click();
+        cy.get("pb-login").should("not.have.attr", "logged-in");
+    });
+});

@@ -6,23 +6,15 @@
     "label": "Annotation Editor",
     "description": "Creates an application for annotating TEI documents.",
     "category": "workflow",
-    "depends": [
-        "base10",
-        "forms"
-    ],
+    "depends": ["base10", "forms"],
     "defaults": {
         "upload": "annotate"
     },
     "templating": {
-        "use": [
-            "templates/annotation-blocks.html"
-        ]
+        "use": ["templates/annotation-blocks.html"]
     },
-    "odds": [
-        "annotations.odd"
-    ],
-    "styles": [
-    ],
+    "odds": ["annotations.odd"],
+    "styles": [],
     "api": [
         {
             "prefix": "anno",

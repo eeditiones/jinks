@@ -7,9 +7,7 @@
     "label": "Enable Markdown Output via ODD",
     "description": "This enables the markdown output mode for ODDs, allowing you to render TEI documents as markdown.",
     "order": 0,
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "defaults": {
         "media": ["markdown"]
     },
@@ -20,8 +18,6 @@
         }
     ],
     "templating": {
-        "use": [
-            "templates/markdown-blocks.html"
-        ]
+        "use": ["templates/markdown-blocks.html"]
     }
 }

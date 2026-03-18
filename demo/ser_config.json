@@ -1,20 +1,13 @@
 {
-  "overwrite" : "default",
-  "pkg" : {
-    "abbrev" : "tp-serafin"
-  },
-  "defaults": {
-    "site-root": "/exist/apps/tei-publisher"
-  },
-  "label" : "Correspondence of Mikołaj Serafin",
-  "description": "TEI Publisher demo showcasing the correspondence of Mikołaj Serafin",
-  "id" : "https://e-editiones.org/apps/tp-serafin",
-  "extends": [
-    "base10",
-    "theme-base10",
-    "registers",
-    "serafin",
-    "timeline",
-    "edition-navigation"
-  ]
+    "overwrite": "default",
+    "pkg": {
+        "abbrev": "tp-serafin"
+    },
+    "defaults": {
+        "site-root": "/exist/apps/tei-publisher"
+    },
+    "label": "Correspondence of Mikołaj Serafin",
+    "description": "TEI Publisher demo showcasing the correspondence of Mikołaj Serafin",
+    "id": "https://e-editiones.org/apps/tp-serafin",
+    "extends": ["base10", "theme-base10", "registers", "serafin", "timeline", "edition-navigation"]
 }

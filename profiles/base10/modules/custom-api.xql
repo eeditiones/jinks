@@ -6,18 +6,14 @@ xquery version "3.1";
  : 1. custom API request handling functions
  : 2. custom templating functions to be called from one of the HTML templates
  :)
-module namespace api="http://teipublisher.com/api/custom";
+module namespace api = "http://teipublisher.com/api/custom";
 
 (: Add your own module imports here :)
-import module namespace rutil="http://e-editiones.org/roaster/util";
+import module namespace rutil = "http://e-editiones.org/roaster/util";
 
 (:~
  : Keep this. This function does the actual lookup in the imported modules.
  :)
-declare function api:lookup($name as xs:string, $arity as xs:integer) {
-    try {
-        function-lookup(xs:QName($name), $arity)
-    } catch * {
-        ()
-    }
+declare function api:lookup ($name as xs:string, $arity as xs:integer) {
+    try { function-lookup(xs:QName($name), $arity) } catch * { () }
 };

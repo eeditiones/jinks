@@ -5,12 +5,7 @@
     "label": "Playground",
     "description": "Sandbox environment for experimentation and learning",
     "version": "1.0.0",
-    "depends": [
-        "base10",
-        "demo-data",
-        "upload",
-        "ci"
-    ],
+    "depends": ["base10", "demo-data", "upload", "ci"],
     "order": 100,
     "defaults": {
         "data-default": "playground",
@@ -38,8 +33,6 @@
         }
     },
     "templating": {
-        "use": [
-            "templates/playground-blocks.html"
-        ]
+        "use": ["templates/playground-blocks.html"]
     }
 }
