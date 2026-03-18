@@ -5,10 +5,7 @@
     "category": "development",
     "description": "Adds CI/CD configuration files (GitHub Actions or GitLab CI) to the generated application",
     "type": "feature",
-    "depends": [
-        "base10",
-        "docker"
-    ],
+    "depends": ["base10", "docker"],
     "ci": {
         "provider": "github",
         "enabled": true

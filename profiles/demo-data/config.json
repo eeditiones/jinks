@@ -4,19 +4,12 @@
     "label": "Demo Data",
     "type": "feature",
     "category": "data",
-    "ignore": [ "resources/odd/teilite.rng"],
+    "ignore": ["resources/odd/teilite.rng"],
     "order": 1,
     "description": "Data profile containing demo data.",
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
-    "odds": [
-        "dta.odd",
-        "shakespeare.odd",
-        "vangogh.odd",
-        "osinski.odd"
-    ],
+    "depends": ["base10"],
+    "odds": ["dta.odd", "shakespeare.odd", "vangogh.odd", "osinski.odd"],
     "defaults": {
         "data-default": "sermons",
         "odd": "teipublisher.odd"

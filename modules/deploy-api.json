@@ -51,9 +51,7 @@
         "/api/actions/file-sync": {
             "post": {
                 "description": "Sync changes in the app to a local file system",
-                "tags": [
-                    "actions"
-                ],
+                "tags": ["actions"],
                 "operationId": "action:file-sync",
                 "parameters": [
                     {
@@ -92,9 +90,7 @@
         "/api/actions/reindex": {
             "post": {
                 "description": "Reindex the data collection",
-                "tags": [
-                    "actions"
-                ],
+                "tags": ["actions"],
                 "operationId": "action:reindex",
                 "parameters": [
                     {
@@ -125,9 +121,7 @@
             "post": {
                 "summary": "Package and download app",
                 "description": "Package up this application and return it as a `.xar`.",
-                "tags": [
-                    "actions"
-                ],
+                "tags": ["actions"],
                 "operationId": "action:download-app",
                 "parameters": [
                     {

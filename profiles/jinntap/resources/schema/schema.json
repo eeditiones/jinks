@@ -19,7 +19,9 @@
         },
         "choice/abbr/expan": {
             "command": "insertSnippet",
-            "args": ["<tei-choice><tei-abbr>{abbrev}</tei-abbr><tei-expan>{expansion}</tei-expan></tei-choice>"],
+            "args": [
+                "<tei-choice><tei-abbr>{abbrev}</tei-abbr><tei-expan>{expansion}</tei-expan></tei-choice>"
+            ],
             "select": "Textcritical",
             "label": "<i class='bi bi-three-dots'></i>"
         },
@@ -637,9 +639,9 @@
                 "n": {
                     "type": "string"
                 },
-				"facs": {
-					"type": "string"
-				}
+                "facs": {
+                    "type": "string"
+                }
             },
             "keyboard": {
                 "Mod-Alt-p": {

@@ -17,7 +17,7 @@ sense to edit them alongside the body of an edition.
 ## Customization
 
 The profile comes with a basic example that edits the title of a document (first `title` element
-within `titleStmt`, and the author(s) (any `author` element within `titleStmt`).  This is meant as
+within `titleStmt`, and the author(s) (any `author` element within `titleStmt`). This is meant as
 an example to be customized later on. The sample form shows you how to edit existing elements in the
 `teiHeader` with two different behaviours: the example form expects that there is only one `title`
 element and that is why only the first one can be edited; on the other hand, the form expects that
@@ -30,11 +30,10 @@ something like the following to make the element editable.
 
 ```html
 <fieldset>
-  <label>Source Description</label>
-  <fx-control ref="/TEI/teiHeader/sourceDesc/bibl"></fx-control>
+    <label>Source Description</label>
+    <fx-control ref="/TEI/teiHeader/sourceDesc/bibl"></fx-control>
 </fieldset>
 ```
-
 
 # Credits
 

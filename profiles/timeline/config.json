@@ -6,9 +6,7 @@
     "label": "Timeline",
     "description": "Adds a timeline component to the browsing page ...",
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "features": {
         "timeline": {
             "enabled": true,
@@ -24,6 +22,6 @@
         }
     ],
     "templating": {
-        "use": [ "templates/timeline-blocks.html" ]
+        "use": ["templates/timeline-blocks.html"]
     }
 }

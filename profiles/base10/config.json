@@ -50,9 +50,7 @@
         "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
         "custom": []
     },
-    "styles": [
-        "https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"
-    ],
+    "styles": ["https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css"],
     "defaults": {
         "data": "data",
         "data-default": "",
@@ -169,15 +167,9 @@
             }
         }
     },
-    "odds": [
-        "teipublisher.odd"
-    ],
-    "ignore": [
-        "repo.xml"
-    ],
-    "skip": [
-        "^doc/.*$"
-    ],
+    "odds": ["teipublisher.odd"],
+    "ignore": ["repo.xml"],
+    "skip": ["^doc/.*$"],
     "menu": {
         "items": [
             {
@@ -189,8 +181,8 @@
         "login": true,
         "search": true,
         "dark-mode": true,
-		"language": true,
-		"download": true
+        "language": true,
+        "download": true
     },
     "actions": [
         {

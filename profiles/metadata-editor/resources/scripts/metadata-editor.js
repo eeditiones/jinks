@@ -30,8 +30,7 @@ window.customElements.define(
             // yyyy-mm-ddThh:mm:ss.ss(+-)hh:mm
             const dateTimeRegex =
                 /(?<date>\d\d\d\d-\d\d-\d\d)T(?<time>\d\d:\d\d:\d\d)(?<timezone>[+-]\d\d:\d\d)/;
-            const { date, time, timezone } =
-                dateTimeRegex.exec(newValue)?.groups ?? {};
+            const { date, time, timezone } = dateTimeRegex.exec(newValue)?.groups ?? {};
 
             // Construct a new Date without the timezone info. Making it in the local timezone
             const jsDate = new Date(date + "T" + time);
@@ -93,15 +92,10 @@ export class MetadataEditor {
             ? this.panel
             : this.panel.querySelector("fx-fore");
 
-        this.editor.addEventListener("ready", () =>
-            setTimeout(() => this.update(), 1000),
-        );
+        this.editor.addEventListener("ready", () => setTimeout(() => this.update(), 1000));
 
         this.update();
-        this._fore.addEventListener(
-            "refresh-done",
-            this._onMetadataChange.bind(this),
-        );
+        this._fore.addEventListener("refresh-done", this._onMetadataChange.bind(this));
 
         const metadataPanelBtn = document.getElementById("metadataPanelBtn");
 

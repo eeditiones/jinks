@@ -27,8 +27,7 @@ By default, both are already declared in the `collection.xconf` of the `base10` 
 
 ### Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `enabled` | boolean | `true` | Enables the timeline in the browsing documents page |
-| `document-view` | boolean | `false` |  shows the timeline in the single document view. It only works for correspondence and expects a `<correspContext>` element in the source document containing pointers to the next and/or previous letter |
-
+| Option          | Type    | Default | Description                                                                                                                                                                                             |
+| --------------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `enabled`       | boolean | `true`  | Enables the timeline in the browsing documents page                                                                                                                                                     |
+| `document-view` | boolean | `false` | shows the timeline in the single document view. It only works for correspondence and expects a `<correspContext>` element in the source document containing pointers to the next and/or previous letter |

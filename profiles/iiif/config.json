@@ -7,13 +7,9 @@
     "description": "Integrates a IIIF viewer for displaying facsimiles and other images",
     "version": "1.0.0",
     "order": 3,
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "templating": {
-        "use": [
-            "templates/iiif-blocks.html"
-        ]
+        "use": ["templates/iiif-blocks.html"]
     },
     "api": [
         {

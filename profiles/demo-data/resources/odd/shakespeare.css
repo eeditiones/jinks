@@ -3,7 +3,6 @@
 }
 
 @media print {
-
     @page:left {
         margin-left: 1cm;
         margin-right: 1cm;
@@ -57,11 +56,13 @@
     }
 
     .tei-speaker {
-        margin-right: .5em;
+        margin-right: 0.5em;
         text-indent: 1em;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         column-span: all;
         text-align: center;
     }

@@ -7,9 +7,7 @@
     "order": 1,
     "description": "Adds support for generating a static site",
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "actions": [
         {
             "name": "static",
@@ -23,7 +21,7 @@
         }
     ],
     "templating": {
-        "use": [ "templates/static-blocks.html" ]
+        "use": ["templates/static-blocks.html"]
     },
     "api": [
         {

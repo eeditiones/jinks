@@ -4,7 +4,6 @@
  * 2. fixed-layout: Uses a fixed grid layout spanning the viewport. The page header is fixed at the top.
  */
 .fixed-layout {
-
     display: grid;
     height: 100vh;
     width: 100vw;
@@ -54,13 +53,13 @@
 .fixed-layout > .before-top,
 .fixed-layout > .before {
     border-right: 1px solid var(--jinks-color-border);
-	max-width: 45vw;
+    max-width: 45vw;
 }
 
 .fixed-layout > .after-top,
 .fixed-layout > .after {
     border-left: 1px solid var(--jinks-color-border);
-	max-width: 45vw;
+    max-width: 45vw;
 }
 
 .fixed-layout > .before-top,
@@ -83,10 +82,8 @@
 /**
  * If there is only one a resize handler in an element it's effectively empty. Do not display it
  */
-.fixed-layout:not(:has(> .before > :not(.resize-handler)))
-    > :is(.before-top, .before),
-.fixed-layout:not(:has(> .after > :not(.resize-handler)))
-    > :is(.after-top, .after) {
+.fixed-layout:not(:has(> .before > :not(.resize-handler))) > :is(.before-top, .before),
+.fixed-layout:not(:has(> .after > :not(.resize-handler))) > :is(.after-top, .after) {
     display: none;
 }
 
@@ -103,11 +100,15 @@
 }
 
 .fixed-layout:has(> .before.hidden) {
-    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+    transition:
+        grid-template-columns 0.6s ease,
+        visibility 0.3s ease;
 }
 
 .fixed-layout:has(> .after.hidden) {
-    transition: grid-template-columns 0.6s ease, visibility 0.3s ease;
+    transition:
+        grid-template-columns 0.6s ease,
+        visibility 0.3s ease;
 }
 
 .fixed-layout > .before.hidden,
@@ -127,7 +128,7 @@
 
 .fixed-layout > main {
     grid-area: content;
-    display: flex;    
+    display: flex;
     justify-content: center;
     overflow: auto;
 }
@@ -138,15 +139,15 @@
 
 .fixed-layout > .before {
     grid-area: before;
-	/* Position the resize handler relative to here */
-	position: relative;
+    /* Position the resize handler relative to here */
+    position: relative;
 }
 
 .fixed-layout > .before-top {
     grid-area: before-top;
 }
 
-.fixed-layout>.after-top {
+.fixed-layout > .after-top {
     grid-area: after-top;
 }
 
@@ -161,8 +162,8 @@
     grid-area: after;
     overflow: auto;
 
-	/* Position the resize handler relative to here */
-	position: relative;
+    /* Position the resize handler relative to here */
+    position: relative;
 }
 
 .fixed-layout > .after,
@@ -196,7 +197,9 @@
     bottom: 0px;
 
     position: absolute;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .resize-handler:hover {
@@ -229,7 +232,9 @@
     }
 
     /* Hide aside toggle if .before is empty */
-    .fixed-layout:not(:has(> .before > :not(.resize-handler))) > footer.mobile-footer .aside-toggle {
+    .fixed-layout:not(:has(> .before > :not(.resize-handler)))
+        > footer.mobile-footer
+        .aside-toggle {
         display: none;
     }
 
@@ -246,7 +251,7 @@
     .hidden-mobile {
         display: none;
     }
-    
+
     /* Ensure .before sidebar is hidden on mobile when it has hidden-mobile class */
     /* This overrides the more specific .fixed-layout > .before { display: flex; } rule */
     .fixed-layout > .before.hidden-mobile,

@@ -6,9 +6,7 @@
     "description": "Defines the default theme for TEI Publisher 10",
     "order": 1,
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "theme": {
         "body": {
             "background-color": "var(--jinks-colors-100)"
@@ -104,11 +102,6 @@
         },
         "icons": []
     },
-    "styles": [
-        "resources/css/pico-components.css",
-        "resources/css/jinks-theme.css"
-    ],
-    "ignore": [
-        "resources/css/components.css"
-    ]
+    "styles": ["resources/css/pico-components.css", "resources/css/jinks-theme.css"],
+    "ignore": ["resources/css/components.css"]
 }

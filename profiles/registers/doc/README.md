@@ -7,9 +7,10 @@ This feature handles entity registers, i.e. lists of people, places and other en
 1. provides an additional sidebar for the document view, showing all entities appearing in the currently visible text. For places this includes a map view.
 2. adds separate register (index) pages to browse and filter people, places, and bibliography
 3. allows to control the presentation of the register browse pages in the following aspects:
-  - number of columns (2 by default)
-  - presence or absence of explanatory notes (present by default)
-  - toggle switch for the user to control the display of explanatory notes (not available by default)
+
+- number of columns (2 by default)
+- presence or absence of explanatory notes (present by default)
+- toggle switch for the user to control the display of explanatory notes (not available by default)
 
 ### Configuration
 
@@ -78,7 +79,6 @@ To allow for toggling the explanatory notes, set the `description` property to `
 
 The default configuration and scripts assume that the register entries are organized as lists of `<person>` and `<place>` elements, and that the mentions in the documents are encoded as `<personName>` and `<placeName>` respectively, with a `@key` attribute containing the `@xml:id` of the given entity. If your encoding is slightly different (e.g. use of `<rs>` for encoding the references) you can adapt the file `modules/registers-api.xql` accordingly.
 
-
 #### Index configuration
 
 This feature requires a specific index configuration (see `collection.xconf`) to be available for `person` and `place` entries in the registers.
@@ -97,8 +97,8 @@ Standard configuration is as follows:
 
 Two fields must be defined in the index configuration, as above:
 
-* `name`: by default uses all available name variants for a given entry; this field is used when querying the list of entries via the search field
-* `sort-name`: by default uses just one name (the one with the `type='sort'`, if present, or the first available name otherwise) to group entries into groups by starting letter; diacritics are stripped for this purpose, therefore entries starting with `ś` and `s`, or `u` and `ü` will be grouped together
+- `name`: by default uses all available name variants for a given entry; this field is used when querying the list of entries via the search field
+- `sort-name`: by default uses just one name (the one with the `type='sort'`, if present, or the first available name otherwise) to group entries into groups by starting letter; diacritics are stripped for this purpose, therefore entries starting with `ś` and `s`, or `u` and `ü` will be grouped together
 
 #### ODD
 
@@ -109,11 +109,9 @@ The TEI Publisher ODD (`resources/odd/teipublisher.odd`) contains several models
 ### Layout
 
 By default, registers appear in a sidebar to the right. This behaviour is set in `templates/register-blocks.html`:
+
 ```html
-<template>
-    [% template after %]
-...
-</template>
+<template> [% template after %] ... </template>
 ```
 
 ## Credits

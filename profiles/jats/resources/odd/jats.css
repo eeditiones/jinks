@@ -10,17 +10,17 @@
     font-size: var(--pb-footnote-font-size);
 }
 
-.journal-title+.publisher:before {
+.journal-title + .publisher:before {
     content: ", ";
 }
 
 .issn:before {
-    content: ", ISSN: "
+    content: ", ISSN: ";
 }
 
 .footnotes {
     margin-top: 1em;
-    padding-top: .5em;
+    padding-top: 0.5em;
     position: relative;
 }
 
@@ -34,7 +34,6 @@
 }
 
 @media print {
-
     @page {
         size: A4;
 
@@ -48,7 +47,7 @@
         margin-right: 2cm;
 
         @top-left {
-            content: string(title1) ' – ' string(title2);
+            content: string(title1) " – " string(title2);
             font-family: var(--pb-heading-font-family);
         }
 
@@ -63,7 +62,7 @@
         margin-right: 3cm;
 
         @top-right {
-            content: string(title1) ' – ' string(title2);
+            content: string(title1) " – " string(title2);
             font-family: var(--pb-heading-font-family);
         }
 
@@ -78,11 +77,11 @@
         margin-right: 2cm;
 
         @top-left {
-            content: '';
+            content: "";
         }
 
         @top-right {
-            content: '';
+            content: "";
         }
     }
 
@@ -127,7 +126,7 @@
         break-before: page;
     }
 
-    .journal-meta+h1.title {
+    .journal-meta + h1.title {
         break-before: avoid;
     }
 

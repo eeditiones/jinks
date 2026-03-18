@@ -5,19 +5,8 @@
     "id": "https://e-editiones.org/apps/workbench",
     "type": "blueprint",
     "version": "1.0.0",
-    "depends": [
-        "base10",
-        "forms",
-        "annotate",
-        "jinntap",
-        "upload",
-        "ci"
-    ],
-    "skipSource": [
-        "repo.xml",
-        "expath-pkg.xml",
-        "build.xml"
-    ],
+    "depends": ["base10", "forms", "annotate", "jinntap", "upload", "ci"],
+    "skipSource": ["repo.xml", "expath-pkg.xml", "build.xml"],
     "defaults": {
         "data-default": "annotate"
     },

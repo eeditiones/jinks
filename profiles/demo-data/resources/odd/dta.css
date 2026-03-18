@@ -1,4 +1,6 @@
-h2, h3, h4 {
+h2,
+h3,
+h4 {
     margin-bottom: 0;
     text-align: center;
 }
@@ -37,7 +39,6 @@ p * {
 }
 
 @media print {
-
     @page:left {
         margin-left: 3cm;
         margin-right: 2cm;
@@ -76,6 +77,4 @@ p * {
     section {
         break-before: page;
     }
-
-   
 }

@@ -7,15 +7,11 @@
     "shortname": "register",
     "description": "Adds pages to browse entities, i.e. people, places",
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "order": 11,
-    
+
     "templating": {
-        "use": [
-            "templates/register-blocks.html"
-        ]
+        "use": ["templates/register-blocks.html"]
     },
     "features": {
         "register": {
@@ -43,9 +39,7 @@
             "id": "http://teipublisher.com/api/registers/view"
         }
     ],
-    "i18n": [
-        "registers"
-    ],
+    "i18n": ["registers"],
     "theme": {
         "registers": {
             "columns": 2

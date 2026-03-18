@@ -35,7 +35,7 @@
 
 .documents header a,
 .documents header a:visited {
-    color: #303F9F;
+    color: #303f9f;
     text-decoration: none;
 }
 
@@ -67,7 +67,7 @@ li.document .matches {
 li.document .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .5rem;
+    gap: 0.5rem;
     align-items: center;
     justify-content: flex-end;
 }
@@ -76,14 +76,14 @@ li.document .thumbnail {
     width: 8rem;
     height: 8rem;
     object-fit: cover;
-    box-shadow:2px 2px 4px rgba(33,33,33,0.5);
-    position:relative;
+    box-shadow: 2px 2px 4px rgba(33, 33, 33, 0.5);
+    position: relative;
 }
 li.document .thumbnail img {
-    border-radius:35px;
+    border-radius: 35px;
     border-color: #19232d;
     border-style: groove;
-    box-shadow: 1px 1px 1px 1px  #19232d;
+    box-shadow: 1px 1px 1px 1px #19232d;
 }
 
 li.document .attribution {
@@ -92,7 +92,7 @@ li.document .attribution {
     font-size: 0.6em;
     left: 0;
     color: blue;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     padding: 0 0.375em;
     border-top-left-radius: 0.25em;
 }

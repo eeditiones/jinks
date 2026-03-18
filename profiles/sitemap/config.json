@@ -6,9 +6,7 @@
     "label": "Sitemap",
     "description": "Adds an action to generate a sitemap ...",
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "api": [
         {
             "spec": "sitemap-api.json",
@@ -27,9 +25,7 @@
     "features": {
         "sitemap": {
             "base-uri": "http://dev.tei-publisher.com",
-            "custom": [
-                "index.html"
-            ]
+            "custom": ["index.html"]
         }
     }
 }

@@ -1,21 +1,21 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const modeSwitch = document.getElementById('colorMode');
+document.addEventListener("DOMContentLoaded", function () {
+    const modeSwitch = document.getElementById("colorMode");
     if (modeSwitch) {
-        modeSwitch.addEventListener('click', function() {
-            let theme = document.body.dataset.theme || localStorage.getItem('tp.theme');
-            const newTheme = theme === 'dark' ? 'light' : 'dark';
+        modeSwitch.addEventListener("click", function () {
+            let theme = document.body.dataset.theme || localStorage.getItem("tp.theme");
+            const newTheme = theme === "dark" ? "light" : "dark";
             document.body.dataset.theme = newTheme;
-            localStorage.setItem('tp.theme', newTheme);
-            modeSwitch.classList.toggle('theme-toggle--toggled');
+            localStorage.setItem("tp.theme", newTheme);
+            modeSwitch.classList.toggle("theme-toggle--toggled");
         });
     }
 
-    let theme = document.body.dataset.theme || localStorage.getItem('tp.theme');
+    let theme = document.body.dataset.theme || localStorage.getItem("tp.theme");
     if (theme) {
         document.body.dataset.theme = theme;
-        localStorage.setItem('tp.theme', theme);
+        localStorage.setItem("tp.theme", theme);
         if (modeSwitch) {
-            modeSwitch.classList.toggle('theme-toggle--toggled', theme === 'dark');
+            modeSwitch.classList.toggle("theme-toggle--toggled", theme === "dark");
         }
     }
 });

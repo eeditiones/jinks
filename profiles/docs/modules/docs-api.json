@@ -38,114 +38,114 @@
         "/encyclopedia": {
             "get": {
                 "summary": "Encyclopedia root page",
-				"description": "Registers a custom URL for the encyclopedia example (Damen Conversations Lexikon) to be used instead of the document name.",
+                "description": "Registers a custom URL for the encyclopedia example (Damen Conversations Lexikon) to be used instead of the document name.",
                 "operationId": "vapi:view",
-				"x-error-handler": "vapi:handle-error",
+                "x-error-handler": "vapi:handle-error",
                 "tags": ["encyclopedia"],
-				"parameters": [
-					{
-						"name": "file",
-						"in": "query",
-						"schema": {
-							"type": "string",
-                            "default": "pages/tei-lex"
-						}
-					},
+                "parameters": [
                     {
-						"name": "docid",
-						"in": "query",
-						"description": "Relative path to the document",
-						"required": true,
-						"schema": {
-							"type": "string",
+                        "name": "file",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "pages/tei-lex"
+                        }
+                    },
+                    {
+                        "name": "docid",
+                        "in": "query",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
                             "default": "demo/Kirchner-Michaelis-1907.xml"
-						},
-						"allowReserved": true
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "HTML of the page",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "The document was not found",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
+                        },
+                        "allowReserved": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML of the page",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The document was not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/encyclopedia/{search}": {
             "get": {
                 "summary": "Show encyclopedia entry matching {search}",
-				"description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
+                "description": "Search endpoint used for the encyclopedia example (Damen Conversations Lexikon)",
                 "operationId": "vapi:view",
-				"x-error-handler": "vapi:handle-error",
+                "x-error-handler": "vapi:handle-error",
                 "tags": ["encyclopedia"],
-				"parameters": [
-					{
-						"name": "file",
-						"in": "query",
-						"schema": {
-							"type": "string",
-                            "default": "pages/tei-lex"
-						}
-					},
+                "parameters": [
                     {
-						"name": "docid",
-						"in": "query",
-						"description": "Relative path to the document",
-						"required": true,
-						"schema": {
-							"type": "string",
+                        "name": "file",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "pages/tei-lex"
+                        }
+                    },
+                    {
+                        "name": "docid",
+                        "in": "query",
+                        "description": "Relative path to the document",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
                             "default": "demo/Kirchner-Michaelis-1907.xml"
-						},
-						"allowReserved": true
-					},
-					{
-						"name": "search",
-						"in": "path",
-						"description": "headword query",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "HTML of the page",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "The document was not found",
-						"content": {
-							"text/html": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				}
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "search",
+                        "in": "path",
+                        "description": "headword query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML of the page",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The document was not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/lemma": {
@@ -155,13 +155,13 @@
                 "operationId": "demo:lemmata",
                 "tags": ["encyclopedia"],
                 "parameters": [
-					{
-						"name": "category",
-						"in": "query",
-						"schema": {
-							"type": "string"
-						}
-					},
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -173,25 +173,24 @@
                     {
                         "name": "search",
                         "in": "query",
-                        "schema":{
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
                             "type": "string"
                         }
                     }
-					,
-					{
-						"name": "lang",
-						"in": "query",
-						"schema": {
-							"type": "string"
-						}
-					}
                 ],
                 "responses": {
                     "200": {
                         "description": "Categories and places to display",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "object"
                                 }
                             }
