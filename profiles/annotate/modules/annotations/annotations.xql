@@ -263,7 +263,7 @@ declare %private function anno:apply($node, $annotations) {
                 return
                     anno:apply($output, tail($annotations))
             else
-                let $output := anno:apply($node, $anno?start + 1, $anno?end + 1, $anno)
+                let $output := anno:apply($node, xs:int($anno?start + 1), xs:int($anno?end + 1), $anno)
                 return
                     anno:apply($output, tail($annotations))
 };

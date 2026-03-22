@@ -20,7 +20,7 @@ declare function static:preload-view($context as map(*), $config as map(*)) {
 };
 
 declare %private function static:preload-view-next($context as map(*), $config as map(*), $root as xs:string?, 
-    $outputPath as xs:string, $counter as xs:int) {
+    $outputPath as xs:string, $counter as xs:integer) {
     let $json := static:load-part($context, $config?path, map:merge((map { "root": $root }, $config)))
     let $outputFile := $config?id || "-" || $counter || ".json"
     let $stored := xmldb:store(
@@ -277,7 +277,7 @@ declare %private function static:strip-namespaces($nodes as node()*) {
  : @param $targetPathGen A function that generates the target path for each batch. The function is passed the context
  : and the batch number as arguments.
  :)
-declare function static:split($context as map(*), $input as item()*, $batchSize as xs:int, 
+declare function static:split($context as map(*), $input as item()*, $batchSize as xs:integer, 
     $template as xs:string, $targetPathGen as function(*)) {
     let $chunks :=
         for $p at $page in 0 to count($input) idiv $batchSize

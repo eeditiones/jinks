@@ -46,7 +46,7 @@ declare %private function cpy:save-hash($context as map(*), $relPath as xs:strin
         map {
             $relPath: $hash
         }
-    )) => serialize(map { "method": "json", "indent": true() })
+    ), map { "duplicates": "use-last" }) => serialize(map { "method": "json", "indent": true() })
     return
         xmldb:store($context?target, ".jinks.json", $updated, "application/json")[2]
 };

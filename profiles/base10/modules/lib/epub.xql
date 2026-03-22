@@ -41,8 +41,8 @@ declare namespace ep="http://www.idpf.org/2007/ops";
     @see http://demo.exist-db.org/exist/functions/compression/zip
 :)
 declare function epub:generate-epub($config as map(*), $doc, $css, $filename) {
-    let $docConfig := map:merge((tpu:parse-pi(root($doc), "div"), map { "view": "div" }))
-    let $config := map:merge(($config, map { "docConfig": $docConfig }, map { "type": $docConfig?type }))
+    let $docConfig := map:merge((tpu:parse-pi(root($doc), "div"), map { "view": "div" }), map { "duplicates": "use-last" })
+    let $config := map:merge(($config, map { "docConfig": $docConfig }, map { "type": $docConfig?type }), map { "duplicates": "use-last" })
     let $xhtml := epub:body-xhtml-entries(root($doc), $config)
     let $entries :=
         (
