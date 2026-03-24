@@ -107,7 +107,6 @@ declare function rview:people-categories($request as map(*)){
 declare function rview:output-person-all($list as array(*)*, $letter as xs:string,  $search as xs:string?, $odd as xs:string, $show-notes as xs:boolean) {
     array {
         for $person in $list
-        let $letterParam := if ($letter = "all") then substring($person?3/@n, 1, 1) else $letter
         let $note := 
             $pm-config:web-transform($person?3, map { "mode": "register-overview", "show-notes": $show-notes }, $odd)
         return
@@ -194,15 +193,14 @@ declare function rview:places($request as map(*)){
 declare function rview:output-place($list, $category as xs:string, $search as xs:string?, $odd as xs:string, $show-notes as xs:boolean) {
     array {
         for $place in $list
-            let $label := ($place/tei:placeName)[1]/string()
-            let $id := $place/@xml:id
-            let $alt := $place/tei:placeName[@type='alt']
-            let $note := 
-                $pm-config:web-transform($place, map { "mode": "register-overview", "show-notes": $show-notes }, $odd)
-            let $coords := tokenize($place/tei:location/tei:geo)
-        return
+       return
             <div class="place split-list-item">
-            { $note }
+            {$pm-config:web-transform(
+                $place, 
+                map { 
+                "mode": "register-overview", 
+                "show-notes": $show-notes }, 
+                $odd)}
             </div>
     }
 };
