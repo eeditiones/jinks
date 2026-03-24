@@ -4,5 +4,13 @@
     "useTabs": false,
     "tabWidth": 4,
     "printWidth": 100,
-    "plugins": ["prettier-plugin-xquery"]
+    "plugins": ["prettier-plugin-xquery", "prettier-plugin-jinks"],
+    "overrides": [
+        {
+            "files": ["*.tpl.*", "*.tps.*"],
+            "options": {
+                "parser": "jinks-templating"
+            }
+        }
+    ]
 }
