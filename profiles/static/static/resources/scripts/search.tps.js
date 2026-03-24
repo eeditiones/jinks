@@ -1,10 +1,12 @@
+
 [% if map:contains($static, 'facets') %]
-const facetNames = [[ serialize($static?facets, map { "method": "json" })]];
+const facetNames =[[ serialize($static?facets, map { "method": "json" }) ]];
 [% else %]
 const facetNames = [];
+
 [% endif %]
-const indexedFields = [[ serialize($static?fields?index, map { "method": "json" })]];
-const storedFields = [[ serialize($static?fields?store, map { "method": "json" })]];
+const indexedFields =[[ serialize($static?fields?index, map { "method": "json" }) ]];
+const storedFields =[[ serialize($static?fields?store, map { "method": "json" }) ]];
 
 function kwicText(str, start, end, words = 5) {
     let p0 = start - 1;
@@ -89,7 +91,7 @@ function search(index, fields, query, facets) {
                 return entry.doc[dimension].some((facet) => value.includes(facet.id));
             });
         });
-        
+
         const info = document.createElement('h4');
         if (result.length === 100) {
             info.innerHTML = `Showing first 100 matches.`;
@@ -243,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             });
-            
+
             search(index, fields, query, facets);
         });
 

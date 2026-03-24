@@ -16,11 +16,10 @@ import module namespace nlp="http://teipublisher.com/api/nlp" at "api/nlp.xql";
 import module namespace rapi="http://teipublisher.com/api/registers" at "../registers.xql";
 import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
 import module namespace deploy="https://teipublisher.org/api/deploy" at "api/deploy.xql";
-
 [% for $module in $context?api?* %]
-[% if $module?path %]
-import module namespace [[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";
-[% endif %]
+    [% if $module?path %]
+import module namespace[[ $module?prefix ]]="[[ $module?id ]]" at "../[[ $module?path ]]";
+    [% endif %]
 [% endfor %]
 
 declare option output:indent "no";
@@ -34,11 +33,11 @@ let $lookup := function($name as xs:string) {
 }
 let $resp := roaster:route(
     (
-        [% for $module in reverse($context?api?*) %]
-        [% if $module?spec %]
+[% for $module in reverse($context?api?*) %]
+    [% if $module?spec %]
         "modules/[[ $module?spec ]]",
-        [% endif %]
-        [% endfor %]
+    [% endif %]
+[% endfor %]
         "modules/lib/api.json"
     ), $lookup)
 return

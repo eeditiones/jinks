@@ -7,7 +7,7 @@
                 <param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"/>
             </analyzer>
             <parser class="org.apache.lucene.queryparser.analyzing.AnalyzingQueryParser"/>
-            [% if $indexing?tei?enable %]
+[% if $indexing?tei?enable %]
             <text match="/tei:TEI/tei:text">
                 <!--ignore qname="tei:div"/-->
                 <field name="title" expression="nav:get-metadata(ancestor::tei:TEI, 'title')"/>
@@ -26,14 +26,14 @@
                 <facet dimension="person" expression="nav:get-metadata(ancestor::tei:TEI, 'person')"/>
                 <facet dimension="date" expression="nav:get-metadata(ancestor::tei:TEI, 'date') => tokenize('-')" hierarchical="yes"/>
             </text>
-            [% if $indexing?tei?context = "div" %]
-                <text qname="tei:[[$indexing?tei?context]]">
+    [% if $indexing?tei?context = "div" %]
+                <text qname="tei:[[ $indexing?tei?context ]]">
                     <ignore qname="tei:div"/>
                     <facet dimension="genre" expression="nav:get-metadata(ancestor::tei:TEI, 'genre')" hierarchical="yes"/>
                     <facet dimension="language" expression="nav:get-metadata(ancestor::tei:TEI, 'language')"/>
                     <facet dimension="place" expression="nav:get-metadata(., 'place')"/>
                 </text>
-            [% endif %]
+    [% endif %]
             <!-- required by registers -->
             <text qname="tei:place">
                 <field name="name" expression="tei:placeName"/>
@@ -56,9 +56,8 @@
             <text qname="tei:entry" index="no">
                 <field name="lemma" expression="tei:form/tei:term"/>
             </text>
-            [% endif %]
-
-            [% if $indexing?docbook?enable %]
+[% endif %]
+[% if $indexing?docbook?enable %]
             <text qname="dbk:article">
                 <field name="dbk.title" expression="nav:get-metadata(., 'title')"/>
                 <field name="dbk.author" expression="nav:get-metadata(., 'author')"/>
@@ -73,9 +72,8 @@
                 <facet dimension="language" expression="nav:get-metadata(ancestor::dbk:article, 'language')"/>
             </text>
             <text qname="dbk:title"/>
-            [% endif %]
-            
-            [% if $indexing?jats?enable %]
+[% endif %]
+[% if $indexing?jats?enable %]
             <!-- JATS -->
             <text qname="body">
                 <!-- <ignore qname="sect"/> -->
@@ -91,7 +89,7 @@
                 <facet dimension="genre" expression="nav:get-metadata(., 'genre')" hierarchical="yes"/>
                 <facet dimension="language" expression="head((root(.)/@xml:lang, 'en'))"/>
             </text>
-            [% endif %]
+[% endif %]
         </lucene>
         <range>
             <create qname="tei:term" type="xs:string"/>

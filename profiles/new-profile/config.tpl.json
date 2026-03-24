@@ -6,7 +6,7 @@
   "label": "[[ $context?label ]]",
   "type": "[[ $context?profile?type ]]",
   "version": "[[ $context?version ]]",
-  "depends": [[ serialize($context?depends, map { 'method': 'json'}) ]],
+  "depends":[[ serialize($context?depends, map { 'method': 'json'}) ]],
   "skipSource": [
     "repo.xml",
     "expath-pkg.xml",

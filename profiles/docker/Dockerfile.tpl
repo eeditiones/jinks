@@ -22,19 +22,19 @@ RUN git clone https://github.com/eeditiones/jinks-templates.git \
 # Build tei-publisher-lib
 RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && cd tei-publisher-lib \
-    && ant 
-
+    && ant
 [% if "docs" = $context?profiles?* %]
 # Build tei-publisher-app with local webcomponents (only for docs blueprint)
-COPY . [[$pkg?abbrev]]/
-RUN  cd  [[$pkg?abbrev]] \
+COPY .[[ $pkg?abbrev ]]/
+RUN  cd[[ $pkg?abbrev ]] \
     && sed -i 's/$config:webcomponents :=.*;/$config:webcomponents := "local";/' modules/config.xqm \
     && ant xar-local
 [% else %]
 # Build app inside container
-COPY . [[$pkg?abbrev]]/
-RUN  cd  [[$pkg?abbrev]] \
+COPY .[[ $pkg?abbrev ]]/
+RUN  cd[[ $pkg?abbrev ]] \
     && ant
+
 [% endif %]
 
 ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
@@ -44,20 +44,20 @@ ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002
 [% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://expath.org/ns/crypto" %]
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 003.xar
 [% endif %]
-
 [% if exists($docker?externalXar) %]
 # Additional external XAR dependencies
-[% for $fileName in map:keys($docker?externalXar) %]
-[% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
-# Private repository - using BuildKit secret: [[ string($docker?externalXar($fileName)?token) ]]
+    [% for $fileName in map:keys($docker?externalXar) %]
+        [% if ($docker?externalXar($fileName) instance of map(*) and exists($docker?externalXar($fileName)?token)) %]
+# Private repository - using BuildKit secret:[[ string($docker?externalXar($fileName)?token) ]]
 RUN --mount=type=secret,id=[[ string($docker?externalXar($fileName)?token) ]] \
     TOKEN=$(cat /run/secrets/[[ string($docker?externalXar($fileName)?token) ]]) && \
-    curl -H "Authorization: token $TOKEN" -L -o [[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
-[% else %]
+    curl -H "Authorization: token $TOKEN" -L -o[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
+        [% else %]
 # Public repository
-ADD [[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]] [[ $fileName ]].xar
-[% endif %]
-[% endfor %]
+ADD[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]][[ $fileName ]].xar
+
+        [% endif %]
+    [% endfor %]
 [% endif %]
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
@@ -68,12 +68,12 @@ USER ${USR}
 ONBUILD COPY --from=builder /tmp/*.xar /exist/autodeploy/
 ONBUILD COPY --from=builder /tmp/jinks-templates/build/*.xar /exist/autodeploy/004.xar
 ONBUILD COPY --from=builder /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy/005.xar
-ONBUILD COPY --from=builder /tmp/[[$pkg?abbrev]]/build/*.xar /exist/autodeploy/006.xar
+ONBUILD COPY --from=builder /tmp/[[ $pkg?abbrev ]]/build/*.xar /exist/autodeploy/006.xar
 
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
 FROM  ghcr.io/jinntec/base:main AS build_prod
 
-# NOTE the start URL http://localhost:8080/exist/apps/[[$pkg?abbrev]]/index.html 
+# NOTE the start URL http://localhost:8080/exist/apps/[[ $pkg?abbrev ]]/index.html 
 ARG PUBLISHER_VERSION
 
 ARG USR=nonroot
@@ -99,8 +99,8 @@ WORKDIR /exist
 ARG CACHE_MEM
 ARG MAX_BROKER
 ARG JVM_MAX_RAM_PERCENTAGE
-ARG HTTP_PORT=[[$docker?ports?http]]
-ARG HTTPS_PORT=[[$docker?ports?https]]
+ARG HTTP_PORT=[[ $docker?ports?http ]]
+ARG HTTPS_PORT=[[ $docker?ports?https ]]
 
 ARG NER_ENDPOINT=http://localhost:8001
 ARG CONTEXT_PATH=auto

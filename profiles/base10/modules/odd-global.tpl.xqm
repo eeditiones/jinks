@@ -23,14 +23,16 @@ declare variable $config:app-root :=
 (:~
  : The root of the collection hierarchy containing data.
  :)
- [% if map:contains($defaults, "data") %]
+[% if map:contains($defaults, "data") %]
     [% if starts-with($defaults?data, "/") %]
-    declare variable $config:data-root := "[[$defaults?data]]";
+    declare variable $config:data-root := "[[ $defaults?data ]]";
     [% else %]
-    declare variable $config:data-root := $config:app-root || "/[[$defaults?data]]";
+    declare variable $config:data-root := $config:app-root || "/[[ $defaults?data ]]";
+
     [% endif %]
 [% else %]
     declare variable $config:data-root := $config:app-root || "/data";
+
 [% endif %]
 
 (:~
@@ -45,13 +47,19 @@ declare variable $config:register-root := $config:data-root || "/registers";
   declare variable $config:data-default as xs:string :=   $config:data-root || "/[[ $defaults?data-default ]]";
 [% else %]
   declare variable $config:data-default as xs:string :=  $config:data-root;
+
 [% endif %]
 
 (:~
  : Addressing method used in the app: by id or not
  :)
 [% if map:contains($defaults, "address-by-id") %]
-    declare variable $config:address-by-id as xs:boolean := [%if $defaults?address-by-id %] true() [% else %] false() [% endif %];
+    declare variable $config:address-by-id as xs:boolean :=
+    [% if $defaults?address-by-id %] true()
+    [% else %] false()
+
+    [% endif %];
 [% else %]
     declare variable $config:address-by-id := false();
+
 [% endif %]

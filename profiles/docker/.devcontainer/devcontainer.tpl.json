@@ -16,7 +16,7 @@
         }
     },
     "runArgs": ["--name=[[ $pkg?abbrev ]]-dev"],
-    "forwardPorts": [ [[ $docker?ports?http ]], [[ $docker?ports?https ]] ],
+    "forwardPorts": [[[ $docker?ports?http ]],[[ $docker?ports?https ]] ],
     "customizations": {
         "vscode": {
             "extensions": [ "exist-db.existdb-vscode", "42crunch.vscode-openapi", "redhat.vscode-xml" ]
@@ -26,14 +26,14 @@
     "postCreateCommand": [
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
     ],
-    [% if $docker?features?ner %]
+[% if $docker?features?ner %]
     "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh",
-    [% endif %]
+[% endif %]
     "features": {
-    [% if $docker?features?nodejs %]
+[% if $docker?features?nodejs %]
         "ghcr.io/devcontainers/features/node:1": {
             "version": "latest"
         }
-    [% endif %]
+[% endif %]
     }
 }

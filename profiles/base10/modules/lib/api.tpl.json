@@ -3025,7 +3025,7 @@
                 "x-constraints": {
                     "group": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3065,7 +3065,7 @@
                 "description": "Get the XML fragment for a given register entry. Used by the registry forms in the annotation editor.",
                 "tags": ["register"],
                 "operationId": "rapi:entry",
-                
+
                 "parameters": [
                     {
                         "name": "id",
@@ -3142,7 +3142,7 @@
                     }
                 }
             },
-        
+
             "put": {
                 "summary": "Save a register entry",
                 "description": "Replace an entry with the current version from the editor",
@@ -3151,7 +3151,7 @@
                 "x-constraints": {
                     "group": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3202,7 +3202,7 @@
                 "description": "Get the HTML fragment for a given register entry. May be used when retrieving e.g. registry content for popups asynchronously",
                 "tags": ["register"],
                 "operationId": "rapi:html",
-                
+
                 "parameters": [
                     {
                         "name": "id",

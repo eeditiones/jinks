@@ -11,7 +11,7 @@ on:
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
-  
+
   pull_request:
     branches: [ main, master ]
 
@@ -39,27 +39,27 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Pull demo image
         run: docker pull ${{ env.DEMO_IMAGE }}:latest
-      
+
       - name: Start demo container
         run: |
           docker run -d \
             --name teipublisher-test \
             --publish 8080:8080 \
             ${{ env.DEMO_IMAGE }}:latest
-      
+
       - name: Wait for server to be ready
         run: |
           echo "Waiting for eXist-db to start..."
@@ -83,30 +83,30 @@ jobs:
         with:
           node-version: "lts/*"
           cache: 'npm'
-      
+
       - name: Run npm install
         run: npm install
-      
+
       - name: Run tests
         if: matrix.experimental != true
         run: npx cypress run --browser firefox
-      
+
       - name: Run tests [expect failures]
         if: matrix.experimental == true
         continue-on-error: true
         run: npx cypress run --browser firefox
-      
+
       - name: Retrieve eXist log
         if: failure()
         run: docker cp teipublisher-test:/exist/logs/exist.log .
-      
+
       - name: Publish log as artifact
         if: failure()
         uses: actions/upload-artifact@v6
         with:
           name: exist-${{matrix.EXIST_BASE}}-teipublisher.log
           path: ./exist.log
-      
+
       - name: Stop container
         if: always()
         run: docker stop teipublisher-test || true
@@ -128,23 +128,23 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-      
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Pull demo image
         run: docker pull ${{ env.DEMO_IMAGE }}:latest
-      
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -156,7 +156,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern=v{{major}}
             type=raw,value=latest,enable={{is_default_branch}}
-      
+
       - name: Add latest tag for releases
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -164,7 +164,7 @@ jobs:
           echo -e "${{ steps.meta.outputs.tags }}\nlatest" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
         id: tags_with_latest
-      
+
       - name: Push to GHCR
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -175,7 +175,7 @@ jobs:
               docker buildx imagetools create -t "ghcr.io/eeditiones/${{ env.IMAGE_NAME }}:$tag" ${{ env.DEMO_IMAGE }}:latest
             fi
           done
-      
+
       - name: Push to Docker Hub
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
         run: |

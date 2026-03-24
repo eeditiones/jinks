@@ -12,7 +12,6 @@ Disallow: /data/
 Disallow: /*/data/*
 Disallow: /modules/
 Disallow: /*/modules/*
-
 [% if $context?features?sitemap?base-uri %]
-Sitemap: [[ $context?features?sitemap?base-uri ]]/sitemap.xml
+Sitemap:[[ $context?features?sitemap?base-uri ]]/sitemap.xml
 [% endif %]
