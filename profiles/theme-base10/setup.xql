@@ -17,6 +17,7 @@ declare
     %generator:after-write
 function teip:after-write($context as map(*), $target as xs:string) {
     let $palette := concat("resources/css/palette-", ($context?theme?colors?palette, "neutral")[1], ".css")
+    let $component-styles := if ($context?theme?components?styles) then $context?theme?components?styles else ()
     let $context-with-target := map:merge(($context, map:entry("source", $target)))
 
     let $theme-bundle :=
@@ -49,7 +50,8 @@ function teip:after-write($context as map(*), $target as xs:string) {
                 "resources/css/jinks-variables.css",
                 "resources/css/pico-ext.css",
                 "resources/css/controls.css",
-                "resources/css/jinks-components.css"
+                "resources/css/jinks-components.css",
+                $component-styles
             ),
             "resources/css/components.css"
         )
