@@ -97,9 +97,6 @@
                         "in": "query",
                         "schema": {
                             "type": "string"
-                            [% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
                         }
                     }
 				],
@@ -183,9 +180,6 @@
                         "in": "query",
                         "schema": {
                             "type": "string"
-                            [% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
                         }
                     }
 				],
@@ -1318,9 +1312,6 @@
 						"in": "query",
 						"schema": {
 							"type": "string"
-                            [% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
 						}
 					},
 					{
@@ -1494,9 +1485,6 @@
                         "in": "query",
                         "schema": {
                             "type": "string"
-                            [% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
                         },
                         "description": "The language to use for the table of contents"
                     },
@@ -2534,9 +2522,6 @@
 						"in": "query",
 						"schema": {
 							"type": "string"
-							[% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
 						}
 					},
 					{
@@ -2772,9 +2757,6 @@
 						"description": "Language to create the model for",
 						"schema": {
 							"type": "string"
-                            [% if exists($context?defaults?language) %]
-                            ,"default": "[[ $context?defaults?language ]]"
-                            [% endif %]
 						}
 					},
 					{
