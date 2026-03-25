@@ -93,12 +93,12 @@
 						}
 					},
 					{
-						"name": "lang",
-						"in": "query",
-						"schema": {
-							"type": "string"
-						}
-					}
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -174,7 +174,14 @@
 						"schema": {
 							"type": "string"
 						}
-					}
+					},
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
 				],
 				"responses": {
 					"200": {
@@ -1465,6 +1472,22 @@
 						},
 						"description": "Should an expand/collapse icon be displayed next to headings having nested child sections?"
 					},
+                    {
+                        "name": "map",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The name of an optional mapping function to apply to the document before generating the table of contents"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The language to use for the table of contents"
+                    },
 					{
 						"name": "If-Modified-Since",
 						"in": "header",
@@ -2498,8 +2521,7 @@
 						"name": "lang",
 						"in": "query",
 						"schema": {
-							"type": "string",
-							"default": "en"
+							"type": "string"
 						}
 					},
 					{

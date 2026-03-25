@@ -673,15 +673,25 @@ declare function dapi:table-of-contents($request as map(*)) {
     let $doc := xmldb:decode-uri(xs:anyURI($request?parameters?id))
     let $documents := config:get-document($doc)
     return
-        if($documents)
-        then (
+        if($documents) then (
             cutil:check-last-modified($request, $documents, function($request as map(*), $documents as node()*) {
                 let $xml := pages:load-xml($documents, $request?parameters?view, (), $doc)
                 return
-                if (exists($xml)) then
-                    dapi:toc-div(root($xml?data), $xml, $request?parameters?target, $collapse)
-                else
-                    error($errors:NOT_FOUND, "Document " || $doc || " not found")
+                    if (exists($xml)) then
+                        let $mapped := 
+                            if (exists($request?parameters?map)) then
+                                let $mapFun := function-lookup(xs:QName("mapping:" || $request?parameters?map), 2)
+                                return
+                                    if (exists($mapFun)) then
+                                        $mapFun($xml?data, $request?parameters)
+                                    else
+                                        $xml?data
+                            else
+                                $xml?data
+                        return
+                            dapi:toc-div(root($mapped), $xml, $request?parameters?target, $collapse)
+                    else
+                        error($errors:NOT_FOUND, "Document " || $doc || " not found")
                 })
         ) else (
             router:response(404, "text/text", $doc)

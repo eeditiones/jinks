@@ -4,6 +4,7 @@ module namespace page="http://teipublisher.com/ns/templates/page";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
+import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../map.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 
@@ -78,17 +79,32 @@ declare function page:transform($nodes as node()*, $parameters as map(*)?) {
     page:transform($nodes, $parameters, ())
 };
 
+declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd as xs:string?) {
+    page:transform($nodes, $parameters, $odd, ())
+};
+
 (:~
  : Transform a sequence of nodes to HTML using the given odd and parameters.
  :
  : @param $nodes the nodes to transform
  : @param $parameters the parameters to use for the transformation
  : @param $odd the odd to use for the transformation
+ : @param $mapFunction name of mapping function to apply to the nodes before transformation
  : @return the transformed nodes
  :)
-declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd as xs:string?) {
+declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd as xs:string?, $mapFunction as xs:string?) {
+    let $mappingFun := 
+        if ($mapFunction) then
+            function-lookup(xs:QName("mapping:" || $mapFunction), 2)
+        else
+            ()
     let $odd := head(($odd, $config:default-odd))
     for $node in $nodes
+    let $mapped :=
+        if (exists($mappingFun)) then
+            $mappingFun($node, $parameters)
+        else
+            $node
     let $params := map:merge((
         $parameters,
         map { 
@@ -98,5 +114,5 @@ declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd 
         }
     ))
     return
-        $pm-config:web-transform($node, $params, $odd)
+        $pm-config:web-transform($mapped, $params, $odd)
 };
