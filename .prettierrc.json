@@ -7,7 +7,7 @@
     "plugins": ["prettier-plugin-xquery", "prettier-plugin-jinks"],
     "overrides": [
         {
-            "files": ["*.tpl.*", "*.tps.*"],
+            "files": ["*.tpl.*", "*.tps.*", "*.html"],
             "options": {
                 "parser": "jinks-templating"
             }
