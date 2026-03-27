@@ -2,18 +2,16 @@
     [% template toolbar %]
     [% if exists($context?doc) and $features?edition-navigation?navigation %]
     <li id="edition-navigation">
-        [[ page:transform($context?doc?content, map { 
-            "mode": "edition-navigation" , 
-            "webcomponents": true(), 
-            "in-correspondence": if ($features?edition-navigation?in-correspondence) then 'true' else 'false', 
-            "context-path": $context-path}) ]]
+        [[ page:transform($context?doc?content, map { "mode": "edition-navigation" ,
+        "webcomponents": true(), "in-correspondence": if
+        ($features?edition-navigation?in-correspondence) then 'true' else 'false', "context-path":
+        $context-path}) ]]
     </li>
     [% endif %]
     [% endtemplate %]
-
     [% template styles %]
     [% if exists($context?doc) and $features?edition-navigation?navigation %]
-    <link rel="stylesheet" href="resources/css/correspondence-theme.css"/>
+    <link rel="stylesheet" href="resources/css/correspondence-theme.css" />
     [% endif %]
     [% endtemplate %]
 </template>

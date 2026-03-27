@@ -1,6 +1,6 @@
 <main class="container-fluid">
     ---json
-    {
+{
         "features": {
             "toolbar": {
                 "enabled": false
@@ -27,7 +27,7 @@
             "login": true
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         pb-odd-editor {
@@ -35,9 +35,11 @@
         }
     </style>
     [% endtemplate %]
-    <pb-odd-editor output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]"
-    root-path="[[ $config:odd-root ]]"
-    output-prefix="transform"
-    odd="[[ request:get-parameter('odd', ()) ]]">
+    <pb-odd-editor
+        output-root="[[ ($config:output-root, $config:app-root || '/transform')[1] ]]"
+        root-path="[[ $config:odd-root ]]"
+        output-prefix="transform"
+        odd="[[ request:get-parameter('odd', ()) ]]"
+    >
     </pb-odd-editor>
 </main>

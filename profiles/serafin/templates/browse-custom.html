@@ -1,11 +1,11 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "templates/browse.html"
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         .logo-text {
@@ -16,10 +16,11 @@
 
         /* Custom layout: before starts below header and before-top is hidden */
         .fixed-layout {
-            grid-template-areas: "header header header"
-                                 "before content-top after-top"
-                                 "before content after"
-                                 "footer footer footer";
+            grid-template-areas:
+                "header header header"
+                "before content-top after-top"
+                "before content after"
+                "footer footer footer";
             grid-template-columns: 0.001fr 1fr 0.001fr;
         }
 
@@ -30,7 +31,11 @@
     [% endtemplate %]
     [% template before 1 %]
     <li>
-        <img class="logo-text" src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg" alt="Serafin" />
+        <img
+            class="logo-text"
+            src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg"
+            alt="Serafin"
+        />
     </li>
     [% endtemplate %]
 </template>

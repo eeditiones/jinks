@@ -21,33 +21,27 @@ declare variable $config:sort-default := "[[ $features?browse?sort?default ]]";
     declare variable $config:data-root := "[[ $defaults?data ]]";
     [% else %]
     declare variable $config:data-root := $config:app-root || "/[[ $defaults?data ]]";
-
     [% endif %]
 [% else %]
     declare variable $config:data-root := $config:app-root || "/data";
-
 [% endif %]
 [% if $defaults?data-default %]
     [% if starts-with($defaults?data-default, "/") %]
     declare variable $config:data-default := "[[ $defaults?data-default ]]";
     [% else %]
     declare variable $config:data-default := $config:data-root || "/[[ $defaults?data-default ]]";
-
     [% endif %]
 [% else %]
     declare variable $config:data-default := $config:data-root;
-
 [% endif %]
 [% if map:contains($defaults, "register-root") %]
     [% if starts-with($defaults?register-root, "/") %]
     declare variable $config:register-root := "[[ $defaults?register-root ]]";
     [% else %]
     declare variable $config:register-root := $config:data-root || "/[[ $defaults?register-root ]]";
-
     [% endif %]
 [% else %]
     declare variable $config:register-root := $config:data-root || "/registers";
-
 [% endif %]
 
 declare variable $config:data-exclude := ([[ string-join($defaults?data-exclude?*, ",&#10;    ") ]]
@@ -59,7 +53,7 @@ declare variable $config:odd-internal :=
     ([[ string-join($defaults?odd-internal?* ! ('"' || . || '"'), ", ") ]] );
 
 declare variable $config:odd-available :=[% block config-odd-available %]
-    
+
 ([[ string-join($odds?*[not(. = $defaults?odd-internal?*)] ! ('"' || . || '"'), ", ") ]] )
 [% endblock %];
 
@@ -90,7 +84,6 @@ declare variable $config:pagination-fill :=[[ $defaults?pagination?fill ]];
 declare variable $config:address-by-id as xs:boolean :=
 [% if $defaults?address-by-id %] true()
 [% else %] false()
-
 [% endif %];
 
 declare variable $config:default-language as xs:string := "[[ $context?defaults?language ]]";
@@ -110,7 +103,6 @@ declare variable $config:context-path :=
             then ""
         else
             request:get-context-path() || substring-after($config:app-root, "/db")
-
 [% endif %]
 ;
 
@@ -128,6 +120,5 @@ declare function config:collection-config($collection as xs:string?, $docUri as 
 [% else %]
     (: No special overrides apply. Return the default in all cases:)
         ()
-
 [% endif %]
 };

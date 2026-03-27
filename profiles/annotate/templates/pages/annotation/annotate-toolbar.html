@@ -7,9 +7,7 @@
                         <a
                             href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"
                         >
-                            <pb-i18n key="breadcrumb.document-root">
-                                Documents
-                            </pb-i18n>
+                            <pb-i18n key="breadcrumb.document-root"> Documents </pb-i18n>
                         </a>
                     </li>
                     <li>[[ $context?doc?path ]]</li>
@@ -233,11 +231,7 @@
                     data-i18n="[title]annotations.previous-page"
                     title="Previous"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="ionicon"
-                        viewBox="0 0 512 512"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                         <path
                             fill="none"
                             stroke="currentColor"
@@ -256,11 +250,7 @@
                     data-i18n="[title]annotations.next-page"
                     title="Next"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="ionicon"
-                        viewBox="0 0 512 512"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                         <path
                             fill="none"
                             stroke="currentColor"
@@ -275,16 +265,8 @@
         </li>
         <li>
             <span role="group">
-                <pb-zoom
-                    emit="transcription"
-                    direction="in"
-                    icon="icons:zoom-in"
-                ></pb-zoom>
-                <pb-zoom
-                    emit="transcription"
-                    direction="out"
-                    icon="icons:zoom-out"
-                ></pb-zoom>
+                <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
             </span>
         </li>
     </ul>
@@ -319,10 +301,7 @@
                         <use href="#arrow-counterclockwise"></use>
                     </svg>
                 </button>
-                <button
-                    data-i18n="[title]annotations.toggle"
-                    id="toggle-markup"
-                >
+                <button data-i18n="[title]annotations.toggle" id="toggle-markup">
                     <svg viewBox="0 0 24 24">
                         <use href="#eye-fill"></use>
                     </svg>

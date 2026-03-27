@@ -1,63 +1,102 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
-        <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico" />
-        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-16.png" sizes="16x16" />
-        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-24.png" sizes="24x24" />
-        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png" sizes="32x32" />
-        <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png" sizes="64x64" />
+        <meta
+            name="viewport"
+            content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="[[ $context-path ]]/resources/images/favicon.ico"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="[[ $context-path ]]/resources/images/favicon-16.png"
+            sizes="16x16"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="[[ $context-path ]]/resources/images/favicon-24.png"
+            sizes="24x24"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="[[ $context-path ]]/resources/images/favicon-32.png"
+            sizes="32x32"
+        />
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="[[ $context-path ]]/resources/images/favicon-64.png"
+            sizes="64x64"
+        />
 
         [% for $path in ($static?styles?*, $styles?*) %]
-            [% if matches($path, "(?:^https?://|^/).*$") %]
-            <link rel="stylesheet" href="[[ $path ]]" />
-            [% else %]
-            <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
-            [% endif %]
+        [% if matches($path, "(?:^https?://|^/).*$") %]
+        <link rel="stylesheet" href="[[ $path ]]" />
+        [% else %]
+        <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
+        [% endif %]
         [% endfor %]
-        [% block styles %][% endblock %]
+        [% block styles %]
+        [% endblock %]
         <style>
             :root {
-                --jinks-layout-before-width: [[$context?theme?layout?before?width]];
-                --jinks-layout-after-width: [[$context?theme?layout?after?width]];
+                --jinks-layout-before-width: [[ $context?theme?layout?before?width]];
+                --jinks-layout-after-width: [[ $context?theme?layout?after?width]];
             }
         </style>
 
         <title>[[ $label ]]</title>
 
         [% if $script?webcomponents = 'dev' %]
-        <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+        <script type="module" src="[[ $script?cdn ]]/src/pb-components-bundle.js"></script>
         [% for $component in $script?extra-components?* %]
-        <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+        <script type="module" src="[[ $script?cdn ]]/src/[[ $component ]].js"></script>
         [% endfor %]
         [% elif $script?webcomponents = '' %]
         [% else %]
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+        <script
+            type="module"
+            src="[[ $script?cdn ]]@[[ $script?webcomponents ]]/dist/pb-components-bundle.js"
+        ></script>
         [% for $component in $script?extra-components?* %]
-        <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
+        <script
+            type="module"
+            src="[[ $script?cdn ]]@[[ $script?webcomponents ]]/dist/[[ $component ]].js"
+        ></script>
         [% endfor %]
         [% endif %]
-
         [% if $script?fore %]
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"></script>
+        <script
+            type="module"
+            src="https://cdn.jsdelivr.net/npm/@jinntec/fore@[[ $script?fore ]]/dist/fore.js"
+        ></script>
         [% endif %]
-
-        [% block scripts %][% endblock %]
+        [% block scripts %]
+        [% endblock %]
     </head>
     <body class="static">
-        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
+        <pb-page
+            endpoint="[[ $context-path ]]"
+            app-root="[[ $context-path ]]"
+            api-version="1.0.0"
             supported-languages="[[ string-join(map:keys($languages), ', ') ]]"
             locales="[[ $context-path ]]/resources/i18n/{{ns}}/{{lng}}.json"
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
-            unresolved="unresolved" class="[[ $context?theme?layout?class ]]"
-            theme="resources/css/components.css">
-            
+            unresolved="unresolved"
+            class="[[ $context?theme?layout?class ]]"
+            theme="resources/css/components.css"
+        >
             <header class="page-header">
                 <div>
                     [% if $features?menubar %]
                     [% include "static/templates/menu.html" %]
                     [% endif %]
-
                     [% block header %][% endblock %]
                 </div>
             </header>
@@ -69,18 +108,24 @@
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".before">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-arrow-bar-left"
+                                viewBox="0 0 16 16"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"
+                                />
                             </svg>
                         </a>
                     </li>
                 </ul>
             </nav>
-            <aside class="before">
-                [% block before %][% endblock %]
-            </aside>
+            <aside class="before">[% block before %][% endblock %]</aside>
             <header class="content-top">
                 [% if $features?toolbar?enabled %]
                 [% include "static/templates/toolbar.html" %]
@@ -92,20 +137,26 @@
                 <ul>
                     <li>
                         <a class="aside-toggle" title="Hide" data-toggle=".after">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-arrow-bar-left"
+                                viewBox="0 0 16 16"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"
+                                />
                             </svg>
                         </a>
                     </li>
                 </ul>
             </nav>
-            <aside class="after">
-                [% block after %][% endblock %]
-            </aside>
+            <aside class="after">[% block after %][% endblock %]</aside>
         </pb-page>
-        <div class="splash"/>
+        <div class="splash" />
         <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
         [% for $src in $context?script?custom?* %]
         <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>

@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "features": {
             "toolbar": {
                 "navigation": false,
@@ -24,7 +24,7 @@
             ]
         }
     }
-    ---
+---
     <style>
         pb-search .targets {
             margin-top: 1rem;
@@ -41,21 +41,28 @@
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/browse.html"><pb-i18n key="breadcrumb.collection-root" /></a></li>
-                <li><pb-i18n key="search.results"/></li>
+                <li>
+                    <a href="[[ $context-path ]]/browse.html"
+                        ><pb-i18n key="breadcrumb.collection-root"
+                    /></a>
+                </li>
+                <li><pb-i18n key="search.results" /></li>
             </ul>
         </nav>
     </li>
     [% endtemplate %]
-
     <main>
         <pb-load class="results" url="api/search" emit="results"></pb-load>
     </main>
 
     [% template before %]
-    <pb-search id="search-form" subscribe="search"
+    <pb-search
+        id="search-form"
+        subscribe="search"
         value="[[ page:parameter($context, 'query', '') ]]"
-        submit-on-load="submit-on-load" subforms=".facets">
+        submit-on-load="submit-on-load"
+        subforms=".facets"
+    >
         <!-- <div class="targets">
             <label>
                 <input type="checkbox" name="field" value="text"/>
@@ -68,6 +75,12 @@
         </div> -->
         <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
     </pb-search>
-    <pb-custom-form class="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/>
+    <pb-custom-form
+        class="facets"
+        url="api/search/facets"
+        subscribe="results"
+        event="pb-results-received"
+        emit="search"
+    />
     [% endtemplate %]
 </template>

@@ -1,15 +1,14 @@
-<main class="editor">
-    ---json
-    {
-        "scripts": [
-            "resources/scripts/editor.js"
-        ],
-        "templating": {
-            "extends": "pages/page.html"
-        }
+---json
+{
+    "scripts": [
+        "resources/scripts/editor.js"
+    ],
+    "templating": {
+        "extends": "pages/page.html"
     }
-    ---
-    [% template before %]
+}
+---
+[% template before %]
     <div class="apps-aside">
         <nav>
             <ul>
@@ -23,13 +22,9 @@
         </nav>
         <ul class="installed"></ul>
     </div>
-    [% endtemplate %]
-
-    [% template after-top-heading %]
+[% endtemplate %][% template after-top-heading %]
     <li><h3>JSON Configuration</h3></li>
-    [% endtemplate %]
-
-    [% template content-top %]
+[% endtemplate %][% template content-top %]
     <nav class="tabs">
         <ul>
             <li><a href="#config" data-shortcut="ctrl+1,alt+1">Application Configuration</a></li>
@@ -38,9 +33,7 @@
             <li><a href="#files" data-shortcut="ctrl+4,alt+4">Files</a></li>
         </ul>
     </nav>
-    [% endtemplate %]
-
-    [% template footer %]
+[% endtemplate %][% template footer %]
     <nav>
         <ul>
             <li>
@@ -62,7 +55,7 @@
         </ul>
         <ul id="actions" class="buttons"></ul>
     </nav>
-    [% endtemplate %]
+[% endtemplate %]
 
     <form id="config">
         <section id="configMeta" data-tab="config">
@@ -114,7 +107,7 @@
             <fieldset>
                 <legend>Blueprints</legend>
                 <ul>
-                    [% for $profile in filter($context?profiles, function($p) { $p?type = "blueprint"}) %]
+[% for $profile in filter($context?profiles, function($p) { $p?type = "blueprint"}) %]
                     <li>
                         <label data-tooltip="[[ $profile?description ]]" data-placement="right">
                             <input type="checkbox" name="blueprint" value="[[ $profile?path ]]"
@@ -127,24 +120,24 @@
                             </svg>
                         </a>
                     </li>
-                    [% endfor %]
+[% endfor %]
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Base Profile</legend>
                 <ul>
-                [% let $baseProfiles = filter($context?profiles, function($p) { $p?type = "base"}) %]
-                [% for $profile in $baseProfiles %]
+[% let $baseProfiles = filter($context?profiles, function($p) { $p?type = "base"}) %]
+    [% for $profile in $baseProfiles %]
                 <li>
                     <label data-tooltip="[[ $profile?description ]]"
                         data-placement="right">
-                        [% if $profile?path = 'base10' %]
+        [% if $profile?path = 'base10' %]
                         <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                        [% else %]
+        [% else %]
                         <input type="radio" name="base" value="[[ $profile?path ]]" 
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
-                        [% endif %]
+        [% endif %]
                         <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                     </label>
                     <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
@@ -153,18 +146,18 @@
                         </svg>
                     </a>
                 </li>
-                [% endfor %]
-                [% endlet %]
+    [% endfor %]
+[% endlet %]
                 </ul>
             </fieldset>
 
             <fieldset>
                 <legend>Features</legend>
-                [% for $category in sort(distinct-values(for-each($context?profiles, function($p) { $p?category })))  %]
+[% for $category in sort(distinct-values(for-each($context?profiles, function($p) { $p?category }))) %]
                 <div>
                     <h4><pb-i18n key="categories.[[ $category ]]">[[ $category ]]</pb-i18n></h4>
                     <ul>
-                    [% for $profile in filter($context?profiles, function($p) { $p?type = "feature" and $p?category = $category }) %]
+    [% for $profile in filter($context?profiles, function($p) { $p?type = "feature" and $p?category = $category }) %]
                     <li>
                         <label data-tooltip="[[ $profile?description ]]"
                             data-placement="right">
@@ -176,15 +169,15 @@
                             <svg class="icon"><use href="#icon-information"></use></svg>
                         </a>
                     </li>
-                    [% endfor %]
+    [% endfor %]
                     </ul>
                 </div>
-                [% endfor %]
+[% endfor %]
             </fieldset>
             <fieldset>
                 <legend>Expert: Create New Profile</legend>
                 <ul>
-                    [% for $profile in filter($context?profiles, function($p) { $p?type = "bootstrap"}) %]
+[% for $profile in filter($context?profiles, function($p) { $p?type = "bootstrap"}) %]
                     <li>
                         <label data-tooltip="[[ $profile?description ]]" data-placement="right">
                             <input type="checkbox" name="bootstrap" value="[[ $profile?path ]]"
@@ -201,7 +194,7 @@
                             <option value="theme">Theme</option>
                         </select>
                     </li>
-                    [% endfor %]
+[% endfor %]
                 </ul>
             </fieldset>
         </section>
@@ -210,17 +203,17 @@
             <fieldset>
                 <legend>Themes</legend>
                 <ul>
-                    [% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
-                    [% for $profile in $themeProfiles %]
+[% let $themeProfiles = filter($context?profiles, function($p) { $p?type = "theme"}) %]
+    [% for $profile in $themeProfiles %]
                     <li>
                         <label data-tooltip="[[ $profile?description ]]" data-placement="right">
-                            [% if $profile?path = tail($themeProfiles)?path %]
+        [% if $profile?path = tail($themeProfiles)?path %]
                             <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                            [% else %]
+        [% else %]
                             <input type="checkbox" name="theme" value="[[ $profile?path ]]"
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
-                            [% endif %]
+        [% endif %]
                             <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
                         </label>
                         <a href="profile/[[ $profile?path ]]" target="jinks-profile-documentation">
@@ -229,11 +222,11 @@
                             </svg>
                         </a>
                     </li>
-                    [% endfor %]
-                    [% endlet %]
+    [% endfor %]
+[% endlet %]
                 </ul>
             </fieldset>
-            
+
             <fieldset>
                 <legend>Color Scheme</legend>
                 <div class="color-scheme-picker" id="color-scheme-picker">
@@ -250,8 +243,7 @@
     <details>
         <summary>Merged Configuration</summary>
         <jinn-monaco-editor id="mergedConfig" language="json" readonly="" value="{}"></jinn-monaco-editor>
-    </details>
-    [% template dialogs %]
+    </details>[% template dialogs %]
     <pb-message id="message-dialog"></pb-message>
     <pb-dialog id="action-dialog">
         <h3 slot="title">File Sync</h3>
@@ -307,5 +299,5 @@
             </ul>
         </nav>
     </pb-dialog>
-    [% endtemplate %]
+[% endtemplate %]
 </main>

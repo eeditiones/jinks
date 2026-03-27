@@ -34,7 +34,6 @@ RUN  cd[[ $pkg?abbrev ]] \
 COPY .[[ $pkg?abbrev ]]/
 RUN  cd[[ $pkg?abbrev ]] \
     && ant
-
 [% endif %]
 
 ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
@@ -55,7 +54,6 @@ RUN --mount=type=secret,id=[[ string($docker?externalXar($fileName)?token) ]] \
         [% else %]
 # Public repository
 ADD[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]][[ $fileName ]].xar
-
         [% endif %]
     [% endfor %]
 [% endif %]

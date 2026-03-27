@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "templates/layouts/base.html"
         },
@@ -23,20 +23,18 @@
             }
         }
     }
-    ---
+---
     [% template styles %]
     [% endtemplate %]
-
     [% template hero %]
     <header class="hero">
         [[ landing:section($context, 'hero', $landing?content, 'landing.odd') ]]
     </header>
     [% endtemplate %]
-
     <section id="about">
-    [[ landing:section($context, 'about', $landing?content, 'landing.odd') ]]
+        [[ landing:section($context, 'about', $landing?content, 'landing.odd') ]]
     </section>
-    
+
     [[ landing:section($context, 'highlights', $landing?content, 'landing.odd') ]]
 
     <section id="team" class="section-light">
@@ -46,12 +44,11 @@
     <section class="section-dark">
         [[ landing:section($context, 'section', $landing?content, 'landing.odd') ]]
     </section>
-    
+
     <section id="project-partners" class="section-light">
         [[ landing:section($context, 'partners', $landing?content, 'landing.odd') ]]
     </section>
-    
-    [% include "templates/bottom.html" %]
 
+    [% include "templates/bottom.html" %]
     [% include "templates/footer.html" %]
 </template>

@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "static/templates/layouts/content.html"
         },
@@ -16,13 +16,7 @@
             }
         }
     }
-    ---
-    <div class="content">
-    [[ $parts?default?content ]]
-    [[ $parts?default?footnotes ]]
-    </div>
-    <div class="content">
-        [[ $parts?translation?content ]]
-        [[ $parts?translation?footnotes ]]
-    </div>
+---
+    <div class="content">[[ $parts?default?content ]] [[ $parts?default?footnotes ]]</div>
+    <div class="content">[[ $parts?translation?content ]] [[ $parts?translation?footnotes ]]</div>
 </template>

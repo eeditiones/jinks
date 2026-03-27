@@ -28,11 +28,9 @@ declare variable $config:app-root :=
     declare variable $config:data-root := "[[ $defaults?data ]]";
     [% else %]
     declare variable $config:data-root := $config:app-root || "/[[ $defaults?data ]]";
-
     [% endif %]
 [% else %]
     declare variable $config:data-root := $config:app-root || "/data";
-
 [% endif %]
 
 (:~
@@ -47,7 +45,6 @@ declare variable $config:register-root := $config:data-root || "/registers";
   declare variable $config:data-default as xs:string :=   $config:data-root || "/[[ $defaults?data-default ]]";
 [% else %]
   declare variable $config:data-default as xs:string :=  $config:data-root;
-
 [% endif %]
 
 (:~
@@ -57,9 +54,7 @@ declare variable $config:register-root := $config:data-root || "/registers";
     declare variable $config:address-by-id as xs:boolean :=
     [% if $defaults?address-by-id %] true()
     [% else %] false()
-
     [% endif %];
 [% else %]
     declare variable $config:address-by-id := false();
-
 [% endif %]

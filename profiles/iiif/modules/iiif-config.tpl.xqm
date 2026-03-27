@@ -24,7 +24,7 @@ declare variable $iiifc:CANVAS_ID_PREFIX := "https://e-editiones.org/canvas/";
  : @param $doc the document root node to scan
  :)
 declare function iiifc:milestones ($doc as node()) {
-    $doc[[$context?features?iiif?milestone_xpath]]
+    $doc[[ $context?features?iiif?milestone_xpath ]]
 };
 
 (:~

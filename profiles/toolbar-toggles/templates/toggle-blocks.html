@@ -1,14 +1,20 @@
 <template>
     [% template toolbar %]
-        [% if exists($context?doc) and $features?toolbar-toggles?enabled %]
-            [% if $features?toolbar-toggles?toggle-reading %]
-            <li>
-                <pb-toggle-feature name="toggle-reading" selector=".tei-foreign,pb-highlight,pb-popover"
-                    action="disable" default="off" emit="transcription" subscribe="transcription">
-                    <pb-i18n key="document.plain">Reading View</pb-i18n>
-                </pb-toggle-feature>
-            </li>
-            [% endif %]
-        [% endif %]
+    [% if exists($context?doc) and $features?toolbar-toggles?enabled %]
+    [% if $features?toolbar-toggles?toggle-reading %]
+    <li>
+        <pb-toggle-feature
+            name="toggle-reading"
+            selector=".tei-foreign,pb-highlight,pb-popover"
+            action="disable"
+            default="off"
+            emit="transcription"
+            subscribe="transcription"
+        >
+            <pb-i18n key="document.plain">Reading View</pb-i18n>
+        </pb-toggle-feature>
+    </li>
+    [% endif %]
+    [% endif %]
     [% endtemplate %]
 </template>

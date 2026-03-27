@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "templates/layouts/content.html"
         },
@@ -16,7 +16,7 @@
             }
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         :root {
@@ -25,5 +25,12 @@
         }
     </style>
     [% endtemplate %]
-    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <pb-view
+        class="content"
+        src="document1"
+        column-separator=".tei-cb"
+        append-footnotes="append-footnotes"
+        subscribe="transcription"
+        emit="transcription"
+    />
 </template>

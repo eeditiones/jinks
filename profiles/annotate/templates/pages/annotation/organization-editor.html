@@ -7,10 +7,10 @@
 <fx-fore id="organisation-editor" class="authority-editor">
     <fx-model id="model-1">
 
-        <fx-instance id="authority-default" src="[[ $context-path]]/api/forms/template/organization-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="authority-default" src="[[ $context-path ]]/api/forms/template/organization-default" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
         </fx-instance>
 
-        <fx-instance id="i-template" src="[[ $context-path]]/api/forms/template/organization-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="i-template" src="[[ $context-path ]]/api/forms/template/organization-template" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
             <data></data>
         </fx-instance>
 
@@ -133,18 +133,18 @@
     </fx-trigger>
 
     <fx-action event="ready" if="string-length(getRef()) = 0">
-        <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/organization-NEW"/>
+        <fx-send event="ready" submission="load" url="[[ $context-path ]]/api/register/organization-NEW"/>
     </fx-action>
     <fx-action event="ready" if="string-length(getRef()) != 0">
-        <fx-send event="ready" submission="load" url="[[ $context-path]]/api/register/{getRef()}"/>
+        <fx-send event="ready" submission="load" url="[[ $context-path ]]/api/register/{getRef()}"/>
     </fx-action>
 
     <fx-action id="saveAction">
         <fx-action if="string-length(getRef()) != 0">
-            <fx-send submission="save" url="[[ $context-path]]/api/register/{getRef()}"/>
+            <fx-send submission="save" url="[[ $context-path ]]/api/register/{getRef()}"/>
         </fx-action>
         <fx-action if="string-length(getRef()) = 0">
-            <fx-send submission="save" url="[[ $context-path]]/api/register/organization-NEW"/>
+            <fx-send submission="save" url="[[ $context-path ]]/api/register/organization-NEW"/>
         </fx-action>
     </fx-action>
 </fx-fore>

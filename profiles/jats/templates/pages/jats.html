@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "templates/layouts/content.html"
         },
@@ -13,7 +13,7 @@
             }
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         :root {
@@ -28,8 +28,15 @@
     [% endtemplate %]
     [% template before 1 %]
     <pb-view src="document1" view="single">
-        <pb-param name="mode" value="metadata"/>
+        <pb-param name="mode" value="metadata" />
     </pb-view>
     [% endtemplate %]
-    <pb-view class="content" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <pb-view
+        class="content"
+        src="document1"
+        column-separator=".tei-cb"
+        append-footnotes="append-footnotes"
+        subscribe="transcription"
+        emit="transcription"
+    />
 </template>

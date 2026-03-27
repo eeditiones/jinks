@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "templates/layouts/content.html"
         },
@@ -31,18 +31,24 @@
             }
         }
     }
-    ---
+---
     [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/people"><pb-i18n key="menu.people"/></a></li>
-                <li>[[ $entity-data?root/head((tei:persName[@type = ('reg', 'main', 'full')], tei:persName))/string() ]]</li>
+                <li>
+                    <a href="[[ $context-path ]]/people"><pb-i18n key="menu.people" /></a>
+                </li>
+                <li>
+                    [[ $entity-data?root/head((tei:persName[@type = ('reg', 'main', 'full')],
+                    tei:persName))/string() ]]
+                </li>
             </ul>
         </nav>
     </li>
     [% endtemplate %]
     <section class="person">
-        [[ page:transform($entity-data?root, map { "mode": "register-details" , "webcomponents": true()}) ]]
+        [[ page:transform($entity-data?root, map { "mode": "register-details" , "webcomponents":
+        true()}) ]]
     </section>
 </template>

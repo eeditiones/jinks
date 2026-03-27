@@ -1,12 +1,15 @@
-<main>
-    ---json
-    {
-        "scripts": ["resources/scripts/templating.js"],
-        "templating": {
-            "extends": "pages/page.html"
-        }
+---json
+{
+    "scripts": [
+        "resources/scripts/templating.js"
+    ],
+    "templating": {
+        "extends": "pages/page.html"
     }
-    ---
+}
+---
+
+
     <div class="grid templating">
         <div>
             <h1>Template</h1>
@@ -27,8 +30,7 @@
                 </fieldset>
             </jinn-monaco-editor>
             <details>
-                <summary data-cy="cheatsheet-link">Syntax Cheatsheet</summary>
-                [% include "pages/demo/cheatsheet.html" %]
+                <summary data-cy="cheatsheet-link">Syntax Cheatsheet</summary>[% include "pages/demo/cheatsheet.html" %]
             </details>
         </div>
         <div>

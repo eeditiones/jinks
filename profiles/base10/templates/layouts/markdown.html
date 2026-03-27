@@ -1,6 +1,6 @@
 <main>
     ---json
-    {
+{
         "templating": {
             "extends": "templates/layouts/base.html"
         },
@@ -10,7 +10,7 @@
             }
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         pb-markdown {
@@ -19,7 +19,5 @@
         }
     </style>
     [% endtemplate %]
-    <pb-markdown>
-    [% block content %][% endblock %]
-    </pb-markdown>
+    <pb-markdown> [% block content %][% endblock %] </pb-markdown>
 </main>

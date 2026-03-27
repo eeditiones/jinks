@@ -106,7 +106,6 @@ RUN if [ -n "${[[ string($docker?externalXar($fileName)?token) ]]}" ]; then \
         [% else %]
 # Public repository
 RUN curl -L -o /usr/local/exist/autodeploy/[[ $fileName ]].xar "[[ string(if ($docker?externalXar($fileName) instance of xs:string) then $docker?externalXar($fileName) else $docker?externalXar($fileName)?url) ]]"
-
         [% endif %]
     [% endfor %]
 [% endif %]

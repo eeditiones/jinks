@@ -1,15 +1,14 @@
-<main>
-    ---json
-    {
-        "templating": {
-            "extends": "pages/page.html"
-        },
-        "scripts": [
-            "resources/scripts/docs.js"
-        ]
-    }
-    ---
-    [% template styles %]
+---json
+{
+    "templating": {
+        "extends": "pages/page.html"
+    },
+    "scripts": [
+        "resources/scripts/docs.js"
+    ]
+}
+---
+[% template styles %]
     <style>
         .fixed-layout main {
             display: block;
@@ -68,9 +67,8 @@
             max-width: 960px;
         }
     </style>
-    [% endtemplate %]
-
-    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/screenshot.png") %]
+[% endtemplate %]
+[% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/screenshot.png") %]
     <figure>
         <img src="screenshot.png" class="screenshot"/>
         <figcaption>Screenshot</figcaption>
@@ -78,197 +76,175 @@
     <div class="image-popup">
         <img src="screenshot.png"/>
     </div>
-    [% endif %]
-    <h1>
-        [[ upper-case(substring($profile?type, 1, 1)) || substring($profile?type, 2) ]]: [[ $label ]] <span class="version">[[ $profile?version ]]</span>
+[% endif %]
+    <h1>[[ upper-case(substring($profile?type, 1, 1)) || substring($profile?type, 2) ]]:[[ $label ]] <span class="version">[[ $profile?version ]]</span>
         <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/config.json"
             data-tooltip="View config.json">
             <svg class="icon"><use href="#icon-code"></use></svg>
         </a>
     </h1>
     <h2>[[ $abbrev ]]</h2>
-    [% if map:contains($context, "description") %]
+[% if map:contains($context, "description") %]
     <p>[[ $context?description ]]</p>
-    [% endif %]
-
-    [% if map:contains($profile, "depends") %]
+[% endif %]
+[% if map:contains($profile, "depends") %]
     <article>
         <h3>Dependencies</h3>
         <ul>
-            [% for $dep in $profile?depends?* %]
+    [% for $dep in $profile?depends?* %]
             <li>
                 <a href="[[ $context-path ]]/profile/[[ $dep ]]">[[ $dep ]]</a>
             </li>
-            [% endfor %]
+    [% endfor %]
         </ul>
     </article>
-    [% endif %]
-
-    [% if exists($profile?features?($abbrev)) %]
+[% endif %]
+[% if exists($profile?features?($abbrev)) %]
     <article>
         <h3>Default configuration</h3>
-        <pb-code-highlight language="json" line-numbers="" theme="default">
-            [[ serialize($profile?features?($abbrev), map { 'method': 'json', 'indent': true() }) ]]
+        <pb-code-highlight language="json" line-numbers="" theme="default">[[ serialize($profile?features?($abbrev), map { 'method': 'json', 'indent': true() }) ]]
         </pb-code-highlight>
     </article>
-    [% endif %]
-
-    [% if map:contains($profile, "defaults") %]
+[% endif %]
+[% if map:contains($profile, "defaults") %]
     <article>
         <h3>Default settings</h3>
         <ul>
-            [% for $key in map:keys($profile?defaults) %]
-            <li>
-                [[ $key ]]: <code>[[ $profile?defaults($key) ]]</code>
+    [% for $key in map:keys($profile?defaults) %]
+            <li>[[ $key ]]: <code>[[ $profile?defaults($key) ]]</code>
             </li>
-            [% endfor %]
+    [% endfor %]
         </ul>
     </article>
-    [% endif %]
-
-    [% let $files = tu:scan-collection($path || "/resources/odd") %]
+[% endif %]
+[% let $files = tu:scan-collection($path || "/resources/odd") %]
     [% if exists($files) %]
     <article>
         <h3>ODD files provided</h3>
         <ul>
-            [% for $odd in $files %]
-            <li>
-                [[ $odd ]]
+        [% for $odd in $files %]
+            <li>[[ $odd ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $odd ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
-
-    [% if map:contains($profile, "api") %]
+[% endlet %]
+[% if map:contains($profile, "api") %]
     <article>
         <h3>Open API endpoint definitions</h3>
         <ul>
-            [% for $api in $profile?api?* %]
-            [% if map:contains($api, "spec") %]
-            <li>
-                [[ $api?spec ]]
+    [% for $api in $profile?api?* %]
+        [% if map:contains($api, "spec") %]
+            <li>[[ $api?spec ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/modules/[[ replace($api?spec, '^(.*?)\.json$', '$1.tpl.json') ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endif %]
-            [% endfor %]
+        [% endif %]
+    [% endfor %]
         </ul>
     </article>
-    [% endif %]
-
-    [% let $files = tu:scan-collection($path || "/modules", "^.*\.xql$") %]
+[% endif %]
+[% let $files = tu:scan-collection($path || "/modules", "^.*\.xql$") %]
     [% if exists($files) %]
     <article>
         <h3>XQuery Modules</h3>
         <ul>
-            [% for $file in $files %]
-            <li>
-                [[ substring-after($file, "profiles/" || $name || "/") ]]
+        [% for $file in $files %]
+            <li>[[ substring-after($file, "profiles/" || $name || "/") ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
-
-    [% let $files = tu:scan-collection($path || "/templates") %]
+[% endlet %]
+[% let $files = tu:scan-collection($path || "/templates") %]
     [% if exists($files) %]
     <article>
         <h3>HTML Templates</h3>
         <ul>
-            [% for $file in $files %]
-            <li>
-                [[ substring-after($file, "profiles/" || $name || "/") ]]
+        [% for $file in $files %]
+            <li>[[ substring-after($file, "profiles/" || $name || "/") ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
-
-    [% let $styles = tu:scan-collection($path || "/resources/css") %]
+[% endlet %]
+[% let $styles = tu:scan-collection($path || "/resources/css") %]
     [% if exists($styles) %]
     <article>
         <h3>CSS Styles</h3>
         <ul>
-            [% for $style in $styles %]
-            <li>
-                [[ substring-after($style, "profiles/" || $name || "/") ]]
+        [% for $style in $styles %]
+            <li>[[ substring-after($style, "profiles/" || $name || "/") ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $style ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
-
-    [% let $scripts = tu:scan-collection($path || "/resources/scripts") %]
+[% endlet %]
+[% let $scripts = tu:scan-collection($path || "/resources/scripts") %]
     [% if exists($scripts) %]
     <article>
         <h3>Javascript</h3>
         <ul>
-            [% for $script in $scripts %]
-            <li>
-                [[ substring-after($script, "profiles/" || $name || "/") ]]
+        [% for $script in $scripts %]
+            <li>[[ substring-after($script, "profiles/" || $name || "/") ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $script ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
-
-    [% if exists($profile?menu?items) %]
+[% endlet %]
+[% if exists($profile?menu?items) %]
     <article>
         <h3>Menu items</h3>
         <ul>
-            [% for $item in $profile?menu?items?* %]
-            <li>
-                [[ $item?id ]]: <code>[[ $item?url ]]</code>
+    [% for $item in $profile?menu?items?* %]
+            <li>[[ $item?id ]]: <code>[[ $item?url ]]</code>
             </li>
-            [% endfor %]
+    [% endfor %]
         </ul>
     </article>
-    [% endif %]
-
-    [% let $i18n = tu:scan-collection($path || "/resources/i18n") %]
+[% endif %]
+[% let $i18n = tu:scan-collection($path || "/resources/i18n") %]
     [% if exists($i18n) %]
     <article>
         <h3>Internationalization</h3>
         <ul>
-            [% for $lang in $i18n %]
+        [% for $lang in $i18n %]
             [% if ends-with($lang, ".json") %]
-            <li>
-                [[ substring-after($lang, "profiles/" || $name || "/") ]]
+            <li>[[ substring-after($lang, "profiles/" || $name || "/") ]]
                 <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $lang ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
             [% endif %]
-            [% endfor %]
+        [% endfor %]
         </ul>
     </article>
     [% endif %]
-    [% endlet %]
+[% endlet %]
 
     <hr/>
-    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/README.md") %]
+[% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/README.md") %]
     <pb-markdown style="display: none;" url="[[ $path ]]/doc/README.md"></pb-markdown>
-    [% endif %]
+[% endif %]
 </main>

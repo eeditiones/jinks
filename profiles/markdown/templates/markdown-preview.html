@@ -1,6 +1,6 @@
 <main>
     ---json
-    {
+{
         "templating": {
             "extends": "templates/layouts/base.html"
         },
@@ -19,7 +19,7 @@
             }
         }
     }
-    ---
+---
     [% template styles %]
     <style>
         pb-markdown {
@@ -33,7 +33,9 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li>
-                    <a href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]">
+                    <a
+                        href="[[ $context-path ]]/browse.html?collection=[[ browse:parent-link($context) ]]"
+                    >
                         <pb-i18n key="breadcrumb.document-root">Documents</pb-i18n>
                     </a>
                 </li>
@@ -44,7 +46,8 @@
         </nav>
     </li>
     [% endtemplate %]
-
-    <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md"
-        emit="transcription"></pb-markdown>
+    <pb-markdown
+        url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md"
+        emit="transcription"
+    ></pb-markdown>
 </main>

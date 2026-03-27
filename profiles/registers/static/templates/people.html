@@ -1,6 +1,6 @@
 <div class="people">
     ---json
-    {
+{
         "templating": {
             "extends": "static/templates/layouts/content.html"
         },
@@ -18,39 +18,45 @@
             }
         }
     }
-    ---
+---
     [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
             <ul>
-                <li><a href="[[ $context-path ]]/people"><pb-i18n key="menu.people"/></a></li>
+                <li>
+                    <a href="[[ $context-path ]]/people"><pb-i18n key="menu.people" /></a>
+                </li>
                 <li>[[ $pagination?page ]]</li>
             </ul>
         </nav>
     </li>
     [% endtemplate %]
-
     [% template before %]
     <nav>
         <ul>
-        [% for $i in $pagination?all %]
+            [% for $i in $pagination?all %]
             <li>
                 [% if $pagination?page = $i?page %]
-                <a role="button" href="../[[ $i?page ]]/index.html" class="contrast" aria-current="page">[[ $i?page ]]</a>
+                <a
+                    role="button"
+                    href="../[[ $i?page ]]/index.html"
+                    class="contrast"
+                    aria-current="page"
+                    >[[ $i?page ]]</a
+                >
                 [% else %]
                 <a role="button" href="../[[ $i?page ]]/index.html">[[ $i?page ]]</a>
                 [% endif %]
             </li>
-        [% endfor %]
+            [% endfor %]
         </ul>
     </nav>
     [% endtemplate %]
-
     <ul>
-    [% for $doc in $content %]
+        [% for $doc in $content %]
         <li>
-            <a href="../[[$doc?id]]">[[$doc?name]]</a>
+            <a href="../[[ $doc?id ]]">[[ $doc?name ]]</a>
         </li>
-    [% endfor %]
+        [% endfor %]
     </ul>
 </div>

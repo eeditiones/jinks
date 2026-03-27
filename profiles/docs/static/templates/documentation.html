@@ -1,6 +1,6 @@
-<template>
-    ---json
-    {
+<template
+    >---json
+{
         "templating": {
             "extends": "static/templates/layouts/content.html"
         },
@@ -14,12 +14,9 @@
             }
         }
     }
-    ---
+---
     [% template! breadcrumb %]
     <li>[[ $parts?breadcrumb?content ]]</li>
     [% endtemplate %]
-    <div class="content">
-    [[ $parts?default?content ]]
-    [[ $parts?default?footnotes ]]
-    </div>
+    <div class="content">[[ $parts?default?content ]] [[ $parts?default?footnotes ]]</div>
 </template>

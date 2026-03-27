@@ -5,8 +5,11 @@
         <a href="[[ $context-path ]]/markdown/[[ $options?relpath ]]">Markdown Preview</a>
     </li>
     <li>
-        <a href="[[ $context-path ]]/api/document/[[ escape-uri($options?relpath, true()) ]]/md" target="_blank">Markdown
-            Text</a>
+        <a
+            href="[[ $context-path ]]/api/document/[[ escape-uri($options?relpath, true()) ]]/md"
+            target="_blank"
+            >Markdown Text</a
+        >
     </li>
     [% endif %]
     [% endtemplate %]
@@ -16,8 +19,11 @@
         <a href="[[ $context-path ]]/markdown/[[ $context?doc?path ]]">Markdown Preview</a>
     </li>
     <li>
-        <a href="[[ $context-path ]]/api/document/[[ encode-for-uri($context?doc?path) ]]/md" target="_blank">Markdown
-            Text</a>
+        <a
+            href="[[ $context-path ]]/api/document/[[ encode-for-uri($context?doc?path) ]]/md"
+            target="_blank"
+            >Markdown Text</a
+        >
     </li>
     [% endif %]
     [% endtemplate %]

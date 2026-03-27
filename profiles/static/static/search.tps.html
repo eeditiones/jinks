@@ -1,6 +1,6 @@
 <main>
     ---json
-    {
+{
         "templating": {
             "extends": "static/templates/layouts/base.html"
         },
@@ -16,7 +16,7 @@
             ]
         }
     }
-    ---
+---
     [% template breadcrumb %]
     <li>
         <nav aria-label="breadcrumb">
@@ -28,13 +28,19 @@
     [% endtemplate %]
     [% template before %]
     <form id="search-form">
-        <input type="search" name="query" id="search-input" placeholder="Search" autocomplete="off" />
+        <input
+            type="search"
+            name="query"
+            id="search-input"
+            placeholder="Search"
+            autocomplete="off"
+        />
         <fieldset>
             <legend>Field</legend>
             [% for $field in $static?fields?index?* %]
             <label>
-                <input type="checkbox" name="field" value="[[$field]]" checked="checked"/> <pb-i18n
-                    key="static.search.field-[[ $field ]]">[[ $field ]]</pb-i18n>
+                <input type="checkbox" name="field" value="[[ $field ]]" checked="checked" />
+                <pb-i18n key="static.search.field-[[ $field ]]">[[ $field ]]</pb-i18n>
             </label>
             [% endfor %]
         </fieldset>
