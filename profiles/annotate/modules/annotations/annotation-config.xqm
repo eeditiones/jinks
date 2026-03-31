@@ -55,7 +55,7 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
             <bibl xmlns="http://www.tei-c.org/ns/1.0" key="{$properties?key}" type="work">{$content()}</bibl>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
-            { 
+            {
                 if ($properties?rend) then attribute rend { $properties?rend } else (),
                 if ($properties?rendition) then attribute rendition { $properties?rendition } else (),
                 $content()
