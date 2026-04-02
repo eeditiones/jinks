@@ -64,7 +64,6 @@
         </pb-dialog>
         <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
             supported-languages="[[ string-join($context?defaults?languages?*, ', ') ]]"
-            language="[[ if ($request?parameters?lang) then $request?parameters?lang else $defaults?language ]]"
             locales="resources/i18n/{{ns}}/{{lng}}.json"
             locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
             unresolved="unresolved"
@@ -154,7 +153,7 @@
         <!-- Statically determine the language for the page, might be overridden once i18n is loaded -->
         <script type="application/json" id="language-default">
             {
-                "language": "[[ page:parameter($context, "lang", head(($defaults?language, $defaults?languages?1))) ]]"
+                "language": "[[ page:resolve-language($context) ]]"
             }
         </script>
     </body>

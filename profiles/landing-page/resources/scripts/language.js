@@ -4,10 +4,17 @@ function primaryLang(language) {
     return language.split('-')[0].toLowerCase();
 }
 
+/** Same URL with `lang` set; keeps path, other query params, and hash. */
+function locationWithLang(lang) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', primaryLang(lang));
+    return url.href;
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     pbEvents.subscribe('pb-i18n-language', null, (ev) => {
         const { language } = ev.detail;
-        window.location.href = `?lang=${primaryLang(language)}`;
+        window.location.href = locationWithLang(language);
     });
 
     // at initialization time, compare the language retrieved from parameters and context with what is reported
@@ -27,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
     pbEvents.subscribe('pb-page-ready', null, (ev) => {
         const { language } = ev.detail;
         if (language && primaryLang(language) !== primaryLang(languageDefault)) {
-            window.location.href = `?lang=${primaryLang(language)}`;
+            window.location.href = locationWithLang(language);
         }
     });
 });

@@ -43,6 +43,46 @@ declare function page:parameter($context as map(*), $name as xs:string, $default
             $default
 };
 
+(:~ Primary language subtag, lowercase (e.g. en-US → en). :)
+declare %private function page:primary-lang($tag as xs:string?) as xs:string? {
+    if (not(normalize-space($tag))) then
+        ()
+    else
+        let $range := tokenize(normalize-space($tag), ';')[1]
+        let $before-hyphen := head(tokenize($range, '-'))
+        return
+            lower-case(head(tokenize($before-hyphen, '_')))
+};
+
+(:~ First Accept-Language preference that matches a supported code (order preserved). :)
+declare %private function page:lang-from-accept-language($header as xs:string?, $supported as xs:string*) as xs:string? {
+    if (empty($supported) or not(normalize-space($header))) then
+        ()
+    else
+        head(
+            filter(
+                tokenize($header, ',') ! page:primary-lang(tokenize(., ';')[1]),
+                function ($primary) { $primary and $primary = $supported }
+            )
+        )
+};
+
+(:~
+ : Effective UI language: non-empty lang query param (primary subtag), else
+ : Accept-Language if it matches defaults/languages, else defaults.language or first default.
+ :)
+declare function page:resolve-language($context as map(*)) as xs:string? {
+    let $param := page:parameter($context, 'lang')
+    let $log := util:log("INFO", "lang: " || $param)
+    let $supported := $context?defaults?languages?*
+    let $fromHeader := page:lang-from-accept-language(request:get-header('Accept-Language'), $supported)
+    return
+        if (string-length(normalize-space($param)) gt 0) then
+            page:primary-lang($param)
+        else
+            head(($fromHeader, $context?defaults?language, $context?defaults?languages?1))
+};
+
 (:~
  : Generate a breadcrumb trail for the current collection.
  :)
