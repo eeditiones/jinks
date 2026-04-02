@@ -1,7 +1,13 @@
+/** Primary language subtag only (e.g. en-US → en). */
+function primaryLang(language) {
+    if (!language || typeof language !== 'string') return language;
+    return language.split('-')[0].toLowerCase();
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     pbEvents.subscribe('pb-i18n-language', null, (ev) => {
         const { language } = ev.detail;
-        window.location.href = `?lang=${language}`;
+        window.location.href = `?lang=${primaryLang(language)}`;
     });
 
     // at initialization time, compare the language retrieved from parameters and context with what is reported
@@ -20,8 +26,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     pbEvents.subscribe('pb-page-ready', null, (ev) => {
         const { language } = ev.detail;
-        if (language && language !== languageDefault) {
-            window.location.href = `?lang=${language}`;
+        if (language && primaryLang(language) !== primaryLang(languageDefault)) {
+            window.location.href = `?lang=${primaryLang(language)}`;
         }
     });
 });
