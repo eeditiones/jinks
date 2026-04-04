@@ -6,7 +6,7 @@ xquery version "3.1";
  : Provides common functions used by templates across all
  : apps generated from the exist-site profile.
  :)
-module namespace site-config = "http://exist-db.org/site/config";
+module namespace site-config = "http://exist-db.org/site/shell-config";
 
 (:~
  : Get the current authenticated user.

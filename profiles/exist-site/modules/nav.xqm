@@ -18,11 +18,12 @@ module namespace nav = "http://exist-db.org/site/nav";
  :)
 declare function nav:apps($items as array(*)?, $context-path as xs:string) as array(*) {
     let $current-uri := request:get-uri()
+    let $server-context := request:get-context-path()
     return array {
         if (exists($items)) then
             for $entry in $items?*
             let $abbrev := $entry?abbrev
-            let $app-path := $context-path || "/apps/" || $abbrev
+            let $app-path := $server-context || "/apps/" || $abbrev
             where xmldb:collection-available("/db/apps/" || $abbrev)
             return map {
                 "title": $entry?title,
