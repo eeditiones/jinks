@@ -1,0 +1,773 @@
+/* ============================================================
+   Sandbox — XQuery Playground Styles
+   ============================================================ */
+
+:root {
+    --pg-font-mono: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+    --pg-font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --pg-bg: #fafafa;
+    --pg-surface: #ffffff;
+    --pg-border: #e0e0e0;
+    --pg-text: #1a1a1a;
+    --pg-text-muted: #666;
+    --pg-accent: #2563eb;
+    --pg-accent-hover: #1d4ed8;
+    --pg-success: #16a34a;
+    --pg-error: #dc2626;
+    --pg-error-bg: #fef2f2;
+    --pg-cell-bg: #f8f9fa;
+    --pg-result-bg: #f0f4f8;
+    --pg-header-bg: #1e293b;
+    --pg-header-text: #f1f5f9;
+    --pg-sidebar-bg: #f1f5f9;
+    --pg-radius: 6px;
+    --pg-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Reset & Base ---- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--pg-font-sans);
+    background: var(--pg-bg);
+    color: var(--pg-text);
+    line-height: 1.6;
+}
+
+/* ---- Header ---- */
+
+.playground-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1.5rem;
+    background: var(--pg-header-bg);
+    color: var(--pg-header-text);
+    box-shadow: var(--pg-shadow);
+}
+
+.playground-header h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.playground-header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.playground-header nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.playground-header nav a {
+    color: var(--pg-header-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.15s;
+}
+
+.playground-header nav a:hover {
+    opacity: 1;
+}
+
+/* ---- Main ---- */
+
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+/* ---- Footer ---- */
+
+.playground-footer {
+    text-align: center;
+    padding: 1rem;
+    color: var(--pg-text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--pg-border);
+    margin-top: 2rem;
+}
+
+.playground-footer a {
+    color: var(--pg-accent);
+    text-decoration: none;
+}
+
+/* ============================================================
+   Notebook
+   ============================================================ */
+
+.notebook-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--pg-border);
+}
+
+.notebook-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.notebook-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.notebook-content > h1,
+.notebook-content > h2,
+.notebook-content > h3,
+.notebook-content > h4,
+.notebook-content > h5,
+.notebook-content > h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.notebook-content > p {
+    margin: 0.5em 0;
+}
+
+.notebook-content > pre {
+    background: var(--pg-cell-bg);
+    padding: 0.75rem 1rem;
+    border-radius: var(--pg-radius);
+    overflow-x: auto;
+    font-family: var(--pg-font-mono);
+    font-size: 0.85rem;
+    border: 1px solid var(--pg-border);
+}
+
+/* ============================================================
+   Cell
+   ============================================================ */
+
+.cell {
+    margin: 1rem 0;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    background: var(--pg-surface);
+    box-shadow: var(--pg-shadow);
+    overflow: hidden;
+}
+
+.cell-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.75rem;
+    background: var(--pg-cell-bg);
+    border-bottom: 1px solid var(--pg-border);
+    font-size: 0.8rem;
+}
+
+.cell-number {
+    font-family: var(--pg-font-mono);
+    font-weight: 600;
+    color: var(--pg-accent);
+}
+
+.cell-depends {
+    font-size: 0.75rem;
+    color: var(--pg-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+}
+
+.cell-depends input[type="checkbox"] {
+    margin: 0;
+}
+
+/* ---- Editor ---- */
+
+.query-editor {
+    display: block;
+    min-height: 80px;
+}
+
+.query-editor jinn-codemirror {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.query-editor .cm-editor {
+    border: none;
+    border-radius: 0;
+}
+
+/* ---- Cell Actions ---- */
+
+.cell-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--pg-cell-bg);
+    border-top: 1px solid var(--pg-border);
+}
+
+.cell-actions button {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    background: var(--pg-surface);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.cell-actions button:hover {
+    border-color: var(--pg-accent);
+    color: var(--pg-accent);
+}
+
+.run-btn button {
+    background: var(--pg-accent);
+    color: white;
+    border-color: var(--pg-accent);
+    font-weight: 600;
+}
+
+.run-btn button:hover {
+    background: var(--pg-accent-hover);
+    color: white;
+}
+
+.serialization-select {
+    margin-left: auto;
+    font-size: 0.8rem;
+}
+
+.cell-options-badge {
+    display: block;
+    padding: 0.15rem 0.75rem;
+    font-family: var(--pg-font-mono);
+    font-size: 0.7rem;
+    color: var(--pg-text-muted);
+    background: var(--pg-cell-bg);
+    border-top: 1px solid var(--pg-border);
+}
+
+.indent-toggle {
+    font-size: 0.8rem;
+    color: var(--pg-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.indent-toggle input[type="checkbox"] {
+    margin: 0;
+}
+
+.cell-cursor-pos {
+    font-family: var(--pg-font-mono);
+    font-size: 0.75rem;
+    color: var(--pg-text-muted);
+    padding: 0.2rem 0.5rem;
+    white-space: nowrap;
+}
+
+/* ---- Cell states ---- */
+
+.cell-running .run-btn {
+    background: var(--pg-text-muted) !important;
+    border-color: var(--pg-text-muted) !important;
+    min-width: 10rem;
+    text-align: left;
+}
+
+.cell-diagnostics {
+    padding: 0.3rem 0.75rem;
+    background: var(--pg-error-bg);
+    color: var(--pg-error);
+    font-family: var(--pg-font-mono);
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    border-top: 2px solid var(--pg-error);
+}
+
+.show-all-link {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    background: var(--pg-result-bg);
+    border: none;
+    color: var(--pg-accent);
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.show-all-link:hover {
+    text-decoration: underline;
+}
+
+/* ---- Results ---- */
+
+.cell-result {
+    min-height: 0;
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--pg-result-bg);
+    font-family: var(--pg-font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--pg-success);
+    border-top: 1px solid var(--pg-border);
+}
+
+.result-meta {
+    font-weight: 400;
+    color: var(--pg-text-muted);
+    font-size: 0.75rem;
+}
+
+.result-output {
+    display: block;
+    padding: 0.75rem;
+    font-family: var(--pg-font-mono);
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--pg-result-bg);
+}
+
+.error-panel {
+    padding: 0.75rem;
+    background: var(--pg-error-bg);
+    color: var(--pg-error);
+    font-family: var(--pg-font-mono);
+    font-size: 0.85rem;
+    border-top: 2px solid var(--pg-error);
+}
+
+/* ============================================================
+   Sandbox (standalone editor)
+   ============================================================ */
+
+.sandbox .sandbox-layout {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0;
+    height: calc(100vh - 120px);
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    overflow: hidden;
+    background: var(--pg-surface);
+    box-shadow: var(--pg-shadow);
+}
+
+/* ---- Slots sidebar ---- */
+
+.slots-sidebar {
+    background: var(--pg-sidebar-bg);
+    border-right: 1px solid var(--pg-border);
+    padding: 0.75rem;
+    overflow-y: auto;
+}
+
+.slots-sidebar h3 {
+    margin: 0 0 0.75rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pg-text-muted);
+}
+
+.slots-sidebar button {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    background: var(--pg-surface);
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-align: left;
+    transition: all 0.15s;
+}
+
+.slots-sidebar button.slot-active {
+    border-color: var(--pg-accent);
+    background: var(--pg-accent);
+    color: white;
+}
+
+.slots-sidebar button.slot-used {
+    border-color: var(--pg-accent);
+    color: var(--pg-accent);
+}
+
+.slots-sidebar button:hover {
+    border-color: var(--pg-accent);
+    background: white;
+}
+
+/* ---- Editor panel ---- */
+
+.editor-panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--pg-border);
+}
+
+.editor-panel .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--pg-cell-bg);
+    border-bottom: 1px solid var(--pg-border);
+}
+
+.main-editor {
+    flex: 1;
+    display: block;
+    overflow: hidden;
+}
+
+.main-editor jinn-codemirror {
+    display: block;
+    height: 100%;
+}
+
+.editor-panel .actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--pg-cell-bg);
+    border-top: 1px solid var(--pg-border);
+}
+
+.editor-panel .actions button {
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    background: var(--pg-surface);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+}
+
+.editor-panel .actions button:first-child {
+    background: var(--pg-accent);
+    color: white;
+    border-color: var(--pg-accent);
+    font-weight: 600;
+}
+
+.editor-panel .actions button:first-child:hover {
+    background: var(--pg-accent-hover);
+}
+
+.editor-panel .actions button:hover {
+    border-color: var(--pg-accent);
+}
+
+/* ---- Result panel ---- */
+
+.result-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.result-panel .result-header {
+    border-top: none;
+    border-bottom: 1px solid var(--pg-border);
+}
+
+.result-panel .result-output {
+    flex: 1;
+    max-height: none;
+}
+
+.result-panel .error-output {
+    display: block;
+    padding: 0.75rem;
+    color: var(--pg-error);
+    font-family: var(--pg-font-mono);
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   Buttons (shared)
+   ============================================================ */
+
+.run-all-btn,
+.share-btn {
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    background: var(--pg-surface);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+}
+
+.run-all-btn {
+    background: var(--pg-accent);
+    color: white;
+    border-color: var(--pg-accent);
+    font-weight: 600;
+}
+
+.run-all-btn:hover {
+    background: var(--pg-accent-hover);
+}
+
+.share-btn:hover {
+    border-color: var(--pg-accent);
+    color: var(--pg-accent);
+}
+
+/* ============================================================
+   Content list (notebook browser)
+   ============================================================ */
+
+.content-list {
+    list-style: none;
+    padding: 0;
+}
+
+.content-list li {
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    margin-bottom: 0.5rem;
+    background: var(--pg-surface);
+    box-shadow: var(--pg-shadow);
+    transition: border-color 0.15s;
+}
+
+.content-list li:hover {
+    border-color: var(--pg-accent);
+}
+
+.content-list a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--pg-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.content-list .file-path {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--pg-text-muted);
+    font-family: var(--pg-font-mono);
+    margin-top: 0.2rem;
+}
+
+/* ============================================================
+   Landing page
+   ============================================================ */
+
+.landing {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.landing-hero {
+    text-align: center;
+    padding: 2.5rem 1rem 2rem;
+}
+
+.landing-hero h2 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+}
+
+.landing-hero p {
+    color: var(--pg-text-muted);
+    font-size: 1.05rem;
+    margin: 0 0 1.5rem;
+}
+
+.landing-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.landing-btn {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--pg-border);
+    border-radius: var(--pg-radius);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.landing-btn-primary {
+    background: var(--pg-accent);
+    color: white;
+    border-color: var(--pg-accent);
+}
+
+.landing-btn-primary:hover {
+    background: var(--pg-accent-hover);
+}
+
+.landing-notebooks,
+.landing-about {
+    margin-top: 2rem;
+}
+
+.landing-notebooks h3,
+.landing-about h3 {
+    font-size: 1.15rem;
+    margin: 0 0 0.5rem;
+}
+
+.landing-notebooks > p,
+.landing-about > p {
+    color: var(--pg-text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--pg-border);
+    font-size: 0.9rem;
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+/* ============================================================
+   Book TOC
+   ============================================================ */
+
+.book-toc {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.book-toc h2 {
+    margin: 0 0 0.25rem;
+}
+
+.book-meta {
+    color: var(--pg-text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--pg-accent);
+    color: white;
+    vertical-align: middle;
+}
+
+.book-license {
+    font-size: 0.8rem;
+    color: var(--pg-text-muted);
+    font-style: italic;
+}
+
+.chapter-list {
+    padding-left: 1.5rem;
+}
+
+.chapter-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--pg-border);
+}
+
+.chapter-list li:last-child {
+    border-bottom: none;
+}
+
+.chapter-list a {
+    color: var(--pg-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.chapter-list a:hover {
+    color: var(--pg-accent);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .sandbox .sandbox-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr 1fr;
+        height: auto;
+    }
+
+    .slots-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--pg-border);
+        display: flex;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .slots-sidebar h3 {
+        margin: 0 0.5rem 0 0;
+    }
+
+    .slots-sidebar button {
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    .editor-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--pg-border);
+        min-height: 300px;
+    }
+
+    .result-panel {
+        min-height: 200px;
+    }
+
+    main {
+        padding: 0.75rem;
+    }
+}

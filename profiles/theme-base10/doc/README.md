@@ -29,7 +29,7 @@ The following table shows the current list of settings which can be changed via 
 | `fonts.footnote.size` | Font size for footnotes. Use `rem` for relative size. | `"0.9em"` |
 | `fonts.heading.family` | Font family for headings | `"'Inter', 'Noto', sans-serif"` |
 | `fonts.heading.size` | Font size for headings. Use `rem` for relative size. | `"1.2rem"` |
-| `fonts.heading.weight` | Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc. | `"400"` |
+| `fonts.heading.weight` | Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc. | `"600"` |
 | `fonts.menubar.size` | Font size for the menubar. Use `rem` for relative size. | `"14px"` |
 | `fonts.toc.size` | Font size for table of contents. Use `rem` for relative size. | `"1.125rem"` |
 | `icons` | List of icon files to include in the theme. Path should be relative to resources/css. | `[0 items]` |

@@ -1,0 +1,52 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "blueprint",
+    "id": "https://exist-db.org/apps/sandbox",
+    "label": "Sandbox",
+    "description": "An interactive XQuery notebook and sandbox for eXist-db, with live code execution, cell chaining, and sharing. Built on TEI Publisher.",
+    "version": "2.0.0",
+    "depends": [
+        "base10",
+        "theme-base10",
+        "sandbox",
+        "upload"
+    ],
+    "pkg": {
+        "abbrev": "sandbox",
+        "version": "2.0.0",
+        "website": "https://exist-db.org",
+        "author": "Joe Wicentowski"
+    },
+    "defaults": {
+        "data": "/db/apps/sandbox-data/content",
+        "data-default": "",
+        "template": "basic.html"
+    },
+    "features": {
+        "sandbox": {
+            "enabled": true
+        },
+        "upload": {
+            "enabled": true,
+            "accept": ".md, .json, .xml, .csv, .zip"
+        },
+        "toc": {
+            "enabled": false
+        }
+    },
+    "menu": {
+        "items": [
+            {
+                "id": "Start",
+                "url": ""
+            },
+            {
+                "id": "Sandbox",
+                "url": "sandbox"
+            }
+        ],
+        "login": true,
+        "search": true,
+        "dark-mode": true
+    }
+}

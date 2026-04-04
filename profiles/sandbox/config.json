@@ -1,0 +1,46 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "category": "components",
+    "id": "https://exist-db.org/apps/sandbox",
+    "version": "2.0.0",
+    "label": "Interactive XQuery Notebooks",
+    "description": "Adds interactive XQuery notebook execution to TEI Publisher apps. Markdown documents with fenced XQuery code blocks become executable cells with streaming results, cell chaining, compile-on-type diagnostics, and per-cell serialization options.",
+    "depends": [
+        "base10"
+    ],
+    "pkg": {
+        "dependencies": [
+            {
+                "package": "http://exist-db.org/xquery/markdown",
+                "semver": "3"
+            }
+        ]
+    },
+    "features": {
+        "sandbox": {
+            "enabled": false
+        }
+    },
+    "api": [
+        {
+            "spec": "sandbox-api.json",
+            "prefix": "sbox",
+            "path": "sandbox-api.xqm",
+            "id": "http://exist-db.org/apps/sandbox/api"
+        }
+    ],
+    "templating": {
+        "use": [
+            "templates/sandbox-blocks.tpl"
+        ]
+    },
+    "script": {
+        "custom": [
+            "resources/scripts/playground.min.js"
+        ]
+    },
+    "styles": [
+        "resources/css/playground.css"
+    ]
+}

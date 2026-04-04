@@ -1,0 +1,297 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "[[ $pkg?version ]]",
+        "title": "[[ head(($pkg?title, $label)) ]]",
+        "description": "API for the Sandbox XQuery playground"
+    },
+    "servers": [
+        {
+            "url": "/exist/apps/[[ $pkg?abbrev ]]",
+            "description": "Relative to server"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "exist.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        { "name": "eval", "description": "XQuery execution" },
+        { "name": "notebook", "description": "Notebook rendering" },
+        { "name": "sandbox", "description": "Standalone editor" },
+        { "name": "content", "description": "Content library" },
+        { "name": "share", "description": "Sharing / fiddle links" }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Landing page",
+                "operationId": "sbox:landing",
+                "tags": ["content"],
+                "responses": {
+                    "200": {
+                        "description": "Landing page HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/eval": {
+            "post": {
+                "summary": "Execute XQuery with optional context chain",
+                "operationId": "sbox:eval",
+                "tags": ["eval"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "query": {
+                                        "type": "string",
+                                        "description": "XQuery expression to execute"
+                                    },
+                                    "context": {
+                                        "type": "array",
+                                        "description": "Array of preceding cell queries for context chain",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": { "type": "integer" },
+                                                "query": { "type": "string" }
+                                            }
+                                        }
+                                    },
+                                    "serialization": {
+                                        "type": "string",
+                                        "default": "adaptive"
+                                    },
+                                    "timeout": {
+                                        "type": "integer",
+                                        "default": 5000
+                                    }
+                                },
+                                "required": ["query"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Execution result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lint": {
+            "post": {
+                "summary": "Compile-check XQuery code for lint diagnostics",
+                "operationId": "sbox:lint",
+                "tags": ["eval"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "code": { "type": "string" }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lint result",
+                        "content": {
+                            "application/json": {
+                                "schema": { "type": "object" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notebook/{path}": {
+            "get": {
+                "summary": "Render markdown as interactive notebook",
+                "operationId": "sbox:notebook",
+                "tags": ["notebook"],
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" },
+                        "description": "Path to the markdown file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rendered notebook HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/book/{path}": {
+            "get": {
+                "summary": "Render book table of contents",
+                "operationId": "sbox:book",
+                "tags": ["content"],
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" },
+                        "description": "Book directory name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book TOC HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sandbox": {
+            "get": {
+                "summary": "Standalone editor mode",
+                "operationId": "sbox:sandbox",
+                "tags": ["sandbox"],
+                "responses": {
+                    "200": {
+                        "description": "Sandbox editor HTML",
+                        "content": {
+                            "text/html": {
+                                "schema": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/content": {
+            "get": {
+                "summary": "List available markdown files",
+                "operationId": "sbox:list",
+                "tags": ["content"],
+                "responses": {
+                    "200": {
+                        "description": "List of available content files",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "path": { "type": "string" },
+                                            "title": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/share": {
+            "post": {
+                "summary": "Save notebook state, return share ID",
+                "operationId": "sbox:share",
+                "tags": ["share"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Notebook state to save"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Share ID and URL",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "url": { "type": "string" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/share/{id}": {
+            "get": {
+                "summary": "Load shared notebook state",
+                "operationId": "sbox:load-share",
+                "tags": ["share"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" },
+                        "description": "Share ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Saved notebook state",
+                        "content": {
+                            "application/json": {
+                                "schema": { "type": "object" }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found"
+                    }
+                }
+            }
+        }
+    },
+    "security": []
+}
