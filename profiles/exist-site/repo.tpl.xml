@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>[[ $description ]]</description>
+    <author>[[ $pkg?author ]]</author>
+    <website>[[ $pkg?website ]]</website>
+    <status>beta</status>
+    <license>LGPL-2.1-or-later</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>[[ $pkg?abbrev ]]</target>
+    <permissions user="[[ $pkg?user?name ]]" group="[[ $pkg?user?group ]]" mode="[[ $pkg?permissions ]]"/>
+</meta>

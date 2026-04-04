@@ -1,0 +1,56 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "base",
+    "id": "https://exist-db.org/jinks/exist-site",
+    "version": "1.0.0",
+    "label": "eXist-db Site",
+    "description": "Base profile for eXist-db.org applications. Provides shared navigation, search, login/logout, and a common design foundation. Apps extend this profile to inherit the site-wide shell.",
+    "order": 0,
+    "pkg": {
+        "version": "1.0.0",
+        "website": "https://exist-db.org",
+        "author": "The eXist-db Authors",
+        "user": {
+            "name": "admin",
+            "group": "dba",
+            "password": ""
+        },
+        "permissions": "rw-r--r--",
+        "dependencies": [
+            {
+                "package": "http://tei-publisher.com/library/jinks-templates",
+                "semver": "1"
+            }
+        ]
+    },
+    "styles": [
+        "resources/css/exist-site.css"
+    ],
+    "nav": {
+        "items": [
+            { "abbrev": "dashboard", "title": "Dashboard" },
+            { "abbrev": "docs", "title": "Documentation" },
+            { "abbrev": "notebook", "title": "Notebook" },
+            { "abbrev": "blog", "title": "Blog" }
+        ]
+    },
+    "site": {
+        "name": "eXist-db",
+        "logo": "resources/images/exist-logo.svg"
+    },
+    "templating": {
+        "modules": {
+            "http://exist-db.org/site/nav": {
+                "prefix": "nav",
+                "at": "modules/nav.xqm"
+            },
+            "http://exist-db.org/site/config": {
+                "prefix": "site-config",
+                "at": "modules/site-config.xqm"
+            }
+        }
+    },
+    "skip": [
+        "^setup\\.xql$"
+    ]
+}

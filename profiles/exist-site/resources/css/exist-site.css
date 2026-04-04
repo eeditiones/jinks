@@ -1,0 +1,472 @@
+/*
+ * eXist-db Site Foundation
+ *
+ * Shared design system for all eXist-db.org applications.
+ * Provides: CSS custom properties, typography, nav bar, footer,
+ * forms, tables, utilities, and content styles.
+ *
+ * Apps can override custom properties for theming.
+ */
+
+/* ============================== */
+/*  Custom Properties (Theming)   */
+/* ============================== */
+
+:root {
+    /* Colors */
+    --site-bg: #ffffff;
+    --site-text: #333333;
+    --site-text-muted: #666666;
+    --site-accent: #3498db;
+    --site-accent-hover: #2980b9;
+    --site-border: #e0e0e0;
+    --site-surface: #f5f5f5;
+
+    /* Nav */
+    --site-nav-bg: #2c3e50;
+    --site-nav-text: #ecf0f1;
+
+    /* Layout */
+    --site-max-width: 1200px;
+    --site-content-width: 800px;
+    --site-radius: 4px;
+
+    /* Typography */
+    --site-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --site-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --site-line-height: 1.6;
+}
+
+/* ============================== */
+/*  Reset & Base                  */
+/* ============================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--site-font);
+    color: var(--site-text);
+    background: var(--site-bg);
+    line-height: var(--site-line-height);
+}
+
+/* ============================== */
+/*  Accessibility                 */
+/* ============================== */
+
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    padding: 0.5rem 1rem;
+    background: var(--site-accent);
+    color: #fff;
+    z-index: 1000;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================== */
+/*  Typography                    */
+/* ============================== */
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+    color: var(--site-nav-bg);
+}
+
+h1 { font-size: 2rem; margin-top: 0; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+a {
+    color: var(--site-accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+code {
+    font-family: var(--site-font-mono);
+    font-size: 0.9em;
+    background: var(--site-surface);
+    padding: 0.15em 0.4em;
+    border-radius: var(--site-radius);
+}
+
+pre {
+    font-family: var(--site-font-mono);
+    font-size: 0.9em;
+    background: var(--site-surface);
+    padding: 1rem;
+    border-radius: var(--site-radius);
+    overflow-x: auto;
+    line-height: 1.4;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+}
+
+blockquote {
+    border-left: 3px solid var(--site-accent);
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    color: var(--site-text-muted);
+}
+
+/* ============================== */
+/*  Header / Navigation           */
+/* ============================== */
+
+.site-header {
+    background: var(--site-nav-bg);
+    color: var(--site-nav-text);
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: var(--site-max-width);
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+}
+
+.site-logo {
+    flex-shrink: 0;
+}
+
+.site-logo img {
+    display: block;
+}
+
+.site-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.25rem;
+}
+
+.site-menu a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--site-nav-text);
+    text-decoration: none;
+    border-radius: var(--site-radius);
+    font-size: 0.9rem;
+}
+
+.site-menu a:hover,
+.site-menu a:focus {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.site-menu a.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+/* ============================== */
+/*  Search Bar (in nav)           */
+/* ============================== */
+
+.site-search {
+    margin-left: auto;
+    display: flex;
+}
+
+.site-search input[type="search"] {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--site-radius);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--site-nav-text);
+    font-size: 0.85rem;
+    width: 200px;
+}
+
+.site-search input[type="search"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.site-search input[type="search"]:focus {
+    outline: 2px solid var(--site-accent);
+    outline-offset: -2px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================== */
+/*  User Area (in nav)            */
+/* ============================== */
+
+.site-user {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+}
+
+.site-user a {
+    color: var(--site-nav-text);
+    text-decoration: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--site-radius);
+}
+
+.site-user a:hover,
+.site-user a:focus {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================== */
+/*  Main Content                  */
+/* ============================== */
+
+#main-content {
+    max-width: var(--site-max-width);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 160px);
+}
+
+/* ============================== */
+/*  Footer                        */
+/* ============================== */
+
+.site-footer {
+    background: var(--site-surface);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--site-text-muted);
+}
+
+.site-footer a {
+    color: var(--site-accent);
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ============================== */
+/*  Forms                         */
+/* ============================== */
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+input[type="url"],
+input[type="number"],
+select,
+textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--site-border);
+    border-radius: var(--site-radius);
+    background: var(--site-bg);
+    color: var(--site-text);
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid var(--site-accent);
+    outline-offset: -1px;
+    border-color: var(--site-accent);
+}
+
+textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+/* ============================== */
+/*  Buttons                       */
+/* ============================== */
+
+.btn,
+button[type="submit"] {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: var(--site-radius);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.btn-primary,
+button[type="submit"] {
+    background: var(--site-accent);
+    color: #fff;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+    background: var(--site-accent-hover);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--site-accent);
+    border: 2px solid var(--site-accent);
+}
+
+.btn-secondary:hover {
+    background: var(--site-accent);
+    color: #fff;
+}
+
+/* ============================== */
+/*  Tables                        */
+/* ============================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+th, td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--site-border);
+}
+
+th {
+    font-weight: 600;
+    background: var(--site-surface);
+}
+
+tr:hover td {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+/* ============================== */
+/*  Alerts                        */
+/* ============================== */
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: var(--site-radius);
+    margin-bottom: 1rem;
+}
+
+.alert-error {
+    background: #fdecea;
+    color: #b71c1c;
+}
+
+.alert-success {
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+.alert-info {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+/* ============================== */
+/*  Tabs                          */
+/* ============================== */
+
+.tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--site-border);
+    margin-bottom: 1.5rem;
+}
+
+.tab-bar a {
+    padding: 0.75rem 1.25rem;
+    color: var(--site-text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    font-weight: 500;
+}
+
+.tab-bar a:hover {
+    color: var(--site-text);
+    text-decoration: none;
+}
+
+.tab-bar a.active {
+    color: var(--site-accent);
+    border-bottom-color: var(--site-accent);
+    font-weight: 600;
+}
+
+/* ============================== */
+/*  Cards                         */
+/* ============================== */
+
+.card {
+    border: 1px solid var(--site-border);
+    border-radius: calc(var(--site-radius) * 2);
+    padding: 1.5rem;
+    transition: box-shadow 0.15s;
+}
+
+.card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================== */
+/*  Utility Classes               */
+/* ============================== */
+
+.text-muted { color: var(--site-text-muted); }
+.text-center { text-align: center; }
+.text-small { font-size: 0.85rem; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-2 { margin-bottom: 1rem; }
