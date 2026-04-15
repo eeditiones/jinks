@@ -4,6 +4,11 @@ echo "Installing xst..."
 npm install -g @existdb/xst
 [% endif %]
 
+[% if $docker?features?nodejs and $docker?features?cli %]
+echo "Installing jinks-cli..."
+npm install -g @teipublisher/jinks-cli
+[% endif %]
+
 sleep 10
 cd $(dirname "$0")/..
 ant

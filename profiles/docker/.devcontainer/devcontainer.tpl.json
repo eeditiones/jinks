@@ -24,10 +24,14 @@
     },
     "overrideCommand": false,
     "postCreateCommand": [
+        "/bin/bash",
         "${containerWorkspaceFolder}/.devcontainer/init.sh"
     ],
     [% if $docker?features?ner %]
-    "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/python-api.sh",
+    "postStartCommand": [
+        "/bin/bash",
+        "${containerWorkspaceFolder}/.devcontainer/python-api.sh"
+    ],
     [% endif %]
     "features": {
     [% if $docker?features?nodejs %]
