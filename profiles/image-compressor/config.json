@@ -1,0 +1,22 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "category": "tools",
+    "id": "https://e-editiones.org/app/tei-publisher/forms",
+    "label": "Image Compressor",
+    "description": "Tool to compress images",
+    "version": "1.0.0",
+    "depends": [
+        "base10"
+    ],
+    "templating": {
+        "use": [
+        ]
+    },
+    "features": {
+        "image-compressor": {
+            "inputDir": "resources/images",
+            "outputDir": "resources/images/originals"
+        }
+    }
+}
