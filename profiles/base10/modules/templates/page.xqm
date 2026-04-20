@@ -73,7 +73,6 @@ declare %private function page:lang-from-accept-language($header as xs:string?, 
  :)
 declare function page:resolve-language($context as map(*)) as xs:string? {
     let $param := page:parameter($context, 'lang')
-    let $log := util:log("INFO", "lang: " || $param)
     let $supported := $context?defaults?languages?*
     let $fromHeader := page:lang-from-accept-language(request:get-header('Accept-Language'), $supported)
     return
