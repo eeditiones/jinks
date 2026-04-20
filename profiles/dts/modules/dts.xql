@@ -12,17 +12,29 @@ import module namespace router="http://e-editiones.org/roaster";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare %private function dts:server-base() as xs:string {
+    let $scheme := request:get-scheme()
+    let $host := request:get-server-name()
+    let $port := request:get-server-port()
+    let $default-port := if ($scheme = "https") then 443 else 80
+    return
+        if ($port = $default-port) then
+            $scheme || "://" || $host
+        else
+            $scheme || "://" || $host || ":" || $port
+};
+
 declare %private function dts:base-path() {
     let $appLink := substring-after($config:app-root, repo:get-root())
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "api", "dts"), "/")
     return
-        replace($path, "/+", "/")
+        dts:server-base() || replace($path, "/+", "/")
 };
 
 (:~ Base path for a given collection (app) - used when listing DTS servers. :)
 declare %private function dts:base-path-for-collection($collection as xs:string) {
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $collection, "api", "dts"), "/")
-    return replace($path, "/+", "/")
+    return dts:server-base() || replace($path, "/+", "/")
 };
 
 (:~ Load JSON from the repo; returns empty map if not available. :)
@@ -75,18 +87,19 @@ declare function dts:entry($request as map(*)) {
  : @return the collection information for the given id
  :)
 declare function dts:collection($request as map(*)) {
+    let $id := $request?parameters?id
     let $collectionInfo :=
-        if ($request?parameters?id) then
-            dts:collection-by-id($dts-config:members, $request?parameters?id, (), $request?parameters?nav = "parents")
+        if ($id) then
+            dts:collection-by-id($dts-config:members, $id, (), $request?parameters?nav = "parents")
         else
             $dts-config:members
     return
         if (exists($collectionInfo)) then
             let $pageSize := xs:int(($request?parameters?per-page, $dts-config:page-size)[1])
             let $resources := dts:get-members($collectionInfo, $request?parameters?page, $pageSize)
-            let $parentInfo := 
-                if ($request?parameters?id) then
-                    dts:collection-by-id($dts-config:members, $request?parameters?id, (), true())
+            let $parentInfo :=
+                if ($id) then
+                    dts:collection-by-id($dts-config:members, $id, (), true())
                 else
                     ()
             return map:merge((
@@ -98,12 +111,58 @@ declare function dts:collection($request as map(*)) {
                     "title": $collectionInfo?title,
                     "totalChildren": $resources?total,
                     "totalParents": count($parentInfo),
-                    "dublinCore": $collectionInfo?dublinCore,
                     "collection": dts:base-path() || "/collection?id=" || $collectionInfo?id || "{&amp;page,nav}",
                     "member": array { $resources?items }
                 },
+                (if (exists($collectionInfo?dublinCore)) then map { "dublinCore": $collectionInfo?dublinCore } else ()),
                 dts:pagination-info($collectionInfo, $request?parameters?page, $resources?total)
             ))
+        else if ($id and contains($id, "/")) then
+            (: Resource ID: look up parent collection and return the Resource representation :)
+            let $collId := substring-before($id, "/")
+            let $resourceId := substring-after($id, "/")
+            let $coll := dts:collection-by-id($dts-config:members, $collId, (), false())
+            let $collPath := if (map:contains($coll, "path")) then $coll?path else $config:data-default
+            let $doc := doc($collPath || "/" || $resourceId)//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
+            return
+                if (empty($coll) or empty($doc)) then
+                    response:set-status-code(404)
+                else
+                    let $config := tpu:parse-pi(root($doc), ())
+                    return map:merge((
+                        map {
+                            "@context": "https://dtsapi.org/context/v1.0.json",
+                            "@id": $id,
+                            "dtsVersion": "1.0",
+                            "@type": "Resource",
+                            "totalParents": 1,
+                            "totalChildren": 0,
+                            "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collId) || "{&amp;page,nav}",
+                            "document": dts:base-path() || "/document?resource=" || encode-for-uri($id) || "{&amp;ref,start,end,tree,mediaType}",
+                            "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($id) || "{&amp;ref,start,end,down,tree,page}",
+                            "mediaTypes": array {
+                                "application/tei+xml",
+                                "application/xml",
+                                "text/html; charset=utf-8",
+                                for $media in $config?media
+                                return
+                                    switch ($media)
+                                        case "latex" return "application/pdf; media=latex"
+                                        case "fo" return "application/pdf; media=fo"
+                                        case "epub" return "application/epub+zip; media=epub"
+                                        case "markdown" return "text/markdown"
+                                        case "print" return "text/html; charset=utf-8; media=print"
+                                        default return "text/html; charset=utf-8"
+                            },
+                            "citationTrees": array {
+                                map {
+                                    "@type": "CitationTree",
+                                    "citeStructure": array { dts:cite-structure($doc//tei:body) }
+                                }
+                            }
+                        },
+                        dts:metadata($doc)
+                    ))
         else
             response:set-status-code(404)
 };
@@ -147,15 +206,17 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
             "items": 
                 for $resource in $collectionInfo?members?*
                     return
-                        map {
-                        "@id": $resource?id,
-                        "title": $resource?title,
-                        "dublinCore": $resource?dublinCore,
-                        "@type": "Collection",
-                        "totalParents": 1,
-                        "totalChildren": count($resource?members?*),
-                        "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
-                    }
+                        map:merge((
+                            map {
+                                "@id": $resource?id,
+                                "title": $resource?title,
+                                "@type": "Collection",
+                                "totalParents": 1,
+                                "totalChildren": count($resource?members?*),
+                                "collection": dts:base-path() || "/collection?id=" || $resource?id || "{&amp;page,nav}"
+                            },
+                            (if (exists($resource?dublinCore)) then map { "dublinCore": $resource?dublinCore } else ())
+                        ))
         }
     else
         let $collectionPath :=
@@ -304,41 +365,43 @@ declare function dts:navigation($request as map(*)) {
                                 if (exists($ref)) then
                                     dts:navigation-by-ref($doc, $config?odd, $ref, $down-param, $down)
                                 else
-                                    dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $down, 0)
+                                    array { dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $down, 0) }
                             let $resourceId := $collection?id || "/" || util:document-name($doc)
                             return
-                                map:merge((
-                                    map {
-                                        "@context": "https://dtsapi.org/context/v1.0.json",
-                                        "dtsVersion": "1.0",
-                                        "@type": "Navigation",
-                                        "@id": dts:base-path() || "/navigation?resource=" || encode-for-uri($resource) || (if (exists($down-param)) then "&amp;down=" || $down else ""),
-                                        "resource":
-                                            map:merge((
-                                                map {
-                                                    "@id": $resourceId,
-                                                    "title": util:document-name($doc),
-                                                    "@type": "Resource",
-                                                    "totalParents": 1,
-                                                    "totalChildren": 0,
-                                                    "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collection?id) || "{&amp;page,nav}",
-                                                    "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,down,tree,page}",
-                                                    "document": dts:base-path() || "/document?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,tree,mediaType}",
-                                                    "citationTrees": array {
-                                                        map {
-                                                            "@type": "CitationTree",
-                                                            "citeStructure": array {
-                                                                dts:cite-structure($doc//tei:body)
+                                router:response(200, "application/ld+json",
+                                    map:merge((
+                                        map {
+                                            "@context": "https://dtsapi.org/context/v1.0.json",
+                                            "dtsVersion": "1.0",
+                                            "@type": "Navigation",
+                                            "@id": dts:base-path() || "/navigation?resource=" || encode-for-uri($resource) || (if (exists($down-param)) then "&amp;down=" || $down else ""),
+                                            "resource":
+                                                map:merge((
+                                                    map {
+                                                        "@id": $resourceId,
+                                                        "title": util:document-name($doc),
+                                                        "@type": "Resource",
+                                                        "totalParents": 1,
+                                                        "totalChildren": 0,
+                                                        "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collection?id) || "{&amp;page,nav}",
+                                                        "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,down,tree,page}",
+                                                        "document": dts:base-path() || "/document?resource=" || encode-for-uri($resourceId) || "{&amp;ref,start,end,tree,mediaType}",
+                                                        "citationTrees": array {
+                                                            map {
+                                                                "@type": "CitationTree",
+                                                                "citeStructure": array {
+                                                                    dts:cite-structure($doc//tei:body)
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                },
-                                                dts:metadata($doc)
-                                            )),
-                                        "member": $member
-                                    },
-                                    (if (exists($ref)) then map { "ref": $ref-unit } else map {})
-                                ))
+                                                    },
+                                                    dts:metadata($doc)
+                                                )),
+                                            "member": $member
+                                        },
+                                        (if (exists($ref)) then map { "ref": $ref-unit } else map {})
+                                    ))
+                                )
 };
 
 (:~ When ref is present and down is not provided, return empty array; else siblings (down=0) or subtree (down>0 or -1). :)
@@ -467,13 +530,15 @@ declare function dts:import($request as map(*)) {
 declare %private function dts:cite-structure($roots as element()*) {
     for $root in $roots
     return
-        map {
-            "@type": "CiteStructure",
-            "citeType": "Division",
-            "citeStructure": [
-                dts:cite-structure($root/tei:div)
-            ]
-        }
+        map:merge((
+            map {
+                "@type": "CiteStructure",
+                "citeType": "Division"
+            },
+            (if (exists($root/tei:div)) then
+                map { "citeStructure": array { dts:cite-structure($root/tei:div) } }
+            else ())
+        ))
 };
 
 declare %private function dts:navigation-tree($roots as element()*, $odd as xs:string, $down as xs:int, $level as xs:int) {
