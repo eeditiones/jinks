@@ -287,6 +287,36 @@ declare function generator:load-json($path as xs:string, $default as map(*)?) {
         $default
 };
 
+(:~
+ : Like load-json, but never throws: invalid JSON yields a map with _jsonError.
+ : Missing file yields map {} (same as load-json with default map {}).
+ :)
+declare function generator:load-json-safe($path as xs:string) as map(*) {
+    if (util:binary-doc-available($path)) then
+        try {
+            let $parsed := json-doc($path)
+            return
+                if ($parsed instance of map(*)) then
+                    $parsed
+                else
+                    map {
+                        "_jsonError": true(),
+                        "_path": $path,
+                        "_message": "config.json must be a JSON object",
+                        "_code": "jinks:not-object"
+                    }
+        } catch * {
+            map {
+                "_jsonError": true(),
+                "_path": $path,
+                "_message": string($err:description),
+                "_code": string($err:code)
+            }
+        }
+    else
+        map {}
+};
+
 declare %private function generator:save-config($context as map(*), $appConfig as map(*)) {
     if ($context?_dry or $context?type = "bootstrap") then
         ()

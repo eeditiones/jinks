@@ -58,12 +58,35 @@ window.addEventListener('DOMContentLoaded', () => {
             await loadColorPalettes(apps);
 
             apps.forEach(async (app) => {
-                appOrder[app.profile] = app.config.order;
+                if (app.config && app.config.order !== undefined) {
+                    appOrder[app.profile] = app.config.order;
+                }
                 if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
                     // Load color palettes from profile
                     Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
                         colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
                     });
+                }
+
+                if (app.type === 'invalid-config') {
+                    const li = document.createElement('li');
+                    const reason = app.invalidReason === 'dependency-error' ? 'dependency-error' : 'invalid-json';
+                    li.classList.add('invalid-config', `invalid-config--${reason}`);
+                    const detail = app.error?.message
+                        ? `${app.description} (${app.error.message})`
+                        : (app.description || 'Configuration error');
+                    li.innerHTML = `
+                    <div>
+                        <img src="resources/images/app.svg" width="64px" alt="">
+                        <h3>${app.title || 'Configuration error'}</h3>
+                        <p class="config-error-msg">${app.profile || ''}</p>
+                    </div>
+                    <nav class="actions"></nav>
+                `;
+                    li.dataset.tooltip = detail;
+                    li.dataset.placement = 'right';
+                    nav.appendChild(li);
+                    return;
                 }
 
                 if (app.type !== 'installed') {

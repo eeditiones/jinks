@@ -538,6 +538,53 @@ details pb-markdown
     width: 64px
     margin-bottom: .5rem
 
+// Badge on the card (inner div): anchoring to the full li placed it in the flex "actions"
+// column — often clipped by .installed { overflow-x: hidden } or sitting off the white card.
+.installed li.invalid-config > div
+    position: relative
+    cursor: default
+    color: var(--pico-muted-color)
+    opacity: 0.82
+    background: color-mix(in srgb, var(--pico-card-background-color) 90%, #ffcdd2 10%)
+
+.installed li.invalid-config > div::after
+    content: "!"
+    position: absolute
+    top: .35rem
+    right: .35rem
+    z-index: 2
+    font-weight: 700
+    font-size: 1.15rem
+    line-height: 1
+    color: #b71c1c
+    pointer-events: none
+
+.installed li.invalid-config--dependency-error > div::after
+    color: #e65100
+
+.installed li.invalid-config--dependency-error > div
+    background: color-mix(in srgb, var(--pico-card-background-color) 90%, #ffe0b2 10%)
+
+.installed li.invalid-config .config-error-msg
+    font-size: .75rem
+    color: color-mix(in srgb, var(--pico-muted-color) 62%, #c62828 38%)
+    margin: .15rem 0 0
+    text-align: center
+
+.installed li.invalid-config--dependency-error .config-error-msg
+    color: color-mix(in srgb, var(--pico-muted-color) 62%, #e65100 38%)
+
+.profiles-invalid-json
+    margin-bottom: 1rem
+    padding: .75rem 1rem
+    border: 1px solid var(--color-alert)
+    border-radius: var(--pico-border-radius)
+    background: color-mix(in srgb, var(--color-alert) 12%, transparent)
+
+    ul
+        margin: .5rem 0 0
+        padding-left: 1.25rem
+
 button[type="reset"]
     width: calc(100%)
     background-color: var(--pico-muted-color)

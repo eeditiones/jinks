@@ -150,11 +150,15 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Array of installed apps, invalid-config entries, and built-in profiles. Items with type \"invalid-config\" include invalidReason: \"invalid-json\" (unparseable config.json) or \"dependency-error\" (JSON parses but merging extended profiles failed), plus title, description, profile, error.path, error.message, and an empty config object.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Either a normal configuration summary (type profile | installed) or type invalid-config for unreadable JSON / merge errors."
+                                    }
                                 }
                             }
                         }

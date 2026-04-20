@@ -72,15 +72,59 @@ declare function api:expand-template($request as map(*)) {
         }
 };
 
+(:~
+ : @param $reason  "invalid-json" (parse error / non-object) or "dependency-error" (extends / merged profiles failed)
+ : @param $isProfile  true() when the entry is a bundled profile under /profiles, false() for an installed repo app
+ :)
+declare %private function api:configuration-invalid(
+    $collection as xs:string,
+    $configPath as xs:string,
+    $message as xs:string,
+    $reason as xs:string,
+    $isProfile as xs:boolean
+) as map(*) {
+    map {
+        "type": "invalid-config",
+        "invalidReason": $reason,
+        "profile": $collection,
+        "title":
+            if ($reason = "invalid-json") then
+                if ($isProfile) then
+                    "Invalid profile JSON"
+                else
+                    "Invalid config.json"
+            else
+                if ($isProfile) then
+                    "Profile dependency error"
+                else
+                    "Error in extended profile",
+        "description":
+            if ($reason = "invalid-json") then
+                if ($isProfile) then
+                    "This profile's config.json is not valid JSON."
+                else
+                    "This application's config.json is not valid JSON."
+            else
+                if ($isProfile) then
+                    "config.json is valid JSON, but loading or merging an extended profile failed."
+                else
+                    "config.json is valid JSON, but loading or merging extended profiles failed.",
+        "error": map { "path": $configPath, "message": $message },
+        "config": map {}
+    }
+};
+
 declare function api:configurations($request as map(*)) {
     let $installed :=
         for $collection in xmldb:get-child-collections(repo:get-root())
         let $configPath := repo:get-root() || "/" || $collection || "/config.json"
         return
             if (util:binary-doc-available($configPath)) then
-                let $config := json-doc($configPath)
+                let $config := generator:load-json-safe($configPath)
                 return
-                    if (map:contains($config, "type")) then
+                    if ($config?_jsonError) then
+                        api:configuration-invalid($collection, $configPath, $config?_message, "invalid-json", false())
+                    else if (map:contains($config, "type")) then
                         map {
                             "type": "profile",
                             "profile": $collection,
@@ -89,29 +133,43 @@ declare function api:configurations($request as map(*)) {
                             "config": $config
                         }
                     else
-                        let $extConfig := generator:extends($config)
-                        return
-                            map {
-                                "type": "installed",
-                                "profile": $config?profiles?*[last()],
-                                "title": head(($config?label, $config?pkg?title)),
-                                "description": $config?description,
-                                "config": $config,
-                                "actions": $extConfig?actions
-                            }
+                        try {
+                            let $extConfig := generator:extends($config)
+                            return
+                                map {
+                                    "type": "installed",
+                                    "profile": $config?profiles?*[last()],
+                                    "title": head(($config?label, $config?pkg?title)),
+                                    "description": $config?description,
+                                    "config": $config,
+                                    "actions": $extConfig?actions
+                                }
+                        } catch * {
+                            api:configuration-invalid($collection, $configPath, string($err:description), "dependency-error", false())
+                        }
             else
                 ()
     let $profiles :=
         for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
-        let $config := generator:profile($collection)
+        let $profilePath := $config:app-root || "/profiles/" || $collection || "/config.json"
+        let $raw := generator:load-json-safe($profilePath)
         return
-            map {
-                "type": "profile",
-                "profile": $collection,
-                "title": head(($config?label, $config?pkg?title)),
-                "description": $config?description,
-                "config": $config
-            }
+            if ($raw?_jsonError) then
+                api:configuration-invalid($collection, $profilePath, $raw?_message, "invalid-json", true())
+            else
+                try {
+                    let $config := generator:extends($raw)
+                    return
+                        map {
+                            "type": "profile",
+                            "profile": $collection,
+                            "title": head(($config?label, $config?pkg?title)),
+                            "description": $config?description,
+                            "config": $config
+                        }
+                } catch * {
+                    api:configuration-invalid($collection, $profilePath, string($err:description), "dependency-error", true())
+                }
     return
         array { $installed, $profiles }
 };
@@ -124,21 +182,48 @@ declare function api:expand-config($request as map(*)) {
 
 declare function api:profiles() {
     for $collection in xmldb:get-child-collections($config:app-root || "/profiles")
-    let $config := generator:load-json($config:app-root || "/profiles/" || $collection || "/config.json", map {})
-    order by if (map:contains($config, "order")) then number($config?order) else 100
+    let $config := generator:load-json-safe($config:app-root || "/profiles/" || $collection || "/config.json")
+    order by
+        if ($config?_jsonError) then
+            999
+        else if (map:contains($config, "order")) then
+            number($config?order)
+        else
+            100
     return
-        map:merge((
-            $config,
-            map { "path": $collection }
-        )),
+        if ($config?_jsonError) then
+            map {
+                "invalidJson": true(),
+                "invalidReason": "invalid-json",
+                "path": $collection,
+                "label": $collection,
+                "description": $config?_message
+            }
+        else
+            map:merge((
+                $config,
+                map { "path": $collection }
+            )),
     for $collection in xmldb:get-child-collections(repo:get-root())
-    let $config := generator:load-json(repo:get-root() || "/" || $collection || "/config.json", map {})
-    where map:contains($config, "type")
+    let $repoConfigPath := repo:get-root() || "/" || $collection || "/config.json"
+    where util:binary-doc-available($repoConfigPath)
+    let $config := generator:load-json-safe($repoConfigPath)
     return
-        map:merge((
-            $config,
-            map { "path": $collection }
-        ))
+        if ($config?_jsonError) then
+            map {
+                "invalidJson": true(),
+                "invalidReason": "invalid-json",
+                "path": $collection,
+                "label": $collection,
+                "description": $config?_message
+            }
+        else if (map:contains($config, "type")) then
+            map:merge((
+                $config,
+                map { "path": $collection }
+            ))
+        else
+            ()
 };
 
 declare function api:page($request as map(*)) {

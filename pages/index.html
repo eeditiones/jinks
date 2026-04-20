@@ -111,6 +111,19 @@
             </fieldset>
         </section>
         <section id="profiles" class="profiles" data-tab="profiles">
+            [% let $invalidProfiles = filter($context?profiles, function ($prof) { $prof?invalidJson }) %]
+            [% if exists($invalidProfiles) %]
+            <aside role="alert" class="profiles-invalid-json">
+                <strong>Invalid JSON</strong>
+                <p>The following <code>config.json</code> files could not be parsed. Correct the JSON to include them in the profile lists below.</p>
+                <ul>
+                    [% for $p in $invalidProfiles %]
+                    <li><strong>[[$p?label]]</strong> — [[ $p?description ]]</li>
+                    [% endfor %]
+                </ul>
+            </aside>
+            [% endif %]
+            [% endlet %]
             <fieldset>
                 <legend>Blueprints</legend>
                 <ul>
