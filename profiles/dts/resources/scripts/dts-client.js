@@ -248,6 +248,7 @@ function initializeDTSClient() {
         try {
             // Clear previous collection data and reset state
             clearCollectionTable();
+            hideDocumentAside();
             currentCollectionId = null;
             collectionHistory = [];
             collectionUriTemplate = serverConfig.collection;
@@ -544,6 +545,7 @@ function initializeDTSClient() {
             `;
             }).filter(Boolean).join('');
 
+        asideElement.hidden = false;
         asideElement.innerHTML = `
             <div class="dts-document-metadata">
                 <h3>Document Information</h3>
@@ -661,6 +663,7 @@ function initializeDTSClient() {
             return;
         }
 
+        navigationResponseElement.hidden = false;
         // Display the raw JSON response
         navigationJsonElement.textContent = JSON.stringify(navigationData, null, 2);
     }
@@ -774,6 +777,9 @@ function initializeDTSClient() {
         }
 
         try {
+            // Hide document aside when navigating to a collection
+            hideDocumentAside();
+
             // Add current collection to history if we're not at root
             if (currentCollectionId !== null) {
                 collectionHistory.push(currentCollectionId);
@@ -905,9 +911,23 @@ function initializeDTSClient() {
     /**
      * Navigate back to root collection
      */
+    function hideDocumentAside() {
+        const asideElement = document.getElementById('dts-aside');
+        if (asideElement) {
+            asideElement.hidden = true;
+            asideElement.innerHTML = '';
+        }
+        const navResponse = document.getElementById('dts-navigation-response');
+        if (navResponse) {
+            navResponse.hidden = true;
+            navResponse.open = false;
+        }
+    }
+
     async function navigateToRoot() {
         currentCollectionId = null;
         collectionHistory = [];
+        hideDocumentAside();
         await fetchRootCollection();
     }
 
