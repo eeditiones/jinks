@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        EXIST_BASE: [6.4.0]
+        EXIST_BASE: [6.4.1]
 
     steps:
       - name: Check out repository
@@ -112,7 +112,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             PUBLISHER_VERSION=main
-            EXIST_VERSION=6.4.0
+            EXIST_VERSION=6.4.1
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           sbom: true
