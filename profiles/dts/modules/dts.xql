@@ -8,6 +8,7 @@ import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace router="http://e-editiones.org/roaster";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -300,10 +301,12 @@ declare function dts:document($request as map(*)) {
                                     let $output :=
                                         switch ($parsedMediaType[1])
                                             case "text/html" return
-                                                if ($parsedMediaType[3] = "media=print") then
-                                                    $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
-                                                else
-                                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                                                let $html :=
+                                                    if ($parsedMediaType[3] = "media=print") then
+                                                        $pm-config:print-transform($xml, map { "root": root($xml) }, $config?odd)
+                                                    else
+                                                        $pm-config:web-transform($xml, map { "root": root($xml), "webcomponents": 7 }, $config?odd)
+                                                return dts:postprocess-html($html)
                                             case "application/epub+zip" return $pm-config:epub-transform($xml, map { "root": root($xml) }, $config?odd)
                                             default return dts:check-pi(root($xml))
                                     let $content-type := if ($parsedMediaType[1] = "application/xml" or $parsedMediaType[1] = "") then "application/tei+xml" else $parsedMediaType[1]
@@ -312,9 +315,9 @@ declare function dts:document($request as map(*)) {
                                     let $output :=
                                         switch ($parsedMediaType[1])
                                             case "text/html" return
-                                                 let $config := tpu:parse-pi(root($xml), ())
-                                                 return
-                                                    $pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd)
+                                                let $config := tpu:parse-pi(root($xml), ())
+                                                return
+                                                    dts:postprocess-html($pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd))
                                             default return
                                                 document {
                                                     <TEI xmlns="http://www.tei-c.org/ns/1.0">
@@ -465,6 +468,79 @@ declare %private function dts:metadata($doc as element()) {
                 "language": ft:field($doc, "language")
             }
     }
+};
+
+declare %private function dts:webcomponents() {
+    <style rel="stylesheet" type="text/css">
+    a[rel=footnote] {{
+        font-size: var(--jinks-footnote-font-size, var(--jinks-content-font-size, 75%));
+        font-family: var(--jinks-footnote-font-family, var(--jinks-content-font-family));
+        vertical-align: super;
+        text-decoration: none;
+        padding: var(--jinks-footnote-padding);
+    }}
+    .footnote .fn-number {{
+        float: left;
+        font-size: var(--jinks-footnote-font-size, var(--jinks-content-font-size, 75%));
+    }}
+    </style>,
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/web-components-loader/lib/index.min.js"></script>,
+    switch ($config:webcomponents)
+        case "dev" return
+            <script type="module" src="{$config:webcomponents-cdn}/src/pb-components-bundle.js"></script>
+        case "local" return
+            <script type="module" src="resources/scripts/pb-components-bundle.js"></script>
+        default return
+            <script type="module" src="{$config:webcomponents-cdn}@{$config:webcomponents}/dist/pb-components-bundle.js"></script>
+};
+
+declare %private function dts:postprocess-html($nodes as node()*) as node()* {
+    for $node in $nodes
+    return
+        typeswitch($node)
+            case element(html) return
+                element { node-name($node) } {
+                    $node/@*,
+                    if (empty($node/head)) then
+                        <head>
+                            <meta charset="utf-8"/>
+                            { dts:webcomponents() }
+                        </head>
+                    else
+                        (),
+                    dts:postprocess-html($node/node())
+                }
+            case element(head) return
+                element { node-name($node) } {
+                    $node/@*,
+                    <meta charset="utf-8"/>,
+                    $node/node(),
+                    dts:webcomponents()
+                }
+            case element(body) return
+                let $footnotes :=
+                    for $fn in $node//*[@class = "footnote"]
+                    return
+                        element { node-name($fn) } {
+                            $fn/@*,
+                            dts:postprocess-html($fn/node())
+                        }
+                return
+                    element { node-name($node) } {
+                        $node/@*,
+                        dts:postprocess-html($node/node()),
+                        nav:output-footnotes($footnotes)
+                    }
+            case element() return
+                if ($node/@class = "footnote") then
+                    ()
+                else
+                    element { node-name($node) } {
+                        $node/@*,
+                        dts:postprocess-html($node/node())
+                    }
+            default return
+                $node
 };
 
 declare %private function dts:check-pi($doc as document-node()) {
