@@ -27,7 +27,6 @@ input[type="checkbox"] {
     background-color: var(--jinks-form-background-color);
     border: 1px solid var(--jinks-form-border-color);
     border-radius: 3.429px;
-    margin: 0;
 }
 
 input[type="checkbox"]:checked {
@@ -419,4 +418,8 @@ dialog > article > header > button[rel="prev"] {
     background-color: transparent;
     color: var(--jinks-colors-light);
     opacity: 0.8;
+}
+
+tr.nested td {
+    padding-left: 1rem;
 }
