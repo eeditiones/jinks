@@ -94,13 +94,14 @@ footer a:hover {
 }
 
 .column {
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-items: flex-start;
 }
 
-.two-column.row, .two-column.long-desc {
-    display:flex;
+.two-column.row,
+.two-column.long-desc {
+    display: flex;
     flex-direction: row;
     justify-items: stretch;
     gap: var(--s4);
@@ -126,13 +127,12 @@ header.row {
     flex: 66%;
 }
 
-
 /* hide extra elements from content pages */
 .before,
 .before-top,
 .after,
 .after-top {
-    display:none;
+    display: none;
 }
 
 .hero {
@@ -185,9 +185,8 @@ header.row {
 }
 
 .button-link:after {
-    content: " →"
+    content: " →";
 }
-
 
 .section-light {
     background-color: var(--jinks-colors-light, #fff);
@@ -271,22 +270,22 @@ header.row {
 }
 
 .highlight-card .no-label {
-   display: none;
+    display: none;
 }
 
 .highlight-card .desc {
-    padding: calc(var(--s1)*0.5);
+    padding: calc(var(--s1) * 0.5);
 }
 
-.highlight-card .desc  h3 {
+.highlight-card .desc h3 {
     backdrop-filter: blur(10px);
-    padding: calc(var(--s1)*0.5);
+    padding: calc(var(--s1) * 0.5);
     border-radius: 10px;
     width: fit-content;
 }
-.highlight-card .desc  p {
+.highlight-card .desc p {
     backdrop-filter: blur(10px);
-    padding: calc(var(--s1)*0.5);
+    padding: calc(var(--s1) * 0.5);
     border-radius: 10px;
 }
 
@@ -329,9 +328,10 @@ header.row {
     --from: color-mix(in srgb, var(--jinks-colors-700) 33%, transparent);
     --to: color-mix(in srgb, var(--jinks-colors-700) 66%, transparent);
 
-    background-position: var(--jinks-bottom-background-position, center);  
+    background-position: var(--jinks-bottom-background-position, center);
     background-blend-mode: multiply;
-    background-image: var(--jinks-bottom-background-image), linear-gradient(180deg, var(--from), var(--to));
+    background-image:
+        var(--jinks-bottom-background-image), linear-gradient(180deg, var(--from), var(--to));
     background-size: var(--jinks-bottom-background-size);
     background-repeat: var(--jinks-bottom-background-repeat);
     background-color: var(--jinks-bottom-background-color);
@@ -355,7 +355,7 @@ header.row {
 }
 
 #bottom a:hover {
-    color:var(--jinks-colors-accent);
+    color: var(--jinks-colors-accent);
 }
 
 .partner-logos {
@@ -371,7 +371,7 @@ header.row {
     border: thin solid var(--jinks-border-color);
     border-radius: var(--pico-border-radius);
     background: var(--jinks-colors-100);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.10);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
     flex: 12%;
     width: 10vw;
 }
@@ -480,7 +480,7 @@ header.row {
 }
 .link-group li {
     list-style: none;
-    color:inherit;
+    color: inherit;
 }
 
 .link-group li a {
@@ -530,7 +530,8 @@ header.row {
     .partner-logo img {
         margin-block: var(--s-1);
     }
-    .two-column.row, .long-desc {
+    .two-column.row,
+    .long-desc {
         flex-direction: column;
     }
     #bottom > div {

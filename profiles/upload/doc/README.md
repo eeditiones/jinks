@@ -26,8 +26,8 @@ Enable the upload feature in your application's `config.json` or the frontmatter
 
 ### Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `enabled` | boolean | `false` | Set to `true` to display the upload component |
-| `target` | string \| null | `null` | Target collection for uploaded documents. If not set or null, documents will be stored in the default data collection |
-| `accept` | string | `.xml, .tei, .odd, .docx, .md, .mei` | List of file extensions accepted for uploading |
+| Option    | Type           | Default                              | Description                                                                                                           |
+| --------- | -------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `enabled` | boolean        | `false`                              | Set to `true` to display the upload component                                                                         |
+| `target`  | string \| null | `null`                               | Target collection for uploaded documents. If not set or null, documents will be stored in the default data collection |
+| `accept`  | string         | `.xml, .tei, .odd, .docx, .md, .mei` | List of file extensions accepted for uploading                                                                        |

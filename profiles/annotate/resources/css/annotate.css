@@ -22,33 +22,33 @@
     padding-left: 0;
 }
 
-#authority-editor{
-    height:auto;
+#authority-editor {
+    height: auto;
 }
 #authority-editor main,
-#authority-editor-side main{
-    display:block;
-    margin:0;
+#authority-editor-side main {
+    display: block;
+    margin: 0;
 }
-section.person{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
-}
-
-fx-fore .actions{
-    text-align:right;
-    padding:0.25rem 0.5rem;
-}
-fx-fore button{
-    padding:0.5rem;
-}
-fx-fore fx-group{
-    padding:1rem 0.5rem;
-    width:100%;
+section.person {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
 
-fx-fore fx-case:last-child{
-    margin-bottom:5rem;
+fx-fore .actions {
+    text-align: right;
+    padding: 0.25rem 0.5rem;
+}
+fx-fore button {
+    padding: 0.5rem;
+}
+fx-fore fx-group {
+    padding: 1rem 0.5rem;
+    width: 100%;
+}
+
+fx-fore fx-case:last-child {
+    margin-bottom: 5rem;
 }
 
 body {
@@ -65,42 +65,42 @@ body {
 }
 
 #authority-info {
-    font-size: .9rem;
+    font-size: 0.9rem;
     max-height: 25vh;
     overflow: auto;
 }
 
-#authority-editor{
+#authority-editor {
     /*max-height: 50vh;*/
     position: relative;
     /*overflow: auto;*/
-    background:#efefef;
+    background: #efefef;
 }
 #authority-editor main,
-#authority-editor button{
+#authority-editor button {
     font-size: 0.8rem;
 }
 #authority-editor main,
-#authority-editor fx-group{
+#authority-editor fx-group {
     /*margin:0 0 1rem 0;*/
     padding: 0;
     position: relative;
 }
 
-#authority-editor main{
+#authority-editor main {
     /*max-height: 50vh;*/
     position: relative;
     height: 100%;
-    padding:0.5rem;
+    padding: 0.5rem;
     overflow: auto;
     background: white;
 }
 
-fx-group#general{
-    padding-top:1rem;
+fx-group#general {
+    padding-top: 1rem;
 }
 
-#authority-editor input.widget{
+#authority-editor input.widget {
     width: calc(100% - 2rem);
 }
 
@@ -108,31 +108,30 @@ fx-group#general{
     margin-bottom: 10px;
 }
 
-fx-fore fx-group > section{
-    overflow:hidden;
+fx-fore fx-group > section {
+    overflow: hidden;
     position: relative;
 }
 
-fx-fore fx-group{
-    display:grid;
-    grid-template-rows:1fr;
-    height:auto;
-    animation: grow .6s forwards;
-
+fx-fore fx-group {
+    display: grid;
+    grid-template-rows: 1fr;
+    height: auto;
+    animation: grow 0.6s forwards;
 }
-fx-fore fx-group[nonrelevant]{
-    animation: shrink .6s forwards;
-}
-
-fx-group iron-form{
-    padding:0.5rem;
+fx-fore fx-group[nonrelevant] {
+    animation: shrink 0.6s forwards;
 }
 
-#authority-editor fx-trigger{
+fx-group iron-form {
+    padding: 0.5rem;
+}
+
+#authority-editor fx-trigger {
     text-align: right;
 }
 
-fx-trigger.insert-auth-form{
+fx-trigger.insert-auth-form {
     position: absolute;
     right: 0;
     top: 1.5rem;
@@ -142,7 +141,7 @@ fx-trigger:has(button) {
     /*margin-top: 1rem;*/
     display: flex;
     justify-content: flex-end;
-    margin:0 0.1rem;
+    margin: 0 0.1rem;
 }
 
 .annotation-editor {
@@ -151,27 +150,26 @@ fx-trigger:has(button) {
     grid-template-rows: auto auto 1fr;
 }
 
-fx-group.search{
+fx-group.search {
     /*max-height:30rem;*/
-    overflow:auto;
+    overflow: auto;
 }
 
-fx-fore fx-group{
-    padding:0.5rem;
-    margin:0;
+fx-fore fx-group {
+    padding: 0.5rem;
+    margin: 0;
 }
 
-fx-fore > fx-group{
-    border:thin solid #efefef;
-    margin-bottom:1rem;
+fx-fore > fx-group {
+    border: thin solid #efefef;
+    margin-bottom: 1rem;
 }
-
 
 fx-fore textarea {
     width: calc(100% - 2rem);
 }
 
-#markupPanel{
+#markupPanel {
     visibility: hidden;
 }
 
@@ -192,7 +190,7 @@ fx-fore textarea {
     border: 0;
 }
 
-#markupPanel.on{
+#markupPanel.on {
     visibility: visible;
     position: fixed;
     left: -0.5rem;
@@ -201,11 +199,14 @@ fx-fore textarea {
     z-index: 10;
     background: white;
     margin-bottom: 0;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    box-shadow:
+        0 4px 5px 0 rgba(0, 0, 0, 0.14),
+        0 1px 10px 0 rgba(0, 0, 0, 0.12),
+        0 2px 4px -1px rgba(0, 0, 0, 0.4);
     width: 100%;
 }
 
-fx-group[ref="authority"]{
+fx-group[ref="authority"] {
     overflow: hidden;
 }
 fx-fore #markupPanel pb-tabs,
@@ -225,13 +226,13 @@ fx-fore #markupPanel .preview-toolbar {
 
 pb-authority-lookup {
     max-height: 60vh;
-    padding:0.5rem;
+    padding: 0.5rem;
     position: relative;
     height: 100%;
     justify-content: flex-start;
 }
 
-pb-document{
+pb-document {
     display: none;
 }
 
@@ -246,7 +247,7 @@ pb-progress {
 }
 
 pb-tabs {
-    --paper-tabs-selection-bar-color: #607D8B;
+    --paper-tabs-selection-bar-color: #607d8b;
     height: calc(100% - 40px);
 }
 
@@ -263,8 +264,9 @@ pb-tabs pre {
     margin: 0;
 }
 
-pb-view, pb-view-annotate{
-    margin-left:2rem;
+pb-view,
+pb-view-annotate {
+    margin-left: 2rem;
     width: auto;
 }
 
@@ -273,19 +275,18 @@ pb-view, pb-view-annotate{
     justify-content: space-between;
     align-items: center;
     /*height: 3rem;*/
-    padding:1rem 0.75rem;
-    }
+    padding: 1rem 0.75rem;
+}
 
 .preview header .toolbar {
     flex-wrap: nowrap;
 }
 
-
-#output, #changes {
-    font-size: .75em;
+#output,
+#changes {
+    font-size: 0.75em;
     --pb-code-highlight-white-space: pre-wrap;
 }
-
 
 #view1::part(content) {
     line-height: 2;
@@ -305,7 +306,7 @@ pb-view, pb-view-annotate{
 .occurrences {
     overflow: auto;
     margin-top: 16px;
-    font-size: .85rem;
+    font-size: 0.85rem;
 }
 
 .occurrences h4 {
@@ -315,14 +316,12 @@ pb-view, pb-view-annotate{
     background-color: var(--pb-color-inverse);
 }
 
-
 .occurrences ul {
     list-style: none;
     margin: 0;
 }
 .occurrences p,
-.occurrences ul
-{
+.occurrences ul {
     padding: 0.5rem;
 }
 
@@ -348,7 +347,8 @@ mark.incomplete {
     );
 }
 
-mark.modify, .occurrences .id-warning mark {
+mark.modify,
+.occurrences .id-warning mark {
     background-color: var(--annotate-color-modify);
     color: var(--pb-color-inverse);
 }
@@ -366,9 +366,9 @@ paper-icon-button[data-type="edit"] {
     margin-left: 40px;
 }
 
-[nonrelevant]{
-    visibility:hidden;
-    display:block;
+[nonrelevant] {
+    visibility: hidden;
+    display: block;
 }
 
 #commit[nonrelevant] {
@@ -408,24 +408,24 @@ paper-icon-button[data-type="edit"] {
 }
 
 /* ### authority editor */
-fx-repeat{
-    margin-right:1rem;
+fx-repeat {
+    margin-right: 1rem;
 }
-fx-fore .four-col fx-repeatitem{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr 2rem;
-    grid-gap:0;
-    align-items:end;
+fx-fore .four-col fx-repeatitem {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2rem;
+    grid-gap: 0;
+    align-items: end;
 }
-fx-fore .two-col fx-repeatitem{
-    display:grid;
-    grid-template-columns:auto 2rem;
-    align-items:center;
+fx-fore .two-col fx-repeatitem {
+    display: grid;
+    grid-template-columns: auto 2rem;
+    align-items: center;
 }
 
 @keyframes grow {
     0% {
-        grid-template-rows:0;
+        grid-template-rows: 0;
     }
     100% {
         grid-template-rows: 1fr;
@@ -433,7 +433,7 @@ fx-fore .two-col fx-repeatitem{
 }
 @keyframes shrink {
     0% {
-        grid-template-rows:1fr;
+        grid-template-rows: 1fr;
     }
     100% {
         grid-template-rows: 0;
@@ -449,10 +449,11 @@ pb-leaflet-map {
 
 jinn-xml-editor {
     font-size: 16px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-jinn-xml-editor [slot], jinn-epidoc-editor [slot] {
+jinn-xml-editor [slot],
+jinn-epidoc-editor [slot] {
     display: flex;
     column-gap: 4px;
     align-items: center;
@@ -460,27 +461,33 @@ jinn-xml-editor [slot], jinn-epidoc-editor [slot] {
     flex-wrap: wrap;
 }
 
-jinn-epidoc-editor [slot] *, jinn-xml-editor [slot] *, jinn-epidoc-editor::part(button) {
-    font-size: .85rem;
+jinn-epidoc-editor [slot] *,
+jinn-xml-editor [slot] *,
+jinn-epidoc-editor::part(button) {
+    font-size: 0.85rem;
     border: 1px solid transparent;
     background-color: inherit;
 }
 
-jinn-xml-editor [slot] > *:hover, jinn-epidoc-editor [slot] > *:hover, jinn-epidoc-editor::part(button):hover {
+jinn-xml-editor [slot] > *:hover,
+jinn-epidoc-editor [slot] > *:hover,
+jinn-epidoc-editor::part(button):hover {
     border: 1px solid var(--pb-color-inverse);
 }
 
 /* Fore style overwrites for annotations  */
 
 fx-group fx-control {
-    padding-left: .5rem;
+    padding-left: 0.5rem;
 }
 
-fx-control input, fx-control textarea, fx-control select {
+fx-control input,
+fx-control textarea,
+fx-control select {
     box-sizing: border-box;
-    margin: 0 0 .5rem 0;
+    margin: 0 0 0.5rem 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 1rem;
     color: var(--paper-input-container-input-color);
 }
@@ -492,7 +499,8 @@ fx-control label {
     /* Text color */
 }
 
-fx-control input[type="text"], fx-control textarea {
+fx-control input[type="text"],
+fx-control textarea {
     width: calc(100% - 2rem);
     padding: 12px 16px;
     border: 1px solid #ccc;
@@ -502,7 +510,8 @@ fx-control input[type="text"], fx-control textarea {
     transition: border-color 0.2s ease;
 }
 
-fx-control input[type="text"]:focus, fx-control textarea:focus {
+fx-control input[type="text"]:focus,
+fx-control textarea:focus {
     border-color: #007bff;
     /* Change border color on focus */
 }
@@ -540,7 +549,9 @@ fx-control select:focus {
     padding: 12px 20px;
     color: #ffffff;
     display: inline-block;
-    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(77, 96, 232, 0.3);
+    box-shadow:
+        0 3px 6px -1px rgba(0, 0, 0, 0.12),
+        0 10px 36px -4px rgba(77, 96, 232, 0.3);
     background: -webkit-linear-gradient(315deg, #73a5ff, #5477f5);
     background: linear-gradient(135deg, #f8f8f9, #cfcfcf);
     position: fixed;
@@ -552,7 +563,7 @@ fx-control select:focus {
     max-width: calc(50% - 20px);
     z-index: 2147483647;
     font-weight: 300;
-    color:black;
+    color: black;
 }
 
 .toastify.on {
@@ -568,14 +579,14 @@ fx-control select:focus {
     right: 15px;
 }
 .toastify-right .toast-close {
-    margin-right:-10px;
+    margin-right: -10px;
 }
 
 .toastify-left {
     left: 15px;
 }
-.toastify-left .toast-close{
-    margin-left:-10px;
+.toastify-left .toast-close {
+    margin-left: -10px;
 }
 
 .toastify-top {
@@ -607,7 +618,8 @@ fx-control select:focus {
 }
 
 @media only screen and (max-width: 360px) {
-    .toastify-right, .toastify-left {
+    .toastify-right,
+    .toastify-left {
         margin-left: auto;
         margin-right: auto;
         left: 0;
@@ -616,18 +628,18 @@ fx-control select:focus {
     }
 }
 
-fx-control, label{
-    display:block;
+fx-control,
+label {
+    display: block;
 }
 
-.authority-editor h1{
+.authority-editor h1 {
     margin-top: 0;
     margin-bottom: 0;
 }
 
-
-.authority-editor .horizontal-buttons{
-    display:flex;
+.authority-editor .horizontal-buttons {
+    display: flex;
     justify-content: space-between;
 }
 .authority-editor fx-trigger.saveBtnBottom {

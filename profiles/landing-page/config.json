@@ -7,21 +7,15 @@
     "description": "Adds a landing page",
     "order": 102,
     "version": "1.0.0",
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "defaults": {
         "landing": "index.html"
     },
     "data": {
         "landing": "landing/landing.xml"
     },
-    "i18n": [
-        "landing-page"
-    ],
-    "odds": [
-        "landing.odd"
-    ],
+    "i18n": ["landing-page"],
+    "odds": ["landing.odd"],
     "templating": {
         "modules": {
             "http://teipublisher.com/ns/templates/landing-page": {

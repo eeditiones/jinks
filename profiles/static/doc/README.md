@@ -40,7 +40,7 @@ When the static generation completes, you will find a folder structure in the `o
 
 ```
 output/
-├── index.html                   # Redirects to the first browse page 
+├── index.html                   # Redirects to the first browse page
 ├── 1/                           # First browse page for a collection
 │   └── index.html
 ├── 2/                           # Second browse page (if needed)
@@ -92,9 +92,11 @@ The static profile is configured through the `static` section in your `config.js
 Specifies additional template definitions to use when expanding blocks during static generation.
 
 **Properties:**
+
 - `use` (array of strings): List of template definition files to consult when expanding blocks
 
 **Example:**
+
 ```json
 "templating": {
   "use": [
@@ -111,60 +113,75 @@ These templates are merged with the main templating configuration and used durin
 Defines one or more collections to generate static pages for. Each collection is configured with its own settings.
 
 **Collection Key:**
+
 - The key can be a collection name (e.g., `"doc"`, `"demo"`) or an empty string `""` for the root/default collection
 - An empty string key processes documents from the default data collection
 
 **Collection Configuration Properties:**
 
 #### `path-prefix` (string, optional)
+
 Optional prefix to prepend to the output path before the relative collection path. Defaults to `"documents"` if not specified.
 
 **Example:**
+
 ```json
 "path-prefix": "letters"
 ```
 
 #### `index` (string | boolean)
+
 Controls whether a search index is generated for the collection.
+
 - `false`: No index is created
 - `"single"`: Creates a single index entry per document
 - `true` or other string: Creates an index using the specified method
 
 **Example:**
+
 ```json
 "index": false
 ```
+
 or
+
 ```json
 "index": "single"
 ```
 
 #### `template` (string, required)
+
 The template to use for rendering the collection browse/index pages. Path is relative to the application root.
 
 **Example:**
+
 ```json
 "template": "static/templates/index.html"
 ```
 
 #### `include` (array of strings, optional)
+
 Optional list of specific documents to include in the static generation. If not specified, all documents in the collection will be included.
 
 **Example:**
+
 ```json
 "include": ["demo/F-rom.xml"]
 ```
 
 #### `paginate` (object, optional)
+
 Configuration for how documents are paginated into multiple HTML pages.
 
 **Properties:**
+
 - `template` (string, required): The template to use for rendering each page
 - `toc` (boolean, required): If `true`, a table of contents will be generated for the document
 - `parts` (array, required): List of parts to render for each page
 
 **Part Configuration:**
 Each part in the `parts` array can have the following properties:
+
 - `id` (string, optional): A name for the part. If not specified, `"default"` is used. Parts are available in templates via `$parts?<id>`, e.g., `$parts?default`
 - `odd` (string, optional): The ODD to use for transforming this part
 - `view` (string, optional): The view mode (`"div"`, `"page"`, or `"single"`)
@@ -172,6 +189,7 @@ Each part in the `parts` array can have the following properties:
 - `user.mode` (string, optional): Special processing mode (e.g., `"breadcrumb"`, `"register"`)
 
 **Example:**
+
 ```json
 "paginate": {
   "template": "static/templates/documentation.html",
@@ -190,6 +208,7 @@ Each part in the `parts` array can have the following properties:
 ```
 
 **More Complex Example:**
+
 ```json
 "paginate": {
   "template": "static/templates/serafin.html",
@@ -217,13 +236,16 @@ Each part in the `parts` array can have the following properties:
 ```
 
 #### `fetch` (array, optional)
+
 Fetches resources from URLs and stores them in the static output. Useful for downloading external resources like IIIF manifests.
 
 **Properties:**
+
 - `url` (string, required): The URL to fetch. May contain template parameters like `[[$context?base-uri]]` and `[[$doc?path]]`
 - `target` (string, required): The target path where the resource should be stored. May also contain template parameters.
 
 **Example:**
+
 ```json
 "fetch": [
   {
@@ -234,6 +256,7 @@ Fetches resources from URLs and stores them in the static output. Useful for dow
 ```
 
 **Complete Collection Example:**
+
 ```json
 "collections": {
   "doc": {
@@ -281,6 +304,7 @@ Fetches resources from URLs and stores them in the static output. Useful for dow
 List of CSS stylesheets to include in each static page. Paths are relative to the application root.
 
 **Example:**
+
 ```json
 "styles": [
   "resources/css/static.css",
@@ -294,10 +318,12 @@ List of CSS stylesheets to include in each static page. Paths are relative to th
 Configures which fields are indexed and stored for search functionality.
 
 **Properties:**
+
 - `index` (array of strings): Fields to include in the search index
 - `store` (array of strings): Fields to store in the index for retrieval
 
 **Example:**
+
 ```json
 "fields": {
   "index": ["content", "translation", "commentary"],
@@ -310,6 +336,7 @@ Configures which fields are indexed and stored for search functionality.
 List of facet names to include in the search index. Facets enable filtering search results by specific metadata fields.
 
 **Example:**
+
 ```json
 "facets": ["places"]
 ```
@@ -319,11 +346,13 @@ List of facet names to include in the search index. Facets enable filtering sear
 Copies resources from source paths to target paths in the static output. Useful for copying images, data files, or other resources.
 
 **Properties:**
+
 - `from` (string, required): The source path relative to the application root
 - `to` (string, required): The target path relative to the static output collection
 - `filter` (string, optional): Regular expression filter to apply when copying files
 
 **Example:**
+
 ```json
 "copy": [
   {
@@ -341,6 +370,7 @@ This copies all image files from `data/doc` to the `images` directory in the sta
 Creates HTML redirect pages. The key is the source path, the value is the target URL to redirect to.
 
 **Example:**
+
 ```json
 "redirect": {
   "": "1/index.html"
@@ -355,49 +385,44 @@ Here's a complete example combining multiple configuration options:
 
 ```json
 {
-  "static": {
-    "templating": {
-      "use": [
-        "templates/iiif-blocks.html"
-      ]
-    },
-    "collections": {
-      "doc": {
-        "path-prefix": "",
-        "index": false,
-        "template": "static/templates/index.html",
-        "paginate": {
-          "template": "static/templates/documentation.html",
-          "toc": true,
-          "parts": [
-            {
-              "odd": "docbook.odd"
-            },
-            {
-              "id": "breadcrumb",
-              "user.mode": "breadcrumb",
-              "odd": "docbook.odd"
+    "static": {
+        "templating": {
+            "use": ["templates/iiif-blocks.html"]
+        },
+        "collections": {
+            "doc": {
+                "path-prefix": "",
+                "index": false,
+                "template": "static/templates/index.html",
+                "paginate": {
+                    "template": "static/templates/documentation.html",
+                    "toc": true,
+                    "parts": [
+                        {
+                            "odd": "docbook.odd"
+                        },
+                        {
+                            "id": "breadcrumb",
+                            "user.mode": "breadcrumb",
+                            "odd": "docbook.odd"
+                        }
+                    ]
+                }
             }
-          ]
-        }
-      }
-    },
-    "styles": [
-      "resources/css/static.css",
-      "transform/docbook.css"
-    ],
-    "fields": {
-      "index": ["content"],
-      "store": ["content", "title", "link"]
-    },
-    "copy": [
-      {
-        "from": "data/doc",
-        "to": "images",
-        "filter": "\\.(?:png|jpg|jpeg|gif|svg)$"
-      }
-    ]
-  }
+        },
+        "styles": ["resources/css/static.css", "transform/docbook.css"],
+        "fields": {
+            "index": ["content"],
+            "store": ["content", "title", "link"]
+        },
+        "copy": [
+            {
+                "from": "data/doc",
+                "to": "images",
+                "filter": "\\.(?:png|jpg|jpeg|gif|svg)$"
+            }
+        ]
+    }
 }
 ```
 
@@ -411,6 +436,6 @@ When rendering templates, the following variables are available:
 - `$parts?<id>?next`: Path to the next page (if available)
 - `$parts?<id>?prev`: Path to the previous page (if available)
 - `$pagination`: Map containing pagination information
-  - `$pagination?page`: Current page number
+    - `$pagination?page`: Current page number
 - `$table-of-contents`: Table of contents structure (if `toc: true`)
 - `$context`: Full context map with application configuration

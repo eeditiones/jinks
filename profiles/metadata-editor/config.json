@@ -6,15 +6,10 @@
     "category": "workflow",
     "description": "Edit the teiHeader of TEI documents using a form-based editor",
     "version": "0.2.0",
-    "depends": [
-        "base10",
-        "forms"
-    ],
+    "depends": ["base10", "forms"],
     "templating": {
-        "use": [
-            "templates/metadata-editor-blocks.html"
-        ]
-	},
+        "use": ["templates/metadata-editor-blocks.html"]
+    },
     "api": [
         {
             "spec": "metadata-editor-api.json",
@@ -24,8 +19,6 @@
         }
     ],
     "theme": {
-        "icons": [
-            "metadata-editor-icons.svg"
-        ]
+        "icons": ["metadata-editor-icons.svg"]
     }
 }

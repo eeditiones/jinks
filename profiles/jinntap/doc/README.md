@@ -6,7 +6,7 @@ creating new TEI files and editing existing ones.
 The TEI is a very flexible schema, with multiple ways to encode essentially the same concept. A list
 may contain items that contain paragraphs themselves, or items with text directly. The format of
 references, and where to retrieve them is not set in stone. Linking facsimiles for a manuscript done
- in different ways. Written manuscripts use different tags than Stone sutras or Mayan
+in different ways. Written manuscripts use different tags than Stone sutras or Mayan
 inscriptions.
 
 Jinntap does not intend to specify which tag set should be used in what way. Instead, if offers a
@@ -37,22 +37,19 @@ as well. The `type` property there provides schema validation.
 
 ```jsonc
 {
-  // …
-  "schema": {
     // …
-    "rs": {
-     "type": "inline",
-     "attributes": {
-       "type": {
-         "type": "string",
-         "enumeration": [
-           "event",
-           "person"
-         ]
-       }
-     }
-    }
-  }
+    "schema": {
+        // …
+        "rs": {
+            "type": "inline",
+            "attributes": {
+                "type": {
+                    "type": "string",
+                    "enumeration": ["event", "person"],
+                },
+            },
+        },
+    },
 }
 ```
 
@@ -70,7 +67,7 @@ element.
 
 ```css
 tei-rs[type="person"] {
-  color: #e48500;
+    color: #e48500;
 }
 ```
 
@@ -93,27 +90,27 @@ Directly on the toolbar makes the element very visible:
 
 ```jsonc
 {
-  // …
-  "schema": {
     // …
-    "rs": {
-     "type": "inline",
-     "attributes": {
-     // …
-     },
-     "toolbar": {
-       // This determines the tooltip of the button
-       "Person": {
-         // If there are different appearances of a single element, define them here
-         "attributes": { "type": "person" },
-         // The label can usually just be an icon. Use the open source Bootstrap icon set
-         "label": "<i class='bi bi-person-fill'></i>",
-         // The order option defines where an option is placed, lower places it at the start
-         "order": 2
-        }
-      }
-    }
-  }
+    "schema": {
+        // …
+        "rs": {
+            "type": "inline",
+            "attributes": {
+                // …
+            },
+            "toolbar": {
+                // This determines the tooltip of the button
+                "Person": {
+                    // If there are different appearances of a single element, define them here
+                    "attributes": { "type": "person" },
+                    // The label can usually just be an icon. Use the open source Bootstrap icon set
+                    "label": "<i class='bi bi-person-fill'></i>",
+                    // The order option defines where an option is placed, lower places it at the start
+                    "order": 2,
+                },
+            },
+        },
+    },
 }
 ```
 
@@ -174,28 +171,27 @@ pb-authority-lookup element to link to these elements. Configure this in the sch
 
 ```jsonc
 {
-  // …
-  "schema": {
     // …
-    "rs": {
-     "type": "inline",
-     "attributes": {
-       "corresp": {
-         "type": "string",
-		 "connector": {
-		   "name": "GND",
-		   "type": "person",
-		   "prefix": "gnd"
-		 }
-       }
-     }
-    }
-  }
+    "schema": {
+        // …
+        "rs": {
+            "type": "inline",
+            "attributes": {
+                "corresp": {
+                    "type": "string",
+                    "connector": {
+                        "name": "GND",
+                        "type": "person",
+                        "prefix": "gnd",
+                    },
+                },
+            },
+        },
+    },
 }
 ```
 
 ![A screenshot of the GND connector set up for an 'rs' element corresonding to Piet Heyn](./connector.png)
-
 
 ## Configuration
 

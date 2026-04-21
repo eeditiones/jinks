@@ -1,5 +1,6 @@
-.footer a:link, .footer a:visited {
-    color: #1269B0;
+.footer a:link,
+.footer a:visited {
+    color: #1269b0;
     text-decoration: none;
 }
 
@@ -29,13 +30,13 @@ pb-popover {
     font-size: var(--pb-base-font-size);
 }
 .person .dates::before {
-    content: ' (';
+    content: " (";
 }
 .person .death::before {
-    content: '–';
+    content: "–";
 }
 .person .dates::after {
-    content: ')';
+    content: ")";
 }
 .person .dates:empty {
     display: none;
@@ -74,7 +75,7 @@ pb-geolocation small:has(*)::after {
 }
 
 .correspContext .invisible {
-    display:none;
+    display: none;
 }
 
 .placeName {

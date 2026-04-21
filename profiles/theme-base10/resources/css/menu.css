@@ -98,7 +98,8 @@ nav.toolbar ul:first-of-type {
     margin-bottom: 0;
 }
 
-.menubar .dropdown summary, .menubar .dropdown summary::after {
+.menubar .dropdown summary,
+.menubar .dropdown summary::after {
     color: var(--jinks-menubar-color);
 }
 
@@ -114,7 +115,7 @@ nav.toolbar ul:first-of-type {
     --pico-primary: var(--jinks-menubar-color);
     --pico-primary-hover: var(--jinks-menubar-color);
     color: var(--jinks-menubar-color);
-    --jinks-color-primary:var(--jinks-color-primary);
+    --jinks-color-primary: var(--jinks-color-primary);
     overflow: auto;
 }
 
@@ -124,8 +125,8 @@ nav.toolbar ul:first-of-type {
 
 .mobile.menubar aside > nav > ul > li {
     padding: 1rem;
-    border-top: 1px solid  #A5A5A5;
-    border-bottom: 1px solid  #A5A5A5;
+    border-top: 1px solid #a5a5a5;
+    border-bottom: 1px solid #a5a5a5;
 }
 
 .mobile.menubar.hidden {

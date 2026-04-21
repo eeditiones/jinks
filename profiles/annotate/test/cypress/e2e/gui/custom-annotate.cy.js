@@ -19,173 +19,150 @@ const ANNOTATE_KEY = "key";
  * @returns {Text}
  */
 function findTheTextNode(contents) {
-	const textNode = contents.ownerDocument.evaluate(
-		`descendant::text()[contains(., "${TEXT_TO_ANNOTATE}")]`,
-		contents,
-		null,
-		XPathResult.FIRST_ORDERED_NODE_TYPE,
-	);
-	return textNode.singleNodeValue;
+    const textNode = contents.ownerDocument.evaluate(
+        `descendant::text()[contains(., "${TEXT_TO_ANNOTATE}")]`,
+        contents,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+    );
+    return textNode.singleNodeValue;
 }
 
 describe("Annotations", () => {
-	beforeEach(() => {
-		cy.login();
+    beforeEach(() => {
+        cy.login();
 
-		cy.fixture("annotations.xml", "utf8").then((xml) => {
-			cy.uploadXml("annotate/annotation.xml", xml).then(({ status, body }) => {
-				cy.wrap(status).should("eq", 200);
-				cy.wrap(body).its("path").should("include", "annotation.xml");
-			});
-		});
+        cy.fixture("annotations.xml", "utf8").then((xml) => {
+            cy.uploadXml("annotate/annotation.xml", xml).then(({ status, body }) => {
+                cy.wrap(status).should("eq", 200);
+                cy.wrap(body).its("path").should("include", "annotation.xml");
+            });
+        });
 
-		cy.visit(
-			"annotate/annotation.xml?template=annotate-tei.html&odd=annotations&view=div",
-		);
-	});
-	it("should be able to open a file, make an annotation, save it, reload, and see it again", () => {
-		cy.get("pb-view-annotate")
-			.shadow()
-			.find("#view")
-			.should(
-				"contain.text",
-				TEXT_TO_ANNOTATE,
-				"Sanity check: the text should be there,",
-			)
-			.then(([contents]) => {
-				const document = contents.ownerDocument;
-				const textNode = findTheTextNode(contents);
+        cy.visit("annotate/annotation.xml?template=annotate-tei.html&odd=annotations&view=div");
+    });
+    it("should be able to open a file, make an annotation, save it, reload, and see it again", () => {
+        cy.get("pb-view-annotate")
+            .shadow()
+            .find("#view")
+            .should("contain.text", TEXT_TO_ANNOTATE, "Sanity check: the text should be there,")
+            .then(([contents]) => {
+                const document = contents.ownerDocument;
+                const textNode = findTheTextNode(contents);
 
-				const window = document.defaultView;
-				window.getSelection().removeAllRanges();
-				const range = document.createRange();
-				const start = textNode.textContent.indexOf(TEXT_TO_ANNOTATE);
-				const end = start + TEXT_TO_ANNOTATE.length;
+                const window = document.defaultView;
+                window.getSelection().removeAllRanges();
+                const range = document.createRange();
+                const start = textNode.textContent.indexOf(TEXT_TO_ANNOTATE);
+                const end = start + TEXT_TO_ANNOTATE.length;
 
-				range.setStart(textNode, start);
-				range.setEnd(textNode, end);
-				window.getSelection().addRange(range);
-				return cy.wrap(textNode.parentElement);
-			})
-			// Note: pb-view-annotate expects a click to 'end' a selection
-			.scrollIntoView()
-			.click();
+                range.setStart(textNode, start);
+                range.setEnd(textNode, end);
+                window.getSelection().addRange(range);
+                return cy.wrap(textNode.parentElement);
+            })
+            // Note: pb-view-annotate expects a click to 'end' a selection
+            .scrollIntoView()
+            .click();
 
-		cy.get(`.annotation-action[data-type="${ANNOTATE_AS}"]`).click();
+        cy.get(`.annotation-action[data-type="${ANNOTATE_AS}"]`).click();
 
-		cy.get("pb-authority-lookup")
-			.shadow()
-			.find('[title="link to"]')
-			.first()
-			.click();
+        cy.get("pb-authority-lookup").shadow().find('[title="link to"]').first().click();
 
-		// Assert we actually got that annotation in
+        // Assert we actually got that annotation in
 
-		cy.get("pb-view-annotate")
-			.shadow()
-			.find("#view")
-			.should(([contents]) => {
-				const textNode = findTheTextNode(contents);
-				expect(textNode).to.exist;
+        cy.get("pb-view-annotate")
+            .shadow()
+            .find("#view")
+            .should(([contents]) => {
+                const textNode = findTheTextNode(contents);
+                expect(textNode).to.exist;
 
-				const annotation = textNode.parentElement.closest(".annotation");
-				expect(annotation).to.exist;
+                const annotation = textNode.parentElement.closest(".annotation");
+                expect(annotation).to.exist;
 
-				const annotationData = JSON.parse(
-					annotation.getAttribute("data-annotation"),
-				);
-				expect(annotationData[ANNOTATE_KEY]).to.exist;
-			});
+                const annotationData = JSON.parse(annotation.getAttribute("data-annotation"));
+                expect(annotationData[ANNOTATE_KEY]).to.exist;
+            });
 
-		cy.get("#occurrences").find("li").last().find("mark").trigger("mouseenter");
-		cy.get("pb-view-annotate").shadow().find("p").last().should("be.visible");
+        cy.get("#occurrences").find("li").last().find("mark").trigger("mouseenter");
+        cy.get("pb-view-annotate").shadow().find("p").last().should("be.visible");
 
-		cy.get("#mark-all").scrollIntoView({ offset: 0 }).click();
+        cy.get("#mark-all").scrollIntoView({ offset: 0 }).click();
 
-		// Now, Save!
-		cy.get("#document-save").should("be.visible").click();
+        // Now, Save!
+        cy.get("#document-save").should("be.visible").click();
 
-		cy.get("#commit [title='Merge and save annotations to TEI']").click();
+        cy.get("#commit [title='Merge and save annotations to TEI']").click();
 
-		// Wait for the save to go through
-		cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
-			return new Cypress.Promise((resolve) => {
-				pbViewAnnotate.addEventListener("pb-annotations-loaded", resolve, {
-					once: true,
-				});
-			});
-		});
+        // Wait for the save to go through
+        cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
+            return new Cypress.Promise((resolve) => {
+                pbViewAnnotate.addEventListener("pb-annotations-loaded", resolve, {
+                    once: true,
+                });
+            });
+        });
 
-		cy.get("#reload-all").click();
+        cy.get("#reload-all").click();
 
-		cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
-			return new Cypress.Promise((resolve) => {
-				pbViewAnnotate.ownerDocument.addEventListener(
-					"pb-end-update",
-					resolve,
-					{
-						once: true,
-					},
-				);
-			});
-		});
+        cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
+            return new Cypress.Promise((resolve) => {
+                pbViewAnnotate.ownerDocument.addEventListener("pb-end-update", resolve, {
+                    once: true,
+                });
+            });
+        });
 
-		// Annotation should stay
-		cy.get("pb-view-annotate")
-			.shadow()
-			.find("#view")
-			.then(([contents]) => {
-				const textNode = findTheTextNode(contents);
+        // Annotation should stay
+        cy.get("pb-view-annotate")
+            .shadow()
+            .find("#view")
+            .then(([contents]) => {
+                const textNode = findTheTextNode(contents);
 
-				const annotation = textNode.parentElement.closest(".annotation");
+                const annotation = textNode.parentElement.closest(".annotation");
 
-				return annotation;
-			})
-			.should("exist")
-			.should(([annotation]) => {
-				const annotationData = JSON.parse(
-					annotation.getAttribute("data-annotation"),
-				);
-				expect(annotationData[ANNOTATE_KEY]).to.exist;
-			})
-			.scrollIntoView()
-			.should(([annotation]) => {
-				// Something only adds a click event later than expected. So click in the 'should' so Cypress halts until the popup is open
-				annotation.click();
-				expect(annotation).to.have.attr("aria-expanded", "true");
-			});
+                return annotation;
+            })
+            .should("exist")
+            .should(([annotation]) => {
+                const annotationData = JSON.parse(annotation.getAttribute("data-annotation"));
+                expect(annotationData[ANNOTATE_KEY]).to.exist;
+            })
+            .scrollIntoView()
+            .should(([annotation]) => {
+                // Something only adds a click event later than expected. So click in the 'should' so Cypress halts until the popup is open
+                annotation.click();
+                expect(annotation).to.have.attr("aria-expanded", "true");
+            });
 
-		cy.get("pb-view-annotate")
-			.shadow()
-			.find(".annotation-popup paper-icon-button")
-			.first()
-			.click();
+        cy.get("pb-view-annotate")
+            .shadow()
+            .find(".annotation-popup paper-icon-button")
+            .first()
+            .click();
 
-		// We should expect errors here... The value 'A manual edit!' will not be valid in any back-end. Causing many errors
-		cy.on("uncaught:exception", (_err) => {
-			return false;
-		});
-		// Finally, make a  manual edit and assert it stays
-		cy.get(`input[name="${ANNOTATE_KEY}"]`)
-			.clear()
-			.type("A manual edit!")
-			.blur();
+        // We should expect errors here... The value 'A manual edit!' will not be valid in any back-end. Causing many errors
+        cy.on("uncaught:exception", (_err) => {
+            return false;
+        });
+        // Finally, make a  manual edit and assert it stays
+        cy.get(`input[name="${ANNOTATE_KEY}"]`).clear().type("A manual edit!").blur();
 
-		// Annotation should get the new value
-		cy.get("pb-view-annotate")
-			.shadow()
-			.find("#view")
-			.should(([contents]) => {
-				const textNode = findTheTextNode(contents);
-				expect(textNode).to.exist;
+        // Annotation should get the new value
+        cy.get("pb-view-annotate")
+            .shadow()
+            .find("#view")
+            .should(([contents]) => {
+                const textNode = findTheTextNode(contents);
+                expect(textNode).to.exist;
 
-				const annotation = textNode.parentElement.closest(".annotation");
-				expect(annotation).to.exist;
+                const annotation = textNode.parentElement.closest(".annotation");
+                expect(annotation).to.exist;
 
-				const annotationData = JSON.parse(
-					annotation.getAttribute("data-annotation"),
-				);
-				expect(annotationData[ANNOTATE_KEY]).to.equal("A manual edit!");
-			});
-	});
+                const annotationData = JSON.parse(annotation.getAttribute("data-annotation"));
+                expect(annotationData[ANNOTATE_KEY]).to.equal("A manual edit!");
+            });
+    });
 });

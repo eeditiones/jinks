@@ -26,27 +26,9 @@ For example, the `facsimile.html` template uses frontmatter only to configure th
 
 ```html
 <template>
-    ---json
-    {
-        "templating": {
-            "extends": "templates/pages/basic.html"
-        },
-        "features": {
-            "toc": {
-                "enabled": false
-            },
-            "iiif": {
-                "viewer": "pb-tify",
-                "enabled": true
-            }
-        },
-        "theme": {
-            "layout": {
-                "after-width": "33vw"
-            }
-        }
-    }
-    ---
+    ---json { "templating": { "extends": "templates/pages/basic.html" }, "features": { "toc": {
+    "enabled": false }, "iiif": { "viewer": "pb-tify", "enabled": true } }, "theme": { "layout": {
+    "after-width": "33vw" } } } ---
 </template>
 ```
 
@@ -59,8 +41,8 @@ For example, the `facsimile.html` template uses frontmatter only to configure th
 
 ### Viewers
 
-* `pb-facsimile`: A viewer implementing the IIIF image API for viewing one or more images. The names/paths of those images need to be known beforehand and should be registered with the component via pb-facs-link or custom javascript. The viewer is based on [OpenSeadragon](https://openseadragon.github.io/).
-* `pb-tify`: Supports IIIF presentation manifests: instead of registering a list of images, it expects all relevant metadata - including the list of images - to be provided in a single, standardized manifest. Under the hood, pb-tify is based on [tify](https://tify.rocks/), which also uses OpenSeadragon for the image display functionality. Available since version 2.10.0 of tei-publisher-components.
+- `pb-facsimile`: A viewer implementing the IIIF image API for viewing one or more images. The names/paths of those images need to be known beforehand and should be registered with the component via pb-facs-link or custom javascript. The viewer is based on [OpenSeadragon](https://openseadragon.github.io/).
+- `pb-tify`: Supports IIIF presentation manifests: instead of registering a list of images, it expects all relevant metadata - including the list of images - to be provided in a single, standardized manifest. Under the hood, pb-tify is based on [tify](https://tify.rocks/), which also uses OpenSeadragon for the image display functionality. Available since version 2.10.0 of tei-publisher-components.
 
 Both components are usually used in conjunction with the `pb-facs-link` component (output via ODD) to register the image or manifest URLs to be displayed.
 

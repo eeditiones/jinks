@@ -5,28 +5,18 @@
     "label": "Serafin Correspondence",
     "description": "A blueprint for the correspondence of Mikołaj Serafin",
     "version": "1.0.0",
-    "depends": [
-        "base10",
-        "registers",
-        "edition-navigation",
-        "timeline",
-        "ci"
-    ],
+    "depends": ["base10", "registers", "edition-navigation", "timeline", "ci"],
     "order": 11,
-    "odds": [
-        "serafin.odd"
-    ],
+    "odds": ["serafin.odd"],
     "defaults": {
-        "$replace": [ "media" ],
+        "$replace": ["media"],
         "data-default": "letters",
         "template": "serafin.html",
         "browse": "browse-custom.html",
         "odd": "serafin.odd",
         "media": ["web", "print", "fo", "epub"]
     },
-    "i18n": [
-        "serafin"
-    ],
+    "i18n": ["serafin"],
     "features": {
         "toc": {
             "enabled": false
@@ -81,9 +71,7 @@
     },
     "static": {
         "templating": {
-            "use": [
-                "static/templates/register-static-blocks.html"
-            ]
+            "use": ["static/templates/register-static-blocks.html"]
         },
         "collections": {
             "": {
@@ -124,27 +112,11 @@
             "": "1/index.html"
         },
         "fields": {
-            "index": [
-                "content",
-                "translation",
-                "commentary"
-            ],
-            "store": [
-                "content",
-                "translation",
-                "commentary",
-                "title",
-                "link",
-                "places"
-            ]
+            "index": ["content", "translation", "commentary"],
+            "store": ["content", "translation", "commentary", "title", "link", "places"]
         },
-        "facets": [
-            "places"
-        ],
-        "styles": [
-            "resources/css/static.css",
-            "transform/serafin.css"
-        ]
+        "facets": ["places"],
+        "styles": ["resources/css/static.css", "transform/serafin.css"]
     },
     "api": [
         {

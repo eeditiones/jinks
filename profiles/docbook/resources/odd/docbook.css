@@ -54,7 +54,7 @@ ul {
 }
 
 figcaption {
-    margin-top: .5em;
+    margin-top: 0.5em;
     text-align: right;
     font-size: var(--jinks-font-size-smaller);
 }
@@ -63,27 +63,28 @@ dt {
     font-weight: 500;
 }
 
-.tei-procedure li>p {
+.tei-procedure li > p {
     margin-bottom: 1em;
     margin-top: 1em;
 }
 
-li>p, dd>p {
+li > p,
+dd > p {
     margin-top: 0;
     margin-bottom: 0;
 }
 
 dd {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .code {
     font-family: "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
-    font-size: .85em;
+    font-size: 0.85em;
 }
 
 .note {
-    font-size: .85em;
+    font-size: 0.85em;
     box-shadow: none;
     border-left: 4px solid #d07f00;
     padding-top: 0;
@@ -97,7 +98,8 @@ dd {
     margin-bottom: 0;
 }
 
-.content a:link, .content a:visited {
+.content a:link,
+.content a:visited {
     text-decoration: none;
     color: #d07f00;
 }
@@ -125,7 +127,7 @@ dd {
     justify-content: space-between;
 }
 
-[aria-label=breadcrumb] {
+[aria-label="breadcrumb"] {
     white-space: nowrap;
 }
 
@@ -137,13 +139,13 @@ pb-edit-xml {
 }
 
 pb-code-highlight {
-    font-size: .85em;
+    font-size: 0.85em;
     margin-bottom: var(--s0);
 }
 
 .footnotes {
     margin-top: 1em;
-    padding-top: .5em;
+    padding-top: 0.5em;
     position: relative;
 }
 
@@ -157,7 +159,6 @@ pb-code-highlight {
 }
 
 @media print {
-
     @page {
         size: A4;
 
@@ -171,7 +172,7 @@ pb-code-highlight {
         margin-right: 2cm;
 
         @top-left {
-            content: string(title1) ' – ' string(title2);
+            content: string(title1) " – " string(title2);
             font-family: var(--pb-heading-font-family);
         }
 
@@ -186,7 +187,7 @@ pb-code-highlight {
         margin-right: 3cm;
 
         @top-right {
-            content: string(title1) ' – ' string(title2);
+            content: string(title1) " – " string(title2);
             font-family: var(--pb-heading-font-family);
         }
 
@@ -201,11 +202,11 @@ pb-code-highlight {
         margin-right: 2cm;
 
         @top-left {
-            content: '';
+            content: "";
         }
 
         @top-right {
-            content: '';
+            content: "";
         }
     }
 
@@ -236,7 +237,12 @@ pb-code-highlight {
         margin-bottom: 1.5em;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         break-after: avoid;
     }
 

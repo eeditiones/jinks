@@ -91,10 +91,7 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "description",
-                    "name"
-                ]
+                "required": ["description", "name"]
             }
         },
         "profiles": {
@@ -151,13 +148,7 @@
                         "type": "string"
                     },
                     "description": "List of output media types supported for display",
-                    "examples": [
-                        "web",
-                        "print",
-                        "fo",
-                        "latex",
-                        "epub"
-                    ]
+                    "examples": ["web", "print", "fo", "latex", "epub"]
                 },
                 "template": {
                     "type": "string",
@@ -283,22 +274,17 @@
                                     "properties": {
                                         "id": {
                                             "type": "string"
-                                            },
+                                        },
                                         "url": {
                                             "type": ["string", "null"],
                                             "description": "URL to link to. Might be null to remove an item inherited from a parent profile."
                                         }
                                     },
-                                "required": [
-                                    "id",
-                                    "url"
-                                    ]
+                                    "required": ["id", "url"]
                                 }
                             }
                         },
-                        "required": [
-                            "id"
-                        ]
+                        "required": ["id"]
                     }
                 },
                 "login": {
@@ -347,7 +333,7 @@
                 "toolbar-toggles": {
                     "type": "object",
                     "description": "Properties for the toolbar toggles",
-                    "properties": { 
+                    "properties": {
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the toolbar toggles will be displayed"
@@ -395,10 +381,7 @@
                                                 "type": "string"
                                             }
                                         },
-                                        "required": [
-                                            "value",
-                                            "key"
-                                        ]
+                                        "required": ["value", "key"]
                                     }
                                 }
                             }
@@ -421,10 +404,7 @@
                                                 "type": "string"
                                             }
                                         },
-                                        "required": [
-                                            "value",
-                                            "key"
-                                        ]
+                                        "required": ["value", "key"]
                                     }
                                 }
                             }
@@ -546,17 +526,17 @@
                         "version": {
                             "type": "string",
                             "description": "The version of Jinntap",
-                            "examples": [ "dev", "1.24.0" ]
+                            "examples": ["dev", "1.24.0"]
                         },
                         "cdn": {
                             "type": "string",
                             "description": "The CDN URL for Jinntap",
-                            "examples": [ "http://localhost:5174/" ]
+                            "examples": ["http://localhost:5174/"]
                         },
                         "schema": {
                             "type": "string",
                             "description": "The schema to use for the editor",
-                            "examples": [ "resources/schema/schema.json" ]
+                            "examples": ["resources/schema/schema.json"]
                         }
                     }
                 },
@@ -570,7 +550,7 @@
                         "server": {
                             "type": "string",
                             "description": "The server to use for collaboration",
-                            "examples": [ "ws://localhost:8082" ]
+                            "examples": ["ws://localhost:8082"]
                         }
                     }
                 },
@@ -605,12 +585,12 @@
                                 "cdn": {
                                     "type": "string",
                                     "description": "The CDN URL for Fore",
-                                    "examples": [ "https://cdn.jsdelivr.net/npm/@jinntec/fore" ]
+                                    "examples": ["https://cdn.jsdelivr.net/npm/@jinntec/fore"]
                                 },
                                 "version": {
                                     "type": "string",
                                     "description": "The version of Fore to use",
-                                    "examples": [ "1.9.0", "local" ]
+                                    "examples": ["1.9.0", "local"]
                                 }
                             }
                         }
@@ -618,7 +598,7 @@
                 }
             }
         },
-        "theme": { 
+        "theme": {
             "type": "object",
             "properties": {
                 "components": {
@@ -747,9 +727,7 @@
                         "max-width": {
                             "description": "Maximum width of the content area for better readability",
                             "type": "string",
-                            "examples": [
-                                "70ch"
-                            ]
+                            "examples": ["70ch"]
                         }
                     }
                 },
@@ -768,20 +746,12 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for the content area. Use `rem` for relative size.",
-                                    "examples": [
-                                        "1.25rem"
-                                    ]
+                                    "examples": ["1.25rem"]
                                 },
                                 "weight": {
                                     "type": "string",
                                     "description": "Font weight for the content area. Use `normal` for regular weight, `bold` for bold weight, etc.",
-                                    "examples": [
-                                        "normal",
-                                        "bold",
-                                        "400",
-                                        "600",
-                                        "700"
-                                    ]
+                                    "examples": ["normal", "bold", "400", "600", "700"]
                                 }
                             }
                         },
@@ -796,27 +766,17 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for the base font. Use `rem` for relative size.",
-                                    "examples": [
-                                        "1rem"
-                                    ]
+                                    "examples": ["1rem"]
                                 },
                                 "line-height": {
                                     "type": "string",
                                     "description": "Line height for the base font.",
-                                    "examples": [
-                                        "140%"
-                                    ]
+                                    "examples": ["140%"]
                                 },
                                 "weight": {
                                     "type": "string",
                                     "description": "Font weight for the base font. Use `normal` for regular weight, `bold` for bold weight, etc.",
-                                    "examples": [
-                                        "normal",
-                                        "bold",
-                                        "400",
-                                        "600",
-                                        "700"
-                                    ]
+                                    "examples": ["normal", "bold", "400", "600", "700"]
                                 }
                             }
                         },
@@ -831,20 +791,12 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for headings. Use `rem` for relative size.",
-                                    "examples": [
-                                        "1.25rem"
-                                    ]
+                                    "examples": ["1.25rem"]
                                 },
                                 "weight": {
                                     "type": "string",
                                     "description": "Font weight for headings. Use `normal` for regular weight, `bold` for bold weight, etc.",
-                                    "examples": [
-                                        "normal",
-                                        "bold",
-                                        "400",
-                                        "600",
-                                        "700"
-                                    ]
+                                    "examples": ["normal", "bold", "400", "600", "700"]
                                 }
                             }
                         },
@@ -854,9 +806,7 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for footnotes. Use `rem` for relative size.",
-                                    "examples": [
-                                        "0.9rem"
-                                    ]
+                                    "examples": ["0.9rem"]
                                 }
                             }
                         },
@@ -867,9 +817,7 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for breadcrumbs. Use `rem` for relative size.",
-                                    "examples": [
-                                        "0.9rem"
-                                    ]
+                                    "examples": ["0.9rem"]
                                 }
                             }
                         },
@@ -880,9 +828,7 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for table of contents. Use `rem` for relative size.",
-                                    "examples": [
-                                        "1.125rem"
-                                    ]
+                                    "examples": ["1.125rem"]
                                 }
                             }
                         },
@@ -893,9 +839,7 @@
                                 "size": {
                                     "type": "string",
                                     "description": "Font size for the menubar. Use `rem` for relative size.",
-                                    "examples": [
-                                        "14px"
-                                    ]
+                                    "examples": ["14px"]
                                 }
                             }
                         }
@@ -907,7 +851,7 @@
                         "max": {
                             "type": "string",
                             "description": "max length of the breadcrumbs in the toolbar. Longer breadcrumbs will be truncated with an ellipsis.",
-                            "examples": [ "40ch"]
+                            "examples": ["40ch"]
                         }
                     }
                 },
@@ -926,30 +870,22 @@
                                 "background-size": {
                                     "type": "string",
                                     "description": "Background size for the hero section",
-                                    "examples": [
-                                        "cover", "contain"
-                                    ]
+                                    "examples": ["cover", "contain"]
                                 },
                                 "background-position": {
                                     "type": "string",
                                     "description": "Background position for the hero section",
-                                    "examples": [
-                                        "center", "top", "bottom"
-                                    ]
+                                    "examples": ["center", "top", "bottom"]
                                 },
                                 "background-repeat": {
                                     "type": "string",
                                     "description": "Background repeat for the hero section",
-                                    "examples": [
-                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
-                                    ]
+                                    "examples": ["no-repeat", "repeat", "repeat-x", "repeat-y"]
                                 },
                                 "background-color": {
                                     "type": "string",
                                     "description": "Background color for the hero section",
-                                    "examples": [
-                                        "rgba(0, 0, 0, 0.6)"
-                                    ]
+                                    "examples": ["rgba(0, 0, 0, 0.6)"]
                                 }
                             }
                         },
@@ -964,30 +900,22 @@
                                 "background-size": {
                                     "type": "string",
                                     "description": "Background size for the bottom section",
-                                    "examples": [
-                                        "cover", "contain"
-                                    ]
+                                    "examples": ["cover", "contain"]
                                 },
                                 "background-position": {
                                     "type": "string",
                                     "description": "Background position for the bottom section",
-                                    "examples": [
-                                        "center", "top", "bottom"
-                                    ]
+                                    "examples": ["center", "top", "bottom"]
                                 },
                                 "background-repeat": {
                                     "type": "string",
                                     "description": "Background repeat for the bottom section",
-                                    "examples": [
-                                        "no-repeat", "repeat", "repeat-x", "repeat-y"
-                                    ]
+                                    "examples": ["no-repeat", "repeat", "repeat-x", "repeat-y"]
                                 },
                                 "background-color": {
                                     "type": "string",
                                     "description": "Background color for the bottom section",
-                                    "examples": [
-                                        "rgba(0, 0, 0, 0.4)"
-                                    ]
+                                    "examples": ["rgba(0, 0, 0, 0.4)"]
                                 }
                             }
                         }
@@ -999,16 +927,12 @@
                         "class": {
                             "type": "string",
                             "description": "Class to add to the main container element of the page",
-                            "examples": [
-                                "fixed-layout"
-                            ]
+                            "examples": ["fixed-layout"]
                         },
                         "max-width": {
                             "type": "string",
                             "description": "Width of the landing page content column",
-                            "examples": [
-                                "1200px"
-                            ]
+                            "examples": ["1200px"]
                         },
                         "search": {
                             "type": "string",
@@ -1030,9 +954,7 @@
                                 "width": {
                                     "type": "string",
                                     "description": "Width of the before sidebar",
-                                    "examples": [
-                                        "min(30vw, 356px)"
-                                    ]
+                                    "examples": ["min(30vw, 356px)"]
                                 }
                             }
                         },
@@ -1050,9 +972,7 @@
                                 "width": {
                                     "type": "string",
                                     "description": "Width of the after sidebar",
-                                    "examples": [
-                                        "min(30vw, 356px)"
-                                    ]
+                                    "examples": ["min(30vw, 356px)"]
                                 }
                             }
                         },
@@ -1125,11 +1045,7 @@
                             "description": "Group of the user"
                         }
                     },
-                    "required": [
-                        "group",
-                        "name",
-                        "password"
-                    ]
+                    "required": ["group", "name", "password"]
                 }
             }
         },
@@ -1257,11 +1173,7 @@
                     }
                 }
             },
-            "required": [
-                "jwt",
-                "crypto",
-                "roaster"
-            ]
+            "required": ["jwt", "crypto", "roaster"]
         },
         "ci": {
             "type": "object",
@@ -1314,10 +1226,7 @@
                                     "type": "string"
                                 }
                             },
-                            "required": [
-                                "at",
-                                "prefix"
-                            ]
+                            "required": ["at", "prefix"]
                         }
                     }
                 },
@@ -1349,10 +1258,7 @@
                         "type": "string"
                     },
                     "description": "Names of additional components to load from tei-publisher-components",
-                    "examples": [
-                        "pb-tify",
-                        "pb-leaflet-map"
-                    ]
+                    "examples": ["pb-tify", "pb-leaflet-map"]
                 },
                 "cdn": {
                     "type": "string",
@@ -1365,9 +1271,7 @@
                 "fore": {
                     "type": "string",
                     "description": "Version of the fore library to use",
-                    "examples": [
-                        "2.4.1"
-                    ]
+                    "examples": ["2.4.1"]
                 }
             }
         },
@@ -1517,11 +1421,7 @@
                                         "description": "The template to use for rendering the pages"
                                     }
                                 },
-                                "required": [
-                                    "parts",
-                                    "template",
-                                    "toc"
-                                ]
+                                "required": ["parts", "template", "toc"]
                             },
                             "template": {
                                 "type": "string",
@@ -1544,11 +1444,7 @@
                                 }
                             }
                         },
-                        "required": [
-                            "index",
-                            "paginate",
-                            "template"
-                        ]
+                        "required": ["index", "paginate", "template"]
                     }
                 },
                 "copy": {
@@ -1613,8 +1509,5 @@
             "additionalProperties": true
         }
     },
-    "required": [
-        "id",
-        "label"
-    ]
+    "required": ["id", "label"]
 }

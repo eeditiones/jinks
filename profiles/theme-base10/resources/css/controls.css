@@ -15,7 +15,8 @@
     color: var(--jinks-color-primary);
 }
 
-label, input {
+label,
+input {
     font-size: var(--jinks-form-control-font-size);
     color: var(--jinks-color-primary);
 }
@@ -50,7 +51,8 @@ input[type="password"] {
     margin-bottom: 20px;
 }
 
-input[type="search"], .menubar input[type="search"] {
+input[type="search"],
+.menubar input[type="search"] {
     display: inline-flex;
     gap: 0.25rem;
     height: 2.25rem;
@@ -64,7 +66,7 @@ input[type="search"], .menubar input[type="search"] {
     padding: 0px 12px 0px 1.875rem;
     background-image: var(--jinks-search-input-icon);
     background-position: center left 0.75rem;
-    background-size: .875rem auto;
+    background-size: 0.875rem auto;
     background-repeat: no-repeat;
     appearance: none;
 }
@@ -87,8 +89,8 @@ label:has(input[type="checkbox"]) {
     grid-template-columns: min-content 1fr;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
-    padding: .5rem;
+    gap: 0.5rem;
+    padding: 0.5rem;
 }
 
 label:has(input[type="checkbox"]) > input {
@@ -117,9 +119,13 @@ pb-search [slot="searchButton"] {
     line-height: 2.25rem;
 }
 
-input:focus, select:focus, pb-search:focus-within {
+input:focus,
+select:focus,
+pb-search:focus-within {
     outline: none;
-    box-shadow: 0px 0px 0px 1px var(--jinks-form-focus-color1), 0px 0px 0px 4px var(--jinks-form-focus-color2);
+    box-shadow:
+        0px 0px 0px 1px var(--jinks-form-focus-color1),
+        0px 0px 0px 4px var(--jinks-form-focus-color2);
 }
 
 pb-search:focus-within::part(input) {
@@ -134,7 +140,7 @@ label > input {
 select:not([multiple], [size]) {
     height: 2rem;
     padding: 0 calc(2rem + 4px) 0px 12px;
-    gap: .25rem;
+    gap: 0.25rem;
     border-radius: var(--jinks-form-border-radius);
     border: 1px solid var(--jinks-form-border-color);
     margin-bottom: 0;
@@ -154,9 +160,9 @@ fieldset {
     padding: 0;
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: .5rem;
+    gap: 0.5rem;
     align-items: center;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 button,
@@ -176,7 +182,9 @@ pb-link.btn a {
     text-decoration: none;
 }
 
-button:hover, .dropdown-button summary:hover, btn:hover {
+button:hover,
+.dropdown-button summary:hover,
+btn:hover {
     background-color: var(--jinks-form-hover-color);
 }
 
@@ -191,23 +199,23 @@ button:has(span + svg),
 .btn:not(pb-link):has(svg + span),
 .btn:not(pb-link):has(span + svg),
 pb-link.btn a:has(svg + span),
-pb-link.btn a:has(span + svg){
+pb-link.btn a:has(span + svg) {
     height: 36px;
     padding: 6px 12px;
     /* Card_shadow */
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* Button with icon only */
 button:has(svg):not(:has(span)),
 .btn:not(pb-link):has(svg):not(:has(span)),
-.pb-link.btn a:not(:has(span)){
+.pb-link.btn a:not(:has(span)) {
     border-radius: var(--jinks-form-border-radius);
     height: 36px;
     width: 36px;
     padding: 0;
     /* Card_shadow */
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* Group of buttons, e.g. navigate left/right */
@@ -226,7 +234,7 @@ button:has(svg):not(:has(span)),
     background-color: var(--jinks-form-background-color);
 
     /* Card_shadow */
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 :not(fx-group)[role="group"] a {
@@ -279,23 +287,27 @@ pb-link .btn.accent a {
     justify-content: center;
 }
 
-[role="group"] pb-navigation:has(> span+svg),
-[role="group"] pb-navigation:has(> svg+span) {
+[role="group"] pb-navigation:has(> span + svg),
+[role="group"] pb-navigation:has(> svg + span) {
     width: auto;
 }
 
-[role="group"]:has(pb-navigation > span+svg),
-[role="group"]:has(pb-navigation > svg+span) {
+[role="group"]:has(pb-navigation > span + svg),
+[role="group"]:has(pb-navigation > svg + span) {
     gap: 0.75rem;
 }
 
-button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg, button svg, .btn svg {
+button.icon svg,
+.dropdown-button summary svg,
+:not(fx-group)[role="group"] svg,
+button svg,
+.btn svg {
     width: 1rem;
     height: 1rem;
 }
 
-
-.dropdown-button, .dropdown {
+.dropdown-button,
+.dropdown {
     margin-bottom: 0;
     position: relative;
 }
@@ -313,10 +325,11 @@ button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg,
     border-radius: var(--jinks-form-border-radius);
     background-color: var(--jinks-form-background-color);
     font-size: var(--jinks-form-control-font-size);
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
-.dropdown-button summary, .dropdown summary {
+.dropdown-button summary,
+.dropdown summary {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
@@ -340,15 +353,16 @@ button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg,
     background-repeat: no-repeat;
 }
 
-.dropdown-button[open]>summary::after {
+.dropdown-button[open] > summary::after {
     transform: rotate(180deg);
 }
 
-.dropdown-button[open]>summary {
+.dropdown-button[open] > summary {
     margin-bottom: 0;
 }
 
-.dropdown-button>summary+ul, .dropdown>summary+ul {
+.dropdown-button > summary + ul,
+.dropdown > summary + ul {
     background-color: var(--jinks-color-white);
     box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
     border-radius: 0.5rem;
@@ -375,7 +389,8 @@ button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg,
     overflow-x: auto;
 }
 
-.dropdown-button>summary+ul li, .dropdown>summary+ul li {
+.dropdown-button > summary + ul li,
+.dropdown > summary + ul li {
     list-style: none;
     padding: 0.5rem 0.75rem;
     border: 1px solid transparent;
@@ -384,16 +399,20 @@ button.icon svg, .dropdown-button summary svg, :not(fx-group)[role="group"] svg,
     width: 100%;
 }
 
-.dropdown-button>summary+ul li:hover, .dropdown>summary+ul li:hover {
+.dropdown-button > summary + ul li:hover,
+.dropdown > summary + ul li:hover {
     border: 1px solid var(--jinks-colors-400);
     background-color: var(--jinks-form-background-color);
 }
 
-.dropdown-button a, .dropdown a, .dropdown-button a:link, .dropdown a:link {
+.dropdown-button a,
+.dropdown a,
+.dropdown-button a:link,
+.dropdown a:link {
     color: var(--jinks-color-primary);
 }
 
-dialog > article{
+dialog > article {
     border-radius: 1rem;
     background-color: var(--jinks-colors-light);
 }

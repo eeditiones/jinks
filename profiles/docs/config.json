@@ -78,8 +78,8 @@
         "login": true,
         "search": true,
         "dark-mode": true,
-		"language": true,
-		"download": true
+        "language": true,
+        "download": true
     },
     "generator": {
         "templates": {
@@ -96,9 +96,7 @@
     ],
     "static": {
         "templating": {
-            "use": [
-                "templates/iiif-blocks.html"
-            ]
+            "use": ["templates/iiif-blocks.html"]
         },
         "collections": {
             "doc": {
@@ -149,10 +147,7 @@
                 }
             }
         },
-        "styles": [
-            "resources/css/static.css",
-            "transform/docbook.css"
-        ],
+        "styles": ["resources/css/static.css", "transform/docbook.css"],
         "fields": {
             "index": ["content"],
             "store": ["content", "title", "link"]

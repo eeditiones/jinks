@@ -1,18 +1,28 @@
-module namespace facets-config="http://teipublisher.com/api/facets-config";
+module namespace facets-config = "http://teipublisher.com/api/facets-config";
 
-import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
+declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
-declare namespace tei="http://www.tei-c.org/ns/1.0";
+import module namespace config = "http://www.tei-c.org/tei-simple/config" at "config.xqm";
 
-declare function facets-config:get-name($id as xs:string, $type as xs:string) as xs:string {
+declare function facets-config:get-name ($id as xs:string, $type as xs:string) as xs:string {
     let $entity := collection($config:register-root)/id($id)
-    return head((
+    return head(
+        (
             switch ($type)
-                case 'place' return head(($entity//tei:placeName[@type = "main"], $entity//tei:placeName))
-                case 'actor' return head(($entity//(tei:persName | tei:orgName)[@type = "main"], $entity//tei:placeName))
-                default return "ERR",
-             "Unresolvable entity " || $id || " of type " || $type)
+                case "place" return
+                    head(($entity//tei:placeName[@type = "main"], $entity//tei:placeName))
+                case "actor" return
+                    head(
+                        (
+                            $entity//(tei:persName | tei:orgName)[@type = "main"],
+                            $entity//tei:placeName
+                        )
+                    )
+                default return
+                    "ERR",
+            "Unresolvable entity " || $id || " of type " || $type
         )
+    )
 };
 
 (:
@@ -26,9 +36,10 @@ declare variable $facets-config:facets := [
         "max": 3,
         "hierarchical": false(),
         "source": "api/search/facets/place",
-        "output": function($label) {
-            collection($config:register-root)/id($label)/tei:placeName[@type = "main"]/string()
-        }
+        "output":
+            function ($label) {
+                collection($config:register-root)/id($label)/tei:placeName[@type = "main"]/string()
+            }
     },
     map {
         "dimension": "person",
@@ -36,9 +47,10 @@ declare variable $facets-config:facets := [
         "max": 3,
         "hierarchical": false(),
         "source": "api/search/facets/person",
-        "output": function($label) {
-            collection($config:register-root)/id($label)/tei:persName[@type = "main"]/string()
-        }
+        "output":
+            function ($label) {
+                collection($config:register-root)/id($label)/tei:persName[@type = "main"]/string()
+            }
     },
     map {
         "dimension": "date",
@@ -52,19 +64,28 @@ declare variable $facets-config:facets := [
         "heading": "facets.language",
         "max": 5,
         "hierarchical": false(),
-        "output": function($label, $language) {
-            if (matches($language, "^pl-?")) then
-                switch($label)
-                case "it" return "włoski"
-                case "cz" return "czeski"
-                case "la" return "łaciński"
-                default return $label
-            else
-                switch($label)
-                    case "it" return "Italian"
-                    case "cz" return "Czech"
-                    case "la" return "Latin"
-                    default return $label
-        }
+        "output":
+            function ($label, $language) {
+                if (matches($language, "^pl-?")) then
+                    switch ($label)
+                        case "it" return
+                            "włoski"
+                        case "cz" return
+                            "czeski"
+                        case "la" return
+                            "łaciński"
+                        default return
+                            $label
+                else
+                    switch ($label)
+                        case "it" return
+                            "Italian"
+                        case "cz" return
+                            "Czech"
+                        case "la" return
+                            "Latin"
+                        default return
+                            $label
+            }
     }
 ];

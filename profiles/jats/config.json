@@ -7,9 +7,7 @@
     "description": "Support for the Journal Article Tag Suite standard",
     "version": "1.0.0",
     "order": 2,
-    "depends": [
-        "base10"
-    ],
+    "depends": ["base10"],
     "defaults": {
         "template": "jats.html"
     },
@@ -18,7 +16,7 @@
             "enable": true
         }
     },
-    "odds": [ "jats.odd" ],
+    "odds": ["jats.odd"],
     "collection-config": {
         "jats": {
             "odd": "jats.odd"

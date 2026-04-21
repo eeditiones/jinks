@@ -1,51 +1,52 @@
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js';
-import { registerXQuery } from './monaco-xquery.js';
+import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
+import { registerXQuery } from "./monaco-xquery.js";
 
-const workersDir = new URL('vs', import.meta.url).toString();
+const workersDir = new URL("vs", import.meta.url).toString();
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
-		if (label === 'json') {
-			return `${workersDir}/language/json/json.worker.js`;
-		}
-		if (label === 'css' || label === 'scss' || label === 'less') {
-			return `${workersDir}/language/css/css.worker.js`;
-		}
-		if (label === 'html') {
-			return `${workersDir}/language/html/html.worker.js`;
-		}
-		return `${workersDir}/editor/editor.worker.js`;
-	}
+    getWorkerUrl: function (moduleId, label) {
+        if (label === "json") {
+            return `${workersDir}/language/json/json.worker.js`;
+        }
+        if (label === "css" || label === "scss" || label === "less") {
+            return `${workersDir}/language/css/css.worker.js`;
+        }
+        if (label === "html") {
+            return `${workersDir}/language/html/html.worker.js`;
+        }
+        return `${workersDir}/editor/editor.worker.js`;
+    },
 };
 
 // Map common MIME types to Monaco editor languages
 const mimeToLanguage = {
-    'text/plain': 'plaintext',
-    'text/html': 'html',
-    'text/css': 'css',
-    'text/javascript': 'javascript',
-    'application/javascript': 'javascript',
-    'application/json': 'json',
-    'application/xml': 'xml',
-    'text/xml': 'xml',
-    'text/markdown': 'markdown',
-    'application/xquery': 'xquery',
-    'application/x-yaml': 'yaml',
-    'text/yaml': 'yaml',
-    'text/x-yaml': 'yaml',
-    'application/x-sh': 'shell',
-    'text/x-sh': 'shell',
-    'application/x-bash': 'shell',
-    'text/x-bash': 'shell'
+    "text/plain": "plaintext",
+    "text/html": "html",
+    "text/css": "css",
+    "text/javascript": "javascript",
+    "application/javascript": "javascript",
+    "application/json": "json",
+    "application/xml": "xml",
+    "text/xml": "xml",
+    "text/markdown": "markdown",
+    "application/xquery": "xquery",
+    "application/x-yaml": "yaml",
+    "text/yaml": "yaml",
+    "text/x-yaml": "yaml",
+    "application/x-sh": "shell",
+    "text/x-sh": "shell",
+    "application/x-bash": "shell",
+    "text/x-bash": "shell",
 };
 
 export class JinnMonacoEditor extends HTMLElement {
-
     static get observedAttributes() {
-        return ['value', 'language', 'url'];
+        return ["value", "language", "url"];
     }
 
-    attributeChangedCallback (name, oldValue, newValue) {
-        if (!this.__initialized) { return; }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.__initialized) {
+            return;
+        }
         if (oldValue !== newValue) {
             this[name] = newValue;
         }
@@ -65,104 +66,106 @@ export class JinnMonacoEditor extends HTMLElement {
     }
 
     set url(url) {
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = new URL(url, window.location).toString();
         }
         fetch(url)
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
-                    throw new Error(response.status); 
+                    throw new Error(response.status);
                 }
-                const mime = response.headers.get('Content-Type');
+                const mime = response.headers.get("Content-Type");
                 if (mime) {
-                    const language = mimeToLanguage[mime.split(';')[0]];
+                    const language = mimeToLanguage[mime.split(";")[0]];
                     if (language) {
                         monaco.editor.setModelLanguage(this.editor.getModel(), language);
                     }
                 }
                 return response.text();
             })
-            .then(text => {
+            .then((text) => {
                 this.editor.setValue(text);
             })
-            .catch(error => {
-                console.error('Failed to load content:', error);
+            .catch((error) => {
+                console.error("Failed to load content:", error);
             });
     }
 
     async connectedCallback() {
-        this.style.display = 'flex';
-        this.style.flexDirection = 'column';
-        if (!this.style.width) { this.style.width = '100%' };
+        this.style.display = "flex";
+        this.style.flexDirection = "column";
+        if (!this.style.width) {
+            this.style.width = "100%";
+        }
 
-        this.language = this.getAttribute('language') || 'json';
-        this.schema = this.getAttribute('schema');
+        this.language = this.getAttribute("language") || "json";
+        this.schema = this.getAttribute("schema");
         if (this.schema) {
             const response = await fetch(this.schema);
             const json = await response.json();
             monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                 validate: true,
                 allowComments: true,
-                schemas: [{
-                    uri: json.$id,
-                    fileMatch: ['*'],
-                    schema: json
-                }]
+                schemas: [
+                    {
+                        uri: json.$id,
+                        fileMatch: ["*"],
+                        schema: json,
+                    },
+                ],
             });
 
-            monaco.languages.registerCompletionItemProvider('json', {
+            monaco.languages.registerCompletionItemProvider("json", {
                 provideCompletionItems: () => {
-                    const suggestions = json.properties ? Object.keys(json.properties).map(key => ({
-                        label: key,
-                        kind: monaco.languages.CompletionItemKind.Property,
-                        documentation: json.properties[key].description || '',
-                        insertText: key
-                    })) : [];
+                    const suggestions = json.properties
+                        ? Object.keys(json.properties).map((key) => ({
+                              label: key,
+                              kind: monaco.languages.CompletionItemKind.Property,
+                              documentation: json.properties[key].description || "",
+                              insertText: key,
+                          }))
+                        : [];
                     return { suggestions: suggestions };
-                }
+                },
             });
         }
 
         const computedStyle = getComputedStyle(this);
         const fontSize = parseInt(computedStyle.fontSize) || 14;
 
-        monaco.editor.defineTheme('customTheme', {
-            base: 'vs-dark',
+        monaco.editor.defineTheme("customTheme", {
+            base: "vs-dark",
             inherit: true,
             rules: [],
             colors: {
-                'editorHoverWidget.background': '#f0f0f0'
-            }
+                "editorHoverWidget.background": "#f0f0f0",
+            },
         });
 
-        monaco.editor.setTheme('customTheme');
+        monaco.editor.setTheme("customTheme");
         registerXQuery(monaco);
-        
+
         // Enable search actions
         monaco.editor.addEditorAction({
-            id: 'search',
-            label: 'Search',
-            keybindings: [
-                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF
-            ],
+            id: "search",
+            label: "Search",
+            keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF],
             run: (editor) => {
-                editor.trigger('', 'actions.find', null);
-            }
+                editor.trigger("", "actions.find", null);
+            },
         });
 
         monaco.editor.addEditorAction({
-            id: 'replace', 
-            label: 'Replace',
-            keybindings: [
-                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyH
-            ],
+            id: "replace",
+            label: "Replace",
+            keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyH],
             run: (editor) => {
-                editor.trigger('', 'editor.action.startFindReplaceAction', null);
-            }
+                editor.trigger("", "editor.action.startFindReplaceAction", null);
+            },
         });
 
-        const editorContainer = document.createElement('div');
-        editorContainer.style.flexGrow = '1';
+        const editorContainer = document.createElement("div");
+        editorContainer.style.flexGrow = "1";
         this.appendChild(editorContainer);
 
         this.editor = monaco.editor.create(editorContainer, {
@@ -171,22 +174,24 @@ export class JinnMonacoEditor extends HTMLElement {
             fontSize: fontSize,
             scrollBeyondLastLine: false,
             minimap: {
-                enabled: false
+                enabled: false,
             },
-            readOnly: this.hasAttribute('readonly'),
-            theme: 'customTheme'
+            readOnly: this.hasAttribute("readonly"),
+            theme: "customTheme",
         });
 
-        if (this.hasAttribute('value')) {
-            this.editor.setValue(this.getAttribute('value'));
+        if (this.hasAttribute("value")) {
+            this.editor.setValue(this.getAttribute("value"));
         }
 
         this.editor.onDidChangeModelContent(() => {
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: this.editor.getValue()
-            }));
+            this.dispatchEvent(
+                new CustomEvent("change", {
+                    detail: this.editor.getValue(),
+                }),
+            );
         });
     }
 }
 
-customElements.define('jinn-monaco-editor', JinnMonacoEditor);
+customElements.define("jinn-monaco-editor", JinnMonacoEditor);

@@ -30,10 +30,10 @@ The CI profile can be configured in your application's `config.json`:
 
 ### Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `provider` | string | `"github"` | CI provider to use: `"github"` for GitHub Actions or `"gitlab"` for GitLab CI/CD |
-| `enabled` | boolean | `true` | Set to `false` to disable CI configuration generation |
+| Option     | Type    | Default    | Description                                                                      |
+| ---------- | ------- | ---------- | -------------------------------------------------------------------------------- |
+| `provider` | string  | `"github"` | CI provider to use: `"github"` for GitHub Actions or `"gitlab"` for GitLab CI/CD |
+| `enabled`  | boolean | `true`     | Set to `false` to disable CI configuration generation                            |
 
 ## GitHub Actions
 
@@ -89,8 +89,8 @@ The CI profile generates the following files based on configuration:
 - **`.github/dependabot.yml`** (GitHub Actions only) - Dependabot configuration for automatically updating GitHub Actions and npm dependencies
 - **`.github/FUNDING.yml`** (GitHub Actions only) - Automatically generated for applications with IDs containing `https://e-editiones.org`
 - **`.github/workflows/docker-publish.yml`** (GitHub Actions only) - Special workflow for publishing Docker images, generated when:
-  - Package abbreviation is `"tei-publisher"`
-  - The `docs` blueprint is selected
+    - Package abbreviation is `"tei-publisher"`
+    - The `docs` blueprint is selected
 
 ## Conditional File Generation
 
@@ -99,9 +99,11 @@ Some files are generated conditionally:
 ### dependabot.yml
 
 The `dependabot.yml` file is automatically generated for GitHub Actions when:
+
 - CI provider is set to `"github"`
 
 This file configures Dependabot to:
+
 - Check for GitHub Actions updates daily
 - Check for npm package updates daily
 
@@ -110,6 +112,7 @@ This helps keep your CI workflows and npm dependencies up to date automatically.
 ### FUNDING.yml
 
 The `FUNDING.yml` file is automatically generated for GitHub Actions when:
+
 - The application's qualified name (ID) contains `https://e-editiones.org`
 - CI provider is set to `"github"`
 
@@ -118,11 +121,13 @@ This file enables GitHub Sponsors and funding links for e-editiones.org projects
 ### docker-publish.yml
 
 The `docker-publish.yml` workflow is generated for GitHub Actions when:
+
 - Package abbreviation is `"tei-publisher"`
 - The `docs` blueprint is selected
 - CI provider is set to `"github"`
 
 This workflow:
+
 - Pulls the `jinks-demo` image from the jinks repository
 - Runs the full test suite from the tei-publisher-app repository
 - Publishes multi-arch Docker images to both `ghcr.io/eeditiones/teipublisher` and `existdb/teipublisher` registries

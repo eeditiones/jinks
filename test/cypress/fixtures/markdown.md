@@ -6,14 +6,14 @@ Markdown is rendered on the client side using [marked](https://marked.js.org/).
 
 ## Paragraphs
 
-Lorem ipsum dolor sit amet, **consectetur adipiscing** elit. Aenean ac metus ipsum. Curabitur molestie, nunc id molestie feugiat, odio justo sagittis turpis, vel rhoncus erat arcu id sem. *Morbi tincidunt aliquam* libero, ullamcorper molestie enim ornare at. Etiam vitae ligula quis ~justo tincidunt pharetra~. Donec et turpis ipsum. `Pellentesque` semper ligula vitae ipsum aliquam, eu blandit massa porta. Praesent porta orci eu lorem varius ullamcorper. Mauris imperdiet nunc id ipsum tincidunt dignissim. Fusce rhoncus varius turpis, et lacinia purus tempor quis.
+Lorem ipsum dolor sit amet, **consectetur adipiscing** elit. Aenean ac metus ipsum. Curabitur molestie, nunc id molestie feugiat, odio justo sagittis turpis, vel rhoncus erat arcu id sem. _Morbi tincidunt aliquam_ libero, ullamcorper molestie enim ornare at. Etiam vitae ligula quis ~justo tincidunt pharetra~. Donec et turpis ipsum. `Pellentesque` semper ligula vitae ipsum aliquam, eu blandit massa porta. Praesent porta orci eu lorem varius ullamcorper. Mauris imperdiet nunc id ipsum tincidunt dignissim. Fusce rhoncus varius turpis, et lacinia purus tempor quis.
 
 ## Lists
 
 1. do this first
 2. then do the following
-   * think about what you don't want to do
-   * take a break
+    - think about what you don't want to do
+    - take a break
 
 ## Embedded code
 
@@ -32,13 +32,13 @@ Lorem ipsum dolor sit amet, **consectetur adipiscing** elit. Aenean ac metus ips
 
 ## Quotes
 
-> Good luck in your interview. If you are wholly at your ease - and why not? - all will go well. 
+> Good luck in your interview. If you are wholly at your ease - and why not? - all will go well.
 > But try to raise some sort of enthusiasm for your proposed career: dont-care-ism doesn't go down well.
 
 ## Tables
 
 | Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
+| -------- | :-----------: | ----: |
+| col 1 is | left-aligned  | $1600 |
+| col 2 is |   centered    |   $12 |
 | col 3 is | right-aligned |    $1 |
