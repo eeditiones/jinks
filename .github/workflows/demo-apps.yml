@@ -1,160 +1,249 @@
-name: Build and Publish Demo Apps Container
+name: apps and images
+
+concurrency:
+  group: jinks-apps-images
+  cancel-in-progress: false
 
 on:
   push:
-    # Build demo apps container on all pushes (for testing)
     branches:
       - '**'
-    # Push images on release tags only
     tags:
       - v*
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
-    # Allow manual triggering
 
 env:
   IMAGE_NAME: jinks-demo
   JINKS_IMAGE: ghcr.io/eeditiones/jinks
 
 jobs:
-  generate-apps:
-    name: Generate Demo Apps
+  test-jinks:
+    name: test jinks image
     runs-on: ubuntu-latest
-    
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v')
+    strategy:
+      fail-fast: false
+      matrix:
+        EXIST_BASE: [6.4.0]
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v6
-      
+      - name: Build Jinks image for testing
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=${{ matrix.EXIST_BASE }}
+          load: true
+          tags: exist-db
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+      - name: Start docker image
+        run: docker run --publish 8080:8080 --name db --detach exist-db
+      - name: Run Cypress e2e test
+        uses: cypress-io/github-action@v7
+        with:
+          browser: firefox
+      - name: Retrieve eXist log
+        if: failure()
+        run: docker cp db:/exist/logs/exist.log .
+      - name: Publish log as artifact
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: jinks-deploy-exist-${{ matrix.EXIST_BASE }}-log
+          path: ./exist.log
+      - name: Stop docker
+        run: docker stop db || true
+
+  push-jinks:
+    name: push jinks
+    needs: test-jinks
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+        id: buildx
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern=v{{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      - name: Add latest tag for releases
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
+          echo -e "${{ steps.meta.outputs.tags }}\nghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        id: tags_with_latest
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Pull jinks image
+      - name: Push jinks
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v')
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            PUBLISHER_VERSION=main
+            EXIST_VERSION=6.4.0
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          sbom: true
+          tags: ${{ steps.tags_with_latest.outputs.tags || steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
+
+  generate-apps:
+    name: generate apps
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 11
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Jinks from source
+        run: ant
+
+      - name: Pull jinks base image
         run: docker pull ${JINKS_IMAGE}:latest
-      
+
       - name: Start jinks container
         run: |
           docker run -d \
             --name jinks-server \
             -p 8080:8080 \
+            -v ${{ github.workspace }}/build:/exist/autodeploy \
             ${JINKS_IMAGE}:latest
-      
-      - name: Wait for server to be ready
+
+      - name: Wait for server to start
+        timeout-minutes: 10
         run: |
-          echo "Waiting for eXist-db to start..."
-          timeout=120
-          elapsed=0
-          while [ $elapsed -lt $timeout ]; do
-            if curl -s -f http://localhost:8080/exist/apps/jinks/api/configurations > /dev/null 2>&1; then
-              echo "Server is ready!"
-              exit 0
-            fi
-            echo "Still waiting... ($elapsed seconds)"
-            sleep 5
-            elapsed=$((elapsed + 5))
+          echo "Waiting for server to start..."
+          until docker logs jinks-server 2>&1 | grep -q "Server has started"; do
+            echo "Still waiting..."
+            sleep 4
           done
-          echo "Timeout waiting for server"
-          exit 1
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
-      
+
       - name: Install jinks-cli
         run: npm install -g @teipublisher/jinks-cli
-      
+
       - name: Generate tei-publisher app
         working-directory: demo
-        run: |
-          jinks create -c tp_config.json 
+        run: jinks create -c tp_config.json
 
       - name: Generate tp-serafin app
         working-directory: demo
-        run: |
-          jinks create -c ser_config.json 
+        run: jinks create -c ser_config.json
 
       - name: Generate tp-workbench app
         working-directory: demo
-        run: |
-          jinks create -c workbench_config.json 
-      
+        run: jinks create -c workbench_config.json
+
       - name: Verify deployed apps
         run: jinks list
 
       - name: Extract XAR files for generated apps
         working-directory: demo
         run: |
-          # Get app abbreviations from config files
-          for config in *_config.json; do
-            abbrev=$(jq -r '.pkg.abbrev' "$config")
-            echo "Downloading XAR for $abbrev..."
-            
-            # Download XAR using the jinks API actions/download endpoint
-            # This packages the app from /db/apps/{abbrev} and returns it as XAR
-            curl -s -u "tei:simple" -X POST \
-              "http://localhost:8080/exist/apps/jinks/api/actions/download?root=/db/apps/$abbrev" \
-              -o "${abbrev}.xar" || {
-                echo "Failed to download $abbrev.xar via jinks API, trying app API..."
-                # Fallback: try the app's own download endpoint
-                curl -s -u "tei:simple" \
-                  "http://localhost:8080/exist/apps/$abbrev/api/apps/download" \
-                  -o "${abbrev}.xar" || {
-                  echo "Failed to download $abbrev.xar"
-                  exit 1
-                }
-              }
-            
-            echo "Downloaded ${abbrev}.xar ($(stat -f%z "${abbrev}.xar" 2>/dev/null || stat -c%s "${abbrev}.xar") bytes)"
-          done
-      
-      
+          jinks run tei-publisher download
+          jinks run tp-serafin download
+          jinks run tp-workbench download
+
       - name: List generated XAR files
         working-directory: demo
         run: |
           echo "Generated XAR files:"
           ls -lh *.xar || echo "No XAR files found!"
-      
+
+      - name: Commit container for test jobs
+        run: |
+          docker commit jinks-server temp/jinks-server:$GITHUB_SHA
+          mkdir -p path/to/artifacts
+          docker save temp/jinks-server:$GITHUB_SHA > path/to/artifacts/docker-image.tar
+
+      - name: Upload container artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: docker-artifact
+          path: path/to/artifacts
+          retention-days: 3
+
       - name: Upload XAR artifacts
         uses: actions/upload-artifact@v6
         with:
           name: demo-apps-xars
           path: demo/*.xar
           retention-days: 30
-      
+
       - name: Stop jinks container
         if: always()
         run: docker stop jinks-server || true
 
-  build-demo-image:
-    name: Build Demo Apps Container
-    needs: generate-apps
+  push-demo:
+    name: push demo
+    needs: [push-jinks, generate-apps, test-tp, test-workbench, test-serafin]
     runs-on: ubuntu-latest
-    
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v')
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: linux/amd64,linux/arm64
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-      
+
       - name: Download XAR artifacts
         uses: actions/download-artifact@v7
         with:
           name: demo-apps-xars
           path: demo/
-      
+
       - name: Verify XAR files
         working-directory: demo
         run: |
@@ -164,7 +253,16 @@ jobs:
             echo "Error: Missing required XAR files"
             exit 1
           fi
-      
+
+      - name: Set JINKS_VERSION
+        id: jv
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          else
+            echo "version=latest" >> $GITHUB_OUTPUT
+          fi
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -174,7 +272,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern=v{{major}}
             type=raw,value=latest,enable={{is_default_branch}}
-      
+
       - name: Add latest tag for releases
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -182,15 +280,15 @@ jobs:
           echo -e "${{ steps.meta.outputs.tags }}\nghcr.io/${{ github.repository }}-demo:latest" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
         id: tags_with_latest
-      
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Build and push demo apps image
+
+      - name: Push demo
         timeout-minutes: 25
         uses: docker/build-push-action@v6
         with:
@@ -198,7 +296,7 @@ jobs:
           file: demo/Dockerfile.demo
           platforms: linux/amd64,linux/arm64
           build-args: |
-            JINKS_VERSION=latest
+            JINKS_VERSION=${{ steps.jv.outputs.version }}
           builder: ${{ steps.buildx.outputs.name }}
           push: ${{ startsWith(github.ref, 'refs/tags/v') }}
           sbom: true
@@ -207,3 +305,41 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-demo:buildcache,mode=max
 
+  test-tp:
+    name: test tp
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Cypress tests on tei-publisher
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tei-publisher
+
+  test-workbench:
+    name: test workbench
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Cypress tests on tp-workbench
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-workbench
+
+  test-serafin:
+    name: test serafin
+    runs-on: ubuntu-latest
+    needs: generate-apps
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Cypress tests on tp-serafin
+        uses: ./.github/actions/cypress-test-for-demo-app
+        with:
+          app-name: tp-serafin
