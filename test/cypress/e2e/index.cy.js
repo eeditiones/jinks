@@ -27,7 +27,8 @@ describe('index page', () => {
         .should('have.attr', 'logged-in')
     })
 
-    it('mode button should toggle between light and dark', () => {
+    //atm we don't have dark mode, might be reinstated
+    it.skip('mode button should toggle between light and dark', () => {
       cy.get('body')
         .invoke('attr', 'data-theme')
         .should('be.oneOf', [undefined, null, '', 'dark', 'light'])
