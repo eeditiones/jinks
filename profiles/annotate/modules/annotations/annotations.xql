@@ -123,16 +123,16 @@ declare %private function anno:extend-header($nodes as node()*, $log as map(*)?)
                     anno:extend-header($node/node(), $log)
                 }
             case element(tei:TEI) return
+              let $notes := root($node)/tei:text//tei:note[@target]
+              return
                 element { node-name($node) } {
                     $node/@*,
                     anno:extend-header($node/node(), $log),
-                    if (not($node/tei:standOff)) then
+                    if (not($node/tei:standOff) and $notes) then
                         <standOff xmlns="http://www.tei-c.org/ns/1.0">
                             <listAnnotation>
                                 {
-                                    for $note in root($node)/tei:text//tei:note[@target]
-                                    return
-                                        $note
+                                    $notes
                                 }
                             </listAnnotation>
                         </standOff>

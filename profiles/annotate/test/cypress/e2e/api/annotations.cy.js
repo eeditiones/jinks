@@ -247,6 +247,56 @@ describe('/api/annotations/merge', () => {
     )
   })
 
+  it("does not add standOff/listAnnotation when there are no notes", () => {
+    const payload = { annotations: [] };
+    cy.request({
+      method: "POST",
+      url: "/api/annotations/merge/annotate%2Fannotations.xml",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+    }).then(({ status, body }) => {
+      cy.wrap(status).should("eq", 200);
+      cy.wrap(body.changes).should("have.length", 1);
+      const doc = new DOMParser().parseFromString(
+        body.content,
+        "application/xml",
+      );
+      const xml = new XMLSerializer().serializeToString(doc);
+      cy.wrap(xml).should("not.contain", "listAnnotation");
+    });
+  });
+
+  it("does add standOff/listAnnotation when there are notes", () => {
+    const payload = {
+      annotations: [
+        {
+          context: "1.4.2.12",
+          start: 17,
+          end: 17,
+          before: false,
+          text: "ipsum dolor",
+          type: "note",
+          properties: { content: "I am a note" },
+        },
+      ],
+    };
+    cy.request({
+      method: "POST",
+      url: "/api/annotations/merge/annotate%2Fannotations.xml",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+    }).then(({ status, body }) => {
+      cy.wrap(status).should("eq", 200);
+      cy.wrap(body.changes).should("have.length", 1);
+      const doc = new DOMParser().parseFromString(
+        body.content,
+        "application/xml",
+      );
+      const xml = new XMLSerializer().serializeToString(doc);
+      cy.wrap(xml).should("contain", "listAnnotation");
+    });
+  });
+
   after(() => {
     cy.logout()
   })
