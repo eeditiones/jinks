@@ -4,7 +4,7 @@ describe('Profile Documentation', () => {
   })
 
   it('should show article with titles and markdown', () => {
-    cy.visit('/profile/theme-base10')
+    cy.visit('/profiles/theme-base10')
     cy.get('h1')
       .should('be.visible')
       .contains('Theme')
@@ -19,7 +19,7 @@ describe('Profile Documentation', () => {
   })
 
   it('should expand editor for config.json', () => {
-    cy.visit('/profile/base10')
+    cy.visit('/profiles/base10')
 
     cy.get('h1')
       .find('.monaco-editor')

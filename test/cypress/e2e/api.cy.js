@@ -18,7 +18,7 @@ describe('API', () => {
   // Order: default group endpoints (as in OpenAPI docs)
   describe('default', () => {
     it('GET /profile/{profile} returns HTML page', () => {
-      cy.request('/profile/docs').then(res => {
+      cy.request('/profiles/docs').then(res => {
         cy.wrap(res).its('status').should('eq', 200)
         cy.wrap(res.headers).its('content-type').should('include', 'text/html')
         cy.wrap(res.body).should('include', '<html')

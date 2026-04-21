@@ -38,6 +38,35 @@
         },
         "playground": {
             "enabled": true
+        },
+        "dts": {
+            "member": [
+                {
+                    "id": "demo",
+                    "type": "collection",
+                    "title": "Demo Collection",
+                    "path": "demo"
+                },
+                {
+                    "id": "serafin",
+                    "type": "collection",
+                    "title": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459",
+                    "path": "letters",
+                    "dublinCore": {
+                        "title": [
+                            {
+                                "lang": "pl",
+                                "value": "Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459"
+                            }
+                        ],
+                        "creator": [
+                            "Anna Skolimowska",
+                            "Waldemar Bukowski",
+                            "Tomasz Płóciennik"
+                        ]
+                    }
+                }
+            ]
         }
     },
     "collection-config": {

@@ -1,0 +1,346 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – Distributed Text Services API",
+        "description": "This is the API for the Distributed Text Services profile"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "dts",
+            "description": "Distributed Text Services"
+        }
+    ],
+    "paths": {
+        "/api/dts": {
+            "get": {
+                "summary": "Base API endpoint",
+                "description": "Returns the base path for the 3 endpoints: collection, navigation and documents",
+                "operationId": "dts:entry",
+                "tags": [
+                    "dts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DTS Entry Point with URI templates for collection, navigation and document endpoints",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": ["@context", "@id", "@type", "dtsVersion", "collection", "navigation", "document"],
+                                    "properties": {
+                                        "@context": { "type": "string" },
+                                        "@id": { "type": "string" },
+                                        "@type": { "type": "string", "enum": ["EntryPoint"] },
+                                        "dtsVersion": { "type": "string", "example": "1.0" },
+                                        "collection": { "type": "string", "description": "URI template for Collection endpoint" },
+                                        "navigation": { "type": "string", "description": "URI template for Navigation endpoint" },
+                                        "document": { "type": "string", "description": "URI template for Document endpoint" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/collection": {
+            "get": {
+                "summary": "Navigate collection",
+                "description": "The collections endpoint is used for navigating collections. A collection contains metadata for the collection itself and an array of members. Each member is either a collection or the metadata for a document.",
+                "operationId": "dts:collection",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "nav",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "parents",
+                                "children"
+                            ],
+                            "default": "children"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Collection or Resource metadata (application/ld+json)",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": { "type": "object" }
+                            }
+                        }
+                    },
+                    "404": { "description": "Collection or resource not found" }
+                }
+            }
+        },
+        "/api/dts/document": {
+            "get": {
+                "summary": "Document endpoint",
+                "description": "The Document endpoint is used to access the content of a document. Requires resource; ref and start/end are mutually exclusive.",
+                "operationId": "dts:document",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "resource",
+                        "in": "query",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Single node identifier; cannot be used with start/end"
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Start of range; requires end"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "End of range; requires start"
+                    },
+                    {
+                        "name": "tree",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "CitationTree identifier when using non-default tree"
+                    },
+                    {
+                        "name": "mediaType",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "application/tei+xml",
+                                "application/xml",
+                                "application/pdf; media=latex",
+                                "application/pdf; media=fo",
+                                "application/epub+zip; media=epub",
+                                "text/markdown",
+                                "text/html; charset=utf-8; media=print",
+                                "text/html; charset=utf-8"
+                            ],
+                            "default": "application/tei+xml"
+                        },
+                        "description": "Response media type (DTS recommends application/tei+xml for TEI)"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Document or fragment (TEI/XML by default; Link header points to collection)"
+                    },
+                    "400": { "description": "Missing resource or invalid parameter combination (ref with start/end; start without end or vice versa)" },
+                    "404": { "description": "Resource or fragment not found" }
+                }
+            }
+        },
+        "/api/dts/navigation": {
+            "get": {
+                "summary": "Navigation endpoint",
+                "description": "The Navigation endpoint provides information about a Resource’s internal structures (e.g., book, chapter, line, etc.) and how they are referenced.",
+                "operationId": "dts:navigation",
+                "tags": [
+                    "dts"
+                ],
+                "parameters": [
+                    {
+                        "name": "resource",
+                        "in": "query",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Single node identifier; cannot be used with start/end"
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "Start of range; requires end"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "End of range; requires start"
+                    },
+                    {
+                        "name": "down",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "description": "Depth of citation subtree; -1 for full tree; omit for ref-only info"
+                        }
+                    },
+                    {
+                        "name": "tree",
+                        "in": "query",
+                        "schema": { "type": "string" },
+                        "description": "CitationTree identifier for non-default tree"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": { "type": "integer" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Navigation (application/ld+json) with resource, optional ref/start/end, member array"
+                    },
+                    "400": { "description": "Missing resource; ref with start/end; start without end or vice versa" },
+                    "404": { "description": "Resource or ref/start/end not found" }
+                }
+            }
+        },
+        "/api/dts/import": {
+            "get": {
+                "summary": "Import a remote resource into local database",
+                "description": "Helper operation to import a remote resource, optionally into a temporary collection",
+                "tags": [
+                    "dts"
+                ],
+                "operationId": "dts:import",
+                "x-constraints": {
+                    "groups": [
+                        "tei"
+                    ]
+                },
+                "parameters": [
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "temp",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Content was successfully imported",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string",
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dts/list": {
+            "get": {
+                "summary": "List DTS-enabled servers",
+                "description": "Returns the list of installed applications that extend the DTS profile (entry URL, title, description).",
+                "operationId": "dts:servers",
+                "tags": ["dts"],
+                "responses": {
+                    "200": {
+                        "description": "Array of server entries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "entry": { "type": "string" },
+                                            "title": { "type": "string" },
+                                            "description": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}
