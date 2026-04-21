@@ -41,6 +41,10 @@
         <button id="dts-connect">Connect</button>
         <div id="dts-server-info"></div>
     </aside>
+    <div id="dts-welcome">
+        <h3>DTS Collection Browser</h3>
+        <p>Browse and access text collections via the <a href="https://distributed-text-services.github.io/specifications/" target="_blank">Distributed Text Services</a> protocol. Select a server and click <strong>Connect</strong> to get started.</p>
+    </div>
     [% endtemplate %]
     [% template breadcrumb %]
     <nav id="dts-breadcrumbs" aria-label="breadcrumb">
@@ -64,10 +68,6 @@
         </details>
     </main>
     [% template after %]
-    <aside id="dts-aside" hidden></aside>
-    <details id="dts-navigation-response" hidden>
-        <summary>Raw JSON Response</summary>
-        <pre><code id="dts-navigation-json"></code></pre>
-    </details>
+    <aside id="dts-aside" hidden="hidden"></aside>
     [% endtemplate %]
 </template>

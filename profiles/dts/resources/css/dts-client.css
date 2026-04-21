@@ -7,7 +7,48 @@ main > details {
     overflow-x: auto;
 }
 
+/* Welcome / empty state — lives in the left sidebar */
+#dts-welcome {
+    margin-top: var(--s1);
+    padding-top: var(--s1);
+    border-top: 1px solid var(--jinks-color-border);
+}
+
+#dts-welcome h3 {
+    margin-top: 0;
+    font-size: 0.95rem;
+    color: var(--jinks-colors-600);
+}
+
+#dts-welcome p {
+    margin-bottom: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* Server info card */
 #dts-server-info {
+    margin-top: var(--s1);
+    font-size: 0.9rem;
+}
+
+#dts-server-info p {
+    margin: 0.3em 0;
+    word-break: break-all;
+}
+
+#dts-server-info details {
+    margin-top: var(--s0);
+}
+
+#dts-server-info details summary {
+    cursor: pointer;
+    color: var(--jinks-colors-600);
+    font-size: 0.85rem;
+}
+
+/* Collection table */
+#dts-collection {
     margin-top: var(--s1);
 }
 
@@ -20,17 +61,48 @@ main > details {
     font-size: 0.8rem;
 }
 
-/* Clickable titles (collections and documents) */
+/* Loading state */
+#dts-collection.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Clickable titles */
 .dts-title-clickable {
     cursor: pointer;
-    color: #0066cc;
+    color: var(--jinks-colors-600);
     text-decoration: underline;
     transition: color 0.2s ease;
 }
 
 .dts-title-clickable:hover {
-    color: #004499;
+    color: var(--jinks-colors-500);
     text-decoration: none;
+}
+
+/* Member type badges */
+.collection,
+.document {
+    font-size: var(--jinks-footnote-font-size);
+    font-weight: 600;
+}
+
+.collection {
+    background-color: var(--jinks-colors-300);
+    color: var(--jinks-colors-700);
+}
+
+.document {
+    background-color: var(--jinks-colors-300);
+    color: var(--jinks-colors-700);
+}
+
+/* Description text below title/ID */
+.member-description {
+    color: var(--jinks-colors-medium);
+    font-size: var(--jinks-footnote-font-size);
+    display: block;
+    margin-top: 2px;
 }
 
 /* Document structure display */
@@ -42,7 +114,7 @@ main > details {
 .document-structure h4 {
     margin-top: 0;
     margin-bottom: var(--s0);
-    color: #333;
+    color: var(--jinks-colors-700);
     font-size: 1em;
 }
 
@@ -54,14 +126,13 @@ main > details {
 
 .structure-item {
     padding: var(--s-1) 0;
-    border-bottom: 1px solid #f8f9fa;
+    border-bottom: 1px solid var(--jinks-colors-50);
 }
 
 .structure-item:last-child {
     border-bottom: none;
 }
 
-/* Hierarchical structure with expandable details */
 .structure-details {
     margin: var(--s-1) 0;
 }
@@ -73,7 +144,7 @@ main > details {
 .structure-children {
     margin-left: var(--s1);
     padding-left: var(--s0);
-    border-left: 1px solid #e9ecef;
+    border-left: 1px solid var(--jinks-colors-100);
 }
 
 .structure-item {
@@ -86,26 +157,30 @@ main > details {
     margin-left: 0;
 }
 
-/* Structure identifier styling */
+/* Structure identifier links */
 .structure-identifier {
     cursor: pointer;
-    color: #0066cc;
+    color: var(--jinks-colors-600);
     font-size: 0.85em;
     margin-left: var(--s-1);
     padding: 2px 4px;
     border-radius: 3px;
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background-color: var(--jinks-colors-50);
+    border: 1px solid var(--jinks-colors-100);
     transition: all 0.2s ease;
 }
 
 .structure-identifier:hover {
-    color: #004499;
-    background-color: #e9ecef;
-    border-color: #dee2e6;
+    color: var(--jinks-colors-700);
+    background-color: var(--jinks-colors-100);
+    border-color: var(--jinks-colors-200);
 }
 
-/* Navigation response details */
-#dts-navigation-response {
-    margin-top: var(--s1);
+/* Error display */
+.dts-error {
+    padding: var(--s0);
+    background: var(--jinks-colors-50);
+    border: 1px solid var(--jinks-color-border);
+    border-radius: 4px;
+    color: var(--jinks-colors-700);
 }
