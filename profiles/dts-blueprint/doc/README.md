@@ -1,6 +1,6 @@
 # DTS Blueprint
 
-A blueprint demonstrating the [DTS profile](../../dts/doc/README.md) using 3 of Karl Barth's *Predigten 1915* as primary text alongside the Luther Bible.
+A blueprint demonstrating the [DTS profile](../../dts) using 3 of Karl Barth's *Predigten 1915* as primary text alongside the Luther Bible.
 
 The blueprint also shows a practical use case for DTS: embedding passages from an external DTS resource (the Luther Bible) directly into a local edition. The included `barth.odd` demonstrates how to resolve DTS references and render quoted bible passages inline.
 

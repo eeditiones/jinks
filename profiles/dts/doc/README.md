@@ -2,7 +2,7 @@
 
 This profile adds a standards-compliant [DTS 1.0 API](https://distributed-text-services.github.io/specifications/) to your TEI Publisher application, enabling external clients to discover, navigate, and retrieve documents using a well-defined REST interface. It also provides a built-in DTS browser page for interactively exploring any DTS-compatible server from within your application.
 
-The profile requires additional configuration in order to provide a meaningful service (see below). For demonstration purposes, the _DTS Blueprint_ is provided, which includes auxiliary data and an ODD to demonstrate how to use DTS to embed passages from external resources (the bible in this case).
+The profile requires additional configuration in order to provide a meaningful service (see below). For demonstration purposes, the [DTS Blueprint](../../dts-blueprint) is provided, which includes auxiliary data and an ODD to demonstrate how to use DTS to embed passages from external resources (the bible in this case).
 
 ## What you get
 
