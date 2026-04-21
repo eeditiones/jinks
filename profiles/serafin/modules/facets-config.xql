@@ -41,11 +41,11 @@ declare variable $facets-config:facets := [
         }
     },
     map {
-        "dimension": "year",
+        "dimension": "date",
         "heading": "serafin.facets.date",
         "max": 3,
-        "hierarchical": false(),
-        "source": "api/search/facets/year"
+        "hierarchical": true(),
+        "source": "api/search/facets/date"
     },
     map {
         "dimension": "language",
