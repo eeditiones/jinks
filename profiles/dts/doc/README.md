@@ -4,6 +4,10 @@ This profile adds a standards-compliant [DTS 1.0 API](https://distributed-text-s
 
 The profile requires additional configuration in order to provide a meaningful service (see below). For demonstration purposes, the [DTS Blueprint](../../dts-blueprint) is provided, which includes auxiliary data and an ODD to demonstrate how to use DTS to embed passages from external resources (the bible in this case).
 
+## Compliance
+
+The implementation aims to be fully compliant with the 1.0 version of the DTS specification. The profile passes all tests of the [DTS Validator](https://github.com/distributed-text-services/validator). For remaining limitations see below.
+
 ## What you get
 
 - **Four DTS endpoints** served under `/api/dts`: Entry Point, Collection, Document, and Navigation.
@@ -86,6 +90,8 @@ You can also add external DTS servers via `config.json`. For example, the _DTS B
 ```
 
 ## Known limitations
+
+The following minor limitations are know and will be addressed:
 
 - **Range fragments** (`start`/`end` on the Document endpoint): accepted but only the start node is returned; full range extraction is not yet implemented.
 - **`nav=parents`** on the Collection endpoint returns an incorrect member list.
