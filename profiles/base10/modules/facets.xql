@@ -55,13 +55,17 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                 array:for-each(facets:sort($config, $lang, $facets), function($entry) {
                     map:for-each($entry, function($label, $freq) {
                         let $content := facets:translate($config, $lang, $label)
+                        let $name := "facet-" || $config?dimension
                         return
                         <tr>
                             <td>
-                                <label>
-                                    <input type="checkbox" class="facet" name="facet-{$config?dimension}" value="{$label}">
-                                    { if ($label = $params) then attribute checked { "checked" } else () }
-                                    </input>
+                                <input type="checkbox"
+                                    id="{$name}"
+                                    name="{$name}"
+                                    value="{$label}">
+                                { if ($label = $params) then attribute checked { "checked" } else () }
+                                </input>
+                                <label for="{$name}">
                                     <pb-i18n key="{$content}">{$content}</pb-i18n>
                                 </label>
                             </td>
@@ -87,7 +91,6 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
         else
             ()
 };
-
 declare function facets:display($config as map(*), $nodes as element()+) {
     let $params := facets:get-parameter("facet-" || $config?dimension)
     let $lang := tokenize(facets:get-parameter("language"), '-')[1]
@@ -115,12 +118,19 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                     <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n>
                     {
                         if ($fcount > $max) then
-                            <label>
-                                <input type="checkbox" class="facet" name="all-{$config?dimension}">
-                                { if (facets:get-parameter("all-" || $config?dimension)) then attribute checked { "checked" } else () }
-                                </input>
+												let $name := "all-" || $config?dimension
+												return (
+                            <input type="checkbox" class="facet" name="{$name}" id="{$name}"> {
+														    if (facets:get-parameter("all-" || $config?dimension)) then
+																    attribute checked { "checked" }
+																else (
+																)
+														}
+                            </input>,
+                            <label for="{$name}">
                                 <pb-i18n key="facets.show">Show top 50</pb-i18n>
-                            </label>
+												    </label>
+											  )
                         else
                             ()
                     }
@@ -128,7 +138,7 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                 else
                     ()
             }
-            
+
             {
                 $table,
                 (: if config specifies a property "source", output combo-box :)

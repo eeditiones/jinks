@@ -39,11 +39,11 @@ function kwicText(str, start, end, words = 5) {
 }
 
 /**
- * 
- * @param {*} index 
- * @param {string[]} fields 
- * @param {string} query 
- * @param {[{facet: string, value: string[]}]} facets 
+ *
+ * @param {*} index
+ * @param {string[]} fields
+ * @param {string} query
+ * @param {[{facet: string, value: string[]}]} facets
  */
 function search(index, fields, query, facets) {
     const results = document.getElementById('results');
@@ -73,7 +73,7 @@ function search(index, fields, query, facets) {
     index.searchAsync(query, 100, queryOptions).then((resultsByField) => {
         let result = [];
         resultsByField.forEach(byField => {
-            byField.result.forEach((match) => { 
+            byField.result.forEach((match) => {
                 result.push({
                     field: byField.field,
                     doc: match.doc
@@ -89,7 +89,7 @@ function search(index, fields, query, facets) {
                 return entry.doc[dimension].some((facet) => value.includes(facet.id));
             });
         });
-        
+
         const info = document.createElement('h4');
         if (result.length === 100) {
             info.innerHTML = `Showing first 100 matches.`;
@@ -181,7 +181,7 @@ function outputFacet(dimension, values, queryFacets) {
         input.addEventListener('change', function(ev) {
             searchForm.dispatchEvent(new Event('submit', { 'bubbles': true, 'cancelable': true }));
         });
-        label.appendChild(input);
+        div.appendChild(input);
         const text = document.createTextNode(value.place);
         label.appendChild(text);
         div.appendChild(label);
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             });
-            
+
             search(index, fields, query, facets);
         });
 
