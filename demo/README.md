@@ -6,15 +6,15 @@ This directory contains configuration files and a Dockerfile for building a cont
 
 The demo container (`ghcr.io/eeditiones/jinks-demo`) includes three pre-generated TEI Publisher applications:
 
-- **tei-publisher** - Full-featured TEI Publisher application with demo data, documentation, and all standard features
+- **tei-publisher** - TEI Publisher application with TEI Publisher and Jinks documentation and demo collection showcasing various types of documents, XML vocabularies and use case scenarios
 - **tp-serafin** - Serafin correspondence edition with registers, timeline, and edition navigation
-- **tp-annotator** - Annotation workbench with Jinntap editor integration
+- **tp-workbench** - Annotation workbench with Jinntap editor integration
 
 ## Configuration Files
 
 - `tp_config.json` - Configuration for tei-publisher app
 - `ser_config.json` - Configuration for tp-serafin app
-- `ann_config.json` - Configuration for tp-annotator app
+- `workbench_config.json` - Configuration for tp-annotator app
 
 ## Build Process
 
@@ -42,7 +42,7 @@ docker run -p 8080:8080 ghcr.io/eeditiones/jinks-demo:latest
 Access the applications:
 - tei-publisher: http://localhost:8080/exist/apps/tei-publisher/
 - tp-serafin: http://localhost:8080/exist/apps/tp-serafin/
-- tp-annotator: http://localhost:8080/exist/apps/tp-annotator/
+- tp-workbench: http://localhost:8080/exist/apps/tp-workbench/
 
 ## Local Development
 
@@ -54,4 +54,3 @@ To build the demo container locally:
    ```bash
    docker build -f Dockerfile.demo -t jinks-demo:local .
    ```
-
