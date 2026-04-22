@@ -7,6 +7,16 @@ main > details {
     overflow-x: auto;
 }
 
+#dts-raw-response {
+    margin-top: var(--s0);
+}
+
+#dts-raw-response summary {
+    cursor: pointer;
+    color: var(--jinks-colors-600);
+    font-size: 0.85rem;
+}
+
 /* Welcome / empty state — lives in the left sidebar */
 #dts-welcome {
     margin-top: var(--s1);

@@ -36,12 +36,37 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" source="teipublisher.odd"> <elementSpec ident="ref" mode="change">
+                    <model predicate="parent::cit and @type='can' and @subtype='bible' and contains(@target, ' ')" behaviour="heading">
+            <desc>link to bible passage range</desc>
+            <param name="level" value="2"/>
+            <param name="path" value="$parameters?context-path"/>
+            <param name="start" value="'Lb_' || tokenize(@target, ' ')[1]"/>
+            <param name="end" value="'Lb_' || tokenize(@target, ' ')[2]"/>
+            <pb:template xml:space="preserve"><pb-popover xmlns="" remote="[[path]]/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;start=[[start]]&amp;end=[[end]]&amp;mediaType=text/html">
+  <span slot="default">[[content]]</span>
+</pb-popover></pb:template>
+            <outputRendition xml:space="preserve">
+            color: var(--jinks-color-focus);
+            </outputRendition>
+        </model>
                     <model predicate="parent::cit and @type='can' and @subtype='bible'" behaviour="heading">
             <desc>link to bible passage</desc>
             <param name="target" value="@target"/>
             <param name="level" value="2"/>
             <param name="path" value="$parameters?context-path"/>
             <pb:template xml:space="preserve"><pb-popover xmlns="" remote="[[path]]/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;ref=Lb_[[target]]&amp;mediaType=text/html">
+  <span slot="default">[[content]]</span>
+</pb-popover></pb:template>
+            <outputRendition xml:space="preserve">
+            color: var(--jinks-color-focus);
+            </outputRendition>
+        </model>
+                    <model predicate="@type='can' and @subtype='bible' and contains(@target, ' ')" behaviour="inline">
+            <desc>link to bible passage range</desc>
+            <param name="path" value="$parameters?context-path"/>
+            <param name="start" value="'Lb_' || tokenize(@target, ' ')[1]"/>
+            <param name="end" value="'Lb_' || tokenize(@target, ' ')[2]"/>
+            <pb:template xml:space="preserve"><pb-popover xmlns="" remote="[[path]]/api/dts/document?resource=bible%2Fluther-bibel.xml&amp;start=[[start]]&amp;end=[[end]]&amp;mediaType=text/html">
   <span slot="default">[[content]]</span>
 </pb-popover></pb:template>
             <outputRendition xml:space="preserve">

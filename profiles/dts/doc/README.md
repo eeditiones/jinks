@@ -68,7 +68,7 @@ The `/api/dts/document` endpoint supports content negotiation via the `mediaType
 | `application/pdf` | PDF |
 | `text/markdown` | Markdown |
 
-Fragment selection is supported via the `ref` parameter (by citable node identifier).
+Fragment selection is supported via `ref` (single citable node) or `start`/`end` (inclusive range of sibling nodes).
 
 ## DTS Browser
 
@@ -93,8 +93,6 @@ You can also add external DTS servers via `config.json`. For example, the _DTS B
 
 The following minor limitations are know and will be addressed:
 
-- **Range fragments** (`start`/`end` on the Document endpoint): accepted but only the start node is returned; full range extraction is not yet implemented.
 - **`nav=parents`** on the Collection endpoint returns an incorrect member list.
-- **Navigation range queries** (`start`/`end` on the Navigation endpoint) are not implemented.
 - **Multiple citation trees** (the `tree` parameter) are defined in the spec but not implemented.
 - **Navigation pagination** is not yet functional.

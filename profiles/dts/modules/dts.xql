@@ -311,13 +311,21 @@ declare function dts:document($request as map(*)) {
                                             default return dts:check-pi(root($xml))
                                     let $content-type := if ($parsedMediaType[1] = "application/xml" or $parsedMediaType[1] = "") then "application/tei+xml" else $parsedMediaType[1]
                                     return router:response(200, $content-type, $output)
-                                else if ($xml instance of element()) then
+                                else if (exists($xml)) then
                                     let $output :=
                                         switch ($parsedMediaType[1])
                                             case "text/html" return
-                                                let $config := tpu:parse-pi(root($xml), ())
+                                                let $config := tpu:parse-pi(root($xml[1]), ())
+                                                let $fragments :=
+                                                    for $node in $xml
+                                                    return $pm-config:web-transform($node, map { "root": root($node) }, $config?odd)
                                                 return
-                                                    dts:postprocess-html($pm-config:web-transform($xml, map { "root": root($xml) }, $config?odd))
+                                                    dts:postprocess-html(
+                                                        if (count($xml) > 1) then
+                                                            <div xmlns="http://www.w3.org/1999/xhtml">{$fragments}</div>
+                                                        else
+                                                            $fragments
+                                                    )
                                             default return
                                                 document {
                                                     <TEI xmlns="http://www.tei-c.org/ns/1.0">
@@ -359,6 +367,8 @@ declare function dts:navigation($request as map(*)) {
                     let $down-param := $request?parameters?down
                     let $down := if (exists($down-param)) then xs:int($down-param) else 0
                     let $ref := $request?parameters?ref
+                    let $start := $request?parameters?start
+                    let $end := $request?parameters?end
                     let $ref-unit := if (exists($ref)) then dts:ref-citable-unit($doc, $ref, $config?odd) else ()
                     return
                         if (exists($ref) and empty($ref-unit)) then
@@ -367,6 +377,8 @@ declare function dts:navigation($request as map(*)) {
                             let $member :=
                                 if (exists($ref)) then
                                     dts:navigation-by-ref($doc, $config?odd, $ref, $down-param, $down)
+                                else if (exists($start) and exists($end)) then
+                                    array { dts:navigation-range($doc, $config?odd, $start, $end, $down) }
                                 else
                                     array { dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $down, 0) }
                             let $resourceId := $collection?id || "/" || util:document-name($doc)
@@ -377,7 +389,11 @@ declare function dts:navigation($request as map(*)) {
                                             "@context": "https://dtsapi.org/context/v1.0.json",
                                             "dtsVersion": "1.0",
                                             "@type": "Navigation",
-                                            "@id": dts:base-path() || "/navigation?resource=" || encode-for-uri($resource) || (if (exists($down-param)) then "&amp;down=" || $down else ""),
+                                            "@id": dts:base-path() || "/navigation?resource=" || encode-for-uri($resource)
+                                                || (if (exists($ref)) then "&amp;ref=" || encode-for-uri($ref) else "")
+                                                || (if (exists($start)) then "&amp;start=" || encode-for-uri($start) else "")
+                                                || (if (exists($end)) then "&amp;end=" || encode-for-uri($end) else "")
+                                                || (if (exists($down-param)) then "&amp;down=" || $down else ""),
                                             "resource":
                                                 map:merge((
                                                     map {
@@ -402,7 +418,11 @@ declare function dts:navigation($request as map(*)) {
                                                 )),
                                             "member": $member
                                         },
-                                        (if (exists($ref)) then map { "ref": $ref-unit } else map {})
+                                        map:merge((
+                                            (if (exists($ref)) then map { "ref": $ref-unit } else ()),
+                                            (if (exists($start)) then map { "start": dts:ref-citable-unit($doc, $start, $config?odd) } else ()),
+                                            (if (exists($end)) then map { "end": dts:ref-citable-unit($doc, $end, $config?odd) } else ())
+                                        ))
                                     ))
                                 )
 };
@@ -430,6 +450,30 @@ declare %private function dts:navigation-by-ref($doc as document-node(), $odd as
                 dts:ref-citable-unit($doc, $ref, $odd),
                 dts:navigation-tree($node/tei:div, $odd, $down, 1)
             }
+};
+
+(:~ Return CitableUnits for all nodes in the range [start, end] inclusive, with optional subtree expansion. :)
+declare %private function dts:navigation-range($doc as document-node(), $odd as xs:string, $start as xs:string, $end as xs:string, $down as xs:int) {
+    let $start-node := dts:resolve-ref-node($doc, $start)
+    let $end-node := dts:resolve-ref-node($doc, $end)
+    return
+        if (empty($start-node) or empty($end-node)) then ()
+        else
+            let $range := ($start-node | $start-node/following-sibling::*[not(. >> $end-node)])
+            for $node in $range
+            return (
+                map {
+                    "@type": "CitableUnit",
+                    "citeType": "Division",
+                    "level": count($node/ancestor::tei:div) + 1,
+                    "dublinCore": map { "title": dts:heading(head(($node/tei:head, $node/@n)), $odd) },
+                    "parent": dts:get-identifier($node/parent::tei:div),
+                    "identifier": dts:get-identifier($node)
+                },
+                if ($down < 0 or $down > 1) then
+                    dts:navigation-tree($node/tei:div, $odd, $down, 2)
+                else ()
+            )
 };
 
 declare %private function dts:ref-citable-unit($doc as document-node(), $ref as xs:string, $odd as xs:string) as map(*)? {
@@ -655,13 +699,14 @@ declare %private function dts:get-identifier($node as node()?) {
         head(($node/@xml:id/string(), "exist:" || util:node-id($node)))
 };
 
-declare %private function dts:resolve-fragment($doc as document-node(), $ref as xs:string?, $start as xs:string?, $end as xs:string?) as node()? {
+declare %private function dts:resolve-fragment($doc as document-node(), $ref as xs:string?, $start as xs:string?, $end as xs:string?) as node()* {
     if (exists($start) and exists($end)) then
         let $start-node := dts:resolve-ref-node($doc, $start)
         let $end-node := dts:resolve-ref-node($doc, $end)
         return
             if (empty($start-node) or empty($end-node)) then ()
-            else $start-node
+            else
+                ($start-node | $start-node/following-sibling::*[not(. >> $end-node)])
     else if (empty($ref)) then
         $doc
     else
