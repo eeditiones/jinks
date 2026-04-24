@@ -111,7 +111,7 @@
             </fieldset>
         </section>
         <section id="profiles" class="profiles" data-tab="profiles">
-            [% let $invalidProfiles = filter($context?profiles, function ($prof) { $prof?invalidJson }) %]
+            [% let $invalidProfiles = filter($context?profiles, function ($prof) { boolean($prof?invalidJson) }) %]
             [% if exists($invalidProfiles) %]
             <aside role="alert" class="profiles-invalid-json">
                 <strong>Invalid JSON</strong>
