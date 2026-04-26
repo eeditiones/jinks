@@ -47,6 +47,43 @@ declare variable $config:sort-default := "[[$features?browse?sort?default]]";
     declare variable $config:register-root := $config:data-root || "/registers";
 [% endif %]
 
+[% if map:contains($defaults, "register-map") %]
+    declare variable $config:register-map as map(*) := parse-json('[[$defaults?register-map]]');
+[% else %]
+    declare variable $config:register-map as map(*) := map {
+        "person": map {
+            "id": "pb-persons",
+            "default": "person-default",
+            "prefix": "person-"
+        },
+        "place": map {
+            "id": "pb-places",
+            "default": "place-default",
+            "prefix": "place-"
+        },
+        "bibliography": map {
+            "id": "pb-bibl",
+            "default": "bibl-default",
+            "prefix": "bibl-"
+        },
+        "organization": map {
+            "id": "pb-organizations",
+            "default": "organization-default",
+            "prefix": "org-"
+        },
+        "term": map {
+            "id": "pb-keywords",
+            "default": "term-default",
+            "prefix": "category-"
+        },
+        "work": map {
+            "id": "pb-works",
+            "default": "work-default",
+            "prefix": "work-"
+        }
+    };
+[% endif %]
+
 declare variable $config:data-exclude := (
     [[ string-join($defaults?data-exclude?*, ",&#10;    ") ]]
 );

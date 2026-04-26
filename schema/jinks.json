@@ -228,6 +228,27 @@
                         }
                     },
                     "description": "The fields to sort by default when displaying list of documents"
+                },
+                "register-map": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[^\\s]+$": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "default": {
+                                    "type": "string"
+                                },
+                                "prefix": {
+                                    "type": "string"
+                                }
+                            },
+                            "additionalProperties": true
+                        }
+                    },
+                    "description": "Map that contains the different type of entities in the register, with their IDs and prefixes."
                 }
             }
         },
