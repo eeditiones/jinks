@@ -1,0 +1,8 @@
+<template>
+
+  [% template scripts %]
+  [% import "http://tei-publisher.org/seo" as "seo" at "modules/seo.xql" %]
+  <link rel="canonical" href="[[seo:canonical-link($context)]]"/>
+  [% endtemplate %]
+
+</template>
