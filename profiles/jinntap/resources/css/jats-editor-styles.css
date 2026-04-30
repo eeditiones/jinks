@@ -1,0 +1,380 @@
+:root {
+    --jinn-tap-background-color: var(--jinks-background-color-light);
+}
+
+[data-theme="dark"] {
+    --jinn-tap-background-color: var(--jinks-background-color-dark);
+}
+
+jinn-tap {
+    padding: 0 2rem;
+}
+
+jinn-tap .editor-area {
+    font-family: var(--jinks-base-font-family);
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
+jinn-tap .editor-area,
+jinn-tap .code-area {
+    max-width: var(--pb-view-max-width);
+}
+
+jinn-tap .toolbar,
+jinn-tap .logo {
+    background: none;
+}
+
+jinn-tap .toolbar {
+    margin: 0;
+    padding: 1rem 0;
+}
+
+jinn-tap .toolbar i {
+    --jinks-base-line-height: unset;
+    font-size: var(--pb-content-font-size);
+}
+
+.jinn-tap-aside .logo {
+    width: auto;
+    height: 92px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    background-image: none;
+}
+
+jinn-toast {
+    font-size: var(--pb-footnote-font-size);
+}
+
+.jinn-tap-aside .attribute-panel {
+    padding: 1.5rem;
+    margin-bottom: .5rem;
+}
+
+.attribute-panel summary {
+    margin-bottom: var(--s1);
+}
+
+.table-menu {
+    margin-inline: var(--s1);
+    background-color: var(--jinn-tap-background-color);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+    border-radius: var(--jinks-form-border-radius);
+    padding: 0 var(--s0);
+
+    .toolbar {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Styles for content elements */
+jats-sec,
+jats-p,
+jats-item,
+jats-title {
+    display: block;
+}
+
+jats-title {
+    font-weight: 700;
+    line-height: 1.125;
+}
+
+jats-sec > jats-title {
+    margin-top: 3rem;
+    font-size: 2.25rem;
+}
+
+.tiptap > jats-sec:first-child > jats-title:first-child {
+    margin-top: 0;
+}
+
+jats-sec > jats-sec > jats-title {
+    font-style: italic;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    margin-top: 2.625rem;
+}
+
+jats-sec > jats-sec > jats-sec > jats-title {
+    font-size: 1.5rem;
+    line-height: 1.175;
+    margin-top: 2.25rem;
+}
+
+jats-sec > jats-sec > jats-sec > jats-sec > jats-title {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin-top: 1.874rem;
+}
+
+jats-sec > jats-sec > jats-sec > jats-sec > jats-sec > jats-title {
+    font-size: 1.125rem;
+    line-height: 1.25;
+    margin-top: 1.5rem;
+}
+
+jats-figure > jats-title {
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+jats-sec {
+    border-right: 2px solid var(--tei-div-color-0);
+    margin-right: 2px;
+    padding-right: 4px;
+}
+
+jats-sec > jats-sec {
+    border-right: 2px solid var(--tei-div-color-1);
+}
+
+jats-sec > jats-sec > jats-sec {
+    border-right: 2px solid var(--tei-div-color-2);
+}
+
+jats-sec > jats-sec {
+    border-right: 2px solid var(--tei-div-color-3);
+}
+
+jats-sec > jats-sec > jats-sec {
+    border-right: 2px solid var(--tei-div-color-4);
+}
+
+jats-sec > jats-sec > jats-sec > jats-sec {
+    border-right: 2px solid var(--tei-div-color-5);
+}
+
+jats-p {
+    display: block;
+    margin: 0.5em 0;
+    position: relative;
+}
+
+jats-bold {
+    font-weight: bold;
+}
+
+jats-italic {
+    font-style: italic;
+}
+
+jats-underline {
+    text-decoration: underline;
+}
+
+jats-fig {
+    display: block;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+jats-fig > img {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+jats-fig > jats-caption {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+jats-named-content[content-type='person'] {
+    color: #a83410;
+}
+
+jats-named-content[content-type='place'] {
+    color: #e48500;
+}
+
+jats-named-content[content-type='organization'] {
+    color: #f45d2c;
+}
+
+jats-named-content[content-type='term'] {
+    color: #9236a4;
+}
+
+jats-list {
+    display: block;
+    list-style-type: disc;
+    margin: 1em 0;
+    padding-left: 2em;
+}
+
+jats-list[list-type='order'] {
+    list-style-type: decimal;
+}
+
+jats-list > jats-title {
+    font-size: 1.25rem;
+}
+
+jats-list-item {
+    display: list-item;
+    list-style-position: outside;
+    margin: 0.5em 0;
+}
+
+jats-fnGroup {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+jats-fnGroup:empty::before {
+    display: none;
+}
+
+jats-fn {
+    display: list-item;
+    padding-left: 2rem;
+}
+
+jats-fn::before {
+    margin-left: -2rem;
+    float: left;
+}
+
+jats-fn::before {
+    content: '?';
+    margin-right: 0.5rem;
+}
+
+jats-fn[n]::before {
+    content: attr(n);
+    margin-right: 0.5rem;
+}
+
+jats-fn[_reference]::before {
+    content: attr(_reference) '.';
+}
+
+jats-fn:not([_reference]) {
+    color: #9e9e9e;
+}
+
+jats-xref {
+    font-size: 0.75rem;
+    vertical-align: super;
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
+}
+
+jats-xref::before {
+    content: attr(_reference);
+}
+
+jats-xref::after {
+    content: '\200B';
+}
+
+jats-abbr {
+    background-color: #9236a4;
+    color: white;
+}
+
+tr:has(td:first-child jats-lb) {
+    /* Position the lb widget relative to here */
+    position: relative;
+    border-top: 4px double #ffa500;
+
+    td:first-child jats-lb {
+        position: absolute;
+        /* Place this just next to the table, in the middle of the border line to not overlap any table content */
+        top: -1.5rem;
+        width: 2rem;
+        height: 2rem;
+        float: left;
+        left: -2rem;
+        display: inline-block;
+
+        /* Display this the same as an lb in normal content */
+        content: 'lb';
+        background-color: #ffa500;
+        font-size: 1rem;
+        font-weight: normal;
+        border-radius: 4px;
+        padding: 2px 6px;
+        cursor: pointer;
+    }
+}
+
+jats-p.is-empty::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    position: absolute;
+    height: 0;
+    pointer-events: none;
+}
+
+a.reference::after {
+    content: '↗';
+    margin-left: 4px;
+    font-size: 0.75rem;
+    vertical-align: super;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+}
+
+a.reference:hover::after {
+    color: #004499;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+jats-disp-quote {
+    &::before {
+        content: """;
+        font-size: var(--s2);
+        position: absolute;
+    }
+    > * {
+        padding-left: 2rem
+    }
+}
+
+.ProseMirror-selectednode {
+    outline: 2px solid var(--pico-primary);
+}
+
+.table-menu {
+    .divider::before {
+        content: '';
+        height: 2rem;
+        border-left: 4px solid var(--pico-table-border-color);
+        border-radius: 2px;
+        display: block;
+    }
+}
+
+.selectedCell {
+    background-color: var(--pico-form-element-selected-background-color);
+}
+
+.debug *::after {
+    display: inline-block;
+    max-width: 7ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-left: 2px;
+    padding: 2px 6px;
+    font-size: 0.65rem;
+    font-weight: normal;
+    color: white;
+    vertical-align: middle;
+}
