@@ -553,10 +553,15 @@
                             "description": "The CDN URL for Jinntap",
                             "examples": [ "http://localhost:5174/" ]
                         },
+                        "format": {
+                            "type": "string",
+                            "description": "The format to use for the editor",
+                            "examples": [ "tei", "jats" ]
+                        },
                         "schema": {
                             "type": "string",
                             "description": "The schema to use for the editor",
-                            "examples": [ "resources/schema/schema.json" ]
+                            "examples": [ "resources/schema/schema.json", "resources/schema/jats-schema.json" ]
                         }
                     }
                 },

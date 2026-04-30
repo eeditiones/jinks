@@ -1,0 +1,400 @@
+{
+    "attributes": {
+        "id": {
+            "type": "string"
+        }
+    },
+    "toolbar": {
+        "Move Up": {
+            "command": "moveUp",
+            "label": "<i class='bi bi-unindent'></i>"
+        },
+        "Clear Formatting": {
+            "command": "unsetAllMarks",
+            "label": "<i class='bi bi-eraser'></i>",
+            "order": 5
+        },
+        "Table": {
+            "select": "Blocks",
+            "command": "insertSnippet",
+            "args": [
+                "<jats-table><jats-row><jats-cell>A</jats-cell><jats-cell>B</jats-cell></jats-row><jats-row><jats-cell>C</jats-cell><jats-cell>D</jats-cell></jats-row></jats-table>"
+            ],
+            "label": "<i class='bi bi-table'></i>"
+        },
+        "Figure": {
+            "command": "insertFigure",
+            "label": "<i class='bi bi-images'></i>",
+            "select": "Blocks"
+        },
+        "Show/Hide Code": {
+            "command": "toggleSource",
+            "label": "<i class='bi bi-filetype-xml'></i>",
+            "order": 20
+        },
+        "Debug Mode": {
+            "command": "toggleDebug",
+            "label": "<i class='bi bi-question-circle'></i>",
+            "order": 20
+        }
+    },
+    "selects": {
+        "Blocks": {
+            "label": "<i class='bi bi-text-paragraph'></i>",
+            "order": 0
+        }
+    },
+    "schema": {
+        "sec": {
+            "type": "block",
+            "defining": true,
+            "content": "title? (block | table)*",
+            "selectable": true,
+            "attributes": {
+                "sec-type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-e": {
+                    "attributes": {},
+                    "command": "wrapSec"
+                }
+            },
+            "toolbar": {
+                "Section": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "command": "wrapSec",
+                    "label": "<i class='bi bi-body-text'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^>>",
+                    "type": "wrapping"
+                }
+            ]
+        },
+        "bold": {
+            "type": "inline",
+            "keyboard": {
+                "Cmd-b": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Bold": {
+                    "label": "<i class='bi bi-type-bold'></i>",
+                    "order": 5
+                }
+            }
+        },
+        "italic": {
+            "type": "inline",
+            "keyboard": {
+                "Cmd-i": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Italic": {
+                    "label": "<i class='bi bi-type-italic'></i>",
+                    "order": 5
+                }
+            }
+        },
+        "ext-link": {
+            "type": "ref",
+            "attributes": {
+                "xlink:href": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Alt-Shift-r": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Reference": {
+                    "attributes": {},
+                    "label": "<i class='bi bi-link'></i>",
+                    "order": 2
+                }
+            }
+        },
+        "xref": {
+            "type": "anchor",
+            "attributes": {
+                "rid": {
+                    "type": "string"
+                },
+                "ref-type": {
+                    "type": "string",
+                    "default": "fn"
+                },
+                "type": {
+                    "type": "string",
+                    "default": "note"
+                }
+            },
+            "keyboard": {
+                "Alt-Shift-r": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Footnote": {
+                    "attributes": {
+                        "type": "note",
+                        "ref-type": "fn",
+                        "_reference": "*"
+                    },
+                    "label": "<i class='bi bi-123'></i>",
+                    "order": 2
+                }
+            }
+        },
+        "title": {
+            "type": "block",
+            "group": "heading",
+            "content": "inline*",
+            "attributes": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "keyboard": {
+                "Shift-Mod-1": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Section Title": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-type-h1'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^##",
+                    "type": "textblock"
+                }
+            ]
+        },
+        "fig": {
+            "type": "block",
+            "selectable": true,
+            "content": "(graphic|caption)*"
+        },
+        "caption": {
+            "type": "block",
+            "content": "p+",
+            "priority": 99
+        },
+        "graphic": {
+            "type": "graphic",
+            "attributes": {
+                "xlink:href": {
+                    "type": "string",
+                    "default": "https://placehold.co/320x200"
+                }
+            },
+            "toolbar": {
+                "Graphic": {
+                    "label": "<i class='bi bi-image'></i>",
+                    "select": "Blocks"
+                }
+            }
+        },
+        "p": {
+            "type": "block",
+            "priority": 100,
+            "toolbar": {
+                "Paragraph": {
+                    "select": "Blocks",
+                    "attributes": {},
+                    "label": "<i class='bi bi-paragraph'></i>"
+                }
+            }
+        },
+        "item": {
+            "type": "listItem",
+            "selectable": true,
+            "tagName": "list-item"
+        },
+        "list": {
+            "type": "list",
+            "content": "item+",
+            "selectable": true,
+            "attributes": {
+                "list-type": {
+                    "type": "string",
+                    "enum": ["order", "bullet"],
+                    "open": true
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-l": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "List": {
+                    "select": "Blocks",
+                    "attributes": { "list-type": "bullet" },
+                    "label": "<i class='bi bi-list-ul'></i>"
+                },
+                "Numbered list": {
+                    "select": "Blocks",
+                    "attributes": { "list-type": "order" },
+                    "label": "<i class='bi bi-list-ol'></i>"
+                }
+            },
+            "inputRules": [
+                {
+                    "find": "^\\s*([-+*])\\s$",
+                    "type": "wrapping",
+                    "attributes": { "list-type": "bullet" }
+                },
+                {
+                    "find": "^\\s*(\\d+)\\.\\s$",
+                    "type": "wrapping",
+                    "attributes": { "list-type": "order" }
+                }
+            ]
+        },
+        "fnGroup": {
+            "type": "list",
+            "group": "",
+            "defining": true,
+            "content": "fn*",
+            "keyboard": {
+                "Mod-Shift-u": {
+                    "attributes": {}
+                }
+            },
+            "tagName": "fn-group"
+        },
+        "fn": {
+            "type": "block",
+            "group": "note",
+            "content": "p+",
+            "selectable": true,
+            "priority": 99,
+            "attributes": {
+                "id": {
+                    "type": "string"
+                },
+                "_reference": {
+                    "type": "string"
+                }
+            }
+        },
+        "cell": {
+            "type": "cell",
+            "attributes": {
+                "colspan": {
+                    "type": "string"
+                },
+                "rowspan": {
+                    "type": "string"
+                }
+            }
+        },
+        "row": {
+            "type": "row"
+        },
+        "table": {
+            "type": "table"
+        },
+        "named-content": {
+            "type": "inline",
+            "attributes": {
+                "specific-use": [
+                    {
+                        "when": "@content-type = 'person'",
+                        "type": "string",
+                        "connector": {
+                            "name": "GND",
+                            "type": "person",
+                            "prefix": "gnd"
+                        }
+                    },
+                    {
+                        "when": "@content-type = 'organization'",
+                        "type": "string",
+                        "connector": {
+                            "name": "GND",
+                            "type": "organization",
+                            "prefix": "gnd"
+                        }
+                    },
+                    {
+                        "when": "@content-type = 'place'",
+                        "type": "string",
+                        "connector": {
+                            "name": "GeoNames",
+                            "type": "place",
+                            "prefix": "geo",
+                            "user": "existdb"
+                        }
+                    },
+                    {
+                        "when": "@content-type = 'term'",
+                        "type": "string",
+                        "connector": {
+                            "name": "GND",
+                            "type": "term",
+                            "prefix": "gnd"
+                        }
+                    }
+                ],
+                "content-type": {
+                    "type": "string",
+                    "enum": ["person", "organization", "place", "term"]
+                }
+            },
+            "keyboard": {
+                "Mod-Shift-p": {
+                    "attributes": {}
+                }
+            },
+            "toolbar": {
+                "Person": {
+                    "attributes": {
+                        "content-type": "person"
+                    },
+                    "label": "<i class='bi bi-person'></i>",
+                    "order": 11
+                },
+                "Place": {
+                    "attributes": {
+                        "content-type": "place"
+                    },
+                    "label": "<i class='bi bi-geo-alt'></i>",
+                    "order": 11
+                },
+                "Organization": {
+                    "attributes": {
+                        "content-type": "organization"
+                    },
+                    "label": "<i class='bi bi-people'></i>",
+                    "order": 11
+                },
+                "Term": {
+                    "attributes": {
+                        "content-type": "term"
+                    },
+                    "label": "<i class='bi bi-bookmark'></i>",
+                    "order": 11
+                }
+            }
+        }
+    }
+}
