@@ -1019,6 +1019,11 @@
                         "before": {
                             "type": "object",
                             "properties": {
+                                "collapsible": {
+                                    "type": "boolean",
+                                    "description": "If true, the before sidebar can be collapsed and expanded",
+                                    "default": true
+                                },
                                 "toggle": {
                                     "type": "boolean",
                                     "description": "If true, add a toggle button to the before sidebar to collapse and expand"
@@ -1039,6 +1044,11 @@
                         "after": {
                             "type": "object",
                             "properties": {
+                                "collapsible": {
+                                    "type": "boolean",
+                                    "description": "If true, the after sidebar can be collapsed and expanded",
+                                    "default": true
+                                },
                                 "toggle": {
                                     "type": "boolean",
                                     "description": "If true, add a toggle button to the after sidebar to collapse and expand"
