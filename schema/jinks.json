@@ -553,15 +553,28 @@
                             "description": "The CDN URL for Jinntap",
                             "examples": [ "http://localhost:5174/" ]
                         },
-                        "format": {
-                            "type": "string",
-                            "description": "The format to use for the editor",
-                            "examples": [ "tei", "jats" ]
+                        "toolbar-button": {
+                            "type": "boolean",
+                            "description": "If true, a toolbar button will be displayed to open the editor"
                         },
-                        "schema": {
-                            "type": "string",
-                            "description": "The schema to use for the editor",
-                            "examples": [ "resources/schema/schema.json", "resources/schema/jats-schema.json" ]
+                        "formats": {
+                            "type": "object",
+                            "description": "The formats to use for the editor",
+                            "patternProperties": {
+                                "^[^\\s]+$": {
+                                    "type": "object",
+                                    "properties": {
+                                        "schema": {
+                                            "type": "string",
+                                            "description": "The schema to use for the editor"
+                                        },
+                                        "stylesheet": {
+                                            "type": "string",
+                                            "description": "The stylesheet to use for the editor"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -624,6 +637,10 @@
                 "annotate": {
                     "type": "object",
                     "properties": {
+                        "toolbar-button": {
+                            "type": "boolean",
+                            "description": "If true, a toolbar button will be displayed to open the annotate editor"
+                        },
                         "configs": {
                             "description": "Configures the XQuery modules used to map annotations to XML elements",
                             "type": "object",
