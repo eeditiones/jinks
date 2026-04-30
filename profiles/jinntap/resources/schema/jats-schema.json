@@ -127,38 +127,52 @@
                 }
             }
         },
-        "xref": {
-            "type": "anchor",
-            "attributes": {
-                "rid": {
-                    "type": "string"
-                },
-                "ref-type": {
-                    "type": "string",
-                    "default": "fn"
-                },
-                "type": {
-                    "type": "string",
-                    "default": "note"
-                }
-            },
-            "keyboard": {
-                "Alt-Shift-r": {
-                    "attributes": {}
-                }
-            },
-            "toolbar": {
-                "Footnote": {
-                    "attributes": {
-                        "type": "note",
-                        "ref-type": "fn",
-                        "_reference": "*"
+        "xref": [
+            {
+                "when": { "ref-type": "fn" },
+                "type": "anchor",
+                "attributes": {
+                    "rid": {
+                        "type": "string"
                     },
-                    "label": "<i class='bi bi-123'></i>",
-                    "order": 2
+                    "ref-type": {
+                        "type": "string",
+                        "default": "fn"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "note"
+                    }
+                },
+                "keyboard": {
+                    "Alt-Shift-r": {
+                        "attributes": {}
+                    }
+                },
+                "toolbar": {
+                    "Footnote": {
+                        "attributes": {
+                            "type": "note",
+                            "ref-type": "fn",
+                            "_reference": "*"
+                        },
+                        "label": "<i class='bi bi-123'></i>",
+                        "order": 2
+                    }
+                }
+            },
+            {
+                "type": "inline",
+                "attributes": {
+                    "rid": {
+                        "type": "string"
+                    },
+                    "ref-type": {
+                        "type": "string"
+                    }
                 }
             }
-        },
+        ],
         "title": {
             "type": "block",
             "group": "heading",

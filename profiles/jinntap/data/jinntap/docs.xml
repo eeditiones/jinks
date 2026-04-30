@@ -1,0 +1,257 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>JinnTap Documentation</title>
+            </titleStmt>
+            <publicationStmt>
+                <p>Information about publication or distribution</p>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <head>JinnTap</head>
+                <p>Edit <ref target="https://tei-c.org/">TEI XML</ref> documents using a rich text
+                    editor. JinnTap preserves the structure of the XML in the editor. There's no
+                    need for complex transformation steps from TEI to HTML and back. The
+                    representation of the document in the editor corresponds directly to the XML<anchor
+                        xml:id="fn-m9tl85r7-ta5gce" type="note" />.</p>
+                <figure>
+                    <graphic url="jinntap-logo-128.png" />
+                    <figDesc>JinnTap Logo</figDesc>
+                </figure>
+                <p>While it is very difficult to create a completely generic editor covering the
+                    entire complexity of TEI, JinnTap tries to be as customizable as possible to
+                    cover a wide range of use cases. To work properly in a <choice
+                        xml:space="preserve"><abbr>WYSIWYM</abbr><expan>What you see is what you mean</expan></choice> context,
+                    the editor needs to be strict about the underlying schema. Many elements in TEI
+                    are ambiguous with respect to their block or inline nature, i.e. they can appear
+                    either way. However, the editor has a clear distinction between block and inline
+                    content<anchor xml:id="fn-m9ic2gkq-e2pwse" type="note" />. Therefore JinnTap
+                    uses its own <ref
+                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/schema.json">
+                    schema</ref> to define what is allowed in which position. It extends the schema
+                    used by the underlying editor (<ref target="https://prosemirror.net/">
+                    ProseMirror</ref>) with custom node types and configures additional features
+                    like toolbar buttons or keyboard shortcuts. The schema is provided in JSON.</p>
+                <p>Out of the box, the default schema supports:</p>
+                <list rend="unordered">
+                    <item>
+                        <p>block level elements like headings, paragraphs, lists and divisions</p>
+                    </item>
+                    <item>
+                        <p>elements for inline formatting like <hi rend="code">hi</hi>, <hi
+                                rend="code">title</hi></p>
+                    </item>
+                    <item>
+                        <p>semantic markup for people, organizations, places, terms</p>
+                    </item>
+                    <item>
+                        <p>analytic elements like <hi rend="code">date</hi></p>
+                    </item>
+                    <item>
+                        <p>footnotes</p>
+                    </item>
+                    <item>
+                        <p>inline nodes representing an alternative like <hi rend="code">choice</hi>
+                            /<hi rend="code">abbr</hi>/<hi rend="code">expan</hi></p>
+                    </item>
+                    <item>
+                        <p>figures, figure descriptions and graphics</p>
+                    </item>
+                    <item>
+                        <p>empty elements like <hi rend="code">lb</hi>, <hi rend="code">pb</hi>, <hi
+                                rend="code">gap</hi></p>
+                    </item>
+                </list>
+                <p><hi rend="b">Important</hi>: being strict, the editor will <hi rend="u">ignore
+                    any elements it can't find</hi> in the schema. It will not preserve them! If you
+                    plan to use JinnTap to edit existing TEI documents, make sure all your elements
+                    are covered.</p>
+            </div>
+            <div>
+                <head>How to edit</head>
+                <p>The default starting point for editing is always a paragraph. Use the toolbar
+                    buttons to transform it into a heading or another type of block. Note that –
+                    according to the gods of TEI – not all elements are allowed at any position. A <hi
+                        rend="code">head</hi> may only appear at the start of a division, not after
+                    a paragraph. This is where TEI differs from HTML.</p>
+                <list rend="unordered">
+                    <item>
+                        <p>a block will be deleted if you press backspace or delete inside an
+                            otherwise empty block.</p>
+                    </item>
+                    <item>
+                        <p>within a list-like structure:</p>
+                        <list>
+                            <item>
+                                <p>pressing <hi rend="b">tab</hi> will create a nested list below
+                                    the current one</p>
+                            </item>
+                            <item>
+                                <p><hi rend="b">shift-tab</hi> moves the list item one level up. If
+                                    it is already at the top level, it will be transformed into a
+                                    normal paragraph</p>
+                            </item>
+                            <item>
+                                <p>TEI lists may start with a heading. You can transform the first
+                                    list item into a <hi rend="code">head</hi> by placing the cursor
+                                    inside the item and choosing <hi rend="i">Head</hi> from the
+                                    toolbar.</p>
+                            </item>
+                        </list>
+                    </item>
+                    <item>
+                        <p>empty elements like <hi rend="code">lb</hi> or <hi rend="code">pb</hi>
+                            are displayed as colored markers. You can insert, delete them or change
+                            their attributes, but not add any content.</p>
+                    </item>
+                    <item>
+                        <p>clicking on a footnote anchor will select it. Hold <hi rend="code">ctrl</hi>
+                            (or <hi rend="code">command</hi> on Mac) and click to navigate to the
+                            footnote text.</p>
+                    </item>
+                </list>
+                <p>Apply inline markup by selecting some text and pressing a corresponding button.
+                    Note that those buttons are toggles, i.e. pressing again will <hi rend="b">
+                    remove</hi> the inline markup.</p>
+                <div>
+                    <head>Changing attributes</head>
+                    <p>Whenever you move around the document, you'll see how the right-hand panel of
+                        the editor changes, showing a form with different fields. Those are the
+                        attributes which can be applied to the current element. You can change them
+                        any time and the attributes of the element will change accordingly.</p>
+                    <p>For example, if you marked something as <hi rend="b">bold</hi> text, you can
+                        change it later to <hi rend="u">underline</hi> by placing the cursor inside
+                        the element and choosing <hi rend="i">underline</hi> from the dropdown.
+                        Don't forget to click the apply button though.</p>
+                    <p>To change the attributes of a node which is an ancestor of the node the
+                        cursor is currently in, use the breadcrumbs navigation bar on the upper
+                        right of the editor. This shows all the ancestor nodes down to the currently
+                        active node. Clicking on any of the breadcrumb links will select the
+                        corresponding node and the attribute panel will show the attributes assigned
+                        to this node.</p>
+                    <div>
+                        <head>Footnotes</head>
+                        <p>JinnTap does not inline footnotes, but treats them as standoff
+                            annotations. A footnote therefore consists of two nodes:</p>
+                        <list rend="ordered">
+                            <item>
+                                <p>an anchor in the text containing the footnote reference</p>
+                            </item>
+                            <item>
+                                <p>the actual note block saved as a standoff annotation</p>
+                            </item>
+                        </list>
+                        <p>Each anchor has an XML ID to which the note may link via its <hi
+                                rend="code">target</hi> attribute. JinnTap has two different modes
+                            for handling footnotes, which have to be configured on the JinnTap
+                            webcomponent:</p>
+                        <p>In <hi rend="b">connected mode</hi>, notes cannot exist without an
+                            anchor. Deleting the anchor will also delete the associated note.</p>
+                        <p>In <hi rend="b">disconnected mode</hi>, deleting an anchor leaves the
+                            note intact and just marks it visually as orphaned. If there are
+                            orphaned notes in the document and you insert an anchor elsewhere,
+                            JinnTap gives you the option of associating the anchor with one of the
+                            orphaned notes. In this case, the ID of the anchor is automatically
+                            copied to the clipboard and the first orphaned note block is selected.
+                            To associate the note with the anchor, paste the copied ID into the
+                            target field of the note.</p>
+                        <p>Disconnected mode is in particular useful if your starting point is a
+                            text coming from OCR, in which notes may have been recognized but not
+                            the anchors.</p>
+                    </div>
+                </div>
+                <div>
+                    <head>Shortcodes</head>
+                    <p>To quickly create certain types of elements, the following shortcodes are
+                        defined:</p>
+                    <list rend="unordered">
+                        <item>
+                            <p>Typing ## at the start of a paragraph turns it into a <hi rend="code">
+                                head</hi></p>
+                        </item>
+                        <item>
+                            <p>Typing &gt;&gt; at the start wraps the current block into a <hi
+                                    rend="code">div</hi></p>
+                        </item>
+                        <item>
+                            <p>To create an unordered list, type * followed by a space</p>
+                        </item>
+                        <item>
+                            <p>A number followed by a dot and a space creates a numbered list (<hi
+                                    rend="code">1. </hi>)</p>
+                        </item>
+                        <item>
+                            <p>to enter an en dash (–), use two hyphens, to create an mdash (—),
+                                type three hyphens</p>
+                        </item>
+                    </list>
+                </div>
+            </div>
+            <div>
+                <head>Divisions</head>
+                <p>Use the <hi rend="i">Division </hi>toolbar button to create a <hi rend="code">div</hi>.
+                    The new division will always be a child of the division you are currently in. To
+                    move the division one level up, position the cursor anywhere inside it, then use
+                    the breadcrumb navigation bar to select the division. Next, click on the <hi
+                        rend="i">move block up</hi> button in the toolbar.</p>
+                <p>You may also move other block-level nodes one level up by following the same
+                    procedure. However, please note that moving up a block, which has a following
+                    block within the same parent, will split the division.</p>
+            </div>
+            <div>
+                <head>Semantic annotations</head>
+                <p>JinnTap has extended support for <hi rend="i">semantic annotation</hi>, drawing
+                    on external registers to identify entities like people, places, organizations or
+                    terms. To mark up a person appearing in the text, say: <hi rend="i"><persName
+                            key="gnd-118578537">Karl Marx</persName> was born in <placeName
+                            key="geo-2821164">Trier</placeName></hi>, select the name and press the <hi
+                        rend="i">Person</hi> toolbar button. The attributes panel to the right will
+                    show you a search panel, which is connected to the registered registry. Find the
+                    correct person in the list and click on the <hi rend="i">link</hi> button to the
+                    left of the entry. This copies the ID of the person from the registry into the <hi
+                        rend="code">key</hi> form field.</p>
+                <p>Note that selecting an entry from the registry will automatically apply the
+                    attribute, so if this is your only change, you don't have to press the <hi
+                        rend="i">apply</hi> button manually. After selecting, you should also see
+                    some additional information about the entity displayed at the very top of the
+                    attribute panel.</p>
+            </div>
+            <div>
+                <head>Customization</head>
+                <p>As stated above, the editor is strict with respect to the elements allowed in
+                    different positions and the distinction between block-level and inline nodes. It
+                    therefore comes with its own schema, representing a subset of the TEI. This <ref
+                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/schema.json">
+                    schema</ref> is written in JSON and can be changed. You probably always want to
+                    review it before using the editor on a real-world project. The JSON schema also
+                    defines toolbar buttons and keyboard shortcuts.</p>
+                <p>How elements appear in the editor is entirely configured by CSS. When integrating
+                    the editor into your own page, make sure to include the <hi rend="code">
+                        <ref
+                            target="https://github.com/JinnElements/jinn-tap/blob/main/editor-styles.css">
+                    editor-styles.css</ref>
+                    </hi>file.</p>
+            </div>
+        </body>
+    </text>
+    <standOff>
+        <listAnnotation>
+            <note target="#fn-m9tl85r7-ta5gce">
+                <p>TEI elements are converted to HTML custom elements, preserving all attributes and
+                    structural features.</p>
+            </note>
+            <note target="#fn-m9ic2gkq-e2pwse">
+                <p>In more technical terms, the editor distinguishes between <hi rend="i">nodes</hi>
+                    and <hi rend="i">marks</hi>: while nodes are mostly block-level elements (with
+                    some exceptions), marks are lightweight markers attached to a piece of text.</p>
+            </note>
+        </listAnnotation>
+    </standOff>
+</TEI>

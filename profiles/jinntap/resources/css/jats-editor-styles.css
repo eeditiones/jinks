@@ -262,18 +262,34 @@ jats-fn:not([_reference]) {
 }
 
 jats-xref {
-    font-size: 0.75rem;
-    vertical-align: super;
-    cursor: pointer;
-    line-height: 1;
+    font-style: italic;
     text-decoration: none;
 }
 
-jats-xref::before {
+jats-xref[ref-type="bibr"] {
+    color: #004499;
+}
+
+jats-xref[ref-type="bibr"]::after {
+    content: attr(ref-type);
+    font-size: 0.75rem;
+    vertical-align: super;
+    line-height: 1;
+}
+
+jats-xref[ref-type="fn"] {
+    font-size: 0.75rem;
+    font-style: normal;
+    vertical-align: super;
+    cursor: pointer;
+    line-height: 1;
+}
+
+jats-xref[ref-type="fn"]::before {
     content: attr(_reference);
 }
 
-jats-xref::after {
+jats-xref[ref-type="fn"]::after {
     content: '\200B';
 }
 

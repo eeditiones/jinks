@@ -34,10 +34,20 @@
         },
         "jinntap": {
             "enabled": false,
-            "version": "1.30.0",
+            "version": "1.31.0",
             "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap",
-            "schema": "resources/schema/schema.json",
-            "format": "tei"
+            "default-format": "tei",
+            "toolbar-button": true,
+            "formats": {
+                "tei": {
+                    "schema": "resources/schema/schema.json",
+                    "stylesheet": "editor-styles.css"
+                },
+                "jats": {
+                    "schema": "resources/schema/jats-schema.json",
+                    "stylesheet": "jats-editor-styles.css"
+                }
+            }
         }
     }
 }

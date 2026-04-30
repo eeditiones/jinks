@@ -60,11 +60,9 @@
     [% else %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
     [% endif %]
-    [% if $features?jinntap?format = "tei" %]
-    <link rel="stylesheet" href="[[ $context-path ]]/resources/css/editor-styles.css" />
-    [% else %]
-    <link rel="stylesheet" href="[[ $context-path ]]/resources/css/jats-editor-styles.css" />
-    [% endif %]
+    [% let $doctype = if (map:contains($context, 'doc')) then config:document-type(root($context?doc?content)/*) else $features?jinntap?default-format %]
+    <link rel="stylesheet" href="[[ $context-path ]]/resources/css/[[ $features?jinntap?formats($doctype)?stylesheet ]]" />
+    [% endlet %]
     <style>
 		pb-facsimile {
 			width: 100%;
@@ -122,6 +120,18 @@
         </ul>
 
         <ul>
+            <li>
+                <a href="[[ $context-path ]]/jinntap/docs.xml?view=single&amp;odd=teipublisher.odd&amp;template=help.html" data-tooltip="Help" data-placement="bottom" target="_blank">
+                    <button class="secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+                        </svg>
+                        <span>Help</span>
+                    </button>
+                </a>
+            </li>
             [% block toolbar %][% endblock %]
         </ul>
     </nav>
@@ -133,9 +143,10 @@
     [% endtemplate %]
 
     <main>
+        [% let $doctype = if (map:contains($context, 'doc')) then config:document-type(root($context?doc?content)/*) else $features?jinntap?default-format %]
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
-        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="![[ $context?features?jinntap?schema ]]"
-            format="[[ $context?features?jinntap?format ]]"
+        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="![[ $context?features?jinntap?formats($doctype)?schema ]]"
+            format="[[ $doctype ]]"
             token="![[ if ($features?collab?enable) then jt:jwt-token() else () ]]" server="![[ if ($features?collab?enable) then $features?collab?server else () ]]" sidebar="#attributes-panel">
             <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
@@ -149,6 +160,7 @@
                 </a>
             </li>
         </jinn-tap>
+        [% endlet %]
         [% endlet %]
     </main>
     <jinn-toast></jinn-toast>
