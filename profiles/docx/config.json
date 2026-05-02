@@ -14,6 +14,20 @@
         "docx-output.odd"
     ],
     "defaults": {
-        "odd-internal": [ "docx.odd" ]
+        "odd-internal": [ "docx.odd" ],
+        "media": [ "docx" ]
+    },
+    "api": [
+        {
+            "spec": "docx-api.json",
+            "prefix": "docx",
+            "id": "http://teipublisher.com/api/docx",
+            "path": "docx-api.xql"
+        }
+    ],
+    "templating": {
+        "use": [
+            "templates/docx-blocks.html"
+        ]
     }
 }
