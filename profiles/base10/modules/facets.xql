@@ -60,6 +60,7 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                         <tr>
                             <td>
                                 <input type="checkbox"
+                                    class="facet"
                                     id="{$name}"
                                     name="{$name}"
                                     value="{$label}">
