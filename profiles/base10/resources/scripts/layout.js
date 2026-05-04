@@ -132,6 +132,48 @@ document.addEventListener("DOMContentLoaded", function () {
     setUpResizeContainers();
 });
 
+function initAfterTabs() {
+    const container = document.querySelector('.after.after-tabs');
+    if (!container) return;
+    const panels = [...container.querySelectorAll(':scope > .tab-panel')];
+    if (panels.length === 0) return;
+
+    const nav = document.createElement('nav');
+    nav.className = 'after-tab-nav';
+    nav.setAttribute('role', 'tablist');
+    nav.setAttribute('aria-label', 'Sidebar tabs');
+    panels.forEach((panel, i) => {
+        const panelId = `after-tab-panel-${i}`;
+        panel.id = panelId;
+        const titleEl = panel.querySelector(':scope > .tab-title');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'after-tab-btn' + (i === 0 ? ' active' : '');
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-controls', panelId);
+        btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        if (titleEl) {
+            btn.appendChild(titleEl.cloneNode(true));
+            titleEl.hidden = true;
+        }
+        btn.addEventListener('click', () => {
+            panels.forEach(p => { p.hidden = true; });
+            nav.querySelectorAll('.after-tab-btn').forEach((b) => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            panel.hidden = false;
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+        });
+        nav.appendChild(btn);
+        panel.hidden = (i !== 0);
+    });
+    container.prepend(nav);
+}
+
+document.addEventListener('DOMContentLoaded', initAfterTabs);
+
 document.addEventListener('click', (e) => {
     const summary = e.target.closest('summary');
     if (summary) {

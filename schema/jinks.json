@@ -347,7 +347,7 @@
                 "toolbar-toggles": {
                     "type": "object",
                     "description": "Properties for the toolbar toggles",
-                    "properties": { 
+                    "properties": {
                         "enabled": {
                             "type": "boolean",
                             "description": "If true, the toolbar toggles will be displayed"
@@ -618,7 +618,7 @@
                 }
             }
         },
-        "theme": { 
+        "theme": {
             "type": "object",
             "properties": {
                 "components": {
@@ -1053,6 +1053,15 @@
                                     "examples": [
                                         "min(30vw, 356px)"
                                     ]
+                                },
+                                "mode": {
+                                    "type": "string",
+                                    "description": "Mode of the after sidebar",
+                                    "examples": [
+                                        "tabs",
+                                        "stacked"
+                                    ],
+                                    "default": "stacked"
                                 }
                             }
                         },
