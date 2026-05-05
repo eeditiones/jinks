@@ -155,7 +155,7 @@
                         <input type="radio" name="base" value="[[ $profile?path ]]" checked=""
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                         [% else %]
-                        <input type="radio" name="base" value="[[ $profile?path ]]" 
+                        <input type="radio" name="base" value="[[ $profile?path ]]"
                             data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]"/>
                         [% endif %]
                         <span>[[ $profile?label ]] <small>[[ $profile?version ]]</small></span>
@@ -227,7 +227,8 @@
                     [% for $profile in $themeProfiles %]
                     <li>
                         <label data-tooltip="[[ $profile?description ]]" data-placement="right">
-                            [% if $profile?path = tail($themeProfiles)?path %]
+                          [% if $profile?path = head($themeProfiles)?path %]
+                          [# Enable the first profile by default #]
                             <input type="checkbox" name="theme" value="[[ $profile?path ]]" checked=""
                                 data-depends="[[ serialize($profile?depends, map { 'method': 'json'}) ]]" />
                             [% else %]
@@ -246,7 +247,7 @@
                     [% endlet %]
                 </ul>
             </fieldset>
-            
+
             <fieldset>
                 <legend>Color Scheme</legend>
                 <div class="color-scheme-picker" id="color-scheme-picker">
