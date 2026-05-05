@@ -17,9 +17,9 @@ module.exports = defineConfig({
     viewportHeight: 720,
     trashAssetsBeforeRuns: true,
     includeShadowDom: true,
-    retries: 2,
-    pageLoadTimeout: 90000,
-    supportFile: 'test/cypress/support/e2e.js', 
+    retries: 0,
+    pageLoadTimeout: 30000,
+    supportFile: 'test/cypress/support/e2e.js',
     specPattern: 'test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     screenshotsFolder: 'test/cypress/screenshots',
     videosFolder: 'test/cypress/videos',
@@ -27,4 +27,3 @@ module.exports = defineConfig({
     downloadsFolder: 'test/cypress/downloads'
   },
 });
-

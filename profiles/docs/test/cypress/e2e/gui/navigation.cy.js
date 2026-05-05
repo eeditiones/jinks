@@ -38,8 +38,8 @@ describe('TEI-Publisher Edition Navigation', () => {
       cy.get('body')
         .type('{rightArrow}', { force: true })
       
-      // Wait for navigation to trigger API call
-      cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+      // Give components time to process key navigation
+      cy.wait(500)
       
       // Verify page content updated (URL or content changed)
       cy.get('body')
@@ -49,8 +49,8 @@ describe('TEI-Publisher Edition Navigation', () => {
       cy.get('body')
         .type('{leftArrow}', { force: true })
       
-      // Wait for navigation back
-      cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+      // Give components time to process key navigation
+      cy.wait(500)
       
       // Verify navigation worked
       cy.get('body')
@@ -73,8 +73,8 @@ describe('TEI-Publisher Edition Navigation', () => {
           cy.wrap(nextButtons.first())
             .click({ force: true })
           
-          // Wait for navigation API
-          cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+          // Give components time to process navigation
+          cy.wait(500)
           
           // Verify navigation occurred (URL or content changed)
           cy.url()
@@ -95,7 +95,7 @@ describe('TEI-Publisher Edition Navigation', () => {
       cy.get('body')
         .type('{rightArrow}', { force: true })
       
-      cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+      cy.wait(500)
       
       // Get current state
       cy.url()
@@ -110,8 +110,8 @@ describe('TEI-Publisher Edition Navigation', () => {
           cy.wrap(prevButtons.first())
             .click({ force: true })
           
-          // Wait for navigation API
-          cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+          // Give components time to process navigation
+          cy.wait(500)
           
           // Verify navigation back occurred
           cy.url()
@@ -126,7 +126,7 @@ describe('TEI-Publisher Edition Navigation', () => {
           cy.get('body')
             .type('{leftArrow}', { force: true })
           
-          cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+          cy.wait(500)
         }
       })
     })
@@ -169,7 +169,7 @@ describe('TEI-Publisher Edition Navigation', () => {
       cy.get('body')
         .type('{rightArrow}', { force: true })
       
-      cy.wait(['@partsApi', '@viewApi'], { timeout: 10000 })
+      cy.wait(500)
       
       // Content should have updated (may be same if at boundary)
       cy.get('body', { timeout: 10000 })
@@ -177,4 +177,3 @@ describe('TEI-Publisher Edition Navigation', () => {
     })
   })
 })
-

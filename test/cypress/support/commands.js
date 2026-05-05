@@ -12,6 +12,26 @@ import 'cypress-ajv-schema-validator';
 
 // -- This is a parent command --
 
+Cypress.Commands.add('login', (fixtureName = 'user') => {
+  return cy.fixture(fixtureName).then(({ user, password }) => {
+    const baseUrl = Cypress.config('baseUrl')
+    const origin = baseUrl ? new URL(baseUrl).origin : null
+    if (!origin) {
+      throw new Error(
+        'baseUrl must be configured in Cypress config. Set it in cypress.config.cjs'
+      )
+    }
+    return cy.request({
+      method: 'POST',
+      url: '/api/login',
+      form: true,
+      body: { user, password },
+      headers: { Origin: origin, Accept: 'application/json' },
+      failOnStatusCode: false
+    }).its('status').should('eq', 200)
+  })
+})
+
 Cypress.Commands.add('loginApi', (fixtureName = 'user') => {
   cy.fixture(fixtureName).then((userData) => {
     cy.request({
@@ -33,6 +53,19 @@ Cypress.Commands.add('loginApi', (fixtureName = 'user') => {
       }
     })
   })
+})
+
+Cypress.Commands.add('api', (opts) => {
+  const options = typeof opts === 'string' ? { url: opts } : { ...opts }
+  const baseUrl = Cypress.config('baseUrl')
+  const origin = baseUrl ? new URL(baseUrl).origin : null
+  if (!origin) {
+    throw new Error(
+      'baseUrl must be configured in Cypress config. Set it in cypress.config.cjs'
+    )
+  }
+  options.headers = { Origin: origin, ...(options.headers || {}) }
+  return cy.request(options)
 })
 
 
