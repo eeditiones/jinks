@@ -238,8 +238,8 @@ Cypress.Commands.add('getPaginationAttrs', () => {
  * cy.setupNavigationIntercepts()
  */
 Cypress.Commands.add('setupNavigationIntercepts', () => {
-  cy.intercept('GET', '**/api/parts**').as('partsApi')
-  cy.intercept('GET', '**/api/view**').as('viewApi')
+  cy.intercept('GET', /\/api\/parts\//).as('partsApi')
+  cy.intercept('GET', /\/api\/view\//).as('viewApi')
 })
 
 /**

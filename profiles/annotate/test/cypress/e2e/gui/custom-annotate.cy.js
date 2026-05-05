@@ -123,9 +123,16 @@ describe("Annotations", () => {
 			});
 		});
 
-		cy.get("#reload-all").click();
-
-		cy.get("pb-view-annotate").should("be.visible");
+		cy.get("pb-view-annotate").then(([pbViewAnnotate]) => {
+			return new Cypress.Promise((resolve) => {
+				pbViewAnnotate.ownerDocument.addEventListener(
+					"pb-end-update",
+					resolve,
+					{ once: true },
+				);
+				pbViewAnnotate.ownerDocument.querySelector("#reload-all").click();
+			});
+		});
 
 		// Annotation should stay
 		cy.get("pb-view-annotate")
