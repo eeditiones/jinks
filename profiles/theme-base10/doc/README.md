@@ -33,9 +33,11 @@ The following table shows the current list of settings which can be changed via 
 | `fonts.menubar.size` | Font size for the menubar. Use `rem` for relative size. | `"14px"` |
 | `fonts.toc.size` | Font size for table of contents. Use `rem` for relative size. | `"1.125rem"` |
 | `icons` | List of icon files to include in the theme. Path should be relative to resources/css. | `[0 items]` |
+| `layout.after.collapsible` | If true, the after sidebar can be collapsed and expanded | `true` |
 | `layout.after.hidden` | If true, the after sidebar will be initially hidden | `false` |
 | `layout.after.toggle` | If true, add a toggle button to the after sidebar to collapse and expand | `true` |
 | `layout.after.width` | Width of the after sidebar | `"min(30vw, 356px)"` |
+| `layout.before.collapsible` | If true, the before sidebar can be collapsed and expanded | `true` |
 | `layout.before.hidden` | If true, the before sidebar will be initially hidden | `false` |
 | `layout.before.toggle` | If true, add a toggle button to the before sidebar to collapse and expand | `true` |
 | `layout.before.width` | Width of the before sidebar | `"min(30vw, 356px)"` |

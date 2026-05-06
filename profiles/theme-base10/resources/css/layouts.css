@@ -146,6 +146,59 @@
     grid-area: before-top;
 }
 
+/* Fixed before sidebar */
+.fixed-layout.before-fixed > .before-top {
+    display: none;
+}
+
+.fixed-layout.before-fixed > .before,
+.fixed-layout.before-fixed > .before-top {
+    border-right: none;
+}
+
+.fixed-layout.before-fixed > .before-top .aside-toggle {
+    display: none;
+}
+
+/* content-top should span across before-top */
+.fixed-layout.before-fixed > .content-top {
+    grid-column: before-top / content-top;
+}
+
+/* Fixed after sidebar */
+.fixed-layout.after-fixed > .after-top {
+    display: none;
+}
+
+.fixed-layout.after-fixed > .after,
+.fixed-layout.after-fixed > .after-top {
+    border-left: none;
+}
+
+.fixed-layout.after-fixed > .after-top .aside-toggle {
+    display: none;
+}
+
+/* content-top should span across after-top */
+.fixed-layout.after-fixed > .content-top {
+    grid-column: content-top / after-top;
+}
+
+/* content-top should span across before-top and after-top */
+.fixed-layout.before-fixed.after-fixed > .content-top {
+    grid-column: before-top / after-top;
+}
+
+/* before should have default background color when it is fixed */
+.fixed-layout.before-fixed >.before:not(:empty) {
+    background-color: var(--jinks-background-color);
+}
+
+/* after should have default background color when it is fixed */
+.fixed-layout.after-fixed > .after:not(:empty) {
+    background-color: var(--jinks-background-color);
+}
+
 .fixed-layout>.after-top {
     grid-area: after-top;
 }
