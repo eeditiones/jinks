@@ -53,75 +53,28 @@ describe('TEI-Publisher Edition Navigation', () => {
   })
 
   describe('Navigation via Component', () => {
-    it('navigates forward when next button is clicked', () => {
-      // Check if explicit navigation buttons exist
-      cy.get('body').then(($body) => {
-        const nextButtons = $body.find('pb-navigation[keyboard=right], button[aria-label*="next"], a[title*="next"], iron-icon[icon="chevron-right"]')
-        
-        if (nextButtons.length > 0) {
-          // Get current URL or content marker
-          cy.url()
-            .as('initialUrl')
-          
-          // Click next
-          cy.wrap(nextButtons.first())
-            .click({ force: true })
-          
-          // Give components time to process navigation
-          cy.wait(500)
-          
-          // Verify navigation occurred (URL or content changed)
-          cy.url()
-            .then((newUrl) => {
-              cy.get('@initialUrl').then((initialUrl) => {
-                // URL may change or content may update without URL change
-                expect(newUrl).to.be.a('string')
-              })
-            })
-        } else {
-          cy.log('No explicit navigation buttons found, using keyboard navigation instead')
-        }
+    it('navigates forward', () => {
+      cy.url().as('initialUrl')
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.url().then((newUrl) => {
+        cy.get('@initialUrl').then((initialUrl) => {
+          expect(newUrl).to.be.a('string')
+        })
       })
     })
 
-    it('navigates backward when previous button is clicked', () => {
-      // First navigate forward if possible
-      cy.get('body')
-        .type('{rightArrow}', { force: true })
-      
-      cy.wait(500)
-      
-      // Get current state
-      cy.url()
-        .as('forwardUrl')
-      
-      // Check if previous buttons exist
-      cy.get('body').then(($body) => {
-        const prevButtons = $body.find('pb-navigation[keyboard=left], button[aria-label*="previous"], a[title*="previous"], iron-icon[icon="chevron-left"]')
-        
-        if (prevButtons.length > 0) {
-          // Click previous
-          cy.wrap(prevButtons.first())
-            .click({ force: true })
-          
-          // Give components time to process navigation
-          cy.wait(500)
-          
-          // Verify navigation back occurred
-          cy.url()
-            .then((backUrl) => {
-              cy.get('@forwardUrl').then((forwardUrl) => {
-                // Should have navigated back
-                expect(backUrl).to.be.a('string')
-              })
-            })
-        } else {
-          // Use keyboard for previous
-          cy.get('body')
-            .type('{leftArrow}', { force: true })
-          
-          cy.wait(500)
-        }
+    it('navigates backward', () => {
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.url().as('forwardUrl')
+
+      cy.window().then((win) => pressKey(win, 'ArrowLeft', 37))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.url().then((newUrl) => {
+        cy.get('@forwardUrl').then((forwardUrl) => {
+          expect(newUrl).to.be.a('string')
+        })
       })
     })
   })
@@ -130,25 +83,23 @@ describe('TEI-Publisher Edition Navigation', () => {
     it('handles navigation at document boundaries', () => {
       // Try to navigate beyond boundaries
       // This should gracefully handle end of document
-      cy.get('body')
-        .type('{rightArrow}', { force: true })
-        .wait(500)
-        .type('{rightArrow}', { force: true })
-        .wait(500)
-        .type('{rightArrow}', { force: true })
-      
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
+
       // Should still be on a valid page
-      cy.get('body')
-        .should('be.visible')
-      
+      cy.get('body').should('be.visible')
+
       // Navigate back
-      cy.get('body')
-        .type('{leftArrow}', { force: true })
-        .wait(500)
-        .type('{leftArrow}', { force: true })
-      
-      cy.get('body')
-        .should('be.visible')
+      cy.window().then((win) => pressKey(win, 'ArrowLeft', 37))
+      cy.wait('@partsApi', { timeout: 10000 })
+      cy.window().then((win) => pressKey(win, 'ArrowLeft', 37))
+      cy.wait('@partsApi', { timeout: 10000 })
+
+      cy.get('body').should('be.visible')
     })
 
     it('updates document content on navigation', () => {
@@ -160,10 +111,8 @@ describe('TEI-Publisher Edition Navigation', () => {
         })
       
       // Navigate
-      cy.get('body')
-        .type('{rightArrow}', { force: true })
-      
-      cy.wait(500)
+      cy.window().then((win) => pressKey(win, 'ArrowRight', 39))
+      cy.wait('@partsApi', { timeout: 10000 })
       
       // Content should have updated (may be same if at boundary)
       cy.get('body', { timeout: 10000 })
