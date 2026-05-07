@@ -16,11 +16,19 @@ declare function docx:generate($request as map(*)) {
     let $doc := config:get-document($id)
     return
         if (exists($doc)) then
+            let $template := xmldb:decode($request?parameters?template)
             let $config := tpu:parse-pi(root($doc), (), $request?parameters?odd)
             let $odd := head(($request?parameters?odd, $config?odd))
             let $basename := replace($id, "^.*/([^/]+)$", "$1")
             let $filename := replace($basename, "\\.[^.]+$", "") || ".docx"
-            let $docxData := $pm-config:docx-transform($doc, map { "root": $doc }, $odd)
+            let $params := map:merge((
+                map:entry("root", $doc),
+                if ($template) then
+                    map:entry("docx-template", $config:app-root || "/" || $template)
+                else
+                    ()
+            ))
+            let $docxData := $pm-config:docx-transform($doc, $params, $odd)
             let $binary := docx:package-to-zip($docxData)
             return (
                 if ($request?parameters?token) then
