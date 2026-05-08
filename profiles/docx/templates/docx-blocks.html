@@ -3,7 +3,7 @@
     [% if empty($options?media) or "docx" = $options?media %]
     <li>
         <pb-download type="docx" dialog="downloadDialog"
-            odd="[[ $options?odd ]]" params="template=template=[[$context?features?docx?template]]"
+            odd="[[ $options?odd ]]" params="template=[[$context?features?docx?template]]"
             url="api/document/[[ escape-uri($options?relpath, true()) ]]">
             DOCX
         </pb-download>
