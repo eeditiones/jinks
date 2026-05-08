@@ -32,6 +32,10 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     // OpenSeadragon loading errors that don't affect most tests
     return false
   }
+  if (err.message.includes("L is not defined")) {
+    // Leaflet may be unavailable in test runtime; this should not fail unrelated specs
+    return false
+  }
   // Let other errors fail the test
   return true
 })

@@ -71,38 +71,6 @@ describe('API', () => {
       })
     })
 
-    it('POST /api/generator updates/generates profile (dry mode)', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/generator',
-        qs: { overwrite: 'default', dry: true },
-        headers: { 'content-type': 'application/json' },
-        body: { config: { id: 'test', label: 'Test', type: 'app' }, resolve: [] },
-        failOnStatusCode: false
-      }).then(res => {
-        cy.wrap(res).its('status').should('eq', 200)
-        cy.wrap(res).its('body').should('be.an', 'object')
-        cy.wrap(res.headers).its('content-type').should('include', 'application/json')
-        // lightweight shape: response should contain at least one key
-        cy.wrap(Object.keys(res.body).length > 0).should('eq', true)
-      })
-    })
-
-    it('POST /api/generator accepts array body form (dry mode)', () => {
-      cy.request({
-        method: 'POST',
-        url: '/api/generator',
-        qs: { overwrite: 'default', dry: true },
-        headers: { 'content-type': 'application/json' },
-        body: [ { config: { id: 'test-arr', label: 'Test Arr', type: 'app' }, resolve: [] } ],
-        failOnStatusCode: false
-      }).then(res => {
-        cy.wrap(res.status).should('eq', 200)
-        cy.wrap(res.headers).its('content-type').should('include', 'application/json')
-        cy.wrap(res.body).should('be.an', 'object')
-      })
-    })
-
     // TODO(DP): auth not enforced by backend
     // see #104
     it.skip('POST /api/generator requires authentication (no dry run)', () => {

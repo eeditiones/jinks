@@ -66,16 +66,28 @@ Cypress.Commands.add('api', (opts) => {
 })
 
 // XML upload helper. Upload a fixture document
-Cypress.Commands.add('uploadXml', (filename, xml, opts = {}) => {
-  cy.api({
-    method: 'PUT',
-    url: `/api/document/${encodeURIComponent(filename)}`,
-    body: xml,
+// Supports both signatures:
+// 1) uploadXml(filename, xml, opts?)
+// 2) uploadXml(endpoint, filename, xml, opts?) - legacy
+Cypress.Commands.add('uploadXml', (target, arg2, arg3, arg4) => {
+  const isLegacyCall = typeof arg3 === 'string'
+  const options = (isLegacyCall ? arg4 : arg3) || {}
 
-    // We absolutely want to fail if this fails. Something is up!
-    failOnStatusCode: true,
+  const url = isLegacyCall
+    ? `${target.replace(/\/$/, '')}/${encodeURIComponent(arg2)}`
+    : `/api/document/${encodeURIComponent(target)}`
+  const body = isLegacyCall ? arg3 : arg2
+
+  return cy.api({
+    ...options,
+    method: 'PUT',
+    url,
+    body,
+    // Fail by default, but allow tests to override this behavior.
+    failOnStatusCode: options.failOnStatusCode ?? true,
     headers: {
       'content-type': 'application/xml',
+      ...(options.headers || {}),
     },
   })
 })
@@ -226,11 +238,8 @@ Cypress.Commands.add('getPaginationAttrs', () => {
  * cy.setupNavigationIntercepts()
  */
 Cypress.Commands.add('setupNavigationIntercepts', () => {
-  cy.intercept('GET', '/api/document/parts**').as('partsApi')
-  cy.intercept('GET', '/api/document/view**').as('viewApi')
-  // Also intercept shorter paths if used
-  cy.intercept('GET', '/api/parts**').as('partsApi')
-  cy.intercept('GET', '/api/view**').as('viewApi')
+  cy.intercept('GET', /\/api\/parts\//).as('partsApi')
+  cy.intercept('GET', /\/api\/view\//).as('viewApi')
 })
 
 /**
@@ -257,23 +266,26 @@ Cypress.Commands.add('setupRegisterTestFixtures', (options = {}) => {
   const documentPath = options.documentPath || 'test-register/test-document.xml'
   const collection = options.collection || 'test-register'
 
+  // Login as admin so document uploads are authorized
+  cy.login()
+
   // Upload test document
   cy.fixture('test-document.xml', 'utf8').then((docXml) => {
-    cy.uploadXml('/api/odd/upload', 'test-document.xml', docXml, {
+    cy.uploadXml(documentPath, docXml, {
       failOnStatusCode: false,
     })
   })
 
   // Upload test register persons
   cy.fixture('test-register-persons.xml', 'utf8').then((personsXml) => {
-    cy.uploadXml('/api/odd/upload', 'test-register-persons.xml', personsXml, {
+    cy.uploadXml(`${collection}/test-register-persons.xml`, personsXml, {
       failOnStatusCode: false,
     })
   })
 
   // Upload test register places
   cy.fixture('test-register-places.xml', 'utf8').then((placesXml) => {
-    cy.uploadXml('/api/odd/upload', 'test-register-places.xml', placesXml, {
+    cy.uploadXml(`${collection}/test-register-places.xml`, placesXml, {
       failOnStatusCode: false,
     })
   })

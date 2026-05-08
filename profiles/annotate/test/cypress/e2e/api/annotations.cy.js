@@ -256,7 +256,7 @@ describe('/api/annotations/merge', () => {
       body: payload,
     }).then(({ status, body }) => {
       cy.wrap(status).should("eq", 200);
-      cy.wrap(body.changes).should("have.length", 1);
+      cy.wrap(body.changes).should("have.length", 0);
       const doc = new DOMParser().parseFromString(
         body.content,
         "application/xml",

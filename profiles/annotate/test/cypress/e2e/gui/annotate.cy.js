@@ -10,7 +10,7 @@ describe("Annotations", () => {
 		});
 
 		cy.visit(
-			"annotate/annotation.xml?template=annotate-tei.html&odd=annotations&view=div",
+			"annotate/annotation.xml?template=annotate.html&odd=annotations&view=div",
 		);
 	});
 	it("should be able to open", () => {

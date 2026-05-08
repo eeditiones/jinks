@@ -173,21 +173,20 @@ describe('TEI-Publisher ODD Editor', () => {
 
   describe('ODD Editor Add Element', () => {
     it('displays add element input', () => {
-      // Add element input - try multiple selectors including label-based
+      // Add element control is a paper-input in the editor shadow DOM
       cy.get('pb-odd-editor')
-        .contains('Add Element')
-        .parent()
-        .find('input')
+        .shadow()
+        .find('#identNew')
         .should('exist')
     })
 
     it('accepts input for new element name', () => {
-      // Add element input - find via label text
+      // Native input is nested in paper-input's own shadow root
       cy.get('pb-odd-editor')
-        .contains('Add Element')
-        .parent()
+        .shadow()
+        .find('#identNew')
+        .shadow()
         .find('input')
-        .first()
         .type('testElement')
         .should('have.value', 'testElement')
         .clear()
