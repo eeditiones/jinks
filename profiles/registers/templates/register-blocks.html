@@ -1,6 +1,19 @@
 <template>
     [% template after %]
     [% if $context?features?register?enabled and exists($context?doc) %]
+    [% if $context?theme?layout?after?mode = 'tabs' %]
+    <div class="tab-panel">
+        <span class="tab-title"><pb-i18n key="tabs.register">Register</pb-i18n></span>
+        <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
+            <pb-param name="mode" value="register"/>
+        </pb-view>
+        [% if $context?features?register?map  %]
+        <pb-leaflet-map id="map" zoom="11" subscribe="map">
+            <pb-map-layer show="" base="" label="OpenTopo Map" url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19" attribution="© &lt;a href=&#34;https://www.openstreetmap.org/copyright&#34;&gt;OpenStreetMap&lt;/a&gt; contributors"/>
+        </pb-leaflet-map>
+        [% endif %]
+    </div>
+    [% else %]
     <pb-view src="document1" subscribe="transcription" view="[[ $context?doc?view ]]" disable-history="">
         <pb-param name="mode" value="register" />
     </pb-view>
@@ -9,6 +22,7 @@
             url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png" max-zoom="19"
             attribution="© &lt;a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap&lt;/a&gt; contributors"></pb-map-layer>
     </pb-leaflet-map>
+    [% endif %]
     [% endif %]
     [% endtemplate %]
 

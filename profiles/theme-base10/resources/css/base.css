@@ -577,3 +577,57 @@ main {
 .metadata-panel {
     margin-block-start: 1rem;
 }
+
+.after.after-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.after-tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 0;
+    margin-bottom: .5rem;
+    border-bottom: 1px solid var(--jinks-colors-300);
+}
+
+.after-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: .375rem .75rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    font-size: .8125rem;
+    color: var(--jinks-colors-500);
+    font-weight: 400;
+    margin-bottom: -1px;
+    transition: color .15s ease, border-color .15s ease;
+}
+
+.after-tab-btn:hover {
+    background-color: transparent;
+    color: var(--jinks-color-primary);
+    box-shadow: none;
+}
+
+.after-tab-btn.active {
+    color: var(--jinks-color-primary);
+    font-weight: 600;
+    border-bottom-color: var(--jinks-colors-600);
+    box-shadow: none;
+}
+
+.after-tab-btn:focus-visible {
+    outline: none;
+    box-shadow: 0px 0px 0px 1px var(--jinks-form-focus-color1), 0px 0px 0px 4px var(--jinks-form-focus-color2);
+}
