@@ -552,8 +552,8 @@ document.addEventListener("pb-page-loaded", () => {
 			})
 			.then((json) => {
 				const docs = Object.keys(json);
-				document.querySelector("#occurrences .messages").innerHTML =
-					`Found matches in ${docs.length} other documents`;
+				document.querySelector("#occurrences .messages").innerHTML = 
+					`<pb-i18n key="annotations.other-occ1">Found matches in </pb-i18n> ${docs.length} <pb-i18n key="annotations.other-occ2">other documents</pb-i18n>`;				    
 				if (saveAll) {
 					saveOccurrences(json);
 				} else {
@@ -866,7 +866,8 @@ document.addEventListener("pb-page-loaded", () => {
 			const authorityInfo =
 				input.parentElement.querySelector(".authority-info");
 			if (ref && ref.length > 0) {
-				authorityInfo.innerHTML = `Loading ${ref}...`;
+				authorityInfo.innerHTML = 
+					`<pb-i18n key="annotations.loading"/> ${ref}...`;
 				document
 					.querySelector("pb-authority-lookup")
 					.lookup(type, input.value, authorityInfo)
@@ -879,7 +880,8 @@ document.addEventListener("pb-page-loaded", () => {
 						findOther(info);
 					})
 					.catch((msg) => {
-						authorityInfo.innerHTML = `Failed to load ${ref}: ${msg}`;
+						authorityInfo.innerHTML = 
+					`<pb-i18n key="annotations.loading-failed"/> ${ref}: ${msg}`;
 					});
 			} else {
 				authorityInfo.innerHTML = "";
@@ -1028,7 +1030,7 @@ document.addEventListener("pb-page-loaded", () => {
 						if (msg) {
 							h.innerHTML = msg;
 						} else {
-							h.innerHTML = "Not found";
+							h.innerHTML = `<pb-i18n key="annotations.not-found"/>`;
 						}
 						div.appendChild(h);
 						const pre = document.createElement("pre");
