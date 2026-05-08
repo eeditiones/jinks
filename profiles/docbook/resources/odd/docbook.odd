@@ -519,6 +519,7 @@ white-space: pre-wrap;
         </model>
                     <model output="latex" behaviour="code"/>
                     <model output="print" behaviour="block" cssClass="programlisting"/>
+                    <model output="docx" behaviour="block" cssClass="Code"/>
                     <model behaviour="webcomponent">
             <param name="name" value="'pb-code-highlight'"/>
             <param name="language" value="@language"/>
@@ -632,9 +633,11 @@ padding: 1em 0 1em .5em;
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="guibutton" mode="add">
+                    <model output="docx" behaviour="inline" cssClass="Button"/>
                     <model behaviour="inline" cssClass="guibutton"/>
                 </elementSpec>
                 <elementSpec ident="guilabel" mode="add">
+                    <model output="docx" behaviour="inline" cssClass="Label"/>
                     <model behaviour="inline" cssClass="guilabel"/>
                 </elementSpec>
                 <elementSpec ident="videodata" mode="add">

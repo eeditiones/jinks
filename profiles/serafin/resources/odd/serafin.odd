@@ -73,6 +73,7 @@
                 <elementSpec ident="seg" mode="change">
                     <model output="print" behaviour="inline"/>
                     <model output="plain" behaviour="inline"/>
+                    <model output="docx" behaviour="inline" cssClass="Normalize"/>
                     <model output="latex" behaviour="inline">
             <pb:template xmlns="" xml:space="preserve">\pstart [[content]] \pend</pb:template>
         </model>
