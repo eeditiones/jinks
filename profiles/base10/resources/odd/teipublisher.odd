@@ -502,6 +502,7 @@
                 </elementSpec>
                 <elementSpec ident="p" mode="change">
                     <model output="print" predicate="ancestor::note" behaviour="inline"/>
+                    <model output="docx" predicate="../*[1] is ." behaviour="inline"/>
                     <model behaviour="paragraph" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">

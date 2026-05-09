@@ -2,7 +2,7 @@
     "$schema": "../../schema/jinks.json",
     "type": "feature",
     "id": "https://e-editiones.org/app/tei-publisher/docx",
-    "label": "Support for DOCX output and import",
+    "label": "DOCX output and import",
     "description": "Adds support for exporting docx (MS Word) as well as importing docx files and transforming them to TEI using ODD.",
     "version": "1.0.0",
     "category": "input",
@@ -29,5 +29,10 @@
         "use": [
             "templates/docx-blocks.html"
         ]
+    },
+    "features": {
+        "docx": {
+            "template": "templates/docx/default.docx"
+        }
     }
 }
