@@ -1,6 +1,6 @@
 ARG EXIST_VERSION=release
 ARG BUILD=local
-ARG PUBLISHER_VERSION=9.1.0
+ARG PUBLISHER_VERSION=10.0.0
 
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
@@ -18,7 +18,7 @@ RUN git clone https://github.com/eeditiones/jinks-templates.git \
 # Build tei-publisher-lib
 RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
     && cd tei-publisher-lib \
-    && ant 
+    && ant
 
 # Build Jinks
 # TODO(DP): needs to be xar local
@@ -43,7 +43,7 @@ ONBUILD COPY --from=builder /tmp/jinks/build/*.xar /exist/autodeploy/006.xar
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
 FROM  ghcr.io/jinntec/base:main AS build_prod
 
-# NOTE the start URL http://localhost:8080/exist/apps/tei-publisher/index.html 
+# NOTE the start URL http://localhost:8080/exist/apps/tei-publisher/index.html
 ARG PUBLISHER_VERSION
 
 ARG USR=nonroot
