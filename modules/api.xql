@@ -325,7 +325,9 @@ declare function api:source($request as map(*)) {
                 if (util:binary-doc-available($path)) then
                     response:stream-binary(util:binary-doc($path), $mime, $filename)
                 else if (doc-available($path)) then
-                    roaster:response(200, $mime, doc($path))
+                    let $asString := serialize(doc($path), map { "method": "xml", "indent": false(), "omit-xml-declaration": true() })
+                    return
+                        roaster:response(200, $mime, $asString)
                 else
                     error($errors:NOT_FOUND, "File " || $path || " not found")
         else
