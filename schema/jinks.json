@@ -675,6 +675,17 @@
                             }
                         }
                     }
+                },
+                "docx": {
+                    "type": "object",
+                    "description": "Configuration for DOCX templates",
+                    "properties": {
+                        "template": {
+                            "type": "string",
+                            "description": "Relative path to a Word file which will be used as a template for creating DOCX output",
+                            "examples": [ "templates/docx/documentation.docx" ]
+                        }
+                    }
                 }
             }
         },

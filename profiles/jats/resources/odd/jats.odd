@@ -4,19 +4,19 @@
         <fileDesc>
             <titleStmt>
                 <title>JATS
-                    
-                 
-                 
-                 
-                  
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
+
+
+
+
+
+
+
+
+
+
+
+
+
                  <desc>Processing of JATS XML (Journal Article Tag Suite)</desc>
                 </title>
             </titleStmt>
@@ -108,7 +108,7 @@
                 <elementSpec ident="table" mode="add">
                     <model behaviour="table" cssClass="table">
             <outputRendition xml:space="preserve">
-            
+
             </outputRendition>
         </model>
                 </elementSpec>
@@ -125,35 +125,35 @@
                 <elementSpec ident="th">
                     <model behaviour="cell" useSourceRendition="true">
             <outputRendition xml:space="preserve">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
+
+
+
+
+
             font-weight: bold;
 text-align: left;
 padding: 0 4px;
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
+
+
+
+
+
             </outputRendition>
         </model>
                 </elementSpec>
@@ -350,19 +350,26 @@ padding: 0 4px;
         </modelSequence>
                 </elementSpec>
                 <elementSpec ident="ref" mode="add">
-                    <model behaviour="pass-through">
+                    <model output="web" behaviour="pass-through">
+                        <param name="title" value=".//article-title"/>
+                        <param name="source" value="if (exists(.//source)) then (&#34; In: &#34;,.//source, (&#34;, &#34;)) else ()"/>
+                        <param name="authors" value="let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', ')"/>
+                        <param name="year" value=".//year"/>
+                        <param name="id" value="@id"/>
+                        <pb:template xmlns="" xml:space="preserve"><li id="[[id]]">[[authors]]: [[title]]. [[source]][[year]]</li></pb:template>
+                    </model>
+                    <model behaviour="listItem">
             <param name="title" value=".//article-title"/>
             <param name="source" value="if (exists(.//source)) then (&#34; In: &#34;,.//source, (&#34;, &#34;)) else ()"/>
             <param name="authors" value="let $names := for $name in  .//person-group[@person-group-type='author']/name return normalize-space($name) return string-join($names, ', ')"/>
             <param name="year" value=".//year"/>
-            <param name="id" value="@id"/>
-            <pb:template xmlns="" xml:space="preserve"><li id="[[id]]">[[authors]]: [[title]]. [[source]][[year]]</li></pb:template>
+            <pb:template xmlns="" xml:space="preserve">[[authors]]: [[title]]. [[source]][[year]]</pb:template>
         </model>
                 </elementSpec>
             <elementSpec ident="journal-meta" mode="add">
                     <model behaviour="block" cssClass="journal-meta">
-            <param name="content" value="(.//journal-title, publisher, issn)"/>
-        </model>
+                        <param name="content" value="(.//journal-title, publisher, issn)"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="journal-title" mode="add">
                     <model behaviour="inline" cssClass="journal-title"/>
@@ -371,9 +378,15 @@ padding: 0 4px;
                     <model behaviour="inline" cssClass="journal-title-group"/>
                 </elementSpec>
                 <elementSpec ident="publisher" mode="add">
+                    <model behaviour="inline" output="docx">
+                        <param name="content" value="(', ', .)"/>
+                    </model>
                     <model behaviour="inline" cssClass="publisher"/>
                 </elementSpec>
             <elementSpec ident="issn" mode="add">
+                <model output="docx" behaviour="inline">
+                    <param name="content" value="(', ', .)"/>
+                </model>
                     <model behaviour="inline" cssClass="issn"/>
                 </elementSpec>
             </schemaSpec>

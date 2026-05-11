@@ -502,6 +502,7 @@
                 </elementSpec>
                 <elementSpec ident="p" mode="change">
                     <model output="print" predicate="ancestor::note" behaviour="inline"/>
+                    <model output="docx" predicate="../*[1] is ." behaviour="inline"/>
                     <model behaviour="paragraph" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
@@ -1028,6 +1029,7 @@ flex-wrap: wrap;
                 <elementSpec ident="persName" mode="add">
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
+                    <model output="docx" behaviour="inline"/>
                     <model predicate="(@key or @ref) and $parameters?mode='register-details'" behaviour="link">
             <param name="uri" value="head((@key, @ref))"/>
             <param name="target" value="'_blank'"/>
@@ -1062,6 +1064,7 @@ flex-wrap: wrap;
                 <elementSpec ident="placeName" mode="add">
                     <model output="fo" behaviour="inline"/>
                     <model output="print" behaviour="inline"/>
+                    <model output="docx" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
         </model>
