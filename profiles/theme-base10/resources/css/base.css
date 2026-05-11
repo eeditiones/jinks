@@ -116,6 +116,12 @@ pb-page[unresolved]~.splash {
     row-gap: var(--s-1);
 }
 
+.toolbar > ul:last-of-type {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
 .toolbar ul {
     padding-left: var(--s-2);
     padding-right: var(--s-2);
@@ -124,6 +130,31 @@ pb-page[unresolved]~.splash {
 .toolbar li {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.toolbar > ul:last-of-type > li {
+    padding-inline: 0;
+    margin-inline: 0 !important;
+}
+
+.toolbar > ul:last-of-type > li + li {
+    margin-inline-start: var(--s-1) !important;
+}
+
+.toolbar [role="group"] {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+}
+
+.toolbar [role="group"] button,
+.toolbar [role="group"] a {
+    margin-inline: 0;
+}
+
+.toolbar > ul:last-of-type > li > a > button,
+.toolbar > ul:last-of-type > li > button {
+    margin-inline: 0 !important;
 }
 
 .toolbar a {
