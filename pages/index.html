@@ -320,5 +320,34 @@
             </ul>
         </nav>
     </pb-dialog>
+    <pb-dialog id="version-check-dialog">
+        <h3 slot="title">Breaking Changes Detected</h3>
+        <p>The following profiles have major version updates that may include breaking changes:</p>
+        <section id="breaking-changes">
+            <ul></ul>
+        </section>
+        <nav slot="footer">
+            <ul>
+                <li>
+                    <button id="confirm-update" data-tooltip="Confirm and proceed with the update">
+                        <svg class="icon">
+                            <use href="#icon-refresh"></use>
+                        </svg>
+                        <span>Confirm Update</span>
+                    </button>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <button rel="prev" aria-label="Cancel">
+                        <svg class="icon">
+                            <use href="#icon-close"></use>
+                        </svg>
+                        <span><pb-i18n key="dialogs.cancel">Cancel</pb-i18n></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </pb-dialog>
     [% endtemplate %]
 </main>

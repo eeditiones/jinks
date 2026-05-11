@@ -6,6 +6,7 @@ xquery version "3.1";
 module namespace generator="http://tei-publisher.com/library/generator";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
+declare namespace pkg="http://expath.org/ns/pkg";
 
 import module namespace cpy="http://tei-publisher.com/library/generator/copy" at "cpy.xql";
 import module namespace inspect="http://exist-db.org/xquery/inspection";
@@ -16,6 +17,15 @@ import module namespace tmpl="http://e-editiones.org/xquery/templates";
 declare variable $generator:NAMESPACE := "http://tei-publisher.com/library/generator";
 
 declare variable $generator:ERROR_NOT_FOUND := xs:QName("generator:not-found");
+
+(:~ Jinks version - read from expath-pkg.xml :)
+declare variable $generator:JINKS_VERSION := 
+    let $pkgPath := $config:app-root || "/expath-pkg.xml"
+    return
+        if (doc-available($pkgPath)) then
+            doc($pkgPath)/pkg:package/@version/string()
+        else
+            "unknown";
 
 declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
 
@@ -46,24 +56,59 @@ declare function generator:profile-path($name as xs:string) {
  :)
 declare function generator:process($settings as map(*)?, $config as map(*)?) {
     let $context := generator:prepare($settings, $config)
+    let $versionCheck :=
+        if ($context?_update) then
+            let $target := path:get-package-target($context?id)
+            (: Try .jinks-versions.json first, fall back to config.json for backwards compatibility :)
+            let $versionsPath := $target || "/.jinks-versions.json"
+            let $configPath := $target || "/config.json"
+            let $installedVersions :=
+                if (util:binary-doc-available($versionsPath)) then
+                    generator:load-json($versionsPath, map {})
+                else
+                    generator:load-json($configPath, map {})
+            return generator:check-profile-versions($installedVersions, $context)
+        else
+            map { "has-breaking-changes": false() }
+    let $_ := util:log("INFO", ("Version check result - has-breaking-changes: " || $versionCheck?has-breaking-changes))
+    let $shouldProceed :=
+        (: Only proceed with update if:
+         1. Not an update (new app), OR
+         2. Confirm parameter is true, OR
+         3. No breaking changes detected
+         :)
+        not($context?_update) or
+        $settings?confirm or
+        not($versionCheck?has-breaking-changes)
     let $result :=
-        for $profileName in $context?profiles?*
-        let $adjContext := map:merge((
-            $context,
-            map {
-                "source": generator:profile-path($profileName),
-                "_noDeploy": map:contains($config, "profiles") or $settings?dry,
-                "_lastModified": $settings?last-modified
-            }
-        ))
-        return
-            generator:write($adjContext, generator:profile-path($profileName), $config)
+        if ($shouldProceed) then
+            for $profileName in $context?profiles?*
+            let $adjContext := map:merge((
+                $context,
+                map {
+                    "source": generator:profile-path($profileName),
+                    "_noDeploy": map:contains($config, "profiles") or $settings?dry,
+                    "_lastModified": $settings?last-modified
+                }
+            ))
+            return
+                generator:write($adjContext, generator:profile-path($profileName), $config)
+        else
+            ()
     let $postProcessed :=
-        for $profileName in $context?profiles?*
-        return
-            generator:after-write($context, $result, generator:profile-path($profileName))
-    let $nextStep := 
-        if (not(repo:list() = $context?id)) then
+        if ($shouldProceed) then
+            for $profileName in $context?profiles?*
+            return
+                generator:after-write($context, $result, generator:profile-path($profileName))
+        else
+            ()
+    let $nextStep :=
+        if (not($shouldProceed)) then
+            map {
+                "message": "Update blocked due to breaking changes. Set confirm=true to proceed.",
+                "action": "CONFIRM"
+            }
+        else if (not(repo:list() = $context?id)) then
             map {
                 "message": "Package is not deployed yet. Deploy it by calling /api/generator/{profile}/deploy" ,
                 "action": "DEPLOY"
@@ -77,6 +122,7 @@ declare function generator:process($settings as map(*)?, $config as map(*)?) {
         map {
             "messages": array { generator:filter-conflicts($result), $postProcessed },
             "config": $context,
+            "version-check": $versionCheck,
             "nextStep": $nextStep
         }
 };
@@ -259,17 +305,38 @@ declare %private function generator:extends($config as map(*), $profile as xs:st
         let $extendedConfig :=
             for $extProfile in $extendedProfiles
             where not($extProfile = $profile)
-            let $log := util:log("INFO", ("Loading extended profile: " || $extProfile))
-            return
-                generator:load-json(generator:profile-path($extProfile) || "/config.json", map {})
+            let $profileConfig := generator:load-json(generator:profile-path($extProfile) || "/config.json", map {})
+            let $profileVersion := ($profileConfig?version, "1.0.0")[1]
+            let $profileChanges := $profileConfig?changes
+            let $extendedProfileConfig :=
+                $profileConfig
                 => generator:extends($extProfile)
+            let $recursiveVersions := $extendedProfileConfig?profile-versions
+            let $recursiveChanges := $extendedProfileConfig?profile-changes
+            return
+                map:merge((
+                    $extendedProfileConfig,
+                    map {
+                        "profile-versions": map:merge((
+                            $recursiveVersions,
+                            map { $extProfile: $profileVersion }
+                        )),
+                        "profile-changes": map:merge((
+                            $recursiveChanges,
+                            if (exists($profileChanges)) then
+                                map { $extProfile: $profileChanges }
+                            else
+                                ()
+                        ))
+                    }
+                ))
         return
             tmpl:merge-deep((
                 $extendedConfig,
                 map {
                     "profiles": array { $extendedConfig?profiles?*, $profile }
                 },
-                map:remove($config, "extends")
+                map:remove(map:remove(map:remove($config, "extends"), "profile-versions"), "profile-changes")
             ))
     else
         map:merge((
@@ -278,6 +345,54 @@ declare %private function generator:extends($config as map(*), $profile as xs:st
                 "profiles": array { $config?profiles?*, $profile }
             }
         ))
+};
+
+(:~
+ : Compare current profile versions with installed versions and detect potential breaking changes.
+ : Returns a map with profile names that have major version bumps.
+ :)
+declare function generator:check-profile-versions($installedConfig as map(*), $newConfig as map(*)) as map(*) {
+    let $installedVersions :=
+        if (exists($installedConfig?profiles)) then
+            (: New format from .jinks-versions.json :)
+            $installedConfig?profiles
+        else if (exists($installedConfig?profile-versions)) then
+            (: Old format from config.json (backwards compatibility) :)
+            $installedConfig?profile-versions
+        else
+            (: Backwards compatibility: assume 1.0.0 for profiles array :)
+            map:merge(
+                for $profile in $installedConfig?profiles?*
+                return
+                    map { $profile: "1.0.0" }
+            )
+    let $newVersions := $newConfig?profile-versions
+    let $newChanges := $newConfig?profile-changes
+    let $breaking :=
+        map:merge(
+            map:for-each($newVersions, function($profile, $newVersion) {
+                let $installedVersion := $installedVersions($profile)
+                let $newMajor := xs:integer(tokenize($newVersion, '\.')[1])
+                let $installedMajor := if (exists($installedVersion)) then xs:integer(tokenize($installedVersion, '\.')[1]) else 0
+                let $profileChanges := $newChanges($profile)
+                let $versionChange := if (exists($profileChanges)) then $profileChanges($newVersion) else ()
+                return
+                    if (exists($installedVersion) and $newMajor > $installedMajor) then
+                        map:entry($profile, map {
+                            "installed": $installedVersion,
+                            "new": $newVersion,
+                            "changes": $versionChange
+                        })
+                    else
+                        ()
+            })
+        )
+    let $_ := util:log("INFO", ("Breaking changes detected: " || (not(empty(map:keys($breaking))))))
+    return
+        map {
+            "has-breaking-changes": not(empty(map:keys($breaking))),
+            "breaking-profiles": $breaking
+        }
 };
 
 declare function generator:load-json($path as xs:string, $default as map(*)?) {
@@ -321,20 +436,20 @@ declare %private function generator:save-config($context as map(*), $appConfig a
     if ($context?_dry or $context?type = "bootstrap") then
         ()
     else
-        let $config := map:merge(
-            map:for-each($context, function($key, $value) {
-                if (starts-with($key, "_") or $key = "source" or $key = "target") then
-                    ()
-                else
-                    map:entry($key, $value)
-            })
-        )
         let $storeConfig := map:merge((
             (: map:entry("profiles", $context?profiles), :)
             $appConfig
         ))
+        let $versionsConfig := map:merge((
+            map { "jinks": $generator:JINKS_VERSION },
+            if (exists($context?profile-versions)) then
+                map { "profiles": $context?profile-versions }
+            else
+                ()
+        ))
         return (
             xmldb:store($context?target, "config.json", serialize($storeConfig, map { "method": "json", "indent": true()}))[2],
+            xmldb:store($context?target, ".jinks-versions.json", serialize($versionsConfig, map { "method": "json", "indent": true()}))[2],
             xmldb:store($context?target, "context.json", serialize($context, map { "method": "json", "indent": true()}))[2]
         )
 };

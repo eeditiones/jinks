@@ -16,8 +16,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // const dryRunButton = document.getElementById('dry-run');
 
     const resolveAllButton = document.getElementById('resolve-all');
+    const confirmUpdateButton = document.getElementById('confirm-update');
 
     let resolveConflicts = {};
+    let pendingConfig = null;
 
     let isProcessing = false;
 
@@ -252,7 +254,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function process(dryRun) {
+    async function process(dryRun, confirm = false) {
         await blockUiDuringCallback(async () => {
             const result = await displaySpinnerDuringCallback(
                 `Applying configuration…`,
@@ -280,6 +282,9 @@ window.addEventListener('DOMContentLoaded', () => {
                         if (dryRun) {
                             url.searchParams.set('dry', 'true');
                         }
+                        if (confirm) {
+                            url.searchParams.set('confirm', 'true');
+                        }
                         const response = await fetch(url, {
                             method: 'POST',
                             body: JSON.stringify(params),
@@ -303,6 +308,27 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                 },
             );
+
+            // Check for breaking changes
+            if (result['version-check'] && result['version-check']['has-breaking-changes'] && result.nextStep.action === 'CONFIRM') {
+                // Store the config for re-use when confirmed
+                pendingConfig = result.config;
+
+                // Show version check dialog
+                const versionCheckDialog = document.getElementById('version-check-dialog');
+                const breakingChangesList = versionCheckDialog.querySelector('#breaking-changes ul');
+                breakingChangesList.innerHTML = '';
+
+                Object.entries(result['version-check']['breaking-profiles']).forEach(([profile, info]) => {
+                    const li = document.createElement('li');
+                    const changesHtml = info.changes ? `<br><em class="changelog">${info.changes}</em>` : '';
+                    li.innerHTML = `<strong>${profile}</strong>: ${info.installed} → ${info.new}${changesHtml}`;
+                    breakingChangesList.appendChild(li);
+                });
+
+                versionCheckDialog.openDialog();
+                return;
+            }
 
             if (result.messages) {
                 output.innerHTML = '';
@@ -997,6 +1023,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 badge.innerText = 'overwrite';
             });
         }
+    });
+
+    confirmUpdateButton.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const versionCheckDialog = document.getElementById('version-check-dialog');
+        versionCheckDialog.closeDialog();
+        process(false, true);
     });
 
     editor.addEventListener('change', (e) => {

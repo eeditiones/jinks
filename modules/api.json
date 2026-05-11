@@ -221,6 +221,15 @@
                             "type": "boolean",
                             "default": "false"
                         }
+                    },
+                    {
+                        "name": "confirm",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": "false"
+                        },
+                        "description": "Confirm proceeding with update despite breaking changes detected in profile versions"
                     }
                 ],
                 "requestBody": {

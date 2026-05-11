@@ -39,6 +39,16 @@
             "description": "Version of this profile. Use to keep track of different upstream profile versions.",
             "default": "1.0.0"
         },
+        "changes": {
+            "type": "object",
+            "description": "Changelog mapping version numbers to descriptions of what changed.",
+            "patternProperties": {
+                "^\\d+\\.\\d+\\.\\d+$": {
+                    "type": "string",
+                    "description": "Description of changes in this version"
+                }
+            }
+        },
         "extends": {
             "type": "array",
             "items": {
