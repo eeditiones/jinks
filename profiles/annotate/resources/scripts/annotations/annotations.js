@@ -890,7 +890,7 @@ document.addEventListener("pb-page-loaded", () => {
 	});
 
 	const editEntity = document.getElementById("edit-entity");
-	editEntity.addEventListener("click", () => {
+	editEntity?.addEventListener("click", () => {
 		const ref = editEntity.parentNode.parentNode.querySelector(".form-ref");
 		document.dispatchEvent(
 			new CustomEvent("pb-authority-edit-entity", {

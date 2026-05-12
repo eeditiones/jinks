@@ -151,7 +151,7 @@ declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
                 element { node-name($node) } {
                     $node/@*,
                     anno:extend-header($node/node(), $log),
-                    if (not($node/tei:standOff)) then
+                    if (not($node/tei:standOff) and root($node)/tei:text//tei:note[@target]) then
                         <standOff xmlns="http://www.tei-c.org/ns/1.0">
                             <listAnnotation>
                                 {
