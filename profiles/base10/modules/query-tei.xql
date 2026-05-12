@@ -194,7 +194,7 @@ declare function teis:expand($data as node()) {
 };
 
 
-declare %private function teis:query-default-view($context as element()*, $query as xs:string, $fields as xs:string+) {
+declare %private function teis:query-default-view($context as node()*, $query as xs:string, $fields as xs:string+) {
     for $field in $fields
     return
         switch ($field)
