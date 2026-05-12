@@ -64,9 +64,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     appOrder[app.profile] = app.config.order;
                 }
                 if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
-                    // Load color palettes from profile
                     Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                        colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
+                        const basePath = app.external
+                            ? `../${app.profile}/resources/css/`
+                            : `profiles/${app.profile}/resources/css/`;
+                        colorPalettes[name] = basePath + cssPath;
                     });
                 }
 
@@ -1196,9 +1198,11 @@ window.addEventListener('DOMContentLoaded', () => {
         colorPalettes = {};
         apps.forEach(async (app) => {
             if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
-                // Load color palettes from profile
                 Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                    colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
+                    const basePath = app.external
+                        ? `../${app.profile}/resources/css/`
+                        : `profiles/${app.profile}/resources/css/`;
+                    colorPalettes[name] = basePath + cssPath;
                 });
             }
         });
