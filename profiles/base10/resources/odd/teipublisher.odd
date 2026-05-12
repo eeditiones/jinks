@@ -238,7 +238,7 @@
                     <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
                         <desc>Birth date in individual register page</desc>
                         <param name="place" value="placeName"/>
-                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
+                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
                         <pb:template xmlns="" xml:space="preserve"><div class="register">
                             <pb-i18n key="odd.birth"/> [[date]], [[place]]
                             </div></pb:template>
@@ -259,7 +259,7 @@
                     <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
                         <desc>Birth date in individual register page</desc>
                         <param name="place" value="placeName"/>
-                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
+                        <param name="date" value="try { format-date(xs:date(date/@when), '[D1] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { date/@when/string() }"/>
                         <pb:template xmlns="" xml:space="preserve"><div class="register">
                             <pb-i18n key="odd.death"/> [[date]], [[place]]
                             </div></pb:template>
