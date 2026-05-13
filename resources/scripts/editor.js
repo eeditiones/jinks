@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
     let colorPalettes = {};
     let appOrder = {};
+    let allApps = [];
 
     let editor = document.getElementById('appConfig');
     const mergedView = document.getElementById('mergedConfig');
@@ -54,22 +55,15 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             appOrder = {};
             const apps = await response.json();
+            allApps = apps;
             const nav = document.querySelector('.installed');
 			nav.innerHTML = '';
 
-            await loadColorPalettes(apps);
+            await loadColorPalettes();
 
             apps.forEach(async (app) => {
                 if (app.config && app.config.order !== undefined) {
                     appOrder[app.profile] = app.config.order;
-                }
-                if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
-                    Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                        const basePath = app.external
-                            ? `../${app.profile}/resources/css/`
-                            : `profiles/${app.profile}/resources/css/`;
-                        colorPalettes[name] = basePath + cssPath;
-                    });
                 }
 
                 if (app.type === 'invalid-config') {
@@ -137,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function loadApp(app) {
+    async function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
 
@@ -158,6 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Filter profiles based on selected base profile
         filterProfilesByBaseProfile();
 
+        await loadColorPalettes();
         updateColorPaletteSelection();
 
         const ul = document.getElementById('actions');
@@ -985,7 +980,10 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
-    form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', (ev) => {
+        toggleFeature(ev);
+        loadColorPalettes();
+    }));
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="bootstrap"]').forEach((control) => control.addEventListener('change', toggleFeature));
     
@@ -1194,16 +1192,21 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // Load available color palettes from configurations
-    async function loadColorPalettes(apps) {
+    async function loadColorPalettes() {
+        const checkedThemes = new Set(
+            Array.from(form.querySelectorAll('input[name="theme"]:checked')).map(i => i.value)
+        );
         colorPalettes = {};
-        apps.forEach(async (app) => {
+        allApps.forEach((app) => {
             if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
-                Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                    const basePath = app.external
-                        ? `../${app.profile}/resources/css/`
-                        : `profiles/${app.profile}/resources/css/`;
-                    colorPalettes[name] = basePath + cssPath;
-                });
+                if (checkedThemes.size === 0 || checkedThemes.has(app.profile)) {
+                    Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
+                        const basePath = app.external
+                            ? `../${app.profile}/resources/css/`
+                            : `profiles/${app.profile}/resources/css/`;
+                        colorPalettes[name] = basePath + cssPath;
+                    });
+                }
             }
         });
 
