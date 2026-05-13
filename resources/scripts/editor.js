@@ -1199,7 +1199,8 @@ window.addEventListener('DOMContentLoaded', () => {
         colorPalettes = {};
         allApps.forEach((app) => {
             if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
-                if (checkedThemes.size === 0 || checkedThemes.has(app.profile)) {
+                const isThemeProfile = !!form.querySelector(`input[name="theme"][value="${app.profile}"]`);
+                if (!isThemeProfile || checkedThemes.size === 0 || checkedThemes.has(app.profile)) {
                     Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
                         const basePath = app.external
                             ? `../${app.profile}/resources/css/`
