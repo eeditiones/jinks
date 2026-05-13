@@ -114,7 +114,7 @@ jobs:
   generate-apps:
     name: generate apps
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - name: Checkout repository
@@ -325,7 +325,7 @@ jobs:
     name: test tp
     runs-on: ubuntu-latest
     needs: generate-apps
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -338,7 +338,7 @@ jobs:
     name: test workbench
     runs-on: ubuntu-latest
     needs: generate-apps
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -351,7 +351,7 @@ jobs:
     name: test serafin
     runs-on: ubuntu-latest
     needs: generate-apps
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout
         uses: actions/checkout@v6
