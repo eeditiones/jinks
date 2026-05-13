@@ -182,6 +182,22 @@ jobs:
       - name: Verify deployed apps
         run: jinks list
 
+      - name: Smoke test - verify apps loaded correctly
+        run: |
+          for app in tei-publisher tp-serafin tp-workbench; do
+            echo "Checking $app..."
+            response=$(curl -s -o /tmp/smoke-${app}.txt -w "%{http_code}" \
+              -X POST -d "user=tei&password=tei" \
+              http://localhost:8080/exist/apps/${app}/api/login)
+            if [ "$response" != "200" ] && [ "$response" != "401" ]; then
+              echo "Smoke test FAILED for $app: /api/login returned HTTP $response"
+              echo "Response body:"
+              cat /tmp/smoke-${app}.txt
+              exit 1
+            fi
+            echo "$app OK (HTTP $response)"
+          done
+
       - name: Extract XAR files for generated apps
         working-directory: demo
         run: |
