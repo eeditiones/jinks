@@ -152,6 +152,9 @@ window.addEventListener('DOMContentLoaded', () => {
         // Filter profiles based on selected base profile
         filterProfilesByBaseProfile();
 
+        editor.value = JSON.stringify(app.config, null, 2);
+        update(false);
+
         await loadColorPalettes();
         updateColorPaletteSelection();
 
@@ -179,8 +182,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        editor.value = JSON.stringify(app.config, null, 2);
-        update(false);
     }
 
     async function displaySpinnerDuringCallback(text, callback) {
