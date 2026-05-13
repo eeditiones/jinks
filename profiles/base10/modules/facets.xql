@@ -56,17 +56,18 @@ declare function facets:print-table($config as map(*), $nodes as element()+, $va
                     map:for-each($entry, function($label, $freq) {
                         let $content := facets:translate($config, $lang, $label)
                         let $name := "facet-" || $config?dimension
+												let $id := $name || '-' || $label
                         return
                         <tr>
                             <td>
                                 <input type="checkbox"
                                     class="facet"
-                                    id="{$name}"
+                                    id="{$id}"
                                     name="{$name}"
                                     value="{$label}">
                                 { if ($label = $params) then attribute checked { "checked" } else () }
                                 </input>
-                                <label for="{$name}">
+                                <label for="{$id}">
                                     <pb-i18n key="{$content}">{$content}</pb-i18n>
                                 </label>
                             </td>
