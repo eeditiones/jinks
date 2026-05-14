@@ -304,7 +304,7 @@
             <elementSpec ident="list" mode="change">
                     <model predicate="@type='links'" behaviour="list" cssClass="buttons"/>
                     <model behaviour="list" useSourceRendition="true">
-            <param name="content" value="item"/>
+            <param name="content" value="child::node()"/>
         </model>
                 </elementSpec>
             <elementSpec ident="figure" mode="change">
