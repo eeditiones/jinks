@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let appConfig = {};
     let colorPalettes = {};
     let appOrder = {};
+    let allApps = [];
 
     let editor = document.getElementById('appConfig');
     const mergedView = document.getElementById('mergedConfig');
@@ -41,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 return Promise.reject(response.status);
             }
-    
+
             return response.json();
         });
     }
@@ -54,20 +55,15 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             appOrder = {};
             const apps = await response.json();
+            allApps = apps;
             const nav = document.querySelector('.installed');
 			nav.innerHTML = '';
 
-            await loadColorPalettes(apps);
+            await loadColorPalettes();
 
             apps.forEach(async (app) => {
                 if (app.config && app.config.order !== undefined) {
                     appOrder[app.profile] = app.config.order;
-                }
-                if (app.type === 'profile' && app.config.theme?.colors?.palettes) {
-                    // Load color palettes from profile
-                    Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                        colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
-                    });
                 }
 
                 if (app.type === 'invalid-config') {
@@ -135,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function loadApp(app) {
+    async function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
 
@@ -156,6 +152,10 @@ window.addEventListener('DOMContentLoaded', () => {
         // Filter profiles based on selected base profile
         filterProfilesByBaseProfile();
 
+        editor.value = JSON.stringify(app.config, null, 2);
+        update(false);
+
+        await loadColorPalettes();
         updateColorPaletteSelection();
 
         const ul = document.getElementById('actions');
@@ -182,8 +182,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        editor.value = JSON.stringify(app.config, null, 2);
-        update(false);
     }
 
     async function displaySpinnerDuringCallback(text, callback) {
@@ -246,7 +244,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 } else {
                     output.innerHTML = `Package is deployed. Visit it here ${createOpenButtonHtml(config.pkg.abbrev)}`;
                 }
-                
+
                 loadApps(config.id);
             } catch (error) {
                 console.log(error);
@@ -355,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                 'The file was updated with the incoming version.'}"
                             data-placement="right">
                             ${message.type}
-                        </span> 
+                        </span>
                         ${message.path} ${message.source ? ' from ' + message.source.substring('/db/apps/jinks/'.length) : ''}`;
                         if (message.type === 'conflict' && message.incoming) {
                             document.querySelector('#output-dialog').querySelector('.apply-config').style.display = 'flex';
@@ -411,7 +409,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             li.appendChild(resolveBtn);
                             resolveBtn.addEventListener('click', (ev) => {
                                 ev.preventDefault();
-                                
+
                                 const badge = li.querySelector('.badge');
                                 if (!li.classList.contains('overwrite')) {
                                     li.classList.add('overwrite');
@@ -441,7 +439,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 loadApps(result.config.id);
             }
             output.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
-            
+
             // Show the output dialog after the update process completes
             const outputDialog = document.getElementById('output-dialog');
             if (outputDialog) {
@@ -456,30 +454,30 @@ window.addEventListener('DOMContentLoaded', () => {
         const params = {
             "root": `/db/apps/${appConfig.pkg.abbrev}`
         };
-        
+
         // Check if action has parameters
         if (actionConfig && actionConfig.parameters && actionConfig.parameters.length > 0) {
             // Show dialog with form
             const dialog = document.getElementById('action-dialog');
             const formSection = dialog.querySelector('section');
             const runButton = dialog.querySelector('.run-action');
-            
+
             // Update dialog title
             const title = dialog.querySelector('h3[slot="title"]');
             if (title) {
                 title.textContent = actionConfig.description || actionConfig.name;
             }
-            
+
             // Clear previous form
             formSection.innerHTML = '';
-            
+
             // Create form with inputs for each parameter
             const form = document.createElement('form');
             form.id = 'action-parameters-form';
-            
+
             actionConfig.parameters.forEach((param) => {
                 const fieldset = document.createElement('fieldset');
-                
+
                 const label = document.createElement('label');
                 label.setAttribute('for', `param-${param.name}`);
                 label.textContent = param.label || param.name;
@@ -487,7 +485,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     label.innerHTML += ' <span style="color: red;">*</span>';
                 }
                 fieldset.appendChild(label);
-                
+
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.id = `param-${param.name}`;
@@ -498,39 +496,39 @@ window.addEventListener('DOMContentLoaded', () => {
                     input.placeholder = param.description;
                 }
                 fieldset.appendChild(input);
-                
+
                 form.appendChild(fieldset);
             });
-            
+
             formSection.appendChild(form);
-            
+
             // Remove previous event listeners by cloning the button
             const newRunButton = runButton.cloneNode(true);
             runButton.parentNode.replaceChild(newRunButton, runButton);
-            
+
             // Show dialog
             dialog.openDialog();
-            
+
             // Wait for user to click run button
             return new Promise((resolve) => {
                 newRunButton.addEventListener('click', async (ev) => {
                     ev.preventDefault();
-                    
+
                     // Validate form
                     if (!form.checkValidity()) {
                         form.reportValidity();
                         return;
                     }
-                    
+
                     // Collect form data
                     const formData = new FormData(form);
                     for (const [key, value] of formData.entries()) {
                         params[key] = value;
                     }
-                    
+
                     // Close dialog
                     dialog.closeDialog();
-                    
+
                     // Run the action with parameters
                     await executeAction(action.app || pkgAbbrev, actionName, params);
                     resolve();
@@ -541,7 +539,7 @@ window.addEventListener('DOMContentLoaded', () => {
             await executeAction(action.app || pkgAbbrev, actionName, params);
         }
     }
-    
+
     async function executeAction(pkgAbbrev, actionName, params) {
         let isZipDownload = false;
         // Preserve existing output message for download actions
@@ -568,7 +566,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                         throw new Error(response.status);
                     }
-                    
+
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/zip')) {
                         // Handle zip file download
@@ -596,20 +594,20 @@ window.addEventListener('DOMContentLoaded', () => {
                         }
                         return; // Don't show dialog for zip downloads
                     }
-                    
+
                     // Handle JSON response
                     const result = await response.json();
                     result.forEach((message) => {
                         const li = document.createElement('li');
                         li.innerHTML = `
-                            <span class='badge'>${message.type}</span> 
+                            <span class='badge'>${message.type}</span>
                             ${message.message}
                         `;
                         output.append(li);
                     });
                 }
             );
-            
+
             // Show the output dialog after the action completes (only for non-zip responses)
             if (!isZipDownload) {
                 const outputDialog = document.getElementById('output-dialog');
@@ -619,13 +617,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     function updateConfig(updateEditor = true) {
         getConfig(appConfig).then(async (config) => {
             mergedView.value = JSON.stringify(config, null, 2);
 
             const bootstrapCheckbox = form.querySelector('input[type="checkbox"][name="bootstrap"]:checked');
-            
+
             if (bootstrapCheckbox) {
                 // When bootstrapping, show all available color scheme options
                 document.querySelectorAll('.color-scheme-option').forEach((option) => {
@@ -682,29 +680,29 @@ window.addEventListener('DOMContentLoaded', () => {
             includeDisabled = false,
             includeDisplayNone = true
         } = options;
-        
+
         const formData = new FormData();
-        
+
         // Get all form elements
         const elements = formElement.querySelectorAll('input, select, textarea, button');
-        
+
         elements.forEach(element => {
             const name = element.name;
             const type = element.type;
-            
+
             // Skip if no name
             if (!name) return;
-            
+
             // Check if element should be included
             const isHidden = element.type === 'hidden';
             const isDisabled = element.disabled;
             const hasDisplayNone = window.getComputedStyle(element).display === 'none';
-            
+
             // Skip based on options
             if (!includeHidden && isHidden) return;
             if (!includeDisabled && isDisabled) return;
             if (!includeDisplayNone && hasDisplayNone) return;
-            
+
             // Handle different input types
             if (type === 'checkbox' || type === 'radio') {
                 if (element.checked) {
@@ -728,7 +726,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 formData.append(name, element.value);
             }
         });
-        
+
         return formData;
     }
 
@@ -757,7 +755,7 @@ window.addEventListener('DOMContentLoaded', () => {
             includeDisabled: false,
             includeDisplayNone: true
         });
-        
+
         formData.forEach((value, key) => {
             if (key === 'description') {
                 appConfig.description = value;
@@ -802,7 +800,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const prevPalette = appConfig.theme?.colors?.palette;
         const colorPalette = formData.get('color-palette');
         if (
-            (colorPalette && colorPalette !== 'neutral') || 
+            (colorPalette && colorPalette !== 'neutral') ||
             (prevPalette && prevPalette !== 'neutral')) {
             if (!appConfig.theme) {
                 appConfig.theme = {};
@@ -812,7 +810,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             appConfig.theme.colors.palette = colorPalette;
         }
-        
+
         validateForm();
         updateConfig(updateEditor);
     }
@@ -835,7 +833,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // Parse the depends attribute
             const dependsAttr = checkbox.dataset.depends;
-            
+
             // All profiles must declare dependencies - if missing or invalid, disable the profile
             if (!dependsAttr || dependsAttr.trim() === '' || dependsAttr === 'null' || dependsAttr === '[]') {
                 checkbox.disabled = true;
@@ -845,10 +843,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
                 return;
             }
-            
+
             try {
                 const depends = JSON.parse(dependsAttr);
-                
+
                 // If depends is null, undefined, empty array, or not an array, disable the profile
                 if (depends === null || depends === undefined || !Array.isArray(depends) || depends.length === 0) {
                     checkbox.disabled = true;
@@ -858,10 +856,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                     return;
                 }
-                
+
                 // Check if this profile depends on the selected base profile
                 const dependsOnBase = depends.includes(baseProfileValue);
-                
+
                 if (dependsOnBase) {
                     checkbox.disabled = false;
                 } else {
@@ -929,7 +927,7 @@ window.addEventListener('DOMContentLoaded', () => {
         outputDialog.closeDialog();
 
         // showTab('config');
-        
+
         validateForm();
         if (!form.checkValidity()) {
             return;
@@ -983,10 +981,13 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
     form.querySelectorAll('input[type="checkbox"][name="feature"]').forEach((control) => control.addEventListener('change', toggleFeature));
-    form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="checkbox"][name="theme"]').forEach((control) => control.addEventListener('change', (ev) => {
+        toggleFeature(ev);
+        loadColorPalettes();
+    }));
     form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
     form.querySelectorAll('input[type="checkbox"][name="bootstrap"]').forEach((control) => control.addEventListener('change', toggleFeature));
-    
+
     document.getElementById('reset').addEventListener('click', (ev) => {
         ev.preventDefault();
         reset();
@@ -995,7 +996,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-odd').addEventListener('click', (ev) => {
         ev.preventDefault();
         const odd = form.querySelector('[name="custom-odd"]');
-        
+
         if (odd.checkValidity() && odd.value !== '') {
             if (!(appConfig.odds && Array.isArray(appConfig.odds))) {
                 appConfig.odds = [];
@@ -1003,7 +1004,7 @@ window.addEventListener('DOMContentLoaded', () => {
             appConfig.odds.push(odd.value);
             appConfig.defaults = appConfig.defaults || {};
             appConfig.defaults.odd = odd.value;
-            
+
             updateConfig();
             odd.value = "";
         } else {
@@ -1095,20 +1096,20 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             cssText = await response.text();
         }
-        
+
         // Extract color values using regex
         const colors = {};
         const colorRegex = /--jinks-colors-(700|500|200|50):\s*([^;]+);/g;
         let match;
-        
+
         // Extract base color from comment for fallback
         const baseColorMatch = cssText.match(/Base color:\s*(#[0-9A-Fa-f]{6})/);
         const baseColor = baseColorMatch ? baseColorMatch[1] : null;
-        
+
         while ((match = colorRegex.exec(cssText)) !== null) {
             const level = match[1];
             const value = match[2].trim();
-            
+
             if (value.startsWith('#')) {
                 // Direct hex value
                 colors[level] = value;
@@ -1120,22 +1121,22 @@ window.addEventListener('DOMContentLoaded', () => {
                     const h = hslMatch[1].trim();
                     const s = hslMatch[2].trim();
                     const l = hslMatch[3].trim();
-                    
+
                     // If it's a CSS variable, we need to extract the actual value
                     if (h.includes('var(') || s.includes('var(') || l.includes('var(')) {
                         // Extract base HSL values from CSS
                         const baseHueMatch = cssText.match(/--base-hue:\s*([^;]+);/);
                         const baseSatMatch = cssText.match(/--base-saturation:\s*([^;]+);/);
                         const baseLightMatch = cssText.match(/--base-lightness:\s*([^;]+);/);
-                        
+
                         if (baseHueMatch && baseSatMatch && baseLightMatch) {
                             const baseHue = baseHueMatch[1].trim();
                             const baseSat = baseSatMatch[1].trim();
                             const baseLight = baseLightMatch[1].trim();
-                            
+
                             // Parse the lightness value (remove % if present)
                             const lightnessValue = l.replace('%', '');
-                            
+
                             // Create computed HSL color
                             const computedHsl = `hsl(${baseHue}, ${baseSat}, ${lightnessValue}%)`;
                             colors[level] = computedHsl;
@@ -1150,7 +1151,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        
+
         return colors;
     }
 
@@ -1159,10 +1160,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('div');
         option.className = 'color-scheme-option';
         option.setAttribute('data-palette', paletteName);
-        
+
         const preview = document.createElement('div');
         preview.className = 'color-preview';
-        
+
         ['700', '500', '200', '50'].forEach(level => {
             if (colors[level]) {
                 const swatch = document.createElement('div');
@@ -1171,35 +1172,48 @@ window.addEventListener('DOMContentLoaded', () => {
                 preview.appendChild(swatch);
             }
         });
-        
+
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.type = 'radio';
         input.name = 'color-palette';
         input.value = paletteName;
-        
+
         const labelText = document.createTextNode(
             paletteName.charAt(0).toUpperCase() + paletteName.slice(1)
         );
-        
+
         label.appendChild(input);
         label.appendChild(labelText);
-        
+
         option.appendChild(preview);
         option.appendChild(label);
-        
+
         return option;
     }
 
     // Load available color palettes from configurations
-    async function loadColorPalettes(apps) {
+    async function loadColorPalettes() {
+        const checkedThemes = new Set(
+            Array.from(form.querySelectorAll('input[name="theme"]:checked')).map(i => i.value)
+        );
         colorPalettes = {};
-        apps.forEach(async (app) => {
+        allApps.forEach((app) => {
             if (app.type === 'profile' && app.config.theme?.colors?.palettes && app.profile) {
-                // Load color palettes from profile
-                Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
-                    colorPalettes[name] = `profiles/${app.profile}/resources/css/${cssPath}`;
-                });
+              const isThemeProfile = !!form.querySelector(`input[name="theme"][value="${app.profile}"]`);
+              if (isThemeProfile && checkedThemes.size > 0 && !checkedThemes.has(app.profile)) {
+                // Theme profile, but not selected. Ignore
+                return;
+              }
+
+              // The profile is a theme profile one, or it is selected. Add these color palettes
+              Object.entries(app.config.theme.colors.palettes).forEach(([name, cssPath]) => {
+                const basePath = app.external
+                  ? `../${app.profile}/resources/css/`
+                  : `profiles/${app.profile}/resources/css/`;
+                colorPalettes[name] = basePath + cssPath;
+              });
+
             }
         });
 
@@ -1217,7 +1231,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 console.error(`Failed to load palette ${name} from ${cssPath}:`, error);
             }
         }
-        
+
         // Re-initialize color picker after dynamic loading
         initializeColorPicker();
     }
@@ -1251,19 +1265,19 @@ window.addEventListener('DOMContentLoaded', () => {
     function initializeTabs() {
         const tabLinks = document.querySelectorAll('.tabs a[href^="#"]');
         const tabSections = document.querySelectorAll('[data-tab]');
-        
+
         // Hide all tab sections initially
         tabSections.forEach(section => {
             section.style.display = 'none';
         });
-        
+
         // Show the first tab by default
         if (tabSections.length > 0) {
             const firstTab = tabSections[0];
             const firstTabId = firstTab.getAttribute('data-tab');
             showTab(firstTabId);
         }
-        
+
         // Add click handlers to tab links
         tabLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -1280,20 +1294,20 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     function showTab(tabId) {
         // Hide all tab sections
         const tabSections = document.querySelectorAll('[data-tab]');
         tabSections.forEach(section => {
             section.style.display = 'none';
         });
-        
+
         // Show the selected tab section
         const targetSection = document.querySelector(`[data-tab="${tabId}"]`);
         if (targetSection) {
             targetSection.style.display = 'block';
         }
-        
+
         // Update active tab link
         const tabLinks = document.querySelectorAll('.tabs a[href^="#"]');
         tabLinks.forEach(link => {

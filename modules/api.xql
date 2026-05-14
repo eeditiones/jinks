@@ -129,6 +129,7 @@ declare function api:configurations($request as map(*)) {
                         map {
                             "type": "profile",
                             "profile": $collection,
+                            "external": true(),
                             "title": head(($config?label, $config?pkg?title)),
                             "description": $config?description,
                             "config": $config
@@ -164,6 +165,7 @@ declare function api:configurations($request as map(*)) {
                         map {
                             "type": "profile",
                             "profile": $collection,
+                            "external": false(),
                             "title": head(($config?label, $config?pkg?title)),
                             "description": $config?description,
                             "config": $config
