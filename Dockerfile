@@ -11,14 +11,12 @@ ARG JWT_VERSION=2.0.1
 WORKDIR /tmp
 
 # Build jinks-template
-RUN git clone https://github.com/eeditiones/jinks-templates.git \
-    && cd jinks-templates \
-    && ant
+ADD https://github.com/eeditiones/jinks-templates.git /tmp/jinks-templates
+RUN cd /tmp/jinks-templates && ant
 
 # Build tei-publisher-lib
-RUN git clone https://github.com/eeditiones/tei-publisher-lib.git \
-    && cd tei-publisher-lib \
-    && ant
+ADD https://github.com/eeditiones/tei-publisher-lib.git /tmp/tei-publisher-lib
+RUN cd /tmp/tei-publisher-lib && ant
 
 # Build Jinks
 # TODO(DP): needs to be xar local

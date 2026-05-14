@@ -48,6 +48,20 @@ runs:
         mkdir -p demo/${{ inputs.app-name }}
         unzip -o demo/${{ inputs.app-name }}.xar -d demo/${{ inputs.app-name }}
 
+    - name: Smoke test - verify app loaded correctly
+      shell: bash
+      run: |
+        echo "Checking that ${{ inputs.app-name }} started without XQuery errors..."
+        response=$(curl -s -o /tmp/smoke-response.txt -w "%{http_code}" \
+          http://localhost:8080/exist/apps/${{ inputs.app-name }}/api/version)
+        if [ "$response" != "200" ]; then
+          echo "Smoke test FAILED: /api/version returned HTTP $response"
+          echo "Response body:"
+          cat /tmp/smoke-response.txt
+          exit 1
+        fi
+        echo "Smoke test passed (HTTP $response)"
+
     - name: Set up Node.js
       uses: actions/setup-node@v6
       with:
@@ -57,7 +71,7 @@ runs:
       shell: bash
       working-directory: demo/${{ inputs.app-name }}
       run: |
-        npm install 
+        npm install
         npx cypress run --browser firefox
 
     - name: Stop jinks container
