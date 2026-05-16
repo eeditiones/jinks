@@ -28,7 +28,7 @@ declare function facets:sort($config as map(*), $lang as xs:string?, $facets as 
         if (exists($facets)) then
             for $key in map:keys($facets)
             let $value := map:get($facets, $key)
-            let $sortKey := facets:translate($config, $lang, $key)
+            let $sortKey := facets:translate($config, $lang, $key) => head()
             order by $sortKey ascending collation "http://www.w3.org/2013/collation/UCA"
             return
                 map { $key: $value }
@@ -147,8 +147,8 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                 if (map:contains($config, "source")) then
                     (: use source as URL to API endpoint from which to retrieve possible values :)
                     <pb-combo-box source="{$config?source}" close-after-select=""
-                        on-update="pb-search-resubmit">
-                        <select multiple="" placeholder="{$config?heading}">
+                        on-update="pb-search-resubmit" placeholder="{$config?heading}">
+                        <select multiple="">
                         {
                             for $param in facets:get-parameter("facet-" || $config?dimension)
                             let $label := facets:translate($config, $lang, $param)
