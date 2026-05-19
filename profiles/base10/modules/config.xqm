@@ -295,38 +295,7 @@ declare variable $config:data-exclude := $gen:data-exclude;
 declare variable $config:register-root := $gen:register-root;
 declare variable $config:register-forms := $config:register-root || "/templates";
 
-declare variable $config:register-map := map {
-    "person": map {
-        "id": "pb-persons",
-        "default": "person-default",
-        "prefix": "person-"
-    },
-    "place": map {
-        "id": "pb-places",
-        "default": "place-default",
-        "prefix": "place-"
-    },
-    "bibliography": map {
-        "id": "pb-bibl",
-        "default": "bibl-default",
-        "prefix": "bibl-"
-    },
-    "organization": map {
-        "id": "pb-organizations",
-        "default": "organization-default",
-        "prefix": "org-"
-    },
-    "term": map {
-        "id": "pb-keywords",
-        "default": "term-default",
-        "prefix": "category-"
-    },
-    "work": map {
-        "id": "pb-works",
-        "default": "work-default",
-        "prefix": "work-"
-    }
-};
+declare variable $config:register-map := $gen:register-map;
 
 (:~
  : The main ODD to be used by default
