@@ -182,7 +182,7 @@
             <desc>Insert table cell. </desc>
         </model>
                 </elementSpec>
-                <elementSpec ident="choice" mode="change">
+                <elementSpec ident="choice" mode="change">          
                     <model predicate="sic and corr" behaviour="alternate">
             <param name="default" value="corr[1]"/>
             <param name="alternate" value="sic[1]"/>
@@ -430,10 +430,20 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
-                    <model behaviour="break" useSourceRendition="true">
-            <param name="type" value="'line'"/>
-            <param name="label" value="@n"/>
-        </model>
+                    <modelSequence predicate="@break">
+                        <desc>Generated hyphen for line breaks marked as non-word breaking. Can be later toggled on/off as desired.</desc>
+                        <model predicate="@break='no'" behaviour="inline" cssClass="lb-hyphen">
+                            <param name="content" value="'-'"/>
+                        </model>
+                        <model behaviour="break" cssClass="lb">
+                            <param name="type" value="'line'"/>
+                            <param name="label" value="@n"/>
+                        </model>
+                    </modelSequence>
+                    <model behaviour="break" useSourceRendition="true" cssClass="lb">
+                        <param name="type" value="'line'"/>
+                        <param name="label" value="@n"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="lg" mode="change">
                     <model behaviour="block"/>
