@@ -1,0 +1,74 @@
+<details id="verification">
+    <summary>
+        <h2><pb-i18n key="form.verification">Verifizierung</pb-i18n></h2>
+    </summary>
+    <fx-group ref="fileDesc/titleStmt">
+        <fx-trigger class="add">
+            <pb-popover>
+                <iron-icon icon="add-circle-outline"></iron-icon>
+                <template slot="alternate">
+                    <pb-i18n key="form.hint-add-verification"/>
+                </template>
+            </pb-popover>
+            <fx-insert
+              context="."
+              ref="respStmt"
+              origin="instance('templates')/respStmt"></fx-insert>
+        </fx-trigger>
+        <fx-repeat
+          class="nested-repeat"
+          ref="respStmt"
+          id="r-verification">
+            <template>
+                <fx-group ref="resp">                   
+                    <fx-control ref=".">
+                        <label>
+                            <pb-i18n key="form.basis-of-verification">Verifizierungsgrundlage</pb-i18n>
+                        </label>
+                        <select
+                        class="widget"
+                        ref="sortNames(instance('verification-options')//category)">
+                            <template>
+                                <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                            </template>
+                        </select>
+                    </fx-control>
+                    <fx-control ref="@when" create="create">
+                        <label>
+                            <pb-i18n key="form.date-of-verification"/>
+                        </label>
+                        <input placeholder="YYYY-MM-DD" class="widget" />
+                    </fx-control>
+                </fx-group>
+
+                <fx-control ref="persName">
+                    <label>
+                        <pb-i18n key="form.verification-by">Verifizierer</pb-i18n>
+                    </label>
+                </fx-control>
+                
+                <fx-trigger>
+                    <pb-popover>
+                        <iron-icon icon="remove-circle-outline"></iron-icon>
+                        <template slot="alternate">
+                            <pb-i18n key="form.hint-delete-verification"></pb-i18n
+                            ></template>
+                    </pb-popover>
+                    <fx-delete ref="."></fx-delete>
+                </fx-trigger>
+            </template>
+        </fx-repeat>
+        <fx-trigger class="add">
+            <pb-popover>
+                <iron-icon icon="add-circle-outline"></iron-icon>
+                <template slot="alternate">
+                    <pb-i18n key="form.hint-add-verification"> </pb-i18n
+                    ></template>
+            </pb-popover>
+            <fx-insert
+                context="fileDesc/titleStmt"
+                ref="respStmt"
+                origin="instance('templates')//respStmt"></fx-insert>
+        </fx-trigger>
+    </fx-group>
+</details>
