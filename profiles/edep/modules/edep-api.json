@@ -1,0 +1,640 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "[[ head(($pkg?title, $label)) ]] – EDEp API",
+    "description": "Custom API endpoints for the EDEp epidoc editor"
+  },
+  "servers": [
+    {
+      "description": "Endpoint for testing on localhost",
+      "url": "/exist/apps/[[$pkg?abbrev]]"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "cookieAuth": {
+        "type": "apiKey",
+        "name": "teipublisher.com.login",
+        "in": "cookie"
+      }
+    }
+  },
+  "paths": {
+    "/edit/{collection}/": {
+      "get": {
+        "summary": "Edit landing page for a collection",
+        "tags": ["view"],
+        "operationId": "vapi:html",
+        "x-error-handler": "vapi:handle-error",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "edit"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "demo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML of the page",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The document was not found",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/edit/{collection}/{id}.xml": {
+      "get": {
+        "summary": "Edit landing page for a document",
+        "tags": ["view"],
+        "operationId": "vapi:html",
+        "x-error-handler": "vapi:handle-error",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "edit"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "workspace"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML of the page",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The document was not found",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/orte": {
+      "get": {
+        "summary": "Landing page for places",
+        "tags": ["view"],
+        "operationId": "vapi:html",
+        "x-error-handler": "vapi:handle-error",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "pages/places"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML of the page",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The document was not found",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/personen": {
+      "get": {
+        "summary": "Landing page for people",
+        "tags": ["view"],
+        "operationId": "vapi:html",
+        "x-error-handler": "vapi:handle-error",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "pages/people"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML of the page",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The document was not found",
+            "content": {
+              "text/html": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/places": {
+      "post": {
+        "summary": "Add or update a place",
+        "x-constraints": {
+          "group": ["tei"]
+        },
+        "operationId": "edep:places-add",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored place record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List places",
+        "description": "Retrieve list of places in format required by pb-split-list",
+        "operationId": "edep:places-browse",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 50 }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories and places to display",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/places/{id}": {
+      "get": {
+        "summary": "Get a place record",
+        "operationId": "edep:load-place",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place XML record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add or update a place by id",
+        "x-constraints": {
+          "group": "tei"
+        },
+        "operationId": "edep:places-add",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored place record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
+    "/api/places/{id}/findSpot": {
+      "get": {
+        "summary": "Retrieve the find spot of an inscription",
+        "operationId": "edep:find-spot",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place coordinates and label",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": { "type": "string" },
+                          "count": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/geopicker/places": {
+      "get": {
+        "summary": "Shortlist of places for geodata-picker page",
+        "operationId": "edep:geopicker-places",
+        "responses": {
+          "200": {
+            "description": "Places list for geo picker page",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
+    "/api/people": {
+      "post": {
+        "summary": "Add or update a person",
+        "x-constraints": {
+          "group": "tei"
+        },
+        "operationId": "edep:person-add",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored person record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List people",
+        "description": "Retrieve list of people in format required by pb-split-list",
+        "operationId": "edep:people-browse",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 50 }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories and people to display",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/people/{id}": {
+      "get": {
+        "summary": "Get a person record",
+        "operationId": "edep:load-person",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Person XML record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add or update a person by id",
+        "x-constraints": {
+          "group": "tei"
+        },
+        "operationId": "edep:person-add",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored person record",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
+    "/api/inscription": {
+      "get": {
+        "summary": "Get inscription template or document",
+        "operationId": "edep:inscription-template",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inscription XML document",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Store an inscription",
+        "x-constraints": {
+          "group": "tei"
+        },
+        "operationId": "edep:inscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored inscription document",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
+    "/api/render": {
+      "post": {
+        "summary": "Render the transcription",
+        "operationId": "edep:render",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rendered transcription HTML",
+            "content": {
+              "text/html": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
+    "/api/document/{id}/epidoc": {
+      "get": {
+        "summary": "Get the EpiDoc source of a document",
+        "tags": ["documents"],
+        "operationId": "dapi:epidoc",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Content of the document",
+            "content": {
+              "application/xml": { "schema": { "type": "string" } },
+              "text/markdown": { "schema": { "type": "string" } },
+              "text/text": { "schema": { "type": "string" } }
+            }
+          },
+          "410": {
+            "description": "Document deleted"
+          }
+        }
+      }
+    },
+    "/api/zotero/sync": {
+      "get": {
+        "summary": "Incrementally sync local Zotero cache",
+        "tags": ["zotero"],
+        "operationId": "zotero:sync",
+        "responses": {
+          "200": {
+            "description": "Sync result",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          },
+          "304": {
+            "description": "No updates"
+          }
+        }
+      }
+    },
+    "/api/zotero/items/suggest": {
+      "get": {
+        "security": [{ "basicAuth": [] }],
+        "summary": "Lightweight suggestions for autocomplete",
+        "tags": ["zotero"],
+        "operationId": "zotero:items-suggest",
+        "parameters": [
+          { "in": "query", "name": "q", "schema": { "type": "string" } },
+          { "in": "query", "name": "tag", "schema": { "type": "string" } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 8 } },
+          { "in": "query", "name": "top", "schema": { "type": "boolean", "default": true } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suggestion list",
+            "content": {
+              "text/plain": { "schema": { "type": "object" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/zotero/items/search": {
+      "get": {
+        "security": [{ "basicAuth": [] }],
+        "summary": "Search cached Zotero items",
+        "tags": ["zotero"],
+        "operationId": "zotero:items-search",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": { "type": "string", "default": "Ama" },
+            "description": "Full-text over title/creators/DOI"
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "schema": { "type": "string" },
+            "description": "Restrict to items having this tag"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer", "default": 15 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of items (key + data)",
+            "content": {
+              "text/plain": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    { "cookieAuth": [] },
+    { "basicAuth": [] }
+  ]
+}

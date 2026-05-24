@@ -1,0 +1,109 @@
+<details id="inscription-field">
+    <summary>
+        <h2><pb-i18n key="form.inscription-field">Inschriftfeld</pb-i18n></h2>
+    </summary>
+
+    <fx-group ref="physDesc/objectDesc/layoutDesc/layout" id="dimensions">
+        <section class="form-row">
+            <fx-control class="measurement" ref="dimensions/height">
+                <label>
+                    <pb-i18n key="form.height">Höhe</pb-i18n>
+                </label>
+            </fx-control>
+
+            <fx-control class="measurement" ref="dimensions/width">
+                <label>
+                    <pb-i18n key="form.width">Breite</pb-i18n>
+                </label>
+            </fx-control>
+        </section>
+
+        <fx-control ref="ab" as="node" update-event="leave">
+            <label>
+                <pb-i18n key="form.description">Beschreibung</pb-i18n>
+            </label>
+            <edep-xml-editor
+              class="widget"
+              placeholder="[Inline text/markup or sequence of paragraphs]"
+              schema-root="provenance"
+              base-url="${app}"
+              data-template="lib:parse-params">
+            </edep-xml-editor>
+        </fx-control>
+    </fx-group>
+
+    <fieldset>
+        <legend>
+            <pb-i18n key="form.letter-size">Buchstabenhöhe</pb-i18n>
+        </legend>
+        <fx-group ref="physDesc">
+            <fx-group ref="handDesc">
+
+                <fx-trigger class="add">
+                    <pb-popover>
+                        <iron-icon icon="add-circle-outline"></iron-icon>
+                        <template slot="alternate">
+                            <pb-i18n key="form.hint-add-language"/>
+                        </template>
+                    </pb-popover>
+                    <fx-insert
+                    context="."
+                    ref="handNote"
+                    origin="instance('templates')/handNote[@scope='letterHeight']"></fx-insert>
+                </fx-trigger>
+
+                <fx-repeat
+                class="nested-repeat"
+                ref="handNote[@scope='letterHeight']"
+                id="r-letterHeight">
+                    <template>
+                        <fx-group>
+                            <fx-group class="form-row">                             
+                                <fx-control ref="locus">
+                                    <label>
+                                        <pb-i18n key="form.line"/>
+                                    </label>
+                                </fx-control>
+
+                                <fx-group ref="dimensions">
+                                    <fx-group ref="height">
+                                        <fx-control ref="@min" create="create" class="measurement">
+                                            <label>
+                                                <pb-i18n key="form.letter-size-min"></pb-i18n>
+                                            </label>
+                                        </fx-control>
+
+                                        <fx-control ref="@max" create="create" class="measurement">
+                                            <label>
+                                                <pb-i18n key="form.letter-size-max"></pb-i18n>
+                                            </label>
+                                        </fx-control>
+                                    </fx-group>
+                                </fx-group>
+                            </fx-group>
+                            <fx-group ref="dimensions">
+                                <fx-control ref="height">
+                                    <label>
+                                        <pb-i18n key="form.letter-size-free"></pb-i18n>
+                                    </label>
+                                    <textarea class="widget"></textarea>
+                                </fx-control>
+                            </fx-group>
+
+                        </fx-group>
+
+                        <fx-trigger>
+                            <pb-popover>
+                                <iron-icon icon="remove-circle-outline"></iron-icon>
+                                <template slot="alternate">
+                                    <pb-i18n key="form.hint-delete"></pb-i18n>
+                                </template>
+                            </pb-popover>
+                            <fx-delete ref="."></fx-delete>
+                        </fx-trigger>
+                    </template>
+                </fx-repeat>
+            </fx-group>
+        </fx-group>
+    </fieldset>
+</details>
