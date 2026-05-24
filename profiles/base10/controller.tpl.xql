@@ -47,7 +47,12 @@ else if ($exist:path eq '/api.html') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/templates/api.html"/>
     </dispatch>
-    
+
+else if (matches($exist:path, "^.*/data/.*$")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/{$exist:path}"/>
+    </dispatch>
+
 (: static resources from the resources, transform, templates, odd or modules subirectories are directly returned :)
 else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
     or matches($exist:path, "^.*/odd/.*\.css$")
@@ -89,7 +94,7 @@ else
             "api-actions.xql"
         else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex|actions/file-sync)$")) then
             "api-dba.xql"
-        else 
+        else
             "api.xql"
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

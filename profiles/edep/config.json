@@ -1,0 +1,38 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "label": "EDEp - Epidoc Editor",
+    "description": "Provides a form-based editor for Epidoc documents.",
+    "id": "https://e-editiones.org/apps/edep",
+    "type": "feature",
+    "category": "components",
+    "version": "1.0.0",
+    "depends": [
+        "base10",
+        "upload",
+        "forms"
+    ],
+    "defaults": {
+        "data-default": "workspace"
+    },
+    "api": [
+        {
+            "spec": "edep-api.json",
+            "prefix": "edep",
+            "path": "edep-api.xql",
+            "id": "http://e-editiones.org/api/edep"
+        }
+    ],
+    "features": {
+        "zotero": {
+            "api_base": "https://api.zotero.org",
+            "group_id": "2519759",
+            "style": "digital-humanities-im-deutschsprachigen-raum",
+            "api_key": ""
+        },
+        "upload": {
+            "enabled": true,
+            "target": "workspace",
+            "accept": ".xml, .tei, .odd, .docx, .md, .mei"
+        }
+    }
+}
