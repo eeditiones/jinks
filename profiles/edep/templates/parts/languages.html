@@ -1,0 +1,73 @@
+<details id="languages">
+    <!-- OBSOLETE, NOW PART OF TEXT DESCRIPTION AGAIN -->
+    <summary id="profile-lbl">
+        <pb-i18n key="form.language">Language(s)</pb-i18n>
+    </summary>
+    <fx-trigger class="add">
+        <pb-popover>
+            <iron-icon icon="add-circle-outline"></iron-icon>
+            <template slot="alternate">
+                <pb-i18n key="form.hint-add-language"></pb-i18n
+                ></template>
+        </pb-popover>
+        <fx-insert
+          context="langUsage"
+          ref="language"
+          origin="instance('templates')/language"></fx-insert>
+    </fx-trigger>
+
+    <fx-repeat
+      class="nested-repeat"
+      ref="langUsage/language[not(note)][@ident!='']"
+      id="r-language">
+        <template>
+            <fx-group>
+                <fx-control ref="@ident">
+                    <label>
+                        <pb-i18n key="form.language">Language</pb-i18n>
+                    </label>
+                    <select
+                  ref="instance('language-options')//category"
+                  class="widget">
+                    <template>
+                        <!-- prettier-ignore -->
+                        <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                    </template>
+                </select>         
+                </fx-control>
+            <!-- TODO change into radio/checkbox -->
+
+               <fx-control ref="@ana" value-prop="checked" update-event="input">
+                    <label>
+                        <pb-i18n key="form.languageScope"/>
+                    </label>
+                    <select
+                    ref="instance('language-scope')//category"
+                    class="widget">
+                      <template>
+                          <!-- prettier-ignore -->
+                          <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                      </template>
+                  </select>         
+                </fx-control>
+            </fx-group>
+            <fx-trigger>
+                <pb-popover>
+                    <iron-icon icon="remove-circle-outline"></iron-icon>
+                    <template slot="alternate">
+                        <pb-i18n key="form.hint-delete-language"></pb-i18n
+                        ></template>
+                </pb-popover>
+                <fx-delete ref="."></fx-delete>
+            </fx-trigger>
+        </template>
+    </fx-repeat>
+
+    <fx-control ref="langUsage/language[@ident='']/note">
+        <label>
+            <pb-i18n key="form.languageFree"
+            >Andere Sprachen oder Kommentare</pb-i18n
+            ></label
+        >
+    </fx-control>
+</details>

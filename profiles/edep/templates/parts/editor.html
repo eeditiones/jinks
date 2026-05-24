@@ -1,0 +1,81 @@
+<details id="editor">
+    <summary>
+        <h2><pb-i18n key="form.editing"></pb-i18n></h2>
+    </summary>
+
+    <fieldset>
+        <fx-group ref="revisionDesc">
+            <fx-control ref="@status" update-event="input" create="create">
+                <label>
+                    <pb-i18n key="form.status-of-editing">Stand der Bearbeitung</pb-i18n>
+                </label>
+                <select
+                    ref="instance('publication-status')//category"
+                    class="widget">
+                        <template>
+                            <!-- prettier-ignore -->
+                            <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                        </template>
+                </select>         
+            </fx-control>
+        </fx-group>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            <label>
+                <pb-i18n key="form.author-epigraphic-edition">Author(s)</pb-i18n>
+            </label>
+            <fx-trigger class="add">
+                <pb-popover>
+                    <iron-icon icon="add-circle-outline"></iron-icon>
+                    <template slot="alternate">
+                        <pb-i18n key="form.hint-add-editor"></pb-i18n
+                        ></template>
+                </pb-popover>
+                <fx-insert
+                context="fileDesc/titleStmt"
+                ref="editor"
+                origin="instance('templates')/editor"></fx-insert>
+            </fx-trigger>
+        </legend>
+
+        <fx-repeat
+        class="nested-repeat"
+        ref="fileDesc/titleStmt/editor"
+        id="r-editor">
+            <template>
+                <fx-group class="form-row">
+                    <fx-control ref="@role" create="create">
+                        <label>
+                            <pb-i18n key="form.author-role">Role</pb-i18n>
+                        </label>
+                        <select
+                        class="widget"
+                        ref="instance('editor-roles')//category">
+                            <template>
+                                <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                            </template>
+                        </select>
+                    </fx-control>
+
+                    <fx-control ref=".">
+                        <label>
+                            <pb-i18n key="form.author">Author</pb-i18n>
+                        </label>
+                    </fx-control>
+                
+                </fx-group>
+                <fx-trigger>
+                    <pb-popover>
+                        <iron-icon icon="remove-circle-outline"></iron-icon>
+                        <template slot="alternate">
+                            <pb-i18n key="form.hint-delete-editor"></pb-i18n
+                            ></template>
+                    </pb-popover>
+                    <fx-delete ref="."></fx-delete>
+                </fx-trigger>
+            </template>
+        </fx-repeat>
+    </fieldset>  
+</details>

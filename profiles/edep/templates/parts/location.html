@@ -1,0 +1,57 @@
+<details id="location">
+    <summary>
+        <h2><pb-i18n key="form.last-recorded-location"></pb-i18n></h2>
+    </summary>
+    <fx-group ref="msIdentifier/repository" class="neutral">
+        <fx-control ref=".">
+            <label>
+                <pb-i18n key="form.last-recorded-location"/>
+                <pb-popover>
+                    <iron-icon icon="info-outline"></iron-icon>
+                    <template slot="alternate">
+                        <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
+                    </template>
+                </pb-popover>
+
+            </label>
+            <textarea class="widget"></textarea>
+        </fx-control>
+
+        <fx-control ref="@key" create="create">
+            <label>
+                <pb-i18n key="form.repository"/>
+            </label>
+        </fx-control>
+    </fx-group>
+    <fx-control ref="msIdentifier/idno[@type='inventory']">
+        <label>
+            <pb-i18n key="form.repository-number"/>
+        </label>
+    </fx-control>
+
+    <!-- 12b) -->
+    <div class="with-hint">
+        <fx-control
+          ref="history/provenance[@type='history']"
+          as="node"
+          update-event="leave">
+            <label>
+                <pb-i18n key="form.other-events"/>
+                <pb-popover>
+                    <iron-icon icon="info-outline" />
+                    <template slot="alternate">
+                        <pb-i18n key="form.other-events"></pb-i18n>
+                    </template>
+                </pb-popover>
+
+            </label>
+            <edep-xml-editor
+              class="widget"
+              placeholder="[Inline text/markup or sequence of paragraphs]"
+              schema-root="provenance"
+              base-url="${app}"
+              data-template="lib:parse-params">
+            </edep-xml-editor>
+        </fx-control>
+    </div>
+</details>
