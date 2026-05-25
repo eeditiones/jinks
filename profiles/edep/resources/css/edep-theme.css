@@ -447,7 +447,10 @@ textarea:focus {
 .loginMessage {
     color: #f59e0b;
     font-size: 0.82rem;
-    margin-right: 1rem;
+    margin: 0 1rem 0 0;
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
     opacity: 0;
 }
 
@@ -767,6 +770,8 @@ fx-group#object {
 #references {
     border-left: 4px solid var(--jinks-form-border-color, #CFCDC5);
     border-radius: 0;
+    margin-left: -0.5rem;
+    padding-left: 0.5rem;
 }
 
 #references details {
@@ -1361,6 +1366,10 @@ fx-inspector[open] {
 .commentary {
     display: block;
     margin-top: 1em;
+}
+
+#transcription-display {
+    margin: 0.65rem 1rem;
 }
 
 .hint {
