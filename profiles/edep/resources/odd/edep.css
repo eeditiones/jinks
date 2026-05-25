@@ -1,0 +1,104 @@
+h1 {
+    font-family: var(--pb-heading-font-family);
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: var(--pb-content-font-size);
+    font-weight: normal;
+}
+
+.metadata th {
+    text-align:right;
+    padding-right: 1em;
+}
+
+.metadata td, .metadata th {
+    border-bottom: 1px solid #ddd;
+}
+
+pb-geolocation {
+    color: var(--pb-link-color);
+    text-decoration:underline;
+}
+
+.person, .bibl {
+    color: var(--pb-link-color);
+}
+
+a:link, a:visited, a:hover {
+    color: var(--pb-link-color);
+    text-decoration: none;
+}
+
+.facs {
+    text-align:center;
+}
+            
+.facs p, .facs h4 {
+    margin-bottom:0;
+}
+            
+.facsLinks {
+    display:flex;
+    justify-content:space-around;
+}
+
+.number-lb {
+    position:absolute;
+    font-style:normal;
+    font-size:80%;
+    color:#838383;
+    text-align:right;
+    font-weight:bold;
+    left: -2.75em;
+    width: 2em;
+    padding-top:0.5%;
+}
+
+
+/*toggle between normalized/diplomatic view */
+
+	.choice-alternate {
+		display: none;
+	}
+
+	.choice-alternate.toggle {
+		display: inline;
+	}
+
+	.choice.toggle {
+	display: none;
+	}
+
+    .lb.toggle {
+        display: none;
+    }
+
+	.lb-hyphen.toggle {
+        display: none;
+    }
+
+.csep > :not(:last-child)::after {
+    content: ", ";
+}
+
+.csep > :empty::after {
+    content: "";
+}
+
+.csep:lang(en) *::first-letter {
+    text-transform: lowercase;
+}
+
+.csep::first-letter {
+    text-transform: uppercase;
+}
+
+pb-tabs {
+    margin-bottom: 1rem;
+}
+
+.norm {
+    text-transform: uppercase;
+}
