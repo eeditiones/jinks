@@ -14,7 +14,6 @@ import module namespace iapi="http://teipublisher.com/api/info" at "api/info.xql
 import module namespace vapi="http://teipublisher.com/api/view" at "api/view.xql";
 import module namespace nlp="http://teipublisher.com/api/nlp" at "api/nlp.xql";
 import module namespace rapi="http://teipublisher.com/api/registers" at "../registers.xql";
-import module namespace action="http://teipublisher.com/api/actions" at "api/actions.xql";
 import module namespace deploy="https://teipublisher.org/api/deploy" at "api/deploy.xql";
 
 [% for $module in $context?api?* %]
