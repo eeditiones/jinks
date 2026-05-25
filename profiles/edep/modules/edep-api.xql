@@ -266,8 +266,8 @@ declare function edep:person-add($request as map(*)) {
 
 declare function edep:inscription($request as map(*)) {
     let $check-collection :=
-        if (not(xmldb:collection-available($config:inscription))) then
-            xmldb:create-collection("/", $config:inscription)
+        if (not(xmldb:collection-available($config:app-root || "/workspace"))) then
+            xmldb:create-collection($config:app-root, "/workspace")
         else
             ()
     let $collection := $config:data-root || "/" || $request?parameters?collection

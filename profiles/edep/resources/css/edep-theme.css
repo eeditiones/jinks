@@ -1,0 +1,1426 @@
+/* =============================================================================
+   EDEp EpiDoc Editor Theme — matches the base10 site design system
+   ============================================================================= */
+
+/* --- Variables --------------------------------------------------------------- */
+:root {
+    --edep-nav-width: 13rem;
+    --edep-header-height: 4rem;
+    --edep-label-width: 10rem;
+    --jinn-codemirror-background-color: white;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+}
+
+.fixed-layout > main {
+    display: block;
+}
+
+/* --- Nav sidebar ------------------------------------------------------------ */
+fx-fore nav #addFragment button {
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    color: var(--jinks-colors-light, #FCFCF8);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--jinks-form-border-radius-full, 999px);
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.8;
+}
+
+fx-fore nav #addFragment button:hover {
+    background: rgba(255,255,255,0.1);
+    opacity: 1;
+}
+
+/* --- Form content layout ---------------------------------------------------- */
+/* Position all top-level form elements past the fixed nav */
+main > fx-group,
+main > h1,
+main > section {
+    margin-left: var(--edep-nav-width);
+}
+
+/* Prevent fx-group from forcing horizontal scroll */
+main > fx-group,
+main > fx-group[ref="teiHeader"],
+main > fx-group[ref="text/body"] {
+    min-width: 0;
+}
+
+/* Ensure last group clears the fixed button bar */
+main > fx-group:last-of-type {
+    padding-bottom: 4rem;
+}
+
+/* --- Title ------------------------------------------------------------------ */
+h1#title-lbl {
+    box-shadow: none;
+    text-shadow: none;
+    margin-top: 0;
+}
+
+h1:has(> fx-control.title) {
+    margin: 1rem 1rem 0;
+    padding: 0;
+}
+
+/*fx-control.title,
+fx-control.title[relevant] {
+    display: block;
+    margin: 0;
+}
+
+fx-control.title label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--jinks-colors-500, #6f6b5d);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
+}
+
+fx-control.title input {
+    font-size: 1.4rem;
+    font-family: var(--pb-heading-font-family, 'Inter', sans-serif);
+    border: none;
+    border-bottom: 2px solid var(--jinks-form-border-color, #CFCDC5);
+    width: 100%;
+    display: block;
+    padding: 0.15rem 0;
+    background: transparent;
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+fx-control.title input:focus {
+    outline: none;
+    border-bottom-color: var(--jinks-form-focus-color1, #3B82F6);
+}*/
+
+/* --- Sections (details/summary) -------------------------------------------- */
+.outer-group {
+    padding: 0.75rem 1rem;
+}
+
+.outer-group:has(#edition) {
+    padding: 0 1rem;
+    margin-top: 0;
+}
+
+main details {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--jinks-color-white, #fff);
+    position: relative;
+}
+
+main details[open] summary {
+    border-bottom: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.6rem;
+}
+
+main summary {
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    font-family: var(--pb-heading-font-family, 'Inter', sans-serif);
+    font-weight: 600;
+    color: var(--jinks-color-primary, #2D2B26);
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+main summary::-webkit-details-marker { display: none; }
+
+main summary::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--jinks-colors-500, #6f6b5d);
+    border-bottom: 2px solid var(--jinks-colors-500, #6f6b5d);
+    transform: rotate(-45deg);
+    flex-shrink: 0;
+    margin-right: 0.1rem;
+    transition: transform 0.18s;
+}
+
+main details[open] > summary::before {
+    transform: rotate(45deg);
+}
+
+main summary > .add {
+    display: none;
+}
+
+main details[open] summary > .add {
+    display: inline-block;
+}
+
+main summary h2,
+main summary h3 {
+    display: inline;
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    margin: 0;
+    font-weight: 600;
+}
+
+main details > fx-group {
+    padding: 0 0.5rem;
+}
+
+/* --- Form field layout ---------------------------------------------------- */
+/* fore.css sets [relevant]{display:block} which overrides the shadow-DOM's
+   own :host{display:flex}. We restore flex (matching Fore's intent) by
+   adding [relevant] to raise specificity above the attribute-selector rule. */
+fx-control,
+fx-control[relevant],
+fx-output,
+fx-output[relevant] {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    margin: 0.65rem 1rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+    position: relative;
+}
+
+fx-control label,
+fx-output label {
+    flex: 0 0 auto;
+    min-width: var(--edep-label-width);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    color: var(--jinks-colors-500, #6f6b5d);
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+fx-control > .widget,
+fx-control > .xml-editor {
+    flex: 1;
+    min-width: 0;
+    background: var(--jinks-form-background-color, #FEFEF9);
+    pointer-events: all;
+}
+
+fx-control [icon="info-outline"] {
+    flex: 0 0 1.2rem;
+    cursor: pointer;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+}
+
+fx-control fx-alert {
+    flex: 0 0 100%;
+    margin-left: calc(var(--edep-label-width) + 1.2rem + 1.5rem);
+    font-size: 0.76rem;
+    color: #ef4444;
+    display: none;
+}
+
+/* Textarea controls use same flex layout as regular inputs */
+fx-control:has(textarea),
+fx-control[relevant]:has(textarea) {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+}
+
+fx-control:has(textarea) label {
+    flex: 0 0 auto;
+    min-width: var(--edep-label-width);
+    margin-top: 0.5rem;
+    white-space: nowrap;
+}
+
+fx-control textarea {
+    flex: 1;
+    min-width: 0;
+}
+
+fx-control:has(jinn-xml-editor),
+fx-control[relevant]:has(jinn-xml-editor) {
+    display: block;
+    margin-top: 1rem;
+}
+
+fx-control.editor,
+fx-control.editor[relevant] {
+    display: block;
+}
+
+fx-control[required] > label::after {
+    position: absolute;
+    right: 0;
+    content: '*';
+    color: #ef4444;
+}
+
+/* --- Tooltips/hints --------------------------------------------------------- */
+fx-control fx-hint {
+    display: inline-block;
+    transform: translate(0, 2em);
+    opacity: 0;
+    position: absolute;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    padding: 0.65rem 0.9rem;
+    z-index: 30;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    background: var(--jinks-background-color-dark, #2D2B26);
+    color: var(--jinks-colors-light, #FCFCF8);
+    font-size: 0.8rem;
+    max-width: 22vw;
+    border-radius: 0.5rem;
+    line-height: 1.4;
+}
+
+fx-control iron-icon:hover ~ fx-hint {
+    opacity: 1;
+    transition: opacity 0.25s;
+}
+
+/* --- Inputs ----------------------------------------------------------------- */
+input.widget {
+    height: 2.25rem;
+    line-height: 2.25rem;
+    padding: 0 12px;
+    background-color: var(--jinks-form-background-color, #FEFEF9);
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: var(--jinks-form-border-radius, 90px);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    color: var(--jinks-color-primary, #2D2B26);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+select.widget {
+    height: 2rem;
+    padding: 0 calc(2rem + 4px) 0 12px;
+    background-color: var(--jinks-form-background-color, #FEFEF9);
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: var(--jinks-form-border-radius, 90px);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    color: var(--jinks-color-primary, #2D2B26);
+    width: 100%;
+    box-sizing: border-box;
+    background-image: var(--jinks-select-image);
+    background-repeat: no-repeat;
+    background-position: center right 0.75rem;
+    background-size: var(--jinks-select-image-size, 15px) auto;
+    appearance: none;
+}
+
+input.widget:focus,
+select.widget:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--jinks-form-focus-color1, #3B82F6),
+                0 0 0 4px var(--jinks-form-focus-color2, rgba(59,130,246,0.2));
+}
+
+/* Override controls.css which may add margin-bottom to text inputs */
+input.widget {
+    margin-bottom: 0;
+}
+
+select {
+    width: 100%;
+}
+
+textarea {
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--jinks-form-background-color, #FEFEF9);
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.5rem;
+    padding: 0.5rem 12px;
+    color: var(--jinks-color-primary, #2D2B26);
+    transition: box-shadow 0.12s;
+}
+
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--jinks-form-focus-color1, #3B82F6),
+                0 0 0 4px var(--jinks-form-focus-color2, rgba(59,130,246,0.2));
+}
+
+/* --- Validation states ------------------------------------------------------ */
+.visited[required].isEmpty .widget,
+.visited[invalid] .widget {
+    border-color: #ef4444;
+    background-color: #fff5f5;
+}
+
+.submit-validation-failed fx-control.isEmpty .widget {
+    border-color: #ef4444;
+    background-color: #fff5f5;
+}
+
+.visited[invalid] fx-alert {
+    display: block;
+}
+
+.valid-warning[invalid] fx-alert {
+    display: block;
+    font-size: 0.875rem;
+    color: #ef4444;
+    padding: 0.4rem 0;
+}
+
+.isRequiredFalse .widget {
+    background-color: #fffef0;
+}
+
+/* --- Button bar ------------------------------------------------------------- */
+.buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0.6rem 1.5rem 0.6rem calc(var(--edep-nav-width) + 1.5rem);
+    background: var(--jinks-background-color-dark, #2D2B26);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    width: 100%;
+    box-sizing: border-box;
+    column-gap: 1rem;
+    z-index: 20;
+}
+
+.buttonBar pb-restricted {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+/* Primary save button — filled */
+.saveBtn button,
+.buttonBar pb-restricted > fx-trigger:first-child button {
+    display: inline-flex;
+    padding: 8px 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--jinks-form-border-radius-full, 999px);
+    border: none;
+    color: var(--jinks-color-white, #fff);
+    background-color: var(--jinks-colors-500, #6f6b5d);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    cursor: pointer;
+    transition: opacity 0.12s;
+}
+
+.saveBtn button:hover,
+.buttonBar pb-restricted > fx-trigger:first-child button:hover {
+    opacity: 0.85;
+}
+
+/* Secondary buttons (links) */
+.buttonBar fx-trigger a:link,
+.buttonBar fx-trigger a:visited {
+    color: var(--jinks-colors-light, #FCFCF8);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--jinks-form-border-radius-full, 999px);
+    border: 1px solid rgba(255,255,255,0.2);
+    opacity: 0.8;
+    transition: opacity 0.12s, background 0.12s;
+}
+
+.buttonBar fx-trigger a:hover {
+    opacity: 1;
+    background: rgba(255,255,255,0.08);
+}
+
+.loginMessage {
+    color: #f59e0b;
+    font-size: 0.82rem;
+    margin-right: 1rem;
+    opacity: 0;
+}
+
+.fx-ready .loginMessage {
+    opacity: 1;
+    transition: opacity 0.8s;
+    transition-delay: 1s;
+}
+
+/* --- Triggers --------------------------------------------------------------- */
+fx-trigger {
+    display: block;
+}
+
+fx-trigger button {
+    display: inline-flex;
+    padding: 6px 16px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--jinks-form-border-radius-full, 999px);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    cursor: pointer;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    background: var(--jinks-form-background-color, #FEFEF9);
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+fx-trigger button:hover {
+    background: var(--jinks-form-hover-color, #CFCDC5);
+}
+
+fx-trigger.add button {
+    background: var(--jinks-background-color-dark, #2D2B26);
+    color: var(--jinks-color-white, #fff);
+    border: none;
+}
+
+fx-trigger.add button:hover {
+    opacity: 0.85;
+}
+
+fx-trigger.delete button {
+    background: #ef4444;
+    color: white;
+    border: none;
+}
+
+fx-trigger.add {
+    display: inline-flex;
+    position: relative;
+    margin-left: auto;
+    align-self: flex-end;
+}
+
+fx-repeat > fx-trigger.add {
+    position: relative;
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-self: flex-end;
+    z-index: 10;
+}
+
+fx-trigger iron-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+fx-trigger.add iron-icon {
+    color: var(--jinks-background-color-dark, #2D2B26);
+}
+
+fx-trigger.delete {
+    text-align: right;
+}
+
+[icon='remove-circle-outline'] {
+    color: #ef4444;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* --- Repeats --------------------------------------------------------------- */
+fx-repeat {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+fx-repeatitem {
+    display: block;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+fx-repeatitem fx-control:has(jinn-xml-editor) {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+fx-repeatitem .with-hint {
+    grid-template-columns: auto 2rem;
+}
+
+/* Default: vertical stack layout for better form readability */
+fx-repeat.repeat-flex {
+    display: block;
+}
+
+fx-repeat.repeat-flex fx-repeatitem {
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+/* Optional: horizontal layout for simple single-field repeats */
+fx-repeat.repeat-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+fx-repeat.repeat-horizontal fx-repeatitem {
+    display: inline-flex;
+    flex: 0 1 auto;
+}
+
+fx-fore details > fx-repeat {
+    margin-left: -1rem;
+}
+
+.nested-repeat {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+}
+
+.nested-repeat fx-group {
+    border: none;
+}
+
+fieldset .nested-repeat fx-repeatitem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--jinks-form-background-color, #FEFEF9);
+    margin: 0.65rem 0;
+    padding: 0.75rem;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.5rem;
+    position: relative;
+    gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+fieldset .nested-repeat fx-repeatitem > fx-group {
+    flex: 1;
+}
+
+fieldset .nested-repeat fx-repeatitem > fx-trigger {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.nested-repeat fx-repeatitem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--jinks-form-background-color, #FEFEF9);
+    margin: 0.75rem 0;
+    padding: 1rem;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.5rem;
+    position: relative;
+    gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nested-repeat fx-repeatitem > fx-group {
+    flex: 1;
+}
+
+.nested-repeat fx-repeatitem > fx-trigger {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+/* Row-oriented nested repeats with delete button on right */
+.nested-repeat fx-repeatitem:has(> fx-group.form-row) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
+    align-items: start;
+}
+
+.nested-repeat fx-repeatitem:has(> fx-group.form-row) > fx-group {
+    grid-column: 1;
+}
+
+.nested-repeat fx-repeatitem:has(> fx-group.form-row) > fx-trigger {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+}
+
+.nested-repeat textarea {
+    width: 100%;
+}
+
+.nested-repeat fx-control input {
+    width: 100%;
+}
+
+.nested-repeat fx-control label {
+    display: block;
+}
+
+.nested-repeat fx-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+/* Remove default margins from controls inside nested repeats (inside fieldsets) */
+fieldset .nested-repeat fx-control,
+fieldset .nested-repeat fx-control[relevant] {
+    margin: 0.5rem 0;
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* --- fx-group --------------------------------------------------------------- */
+fx-group > label {
+    font-family: var(--pb-heading-font-family, 'Inter', sans-serif);
+    font-weight: 400;
+    line-height: 1.2;
+    padding: 0.5rem;
+    display: block;
+    position: absolute;
+    top: 0;
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+fx-group.neutral {
+    padding: 0;
+    border: none;
+    position: relative;
+}
+
+fx-group.outer-group {
+    padding: 0.75rem 1rem;
+}
+
+fx-group.padded {
+    padding-top: 1.5rem;
+}
+
+fx-group:has(> h2) {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+}
+
+fx-group.bordered {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+}
+
+fx-group + fx-group {
+    margin-top: 0.75rem;
+}
+
+fx-group > h2 {
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    font-weight: 600;
+    padding: 0.65rem 1rem;
+    margin: 0;
+    color: var(--jinks-color-primary, #2D2B26);
+    border-bottom: 1px solid var(--jinks-form-border-color, #CFCDC5);
+}
+
+fx-group h4 {
+    margin: 0.65rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+/* --- Object/identifier group ----------------------------------------------- */
+fx-group#object {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+    overflow: visible;
+}
+
+
+.group-1 {
+    margin: 0;
+    padding: 0 2rem;
+}
+
+/* --- References section ----------------------------------------------------- */
+#references {
+    border-left: 4px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0;
+}
+
+#references details {
+    border-radius: 0;
+}
+
+#transmission {
+    margin-top: 1rem;
+}
+
+/* --- fx-case --------------------------------------------------------------- */
+fx-case {
+    display: none;
+}
+
+fx-case.selected-case {
+    display: block;
+}
+
+.selected-case fx-output {
+    display: block !important;
+}
+
+/* --- fx-items -------------------------------------------------------------- */
+fx-items {
+    display: grid;
+    grid-template-columns: auto auto;
+    flex-wrap: wrap;
+}
+
+fx-items.material-list {
+    display: block;
+    column-count: 2;
+    width: 100%;
+}
+
+.material fx-control fx-items {
+    grid-area: unset;
+}
+
+/* --- Checkboxes / radios ---------------------------------------------------- */
+.fx-checkbox {
+    display: block;
+}
+
+.fx-checkbox input {
+    display: inline-block;
+}
+
+.fx-checkbox label {
+    display: inline-block;
+}
+
+.fx-radio input {
+    width: auto !important;
+}
+
+.fx-radio label {
+    display: inline !important;
+}
+
+/* --- Layout helpers --------------------------------------------------------- */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+}
+
+.inline-form {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.inline-form fx-control {
+    display: inline-block;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-2 input {
+    width: 100%;
+}
+
+fx-group.form-row,
+fx-group.form-row[relevant] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1rem;
+    margin: 0.65rem 1rem;
+    align-items: start;
+    justify-self: stretch;
+    min-width: 0;
+}
+
+fx-group.form-row fx-control,
+fx-group.form-row fx-control[relevant] {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+fx-group.form-row label {
+    display: block;
+    width: auto;
+    flex: 0 0 var(--edep-label-width);
+    min-width: var(--edep-label-width);
+}
+
+fx-group.form-row fx-control > .widget,
+fx-group.form-row fx-control > .xml-editor,
+fx-group.form-row fx-control textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* --- XML / EpiDoc editors --------------------------------------------------- */
+jinn-xml-editor,
+jinn-epidoc-editor {
+    font-size: 16px;
+    overflow: hidden;
+}
+
+jinn-xml-editor [slot],
+jinn-epidoc-editor [slot] {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    background: var(--jinks-form-background-color, #FEFEF9);
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid var(--jinks-form-border-color, #CFCDC5);
+}
+
+jinn-epidoc-editor [slot] *,
+jinn-xml-editor [slot] *,
+jinn-epidoc-editor::part(button) {
+    font-size: 0.82rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background-color: inherit;
+    padding: inherit;
+}
+
+jinn-epidoc-editor [slot] .label {
+    display: block;
+    width: 10em;
+    font-weight: bold;
+}
+
+jinn-xml-editor [slot] > *:hover,
+jinn-epidoc-editor [slot] > *:hover,
+jinn-epidoc-editor::part(button):hover {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 3px;
+}
+
+jinn-epidoc-editor [slot] > .label:hover {
+    border: none;
+}
+
+jinn-xml-editor [slot] .sep,
+jinn-epidoc-editor [slot] .sep {
+    border-right: 1px solid var(--jinks-form-border-color, #CFCDC5);
+}
+
+jinn-epidoc-editor::part(status),
+jinn-xml-editor::part(status) {
+    color: #ef4444;
+}
+
+/* --- Measurements ----------------------------------------------------------- */
+.measurement {
+    position: relative;
+    width: 26rem;
+}
+
+.measurement::after {
+    content: 'cm';
+    position: absolute;
+    right: 0;
+    top: 1.3rem;
+    color: var(--jinks-colors-500, #6f6b5d);
+    font-size: 0.8rem;
+}
+
+.measurement input.widget {
+    width: 5rem;
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+/* --- Output rows ------------------------------------------------------------ */
+.output {
+    display: grid;
+    grid-template-columns: 4rem 2rem auto 1rem;
+    grid-template-areas: "label icon control hint";
+    margin: 0.4rem 0;
+    column-gap: 0.5rem;
+    width: calc(100% - 1rem);
+    align-items: center;
+}
+
+.output label {
+    grid-area: label;
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    color: var(--jinks-colors-500, #6f6b5d);
+}
+
+.output div {
+    grid-area: control;
+    margin: 0;
+}
+
+.output div > fx-output,
+.output div > fx-trigger {
+    display: inline;
+}
+
+.output pb-popover {
+    grid-area: icon;
+}
+
+.bib-output {
+    margin-left: 17.8rem;
+}
+
+/* --- Specific sections ------------------------------------------------------ */
+#historic-relevance fx-control {
+    display: flex;
+    gap: 1rem;
+}
+
+#historic-relevance fx-items {
+    display: flex;
+}
+
+#findspot-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+#objectdesc .description {
+    flex-grow: 2;
+}
+
+#idnos {
+    position: relative;
+}
+
+.idno-repeat {
+    display: block;
+    width: 100%;
+    --edep-label-width: 5rem;
+}
+
+.idno-repeat fx-repeatitem {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    max-width: 32rem;
+    position: relative;
+}
+
+.idno-repeat fx-repeatitem fx-control {
+    display: flex;
+    width: auto;
+    flex: 1 1 11rem;
+    margin: 0.4rem 0;
+}
+
+.idno-repeat fx-repeatitem fx-trigger {
+    position: relative;
+    right: auto;
+    top: auto;
+    flex: 0 0 auto;
+    align-self: center;
+}
+
+.tm-number {
+    display: grid;
+    grid-template-columns: 19rem 1rem;
+}
+
+.with-hint {
+    grid-area: control;
+    display: grid;
+    grid-template-areas: "control hint";
+    align-items: center;
+}
+
+.with-hint pb-popover {
+    grid-area: hint;
+    align-self: start;
+}
+
+#findspot-popover {
+    position: absolute;
+    top: -22px;
+    left: 72px;
+    z-index: 5;
+}
+
+#places fx-switch {
+    max-width: 80vw;
+}
+
+#places fx-case {
+    position: relative;
+    padding: 1rem;
+}
+
+#places .toggle-view {
+    position: absolute;
+    right: 1rem;
+}
+
+.toggle-view {
+    display: inline-block;
+}
+
+.toggle-view.close {
+    z-index: 10;
+}
+
+#r-verification fx-repeatitem,
+#r-verification fx-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#r-verification fx-repeatitem {
+    width: calc(100% - 2rem);
+    justify-content: space-between;
+}
+
+#r-verification fx-repeatitem fx-group {
+    flex: 1;
+}
+
+#r-verification fx-repeatitem fx-trigger {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+#verification fx-group fx-trigger.add,
+#inscription-field fx-group fx-trigger.add,
+#text-description fx-group fx-trigger.add,
+#pictures .add {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    right: auto;
+    bottom: auto;
+}
+
+#parts fx-group {
+    margin: 1rem;
+}
+
+#parts > fx-repeatitem {
+    padding: 1rem 0;
+}
+
+#parts > fx-repeatitem > label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+#parts > fx-repeatitem fx-trigger:nth-child(1) {
+    position: relative;
+    display: inline-flex;
+    margin-left: auto;
+    align-self: flex-start;
+}
+
+#parts > fx-repeatitem fx-trigger:nth-child(1) [icon=remove-circle-outline] {
+    color: #ef4444;
+    position: relative;
+    right: auto;
+    top: auto;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+}
+
+/* --- Zotero ----------------------------------------------------------------- */
+jinn-zotero-picker {
+    white-space: pre-line;
+    overflow: auto;
+}
+
+.nested-repeat jinn-zotero-picker input {
+    width: auto;
+}
+
+/* --- Fragments -------------------------------------------------------------- */
+.fragment {
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.fragment details {
+    border-color: var(--jinks-form-border-color, #CFCDC5);
+    margin: 1rem;
+    position: relative;
+}
+
+.fragment details[open] summary > .add {
+    display: block;
+}
+
+.fragment > label {
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    background: white;
+    font-size: 1rem;
+    padding: 0 0.5rem;
+    z-index: 1;
+    color: var(--jinks-background-color-dark, #2D2B26);
+}
+
+/* --- pb-split-list ---------------------------------------------------------- */
+pb-split-list::part(items) {
+    display: block;
+    column-count: 2;
+}
+
+pb-split-list .place {
+    position: relative;
+    padding-left: 2.5rem;
+    margin: 0 0.5em 1em;
+    line-height: 1.5;
+}
+
+pb-split-list .place .place-id {
+    position: absolute;
+    left: 0;
+    top: -0.5rem;
+}
+
+/* --- pb-popover ------------------------------------------------------------- */
+pb-popover > iron-icon {
+    display: inline-block;
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--jinks-colors-500, #6f6b5d);
+}
+
+pb-login {
+    z-index: auto;
+}
+
+/* --- Fieldsets -------------------------------------------------------------- */
+fieldset {
+    border-radius: 0.75rem;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    position: relative;
+    padding: 1rem;
+    margin: 0.65rem 1rem;
+}
+
+fieldset > fieldset {
+    margin: 1rem 0;
+    width: auto;
+    background: rgba(255,255,255,0.5);
+}
+
+fieldset:has(> fx-repeat.nested-repeat) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+}
+
+fieldset:has(> fx-repeat.nested-repeat) > legend {
+    grid-column: 1 / -1;
+}
+
+fieldset:has(> fx-repeat.nested-repeat) > fx-repeat.nested-repeat {
+    grid-column: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+fieldset:has(> fx-repeat.nested-repeat) > fx-trigger.add {
+    grid-column: 2;
+    align-self: end;
+    margin-left: 0.5rem;
+}
+
+fieldset > fieldset legend {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nested-repeat fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    padding: 0.5rem 0;
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    font-weight: 500;
+    color: var(--jinks-color-primary, #2D2B26);
+}
+
+fieldset > legend {
+    padding: 0.5rem 1rem;
+    margin-left: -1rem;
+    color: var(--jinks-colors-500, #6f6b5d);
+}
+
+.nested-repeat fieldset legend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.nested-repeat fieldset legend label {
+    flex: 0 0 var(--edep-label-width);
+}
+
+.nested-repeat fieldset legend label {
+    font-style: italic;
+}
+
+/* --- Misc ------------------------------------------------------------------- */
+fx-var {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+fx-inspector {
+    position: absolute;
+    right: 0;
+    top: 64px;
+}
+
+fx-inspector[open] {
+    width: 50%;
+}
+
+.repeat-caption {
+    margin-top: 1.5rem;
+    padding: 0.75rem 0;
+}
+
+.repeat-caption label {
+    display: inline-block;
+}
+
+.panels {
+    margin-bottom: 2.5rem;
+}
+
+.alternatives {
+    padding: 0.65rem 1rem;
+}
+
+.upload-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+}
+
+.transcription,
+.apparatus,
+.translation,
+.commentary {
+    display: block;
+    margin-top: 1em;
+}
+
+.hint {
+    font-size: 0.76rem;
+    margin-top: 0;
+    color: var(--jinks-colors-500, #6f6b5d);
+}
+
+/* --- Loading spinner -------------------------------------------------------- */
+.lds-roller {
+    display: block;
+    width: 80px;
+    height: 80px;
+    position: fixed;
+    top: 15rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    opacity: 1;
+}
+
+.fx-ready .lds-roller {
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+}
+
+.lds-roller div::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--jinks-colors-500, #6f6b5d);
+    margin: -4px 0 0 -4px;
+}
+
+.lds-roller div:nth-child(1) { animation-delay: -0.036s; }
+.lds-roller div:nth-child(1)::after { top: 63px; left: 63px; }
+.lds-roller div:nth-child(2) { animation-delay: -0.072s; }
+.lds-roller div:nth-child(2)::after { top: 68px; left: 56px; }
+.lds-roller div:nth-child(3) { animation-delay: -0.108s; }
+.lds-roller div:nth-child(3)::after { top: 71px; left: 48px; }
+.lds-roller div:nth-child(4) { animation-delay: -0.144s; }
+.lds-roller div:nth-child(4)::after { top: 72px; left: 40px; }
+.lds-roller div:nth-child(5) { animation-delay: -0.18s; }
+.lds-roller div:nth-child(5)::after { top: 71px; left: 32px; }
+.lds-roller div:nth-child(6) { animation-delay: -0.216s; }
+.lds-roller div:nth-child(6)::after { top: 68px; left: 24px; }
+.lds-roller div:nth-child(7) { animation-delay: -0.252s; }
+.lds-roller div:nth-child(7)::after { top: 63px; left: 17px; }
+.lds-roller div:nth-child(8) { animation-delay: -0.288s; }
+.lds-roller div:nth-child(8)::after { top: 56px; left: 12px; }
+
+@keyframes lds-roller {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
