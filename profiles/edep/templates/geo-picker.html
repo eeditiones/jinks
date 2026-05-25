@@ -35,13 +35,13 @@
                 <fx-instance
                     id="i-geo"
                     xpath-default-namespace="http://www.tei-c.org/ns/1.0"
-                    src="templates/fore/data/geoid.xml">
+                    src="[[ $context-path ]]/templates/fore/data/geoid.xml">
                     <data></data>
                 </fx-instance>
 
                 <fx-instance
                     id="i-geodata"
-                    src="api/geopicker/places"
+                    src="[[ $context-path ]]/api/geopicker/places"
                     xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                     <data></data>
                 </fx-instance>
@@ -50,15 +50,15 @@
                 <fx-instance
                     id="i-place"
                     xpath-default-namespace="http://www.tei-c.org/ns/1.0"
-                    src="templates/fore/data/geoid.xml">
+                    src="[[ $context-path ]]/templates/fore/data/geoid.xml">
                     <data></data>
                 </fx-instance>
 
-                <fx-instance id="province" src="../edep-data/data/taxonomy/province.xml" type="xml">
+                <fx-instance id="province" src="[[ $context-path ]]/taxonomy/province.xml" type="xml">
                     <vocabulary></vocabulary>
                 </fx-instance>
 
-                <fx-instance id="country" src="../edep-data/data/taxonomy/country.xml" type="xml">
+                <fx-instance id="country" src="[[ $context-path ]]/taxonomy/country.xml" type="xml">
                     <vocabulary></vocabulary>
                 </fx-instance>
 
@@ -73,7 +73,7 @@
                 <fx-submission
                     id="s-load-place"
                     ref="instance('i-geo')"
-                    url="api/places/{instance('i-geo')/origPlace/@corresp}"
+                    url="[[ $context-path ]]/api/places/{instance('i-geo')/origPlace/@corresp}"
                     replace="instance"
                     instance="i-place"
                     method="get"
@@ -86,7 +86,7 @@
                 <!-- loading the shortlist of places to be used by the autocomplete list -->
                 <fx-submission
                     id="s-load-places"
-                    url="api/geopicker/places"
+                    url="[[ $context-path ]]/api/geopicker/places"
                     method="get"
                     replace="instance"
                     instance="i-geodata">
