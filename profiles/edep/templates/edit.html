@@ -1,64 +1,127 @@
-<template>
-    ---json
-    {
-        "templating": {
-            "extends": "templates/layouts/content.html"
-        },
-        "scripts": [
+<html>
+---json
+{
+    "styles": [
+        "resources/css/edep-theme.css"
+    ],
+    "script": {
+        "custom": [
             "resources/scripts/zotero-autocomplete.js",
-            "resources/scripts/edep-xml-editor.js"
-        ],
-        "features": {
-            "forms": {
-                "enabled": true
-            }
+            "resources/scripts/edep-xml-editor.js",
+            "resources/scripts/util.js",
+            "https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.19.0/dist/jinn-codemirror-bundle.js"
+        ]
+    },
+    "features": {
+        "forms": {
+            "enabled": true
         }
     }
-    ---
+}
+---
+
+<head>
+    [% if $context?defaults?base %]
+    <base href="[[ $context-path ]]/[[ $context?defaults?base ]]" />
+    [% endif %]
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+    [% if $context?description %]
+    <meta name="description" content="[[ $context?description ]]" />
+    [% endif %]
+    <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-16.png"
+        sizes="16x16" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-24.png"
+        sizes="24x24" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png"
+        sizes="32x32" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png"
+        sizes="64x64" />
+
+    [% for $path in $styles?* %]
+    [% if matches($path, "(?:^https?://|^/).*$") %]
+    <link rel="stylesheet" href="[[ $path ]]" />
+    [% else %]
+    <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
+    [% endif %]
+    [% endfor %]
+
+    <style>
+        :root {
+            --jinks-layout-before-width: [[$context?theme?layout?before?width]];
+            --jinks-layout-after-width: [[$context?theme?layout?after?width]];
+        }
+    </style>
+    [% block styles %][% endblock %]
+
+    <title>[[ $label ]]</title>
+
+    [% if $script?webcomponents = 'dev' %]
+    <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+    [% endfor %]
+    [% elif $script?webcomponents = 'local' %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/[[ $component ]].js"></script>
+    [% endfor %]
+    [% elif $script?webcomponents = '' %]
+    [% else %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
+    [% endfor %]
+    [% endif %]
+
+    [% block scripts %][% endblock %]
+</head>
+
+<body data-theme="light" class="[[ string-join($context?theme?body?classes?*, ' ') ]]">
+    <pb-dialog id="downloadDialog">
+        <h2 slot="title">
+            <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
+        </h2>
+        <p><pb-i18n key="dialogs.downloadMessage"></pb-i18n></p>
+        <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
+            <pb-i18n key="dialogs.close">Close</pb-i18n>
+        </button>
+    </pb-dialog>
     <fx-fore show-confirmation="show-confirmation" id="epidoc-editor" create-nodes="create-nodes">
         <fx-model>
             <fx-action event="model-construct-done">
                 <fx-send submission="s-login" if="instance('vars')/loggedin != 'true'"></fx-send>
                 <!-- ### if get called with an id param we load the data via submission ### -->
-                <fx-send
-                    submission="s-load-inscription"
-                    if="exists(instance('params')/id)"></fx-send>
+                <fx-send submission="s-load-inscription" if="exists(instance('params')/id)"></fx-send>
                 <fx-setvalue ref="instance('vars')/inited">true</fx-setvalue>
                 <fx-send submission="s-load-fragments"></fx-send>
             </fx-action>
 
-            <fx-instance
-                id="default"
-                src="templates/fore/epidoc-template.xml"
+            <fx-instance id="default" src="templates/fore/epidoc-template.xml"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
             <fx-instance id="i-fragment" xpath-default-namespace="http://www.tei-c.org/ns/1.0"></fx-instance>
-            <fx-submission id="s-load-template"
-                           method="get"
-                           url="[[ $context-path ]]/templates/fore/epidoc-template.xml"
-                           replace="instance"
-                           instance="i-fragment"
-                           validate="false">
+            <fx-submission id="s-load-template" method="get"
+                url="[[ $context-path ]]/templates/fore/epidoc-template.xml" replace="instance" instance="i-fragment"
+                validate="false">
                 <fx-action event="submit-done">
-                    <fx-setvalue ref="instance('i-fragment')/@corresp" value="instance('default')/@xml:id"></fx-setvalue>
+                    <fx-setvalue ref="instance('i-fragment')/@corresp"
+                        value="instance('default')/@xml:id"></fx-setvalue>
                     <fx-setvalue ref="instance('i-fragment')/@type" value="'partial'">partial</fx-setvalue>
-                    <fx-setvalue ref="instance('i-fragment')/@xml:id" value="concat(instance('default')/@xml:id,'-')"></fx-setvalue>
+                    <fx-setvalue ref="instance('i-fragment')/@xml:id"
+                        value="concat(instance('default')/@xml:id,'-')"></fx-setvalue>
                 </fx-action>
             </fx-submission>
             <fx-instance id="i-fragments" type="json"></fx-instance>
-            <fx-submission id="s-load-fragments"
-                           method="get"
-                           url="[[ $context-path ]]/api/fragments?id={instance('default')/@xml:id}"
-                           replace="instance" instance="i-fragments" validate="false"></fx-submission>
-            <fx-submission
-                id="s-create-fragment"
-                url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}"
-                method="post"
-                ref="instance('i-fragment')"
-                replace="instance"
-                instance="i-fragment">
+            <fx-submission id="s-load-fragments" method="get"
+                url="[[ $context-path ]]/api/fragments?id={instance('default')/@xml:id}" replace="instance"
+                instance="i-fragments" validate="false"></fx-submission>
+            <fx-submission id="s-create-fragment"
+                url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}" method="post"
+                ref="instance('i-fragment')" replace="instance" instance="i-fragment">
                 <fx-message event="submit-done">
                     <pb-i18n key="form.data-saved"></pb-i18n>
                 </fx-message>
@@ -71,10 +134,7 @@
             </fx-submission>
             <fx-bind ref="instance('default')">
                 <fx-bind ref="teiHeader">
-                    <fx-bind
-                        ref="fileDesc/titleStmt/title"
-                        required="true()"
-                        constraint="string-length(.) &gt; 0">
+                    <fx-bind ref="fileDesc/titleStmt/title" required="true()" constraint="string-length(.) &gt; 0">
                     </fx-bind>
                     <fx-bind ref="fileDesc/sourceDesc/msDesc/history">
                         <fx-bind ref="provenance">
@@ -91,69 +151,82 @@
                 </fx-bind>
             </fx-bind>
 
-            <fx-instance id="typeins" src="[[ $context-path ]]/data/taxonomy/typeins.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="typeins" src="[[ $context-path ]]/data/taxonomy/typeins.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="objtyp" src="[[ $context-path ]]/data/taxonomy/objtyp.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="objtyp" src="[[ $context-path ]]/data/taxonomy/objtyp.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="material" src="[[ $context-path ]]/data/taxonomy/material.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="material" src="[[ $context-path ]]/data/taxonomy/material.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="paleography" src="[[ $context-path ]]/data/taxonomy/paleography.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="paleography" src="[[ $context-path ]]/data/taxonomy/paleography.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="editor-roles" src="[[ $context-path ]]/data/taxonomy/editor-roles.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="editor-roles" src="[[ $context-path ]]/data/taxonomy/editor-roles.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="language-options" src="[[ $context-path ]]/data/taxonomy/languages.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="language-options" src="[[ $context-path ]]/data/taxonomy/languages.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="language-scope" src="[[ $context-path ]]/data/taxonomy/language-scope.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="language-scope" src="[[ $context-path ]]/data/taxonomy/language-scope.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="decoration" src="[[ $context-path ]]/data/taxonomy/decor.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="decoration" src="[[ $context-path ]]/data/taxonomy/decor.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="metre" src="[[ $context-path ]]/data/taxonomy/metre.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="metre" src="[[ $context-path ]]/data/taxonomy/metre.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="ligature" src="[[ $context-path ]]/data/taxonomy/ligature.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="ligature" src="[[ $context-path ]]/data/taxonomy/ligature.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="verification-options" src="[[ $context-path ]]/data/taxonomy/verification.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="verification-options" src="[[ $context-path ]]/data/taxonomy/verification.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="publication-status" src="[[ $context-path ]]/data/taxonomy/publication-status.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="publication-status" src="[[ $context-path ]]/data/taxonomy/publication-status.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="preservation" src="[[ $context-path ]]/data/taxonomy/preservation.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="preservation" src="[[ $context-path ]]/data/taxonomy/preservation.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="religion" src="[[ $context-path ]]/data/taxonomy/religion.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="religion" src="[[ $context-path ]]/data/taxonomy/religion.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance id="document-type" src="[[ $context-path ]]/data/taxonomy/document-type.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <fx-instance id="document-type" src="[[ $context-path ]]/data/taxonomy/document-type.xml"
+                xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
 
-            <fx-instance
-                id="templates"
-                src="[[ $context-path ]]/templates/fore/templates.xml"
+            <fx-instance id="templates" src="[[ $context-path ]]/templates/fore/templates.xml"
                 xpath-default-namespace="http://www.tei-c.org/ns/1.0">
                 <data></data>
             </fx-instance>
@@ -177,15 +250,11 @@
                 </data>
             </fx-instance>
             <!-- todo: remove static readonly once new fragment functionality is completely done -->
-            <fx-bind ref="instance('vars')/is-fragment"
-                     relevant="not(exists(instance('default')/@type))"
-                     readonly="true()"></fx-bind>
-            <fx-bind ref="instance('vars')/can-delete" relevant="index('parts') gt 1"></fx-bind>
+            <fx-bind ref="instance('vars')/is-fragment" relevant="not(exists(instance('default')/@type))"
+                readonly="true()"></fx-bind>
+            <!--<fx-bind ref="instance('vars')/can-delete" relevant="index('parts') gt 1"></fx-bind>-->
             <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"></fx-bind>
-            <fx-bind
-                ref="instance('vars')/xml-valid"
-                calculate="editorsValid()"
-                constraint=".='true'"></fx-bind>
+            <fx-bind ref="instance('vars')/xml-valid" calculate="editorsValid()" constraint=".='true'"></fx-bind>
 
             <fx-instance id="tmp">
                 <data>
@@ -202,38 +271,30 @@
                 </data>
             </fx-instance>
 
-            <fx-submission
-                id="s-load-inscription"
+            <fx-submission id="s-load-inscription"
                 url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}"
-                method="get"
-                replace="instance"
-                validate="false">
+                method="get" replace="instance" validate="false">
                 <fx-message event="submit-error">
                     <pb-i18n key="loading-failed"></pb-i18n>
                 </fx-message>
 
                 <fx-action event="submit-done">
                     <!--
-                        ### initializing state for 30) 31) 32) dummy switches
-                    -->
-                    <fx-setvalue
-                        ref="instance('vars')/history-term"
+                            ### initializing state for 30) 31) 32) dummy switches
+                        -->
+                    <fx-setvalue ref="instance('vars')/history-term"
                         value="if(exists(instance('default')//term[@ref='#social-economic-legal-history'])) then 'true' else 'false'"></fx-setvalue>
 
-                    <fx-setvalue
-                        ref="instance('vars')/geography-term"
+                    <fx-setvalue ref="instance('vars')/geography-term"
                         value="if(exists(instance('default')//term[@ref='#geography'])) then 'true' else 'false'"></fx-setvalue>
 
-                    <fx-setvalue
-                        ref="instance('vars')/military-term"
+                    <fx-setvalue ref="instance('vars')/military-term"
                         value="if(exists(instance('default')//term[@ref='#military'])) then 'true' else 'false'"></fx-setvalue>
                 </fx-action>
             </fx-submission>
 
-            <fx-submission
-                id="s-create"
-                url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}"
-                method="post"
+            <fx-submission id="s-create"
+                url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}" method="post"
                 replace="instance">
                 <fx-message event="submit-done">
                     <pb-i18n key="form.data-saved"></pb-i18n>
@@ -246,11 +307,9 @@
                 </fx-action>
             </fx-submission>
 
-            <fx-submission
-                id="s-save"
+            <fx-submission id="s-save"
                 url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}"
-                method="post"
-                replace="instance">
+                method="post" replace="instance">
                 <fx-message event="submit-done">
                     <pb-i18n key="form.data-saved"></pb-i18n>
                 </fx-message>
@@ -267,17 +326,9 @@
             </fx-function>
 
             <fx-instance id="login" type="json">{}</fx-instance>
-            <fx-submission
-                id="s-login"
-                ref="instance('login')?*"
-                url="[[ $context-path ]]/api/login"
-                method="post"
-                replace="instance"
-                instance="login"
-                validate="false">
-                <fx-setvalue ref="instance('vars')/loggedin" event="submit-error"
-                    >false</fx-setvalue
-                >
+            <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post"
+                replace="instance" instance="login" validate="false">
+                <fx-setvalue ref="instance('vars')/loggedin" event="submit-error">false</fx-setvalue>
                 <fx-setvalue ref="instance('vars')/loggedin" event="submit-done">true</fx-setvalue>
             </fx-submission>
 
@@ -287,412 +338,420 @@
                 if(editors.length !== 0){ return false; }else{ return true; }
             </fx-function>
 
-            <fx-function
-                signature="shortlang($input as xs:string,$default as xs:string) as xs:string"
+            <fx-function signature="shortlang($input as xs:string,$default as xs:string) as xs:string"
                 type="text/javascript">
                 if($input) { return $input.substring(0, 2); } return $default;
             </fx-function>
 
-            <fx-function
-                signature="checkDate($value as xs:string) as xs:boolean"
-                type="text/javascript">
+            <fx-function signature="checkDate($value as xs:string) as xs:boolean" type="text/javascript">
                 return checkDate($value);
             </fx-function>
-            <fx-function
-                signature="sortNames($terms as element()*) as element()*"
-                type="text/xquery">
+            <fx-function signature="sortNames($terms as element()*) as element()*" type="text/xquery">
                 let $lang := instance('vars')/language for $term in $terms order by
                 $term/catDesc[@xml:lang = $lang] return $term
             </fx-function>
-            <fx-function
-                signature="sortLang($langs as element()*) as element()*"
-                type="text/xquery">
+            <fx-function signature="sortLang($langs as element()*) as element()*" type="text/xquery">
                 for $term in $langs order by $term return $term
             </fx-function>
-            <fx-function
-                signature="computeBiblId($bibls as element()*) as xs:string"
-                type="text/xquery">
+            <fx-function signature="computeBiblId($bibls as element()*) as xs:string" type="text/xquery">
                 max(( 0, for $bibl in $bibls/@xml:id where starts-with($bibl, 'bibl-') return
                 xs:int(substring-after($bibl, 'bibl-')) )) + 1
             </fx-function>
-            <fx-function
-                signature="clipboard($value as xs:string) as xs:string"
-                type="text/javascript">
+            <fx-function signature="clipboard($value as xs:string) as xs:string" type="text/javascript">
                 console.log($value); navigator.clipboard.writeText($value); return $value;
             </fx-function>
-            <fx-function
-                signature="scrollto($selector as xs:string) as xs:string"
-                type="text/javascript">
+            <fx-function signature="scrollto($selector as xs:string) as xs:string" type="text/javascript">
                 const found = document.querySelector($selector); if(found){
                 found.scrollIntoView({block: "start", inline: "nearest", behavior:"smooth"}); }
             </fx-function>
-            <!--
-                <fx-function signature="expander() as xs:boolean" type="text/javascript">
-                const expander = document.querySelector('#expander');
-                const details = document.querySelectorAll('details');
-
-                if(expander.classList.contains('expanded')){
-                Array.from(details).foreach(d => {
-                details.removeAttribute('open');
-                });
-                }else{
-                Array.from(details).foreach(d => {
-                details.setAttribute('open','open');
-                expander.classList.addClass('expanded');
-                });
-                }
-                return true;
-                </fx-function>
-            -->
         </fx-model>
         <fx-action event="pb-i18n-update" target="#document">
-            <fx-setvalue
-                ref="instance('vars')/language"
+            <fx-setvalue ref="instance('vars')/language"
                 value="shortlang(event('language'), instance('vars')/language/string())"></fx-setvalue>
             <fx-refresh force="force"></fx-refresh>
         </fx-action>
 
         <fx-var name="lang" value="instance('vars')/language"></fx-var>
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
+            supported-languages="[[ string-join($context?defaults?languages?*, ', ') ]]"
+            locales="resources/i18n/{{ns}}/{{lng}}.json"
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
+            unresolved="unresolved" url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
+            class="[[ string-join((tokenize($context?theme?layout?class, '\s+'), if (not($context?theme?layout?before?collapsible)) then 'before-fixed' else (), if (not($context?theme?layout?after?collapsible)) then 'after-fixed' else ()), ' ') ]]"
+            require-language="require-language" theme="resources/css/components.css">
+            <header class="page-header">
+                <div>
+                    [% if $features?menubar %]
+                    [% include "templates/menu.html" %]
+                    [% endif %]
 
-        <nav aria-labelledby="navigation">
-            <div class="toolbar">
-                <button class="expander" onclick="expandAll()" title="expand all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <!-- up chevron -->
-                            <path d="M8 9 L12 5 L16 9" />
-                            <!-- down chevron -->
-                            <path d="M8 15 L12 19 L16 15" />
-                        </g>
-                    </svg>
-                </button>
-                <button class="expander" title="collapse all" onclick="closeAll()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <!-- top chevron (now pointing down) -->
-                            <path d="M8 5 L12 9 L16 5" />
-                            <!-- bottom chevron (now pointing up) -->
-                            <path d="M8 19 L12 15 L16 19" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
+                    [% block header %][% endblock %]
+                </div>
+                [% if $features?menubar %]
+                [% include "templates/menu-mobile.html" %]
+                [% endif %]
+            </header>
+            <nav class="before-top hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
+                <ul>
+                    [% block before-top %][% endblock %]
+                    <li>
+                        <span role="group" class="light">
+                            <button onclick="expandAll()" title="expand all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <!-- up chevron -->
+                                        <path d="M8 9 L12 5 L16 9" />
+                                        <!-- down chevron -->
+                                        <path d="M8 15 L12 19 L16 15" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <button title="collapse all" onclick="closeAll()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <!-- top chevron (now pointing down) -->
+                                        <path d="M8 5 L12 9 L16 5" />
+                                        <!-- bottom chevron (now pointing up) -->
+                                        <path d="M8 19 L12 15 L16 19" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </span>
+                    </li>
+                </ul>
+                [% if $context?theme?layout?before?toggle %]
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".fixed-layout > .before">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+                [% endif %]
+            </nav>
+            <aside class="before hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
+                <nav aria-labelledby="navigation">
+                    <!--                                <div id="navigation">Navigation</div>-->
+                    <ul>
 
-<!--                                <div id="navigation">Navigation</div>-->
-            <ul>
+                        <!--
+                                    <li>
+                                        <a
+                                            href="{uri-path()}#object">
+                                            <pb-i18n key="form.object">Objekt</pb-i18n>
+                                        </a>
+                                        <button id="expander" onclick="expander()">&lt; &gt;</button>
+                                    </li>
 
-<!--
-                <li>
-                    <a
-                        href="{uri-path()}#object">
-                        <pb-i18n key="form.object">Objekt</pb-i18n>
-                    </a>
-                    <button id="expander" onclick="expander()">&lt; &gt;</button>
-                </li>
-
--->
-                <!-- if corresp then partial document, otherwise, composite -->
+                    -->
+                        <!-- if corresp then partial document, otherwise, composite -->
 
                         <li>
-                            <a
-                                href="{uri-path()}#object">
+                            <a href="{uri-path()}#object">
                                 <pb-i18n key="form.identifier">Identifier</pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="object-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="object-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#findspot">
+                            <a href="{uri-path()}#findspot">
                                 <pb-i18n key="form.finding"></pb-i18n>
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#location">
+                            <a href="{uri-path()}#location">
                                 <pb-i18n key="form.last-recorded-location"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="location-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="location-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#verification">
+                            <a href="{uri-path()}#verification">
                                 <pb-i18n key="form.verification"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="verification-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="verification-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#objectdesc">
+                            <a href="{uri-path()}#objectdesc">
                                 <pb-i18n key="form.object-description"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="objectdesc-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="objectdesc-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#inscription-field">
+                            <a href="{uri-path()}#inscription-field">
                                 <pb-i18n key="form.inscription-field"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="inscription-field-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="inscription-field-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#text-description">
+                            <a href="{uri-path()}#text-description">
                                 <pb-i18n key="form.text-description"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="text-description-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="text-description-checkbox" title="expand/collapse"/>-->
                         </li>
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#languages">
-                                <pb-i18n key="form.language"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#languages">
+                                                    <pb-i18n key="form.language"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <li>
-                            <a
-                                href="{uri-path()}#references">
+                            <a href="{uri-path()}#references">
                                 <pb-i18n key="form.references"></pb-i18n>
                             </a>
                             <!-- <input type="checkbox" id="references-checkbox" title="expand/collapse"/> -->
                         </li>
 
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#transmission">
-                                <pb-i18n key="form.transmission"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#transmission">
+                                                    <pb-i18n key="form.transmission"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#prev-editions">
-                                <pb-i18n key="form.previous-editions"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#prev-editions">
+                                                    <pb-i18n key="form.previous-editions"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#bibliography">
-                                <pb-i18n key="form.bibliography"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#bibliography">
+                                                    <pb-i18n key="form.bibliography"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#images">
-                                <pb-i18n key="form.images-dps"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#images">
+                                                    <pb-i18n key="form.images-dps"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <!-- <li>
-                            <a
-                                href="{uri-path()}#pictures">
-                                <pb-i18n key="form.images"></pb-i18n>
-                            </a>
-                        </li> -->
+                                                <a
+                                                    href="{uri-path()}#pictures">
+                                                    <pb-i18n key="form.images"></pb-i18n>
+                                                </a>
+                                            </li> -->
                         <li>
-                            <a
-                                href="{uri-path()}#edition">
+                            <a href="{uri-path()}#edition">
                                 <pb-i18n key="form.edition">Textedition</pb-i18n>
                             </a>
-<!--                                        <input type="checkbox" id="edition-checkbox" title="expand/collapse"/>-->
+                            <!--                                        <input type="checkbox" id="edition-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#commentary">
+                            <a href="{uri-path()}#commentary">
                                 <pb-i18n key="form.commentary"></pb-i18n>
                             </a>
-<!--                                        <input type="checkbox" id="commentary-checkbox" title="expand/collapse"/>-->
+                            <!--                                        <input type="checkbox" id="commentary-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#dating">
+                            <a href="{uri-path()}#dating">
                                 <pb-i18n key="form.dating"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="dating-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="dating-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#historic-relevance">
+                            <a href="{uri-path()}#historic-relevance">
                                 <pb-i18n key="form.historic-relevance"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="profileDesc-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="profileDesc-checkbox" title="expand/collapse"/>-->
                         </li>
                         <li>
-                            <a
-                                href="{uri-path()}#editor">
+                            <a href="{uri-path()}#editor">
                                 <pb-i18n key="form.editing"></pb-i18n>
                             </a>
-<!--                                                <input type="checkbox" id="editor-checkbox" title="expand/collapse"/>-->
+                            <!--                                                <input type="checkbox" id="editor-checkbox" title="expand/collapse"/>-->
                         </li>
-<!--
-                    </ul>
-                </li>
--->
+                        <!--
+                                        </ul>
+                                    </li>
+                    -->
 
-<!--
-                <li>
-                    <button  onclick="expander()">&lt; &gt;<pb-i18n key="form.expand">Expand all sections</pb-i18n></button>
-                </li>
--->
-                <li class="nav-divider"></li>
-                <li>
-                    <fx-repeat id="r-fragments" ref="instance('i-fragments')?fragments?*">
-                        <template>
-                            <fx-var name="curr" value="."></fx-var>
-                            <a href="{uri-relpath()}{$curr}.xml" target="_blank">{$curr}</a>
-                        </template>
-                    </fx-repeat>
-                </li>
-                <li class="nav-fragments">
-                    <!-- TODO show links to children (fragment documents)-->
-                    <fx-trigger id="addFragment" ref="instance('vars')/is-fragment">
-                        <button><pb-i18n key="form.add"></pb-i18n></button>
-                        <fx-action>
-                            <fx-send submission="s-load-template"></fx-send>
+                        <!--
+                                    <li>
+                                        <button  onclick="expander()">&lt; &gt;<pb-i18n key="form.expand">Expand all sections</pb-i18n></button>
+                                    </li>
+                    -->
+                        <li class="nav-divider"></li>
+                        <li>
+                            <fx-repeat id="r-fragments" ref="instance('i-fragments')?fragments?*">
+                                <template>
+                                    <fx-var name="curr" value="."></fx-var>
+                                    <a href="{uri-relpath()}{$curr}.xml" target="_blank">{$curr}</a>
+                                </template>
+                            </fx-repeat>
+                        </li>
+                        <li class="nav-fragments">
+                            <!-- TODO show links to children (fragment documents)-->
+                            <fx-trigger id="addFragment" ref="instance('vars')/is-fragment">
+                                <button><pb-i18n key="form.add"></pb-i18n></button>
+                                <fx-action>
+                                    <fx-send submission="s-load-template"></fx-send>
+                                </fx-action>
+                            </fx-trigger>
+                        </li>
+                        <!--
+                                    <li>
+                                        {instance('i-fragment')/@xml:id}
+                                        {instance('i-fragment')/@type}
+                                        {instance('i-fragment')/@corresp}
+                                    </li>
+                    -->
+                    </ul>
+                </nav>
+            </aside>
+            <main>
+                <fx-group ref="teiHeader" aria-labelledby="title-lbl" class="outer-group">
+                    <h1 id="title-lbl">
+                        <fx-control id="edeptitle" class="title" ref="fileDesc/titleStmt/title">
+                            <label>
+                                <pb-i18n key="form.title"></pb-i18n>
+                            </label>
+                        </fx-control>
+                    </h1>
+
+
+                    <!-- IDENTIFIERs -->
+                    [% include "templates/parts/object.html" %]
+
+                    <fx-group ref="fileDesc/sourceDesc/msDesc" id="inscription" class="neutral">
+
+                        <!-- FINDSPOT -->
+                        [% include "templates/parts/findspot.html" %]
+
+                        <!-- PRESENT LOCATION -->
+                        [% include "templates/parts/location.html" %]
+
+                        <!-- VERIFICATION -->
+                        [% include "templates/parts/verification.html" %]
+                    </fx-group>
+                    <fx-group ref="fileDesc/sourceDesc/msDesc" id="objdesc" class="neutral">
+                        <!-- OBJECT DESCRIPTION -->
+                        [% include "templates/parts/objectdesc.html" %]
+
+                        <!-- INSCRIPTION FIELD -->
+                        [% include "templates/parts/inscription-field.html" %]
+
+                        <!-- TEXT DESCRIPTION -->
+                        [% include "templates/parts/text-description.html" %]
+                    </fx-group>
+                    <!--
+                    <fx-group ref="profileDesc" class="outer-group" aria-labelledby="profile-lbl">
+                        <div
+                            id="languages"
+                            data-template="lib:include"
+                            data-template-path="templates/parts/languages.html"
+                            data-template-replace="true"></div>
+                    </fx-group> -->
+
+
+                    <!-- REFERENCES -->
+                    <fx-group id="references" class="references-background">
+                        <fx-group ref="fileDesc/sourceDesc/listBibl" class="outer-group">
+                            <h2>
+                                <pb-i18n key="form.references" />
+                                <pb-popover>
+                                    <iron-icon icon="info-outline"></iron-icon>
+                                    <template slot="alternate">
+                                        <pb-i18n key="form.hint-references"></pb-i18n>
+                                    </template>
+                                </pb-popover>
+                            </h2>
+
+
+                            [% include "templates/parts/transmission.html" %]
+
+                            [% include "templates/parts/prev-editions.html" %]
+                            [% include "templates/parts/bibliography.html" %]
+                            [% include "templates/parts/images.html" %]
+                        </fx-group>
+
+                        <!-- DIGITAL IMAGES -->
+                        <fx-group id="dig-images" class="neutral">
+                            [% include "templates/parts/pictures.html" %]
+                        </fx-group>
+                    </fx-group>
+                </fx-group>
+
+                <!-- edition here, splitting the binding group -->
+                <!-- EDITION and COMMENTARY together as they are all stored in BODY -->
+                <fx-group ref="text/body" class="outer-group">
+                    [% include "templates/parts/edition.html" %]
+
+                    <!--
+                        This won't call the update-cycle for each event as the replace action in its current form does not
+                        call it. The control will refresh the UI when the control looses focus (onblur).
+                    -->
+                    [% include "templates/parts/commentary.html" %]
+                </fx-group>
+
+                <fx-group ref="teiHeader" aria-labelledby="title-lbl" class="outer-group">
+                    <!-- DATING -->
+                    [% include "templates/parts/dating.html" %]
+
+                    <!-- HISTORIC RELEVANCE -->
+                    [% include "templates/parts/historic-relevance.html" %]
+
+                    <!-- EDITOR -->
+                    [% include "templates/parts/editor.html" %]
+                </fx-group>
+            </main>
+            <footer class="buttonBar">
+                <pb-restricted login="login" group="tei">
+                    <p class="loginMessage" slot="fallback">You need to be logged in to save.</p>
+
+                    <fx-trigger class="saveBtn" debounce="1000">
+                        <button>
+                            <pb-i18n key="form.save"></pb-i18n>
+                        </button>
+                        <fx-action if="not(exists(instance('params')/id))">
+                            <fx-send submission="s-login"></fx-send>
+                            <fx-send submission="s-create"></fx-send>
+                        </fx-action>
+                        <fx-action if="exists(instance('params')/id)">
+                            <fx-send submission="s-login"></fx-send>
+                            <fx-send submission="s-save"></fx-send>
                         </fx-action>
                     </fx-trigger>
-                </li>
-<!--
-                <li>
-                    {instance('i-fragment')/@xml:id}
-                    {instance('i-fragment')/@type}
-                    {instance('i-fragment')/@corresp}
-                </li>
--->
-            </ul>
-        </nav>
-        <fx-group ref="teiHeader" aria-labelledby="title-lbl" class="outer-group">
-            <h1 id="title-lbl">
-                <fx-control id="edeptitle" class="title" ref="fileDesc/titleStmt/title">
-                    <label>
-                        <pb-i18n key="form.title"></pb-i18n>
-                    </label>
-                </fx-control>
-            </h1>
-
-
-            <!-- IDENTIFIERs -->
-            [% include "templates/parts/object.html" %]
-
-            <fx-group
-                ref="fileDesc/sourceDesc/msDesc"
-                id="inscription"
-                class="neutral">
-
-                <!-- FINDSPOT -->
-                [% include "templates/parts/findspot.html" %]
-
-                <!-- PRESENT LOCATION -->
-                [% include "templates/parts/location.html" %]
-
-                <!-- VERIFICATION -->
-                [% include "templates/parts/verification.html" %]
-            </fx-group>
-            <fx-group
-                ref="fileDesc/sourceDesc/msDesc"
-                id="objdesc"
-                class="neutral">
-                <!-- OBJECT DESCRIPTION -->
-                [% include "templates/parts/objectdesc.html" %]
-
-                <!-- INSCRIPTION FIELD -->
-                [% include "templates/parts/inscription-field.html" %]
-
-                <!-- TEXT DESCRIPTION -->
-                [% include "templates/parts/text-description.html" %]
-            </fx-group>
-<!--
-            <fx-group ref="profileDesc" class="outer-group" aria-labelledby="profile-lbl">
-                <div
-                    id="languages"
-                    data-template="lib:include"
-                    data-template-path="templates/parts/languages.html"
-                    data-template-replace="true"></div>
-            </fx-group> -->
-
-
-            <!-- REFERENCES -->
-            <fx-group id="references" class="references-background">
-                <fx-group ref="fileDesc/sourceDesc/listBibl" class="outer-group">
-                    <h2>
-                        <pb-i18n key="form.references"/>
-                        <pb-popover>
-                            <iron-icon icon="info-outline"></iron-icon>
-                            <template slot="alternate">
-                                <pb-i18n key="form.hint-references"></pb-i18n>
-                            </template>
-                        </pb-popover>
-                    </h2>
-
-
-                    [% include "templates/parts/transmission.html" %]
-
-                    [% include "templates/parts/prev-editions.html" %]
-                    [% include "templates/parts/bibliography.html" %]
-                    [% include "templates/parts/images.html" %]
-                </fx-group>
-
-                <!-- DIGITAL IMAGES -->
-                <fx-group id="dig-images" class="neutral">
-                    [% include "templates/parts/pictures.html" %]
-                </fx-group>
-            </fx-group>
-        </fx-group>
-
-        <!-- edition here, splitting the binding group -->
-        <!-- EDITION and COMMENTARY together as they are all stored in BODY -->
-        <fx-group ref="text/body" class="outer-group">
-            [% include "templates/parts/edition.html" %]
-
-            <!--
-                This won't call the update-cycle for each event as the replace action in its current form does not
-                call it. The control will refresh the UI when the control looses focus (onblur).
-            -->
-            [% include "templates/parts/commentary.html" %]
-        </fx-group>
-
-        <fx-group ref="teiHeader" aria-labelledby="title-lbl" class="outer-group">
-            <!-- DATING -->
-            [% include "templates/parts/dating.html" %]
-
-            <!-- HISTORIC RELEVANCE -->
-            [% include "templates/parts/historic-relevance.html" %]
-
-            <!-- EDITOR -->
-            [% include "templates/parts/editor.html" %]
-        </fx-group>
-
-        <section class="buttonBar">
-            <pb-restricted login="login" group="tei">
-                <p class="loginMessage" slot="fallback">You need to be logged in to save.</p>
-
-                <fx-trigger class="saveBtn" debounce="1000">
-                    <button>
-                        <pb-i18n key="form.save"></pb-i18n>
-                    </button>
-                    <fx-action if="not(exists(instance('params')/id))">
-                        <fx-send submission="s-login"></fx-send>
-                        <fx-send submission="s-create"></fx-send>
-                    </fx-action>
-                    <fx-action if="exists(instance('params')/id)">
-                        <fx-send submission="s-login"></fx-send>
-                        <fx-send submission="s-save"></fx-send>
-                    </fx-action>
-                </fx-trigger>
+                    <fx-trigger>
+                        <a href="edit/workspace/">
+                            <pb-i18n key="form.new">Neuer Eintrag</pb-i18n>
+                        </a>
+                    </fx-trigger>
+                </pb-restricted>
                 <fx-trigger>
-                    <a href="edit/workspace/">
-                        <pb-i18n key="form.new">Neuer Eintrag</pb-i18n>
+                    <a href="index.html">
+                        <pb-i18n key="form.list">Zur Liste</pb-i18n>
                     </a>
                 </fx-trigger>
-            </pb-restricted>
-            <fx-trigger>
-                <a href="index.html">
-                    <pb-i18n key="form.list">Zur Liste</pb-i18n>
-                </a>
-            </fx-trigger>
-        </section>
+            </footer>
 
-        <fx-control ref="instance('vars')/xml-valid" class="valid-warning">
-            <fx-alert>
-                <pb-i18n key="form.invalid-data"></pb-i18n>
-            </fx-alert>
-            <input style="display: none" />
-        </fx-control>
+            <fx-control ref="instance('vars')/xml-valid" class="valid-warning">
+                <fx-alert>
+                    <pb-i18n key="form.invalid-data"></pb-i18n>
+                </fx-alert>
+                <input style="display: none" />
+            </fx-control>
+        </pb-page>
+        <div class="splash"></div>
     </fx-fore>
-</template>
+
+    [% for $icons in $context?theme?icons?* %]
+    [% include "resources/css/" || $icons %]
+    [% endfor %]
+
+    <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
+    [% for $src in $context?script?custom?* %]
+    <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
+    [% endfor %]
+    <!-- Statically determine the language for the page, might be overridden once i18n is loaded -->
+    <script type="application/json" id="language-default">
+        {
+            "language": "[[ page:resolve-language($context) ]]"
+        }
+    </script>
+</body>
+
+</html>
