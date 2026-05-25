@@ -11,8 +11,16 @@
         "upload",
         "forms"
     ],
+    "odds": [
+        "edep-clean.odd"
+    ],
     "defaults": {
         "data-default": "workspace"
+    },
+    "templating": {
+        "use": [
+            "templates/edep-blocks.html"
+        ]
     },
     "api": [
         {
@@ -23,6 +31,9 @@
         }
     ],
     "features": {
+        "edep": {
+            "toolbar-button": true
+        },
         "zotero": {
             "api_base": "https://api.zotero.org",
             "group_id": "2519759",
