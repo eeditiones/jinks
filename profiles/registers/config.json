@@ -50,5 +50,38 @@
         "registers": {
             "columns": 2
         }
-    }
+    },
+    "defaults": {
+        "register-map": { 
+        "person": {
+            "id": "pb-persons",
+            "default": "person-default",
+            "prefix": "person-"
+        },
+        "place":  {
+            "id": "pb-places",
+            "default": "place-default",
+            "prefix": "place-"
+        },
+        "bibliography":  {
+            "id": "pb-bibl",
+            "default": "bibl-default",
+            "prefix": "bibl-"
+        },
+        "organization":  {
+            "id": "pb-organizations",
+            "default": "organization-default",
+            "prefix": "org-"
+        },
+        "term":  {
+            "id": "pb-keywords",
+            "default": "term-default",
+            "prefix": "category-"
+        },
+        "work":  {
+            "id": "pb-works",
+            "default": "work-default",
+            "prefix": "work-"
+        }
+    }}
 }
