@@ -960,8 +960,8 @@ flex-wrap: wrap;
             <desc>Register entry overview in list</desc>
             <param name="id" value="@xml:id"/>
             <param name="label" value="placeName[1]/string()"/>
-            <param name="longitude" value="tokenize(location/geo)[2]"/>
-            <param name="latitude" value="tokenize(location/geo)[1]"/>
+            <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+            <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
             <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
             <param name="description" value="note"/>
             <pb:template xmlns="" xml:space="preserve"><div>
@@ -981,16 +981,16 @@ flex-wrap: wrap;
                     <model predicate="$parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
             <param name="content" value="placeName[@type='main']"/>
-            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+            <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+            <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
             <param name="label" value="placeName[@type='main']/node()"/>
             <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
         </model>
                     <modelSequence>
             <desc>Register details view</desc>
             <model behaviour="heading">
-                <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+                <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
                 <param name="label" value="placeName[@type='main']/node()"/>
                 <param name="content" value="placeName[@type='main']"/>
                 <param name="location" value="string-join((country, region), ', ')"/>
