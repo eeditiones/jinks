@@ -115,9 +115,9 @@
         }
       }
     },
-    "/orte": {
+    "/places/new": {
       "get": {
-        "summary": "Landing page for places",
+        "summary": "New place form",
         "tags": ["view"],
         "operationId": "vapi:html",
         "x-error-handler": "vapi:handle-error",
@@ -127,19 +127,13 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "default": "pages/places"
+              "default": "geodata"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "HTML of the page",
-            "content": {
-              "text/html": { "schema": { "type": "string" } }
-            }
-          },
-          "404": {
-            "description": "The document was not found",
             "content": {
               "text/html": { "schema": { "type": "string" } }
             }
@@ -147,37 +141,58 @@
         }
       }
     },
-    "/personen": {
-      "get": {
-        "summary": "Landing page for people",
-        "tags": ["view"],
-        "operationId": "vapi:html",
-        "x-error-handler": "vapi:handle-error",
-        "parameters": [
-          {
-            "name": "file",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": "pages/people"
+    "/places/{id}": {
+        "get": {
+            "summary": "HTML page for place details",
+            "description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+            "tags": [
+                "view"
+            ],
+            "operationId": "vapi:html",
+            "x-error-handler": "vapi:handle-error",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the person or place",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "default": "all"
+                    }
+                },
+                {
+                    "name": "file",
+                    "in": "query",
+                    "schema": {
+                        "type": "string",
+                        "default": "geodata"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "HTML of the page",
+                    "content": {
+                        "text/html": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "The document was not found",
+                    "content": {
+                        "text/html": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "HTML of the page",
-            "content": {
-              "text/html": { "schema": { "type": "string" } }
-            }
-          },
-          "404": {
-            "description": "The document was not found",
-            "content": {
-              "text/html": { "schema": { "type": "string" } }
-            }
-          }
         }
-      }
     },
     "/api/places": {
       "post": {
@@ -204,31 +219,60 @@
       "get": {
         "summary": "List places",
         "description": "Retrieve list of places in format required by pb-split-list",
-        "operationId": "edep:places-browse",
+        "tags": [
+            "registers"
+        ],
+        "operationId": "rview:places",
         "parameters": [
-          {
-            "name": "category",
-            "in": "query",
-            "schema": { "type": "string" }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": { "type": "integer", "default": 50 }
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "schema": { "type": "string" }
-          }
+            {
+                "name": "category",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "default": 50
+                }
+            },
+            {
+                "name": "search",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "odd",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "description",
+                "in": "query",
+                "description": "Whether to show descriptions",
+                "schema": {
+                    "type": "string"
+                }
+            }
         ],
         "responses": {
-          "200": {
-            "description": "Categories and places to display",
-            "content": {
-              "application/json": { "schema": { "type": "object" } }
+            "200": {
+                "description": "Categories and places to display",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
             }
-          }
         }
       }
     },
