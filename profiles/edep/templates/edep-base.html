@@ -1,0 +1,172 @@
+<html>
+---json
+{
+    "styles": [
+        "resources/css/edep-theme.css"
+    ],
+    "features": {
+        "forms": {
+            "enabled": true
+        }
+    }
+}
+---
+<head>
+    [% if $context?defaults?base %]
+    <base href="[[ $context-path ]]/[[ $context?defaults?base ]]" />
+    [% endif %]
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+    [% if $context?description %]
+    <meta name="description" content="[[ $context?description ]]" />
+    [% endif %]
+    <link rel="shortcut icon" type="image/x-icon" href="[[ $context-path ]]/resources/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-16.png"
+        sizes="16x16" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-24.png"
+        sizes="24x24" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-32.png"
+        sizes="32x32" />
+    <link rel="shortcut icon" type="image/png" href="[[ $context-path ]]/resources/images/favicon-64.png"
+        sizes="64x64" />
+
+    [% for $path in $styles?* %]
+    [% if matches($path, "(?:^https?://|^/).*$") %]
+    <link rel="stylesheet" href="[[ $path ]]" />
+    [% else %]
+    <link rel="stylesheet" href="[[ $context-path ]]/[[ $path ]]" />
+    [% endif %]
+    [% endfor %]
+
+    <style>
+        :root {
+            --jinks-layout-before-width: [[$context?theme?layout?before?width]];
+            --jinks-layout-after-width: [[$context?theme?layout?after?width]];
+        }
+    </style>
+    [% block styles %][% endblock %]
+
+    <title>[[ $label ]]</title>
+
+    [% if $script?webcomponents = 'dev' %]
+    <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[$script?cdn]]/src/[[ $component ]].js"></script>
+    [% endfor %]
+    [% elif $script?webcomponents = 'local' %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[ $context-path ]]/resources/lib/[[ $component ]].js"></script>
+    [% endfor %]
+    [% elif $script?webcomponents = '' %]
+    [% else %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/pb-components-bundle.js"></script>
+    [% for $component in $script?extra-components?* %]
+    <script type="module" src="[[$script?cdn]]@[[$script?webcomponents]]/dist/[[ $component ]].js"></script>
+    [% endfor %]
+    [% endif %]
+
+    [% block scripts %][% endblock %]
+</head>
+
+<body data-theme="light" class="[[ string-join($context?theme?body?classes?*, ' ') ]]">
+    <pb-dialog id="downloadDialog">
+        <h2 slot="title">
+            <pb-i18n key="dialogs.generatingFile">Generating file ...</pb-i18n>
+        </h2>
+        <p><pb-i18n key="dialogs.downloadMessage"></pb-i18n></p>
+        <button slot="footer" autofocus="autofocus" rel="prev" aria-label="Close">
+            <pb-i18n key="dialogs.close">Close</pb-i18n>
+        </button>
+    </pb-dialog>
+    <fx-fore show-confirmation="show-confirmation" create-nodes="create-nodes">
+        [% block fore-prolog %][% endblock %]
+        <pb-page endpoint="[[ $context-path ]]" app-root="[[ $context-path ]]" api-version="1.0.0"
+            supported-languages="[[ string-join($context?defaults?languages?*, ', ') ]]"
+            locales="resources/i18n/{{ns}}/{{lng}}.json"
+            locale-fallback-ns="app [[ if (map:contains($context, 'i18n')) then string-join($context?i18n?*, ' ') else () ]]"
+            unresolved="unresolved" url-template="[[ $context?urls?template ]]" url-ignore="[[ $context?urls?ignore ]]"
+            class="[[ string-join((tokenize($context?theme?layout?class, '\s+'), if (not($context?theme?layout?before?collapsible)) then 'before-fixed' else (), if (not($context?theme?layout?after?collapsible)) then 'after-fixed' else ()), ' ') ]]"
+            require-language="require-language" theme="resources/css/components.css">
+            <header class="page-header">
+                <div>
+                    [% if $features?menubar %]
+                    [% include "templates/menu.html" %]
+                    [% endif %]
+
+                    [% block header %][% endblock %]
+                </div>
+                [% if $features?menubar %]
+                [% include "templates/menu-mobile.html" %]
+                [% endif %]
+            </header>
+            <nav class="before-top hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
+                <ul>
+                    [% block before-top %][% endblock %]
+                    <li>
+                        <span role="group" class="light">
+                            <button onclick="expandAll()" title="expand all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <!-- up chevron -->
+                                        <path d="M8 9 L12 5 L16 9" />
+                                        <!-- down chevron -->
+                                        <path d="M8 15 L12 19 L16 15" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <button title="collapse all" onclick="closeAll()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <!-- top chevron (now pointing down) -->
+                                        <path d="M8 5 L12 9 L16 5" />
+                                        <!-- bottom chevron (now pointing up) -->
+                                        <path d="M8 19 L12 15 L16 19" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </span>
+                    </li>
+                </ul>
+                [% if $context?theme?layout?before?toggle %]
+                <ul>
+                    <li>
+                        <a class="aside-toggle" title="Hide" data-toggle=".fixed-layout > .before">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+                [% endif %]
+            </nav>
+            <aside class="before hidden-mobile [[ if ($context?theme?layout?before?hidden) then 'hidden' else '' ]]">
+                [% block before %][% endblock %]
+            </aside>
+            <main>
+                [% block content %][% endblock %]
+            </main>
+            [% block footer %][% endblock %]
+        </pb-page>
+        <div class="splash"></div>
+    </fx-fore>
+
+    [% for $icons in $context?theme?icons?* %]
+    [% include "resources/css/" || $icons %]
+    [% endfor %]
+
+    <script src="[[ $context-path ]]/resources/scripts/layout.js"></script>
+    [% for $src in $context?script?custom?* %]
+    <script src="[[ if (matches($src, '^https?://')) then $src else $context-path || '/' || $src ]]"></script>
+    [% endfor %]
+    <!-- Statically determine the language for the page, might be overridden once i18n is loaded -->
+    <script type="application/json" id="language-default">
+        {
+            "language": "[[ page:resolve-language($context) ]]"
+        }
+    </script>
+</body>
+
+</html>
