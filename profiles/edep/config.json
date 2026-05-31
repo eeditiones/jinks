@@ -46,6 +46,14 @@
             "enabled": true,
             "target": "workspace",
             "accept": ".xml, .tei, .odd, .docx, .md, .mei"
+        },
+        "register": {
+            "config": {
+                "$replace": true,
+                "place": {
+                    "collection": "places"
+                }
+            }
         }
     }
 }

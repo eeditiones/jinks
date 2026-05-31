@@ -109,7 +109,7 @@ declare function edep:find-spot($request as map(*)) {
 };
 
 declare function edep:load-place($request as map(*)) {
-    let $loc := concat($config:places, $request?parameters?id, ".xml")
+    let $loc := $config:data-root || "/places/" || $request?parameters?id || ".xml"
     return if (not(doc-available($loc))) then
         error($errors:NOT_FOUND)
     else
@@ -134,22 +134,22 @@ declare function edep:geopicker-places($request as map(*)) {
 
 declare function edep:places-add($request as map(*)) {
     let $id := if ($request?parameters?id and not(empty($request?body//@xml:id))) then
-            let $store := xmldb:store($config:places, concat($request?parameters?id, ".xml"), $request?body)
+            let $store := xmldb:store($config:data-root || "/places", concat($request?parameters?id, ".xml"), $request?body)
             return $request?body//@xml:id
 
         else if ($request?body//@xml:id) then
             let $id := $request?body//@xml:id
-            let $store := xmldb:store($config:places, concat($id, ".xml"), $request?body)
+            let $store := xmldb:store($config:data-root || "/places", concat($id, ".xml"), $request?body)
             return $id
         else
-            let $ids := sort(collection($config:places)//@xml:id/string())
+            let $ids := sort(collection($config:data-root || "/places")//@xml:id/string())
             let $id-new := if (empty($ids)) then "000000" else format-number(xs:integer(replace($ids[last()], "G", "")) + 1, "000000")
-            let $store := xmldb:store($config:places, concat("G", $id-new, ".xml"), $request?body)
-            let $update := update insert attribute xml:id {concat("G", $id-new)} into doc(concat($config:places, "G", $id-new, ".xml"))/tei:place
+            let $store := xmldb:store($config:data-root || "/places", concat("G", $id-new, ".xml"), $request?body)
+            let $update := update insert attribute xml:id {concat("G", $id-new)} into doc(concat($config:data-root || "/places", "G", $id-new, ".xml"))/tei:place
             return concat("G", $id-new)
 
     return try {
-        doc(concat($config:places, $id, ".xml"))
+        doc(concat($config:data-root || "/places", $id, ".xml"))
     } catch * {
         ()
     }
