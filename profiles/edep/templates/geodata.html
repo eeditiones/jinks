@@ -46,12 +46,8 @@
         </fx-instance>
         <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"></fx-bind>
 
-        <fx-instance id="query">
-            <data>
-                [% if exists(page:parameter($context, 'id')) %]
-                <id>[[ page:parameter($context, 'id') ]]</id>
-                [% endif %]
-            </data>
+        <fx-instance id="query" src="#querystring">
+            <data></data>
         </fx-instance>
 
         <fx-instance id="province" src="[[ $context-path ]]/data/taxonomy/province.xml"
@@ -176,7 +172,7 @@
                 <fx-send submission="s-save"></fx-send>
             </fx-action>
         </fx-trigger>
-        <a href="[[ $context-path ]]/places/new">
+        <a href="place">
             <pb-i18n key="form.new"></pb-i18n>
         </a>
         <a href="[[ $context-path ]]/places">
