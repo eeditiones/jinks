@@ -14,7 +14,7 @@
     </head>
 
     <body>
-        <fx-fore id="geopicker" wait-for="#epidoc-editor">
+        <fx-fore id="geopicker">
             <fx-action event="visibilitychange" target="#document" if="event('target.visibilityState')='visible'">
                 <fx-send submission="s-load-places"></fx-send>
                 <fx-send submission="s-load-place"></fx-send>

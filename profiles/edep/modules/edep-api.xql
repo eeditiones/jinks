@@ -133,7 +133,8 @@ declare function edep:geopicker-places($request as map(*)) {
 };
 
 declare function edep:places-add($request as map(*)) {
-    let $id := if ($request?parameters?id and not(empty($request?body//@xml:id))) then
+    let $id := 
+        if ($request?parameters?id and not(empty($request?body//@xml:id))) then
             let $store := xmldb:store($config:data-root || "/places", concat($request?parameters?id, ".xml"), $request?body)
             return $request?body//@xml:id
 
@@ -145,9 +146,8 @@ declare function edep:places-add($request as map(*)) {
             let $ids := sort(collection($config:data-root || "/places")//@xml:id/string())
             let $id-new := if (empty($ids)) then "000000" else format-number(xs:integer(replace($ids[last()], "G", "")) + 1, "000000")
             let $store := xmldb:store($config:data-root || "/places", concat("G", $id-new, ".xml"), $request?body)
-            let $update := update insert attribute xml:id {concat("G", $id-new)} into doc(concat($config:data-root || "/places", "G", $id-new, ".xml"))/tei:place
+            let $update := update insert attribute xml:id {concat("G", $id-new)} into doc($store)/tei:place
             return concat("G", $id-new)
-
     return try {
         doc(concat($config:data-root || "/places", $id, ".xml"))
     } catch * {
@@ -219,7 +219,7 @@ declare function edep:output-person($list, $category as xs:string, $search as xs
         ), ' ')
         return
             <span class="person">
-                <a href="person.html?{$params}">{$label}</a>
+                <a href="person?{$params}">{$label}</a>
                 <paper-icon-button id="{$person/@xml:id}" class="place-id" icon="icons:content-copy"
                     title="ID kopieren"></paper-icon-button>
             </span>
@@ -227,7 +227,7 @@ declare function edep:output-person($list, $category as xs:string, $search as xs
 };
 
 declare function edep:load-person($request as map(*)) {
-    let $loc := concat($config:people, $request?parameters?id, ".xml")
+    let $loc := $config:data-root || "/people/" || $request?parameters?id || ".xml"
     return if (not(doc-available($loc))) then
         error($errors:NOT_FOUND)
     else
@@ -236,16 +236,17 @@ declare function edep:load-person($request as map(*)) {
 };
 
 declare function edep:person-add($request as map(*)) {
+    let $people := $config:data-root || "/people"
     let $id := if ($request?parameters?id and not(empty($request?body//@xml:id))) then
-            let $store := xmldb:store($config:people, concat($request?parameters?id, ".xml"), $request?body)
+            let $store := xmldb:store($people, concat($request?parameters?id, ".xml"), $request?body)
             return $request?body//@xml:id
 
         else if ($request?body//@xml:id) then
             let $id := $request?body//@xml:id
-            let $store := xmldb:store($config:people, concat($id, ".xml"), $request?body)
+            let $store := xmldb:store($people, concat($id, ".xml"), $request?body)
             return $id
         else
-            let $ids := sort(collection($config:people)//@xml:id/string())
+            let $ids := sort(collection($people)//@xml:id/string())
             let $id-new := if (empty($ids)) then "000000" else format-number(xs:integer(replace($ids[last()], "P", "")) + 1, "000000")
             let $withId :=
                 <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="P{$id-new}">
@@ -254,11 +255,11 @@ declare function edep:person-add($request as map(*)) {
                     $request?body/tei:person/*
                 }
                 </person>
-            let $store := xmldb:store($config:people, concat("P", $id-new, ".xml"), $withId)
+            let $store := xmldb:store($people, concat("P", $id-new, ".xml"), $withId)
             return concat("P", $id-new)
 
     return try {
-        doc(concat($config:people, $id, ".xml"))
+        doc($people || "/" || $id || ".xml")
     } catch * {
         ()
     }
