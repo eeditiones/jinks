@@ -20,7 +20,33 @@
     "features": {
         "register": {
             "enabled": false,
-            "description": "auto"
+            "description": "auto",
+            "config": {
+                "person": {
+                    "collection": "registers",
+                    "id": "pb-persons"
+                },
+                "place": {
+                    "collection": "registers",
+                    "id": "pb-places"
+                },
+                "bibliography": {
+                    "collection": "registers",
+                    "id": "pb-bibl"
+                },
+                "organization": {
+                    "collection": "registers",
+                    "id": "pb-organizations"
+                },
+                "term": {
+                    "collection": "registers",
+                    "id": "pb-keywords"
+                },
+                "work": {
+                    "collection": "registers",
+                    "id": "pb-works"
+                }
+            }
         }
     },
     "menu": {
