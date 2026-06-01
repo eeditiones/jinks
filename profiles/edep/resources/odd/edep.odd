@@ -75,10 +75,10 @@
             <param name="content" value="if (./@cert='low')  then ('(',., '?)') else ('(',., ')')"/>
         </model>
                 </elementSpec>
-                <elementSpec ident="persName" mode="add">
+                <elementSpec ident="persName" mode="change">
                     <model behaviour="alternate">
             <param name="default" value="."/>
-            <param name="alternate" value="collection('/db/apps/edep-data/people')/id(@key)"/>
+            <param name="alternate" value="collection(util:collection-name(.))/id(@key)"/>
         </model>
                 </elementSpec>
             <elementSpec ident="expan" mode="change">
@@ -237,6 +237,175 @@
             margin: 0;
             </outputRendition>
         </model>
+                </elementSpec>
+                <elementSpec ident="person" mode="add">
+                    <model predicate="parent::listPerson and $parameters?mode='register-overview'" behaviour="pass-through">
+            <desc>Register entry overview in list</desc>
+            <param name="id" value="@xml:id"/>
+            <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
+            <param name="description" value="note[@type='bio']"/>
+            <pb:template xmlns="" xml:space="preserve"><div>
+<header>
+    <a href="person?id=[[ id ]]">[[ label ]]</a>
+</header>
+[[ description ]]
+</div></pb:template>
+        </model>
+                    <model predicate="parent::listPerson and $parameters?mode='register'" behaviour="listItem">
+            <desc>Register sidebar</desc>
+            <param name="content" value="persName[@type=('main', 'full')]"/>
+        </model>
+                    <modelSequence predicate="parent::listPerson">
+            <desc>Register details view</desc>
+            <model behaviour="heading">
+                <desc>Heading with full name and dates</desc>
+                <param name="content" value="(persName[@type!='variant'])[1]"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Dates</desc>
+                <param name="content" value="(birth, death)"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="paragraph">
+                <desc>Variant names</desc>
+                <param name="content" value="persName[@type='variant']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block">
+                <desc>Images</desc>
+                <param name="content" value="figure"/>
+            </model>
+            <model behaviour="pass-through">
+                <desc>Short bio note</desc>
+                <param name="content" value="note[@type='bio']"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="pass-through">
+                <desc>Additional notes</desc>
+                <param name="content" value="note[@type!='bio']"/>
+            </model>
+            <model behaviour="list">
+                <desc>Links to wikidata, wikipedia etc.</desc>
+                <param name="content" value="ptr"/>
+            </model>
+            <model predicate="$parameters?mode='register-details'" behaviour="block" cssClass="occupation">
+                <desc>Occupation</desc>
+                <param name="content" value="occupation"/>
+                <outputRendition xml:space="preserve">
+                display: flex;
+gap: var(--s-1);
+flex-wrap: wrap;
+                </outputRendition>
+            </model>
+            <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="block">
+                <desc>List of documents (from data-default collection), where references
+                    occur; (shown in register details view only); trying to match by key
+                    or ref attributes</desc>
+                <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
+                <pb:template xmlns="" xml:space="preserve"><div>
+                        <h2>
+                            <pb-i18n key="register-details.document-list"/>
+                        </h2>
+                        <ul>
+                            [[content]]
+                        </ul>
+                    </div></pb:template>
+            </model>
+            <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="heading">
+                <desc>List of documents (from data-default collection), where references occur;
+                    (shown in register details view only); trying to match by key or ref attributes</desc>
+                <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
+                <param name="content" value="let $id := @xml:id return count(
+                collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI
+                | collection($global:data-default)//text//rs[@key = $id or @ref = $id]/ancestor::TEI
+                )"/>
+                <param name="level" value="4"/>
+                <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
+            </model>
+        </modelSequence>
+                </elementSpec>
+                <elementSpec ident="place" mode="change">
+                    <model predicate="$parameters?mode='register-overview'" behaviour="pass-through">
+                        <desc>Register entry overview in list</desc>
+                        <param name="id" value="@xml:id" />
+                        <param name="label" value="placeName[1]/string()" />
+                        <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+                        <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
+                        <param name="zoom" value="if (@type != 'approximate') then 12 else 9" />
+                        <param name="description" value="note" />
+                        <pb:template xmlns="" xml:space="preserve"><div>
+<header>
+    <a href="place?id=[[id]]">
+        [[ label ]]
+    </a>
+    <pb-geolocation latitude="[[ latitude ]]" longitude="[[ longitude ]]" label="[[ label ]]" emit="map" event="click" zoom="[[ zoom ]]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+      </svg>
+    </pb-geolocation>
+</header>
+[[ description ]]
+</div></pb:template>
+                    </model>
+                    <model predicate="$parameters?mode='register'" behaviour="listItem">
+                        <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to
+                            avoid interference with other pb-view </desc>
+                        <param name="content" value="placeName[@type='main']" />
+                        <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+                        <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
+                        <param name="label" value="placeName[@type='main']/node()" />
+                        <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
+                    </model>
+                    <modelSequence>
+                        <desc>Register details view</desc>
+                        <model behaviour="heading">
+                            <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+                            <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
+                            <param name="label" value="placeName[@type='main']/node()" />
+                            <param name="content" value="placeName[@type='main']" />
+                            <param name="location" value="string-join((country, region), ', ')" />
+                            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
+                        </model>
+                        <model behaviour="paragraph">
+                            <desc>Additional notes</desc>
+                            <param name="content" value="note" />
+                        </model>
+                        <model behaviour="list" cssClass="links">
+                            <desc>Links to wikidata, wikipedia etc.</desc>
+                            <param name="content" value="ptr" />
+                        </model>
+                        <model
+                            predicate="$parameters?mode='register-details' and $parameters?static"
+                            behaviour="block">
+                            <desc>List of documents (from data-default collection), where references
+                                occur; (shown in register details view only); trying to match by key
+                                or ref attributes</desc>
+                            <param name="content"
+                                value="let $id := @xml:id return collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt" />
+                            <pb:template xmlns="" xml:space="preserve"><div>
+                        <h2>
+                            <pb-i18n key="register-details.document-list"/>
+                        </h2>
+                        <ul>
+                            [[content]]
+                        </ul>
+                    </div></pb:template>
+                        </model>
+                        <model
+                            predicate="$parameters?mode='register-details' and not($parameters?static)"
+                            behaviour="block">
+                            <desc>Link to the list of documents, where references occur via facet
+                                query</desc>
+                            <param name="uri"
+                                value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id" />
+                            <param name="content"
+                                value="let $id := @xml:id return count(collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI)" />
+                            <pb:template xmlns="" xml:space="preserve">
+                    <a href="[[uri]]">
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <iron-icon icon="icons:launch"/>
+                    </a></pb:template>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
             </schemaSpec>
         </body>
