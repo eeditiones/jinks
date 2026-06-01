@@ -115,33 +115,60 @@
         }
       }
     },
-    "/places/new": {
-      "get": {
-        "summary": "New place form",
-        "tags": ["view"],
-        "operationId": "vapi:html",
-        "x-error-handler": "vapi:handle-error",
-        "parameters": [
-          {
-            "name": "file",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": "geodata"
+    "/person": {
+        "get": {
+            "summary": "HTML page for person details",
+            "description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
+            "tags": [
+                "view"
+            ],
+            "operationId": "vapi:html",
+            "x-error-handler": "vapi:handle-error",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "query",
+                    "description": "ID of the person or place",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "default": "all"
+                    }
+                },
+                {
+                    "name": "file",
+                    "in": "query",
+                    "schema": {
+                        "type": "string",
+                        "default": "person"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "HTML of the page",
+                    "content": {
+                        "text/html": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "The document was not found",
+                    "content": {
+                        "text/html": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "HTML of the page",
-            "content": {
-              "text/html": { "schema": { "type": "string" } }
-            }
-          }
         }
-      }
     },
-    "/places/{id}": {
+    "/place": {
         "get": {
             "summary": "HTML page for place details",
             "description": "Retrieve an HTML page expanded through eXist templating. This is used to load the top-level HTML pages, e.g. `index.html`.",
@@ -153,7 +180,7 @@
             "parameters": [
                 {
                     "name": "id",
-                    "in": "path",
+                    "in": "query",
                     "description": "ID of the person or place",
                     "required": true,
                     "schema": {
