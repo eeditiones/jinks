@@ -534,6 +534,14 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                     ()
         else
             pages:load-xml($docs, $view, $request?parameters?root, $path)
+    let $xml :=
+        if ($request?parameters?user.track-ids = "yes") then
+            for $item in $xml
+            return map:merge(($item, map {
+                "config": map:merge(($item?config, map { "depth": 1, "fill": -1 }), map { "duplicates": "use-last" })
+            }), map { "duplicates": "use-last" })
+        else
+            $xml
     return
         if ($xml?data) then
             let $userParams :=
@@ -678,7 +686,7 @@ declare function dapi:table-of-contents($request as map(*)) {
                 let $xml := pages:load-xml($documents, $request?parameters?view, (), $doc)
                 return
                     if (exists($xml)) then
-                        let $mapped := 
+                        let $mapped :=
                             if (exists($request?parameters?map)) then
                                 let $mapFun := function-lookup(xs:QName("mapping:" || $request?parameters?map), 2)
                                 return
@@ -723,13 +731,13 @@ declare %private function dapi:toc-div($node, $model as map(*), $target as xs:st
             let $hasDivs := exists(nav:get-subsections($model?config, $div))
             let $nodeId :=  if ($parent) then util:node-id($parent) else util:node-id($root)
             let $xmlId := if ($parent) then $parent/@xml:id else $root/@xml:id
-            let $hash := 
+            let $hash :=
                 if ($view != 'page' and not(nav:get-section-for-node($model?config, $div) is $root)) then
-                    if ($root/@xml:id) then 
+                    if ($root/@xml:id) then
                         attribute hash { $root/@xml:id }
                     else
                         attribute hash { util:node-id($root) }
-                else 
+                else
                     ()
             return
                     <li>

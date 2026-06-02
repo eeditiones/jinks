@@ -1624,6 +1624,16 @@
 						"description": "should returned HTML be wrapped into a div?"
 					},
 					{
+						"name": "user.track-ids",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"default": "no",
+							"enum": ["yes", "no"]
+						},
+						"description": "passed by the annotation editor to track IDs in the HTML"
+					},
+					{
 						"name": "If-Modified-Since",
 						"in": "header",
 						"schema": {
@@ -3050,7 +3060,7 @@
                 "x-constraints": {
                     "group": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3090,7 +3100,7 @@
                 "description": "Get the XML fragment for a given register entry. Used by the registry forms in the annotation editor.",
                 "tags": ["register"],
                 "operationId": "rapi:entry",
-                
+
                 "parameters": [
                     {
                         "name": "id",
@@ -3098,7 +3108,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "gnd-139890289" 
+                            "example": "gnd-139890289"
                         }
                     },
                     {
@@ -3167,7 +3177,7 @@
                     }
                 }
             },
-        
+
             "put": {
                 "summary": "Save a register entry",
                 "description": "Replace an entry with the current version from the editor",
@@ -3176,7 +3186,7 @@
                 "x-constraints": {
                     "group": ["tei"]
                 },
-                
+
                 "requestBody": {
                     "content": {
                         "application/xml": {
@@ -3227,7 +3237,7 @@
                 "description": "Get the HTML fragment for a given register entry. May be used when retrieving e.g. registry content for popups asynchronously",
                 "tags": ["register"],
                 "operationId": "rapi:html",
-                
+
                 "parameters": [
                     {
                         "name": "id",
@@ -3235,7 +3245,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "gnd-139890289" 
+                            "example": "gnd-139890289"
                         }
                     },
                     {
