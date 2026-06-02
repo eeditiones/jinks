@@ -141,14 +141,22 @@ document.addEventListener("pb-page-loaded", () => {
 				const annotations = JSON.parse(ranges);
 				if (annotations.length > 0) {
 					const params = new URL(document.location).searchParams;
+					const sessionKey = `tei-publisher.annotations.session.${doc.path}`;
 					if (params.has("apply")) {
 						restoreAnnotations(doc, annotations);
+					} else if (window.sessionStorage.getItem(sessionKey)) {
+						// in-session navigation: view.annotations already has the current state
 					} else {
 						document
 							.getElementById("restore-dialog")
 							.confirm()
 							.then(() => {
+								window.sessionStorage.setItem(sessionKey, "1");
 								restoreAnnotations(doc, annotations);
+							})
+							.catch(() => {
+								// User declined restore for this session; avoid re-prompting.
+								window.sessionStorage.setItem(sessionKey, "0");
 							});
 					}
 				}
@@ -969,6 +977,7 @@ document.addEventListener("pb-page-loaded", () => {
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
 		const doc = view.getDocument();
 		if (doc && doc.path) {
+			window.sessionStorage.setItem(`tei-publisher.annotations.session.${doc.path}`, "1");
 			window.localStorage.setItem(
 				`tei-publisher.annotations.${doc.path}`,
 				JSON.stringify(ev.detail.ranges),
