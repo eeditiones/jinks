@@ -562,6 +562,8 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                     query:expand($xml?config, $mapped)[1]
                 else
                     $mapped
+            (: TODO perhaps find a way to assess whether not running the query is viable or not :)
+            let $data := if ($data) then $data else $mapped
             let $content :=
                 if (not($view = "single")) then
                     pages:get-content($xml?config, $data)
