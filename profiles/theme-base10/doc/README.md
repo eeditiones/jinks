@@ -13,6 +13,7 @@ The following table shows the current list of settings which can be changed via 
 | `colors.palette` | Predefined color palette to use for the application | `"neutral"` |
 | `colors.palettes.beige` | *No description available* | `"palette-beige.css"` |
 | `colors.palettes.blue` | *No description available* | `"palette-blue.css"` |
+| `colors.palettes.dark` | *No description available* | `"palette-dark.css"` |
 | `colors.palettes.green` | *No description available* | `"palette-green.css"` |
 | `colors.palettes.neutral` | *No description available* | `"palette-neutral.css"` |
 | `colors.palettes.teal` | *No description available* | `"palette-teal.css"` |
