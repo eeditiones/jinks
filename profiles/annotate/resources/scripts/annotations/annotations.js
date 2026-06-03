@@ -114,6 +114,20 @@ document.addEventListener("pb-page-loaded", () => {
 	let previewOdd = "teipublisher";
 	let currentUser = null;
 	const doc = view.getDocument();
+	const editorVisitId = crypto.randomUUID();
+
+	function annotationSessionKey(docPath) {
+		return `tei-publisher.annotations.session.${docPath}`;
+	}
+
+	function annotationDeclinedKey(docPath) {
+		return `tei-publisher.annotations.declined.${docPath}`;
+	}
+
+	function clearAnnotationSession(docPath) {
+		window.sessionStorage.removeItem(annotationSessionKey(docPath));
+		window.sessionStorage.removeItem(annotationDeclinedKey(docPath));
+	}
 
 	function restoreAnnotations(doc, annotations) {
 		console.log("loading annotations from local storage: %o", annotations);
@@ -141,22 +155,27 @@ document.addEventListener("pb-page-loaded", () => {
 				const annotations = JSON.parse(ranges);
 				if (annotations.length > 0) {
 					const params = new URL(document.location).searchParams;
-					const sessionKey = `tei-publisher.annotations.session.${doc.path}`;
+					const sessionKey = annotationSessionKey(doc.path);
+					const declinedKey = annotationDeclinedKey(doc.path);
 					if (params.has("apply")) {
 						restoreAnnotations(doc, annotations);
-					} else if (window.sessionStorage.getItem(sessionKey)) {
-						// in-session navigation: view.annotations already has the current state
+					} else if (window.sessionStorage.getItem(declinedKey) === ranges) {
+						// user declined restore for this local storage snapshot
+					} else if (
+						window.sessionStorage.getItem(sessionKey) === editorVisitId
+					) {
+						// in-editor page navigation within the same visit
 					} else {
 						document
 							.getElementById("restore-dialog")
 							.confirm()
 							.then(() => {
-								window.sessionStorage.setItem(sessionKey, "1");
+								window.sessionStorage.removeItem(declinedKey);
+								window.sessionStorage.setItem(sessionKey, editorVisitId);
 								restoreAnnotations(doc, annotations);
 							})
 							.catch(() => {
-								// User declined restore for this session; avoid re-prompting.
-								window.sessionStorage.setItem(sessionKey, "0");
+								window.sessionStorage.setItem(declinedKey, ranges);
 							});
 					}
 				}
@@ -408,6 +427,7 @@ document.addEventListener("pb-page-loaded", () => {
 					document.getElementById("json").innerText = "";
 					document.getElementById("output").code = json.content;
 					if (doStore) {
+						clearAnnotationSession(doc.path);
 						window.localStorage.removeItem(
 							`tei-publisher.annotations.${doc.path}`,
 						);
@@ -977,7 +997,11 @@ document.addEventListener("pb-page-loaded", () => {
 	window.pbEvents.subscribe("pb-annotations-changed", "transcription", (ev) => {
 		const doc = view.getDocument();
 		if (doc && doc.path) {
-			window.sessionStorage.setItem(`tei-publisher.annotations.session.${doc.path}`, "1");
+			window.sessionStorage.removeItem(annotationDeclinedKey(doc.path));
+			window.sessionStorage.setItem(
+				annotationSessionKey(doc.path),
+				editorVisitId,
+			);
 			window.localStorage.setItem(
 				`tei-publisher.annotations.${doc.path}`,
 				JSON.stringify(ev.detail.ranges),
