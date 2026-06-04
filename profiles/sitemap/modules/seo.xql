@@ -12,36 +12,27 @@ declare %public function seo:canonical-link ($context as map(*)) as xs:string? {
     "/apps/" ||
     substring-after($config:app-root, repo:get-root())
 
-  (: Step one, replace domain :)
-  let $baseUri := if ($context?features?sitemap?base-uri) then (
-    $context?features?sitemap?base-uri
-  ) else (
-    $baseUriFromRequest
-  )
-  let $pageUrl := request:get-path-info()
-  let $querystring := request:get-query-string()
+  (: Replace the request host with the configured production base uri, if any. :)
+  let $baseUri := head(($context?features?sitemap?base-uri, $baseUriFromRequest))
+
+  (: Path portion only (request:get-url has no query string). :)
   let $url := substring-after(request:get-url(), $baseUriFromRequest)
 
-  (: Normalize the xml id routing (?id="xxx") to exist node id (?root="1.2.3") :)
-  let $normalizedQuerystring :=
-    for $param-name in request:get-parameter-names()
-    order by $param-name
-    return if ($param-name = "id") then (
-      let $id := request:get-parameter("id", ())
-      let $normalizedRoot := if ($context?doc?content) then (
-        id($id, $context?doc?content) => util:node-id()
-      ) else (
-      )
-      return if ($normalizedRoot) then (
-        "root=" || $normalizedRoot
-      ) else (
-        "id=" || $id
-      )
-    ) else (
-      $param-name || "=" || request:get-parameter($param-name, ())
-    )
-
+  (: Canonical = path + the stable fragment identifier only. We keep the
+   : persistent "id" (xml:id) rather than normalizing it to a volatile eXist
+   : node id, so the canonical matches the URL the sitemap emits and survives
+   : reindexing. Other parameters (odd, view, lang, …) are dropped so they do
+   : not spawn duplicate canonicals. "root" is kept only as a fallback for
+   : documents that have no xml:id. :)
+  let $id := request:get-parameter("id", ())
   let $root := request:get-parameter("root", ())
+  let $fragment :=
+    if (string-length(normalize-space($id)) gt 0) then
+      "?id=" || encode-for-uri($id)
+    else if (string-length(normalize-space($root)) gt 0) then
+      "?root=" || encode-for-uri($root)
+    else
+      ""
 
-  return $baseUri || $url || "?" || string-join($normalizedQuerystring, "&amp;")
+  return $baseUri || $url || $fragment
 };
