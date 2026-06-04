@@ -30,7 +30,9 @@
         </style>
         [% block styles %][% endblock %]
 
+        [% block title %]
         <title>[[ $label ]]</title>
+        [% endblock %]
 
         [% if $script?webcomponents = 'dev' %]
         <script type="module" src="[[$script?cdn]]/src/pb-components-bundle.js"></script>
