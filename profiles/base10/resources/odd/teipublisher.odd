@@ -104,7 +104,7 @@
                     <model predicate="@place" behaviour="pass-through">
                         <param name="place" value="@place"/>
                         <pb:template xmlns="" xml:space="preserve"><span class="[[place]] tei-add">[[content]]</span></pb:template>
-                    </model>    
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
@@ -119,13 +119,13 @@
                 <elementSpec ident="anchor" mode="change">
                     <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
                     <model predicate="@corresp" behaviour="note">
-            <desc>Process notes with corresp attribute (assuming the note is stand off, 
+            <desc>Process notes with corresp attribute (assuming the note is stand off,
                             somewhere in the same document)</desc>
             <param name="content" value="let $target := @corresp return root($parameters?root)/id($target)/node()"/>
             <param name="label" value="@n"/>
         </model>
                     <model predicate="@type='note'" behaviour="note">
-            <desc>Process notes with @type=note (assuming the note is stand off, 
+            <desc>Process notes with @type=note (assuming the note is stand off,
                             in the listAnnotation section in the same document)</desc>
             <param name="content" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/node()"/>
             <param name="label" value="let $target := '#' || @xml:id return root($parameters?root)//listAnnotation/note[@target=$target]/@n/string()"/>
@@ -182,7 +182,7 @@
             <desc>Insert table cell. </desc>
         </model>
                 </elementSpec>
-                <elementSpec ident="choice" mode="change">          
+                <elementSpec ident="choice" mode="change">
                     <model predicate="sic and corr" behaviour="alternate">
             <param name="default" value="corr[1]"/>
             <param name="alternate" value="sic[1]"/>
@@ -529,7 +529,7 @@
         </model>
                     <model predicate="$parameters?static" behaviour="webcomponent" cssClass="facs pb">
             <desc>Use the url from the facs attribute to link with IIIF image;
-                            assumes pb-tify viewer; passes document's path or xml:id 
+                            assumes pb-tify viewer; passes document's path or xml:id
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
@@ -542,7 +542,7 @@
         </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
             <desc>Use the url from the facs attribute to link with IIIF image;
-                            assumes pb-tify viewer; passes document's path or xml:id 
+                            assumes pb-tify viewer; passes document's path or xml:id
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
             <param name="name" value="'pb-facs-link'"/>
@@ -649,8 +649,8 @@
                             </li></pb:template>
         </model>
                     <model predicate="parent::correspContext and @type" behaviour="pass-through">
-            <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus; 
-                            type attribute is used to determine what navigation structure it is: known values are 
+            <desc>refs inside the correspContext are interpreted as links for next/previous elements in the corpus;
+                            type attribute is used to determine what navigation structure it is: known values are
                             -  in the entire corpus (type='next' or type='previous') ('prev' is mapped to 'previous')
                             - next in the correspondence subcorpus between two correspondents (type='next-in-correspondence' or type='prev-in-correspondence')
                             for which relevant svg icons are provided
@@ -752,7 +752,7 @@
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
         </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through"/>
@@ -760,7 +760,7 @@
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="pass-through">
             <param name="content" value="teiHeader"/>
         </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
@@ -824,6 +824,10 @@
                 <elementSpec ident="titleStmt" mode="add">
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="heading"/>
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <desc>for breadcrumbs, pick only the first title</desc>
+                        <param name="content" value="head((title[@type='main'], title))"/>
+                    </model>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
             <desc>for breadcrumbs, pick only the first title</desc>
             <param name="content" value="title[1]"/>

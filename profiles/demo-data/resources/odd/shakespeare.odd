@@ -4,7 +4,8 @@
         <fileDesc>
             <titleStmt>
                 <title>Shakespeare Plays 
-                  <desc>Output of a classic play with facsimile links</desc>
+                  
+                 <desc>Output of a classic play with facsimile links</desc>
                 </title>
             </titleStmt>
             <publicationStmt>
@@ -139,9 +140,11 @@
             
             
             
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             
@@ -156,9 +159,11 @@
             
             
             
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
             
             
             
@@ -173,7 +178,7 @@
             <param name="content" value="."/>
         </model>
                     <model output="fo" behaviour="heading"/>
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
             <desc>for breadcrumbs, pick title/@type='statement'</desc>
             <param name="content" value="title[@type='statement']"/>
         </model>
