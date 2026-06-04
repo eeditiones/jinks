@@ -1,0 +1,17 @@
+{
+  "name": "jinks-seo-check",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Playwright-based SEO / indexability checker for TEI Publisher document pages",
+  "bin": {
+    "seo-check": "./seo-check.mjs"
+  },
+  "scripts": {
+    "check": "node seo-check.mjs",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
