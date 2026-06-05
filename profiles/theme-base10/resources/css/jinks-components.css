@@ -262,3 +262,10 @@ h4 {
     font-weight: normal;
     margin-bottom: 0;
 }
+
+:host(pb-navigation) a,
+:host(pb-navigation) a:link,
+:host(pb-navigation) a:visited {
+    text-decoration: none;
+    color: var(--jinks-color-primary);
+}

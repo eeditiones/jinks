@@ -152,9 +152,38 @@ declare function page:content($context as map(*), $xpath as xs:string?) {
                                 $xml?data
                             else
                                 pages:get-content($xml?config, $xml?data)
+                        let $nodeId := util:node-id($xml?data[1])
+                        let $rendered := page:unwrap-body(
+                            pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+                        )
+                        (: process-content collects footnotes into a sibling <div class="footnotes">
+                         : (wrapping everything in a content div). Split it out so the markup
+                         : matches the parts API response (resp.content / resp.footnotes) and
+                         : pb-view can adopt content and footnotes the same way for SSR and
+                         : dynamic loads. :)
+                        let $footnotes := $rendered/div[@class = "footnotes"]
                         return
-                            page:unwrap-body(
-                                pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+                            (
+                                (: Content block; pb-view detects this marker, adopts it into
+                                 : its shadow DOM and requests content=none so the fragment is
+                                 : not rendered a second time. :)
+                                element div {
+                                    attribute data-pb-ssr { $nodeId },
+                                    if (exists($footnotes)) then
+                                        element { node-name($rendered) } {
+                                            $rendered/@*,
+                                            $rendered/node() except $footnotes
+                                        }
+                                    else
+                                        $rendered
+                                },
+                                if (exists($footnotes)) then
+                                    element div {
+                                        attribute data-pb-ssr-footnotes { $nodeId },
+                                        $footnotes
+                                    }
+                                else
+                                    ()
                             )
                     else
                         ()
