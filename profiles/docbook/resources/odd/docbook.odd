@@ -103,11 +103,10 @@
                 <elementSpec ident="article">
                     <model output="latex" behaviour="block">
                         <param name="image-dir" value="$parameters?image-dir"/>
-                        <param name="styles"
-                            value="string-join($config(&#34;latex-styles&#34;), '&amp;#10;')"/>
+                        <param name="styles" value="string-join($config(&#34;latex-styles&#34;), '&amp;#10;')"/>
                         <param name="fontSize" value="($config?font-size, &#34;11pt&#34;)[1]"/>
                         <param name="class" value="($config?class, &#34;article&#34;)[1]"/>
-                        <pb:template xml:space="preserve">\documentclass[english,a4paper,[[fontSize]]]{[[class]]}
+                        <pb:template xml:space="preserve" xmlns="">\documentclass[english,a4paper,[[fontSize]]]{[[class]]}
 \usepackage[english]{babel}
 \usepackage{colortbl}
 \usepackage{xcolor}
@@ -154,17 +153,13 @@
                 </elementSpec>
                 <elementSpec ident="info">
                     <model output="typst" predicate="parent::article|parent::book" behaviour="pass-through"/>
-                    <model output="print" predicate="parent::article|parent::book" behaviour="block"
-                        cssClass="frontmatter">
-                        <param name="content"
-                            value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"
-                        />
+                    <model output="print" predicate="parent::article|parent::book" behaviour="block" cssClass="frontmatter">
+                        <param name="content" value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"/>
                     </model>
-                    <model output="latex" predicate="parent::article|parent::book"
-                        behaviour="inline">
+                    <model output="latex" predicate="parent::article|parent::book" behaviour="inline">
                         <param name="content" value="title"/>
                         <param name="author" value="author"/>
-                        <pb:template xml:space="preserve">[[content]] \author{[[author]]}
+                        <pb:template xml:space="preserve" xmlns="">[[content]] \author{[[author]]}
 \maketitle</pb:template>
                     </model>
                     <model predicate="$parameters?mode='title'" behaviour="block">
@@ -187,9 +182,7 @@
                         </model>
                     </modelSequence>
                     <model behaviour="block">
-                        <param name="content"
-                            value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"
-                        />
+                        <param name="content" value="(title, if ($parameters?skipAuthors) then () else author, pubdate, abstract)"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="author">
@@ -276,17 +269,19 @@
                 </elementSpec>
                 <elementSpec ident="section">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
-                        <param name="content"
-                            value="($get(.)/ancestor::article/info/title, $get(.)/ancestor::section/title, title)"/>
-                        <pb:template xml:space="preserve"><nav xmlns="" aria-label="breadcrumb">
+                        <param name="content" value="($get(.)/ancestor::article/info/title, $get(.)/ancestor::section/title, title)"/>
+                        <pb:template xml:space="preserve" xmlns=""><nav xmlns="" aria-label="breadcrumb">
   <ul>[[ content ]]</ul>
 </nav></pb:template>
+                    </model>
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="string-join(($get(.)/ancestor::article/info/title, $get(.)/ancestor::section/title, title), ' – ')"/>
                     </model>
                     <model output="print" behaviour="section"/>
                     <model output="web" behaviour="block">
                         <param name="root" value="util:node-id($parameters?root)"/>
                         <param name="nodeId" value="util:node-id($get(.))"/>
-                        <pb:template xml:space="preserve">
+                        <pb:template xml:space="preserve" xmlns="">
                             <pb-observable xmlns="" data="[[root]],[[nodeId]]" emit="transcription">[[content]]</pb-observable>
                         </pb:template>
                     </model>

@@ -6,6 +6,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../map.xql";
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../lib/pages.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 
@@ -140,76 +141,51 @@ declare function page:content($context as map(*)) {
 declare function page:content($context as map(*), $xpath as xs:string?) {
     if (exists($context?doc?content)) then
         let $view := head(($context?doc?view, $config:default-view))
-        let $data := page:apply-xpath($context?doc?content, $xpath)
-        let $root := page:fragment-root($context, $data)
+        let $xml := tpu:fragment($context, $context?doc?content, $view, $context?doc?path, $xpath)
         return
-            if (exists($data)) then
-                let $xml := pages:load-xml($data, $view, $root, $context?doc?path)
-                return
-                    if (exists($xml?data)) then
-                        let $content :=
-                            if ($view = "single") then
-                                $xml?data
-                            else
-                                pages:get-content($xml?config, $xml?data)
-                        let $nodeId := util:node-id($xml?data[1])
-                        let $rendered := page:unwrap-body(
-                            pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
-                        )
-                        (: process-content collects footnotes into a sibling <div class="footnotes">
-                         : (wrapping everything in a content div). Split it out so the markup
-                         : matches the parts API response (resp.content / resp.footnotes) and
-                         : pb-view can adopt content and footnotes the same way for SSR and
-                         : dynamic loads. :)
-                        let $footnotes := $rendered/div[@class = "footnotes"]
-                        return
-                            (
-                                (: Content block; pb-view detects this marker, adopts it into
-                                 : its shadow DOM and requests content=none so the fragment is
-                                 : not rendered a second time. :)
-                                element div {
-                                    attribute data-pb-ssr { $nodeId },
-                                    if (exists($footnotes)) then
-                                        element { node-name($rendered) } {
-                                            $rendered/@*,
-                                            $rendered/node() except $footnotes
-                                        }
-                                    else
-                                        $rendered
-                                },
-                                if (exists($footnotes)) then
-                                    element div {
-                                        attribute data-pb-ssr-footnotes { $nodeId },
-                                        $footnotes
-                                    }
-                                else
-                                    ()
-                            )
+            if (exists($xml?data)) then
+                let $content :=
+                    if ($view = "single") then
+                        $xml?data
                     else
-                        ()
+                        pages:get-content($xml?config, $xml?data)
+                let $nodeId := util:node-id($xml?data[1])
+                let $rendered := page:unwrap-body(
+                    pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+                )
+                (: process-content collects footnotes into a sibling <div class="footnotes">
+                 : (wrapping everything in a content div). Split it out so the markup
+                 : matches the parts API response (resp.content / resp.footnotes) and
+                 : pb-view can adopt content and footnotes the same way for SSR and
+                 : dynamic loads. :)
+                let $footnotes := $rendered/div[@class = "footnotes"]
+                return
+                    (
+                        (: Content block; pb-view detects this marker, adopts it into
+                         : its shadow DOM and requests content=none so the fragment is
+                         : not rendered a second time. :)
+                        element div {
+                            attribute data-pb-ssr { $nodeId },
+                            if (exists($footnotes)) then
+                                element { node-name($rendered) } {
+                                    $rendered/@*,
+                                    $rendered/node() except $footnotes
+                                }
+                            else
+                                $rendered
+                        },
+                        if (exists($footnotes)) then
+                            element div {
+                                attribute data-pb-ssr-footnotes { $nodeId },
+                                $footnotes
+                            }
+                        else
+                            ()
+                    )
             else
                 ()
     else
         ()
-};
-
-(:~ Resolve the requested fragment to a node id that pages:load-xml understands.
- : Prefers the persistent "id" (xml:id) parameter, resolving it to its node id
- : exactly as the document API does; falls back to a literal "root" node id;
- : returns the empty sequence (first fragment) when neither is present or the id
- : cannot be found. :)
-declare %private function page:fragment-root($context as map(*), $data as node()*) as xs:string? {
-    let $id := page:parameter($context, 'id')
-    let $root := page:parameter($context, 'root')
-    return
-        if (exists($data) and string-length(normalize-space($id)) gt 0) then
-            let $node := head($data)/id($id)
-            return
-                if (exists($node)) then util:node-id(head($node)) else ()
-        else if (string-length(normalize-space($root)) gt 0) then
-            $root
-        else
-            ()
 };
 
 (:~ The transform wraps its output in an HTML <body> element. Inlining that into
@@ -230,17 +206,6 @@ declare %private function page:unwrap-body($nodes as node()*) {
                     $node
             default return
                 $node
-};
-
-(:~ Narrow $data to the nodes selected by $xpath, evaluated with the document's
- : default element namespace. Mirrors dapi:apply-xpath in the document API. :)
-declare %private function page:apply-xpath($data as node()*, $xpath as xs:string?) {
-    if ($xpath) then
-        let $namespace := namespace-uri-from-QName(node-name(root($data[1])/*))
-        return
-            util:eval("declare default element namespace '" || $namespace || "'; $data" || $xpath)
-    else
-        $data
 };
 
 declare function page:transform($nodes as node()*) {

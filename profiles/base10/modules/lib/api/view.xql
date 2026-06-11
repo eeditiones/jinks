@@ -99,6 +99,7 @@ declare function vapi:view($request as map(*)) {
                 map {
                     "doc": map {
                         "content": $data,
+                        "fragment": tpu:fragment(map { "request": $request }, $data, $config?view, $path, ())?data,
                         "path": $path,
                         "odd": replace($config?odd, '^(.*)\.odd', '$1'),
                         "view": $config?view,
