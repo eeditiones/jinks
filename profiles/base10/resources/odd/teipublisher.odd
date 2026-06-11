@@ -224,11 +224,11 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
-            <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
-            <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { @when/string() }"/>
-        </model>
+                        <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
+                        <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { @when/string() }"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="dateline" mode="change">
@@ -1094,28 +1094,28 @@ flex-wrap: wrap;
                     <model output="print" behaviour="inline"/>
                     <model output="docx" behaviour="inline"/>
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
-            <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
-        </model>
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                        <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-places'))/placeName[@type='main']/string()"/>
+                    </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'toc', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
-            <desc>Register sidebar</desc>
-            <param name="default" value="."/>
-            <param name="alternate" value="parent::place/note"/>
-            <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
-            <pb:template xmlns="" xml:space="preserve"><a href="[[uri]]" class="placeName context">
+                        <desc>Register sidebar</desc>
+                        <param name="default" value="."/>
+                        <param name="alternate" value="parent::place/note"/>
+                        <param name="uri" value="$parameters?context-path || '/places/' || parent::place/@xml:id"/>
+                        <pb:template xml:space="preserve" xmlns=""><a href="[[uri]]" class="placeName context">
             <pb-popover>
                 <span slot="default">[[content]]</span>
                 <template slot="alternate">[[alternate]]</template>
             </pb-popover>
             </a></pb:template>
-        </model>
+                    </model>
                     <model predicate="@type='variant'" behaviour="inline" cssClass="name variant"/>
                     <model predicate="parent::place" behaviour="inline"/>
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
-            <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
-        </model>
+                        <param name="default" value="."/>
+                        <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="orgName" mode="add">
