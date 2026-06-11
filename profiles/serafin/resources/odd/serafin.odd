@@ -179,7 +179,7 @@
                     <model output="docx" behaviour="pass-through">
                         <param name="content" value="fileDesc/titleStmt"/>
                     </model>
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
                         <param name="content" value="fileDesc/titleStmt"/>
                     </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through"/>
@@ -202,7 +202,7 @@
                             <param name="content" value="string-join(editor, ', ')"/>
                         </model>
                     </modelSequence>
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
                         <desc>for breadcrumbs, pick only the first title</desc>
                         <param name="content" value="title[1]"/>
                     </model>
@@ -215,9 +215,7 @@
                         <desc>Display short metadata in document lists in the browse view</desc>
                         <model predicate="$parameters?static" behaviour="link">
                             <param name="content" value="title[1]"/>
-                            <param name="uri"
-                                value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"
-                            />
+                            <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
                         </model>
                         <model predicate="not($parameters?static)" behaviour="link">
                             <param name="content" value="title[1]"/>

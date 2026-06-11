@@ -42,6 +42,9 @@
                     <model behaviour="body"/>
                 </elementSpec>
                 <elementSpec ident="sec" mode="add">
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="root($parameters?root)//front/article-meta/title-group"/>
+                    </model>
                     <model behaviour="section"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="add">
@@ -159,36 +162,36 @@ padding: 0 4px;
                 </elementSpec>
                 <elementSpec ident="article-meta" mode="add">
                     <model predicate="$parameters?display='browse'" behaviour="block">
-            <param name="content" value="(title-group, contrib-group)"/>
-        </model>
+                        <param name="content" value="(title-group, contrib-group)"/>
+                    </model>
                     <modelSequence>
-            <model behaviour="pass-through">
-                <param name="content" value="title-group"/>
-            </model>
-            <model behaviour="block" cssClass="flex">
-                <param name="content" value="(contrib-group, (pub-date[@iso-8601-date], pub-date)[1])"/>
-                <outputRendition xml:space="preserve">
-                margin-bottom: 2em;
-                </outputRendition>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="abstract"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="pass-through">
+                            <param name="content" value="title-group"/>
+                        </model>
+                        <model behaviour="block" cssClass="flex">
+                            <param name="content" value="(contrib-group, (pub-date[@iso-8601-date], pub-date)[1])"/>
+                            <outputRendition xml:space="preserve">
+                            margin-bottom: 2em;
+                            </outputRendition>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="abstract"/>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="title-group" mode="add">
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <param name="content" value="article-title/text()"/>
-        </model>
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
+                        <param name="content" value="article-title/text()"/>
+                    </model>
                     <modelSequence predicate="$parameters?display='browse'">
-            <model behaviour="link">
-                <param name="content" value="article-title"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="subtitle"/>
-            </model>
-        </modelSequence>
+                        <model behaviour="link">
+                            <param name="content" value="article-title"/>
+                            <param name="uri" value="$parameters?doc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="subtitle"/>
+                        </model>
+                    </modelSequence>
                 </elementSpec>
                 <elementSpec ident="article-title" mode="add">
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>

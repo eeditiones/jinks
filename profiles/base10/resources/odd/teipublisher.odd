@@ -287,10 +287,10 @@
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-            <desc>Output register data if register profile is enabled</desc>
-            <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
-            <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
-            <pb:template xmlns="" xml:space="preserve"><div class="register">
+                        <desc>Output register data if register profile is enabled</desc>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <pb:template xml:space="preserve" xmlns=""><div class="register">
 <h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>
 [[people]]
@@ -301,7 +301,10 @@
 [[places]]
 </ul>
 </div></pb:template>
-        </model>
+                    </model>
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
+                    </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
                 </elementSpec>
@@ -517,56 +520,61 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
+                        <param name="page" value="head((@n, @facs))"/>
+                        <pb:template xml:space="preserve" xmlns=""><span class="title">[[content]] – [[page]]</span></pb:template>
+                    </model>
                     <model predicate="$parameters?iiif-viewer='pb-facsimile'" behaviour="webcomponent">
-            <desc>If iiif-viewer parameter passed is set to pb-facsimile prepare pb-facs-link accordingly;
+                        <desc>If iiif-viewer parameter passed is set to pb-facsimile prepare pb-facs-link accordingly;
                             assumes that facs attribute starts with 'iiif' prefix, use the trailing part as a
                             link to the IIIF image; fits pb-facsimile viewer</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
-            <param name="subscribe" value="'transcription'"/>
-            <param name="content" value="'Page ' || @n"/>
-            <param name="emit" value="'transcription'"/>
-        </model>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="facs" value="replace(@facs, '^iiif:(.*)$', '$1')"/>
+                        <param name="subscribe" value="'transcription'"/>
+                        <param name="content" value="'Page ' || @n"/>
+                        <param name="emit" value="'transcription'"/>
+                    </model>
                     <model predicate="$parameters?static" behaviour="webcomponent" cssClass="facs pb">
-            <desc>Use the url from the facs attribute to link with IIIF image;
+                        <desc>Use the url from the facs attribute to link with IIIF image;
                             assumes pb-tify viewer; passes document's path or xml:id
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="content" value="@n"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="subscribe" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
-            <param name="facs" value="$parameters?context-path || &#34;/&#34; || substring-after(document-uri(root($parameters?root)), $global:data-root || '/') || '/manifest.json'"/>
-        </model>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="content" value="@n"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="subscribe" value="'transcription'"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <param name="emit-on-load" value="'emit-on-load'"/>
+                        <param name="facs" value="$parameters?context-path || &#34;/&#34; || substring-after(document-uri(root($parameters?root)), $global:data-root || '/') || '/manifest.json'"/>
+                    </model>
                     <model predicate="@facs" behaviour="webcomponent" cssClass="facs pb">
-            <desc>Use the url from the facs attribute to link with IIIF image;
+                        <desc>Use the url from the facs attribute to link with IIIF image;
                             assumes pb-tify viewer; passes document's path or xml:id
                             (depending on the app's addressing configuration) to the api/iiif endpoint
                             to generate relevant manifest</desc>
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="content" value="@n"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="subscribe" value="'transcription'"/>
-            <param name="order" value="count($get(.)/preceding::pb) + 1"/>
-            <param name="emit-on-load" value="'emit-on-load'"/>
-            <param name="facs" value="let $ref := if ($global:address-by-id)                          then                              root($parameters?root)/descendant-or-self::TEI/@xml:id                          else                              substring-after(document-uri(root($parameters?root)), $global:data-root || '/')                         return 'api/iiif/' || $ref"/>
-        </model>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="content" value="@n"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="subscribe" value="'transcription'"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <param name="emit-on-load" value="'emit-on-load'"/>
+                        <param name="facs" value="let $ref := if ($global:address-by-id)                          then                              root($parameters?root)/descendant-or-self::TEI/@xml:id                          else                              substring-after(document-uri(root($parameters?root)), $global:data-root || '/')                         return 'api/iiif/' || $ref"/>
+                    </model>
                     <model behaviour="break" cssClass="pb" useSourceRendition="true">
-            <desc>Output Page label when no facsimile information is available</desc>
-            <param name="type" value="'page'"/>
-            <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
-            <outputRendition xml:space="preserve">
-            display: block; margin-left: 4pt; color: grey; float: right;
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[Page ';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: ']';
-            </outputRendition>
-        </model>
+                        <desc>Output Page label when no facsimile information is available</desc>
+                        <param name="type" value="'page'"/>
+                        <param name="label" value="(concat(if(@n) then concat(@n,' ') else '',if(@facs) then                   concat('@',@facs) else ''))"/>
+                        <outputRendition xml:space="preserve">
+                        display: block; margin-left: 4pt; color: grey; float: right;
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[Page ';
+                        </outputRendition>
+                        <outputRendition xml:space="preserve" scope="after">
+                        content: ']';
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="postscript" mode="change">
                     <model behaviour="block"/>
@@ -789,30 +797,33 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="text" mode="change">
+                    <model predicate="$parameters?mode='title'" behaviour="text">
+                        <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
+                    </model>
                     <model behaviour="body"/>
                 </elementSpec>
                 <elementSpec ident="time" mode="change">
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
-                    <model predicate="$parameters?mode='breadcrumb'" behaviour="inline"/>
+                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
-            <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
-            <param name="content" value="string()"/>
-        </model>
+                        <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
+                        <param name="content" value="string()"/>
+                    </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="link">
-            <desc>create a link to the document, respecting address-by-id configuration</desc>
-            <param name="content" value="string()"/>
-            <param name="uri" value="                         if ($global:address-by-id) then                             '../' || root(.)/descendant-or-self::TEI/@xml:id                                                      else                                 '../' || substring-after(document-uri(root(.)), $global:data-root || '/')                          "/>
-        </model>
+                        <desc>create a link to the document, respecting address-by-id configuration</desc>
+                        <param name="content" value="string()"/>
+                        <param name="uri" value="                         if ($global:address-by-id) then                             '../' || root(.)/descendant-or-self::TEI/@xml:id                                                      else                                 '../' || substring-after(document-uri(root(.)), $global:data-root || '/')                          "/>
+                    </model>
                     <model predicate="$parameters?display='browse'" behaviour="heading">
-            <param name="level" value="5"/>
-        </model>
+                        <param name="level" value="5"/>
+                    </model>
                     <model predicate="@key or @ref" behaviour="alternate">
-            <param name="alternate" value="let $key:= head((@key, @ref))  return collection($global:register-root)/id($key)"/>
-            <param name="default" value="."/>
-        </model>
+                        <param name="alternate" value="let $key:= head((@key, @ref))  return collection($global:register-root)/id($key)"/>
+                        <param name="default" value="."/>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="titlePage" mode="change">
@@ -829,31 +840,31 @@
                         <param name="content" value="head((title[@type='main'], title))"/>
                     </model>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="inline">
-            <desc>for breadcrumbs, pick only the first title</desc>
-            <param name="content" value="title[1]"/>
-        </model>
+                        <desc>for breadcrumbs, pick only the first title</desc>
+                        <param name="content" value="title[1]"/>
+                    </model>
                     <model predicate="$parameters?mode='register-details'" behaviour="listItem">
-            <desc>List of letters in register detail view</desc>
-            <param name="content" value="head((title[@type='main'], title))"/>
-        </model>
+                        <desc>List of letters in register detail view</desc>
+                        <param name="content" value="head((title[@type='main'], title))"/>
+                    </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <modelSequence output="web" predicate="$parameters?display='browse'">
-            <desc>Display short metadata in document lists in the browse view</desc>
-            <model predicate="$parameters?static" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
-            </model>
-            <model predicate="not($parameters?static)" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="subsequence(title, 2)"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="author"/>
-            </model>
-        </modelSequence>
+                        <desc>Display short metadata in document lists in the browse view</desc>
+                        <model predicate="$parameters?static" behaviour="link">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+                        </model>
+                        <model predicate="not($parameters?static)" behaviour="link">
+                            <param name="content" value="title[1]"/>
+                            <param name="uri" value="$parameters?doc"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="subsequence(title, 2)"/>
+                        </model>
+                        <model behaviour="block">
+                            <param name="content" value="author"/>
+                        </model>
+                    </modelSequence>
                     <model output="web" behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="trailer" mode="change">

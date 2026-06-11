@@ -174,37 +174,37 @@
                     <model behaviour="omit"/>
                 </elementSpec>
             <elementSpec ident="titleStmt" mode="change">
-                    <model output="latex" behaviour="meta">
-            <param name="content" value="."/>
-        </model>
-                    <model output="fo" behaviour="heading"/>
-                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
-            <desc>for breadcrumbs, pick title/@type='statement'</desc>
-            <param name="content" value="title[@type='statement']"/>
-        </model>
-                    <modelSequence output="web" predicate="$parameters?display='browse'">
-            <desc>Display short header in document lists</desc>
-            <model predicate="$parameters?static" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
-            </model>
-            <model predicate="not($parameters?static)" behaviour="link">
-                <param name="content" value="title[1]"/>
-                <param name="uri" value="$parameters?doc"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="subsequence(title, 2)"/>
-            </model>
-            <model behaviour="block">
-                <param name="content" value="author"/>
-            </model>
-        </modelSequence>
-                    <model predicate="$parameters?mode='register-details'" behaviour="listItem">
-            <desc>List of letters in register detail view</desc>
-            <param name="content" value="head((title[@type='main'], title))"/>
-        </model>
-                    <model output="web" behaviour="block"/>
-                </elementSpec>
+                <model output="latex" behaviour="meta">
+                    <param name="content" value="."/>
+                </model>
+                <model output="fo" behaviour="heading"/>
+                <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
+                    <desc>for breadcrumbs, pick title/@type='statement'</desc>
+                    <param name="content" value="title[@type='statement']"/>
+                </model>
+                <modelSequence output="web" predicate="$parameters?display='browse'">
+                    <desc>Display short header in document lists</desc>
+                    <model predicate="$parameters?static" behaviour="link">
+                        <param name="content" value="title[1]"/>
+                        <param name="uri" value="$parameters?context-path || '/' || util:document-name(.) || '/1/index.html'"/>
+                    </model>
+                    <model predicate="not($parameters?static)" behaviour="link">
+                        <param name="content" value="title[1]"/>
+                        <param name="uri" value="$parameters?doc"/>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content" value="subsequence(title, 2)"/>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content" value="author"/>
+                    </model>
+                </modelSequence>
+                <model predicate="$parameters?mode='register-details'" behaviour="listItem">
+                    <desc>List of letters in register detail view</desc>
+                    <param name="content" value="head((title[@type='main'], title))"/>
+                </model>
+                <model output="web" behaviour="block"/>
+            </elementSpec>
             <elementSpec ident="sp" mode="change">
                     <model behaviour="block">
             <outputRendition xml:space="preserve">
@@ -221,7 +221,6 @@
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
                 </elementSpec>
-            <elementSpec ident="teiHeader" mode="change"/>
             </schemaSpec>
         </body>
     </text>

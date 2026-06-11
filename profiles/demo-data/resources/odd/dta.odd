@@ -48,20 +48,25 @@
             <schemaSpec start="TEI teiCorpus" ident="dta" source="teipublisher.odd">
                 <elementSpec ident="pb" mode="change">
                     <model output="epub" behaviour="break">
-            <param name="type" value="'pagebreak'"/>
-            <param name="label" value="@n/string()"/>
-        </model>
+                        <param name="type" value="'pagebreak'"/>
+                        <param name="label" value="@n/string()"/>
+                    </model>
+                    <model predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
+                        <param name="page" value="head((@n, @facs))"/>
+                        <pb:template xml:space="preserve" xmlns=""><span class="title">[[content]] – [[page]]</span></pb:template>
+                    </model>
                     <model predicate="count(../*) = 1 and count(ancestor::*) = 1" behaviour="inline" useSourceRendition="true">
-            <param name="content" value="'[Empty page]'"/>
-            <outputRendition xml:space="preserve">
-            color: #CCC;
-            </outputRendition>
-        </model>
+                        <param name="content" value="'[Empty page]'"/>
+                        <outputRendition xml:space="preserve">
+                        color: #CCC;
+                        </outputRendition>
+                    </model>
                     <model behaviour="webcomponent">
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="emit" value="'transcription'"/>
-            <param name="facs" value="let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``"/>
-        </model>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="facs" value="let $name := replace(util:document-name($parameters?root), '^([^\.]+)\..*$', '$1') return  ``[`{$name}`/`{$name}`_`{substring-after(@facs, '#f')}`_800px.jpg]``"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
                     <model output="print" predicate="@place='top'" behaviour="inline" cssClass="running">
