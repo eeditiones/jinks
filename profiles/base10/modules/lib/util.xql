@@ -19,8 +19,6 @@ xquery version "3.1";
 
 module namespace tpu="http://www.tei-c.org/tei-publisher/util";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
-import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
-import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
     tpu:parse-pi($doc, $view, request:get-parameter("odd", ()))
@@ -83,80 +81,4 @@ declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd
             map:merge(($pisWithOdd, map { "odd": $defaultConfig?odd }), map { "duplicates": "use-last" })
     return
         map:merge(($default, $config), map { "duplicates": "use-last" })
-};
-
-declare function tpu:parameter($context as map(*), $name as xs:string) {
-    tpu:parameter($context, $name, ())
-};
-
-(:~
- : Get a parameter from the request. Return the default value if the parameter
- : is not present.
- :)
-declare function tpu:parameter($context as map(*), $name as xs:string, $default as item()*) {
-    let $reqParam := head(($context?request?parameters?($name), request:get-parameter($name, ())))
-    return
-        if (exists($reqParam)) then
-            $reqParam
-        else
-            $default
-};
-
-(:~ Narrow $data to the nodes selected by $xpath, evaluated with the document's
- : default element namespace. Mirrors dapi:apply-xpath in the document API. :)
-declare %private function tpu:apply-xpath($data as node()*, $xpath as xs:string?) {
-    if ($xpath) then
-        let $namespace := namespace-uri-from-QName(node-name(root($data[1])/*))
-        return
-            util:eval("declare default element namespace '" || $namespace || "'; $data" || $xpath)
-    else
-        $data
-};
-
-(:~
- : Resolve the fragment requested by the current page URL to a { config, data }
- : map, mirroring the selection of the parts API (dapi:get-fragment) so a page
- : URL and its corresponding parts/{doc}/json request return the same fragment.
- :
- : $xpath, when given, scopes the lookup to a sub-document (e.g. a
- : source/translation column) before the fragment is resolved within it. The
- : persistent "id" (xml:id) parameter wins over the volatile "root" (node id);
- : it is resolved to an actual node (for "div" view expanded to its section via
- : nav:get-section-for-node), never round-tripped through util:node-id. With no
- : resolvable id, pages:load-xml handles the "root" node id or the first fragment.
- :
- : @param $context templating context, used only to read the id/root parameters
- : @param $document the full document content
- : @param $view the view (div/page/single/...)
- : @param $path the document path, passed through to pages:load-xml
- : @param $xpath optional expression scoping the lookup, or empty for the whole document
- : @return a map with "config" and "data" entries, or empty if nothing resolves
- :)
-declare function tpu:fragment($context as map(*), $document as node()*, $view as xs:string?,
-    $path as xs:string?, $xpath as xs:string?) as map(*)? {
-    let $view := head(($view, $config:default-view))
-    let $id := tpu:parameter($context, 'id')
-    let $root := tpu:parameter($context, 'root')
-    let $ctx := tpu:apply-xpath($document, $xpath)
-    let $node :=
-        if (string-length(normalize-space($id)) gt 0 and $view != "single") then
-            $ctx/id($id)
-        else
-            ()
-    return
-        if (exists($node)) then
-            let $config := tpu:parse-pi(root($document), $view)
-            return
-                map {
-                    "config": map:merge(($config, map { "context": $ctx }), map { "duplicates": "use-last" }),
-                    "data":
-                        if ($view = "div") then
-                            nav:get-section-for-node($config, $node)
-                        else
-                            $node
-                }
-        else if (exists($ctx)) then
-            pages:load-xml($ctx, $view, $root, $path)
-        else
-            ()
 };
