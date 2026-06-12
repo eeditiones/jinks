@@ -3,20 +3,27 @@ module namespace seo = "http://tei-publisher.org/seo";
 import module namespace config = "http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 
 declare %public function seo:canonical-link ($context as map(*)) as xs:string? {
-  let $baseUriFromRequest := (: Generate from request :) request:get-scheme() ||
-    "://" ||
-    request:get-server-name() ||
-    ":" ||
-    request:get-server-port() ||
-    request:get-context-path() ||
-    "/apps/" ||
+  (: Path of the current request relative to the application root, e.g.
+   : "/doc/quickstart.xml". We derive it from request:get-uri(), which is
+   : path-only and always carries the servlet context + app collection prefix.
+   : Unlike request:get-url(), it is unaffected by how scheme/host/port are
+   : reported behind a reverse proxy, so the path is never dropped. :)
+  let $appPrefix := request:get-context-path() || "/apps/" ||
     substring-after($config:app-root, repo:get-root())
+  let $url := substring-after(request:get-uri(), $appPrefix)
 
-  (: Replace the request host with the configured production base uri, if any. :)
-  let $baseUri := head(($context?features?sitemap?base-uri, $baseUriFromRequest))
-
-  (: Path portion only (request:get-url has no query string). :)
-  let $url := substring-after(request:get-url(), $baseUriFromRequest)
+  (: Public base of the application. A configured production base-uri wins;
+   : otherwise reconstruct origin + context-path from the request, omitting the
+   : default port so it matches the URL the client actually requested. :)
+  let $baseUri :=
+    if (exists($context?features?sitemap?base-uri)) then
+      $context?features?sitemap?base-uri
+    else
+      let $port := request:get-server-port()
+      let $portPart := if ($port = (80, 443)) then "" else ":" || $port
+      return
+        request:get-scheme() || "://" || request:get-server-name() ||
+        $portPart || $config:context-path
 
   (: Canonical = path + the stable fragment identifier only. We keep the
    : persistent "id" (xml:id) rather than normalizing it to a volatile eXist
