@@ -8,6 +8,14 @@ Disallow: /data/
 Disallow: /*/data/*
 Disallow: /modules/
 Disallow: /*/modules/*
+Disallow: /markdown/
+Disallow: /*/markdown/*
+Disallow: /print/
+Disallow: /*/print/*
+Disallow: /odd-editor.html
+Disallow: /*/odd-editor.html
+Disallow: /api/document/
+Disallow: /*/api/document/*
 
 [% if $context?features?sitemap?base-uri %]
 Sitemap: [[ $context?features?sitemap?base-uri ]]/sitemap.xml
