@@ -3,9 +3,10 @@ xquery version "3.1";
 module namespace sitemap="http://tei-publisher.org/api/sitemap";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
-import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../pages.xql";
+import module namespace query="http://www.tei-c.org/tei-simple/query" at "../query.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace router="http://e-editiones.org/roaster";
-import module namespace tmpl="http://e-editiones.org/xquery/templates";
 
 declare variable $sitemap:app-base :=
     request:get-scheme() || "://" || request:get-server-name() || ":" ||
@@ -30,10 +31,17 @@ declare function sitemap:get-sitemap($request as map(*)) {
                         $cfg?features?sitemap?base-uri
                     else
                         $sitemap:app-base
+            (: Substitute the [[ $baseUri ]] placeholder with a plain linear
+             : tokenize/join rather than the templating engine: a sitemap can hold
+             : thousands of <url> siblings, and tmpl:process recurses over them,
+             : overflowing the stack. tokenize scans once; string-join inserts the
+             : base URI literally (no replacement-string interpretation). :)
             let $template := serialize(doc($sitemapPath))
-            let $expanded := tmpl:process($template, map { "baseUri": $baseUri }, map { "plainText": false() })
+            let $expanded := string-join(tokenize($template, '\[\[ \$baseUri \]\]'), $baseUri)
             return
-                router:response(200, "application/xml", $expanded)
+                (: Return a parsed node, not the string: router:response serializes a
+                 : node as XML, whereas a string body would be emitted as escaped text. :)
+                router:response(200, "application/xml", parse-xml($expanded))
         else
             router:response(404, "text/plain", "Sitemap not found. Please generate it first using POST /api/actions/sitemap")
 };
@@ -46,7 +54,7 @@ declare function sitemap:get-sitemap($request as map(*)) {
  :)
 declare function sitemap:generate-sitemap($request as map(*)) {
     let $config := json-doc($config:app-root || "/context.json")
-    let $sitemap := sitemap:generate($sitemap:app-base, $config)
+    let $sitemap := sitemap:generate($config)
     let $stored := xmldb:store($config:app-root, "sitemap.xml", $sitemap, "application/xml")
     return [
         map {
@@ -57,14 +65,14 @@ declare function sitemap:generate-sitemap($request as map(*)) {
 };
 
 (:~
- : Generate a sitemap.xml by crawling the application. URLs are stored with a
- : [[ $baseUri ]] placeholder that is substituted at serve time by sitemap:get-sitemap.
+ : Generate a sitemap.xml by crawling the application in-process. URLs are stored
+ : with a [[ $baseUri ]] placeholder that is substituted at serve time by
+ : sitemap:get-sitemap.
  :
- : @param $appBase The base URI for API calls (e.g., http://localhost:8080/exist/apps/tp10)
  : @return sitemap.xml document
  :)
-declare %private function sitemap:generate($appBase as xs:string, $config as map(*)) as document-node() {
-    let $urls := sitemap:crawl($appBase)
+declare %private function sitemap:generate($config as map(*)) as document-node() {
+    let $urls := sitemap:crawl()
     return
         document {
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -81,109 +89,87 @@ declare %private function sitemap:generate($appBase as xs:string, $config as map
 };
 
 (:~
- : Crawl the application and collect all URLs.
+ : Crawl the application and collect all document/page URLs without any HTTP
+ : round-trips. The document list is obtained the same way the /api/documents
+ : endpoint does (query:query-metadata), and each document is paginated through
+ : in-process using the same primitives as /api/parts (dapi:get-fragment with
+ : content=none): pages:load-xml to load a fragment and $config:next-page to
+ : advance, collecting the stable xml:id (or node id as fallback) of each page.
  :
- : @param $appBase The base URI for API calls
  : @return sequence of relative URL strings (without base URI)
  :)
-declare %private function sitemap:crawl($appBase as xs:string) as xs:string* {
-    let $documents := sitemap:get-documents($appBase)
-    let $urls :=
-        for $doc in $documents?*
-        return
-            (: Add all pages for this document :)
-            sitemap:get-document-pages($appBase, $doc)
+declare %private function sitemap:crawl() as xs:string* {
+    let $works := query:query-metadata((), "div", (), $config:sort-default)?all
     return
-        distinct-values($urls)
-};
-
-(:~
- : Get the list of documents from the api/documents endpoint.
- :
- : @param $appBase The base URI of the application
- : @return array of document maps, each containing a path property
- :)
-declare %private function sitemap:get-documents($appBase as xs:string) as array(*) {
-    let $request := 
-        <http:request method="GET" href="{$appBase}/api/documents"/>
-    let $response := http:send-request($request)
-    return
-        if ($response[1]/@status = 200) then
-            let $data := util:binary-to-string(xs:base64Binary($response[2]))
+        distinct-values(
+            for $doc in $works
             return
-                parse-json($data)
+                sitemap:document-urls($doc)
+        )
+};
+
+(:~
+ : Collect the URLs for a single document: one per page/division. The view is
+ : taken from the document's processing instruction (passing () as the view to
+ : tpu:parse-pi so the PI value is honored). A single-view document has exactly
+ : one URL.
+ :
+ : @param $doc a document node returned by query:query-metadata
+ : @return sequence of relative URL strings for the document
+ :)
+declare %private function sitemap:document-urls($doc as node()) as xs:string* {
+    let $path := config:get-identifier($doc)
+    let $documents := config:get-document($path)
+    let $config := tpu:parse-pi(root($documents[1]), (), $config:default-odd)
+    let $view := $config?view
+    return
+        if (empty($documents)) then
+            ()
+        else if ($view = "single") then
+            $path
         else
-            error(xs:QName("sitemap:ERROR"), "Failed to fetch documents: " || $response[1]/@status)
+            sitemap:page-urls($documents, $view, $path, ())
 };
 
 (:~
- : Get all pages for a document by calling the parts endpoint and following pagination.
+ : Recursively page through a document, mirroring the next/nextId pagination the
+ : old crawler followed via /api/parts. For each fragment it emits the relative
+ : URL and, if there is a following fragment, recurses using that fragment's node
+ : id as the root.
  :
- : @param $appBase The base URI for API calls
- : @param $doc The document map containing path and other metadata
- : @return sequence of relative URL strings for all pages of the document
+ : @param $documents the loaded document node(s)
+ : @param $view the view to use (div or page)
+ : @param $path the document identifier used to build URLs
+ : @param $root optional eXist node id identifying the fragment to load
+ : @return sequence of relative URL strings
  :)
-declare %private function sitemap:get-document-pages($appBase as xs:string, $doc as map(*)) as xs:string* {
-    sitemap:get-document-pages-recursive($appBase, $doc, (), ())
-};
-
-(:~
- : Recursively get all pages for a document by following nextId/next pagination.
- :
- : @param $appBase The base URI for API calls
- : @param $doc The document map containing path and other metadata
- : @param $id Optional id parameter for pagination
- : @param $root Optional root parameter for pagination
- : @return sequence of relative URL strings for all pages of the document
- :)
-declare %private function sitemap:get-document-pages-recursive(
-    $appBase as xs:string,
-    $doc as map(*), 
-    $id as xs:string?,
+declare %private function sitemap:page-urls(
+    $documents as node()*,
+    $view as xs:string,
+    $path as xs:string,
     $root as xs:string?
 ) as xs:string* {
-    let $path := $doc?path
-    let $paramList := 
-        (
-            "serialize=xml",
-            "content=none",
-            "view=" || encode-for-uri($doc?view),
-            if ($id) then 
-                "id=" || encode-for-uri($id) 
-            else if ($root) then 
-                "root=" || encode-for-uri($root) 
-            else 
-                ()
-        )[. != ""]
-    let $params := string-join($paramList, "&amp;")
-    let $url := $appBase || "/api/parts/" || encode-for-uri($path) || "/json?" || $params
-    let $request := 
-        <http:request method="GET" href="{$url}"/>
-    let $_ := util:log("INFO", ("Sitemap: Getting document pages for ", $url))
-    let $response := http:send-request($request)
+    let $fragment := pages:load-xml($documents, $view, $root, $path)
+    let $config := $fragment?config
+    let $data := $fragment?data
     return
-        if ($response[1]/@status = 200) then
-            let $data := util:binary-to-string(xs:base64Binary($response[2]))
-            let $json := parse-json($data)
+        if (empty($data)) then
+            (: no navigable fragment: fall back to the bare document URL :)
+            if (empty($root)) then $path else ()
+        else
+            let $content := pages:get-content($config, $data)
+            let $id := $content/@xml:id/string()
             let $currentUrl :=
-                if (map:contains($json, "id") and $json?id != "") then
-                    $path || "?id=" || encode-for-uri($json?id)
-                else if (map:contains($json, "rootNode") and $json?rootNode != "") then
-                    $path || "?root=" || encode-for-uri($json?rootNode)
+                if (string-length(normalize-space($id)) gt 0) then
+                    $path || "?id=" || encode-for-uri($id)
                 else
-                    $path
-            let $nextId := if (map:contains($json, "nextId") and $json?nextId != "") then $json?nextId else ()
-            let $next := if (map:contains($json, "next") and $json?next != "") then $json?next else ()
+                    $path || "?root=" || util:node-id($data[1])
+            let $next := $config:next-page($config, $data, $view)
             return (
                 $currentUrl,
-                if ($nextId) then
-                    sitemap:get-document-pages-recursive($appBase, $doc, $nextId, ())
-                else if ($next) then
-                    sitemap:get-document-pages-recursive($appBase, $doc, (), $next)
+                if ($next) then
+                    sitemap:page-urls($documents, $view, $path, util:node-id($next))
                 else
                     ()
             )
-        else
-            (: If the request fails, just return the base path :)
-            $path
 };
