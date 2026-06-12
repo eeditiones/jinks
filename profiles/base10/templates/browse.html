@@ -30,6 +30,10 @@
         }
     }
     ---
+    [% template! title %]
+    <title>[[ $label ]] – Browsing Documents</title>
+    [% endtemplate %]
+
     [% template styles %]
     <style>
         .fixed-layout main {
@@ -45,6 +49,7 @@
             </div>
         [% endif %]
     [% endtemplate %]
+
     [% template before-top %]
     [% if $context?theme?layout?search = 'before-top' %]
     <li>
