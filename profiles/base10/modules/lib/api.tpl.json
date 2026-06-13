@@ -1624,6 +1624,16 @@
 						"description": "should returned HTML be wrapped into a div?"
 					},
 					{
+						"name": "content",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"enum": ["full", "none"],
+							"default": "full"
+						},
+						"description": "set to `none` to skip the ODD transform and return navigation metadata only (no rendered content/footnotes). Used by pb-view when the fragment was already server-rendered into its light DOM (SSR), to avoid rendering the same content twice."
+					},
+					{
 						"name": "user.track-ids",
 						"in": "query",
 						"schema": {

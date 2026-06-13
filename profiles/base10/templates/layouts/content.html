@@ -11,6 +11,10 @@
         }
     }
     ---
+    [% template title %]
+    <title>[[ page:transform($context?doc?fragment, map { "mode": "title" }, $context?doc?odd || ".odd")/string() ]]</title>
+    [% endtemplate %]
+
     [% template breadcrumb %]
     [% if exists($context?doc) %]
     <li>

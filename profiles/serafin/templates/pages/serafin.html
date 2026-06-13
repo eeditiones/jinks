@@ -25,6 +25,6 @@
         }
     }
     ---
-    <pb-view class="column1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"/>
+    <pb-view class="column1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription">[[ page:content($context, "//text[@type = 'source']") ]]</pb-view>
     <pb-view class="column2" src="document1" xpath="//text[@type = 'translation']" subscribe="transcription" column-separator=".tei-cb" append-footnotes="append-footnotes"/>
 </template>

@@ -5,6 +5,9 @@ module namespace page="http://teipublisher.com/ns/templates/page";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace mapping="http://www.tei-c.org/tei-simple/components/map" at "../map.xql";
+import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../lib/pages.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
 
 declare namespace expath="http://expath.org/ns/pkg";
 
@@ -108,6 +111,161 @@ declare function page:collection-breadcrumbs($context as map(*)) {
                         </a>
                     </li>
     else ()
+};
+
+(:~
+ : Render the content fragment requested by the current page URL to HTML, so it
+ : can be injected into <pb-view> as light-DOM content. A crawler that does not
+ : execute JavaScript (or before the components upgrade) then sees the real text
+ : instead of an empty component; <pb-view> ignores this light DOM (it has no
+ : <slot>) and still fetches and renders into its shadow DOM for interactive use,
+ : so the user experience is unchanged.
+ :
+ : The fragment is selected from the request parameters the same way as the
+ : api/parts/{doc}/json endpoint (dapi:get-fragment): the persistent "id"
+ : (xml:id) wins over the volatile "root" (node id); with neither, the first
+ : fragment is rendered. This makes every per-fragment URL the sitemap emits
+ : (e.g. ?id=intro-jinks) resolve server-side to that fragment's text.
+ :
+ : @param $context the templating context (expects $context?doc with content/path/view)
+ : @return the transformed HTML nodes for the requested fragment, or empty if no document
+ :)
+declare function page:content($context as map(*)) {
+    page:content($context, ())
+};
+
+(:~
+ : As page:content#1 but first narrows the document to the nodes selected by
+ : $xpath, matching a pb-view that carries an xpath attribute (e.g. a
+ : source/translation column). Pass the same expression as the pb-view.
+ :)
+declare function page:content($context as map(*), $xpath as xs:string?) {
+    if (exists($context?doc?content)) then
+        let $view := head(($context?doc?view, $config:default-view))
+        let $xml := page:fragment($context, $context?doc?content, $view, $context?doc?path, $xpath)
+        return
+            if (exists($xml?data)) then
+                let $content :=
+                    if ($view = "single") then
+                        $xml?data
+                    else
+                        pages:get-content($xml?config, $xml?data)
+                let $nodeId := util:node-id($xml?data[1])
+                let $rendered := page:unwrap-body(
+                    pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+                )
+                (: process-content collects footnotes into a sibling <div class="footnotes">
+                 : (wrapping everything in a content div). Split it out so the markup
+                 : matches the parts API response (resp.content / resp.footnotes) and
+                 : pb-view can adopt content and footnotes the same way for SSR and
+                 : dynamic loads. :)
+                let $footnotes := $rendered/div[@class = "footnotes"]
+                return
+                    (
+                        (: Content block; pb-view detects this marker, adopts it into
+                         : its shadow DOM and requests content=none so the fragment is
+                         : not rendered a second time. :)
+                        element div {
+                            attribute data-pb-ssr { $nodeId },
+                            if (exists($footnotes)) then
+                                element { node-name($rendered) } {
+                                    $rendered/@*,
+                                    $rendered/node() except $footnotes
+                                }
+                            else
+                                $rendered
+                        },
+                        if (exists($footnotes)) then
+                            element div {
+                                attribute data-pb-ssr-footnotes { $nodeId },
+                                $footnotes
+                            }
+                        else
+                            ()
+                    )
+            else
+                ()
+    else
+        ()
+};
+
+(:~ Narrow $data to the nodes selected by $xpath, evaluated with the document's
+ : default element namespace. Mirrors dapi:apply-xpath in the document API. :)
+declare %private function page:apply-xpath($data as node()*, $xpath as xs:string?) {
+    if ($xpath) then
+        let $namespace := namespace-uri-from-QName(node-name(root($data[1])/*))
+        return
+            util:eval("declare default element namespace '" || $namespace || "'; $data" || $xpath)
+    else
+        $data
+};
+
+(:~
+ : Resolve the fragment requested by the current page URL to a { config, data }
+ : map, mirroring the selection of the parts API (dapi:get-fragment) so a page
+ : URL and its corresponding parts/{doc}/json request return the same fragment.
+ :
+ : $xpath, when given, scopes the lookup to a sub-document (e.g. a
+ : source/translation column) before the fragment is resolved within it. The
+ : persistent "id" (xml:id) parameter wins over the volatile "root" (node id);
+ : it is resolved to an actual node (for "div" view expanded to its section via
+ : nav:get-section-for-node), never round-tripped through util:node-id. With no
+ : resolvable id, pages:load-xml handles the "root" node id or the first fragment.
+ :
+ : @param $context templating context, used only to read the id/root parameters
+ : @param $document the full document content
+ : @param $view the view (div/page/single/...)
+ : @param $path the document path, passed through to pages:load-xml
+ : @param $xpath optional expression scoping the lookup, or empty for the whole document
+ : @return a map with "config" and "data" entries, or empty if nothing resolves
+ :)
+declare function page:fragment($context as map(*), $document as node()*, $view as xs:string?,
+    $path as xs:string?, $xpath as xs:string?) as map(*)? {
+    let $view := head(($view, $config:default-view))
+    let $id := page:parameter($context, 'id')
+    let $root := page:parameter($context, 'root')
+    let $ctx := page:apply-xpath($document, $xpath)
+    let $node :=
+        if (string-length(normalize-space($id)) gt 0 and $view != "single") then
+            $ctx/id($id)
+        else
+            ()
+    return
+        if (exists($node)) then
+            let $config := tpu:parse-pi(root($document), $view)
+            return
+                map {
+                    "config": map:merge(($config, map { "context": $ctx }), map { "duplicates": "use-last" }),
+                    "data":
+                        if ($view = "div") then
+                            nav:get-section-for-node($config, $node)
+                        else
+                            $node
+                }
+        else if (exists($ctx)) then
+            pages:load-xml($ctx, $view, $root, $path)
+        else
+            ()
+};
+
+(:~ The transform wraps its output in an HTML <body> element. Inlining that into
+ : the page would nest a second <body>, which the HTML parser rejects (it closes
+ : the real document body early and reparents the content out of <main>). Rewrite
+ : any such <body> wrapper to a <div>, keeping attributes and children. Other
+ : elements are passed through untouched to preserve their namespaces. :)
+declare %private function page:unwrap-body($nodes as node()*) {
+    for $node in $nodes
+    return
+        typeswitch ($node)
+            case element(body) return
+                element div { $node/@*, $node/node() }
+            case element() return
+                if ($node/body) then
+                    element { node-name($node) } { $node/@*, page:unwrap-body($node/node()) }
+                else
+                    $node
+            default return
+                $node
 };
 
 declare function page:transform($nodes as node()*) {

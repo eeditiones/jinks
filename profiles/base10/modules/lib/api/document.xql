@@ -569,14 +569,22 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
                     pages:get-content($xml?config, $data)
                 else
                     $data
-
-            let $html :=
-                typeswitch ($mapped)
-                    case element() | document-node() return
-                        pages:process-content($content, $xml?data, $xml?config, $userParams, $request?parameters?wrap)
-                    default return
-                        $content
-            let $transformed := dapi:extract-footnotes($html[1], $xml?data[1])
+            (: When the client already holds server-rendered content in its light DOM
+             : (SSR via page:content), it requests content=none so we skip the expensive
+             : ODD transform and return navigation metadata only. get-content above is
+             : cheap (node selection) and is still needed for the fragment id. :)
+            let $transformed :=
+                if ($request?parameters?content = "none") then
+                    map { "content": (), "footnotes": () }
+                else
+                    let $html :=
+                        typeswitch ($mapped)
+                            case element() | document-node() return
+                                pages:process-content($content, $xml?data, $xml?config, $userParams, $request?parameters?wrap)
+                            default return
+                                $content
+                    return
+                        dapi:extract-footnotes($html[1], $xml?data[1])
             let $path := replace($path, "^.*/([^/]+)$", "$1")
             return
                 if ($request?parameters?format = "html") then
