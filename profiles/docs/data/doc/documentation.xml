@@ -2651,7 +2651,7 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           xlink:href="https://github.com/eeditiones/jinks-templates?tab=readme-ov-file#how-context-maps-are-merged"
           >special properties</link> for that (see <code>"$replace"</code>).</para>
     </section>
-    <section>
+    <section xml:id="templates-preloaded-data">
       <title>Preloaded XML Data</title>
       <para>XML documents stored in the application can be preloaded into variables (or context
         properties) to access them in template expressions: if the frontmatter of the template

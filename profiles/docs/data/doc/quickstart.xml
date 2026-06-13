@@ -63,7 +63,7 @@
                     for a particular aspect of a digital edition, e.g. support for a certain input
                     format, integration of facsimile images, timelines or map display.</para>
             </section>
-            <section>
+            <section xml:id="intro-assembling">
                 <title>Assembling an application</title>
                 <para>An actual application is created by selecting desired features and customizing
                     their configuration. This is achieved through a central configuration file,
@@ -84,7 +84,7 @@
                     blueprint.</para>
             </section>
 
-            <section>
+            <section xml:id="intro-continuous-development">
                 <title>Continuous development</title>
                 <para>TEI Publisher comes with a central application manager, Jinks, which manages
                     all profiles and the applications generated from it.</para>
@@ -103,7 +103,7 @@
                     manually migrate to a new version of TEI Publisher. </para>
             </section>
 
-            <section>
+            <section xml:id="intro-vocabulary">
                 <title>Basic vocabulary</title>
                 <para>To clarify how various parts fit together, let us summarize some key concepts,
                     which will be used in the rest of this documentation:</para>
@@ -1287,7 +1287,7 @@ padding: 0 2rem;</synopsis>
     </model>
 </elementSpec>]]></programlisting>
         </section>
-        <section>
+        <section xml:id="pi-conditions">
             <title>Conditions and multiple models</title>
             <para>Next, we'd like to format the bible quote and make the text italic. If you add an
                 <tag>elementSpec</tag> for quote, you will see that it has two models by default. The first one
