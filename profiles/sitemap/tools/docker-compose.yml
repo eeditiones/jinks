@@ -1,0 +1,21 @@
+# nginx reverse proxy that maps the running TEI Publisher app
+# (http://localhost:8080/exist/apps/tei-publisher/) onto the site root
+# (http://localhost/) so sitemap.xml, robots.txt and canonical URLs can be
+# tested as a search engine would see them.
+#
+# The eXist instance is expected to already be running on the Docker *host*
+# at port 8080 (your usual dev server). This compose file only adds the proxy.
+#
+# If your app uses a different abbrev than "tei-publisher", edit nginx.conf.
+
+services:
+  proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    extra_hosts:
+      # Lets host.docker.internal resolve to the Docker host on Linux.
+      # On macOS/Windows Docker Desktop this is already available; the line is harmless.
+      - "host.docker.internal:host-gateway"

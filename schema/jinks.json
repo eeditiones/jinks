@@ -530,6 +530,31 @@
                         }
                     }
                 },
+                "sitemap": {
+                    "type": "object",
+                    "description": "Sitemap generation and SEO settings",
+                    "properties": {
+                        "base-uri": {
+                            "type": "string",
+                            "description": "Public base URI of the application. Used for canonical links, sitemap loc entries, and the Sitemap directive in robots.txt. If omitted, derived from each request.",
+                            "examples": [
+                                "https://edition.example.org",
+                                "http://localhost"
+                            ]
+                        },
+                        "custom": {
+                            "type": "array",
+                            "description": "Additional relative URL paths to include in the sitemap beyond those discovered by crawling documents",
+                            "items": {
+                                "type": "string"
+                            },
+                            "examples": [
+                                ["index.html"],
+                                ["index.html", "browse.html"]
+                            ]
+                        }
+                    }
+                },
                 "upload": {
                     "type": "object",
                     "properties": {
