@@ -38,7 +38,7 @@ required.**
 ## Usage
 
 ```bash
-docker compose -f profiles/sitemap/demo/docker-compose.yml up -d
+docker compose -f profiles/sitemap/tools/docker-compose.yml up -d
 ```
 
 Generate the sitemap once (it is crawled on demand and stored):
@@ -62,7 +62,7 @@ Open a document page in a browser and confirm the `<link rel="canonical">` point
 Tear down:
 
 ```bash
-docker compose -f profiles/sitemap/demo/docker-compose.yml down
+docker compose -f profiles/sitemap/tools/docker-compose.yml down
 ```
 
 ## Notes
