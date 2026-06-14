@@ -23,34 +23,41 @@
 }
 
 .fixed-layout > main {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+}
+
+/* Two-column letter view only (browse and other pages keep the default layout) */
+.fixed-layout > main:has(> .column1) {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "header header"
         "column1 column2";
-    max-width: calc(var(--pb-view-max-width) * 2 + 2rem);
     column-gap: 2rem;
-    margin: 1rem auto;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
-.fixed-layout > main > header {
+.fixed-layout > main:has(> .column1) > header {
     grid-area: header;
     margin: 0 1rem;
 }
 
-.fixed-layout>main>header .tei-date {
+.fixed-layout > main:has(> .column1) > header .tei-date {
     display: block;
     text-align: right;
     font-size: var(--jinks-content-font-size);
     line-height: var(--jinks-content-line-height);
 }
 
-.fixed-layout > main > .column1 {
+.fixed-layout > main:has(> .column1) > .column1 {
     grid-area: column1;
 }
 
-.fixed-layout > main > .column2 {
+.fixed-layout > main:has(> .column1) > .column2 {
     grid-area: column2;
 }
 
@@ -79,34 +86,58 @@
 .toolbar,
 .content-top:has(.toolbar) {
     background-color: var(--jinks-colors-200);
-    /* A strip of the 15th-c. Kraków charter's own script — Serafin's name reads
-       in the centre. The cream wash is weighted opaque on the left so the
-       breadcrumb sits on a clean field, then thins toward the centre/right so
-       the handwriting (and the name) still shows. */
+    /* Narrower, softer wash on the left (breadcrumb); wider wash on the right
+       (pagination) so controls stay readable over the manuscript strip. */
     background-image:
         linear-gradient(90deg,
-            rgba(243, 237, 221, 0.94) 0%,
-            rgba(243, 237, 221, 0.90) 32%,
-            rgba(243, 237, 221, 0.45) 50%,
-            rgba(243, 237, 221, 0.45) 100%),
+            rgba(243, 237, 221, 0.72) 0%,
+            rgba(243, 237, 221, 0.65) 10%,
+            rgba(243, 237, 221, 0.45) 18%,
+            rgba(243, 237, 221, 0.36) 28%,
+            rgba(243, 237, 221, 0.36) 50%,
+            rgba(243, 237, 221, 0.52) 62%,
+            rgba(243, 237, 221, 0.72) 75%,
+            rgba(243, 237, 221, 0.88) 88%,
+            rgba(243, 237, 221, 0.94) 100%),
         url("../images/parchment.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* Breadcrumb: small, letter-spaced, restrained */
+/* Breadcrumb: collection link stays small; the current letter title leads. */
 .toolbar [aria-label="breadcrumb"] {
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
     color: var(--jinks-colors-500);
     text-transform: uppercase;
-    /* faint cream halo lifts the label off any script that shows through */
-    text-shadow: 0 0 2px rgba(243, 237, 221, 0.9), 0 0 4px rgba(243, 237, 221, 0.7);
 }
 
 .toolbar [aria-label="breadcrumb"] a {
     color: var(--jinks-colors-500) !important;
+    font-weight: 500;
+}
+
+/* Current document title (.tei-title in the last crumb) */
+.toolbar [aria-label="breadcrumb"] li:last-child {
+    font-family: var(--jinks-heading-font-family, 'Belleza', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--jinks-colors-700);
+    line-height: 1.35;
+    /* stronger cream halo so the title reads on the parchment strip */
+    text-shadow:
+        0 0 4px rgba(255, 252, 248, 1),
+        0 0 10px rgba(255, 252, 248, 0.92),
+        0 1px 2px rgba(255, 252, 248, 0.85);
+}
+
+.toolbar [aria-label="breadcrumb"] li:last-child .tei-title {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
 }
 
 /* -----------------------------------------------------------------------
@@ -209,12 +240,31 @@
 }
 
 /* --- Collection browse: flat document cards ------------------------------
-   The document list renders each entry as a rounded, shadowed pico card. Flatten
-   them to square hairline panels to match the rest of the flat/rectangular design. */
+   Flatten pico cards to square hairline panels. Title and actions share one row:
+   title on the left, download/actions on the right. */
 ul.documents > li.document.card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
     border-radius: 0;
     box-shadow: none;
     border: 1px solid var(--jinks-colors-400);
+}
+
+ul.documents > li.document.card header {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+ul.documents > li.document.card .actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+ul.documents > li.document.card .matches {
+    flex: 1 1 100%;
 }
 
 /* Frame the map like a plate in the edition */

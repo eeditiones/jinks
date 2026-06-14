@@ -273,9 +273,6 @@
                             <param name="uri" value="$parameters?doc"/>
                         </model>
                         <model behaviour="block">
-                            <param name="content" value="subsequence(title, 2)"/>
-                        </model>
-                        <model behaviour="block">
                             <param name="content" value="author"/>
                         </model>
                     </modelSequence>
@@ -315,6 +312,10 @@
                         <param name="default" value="."/>
                     </model>
                     <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="publicationStmt" mode="change">
+                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
+                    <model behaviour="block"/>
                 </elementSpec>
             </schemaSpec>
         </body>

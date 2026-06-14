@@ -957,7 +957,7 @@ flex-wrap: wrap;
             <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="heading">
                 <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
-                <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
+                <param name="uri" value="$parameters?context-path || '/' || $global:browse-page || '?facet-person=' || @xml:id"/>
                 <param name="content" value="let $id := @xml:id return count(
                 collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI
                 | collection($global:data-default)//text//rs[@key = $id or @ref = $id]/ancestor::TEI
@@ -1035,7 +1035,7 @@ flex-wrap: wrap;
             </model>
             <model predicate="$parameters?mode='register-details' and not($parameters?static)" behaviour="block">
                 <desc>Link to the list of documents, where references occur via facet query</desc>
-                <param name="uri" value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id"/>
+                <param name="uri" value="$parameters?context-path || '/' || $global:browse-page || '?facet-place=' || @xml:id"/>
                 <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
                 <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">

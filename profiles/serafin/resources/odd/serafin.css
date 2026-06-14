@@ -77,8 +77,10 @@ pb-popover {
 }
 
 pb-geolocation small {
-    font-size: var(--pb-footnote-font-size);
-    color: var(--pb-color-lighter);
+    font-size: .6em;
+    color: var(--jinks-color-focus);
+    vertical-align: super;
+    padding-left: .5rem;
 }
 
 pb-geolocation small:has(*)::before {
@@ -168,6 +170,32 @@ pb-geolocation small:has(*)::after {
 .tei-postscript {
     margin-top: 1.5em;
     font-size: 0.95em;
+}
+
+/* Appended footnotes: clear break from the letter body */
+.footnotes {
+    clear: both;
+    margin-top: 2.5em;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd5c0;
+    font-size: var(--pb-footnote-font-size);
+    line-height: 1.45;
+}
+
+.footnote {
+    margin-top: 0.65em;
+    text-align: left;
+    text-indent: 0;
+}
+
+.footnote:first-child {
+    margin-top: 0;
+}
+
+.footnotes .tei-p {
+    margin: 0;
+    text-indent: 0;
+    text-align: left;
 }
 
 @media print {

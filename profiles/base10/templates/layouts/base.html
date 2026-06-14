@@ -138,6 +138,7 @@
             <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]] [[ if ($context?theme?layout?after?mode = 'tabs') then 'after-tabs' else '' ]]">
                 [% block after %][% endblock %]
             </aside>
+            [% block footer %][% endblock %]
             [% if $context?theme?layout?footer?mobile?enabled %]
                 [% include 'templates/footer-mobile.html' %]
             [% endif %]
