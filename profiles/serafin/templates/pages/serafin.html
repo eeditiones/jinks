@@ -65,7 +65,7 @@
     [% endif %]
     [% endtemplate %]
 
-    <header>
+    <header lang="pl">
         [[ page:transform($context?doc?content, map { "mode": "letter-head" }, $context?doc?odd || ".odd") ]]
     </header>
     <pb-view class="column1" src="document1" xpath="//text[@type = 'source']" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription">[[ page:content($context, "//text[@type = 'source']") ]]</pb-view>

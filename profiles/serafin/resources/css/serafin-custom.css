@@ -31,7 +31,7 @@
 /* Two-column letter view only (browse and other pages keep the default layout) */
 .fixed-layout > main:has(> .column1) {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "header header"
@@ -46,6 +46,7 @@
 .fixed-layout > main:has(> .column1) > header {
     grid-area: header;
     margin: 0 1rem;
+    height: auto;
 }
 
 .fixed-layout > main:has(> .column1) > header .tei-date {
@@ -61,6 +62,14 @@
 
 .fixed-layout > main:has(> .column1) > .column2 {
     grid-area: column2;
+}
+
+.fixed-layout > main:has(> .column1) > .column1,
+.fixed-layout > main:has(> .column1) > .column2 {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin-inline: 0;
 }
 
 @media (max-width: 1023px) {
@@ -81,14 +90,6 @@
         row-gap: 1.5rem;
         max-width: calc(var(--pb-view-max-width) + 2rem);
     }
-}
-
-.fixed-layout > main > .column1 {
-    margin-right: 0;
-}
-
-.fixed-layout > main > .column2 {
-    margin-left: 0;
 }
 
 /* --- Masthead (menubar header) ------------------------------------------
