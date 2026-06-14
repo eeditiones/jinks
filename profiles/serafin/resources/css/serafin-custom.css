@@ -39,6 +39,8 @@
     column-gap: 2rem;
     padding: 1rem;
     box-sizing: border-box;
+    max-width: calc(var(--pb-view-max-width) * 2 + 2rem);
+    margin: 0 auto;
 }
 
 .fixed-layout > main:has(> .column1) > header {
