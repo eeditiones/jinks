@@ -62,20 +62,43 @@
     },
     "theme": {
         "logo": {
-            "width": "48px",
+            "width": "44px",
+            "height": "44px",
             "image": "../images/base_icon_transparent_background.svg"
         },
         "splash": {
             "image": "../images/animation_serafin.gif"
         },
+        "fonts": {
+            "base": {
+                "family": "'Albert Sans', sans-serif"
+            },
+            "content": {
+                "family": "'Albert Sans', sans-serif",
+                "size": "1.2rem"
+            },
+            "heading": {
+                "family": "'Belleza', sans-serif",
+                "weight": "400"
+            }
+        },
         "layout": {
             "search": "before",
-            "before-width": "min(30vw, 420px)"
+            "before-width": "min(30vw, 420px)",
+            "after": {
+                "mode": "tabs"
+            }
         },
         "colors": {
-            "palette": "dark"
+            "palette": "beige"
+        },
+        "components": {
+            "styles": "resources/css/serafin-components.css"
         }
     },
+    "styles": [
+        "resources/css/serafin-custom.css"
+    ],
     "static": {
         "templating": {
             "use": [

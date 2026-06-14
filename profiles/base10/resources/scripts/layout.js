@@ -169,7 +169,7 @@ function initAfterTabs() {
         nav.appendChild(btn);
         panel.hidden = (i !== 0);
     });
-    container.prepend(nav);
+    panels[0].before(nav);
 }
 
 document.addEventListener('DOMContentLoaded', initAfterTabs);

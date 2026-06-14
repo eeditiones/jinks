@@ -1,0 +1,231 @@
+/* Load theme fonts. Document-level @font-face rules are visible inside the
+   pb-view shadow DOM, so this is what makes theme.fonts.content (Albert Sans)
+   and theme.fonts.heading (Belleza) actually render. Must stay at the very top
+   (@import rules must precede all other rules). */
+@import url("https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Belleza&display=swap");
+
+/* ===========================================================================
+   Serafin chrome (light DOM)
+   Toolbar controls + reading-side panel framing.
+   Loaded via config.json -> "styles"; do not @import Jinks-owned files here.
+   =========================================================================== */
+
+/* Flatten form controls app-wide so every control shares the square,
+   hairline look (inherits across shadow boundaries into web components). */
+:root {
+    --jinks-form-border-radius: 2px;
+    --jinks-breadcrumbs-max: none;
+}
+
+/* Slightly narrower text columns, centred, for more breathing room */
+:root {
+    --pb-view-max-width: 48ch;
+}
+
+.fixed-layout > main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "header header"
+        "column1 column2";
+    max-width: calc(var(--pb-view-max-width) * 2 + 2rem);
+    column-gap: 2rem;
+    margin: 1rem auto;
+}
+
+.fixed-layout > main > header {
+    grid-area: header;
+    margin: 0 1rem;
+}
+
+.fixed-layout>main>header .tei-date {
+    display: block;
+    text-align: right;
+    font-size: var(--jinks-content-font-size);
+    line-height: var(--jinks-content-line-height);
+}
+
+.fixed-layout > main > .column1 {
+    grid-area: column1;
+}
+
+.fixed-layout > main > .column2 {
+    grid-area: column2;
+}
+
+/* --- Masthead (menubar header) ------------------------------------------
+   Clean solid menubar carrying the "MS" (Mikołaj Serafin) monogram as the logo
+   — a transparent vector mark, set via config.json theme.logo
+   (resources/images/serafin-monogram.svg). A thin accent rule closes the bar.
+   ------------------------------------------------------------------------- */
+
+.page-header {
+    border-bottom: 1px solid var(--jinks-colors-accent);
+}
+
+/* The menubar search sits on the dark bar, so give its (shadow-DOM) input a light
+   translucent border + dark fill. These vars inherit across the shadow boundary
+   into the pb-search component; the light-background default lives in
+   jinks-components.css and serves the collection-browse sidebar search. */
+.page-header,
+.mobile.menubar {
+    --jinks-search-border-color: rgba(252, 252, 248, 0.35);
+    --jinks-search-bg-color: var(--jinks-menubar-button-color);
+}
+
+/* --- Toolbar ------------------------------------------------------------- */
+
+.toolbar,
+.content-top:has(.toolbar) {
+    background-color: var(--jinks-colors-200);
+    /* A strip of the 15th-c. Kraków charter's own script — Serafin's name reads
+       in the centre. The cream wash is weighted opaque on the left so the
+       breadcrumb sits on a clean field, then thins toward the centre/right so
+       the handwriting (and the name) still shows. */
+    background-image:
+        linear-gradient(90deg,
+            rgba(243, 237, 221, 0.94) 0%,
+            rgba(243, 237, 221, 0.90) 32%,
+            rgba(243, 237, 221, 0.45) 50%,
+            rgba(243, 237, 221, 0.45) 100%),
+        url("../images/parchment.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Breadcrumb: small, letter-spaced, restrained */
+.toolbar [aria-label="breadcrumb"] {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--jinks-colors-500);
+    text-transform: uppercase;
+    /* faint cream halo lifts the label off any script that shows through */
+    text-shadow: 0 0 2px rgba(243, 237, 221, 0.9), 0 0 4px rgba(243, 237, 221, 0.7);
+}
+
+.toolbar [aria-label="breadcrumb"] a {
+    color: var(--jinks-colors-500) !important;
+}
+
+/* -----------------------------------------------------------------------
+   Flat segmented controls.
+
+   The toolbar mixes three cluster types that natively render at different
+   sizes: a zoom group (span[role=group] > 2x pb-zoom), a single recompile
+   button (button.light), and the correspondence nav (ul.correspContext).
+   These rules normalise them all to one segment height with equal-width,
+   evenly divided cells so the bar reads as a single connected control.
+   ----------------------------------------------------------------------- */
+
+.toolbar ul.hidden-mobile {
+    --tb-seg-h: 2rem;        /* uniform control height */
+    --tb-cell-w: 2.25rem;    /* uniform width of one icon cell */
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar ul.hidden-mobile > li {
+    display: flex;
+    align-items: center;
+}
+
+/* The cluster shells: same height, flat, hairline border, square corners */
+.toolbar [role="group"].light,
+.toolbar .correspContext.light,
+.toolbar button.light,
+.toolbar pb-link .btn.light a {
+    height: var(--tb-seg-h);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    gap: 0;
+    background-color: var(--jinks-colors-100);
+    border: 1px solid var(--jinks-colors-400);
+    border-radius: 0;
+    color: var(--jinks-colors-500);
+    overflow: hidden;
+}
+
+/* Individual cells inside a cluster — equal width, divider between them */
+.toolbar [role="group"].light > pb-zoom,
+.toolbar [role="group"].light > pb-navigation,
+.toolbar .correspContext.light > li {
+    height: 100%;
+    width: var(--tb-cell-w);
+    min-width: var(--tb-cell-w);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--jinks-colors-400);
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+/* first cell has no left divider */
+.toolbar [role="group"].light > pb-zoom:first-child,
+.toolbar [role="group"].light > pb-navigation:first-child,
+.toolbar .correspContext.light > li:first-child {
+    border-left: 0;
+}
+
+/* Single-button clusters (recompile) match one cell exactly */
+.toolbar button.light {
+    width: var(--tb-cell-w);
+    min-width: var(--tb-cell-w);
+    justify-content: center;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+/* Consistent icon size + colour across every control */
+.toolbar ul.hidden-mobile svg,
+.toolbar ul.hidden-mobile .ionicon {
+    width: 1.05rem;
+    height: 1.05rem;
+}
+
+/* Hover/active picks up the edition's dark red accent (per cell) */
+.toolbar [role="group"].light > pb-zoom:hover,
+.toolbar [role="group"].light > pb-navigation:not([disabled]):hover,
+.toolbar .correspContext.light > li:not(.unavailable):hover,
+.toolbar button.light:hover {
+    background-color: #8a0000;
+    color: var(--jinks-colors-light);
+}
+
+/* Disabled / unavailable cells read as muted, not interactive */
+.toolbar .correspContext.light > li.unavailable {
+    opacity: 0.35;
+}
+
+/* --- Reading-side panel (People / Places / map) -------------------------- */
+
+.fixed-layout > aside.after {
+    background-color: var(--jinks-colors-100);
+    border-left: 1px solid var(--jinks-colors-400);
+    padding: 1.5rem 1.25rem;
+}
+
+/* --- Collection browse: flat document cards ------------------------------
+   The document list renders each entry as a rounded, shadowed pico card. Flatten
+   them to square hairline panels to match the rest of the flat/rectangular design. */
+ul.documents > li.document.card {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--jinks-colors-400);
+}
+
+/* Frame the map like a plate in the edition */
+aside.after pb-leaflet-map {
+    display: block;
+    height: 40vh;
+    min-height: 40vh;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    border: 1px solid var(--jinks-colors-400);
+    border-radius: 2px;
+    margin-top: 1rem;
+}

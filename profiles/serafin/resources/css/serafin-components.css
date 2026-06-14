@@ -1,0 +1,46 @@
+/*
+ * Serafin — targeted web-component (shadow DOM) overrides.
+ *
+ * Registered via config.json `theme.components.styles`, which the generator
+ * concatenates AFTER jinks-components.css when assembling components.css. Because
+ * it comes last, these same-specificity rules win by cascade — so we override
+ * only what we need instead of forking the whole jinks-components.css.
+ */
+
+/* Language selector: flat square chip with a hairline (was a pill). */
+:host(pb-lang) summary {
+    border-radius: 2px;
+    border: 1px solid rgba(252, 252, 248, 0.35);
+    transition: background-color 0.12s ease;
+}
+
+:host(pb-lang) summary:hover,
+:host(pb-lang) details[open] summary {
+    background-color: rgba(252, 252, 248, 0.2);
+}
+
+/* Login button: same flat chip. */
+:host(pb-login) > a {
+    border-radius: 2px;
+    border: 1px solid rgba(252, 252, 248, 0.35);
+    transition: background-color 0.12s ease;
+}
+
+:host(pb-login) > a:hover {
+    background-color: rgba(252, 252, 248, 0.2);
+}
+
+/* Search input: flat, square, hairline border to match the other controls.
+   Border + fill come from inherited custom properties so the same component
+   reads correctly on the dark menubar (overridden in serafin-custom.css) and
+   on the light collection-browse sidebar (the light-background defaults here). */
+:host(pb-search) {
+    border-radius: 2px;
+}
+
+:host(pb-search) #search,
+:host(pb-search) input[type="search"] {
+    border-radius: 2px;
+    border: 1px solid var(--jinks-search-border-color, var(--jinks-colors-400));
+    background-color: var(--jinks-search-bg-color, var(--jinks-colors-100));
+}

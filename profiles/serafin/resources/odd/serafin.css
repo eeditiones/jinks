@@ -8,17 +8,41 @@
     font-size: var(--pb-base-font-size);
 }
 
+/* Section labels: small caps, letter-spaced, rule beneath */
 .register h3 {
-    margin-top: 0;
+    margin: 0 0 0.7rem 0;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid #ddd5c0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #6f6b5d;
 }
 
 .register ul {
     padding: 0;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.75rem 0;
 }
 
 .register li {
     list-style-type: none;
+    line-height: 1.5;
+    margin-bottom: 0.15rem;
+}
+
+.register li a,
+.register .persName,
+.register .placeName {
+    color: #8a0000;
+    text-decoration: none;
+}
+
+.register li a:hover,
+.register .persName:hover,
+.register .placeName:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 pb-popover {
@@ -77,14 +101,73 @@ pb-geolocation small:has(*)::after {
     display:none;
 }
 
-.placeName {
-    color: #ef6c00;
+/* ---------------------------------------------------------------------------
+   book theme for the reading view
+   (named entities in a single muted dark red, classic justified prose)
+   --------------------------------------------------------------------------- */
+
+/* `.tei-div` ancestor raises specificity so the dark red wins over the
+   component stylesheet's `.alternate` grey used by the popover entities */
+.tei-div .placeName,
+.tei-div .persName,
+.tei-div .tei-placeName,
+.tei-div .tei-persName,
+.placeName,
+.persName {
+    color: #8a0000;
     text-decoration: none;
 }
 
-.persName {
-    color: #1565c0;
-    text-decoration: none;
+.tei-div .placeName:hover,
+.tei-div .persName:hover,
+.tei-div .tei-placeName:hover,
+.tei-div .tei-persName:hover {
+    color: #b71c1c;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+/* Classic book paragraphs: justified, first line indented, no gaps */
+.tei-div .tei-p {
+    margin: 0;
+    text-align: justify;
+    text-indent: 1.6em;
+    hyphens: auto;
+}
+
+/* first paragraph after the salutation / a heading is not indented */
+.tei-opener + .tei-p,
+.tei-head + .tei-p,
+.tei-div > .tei-p:first-child {
+    text-indent: 0;
+}
+
+/* Centered heading, edition style */
+.tei-head,
+.tei-div .tei-head {
+    text-align: center;
+    font-family: var(--pb-heading-font-family, Belleza, sans-serif);
+    font-weight: var(--pb-heading-font-weight, 400);
+    font-variant: small-caps;
+    letter-spacing: 0.02em;
+    margin: 1.5em 0 1.2em;
+}
+
+/* Salutation / opener and signature spacing */
+.tei-opener {
+    margin-bottom: 1.2em;
+}
+
+.tei-signed,
+.tei-closer {
+    margin-top: 1.2em;
+    text-align: right;
+}
+
+.tei-postscript {
+    margin-top: 1.5em;
+    font-size: 0.95em;
 }
 
 @media print {
