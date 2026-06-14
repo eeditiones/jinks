@@ -63,6 +63,34 @@
     grid-area: column2;
 }
 
+@media (max-width: 1023px) {
+    .fixed-layout > main:has(> .column1) {
+        column-gap: 1.5rem;
+    }
+}
+
+@media (max-width: 639px) {
+    .fixed-layout > main:has(> .column1) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "header"
+            "column1"
+            "column2";
+        column-gap: 0;
+        row-gap: 1.5rem;
+        max-width: calc(var(--pb-view-max-width) + 2rem);
+    }
+}
+
+.fixed-layout > main > .column1 {
+    margin-right: 0;
+}
+
+.fixed-layout > main > .column2 {
+    margin-left: 0;
+}
+
 /* --- Masthead (menubar header) ------------------------------------------
    Clean solid menubar carrying the "MS" (Mikołaj Serafin) monogram as the logo
    — a transparent vector mark, set via config.json theme.logo
