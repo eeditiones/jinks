@@ -20,6 +20,8 @@
 /* Slightly narrower text columns, centred, for more breathing room */
 :root {
     --pb-view-max-width: 48ch;
+    /* Lighter than palette accent so linked passages stay readable */
+    --pb-highlight-color: color-mix(in srgb, var(--jinks-colors-accent) 38%, var(--jinks-colors-200));
 }
 
 .fixed-layout > main {
@@ -136,6 +138,26 @@
     background-repeat: no-repeat;
 }
 
+/* Align toolbar control cluster with the menubar right cluster (login, etc.) */
+:root {
+    --jinks-chrome-inset-inline: var(--s0);
+}
+
+/* content-top stops at the after column; extend it over that band so controls
+   can reach the same inset as the menubar login (after-top is hidden when fixed) */
+.fixed-layout.after-fixed:not(.before-fixed) > header.content-top {
+    grid-column: content-top / -1;
+}
+
+.toolbar {
+    padding-inline-end: var(--jinks-chrome-inset-inline);
+}
+
+.toolbar > ul.hidden-mobile {
+    padding-inline-end: 0;
+    padding-right: 0;
+}
+
 /* Breadcrumb: collection link stays small; the current letter title leads. */
 .toolbar [aria-label="breadcrumb"] {
     font-size: 0.72rem;
@@ -182,10 +204,10 @@
    ----------------------------------------------------------------------- */
 
 .toolbar ul.hidden-mobile {
-    --tb-seg-h: 2rem;        /* uniform control height */
-    --tb-cell-w: 2.25rem;    /* uniform width of one icon cell */
+    --tb-seg-h: 2.25rem;     /* uniform control height */
+    --tb-cell-w: 2.5rem;     /* uniform width of one icon cell */
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
 }
 
 .toolbar ul.hidden-mobile > li {
@@ -244,8 +266,8 @@
 /* Consistent icon size + colour across every control */
 .toolbar ul.hidden-mobile svg,
 .toolbar ul.hidden-mobile .ionicon {
-    width: 1.05rem;
-    height: 1.05rem;
+    width: 1.15rem;
+    height: 1.15rem;
 }
 
 /* Hover/active picks up the edition's dark red accent (per cell) */
