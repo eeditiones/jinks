@@ -1,5 +1,5 @@
 /*
- * Serafin — targeted web-component (shadow DOM) overrides.
+ * Serafin theme — targeted web-component (shadow DOM) overrides.
  *
  * Registered via config.json `theme.components.styles`, which the generator
  * concatenates AFTER jinks-components.css when assembling components.css. Because
@@ -32,7 +32,7 @@
 
 /* Search input: flat, square, hairline border to match the other controls.
    Border + fill come from inherited custom properties so the same component
-   reads correctly on the dark menubar (overridden in serafin-custom.css) and
+   reads correctly on the dark menubar (overridden in serafin-theme.css) and
    on the light collection-browse sidebar (the light-background defaults here). */
 :host(pb-search) {
     border-radius: 2px;

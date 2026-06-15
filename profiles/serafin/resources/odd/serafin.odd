@@ -97,7 +97,7 @@
                     </model>
                     <model output="print" behaviour="document">
                         <desc>SERAFIN</desc>
-                        <param name="content" value="(.//text[@type='source'], .//text[@type='translation'])"/>
+                        <param name="content" value="(.//titleStmt/title[not(@level)], .//fileDesc/sourceDesc/msDesc, .//profileDesc/correspDesc/correspAction[@type='sent']/date, .//text[@type='source'], .//text[@type='translation'])"/>
                     </model>
                     <modelSequence output="plain">
                         <desc>SERAFIN</desc>
@@ -281,14 +281,23 @@
                 <elementSpec ident="msDesc" mode="change">
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="listItem"/>
                     <model behaviour="paragraph">
-                        <param name="content" value="(msIdentifier, physDesc/p/node(), msContents/p/node())"/>
+                        <param name="content" value="('Or.:', msIdentifier, physDesc/p/node(), msContents/p/node())"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
+                    <model output="print" behaviour="paragraph">
+                        <outputRendition xml:space="preserve">
+                        text-align: right;
+                        </outputRendition>
+                    </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
+                    <model output="print" behaviour="heading">
+                        <param name="content" value="substring-before(., ',')"/>
+                        <param name="level" value="1"/>
+                    </model>
                     <model predicate="$parameters?mode='letter-head'" behaviour="heading">
                         <param name="content" value="substring-before(., ',')"/>
                         <param name="level" value="1"/>
@@ -316,6 +325,9 @@
                 <elementSpec ident="publicationStmt" mode="change">
                     <model predicate="$parameters?display='browse'" behaviour="omit"/>
                     <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="signed" mode="change">
+                    <model behaviour="block" cssClass="signed"/>
                 </elementSpec>
             </schemaSpec>
         </body>
