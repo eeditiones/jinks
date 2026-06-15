@@ -1,13 +1,8 @@
-/* Load theme fonts. Document-level @font-face rules are visible inside the
-   pb-view shadow DOM, so this is what makes theme.fonts.content (Albert Sans)
-   and theme.fonts.heading (Belleza) actually render. Must stay at the very top
-   (@import rules must precede all other rules). */
-@import url("https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Belleza&display=swap");
-
 /* ===========================================================================
    Serafin theme — token overrides + edition-specific layout and chrome.
    Central hooks are defined in theme-base10 (jinks-variables.css); set values
    here or in config.json to customize without forking the base theme.
+   Fonts: resources/fonts/font.css (via jinks-theme.css).
    =========================================================================== */
 
 :root {
