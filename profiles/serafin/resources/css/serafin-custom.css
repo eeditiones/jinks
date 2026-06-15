@@ -5,23 +5,44 @@
 @import url("https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Belleza&display=swap");
 
 /* ===========================================================================
-   Serafin chrome (light DOM)
-   Toolbar controls + reading-side panel framing.
-   Loaded via config.json -> "styles"; do not @import Jinks-owned files here.
+   Serafin — token overrides + edition-specific layout and chrome.
+   Central hooks are defined in theme-base10 (jinks-variables.css); set values
+   here or in config.json to customize without forking the base theme.
    =========================================================================== */
 
-/* Flatten form controls app-wide so every control shares the square,
-   hairline look (inherits across shadow boundaries into web components). */
 :root {
     --jinks-form-border-radius: 2px;
-    --jinks-breadcrumbs-max: none;
-}
+    --jinks-highlight-accent-percent: 38%;
+    --jinks-page-header-border-bottom: 1px solid var(--jinks-colors-accent);
 
-/* Slightly narrower text columns, centred, for more breathing room */
-:root {
-    --pb-view-max-width: 48ch;
-    /* Lighter than palette accent so linked passages stay readable */
-    --pb-highlight-color: color-mix(in srgb, var(--jinks-colors-accent) 38%, var(--jinks-colors-200));
+    --jinks-toolbar-segment-height: 2.25rem;
+    --jinks-toolbar-segment-cell-width: 2.5rem;
+    --jinks-toolbar-segment-gap: 0.625rem;
+    --jinks-toolbar-segment-icon-size: 1.15rem;
+    --jinks-toolbar-segment-radius: 0;
+    --jinks-toolbar-segment-bg: var(--jinks-colors-100);
+    --jinks-toolbar-segment-hover-bg: #8a0000;
+
+    --jinks-toolbar-breadcrumb-label-size: 0.72rem;
+    --jinks-toolbar-breadcrumb-label-letter-spacing: 0.05em;
+    --jinks-toolbar-breadcrumb-title-size: 1.05rem;
+    --jinks-toolbar-breadcrumb-title-letter-spacing: 0.08em;
+    --jinks-toolbar-breadcrumb-title-line-height: 1.35;
+    --jinks-toolbar-breadcrumb-title-shadow:
+        0 0 4px rgba(255, 252, 248, 1),
+        0 0 10px rgba(255, 252, 248, 0.92),
+        0 1px 2px rgba(255, 252, 248, 0.85);
+
+    --jinks-document-card-radius: 0;
+    --jinks-document-card-shadow: none;
+    --jinks-document-card-border-color: var(--jinks-colors-400);
+
+    --jinks-aside-after-bg: var(--jinks-colors-100);
+    --jinks-aside-after-border-color: var(--jinks-colors-400);
+    --jinks-aside-after-padding: 1.5rem 1.25rem;
+
+    --jinks-columns-gap: 2rem;
+    --jinks-columns-gap-md: 1.5rem;
 }
 
 .fixed-layout > main {
@@ -30,98 +51,18 @@
     margin-inline: 0;
 }
 
-/* Two-column letter view only (browse and other pages keep the default layout) */
-.fixed-layout > main:has(> .column1) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        "header header"
-        "column1 column2";
-    column-gap: 2rem;
-    padding: 1rem;
-    box-sizing: border-box;
-    max-width: calc(var(--pb-view-max-width) * 2 + 2rem);
-    margin: 0 auto;
-}
-
-.fixed-layout > main:has(> .column1) > header {
-    grid-area: header;
-    margin: 0 1rem;
-    height: auto;
-}
-
-.fixed-layout > main:has(> .column1) > header .tei-date {
-    display: block;
-    text-align: right;
-    font-size: var(--jinks-content-font-size);
-    line-height: var(--jinks-content-line-height);
-}
-
-.fixed-layout > main:has(> .column1) > .column1 {
-    grid-area: column1;
-}
-
-.fixed-layout > main:has(> .column1) > .column2 {
-    grid-area: column2;
-}
-
-.fixed-layout > main:has(> .column1) > .column1,
-.fixed-layout > main:has(> .column1) > .column2 {
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    margin-inline: 0;
-}
-
-@media (max-width: 1023px) {
-    .fixed-layout > main:has(> .column1) {
-        column-gap: 1.5rem;
-    }
-}
-
-@media (max-width: 639px) {
-    .fixed-layout > main:has(> .column1) {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            "header"
-            "column1"
-            "column2";
-        column-gap: 0;
-        row-gap: 1.5rem;
-        max-width: calc(var(--pb-view-max-width) + 2rem);
-    }
-}
-
-/* --- Masthead (menubar header) ------------------------------------------
-   Clean solid menubar carrying the "MS" (Mikołaj Serafin) monogram as the logo
-   — a transparent vector mark, set via config.json theme.logo
-   (resources/images/serafin-monogram.svg). A thin accent rule closes the bar.
-   ------------------------------------------------------------------------- */
-
-.page-header {
-    border-bottom: 1px solid var(--jinks-colors-accent);
-}
-
-/* The menubar search sits on the dark bar, so give its (shadow-DOM) input a light
-   translucent border + dark fill. These vars inherit across the shadow boundary
-   into the pb-search component; the light-background default lives in
-   jinks-components.css and serves the collection-browse sidebar search. */
+/* Menubar search on the dark bar */
 .page-header,
 .mobile.menubar {
+    --jinks-menubar-search-border-color: rgba(252, 252, 248, 0.35);
     --jinks-search-border-color: rgba(252, 252, 248, 0.35);
     --jinks-search-bg-color: var(--jinks-menubar-button-color);
 }
 
-/* --- Toolbar ------------------------------------------------------------- */
-
+/* Parchment toolbar: texture + readability gradient */
 .toolbar,
 .content-top:has(.toolbar) {
-    background-color: var(--jinks-colors-200);
-    /* Narrower, softer wash on the left (breadcrumb); wider wash on the right
-       (pagination) so controls stay readable over the manuscript strip. */
-    background-image:
+    --jinks-toolbar-background-image:
         linear-gradient(90deg,
             rgba(243, 237, 221, 0.72) 0%,
             rgba(243, 237, 221, 0.65) 10%,
@@ -132,19 +73,10 @@
             rgba(243, 237, 221, 0.72) 75%,
             rgba(243, 237, 221, 0.88) 88%,
             rgba(243, 237, 221, 0.94) 100%),
-        url("../images/parchment.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+        var(--jinks-texture-background);
 }
 
-/* Align toolbar control cluster with the menubar right cluster (login, etc.) */
-:root {
-    --jinks-chrome-inset-inline: var(--s0);
-}
-
-/* content-top stops at the after column; extend it over that band so controls
-   can reach the same inset as the menubar login (after-top is hidden when fixed) */
+/* Align toolbar controls with the menubar login */
 .fixed-layout.after-fixed:not(.before-fixed) > header.content-top {
     grid-column: content-top / -1;
 }
@@ -158,10 +90,9 @@
     padding-right: 0;
 }
 
-/* Breadcrumb: collection link stays small; the current letter title leads. */
 .toolbar [aria-label="breadcrumb"] {
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
+    font-size: var(--jinks-toolbar-breadcrumb-label-size);
+    letter-spacing: var(--jinks-toolbar-breadcrumb-label-letter-spacing);
     color: var(--jinks-colors-500);
     text-transform: uppercase;
 }
@@ -171,19 +102,14 @@
     font-weight: 500;
 }
 
-/* Current document title (.tei-title in the last crumb) */
 .toolbar [aria-label="breadcrumb"] li:last-child {
     font-family: var(--jinks-heading-font-family, 'Belleza', sans-serif);
-    font-size: 1.05rem;
+    font-size: var(--jinks-toolbar-breadcrumb-title-size);
     font-weight: 400;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--jinks-toolbar-breadcrumb-title-letter-spacing);
     color: var(--jinks-colors-700);
-    line-height: 1.35;
-    /* stronger cream halo so the title reads on the parchment strip */
-    text-shadow:
-        0 0 4px rgba(255, 252, 248, 1),
-        0 0 10px rgba(255, 252, 248, 0.92),
-        0 1px 2px rgba(255, 252, 248, 0.85);
+    line-height: var(--jinks-toolbar-breadcrumb-title-line-height);
+    text-shadow: var(--jinks-toolbar-breadcrumb-title-shadow);
 }
 
 .toolbar [aria-label="breadcrumb"] li:last-child .tei-title {
@@ -193,21 +119,10 @@
     text-transform: inherit;
 }
 
-/* -----------------------------------------------------------------------
-   Flat segmented controls.
-
-   The toolbar mixes three cluster types that natively render at different
-   sizes: a zoom group (span[role=group] > 2x pb-zoom), a single recompile
-   button (button.light), and the correspondence nav (ul.correspContext).
-   These rules normalise them all to one segment height with equal-width,
-   evenly divided cells so the bar reads as a single connected control.
-   ----------------------------------------------------------------------- */
-
+/* Flat segmented toolbar controls */
 .toolbar ul.hidden-mobile {
-    --tb-seg-h: 2.25rem;     /* uniform control height */
-    --tb-cell-w: 2.5rem;     /* uniform width of one icon cell */
     align-items: center;
-    gap: 0.625rem;
+    gap: var(--jinks-toolbar-segment-gap);
 }
 
 .toolbar ul.hidden-mobile > li {
@@ -215,94 +130,82 @@
     align-items: center;
 }
 
-/* The cluster shells: same height, flat, hairline border, square corners */
 .toolbar [role="group"].light,
 .toolbar .correspContext.light,
 .toolbar button.light,
 .toolbar pb-link .btn.light a {
-    height: var(--tb-seg-h);
+    height: var(--jinks-toolbar-segment-height);
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     padding: 0;
     gap: 0;
-    background-color: var(--jinks-colors-100);
-    border: 1px solid var(--jinks-colors-400);
-    border-radius: 0;
-    color: var(--jinks-colors-500);
+    background-color: var(--jinks-toolbar-segment-bg);
+    border: 1px solid var(--jinks-toolbar-segment-border-color);
+    border-radius: var(--jinks-toolbar-segment-radius);
+    color: var(--jinks-toolbar-segment-color);
     overflow: hidden;
 }
 
-/* Individual cells inside a cluster — equal width, divider between them */
 .toolbar [role="group"].light > pb-zoom,
 .toolbar [role="group"].light > pb-navigation,
 .toolbar .correspContext.light > li {
     height: 100%;
-    width: var(--tb-cell-w);
-    min-width: var(--tb-cell-w);
+    width: var(--jinks-toolbar-segment-cell-width);
+    min-width: var(--jinks-toolbar-segment-cell-width);
     margin: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid var(--jinks-colors-400);
-    transition: background-color 0.12s ease, color 0.12s ease;
+    border-left: 1px solid var(--jinks-toolbar-segment-border-color);
+    transition: var(--jinks-toolbar-segment-transition);
 }
 
-/* first cell has no left divider */
 .toolbar [role="group"].light > pb-zoom:first-child,
 .toolbar [role="group"].light > pb-navigation:first-child,
 .toolbar .correspContext.light > li:first-child {
     border-left: 0;
 }
 
-/* Single-button clusters (recompile) match one cell exactly */
 .toolbar button.light {
-    width: var(--tb-cell-w);
-    min-width: var(--tb-cell-w);
+    width: var(--jinks-toolbar-segment-cell-width);
+    min-width: var(--jinks-toolbar-segment-cell-width);
     justify-content: center;
-    transition: background-color 0.12s ease, color 0.12s ease;
+    transition: var(--jinks-toolbar-segment-transition);
 }
 
-/* Consistent icon size + colour across every control */
 .toolbar ul.hidden-mobile svg,
 .toolbar ul.hidden-mobile .ionicon {
-    width: 1.15rem;
-    height: 1.15rem;
+    width: var(--jinks-toolbar-segment-icon-size);
+    height: var(--jinks-toolbar-segment-icon-size);
 }
 
-/* Hover/active picks up the edition's dark red accent (per cell) */
 .toolbar [role="group"].light > pb-zoom:hover,
 .toolbar [role="group"].light > pb-navigation:not([disabled]):hover,
 .toolbar .correspContext.light > li:not(.unavailable):hover,
 .toolbar button.light:hover {
-    background-color: #8a0000;
-    color: var(--jinks-colors-light);
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-toolbar-segment-hover-color);
 }
 
-/* Disabled / unavailable cells read as muted, not interactive */
 .toolbar .correspContext.light > li.unavailable {
-    opacity: 0.35;
+    opacity: var(--jinks-toolbar-segment-unavailable-opacity);
 }
-
-/* --- Reading-side panel (People / Places / map) -------------------------- */
 
 .fixed-layout > aside.after {
-    background-color: var(--jinks-colors-100);
-    border-left: 1px solid var(--jinks-colors-400);
-    padding: 1.5rem 1.25rem;
+    background-color: var(--jinks-aside-after-bg);
+    border-left: 1px solid var(--jinks-aside-after-border-color);
+    padding: var(--jinks-aside-after-padding);
 }
 
-/* --- Collection browse: flat document cards ------------------------------
-   Flatten pico cards to square hairline panels. Title and actions share one row:
-   title on the left, download/actions on the right. */
 ul.documents > li.document.card {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.75rem 1rem;
-    border-radius: 0;
-    box-shadow: none;
-    border: 1px solid var(--jinks-colors-400);
+    border-radius: var(--jinks-document-card-radius);
+    box-shadow: var(--jinks-document-card-shadow);
+    border: 1px solid var(--jinks-document-card-border-color);
 }
 
 ul.documents > li.document.card header {
@@ -320,7 +223,6 @@ ul.documents > li.document.card .matches {
     flex: 1 1 100%;
 }
 
-/* Frame the map like a plate in the edition */
 aside.after pb-leaflet-map {
     display: block;
     height: 40vh;
