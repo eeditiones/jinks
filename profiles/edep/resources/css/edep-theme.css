@@ -19,28 +19,23 @@
 /* --- Nav sidebar ------------------------------------------------------------ */
 fx-fore nav #addFragment button {
     font-size: var(--jinks-form-control-font-size, 0.875rem);
-    color: var(--jinks-colors-light, #FCFCF8);
+    color: var(--jinks-colors-primary, #2D2B26);
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid var(--jinks-colors-primary, #2D2B26);
     border-radius: var(--jinks-form-border-radius-full, 999px);
     padding: 0.3rem 0.8rem;
     cursor: pointer;
     width: 100%;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 fx-fore nav #addFragment button:hover {
-    background: rgba(255,255,255,0.1);
+    background: var(--jinks-colors-primary, #2D2B26);
+    color: var(--jinks-colors-light, #FCFCF8);
     opacity: 1;
 }
 
 /* --- Form content layout ---------------------------------------------------- */
-/* Position all top-level form elements past the fixed nav */
-main > fx-group,
-main > h1,
-main > section {
-    margin-left: var(--edep-nav-width);
-}
 
 /* Prevent fx-group from forcing horizontal scroll */
 main > fx-group,

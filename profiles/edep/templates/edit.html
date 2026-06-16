@@ -11,7 +11,10 @@
             "resources/scripts/util.js",
             "https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.19.0/dist/jinn-codemirror-bundle.js"
         ]
-    }
+    },
+    "styles": [
+        "resources/css/zotero-autocomplete.css"
+    ]
 }
 ---
 [% template fore-prolog %]
@@ -19,9 +22,8 @@
         <fx-action event="model-construct-done">
             <fx-send submission="s-login" if="instance('vars')/loggedin != 'true'"></fx-send>
             <!-- ### if get called with an id param we load the data via submission ### -->
-            <fx-send submission="s-load-inscription" if="exists(instance('params')/id)"></fx-send>
+            <fx-send submission="s-load-inscription" if="string-length(instance('params')/id) != 0"></fx-send>
             <fx-setvalue ref="instance('vars')/inited">true</fx-setvalue>
-            <fx-send submission="s-load-fragments"></fx-send>
         </fx-action>
 
         <fx-instance id="default" src="templates/fore/epidoc-template.xml"
@@ -30,6 +32,7 @@
         </fx-instance>
 
         <fx-instance id="i-fragment" xpath-default-namespace="http://www.tei-c.org/ns/1.0"></fx-instance>
+        <!--
         <fx-submission id="s-load-template" method="get"
             url="[[ $context-path ]]/templates/fore/epidoc-template.xml" replace="instance" instance="i-fragment"
             validate="false">
@@ -41,16 +44,16 @@
                     value="concat(instance('default')/@xml:id,'-')"></fx-setvalue>
             </fx-action>
         </fx-submission>
-        <fx-instance id="i-fragments" type="json"></fx-instance>
-        <fx-submission id="s-load-fragments" method="get"
-            url="[[ $context-path ]]/api/fragments?id={instance('default')/@xml:id}" replace="instance"
-            instance="i-fragments" validate="false"></fx-submission>
+        -->
+        <!-- <fx-instance id="i-fragments" type="json"></fx-instance> -->
         <fx-submission id="s-create-fragment"
-            url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}" method="post"
-            ref="instance('i-fragment')" replace="instance" instance="i-fragment">
-            <fx-message event="submit-done">
-                <pb-i18n key="form.data-saved"></pb-i18n>
-            </fx-message>
+            url="[[ $context-path ]]/api/fragment?collection={instance('params')/collection}" method="post"
+            ref="instance('default')" replace="instance" instance="i-fragment">
+            <fx-action event="submit-done">
+                <fx-message><pb-i18n key="form.data-saved"></pb-i18n></fx-message>
+                <fx-setvalue ref="instance('default')/@fragments"
+                    value="concat(instance('default')/@fragments, ' ', instance('i-fragment')/@xml:id)"></fx-setvalue>
+            </fx-action>
             <fx-action event="submit-error">
                 <fx-message>
                     <pb-i18n key="form.save-failed"></pb-i18n>
@@ -59,6 +62,9 @@
             </fx-action>
         </fx-submission>
         <fx-bind ref="instance('default')">
+            <!-- Fragments are relevant if they are actually there and if this TEI is of type partial -->
+            <fx-bind ref="@fragments" relevant="string() and not(../@type='partial')"></fx-bind>
+            <fx-bind ref="@type" relevant=". = 'partial'"></fx-bind>
             <fx-bind ref="teiHeader">
                 <fx-bind ref="fileDesc/titleStmt/title" required="true()" constraint="string-length(.) &gt; 0">
                 </fx-bind>
@@ -159,7 +165,7 @@
 
         <fx-instance id="vars" shared="true">
             <data>
-                <appdir>${app}</appdir>
+                <appdir>[[ $context-path ]]</appdir>
                 <display-leiden>hidden</display-leiden>
                 <can-delete>false</can-delete>
                 <parent></parent>
@@ -173,12 +179,18 @@
                 <language>en</language>
                 <inited>false</inited>
                 <is-fragment>false</is-fragment>
+                <has-fragments>false</has-fragments>
+                <is-partial>false</is-partial>
             </data>
         </fx-instance>
         <!-- todo: remove static readonly once new fragment functionality is completely done -->
         <fx-bind ref="instance('vars')/is-fragment" relevant="not(exists(instance('default')/@type))"
             readonly="true()"></fx-bind>
-        <!--<fx-bind ref="instance('vars')/can-delete" relevant="index('parts') gt 1"></fx-bind>-->
+        <!-- drive fragment-nav visibility off these vars: empty-nodeset refs are not hidden by this Fore version -->
+        <fx-bind ref="instance('vars')/has-fragments"
+            relevant="string-length(instance('default')/@fragments) > 0 and not(instance('default')/@type='partial')"></fx-bind>
+        <fx-bind ref="instance('vars')/is-partial" relevant="instance('default')/@type = 'partial'"></fx-bind>
+        <!--<fx-bind ref="instance('vars')/can-delete" relevant="index('r-fragments') gt 1"></fx-bind>-->
         <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"></fx-bind>
         <fx-bind ref="instance('vars')/xml-valid" calculate="editorsValid()" constraint=".='true'"></fx-bind>
 
@@ -236,9 +248,12 @@
         <fx-submission id="s-save"
             url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}"
             method="post" replace="instance">
-            <fx-message event="submit-done">
-                <pb-i18n key="form.data-saved"></pb-i18n>
-            </fx-message>
+            <fx-action event="submit-done">
+                <fx-message><pb-i18n key="form.data-saved"></pb-i18n></fx-message>
+                <fx-unmodified></fx-unmodified>
+                <fx-call function="updateUrl(instance('default')/@xml:id)"
+                    if="not(ends-with(uri-path(),'.xml'))"></fx-call>
+            </fx-action>
             <fx-action event="submit-error">
                 <fx-message>
                     <pb-i18n key="form.save-failed"></pb-i18n>
@@ -253,10 +268,15 @@
 
         <fx-instance id="login" type="json">{}</fx-instance>
         <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post"
-            replace="instance" instance="login" validate="false">
+            replace="instance" instance="login" validate="false" serialization="none">
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-error">false</fx-setvalue>
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-done">true</fx-setvalue>
         </fx-submission>
+        <fx-function signature="updateUrl($id as xs:string)" type="text/javascript">
+            const url = new URL(window.location.href);
+            url.pathname += $id + '.xml';
+            history.pushState(null, '', url.toString());
+        </fx-function>
 
         <fx-function signature="editorsValid() as xs:boolean" type="text/javascript">
             const editors =
@@ -442,30 +462,37 @@
                         </li>
         -->
             <li class="nav-divider"></li>
-            <li>
-                <fx-repeat id="r-fragments" ref="instance('i-fragments')?fragments?*">
-                    <template>
-                        <fx-var name="curr" value="."></fx-var>
-                        <a href="{uri-relpath()}{$curr}.xml" target="_blank">{$curr}</a>
-                    </template>
-                </fx-repeat>
+            <li class="noflex">
+                <fx-group ref="instance('vars')/has-fragments" class="neutral">
+                    <fieldset id="fragment-fields">
+                        <legend>
+                            <pb-i18n key="form.fragments"></pb-i18n>
+                        </legend>
+                        <fx-repeat id="r-fragments" ref="tokenize(instance('default')/@fragments)"
+                            aria-labelledby="r-fragments-label">
+                            <template>
+                                <a href="{uri-relpath()}{.}.xml" target="_blank">
+                                    <fx-output ref="."></fx-output>
+                                </a>
+                            </template>
+                        </fx-repeat>
+                    </fieldset>
+                </fx-group>
+
+                <!-- show trigger only on composite/parent docs (no @type) -->
+                <fx-group ref="instance('vars')/is-fragment">
+                    <fx-trigger id="addFragment">
+                        <button><pb-i18n key="form.add"></pb-i18n></button>
+                        <fx-send submission="s-create-fragment"></fx-send>
+                    </fx-trigger>
+                </fx-group>
+
+                <fx-group id="backlink" ref="instance('vars')/is-partial">
+                    <a href="{concat(uri-relpath(),instance('default')/@corresp)}.xml" target="_blank">
+                        <fx-output ref="instance('default')/@corresp"></fx-output>
+                    </a>
+                </fx-group>
             </li>
-            <li class="nav-fragments">
-                <!-- TODO show links to children (fragment documents)-->
-                <fx-trigger id="addFragment" ref="instance('vars')/is-fragment">
-                    <button><pb-i18n key="form.add"></pb-i18n></button>
-                    <fx-action>
-                        <fx-send submission="s-load-template"></fx-send>
-                    </fx-action>
-                </fx-trigger>
-            </li>
-            <!--
-                        <li>
-                            {instance('i-fragment')/@xml:id}
-                            {instance('i-fragment')/@type}
-                            {instance('i-fragment')/@corresp}
-                        </li>
-        -->
         </ul>
     </nav>
 [% endtemplate %]
@@ -565,8 +592,8 @@
         [% include "templates/parts/editor.html" %]
     </fx-group>
 
-[% template footer %]
-    <footer class="buttonBar">
+[% template toolbar %]
+    <li>
         <pb-restricted login="login" group="tei">
             <p class="loginMessage" slot="fallback">You need to be logged in to save.</p>
 
@@ -583,24 +610,24 @@
                     <fx-send submission="s-save"></fx-send>
                 </fx-action>
             </fx-trigger>
-            <fx-trigger>
-                <a href="edit/workspace/">
-                    <pb-i18n key="form.new">Neuer Eintrag</pb-i18n>
-                </a>
-            </fx-trigger>
         </pb-restricted>
+    </li>
+    <li>
         <fx-trigger>
-            <a href="index.html">
-                <pb-i18n key="form.list">Zur Liste</pb-i18n>
+            <button>
+            <a href="edit/workspace/">
+                <pb-i18n key="form.new">Neuer Eintrag</pb-i18n>
             </a>
+            </button>
         </fx-trigger>
-    </footer>
-
-    <fx-control ref="instance('vars')/xml-valid" class="valid-warning">
-        <fx-alert>
-            <pb-i18n key="form.invalid-data"></pb-i18n>
-        </fx-alert>
-        <input style="display: none" />
-    </fx-control>
+    </li>
+    <li>
+        <fx-control ref="instance('vars')/xml-valid" class="valid-warning">
+            <fx-alert>
+                <pb-i18n key="form.invalid-data"></pb-i18n>
+            </fx-alert>
+            <input style="display: none" />
+        </fx-control>
+    </li>
 [% endtemplate %]
 </template>
