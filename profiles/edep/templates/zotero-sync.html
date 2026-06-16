@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" name="viewport" />
+    <title>Fore: Trigger Button with Spinner</title>
+    <link rel="stylesheet" href="resources/css/theme.css" media="screen" />
+    <link rel="stylesheet" href="resources/css/fore.css" media="screen" />
+    <link rel="stylesheet" href="resources/css/edep-theme.css" media="screen" />
+    <link rel="stylesheet" href="resources/css/edep-theme2.css" media="screen" />
+
+    <!-- Fore runtime & base styles (use your own paths) -->
+    <script type="module" src="resources/scripts/fore-dev.js"></script>
+
+    <style>
+        /* --------- Theme tokens (tweak freely) --------- */
+        :root{
+            --btn-bg: #1e293b;           /* slate-800 */
+            --btn-bg-hover:#0f172a;      /* slate-900 */
+            --btn-fg:#ffffff;            /* white */
+            --btn-ring:rgba(59,130,246,.5); /* blue-500/50 */
+        }
+        .wrapper{
+            margin:3rem auto;
+            max-width:40rem;
+            padding:5rem;
+            border:thin solid;
+            background:white;
+            max-height:34rem;
+        }
+        fx-output{
+            display:block;
+            width: 100%;
+
+            label{
+                width: 10rem;
+                display: inline-block;
+            }
+        }
+
+        /* --------- Button base --------- */
+        .btn{
+            --_bg: var(--btn-bg);
+            --_fg: var(--btn-fg);
+            appearance:none;
+            border:0;
+            border-radius:999px;
+            padding:.7rem 1.1rem;
+            font:600 1rem ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
+            color:var(--_fg);
+            background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)), var(--_bg);
+            display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+            position:relative;
+            cursor:pointer;
+            transition:transform .12s ease, box-shadow .2s ease, background-color .2s ease, opacity .2s ease;
+            box-shadow:0 1px 1px rgba(0,0,0,.15), 0 8px 20px rgba(2,6,23,.35);
+        }
+        .btn:hover{ background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03)), var(--btn-bg-hover); }
+        .btn:active{ transform: translateY(1px); }
+        .btn:focus-visible{ outline:none; box-shadow:0 0 0 4px var(--btn-ring), 0 1px 1px rgba(0,0,0,.15), 0 8px 20px rgba(2,6,23,.35); }
+        .loader {
+            border: 2px solid #f3f3f3; /* Light grey */
+            border-top: 2px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            opacity: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        fx-trigger.running .loader {
+            opacity: 1;
+        }
+
+          /* Optional: prevent double-clicks while running */
+          fx-trigger.running .btn{ pointer-events:none; opacity:.95; }
+
+        /* Optional: prevent double-clicks while running */
+        fx-trigger.running .btn{ pointer-events:none; opacity:.9; }
+
+
+        h1{margin:0 0 .5rem; font-weight:700;}
+        .meta{color:#94a3b8}
+
+        p{
+            font-size:1.2rem;
+        }
+        fx-group{
+            border:thin solid var(--paper-grey-300);
+            border-radius:0.1rem;
+            padding:1rem;
+            font-size:1.2rem;
+            margin:2rem 0;
+        }
+
+        section{
+            margin:1rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+
+    <fx-fore>
+        <fx-model>
+            <fx-instance type="json" id="default">{}</fx-instance>
+            <fx-instance id="helper">
+                <data>
+                    <running>notrunning</running>
+                </data>
+            </fx-instance>
+
+            <fx-submission id="sync" url="api/zotero/sync" method="get" replace="instance" validate="false">
+                <fx-action event="submit">
+                    <fx-refresh force="true"></fx-refresh>
+                </fx-action>
+                <fx-action event="submit-done">
+                  <fx-setvalue ref="instance('helper')/running">notrunning</fx-setvalue>
+                  <fx-refresh force="true"></fx-refresh>
+                </fx-action>
+                <fx-action event="submit-error">
+                  <fx-setvalue ref="instance('helper')/running">notrunning</fx-setvalue>
+                  <fx-refresh force="true"></fx-refresh>
+                </fx-action>
+            </fx-submission>
+        </fx-model>
+
+        <h1>Zotero Sync Page</h1>
+
+        <p>Initially synchronization may take a longer time (several minutes) to complete but you can safely close this page - the
+        sync will continue.</p>
+        <p>Following updates should be much faster, completing in the matter of seconds.</p>
+        <p>Click the button below to start syncing.</p>
+        <!-- AVT applies either 'running' or 'notrunning' to the fx-trigger -->
+
+        <fx-trigger class="{instance('helper')/running}">
+      <!-- Set running immediately on click, before sending -->
+            <button class="btn" aria-live="polite">
+                <span class="label">Sync Zotero</span>
+                <span class="loader"></span>
+            </button>
+              <!-- Defer just enough to allow a paint so the spinner animates -->
+            <fx-action>
+                <fx-setvalue ref="instance('helper')/running">running</fx-setvalue>
+                <fx-reset instance="default"></fx-reset>
+                <fx-refresh force="true"></fx-refresh>
+            </fx-action>
+            <fx-send submission="sync" wait="5000"></fx-send>
+        </fx-trigger>
+
+        <section>
+            <section class="meta">
+                <fx-group ref="?libraryVersion">
+                    <header>Results:</header>
+
+                    <fx-output value="if(instance()?updated=0) then 'The Cache is up to date' else ''"></fx-output>
+                    <fx-output ref="instance()?updated">
+                        <label slot="label">Updated:</label>
+                    </fx-output>
+                    <fx-output ref="instance()?libraryVersion">
+                        <label slot="label">LibraryVersion:</label>
+                    </fx-output>
+                </fx-group>
+            </section>
+        </section>
+    </fx-fore>
+</div>
+</body>
+</html>

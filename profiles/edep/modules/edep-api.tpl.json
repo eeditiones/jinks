@@ -573,6 +573,41 @@
         }
       }
     },
+    "/api/fragment": {
+      "post": {
+        "summary": "update/add fragment",
+        "x-constraints": {
+          "group": "tei"
+        },
+        "operationId": "edep:fragment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": {} }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "fragment",
+            "content": {
+              "application/xml": { "schema": {} }
+            }
+          }
+        }
+      }
+    },
     "/api/render": {
       "post": {
         "summary": "Render the transcription",
