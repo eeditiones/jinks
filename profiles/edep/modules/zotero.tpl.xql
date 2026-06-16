@@ -27,6 +27,34 @@ declare variable $zotero:ITEMS_DIR    as xs:string := $zotero:GROUP_BASE || "/it
 declare variable $zotero:XML_DIR      as xs:string := $zotero:GROUP_BASE || "/items-xml";
 declare variable $zotero:META_PATH    as xs:string := $zotero:GROUP_BASE || "/meta.json";
 
+declare %private function zotero:mkcol-recursive($collection as xs:string, $components as xs:string*) as empty-sequence() {
+  if (exists($components)) then
+    let $newColl := concat($collection, "/", $components[1])
+    let $_ :=
+      if (not(xmldb:collection-available($newColl))) then
+        xmldb:create-collection($collection, $components[1])
+      else ()
+    return
+      zotero:mkcol-recursive($newColl, subsequence($components, 2))
+  else ()
+};
+
+declare %private function zotero:ensure-collection-path($collPath as xs:string) as empty-sequence() {
+  let $prefix := $config:data-root || "/"
+  let $rel :=
+    if (starts-with($collPath, $prefix)) then
+      substring-after($collPath, $prefix)
+    else
+      $collPath
+  return zotero:mkcol-recursive($config:data-root, tokenize($rel, "/"))
+};
+
+declare %private function zotero:ensure-collections() as empty-sequence() {
+  let $_ := zotero:ensure-collection-path($zotero:ITEMS_DIR)
+  let $_ := zotero:ensure-collection-path($zotero:XML_DIR)
+  return ()
+};
+
 (: ====== HEADERS for Zotero HTTP requests ====== :)
 declare %private function zotero:headers($extra as element(http:header)?) as element(http:header)* {
   let $base :=
@@ -334,6 +362,7 @@ declare %private function zotero:_backoff-ms($r as element(http:response)) as xs
 declare function zotero:sync($request as map(*)) {
   response:set-header("Content-Type","application/json"),
   let $log0 := util:log('info','zotero sync started')
+  let $_   := zotero:ensure-collections()
   let $meta  := zotero:read-meta()
   let $since := xs:integer( ($meta?libraryVersion, 0)[1] )
   let $log1  := util:log('info','libraryVersion ' || $since)
