@@ -6,6 +6,7 @@
             <analyzer class="org.exist.indexing.lucene.analyzers.NoDiacriticsStandardAnalyzer">
                 <param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"/>
             </analyzer>
+            <analyzer class="org.exist.indexing.lucene.analyzers.NoDiacriticsStandardAnalyzer" id="nodiacritics"/>
             [% if $indexing?tei?enable %]
             <text match="/tei:TEI/tei:text">
                 <!--ignore qname="tei:div"/-->
@@ -44,6 +45,7 @@
             </text>
             <text qname="tei:bibl">
                 <field name="name" expression="."/>
+                <field name="bibl-content" analyzer="nodiacritics" expression="string-join((tei:title, tei:author, tei:editor, tei:note[not(@type='display')], tei:pubPlace, tei:publisher, tei:term), ';')"/>
             </text>
             <text qname="tei:head"/>
             <text match="//tei:titleStmt/tei:title"/>
