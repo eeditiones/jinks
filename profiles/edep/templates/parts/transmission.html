@@ -2,7 +2,7 @@
     <summary>
         <h3><pb-i18n key="form.transmission">Überlieferung</pb-i18n></h3>
         <pb-popover>
-            <iron-icon icon="info-outline"></iron-icon>
+            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
             <template slot="alternate">
                 <pb-i18n key="form.hint-recorded-location"></pb-i18n>
             </template>
@@ -26,14 +26,12 @@
                     >
                     <div>
                         <fx-trigger>
-                            <iron-icon
-                                class="widget"
-                                icon="icons:content-copy"></iron-icon>
+                            <svg class="icon icon-copy widget"><use href="#clipboard"></use></svg>
                             <fx-call function="clipboard(@corresp)"></fx-call>
                         </fx-trigger>
                     </div>
                     <pb-popover>
-                        <iron-icon icon="info-outline"></iron-icon>
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                         <template slot="alternate">
                             <pb-i18n key="form.hint-biblio-abbreviation"
                             >XML:ID
@@ -77,18 +75,16 @@
                 </div>
             </div>
             <fx-trigger>
-                <iron-icon
-                    icon="remove-circle-outline"
-                    title="Überlieferung löschen"></iron-icon>
+                <svg class="icon icon-remove"
+                    title="Überlieferung löschen"><use href="#dash-circle"></use></svg>
                 <fx-delete ref="."></fx-delete>
                 <fx-refresh control="r-transmission"></fx-refresh>
             </fx-trigger>
         </template>
     </fx-repeat>
     <fx-trigger class="add" title="Überlieferung hinzufügen">
-        <iron-icon
-            icon="add-circle-outline"
-            title="Überlieferung hinzufügen"></iron-icon>
+        <svg class="icon icon-add"
+            title="Überlieferung hinzufügen"><use href="#plus-circle"></use></svg>
         <fx-insert
             context="listBibl[@type='transmission']"
             ref="bibl"

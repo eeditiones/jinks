@@ -44,25 +44,14 @@
                 <button
                   data-command="snippet"
                   data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
-                  title="Insert reference">
-                    <pb-popover>
-                        <button
-                            data-command="snippet"
-                            data-params='&lt;l met="$|1|" real="$|2|">$|_|&lt;/l>'
-                            title="Metric">
-                            &lt;ref&gt;
-                        </button>
-                        <template slot="alternate">
-                            <pb-i18n key="form.hint-reference"></pb-i18n>
-                        </template>
-                    </pb-popover>
-
+                  title="Insert reference" data-i18n="[title]form.hint-reference">
+                    &lt;ref&gt;
                 </button>
                 <button
                   data-command="snippet"
                   data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;"
                   title="persName">
-                    <iron-icon icon="social:person-add"></iron-icon>
+                    <svg class="icon icon-person-add"><use href="#person-plus"></use></svg>
                 </button>
                 <button
                   data-command="snippet"
