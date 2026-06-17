@@ -206,7 +206,7 @@ fx-control > .xml-editor {
     pointer-events: all;
 }
 
-fx-control [icon="info-outline"] {
+fx-control .icon-info {
     flex: 0 0 1.2rem;
     cursor: pointer;
     margin-left: 0.25rem;
@@ -278,7 +278,7 @@ fx-control fx-hint {
     line-height: 1.4;
 }
 
-fx-control iron-icon:hover ~ fx-hint {
+fx-control .icon:hover ~ fx-hint {
     opacity: 1;
     transition: opacity 0.25s;
 }
@@ -510,12 +510,18 @@ fx-repeat > fx-trigger.add {
     z-index: 10;
 }
 
-fx-trigger iron-icon {
+.icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    fill: currentColor;
+}
+
+fx-trigger .icon {
     width: 1.4rem;
     height: 1.4rem;
 }
 
-fx-trigger.add iron-icon {
+fx-trigger.add .icon {
     color: var(--jinks-background-color-dark, #2D2B26);
 }
 
@@ -523,7 +529,7 @@ fx-trigger.delete {
     text-align: right;
 }
 
-[icon='remove-circle-outline'] {
+.icon-remove {
     color: #ef4444;
     position: relative;
     display: inline-flex;
@@ -547,6 +553,10 @@ fx-repeatitem {
     display: block;
     border-radius: 0.5rem;
     position: relative;
+}
+
+fx-repeatitem:has(fx-trigger) > div {
+    flex: 1;
 }
 
 fx-repeatitem fx-control:has(jinn-xml-editor) {
@@ -581,7 +591,8 @@ fx-repeat.repeat-horizontal fx-repeatitem {
 }
 
 fx-fore details > fx-repeat {
-    margin-left: -1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .nested-repeat {
@@ -917,6 +928,12 @@ jinn-epidoc-editor::part(button) {
     padding: inherit;
 }
 
+jinn-epidoc-editor [slot] button:has(svg),
+jinn-xml-editor [slot] button:has(svg) {
+    padding: 0;
+    box-shadow: none;
+}
+
 jinn-epidoc-editor [slot] .label {
     display: block;
     width: 10em;
@@ -1155,7 +1172,7 @@ jinn-xml-editor::part(status) {
     align-self: flex-start;
 }
 
-#parts > fx-repeatitem fx-trigger:nth-child(1) [icon=remove-circle-outline] {
+#parts > fx-repeatitem fx-trigger:nth-child(1) .icon-remove {
     color: #ef4444;
     position: relative;
     right: auto;
@@ -1223,7 +1240,7 @@ pb-split-list .place .place-id {
 }
 
 /* --- pb-popover ------------------------------------------------------------- */
-pb-popover > iron-icon {
+pb-popover > .icon {
     display: inline-block;
     width: 1.4rem;
     height: 1.4rem;

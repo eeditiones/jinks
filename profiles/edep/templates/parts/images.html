@@ -2,7 +2,7 @@
     <summary>
         <h3><pb-i18n key="form.images-dps">Bilder (Fotos, Zeichnungen, Abklatsche)</pb-i18n></h3>
         <pb-popover>
-            <iron-icon icon="info-outline"></iron-icon>
+            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
             <template slot="alternate">
                 <pb-i18n key="form.hint-images"></pb-i18n>
             </template>
@@ -23,14 +23,12 @@
                     >
                     <div>
                         <fx-trigger>
-                            <iron-icon
-                              class="widget"
-                              icon="icons:content-copy"></iron-icon>
+                            <svg class="icon icon-copy widget"><use href="#clipboard"></use></svg>
                             <fx-call function="clipboard(@corresp)"></fx-call>
                         </fx-trigger>
                     </div>
                     <pb-popover>
-                        <iron-icon icon="info-outline"></iron-icon>
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                         <template slot="alternate">
                             <pb-i18n key="form.hint-biblio-abbreviation"
                             >XML:ID</pb-i18n
@@ -61,7 +59,7 @@
                         <label>
                             <pb-i18n key="form.notes">Anmerkungen</pb-i18n>
                             <pb-popover>
-                                <iron-icon icon="info-outline" />
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                                 <template slot="alternate">
                                     <pb-i18n key="form.notes">Notes</pb-i18n>
                                 </template>
@@ -78,9 +76,8 @@
                 </div>
             </div>
             <fx-trigger>
-                <iron-icon
-                  icon="remove-circle-outline"
-                  title="delete image"></iron-icon>
+                <svg class="icon icon-remove"
+                  title="delete image"><use href="#dash-circle"></use></svg>
                 <fx-delete ref="."></fx-delete>
                 <fx-refresh control="r-images"></fx-refresh>
             </fx-trigger>
@@ -89,7 +86,7 @@
     <fx-trigger
         class="add"
         title="Bilder (Fotos, Zeichnungen, Abklatsche) hinzufügen">
-        <iron-icon icon="add-circle-outline"></iron-icon>
+        <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
         <fx-action>
             <fx-insert
                 context="listBibl[@type='images']"
