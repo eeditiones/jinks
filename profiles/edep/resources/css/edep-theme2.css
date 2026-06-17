@@ -354,14 +354,20 @@ fx-trigger.add::before{
 fx-trigger.add a{
 
 }
-fx-trigger iron-icon{
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+}
+
+fx-trigger .icon{
     width:1.5rem;
     height:1.5rem;
     /*position:absolute;*/
     /*right:0;*/
 
 }
-fx-trigger.add iron-icon{
+fx-trigger.add .icon{
     color:var(--pb-color-green);
 
 }
@@ -629,7 +635,7 @@ fx-control label, .output label {
     display: block;
 }
 
-fx-control [icon="info-outline"]{
+fx-control .icon-info{
     grid-area:icon;
     cursor:pointer;
 }
@@ -643,7 +649,7 @@ fx-control > .widget, fx-control > .xml-editor {
     pointer-events: all;
 }
 
-fx-control iron-icon:hover ~ fx-hint {
+fx-control .icon:hover ~ fx-hint {
     opacity: 1;
     transition: all .4s;
 }
@@ -899,7 +905,7 @@ pb-login{
 
 #parts > fx-repeatitem{
 
-    fx-trigger:nth-child(1) [icon=remove-circle-outline]{
+    fx-trigger:nth-child(1) .icon-remove{
         color: var(--pb-link-color);
         position: absolute;
         right: 0.5rem;
@@ -945,7 +951,7 @@ pb-login{
     width:100%;
     display: block;
 }
-[icon='remove-circle-outline'] {
+.icon-remove {
     color: var(--pb-link-color);
     position: absolute;
     right: -0.75rem;
@@ -1077,7 +1083,7 @@ input:focus, select:focus, textarea:focus{
 
 
 
-pb-popover > iron-icon{
+pb-popover > .icon{
     display:inline-block;
     width: 1.5rem;
     height: 1.5rem;
