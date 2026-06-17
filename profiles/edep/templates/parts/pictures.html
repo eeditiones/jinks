@@ -2,7 +2,7 @@
     <summary>
         <h3><pb-i18n key="form.images">Abbildungen (URLs)</pb-i18n></h3>
         <pb-popover>
-            <iron-icon icon="info-outline"></iron-icon>
+            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
             <template slot="alternate">
                 <pb-i18n key="form.hint-images"></pb-i18n>
             </template>
@@ -17,13 +17,13 @@
                     </fx-control>
 
                     <fx-trigger>
-                        <iron-icon icon="remove-circle-outline" title="delete image"></iron-icon>
+                        <svg class="icon icon-remove" title="delete image"><use href="#dash-circle"></use></svg>
                         <fx-delete ref="."></fx-delete>
                     </fx-trigger>
                 </template>
             </fx-repeat>
             <fx-trigger class="add" title="Abbildung hinzufügen">
-                <iron-icon icon="add-circle-outline"></iron-icon>
+                <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
 
                 <fx-insert context="facsimile" ref="graphic" origin="instance('templates')/graphic"></fx-insert>
             </fx-trigger>

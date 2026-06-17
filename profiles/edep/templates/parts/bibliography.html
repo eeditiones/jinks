@@ -2,7 +2,7 @@
     <summary>
         <h3><pb-i18n key="form.bibliography">Bibliographie</pb-i18n></h3>
         <pb-popover>
-            <iron-icon icon="info-outline"></iron-icon>
+            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
             <template slot="alternate">
                 <pb-i18n key="form.hint-bibliography"></pb-i18n>
             </template>
@@ -16,7 +16,7 @@
                 <pb-i18n key="form.bibliography">Bibliographie</pb-i18n>
             </label>
             <fx-trigger class="add" title="Bibliographie hinzufügen">
-                <iron-icon icon="add-circle-outline"></iron-icon>
+                <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
 
                 <fx-insert
                   context="listBibl[@type='bibliography']"
@@ -40,14 +40,12 @@
                         >
                         <div>
                             <fx-trigger>
-                                <iron-icon
-                                  class="widget"
-                                  icon="icons:content-copy"></iron-icon>
+                                <svg class="icon icon-copy widget"><use href="#clipboard"></use></svg>
                                 <fx-call function="clipboard(@corresp)"></fx-call>
                             </fx-trigger>
                         </div>
                         <pb-popover>
-                            <iron-icon icon="info-outline"></iron-icon>
+                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                             <template slot="alternate">
                                 <pb-i18n key="form.hint-biblio-abbreviation"
                                 >XML:ID</pb-i18n
@@ -77,7 +75,7 @@
                         <label>
                             <pb-i18n key="form.notes">Anmerkungen</pb-i18n>
                             <pb-popover>
-                                <iron-icon icon="info-outline" />
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                                 <template slot="alternate">
                                     <pb-i18n key="form.hint-biblio-note">Hint</pb-i18n>
                                 </template>
@@ -87,8 +85,7 @@
                           class="widget"
                           schema-root="note"
                           placeholder="[Inline text/markup or sequence of paragraphs]"
-                          base-url="${app}"
-                          data-template="lib:parse-params">
+                          base-url="[[ $context-path ]]">
                         </edep-xml-editor>
                     </fx-control>
                     <fx-control ref="@type" update-event="input" create="create">
@@ -106,16 +103,15 @@
                     </fx-control>
                 </div>
                 <fx-trigger>
-                    <iron-icon
-                      icon="remove-circle-outline"
-                      title="Bibliographie löschen"></iron-icon>
+                    <svg class="icon icon-remove"
+                      title="Bibliographie löschen"><use href="#dash-circle"></use></svg>
                     <fx-delete ref="."></fx-delete>
                     <fx-refresh control="r-biblio"></fx-refresh>
                 </fx-trigger>
             </template>
         </fx-repeat>
         <fx-trigger class="add" title="Bibliographie hinzufügen">
-            <iron-icon icon="add-circle-outline"></iron-icon>
+            <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
 
             <fx-insert
                 context="listBibl[@type='bibliography']"

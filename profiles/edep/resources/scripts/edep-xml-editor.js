@@ -31,6 +31,7 @@ const makeToolbarHTML = snippets => `
                     data-command="snippet"
                     data-params="${snippet}"
                     title="${title}"
+                    data-i18n="[title]${title}"
                 >
                     &lt;${label}&gt;
                 </button> `,
@@ -88,7 +89,7 @@ class EdepXMLEditor extends HTMLElement {
             : [
                   {
                       label: 'ref',
-                      title: 'Insert reference',
+                      title: 'form.hint-reference',
                       snippet: '&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;',
                   },
               ];

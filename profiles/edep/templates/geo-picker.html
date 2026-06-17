@@ -96,27 +96,17 @@
 
             <fx-var name="lang" value="instance('vars')/language"></fx-var>
 
-            <!--  <div class="geopicker-control">-->
             <div>
+                
                 <pb-popover id="findspot-popover">
-                    <iron-icon icon="info-outline"></iron-icon>
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                     <template slot="alternate">
                         <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
                     </template>
                 </pb-popover>
-
                 <fx-control ref="instance('i-geo')/origPlace/@corresp" id="findspot-ctrl" update-event="input">
                     <label>
                         <pb-i18n key="form.geoid">Geo ID</pb-i18n>
-<!--
-                        <pb-popover>
-                            <iron-icon icon="info-outline"></iron-icon>
-                            <template slot="alternate">
-                                <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
-                            </template>
-                        </pb-popover>
--->
-
                     </label>
 
                     <input list="place-list" class="widget" />
@@ -136,7 +126,8 @@
                         <!-- return the @corresp to the binding control -->
                         <fx-return ref="."></fx-return>
                     </fx-action>
-                    <iron-icon icon="close">
+                    <fx-trigger>
+                        <svg class="icon icon-close"><use href="#x-lg"></use></svg>
                         <fx-action event="click">
                             <!-- reset @corresp to empty -->
                             <fx-setvalue ref="instance('i-geo')/origPlace/@corresp"></fx-setvalue>
@@ -144,21 +135,18 @@
                             <fx-setvalue ref="instance('g-vars')/open">false</fx-setvalue>
                             <fx-refresh force="force"></fx-refresh>
                         </fx-action>
-                    </iron-icon>
+                    </fx-trigger>
                 </fx-control>
             </div>
             <!--
-                <iron-icon icon="close">
-                <fx-action event="click">
+                <fx-trigger><svg class="icon icon-close"><use href="#x-lg"></use></svg><fx-action event="click">
                 &lt;!&ndash; reset @corresp to empty &ndash;&gt;
                 <fx-setvalue ref="instance('i-geo')/origPlace/@corresp"></fx-setvalue>
                 &lt;!&ndash; open group to display details &ndash;&gt;
                 <fx-setvalue ref="instance('g-vars')/open">false</fx-setvalue>
                 <fx-refresh force="force"></fx-refresh>
-                </fx-action>
-                </iron-icon>
+                </fx-action></fx-trigger>
             -->
-            <!--  </div>-->
 
             <!-- 5) -->
             <fx-group
