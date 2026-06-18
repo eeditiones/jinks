@@ -7,24 +7,29 @@
         <label slot="label">
             <pb-i18n key="form.edepid">EDEp ID</pb-i18n>
 
-            <pb-popover>
-                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                <template slot="alternate">
+                        <span class="form-hint-wrap">
+                <button type="button" class="hint-trigger" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </button>
+                <div class="form-hint" popover="manual" role="tooltip">
                     <pb-i18n key="form.hint-references"></pb-i18n>
-                </template>
-            </pb-popover>
+                </div>
+            </span>
 
         </label>
     </fx-output>
     <fieldset id="idnos">
         <legend>Identifier
             <fx-trigger class="add">
-                <pb-popover>
-                    <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
-                    <template slot="alternate">
+                                <span class="form-hint-wrap">
+                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                        <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+                    </span>
+                    <div class="form-hint" popover="manual" role="tooltip">
                         <pb-i18n key="form.hint-add-idno"> </pb-i18n
-                        ></template>
-                </pb-popover>
+                                                >
+                    </div>
+                </span>
                 <fx-insert
                     context="."
                     ref="idno"
@@ -42,12 +47,15 @@
                     </label>
                 </fx-control>
                 <fx-trigger>
-                    <pb-popover>
-                        <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
-                        <template slot="alternate">
+                                        <span class="form-hint-wrap">
+                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                            <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                        </span>
+                        <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.hint-delete-idno"></pb-i18n
-                            ></template>
-                    </pb-popover>
+                                                        >
+                        </div>
+                    </span>
                     <fx-delete ref="."></fx-delete>
                 </fx-trigger>
             </template>
@@ -61,12 +69,14 @@
     <fx-control id="tm-number" class="tm-number" ref="idno[@type='TM']">
         <label>
             <pb-i18n key="form.tm">TM ID</pb-i18n>
-            <pb-popover>
-                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                <template slot="alternate">
+                        <span class="form-hint-wrap">
+                <button type="button" class="hint-trigger" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </button>
+                <div class="form-hint" popover="manual" role="tooltip">
                     <pb-i18n key="form.hint-tm"></pb-i18n>
-                </template>
-            </pb-popover>
+                </div>
+            </span>
         </label>
     </fx-control>
 -->

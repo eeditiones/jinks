@@ -10,10 +10,11 @@
         <link rel="stylesheet" href="resources/css/theme.css" />
         <link rel="stylesheet" href="resources/css/fore.css" />
         <link rel="stylesheet" href="resources/css/edep-theme.css" />
-        <link rel="stylesheet" href="resources/css/edep-theme2.css" />
+        <script src="resources/scripts/edep-hints.js"></script>
     </head>
 
     <body>
+        [% include "resources/css/edep-icons.svg" %]
         <fx-fore id="geopicker">
             <fx-action event="visibilitychange" target="#document" if="event('target.visibilityState')='visible'">
                 <fx-send submission="s-load-places"></fx-send>
@@ -97,13 +98,14 @@
             <fx-var name="lang" value="instance('vars')/language"></fx-var>
 
             <div>
-                
-                <pb-popover id="findspot-popover">
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    <template slot="alternate">
+                <span class="form-hint-wrap">
+                    <button type="button" class="hint-trigger" aria-label="Help">
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    </button>
+                    <div class="form-hint" popover="manual" role="tooltip">
                         <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
-                    </template>
-                </pb-popover>
+                    </div>
+                </span>
                 <fx-control ref="instance('i-geo')/origPlace/@corresp" id="findspot-ctrl" update-event="input">
                     <label>
                         <pb-i18n key="form.geoid">Geo ID</pb-i18n>
