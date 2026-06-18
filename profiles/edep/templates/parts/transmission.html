@@ -70,13 +70,7 @@
                         <label>
                             <pb-i18n key="form.notes">Anmerkungen</pb-i18n>
                         </label>
-                        <edep-xml-editor
-                            base-url="${app}"
-                            class="widget"
-                            data-template="lib:parse-params"
-                            placeholder="[Inline text/markup or sequence of paragraphs]"
-                            schema-root="note">
-                        </edep-xml-editor>
+                        [% include "templates/parts/xml-editor-note.html" %]
                     </fx-control>
                 </div>
             </div>

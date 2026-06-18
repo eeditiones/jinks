@@ -7,29 +7,12 @@
                     <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                 </span>
                 <div class="form-hint" popover="manual" role="tooltip">
-                    <pb-i18n key="form.hint-bibliography"></pb-i18n>
+                    <pb-i18n key="form.hint-bibliographie"></pb-i18n>
                 </div>
             </span>
         </h3>
     </summary>
     <!-- 35b) -->
-<!--
-    <fieldset>
-        <legend>
-            <label>
-                <pb-i18n key="form.bibliography">Bibliographie</pb-i18n>
-            </label>
-            <fx-trigger class="add" title="Bibliographie hinzufügen">
-                <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
-
-                <fx-insert
-                  context="listBibl[@type='bibliography']"
-                  ref="bibl"
-                  origin="instance('templates')//bibl"></fx-insert>
-                <fx-refresh control="r-biblio"></fx-refresh>
-            </fx-trigger>
-        </legend>
--->
         <fx-repeat
           class="nested-repeat"
           id="r-biblio"
@@ -80,21 +63,8 @@
                     <fx-control ref="note" as="node" update-event="leave">
                         <label>
                             <pb-i18n key="form.notes">Anmerkungen</pb-i18n>
-                                                        <span class="form-hint-wrap">
-                                <button type="button" class="hint-trigger" aria-label="Help">
-                                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                                </button>
-                                <div class="form-hint" popover="manual" role="tooltip">
-                                    <pb-i18n key="form.hint-biblio-note">Hint</pb-i18n>
-                                </div>
-                            </span>
                         </label>
-                        <edep-xml-editor
-                          class="widget"
-                          schema-root="note"
-                          placeholder="[Inline text/markup or sequence of paragraphs]"
-                          base-url="[[ $context-path ]]">
-                        </edep-xml-editor>
+                        [% include "templates/parts/xml-editor-note-context.html" %]
                     </fx-control>
                     <fx-control ref="@type" update-event="input" create="create">
                         <label>

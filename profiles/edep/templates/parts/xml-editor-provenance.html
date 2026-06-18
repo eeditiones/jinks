@@ -1,0 +1,36 @@
+<jinn-xml-editor
+  class="widget"
+  unwrap="unwrap"
+  placeholder="[Inline text/markup or sequence of paragraphs]"
+  schema="resources/scripts/tei.json"
+  schema-root="provenance"
+  namespace="http://www.tei-c.org/ns/1.0"
+  base-url="${app}"
+  providers="zotero"
+  data-template="lib:parse-params">
+    <div slot="toolbar">
+        <button
+          data-command="selectElement"
+          title="Select element around current cursor position">
+            &lt;|&gt;
+        </button>
+        <button
+          data-command="encloseWith"
+          title="Enclose selection in new element">
+            &lt;...&gt;
+        </button>
+        <button
+          data-command="removeEnclosing"
+          title="Remove enclosing tags"
+          class="sep">
+            &lt;X&gt;
+        </button>
+        <button
+          data-command="snippet"
+          data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
+          title="form.hint-reference"
+          data-i18n="[title]form.hint-reference">
+            &lt;ref&gt;
+        </button>
+    </div>
+</jinn-xml-editor>

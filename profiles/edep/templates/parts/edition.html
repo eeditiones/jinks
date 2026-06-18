@@ -158,30 +158,20 @@
                       title="Apex">
                         Apex
                     </button>
-                    <span class="form-hint-wrap">
-                        <button
-                          class="hint-trigger"
-                          data-command="snippet"
-                          data-params='&lt;l met="$|1|" real="$|2|">$|_|&lt;/l>'
-                          title="Metric">
-                            <pb-i18n key="form.verse">Verse</pb-i18n>
-                        </button>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-verse"></pb-i18n>
-                        </div>
-                    </span>
-                    <span class="form-hint-wrap">
-                        <button
-                          class="hint-trigger"
-                          data-command="snippet"
-                          data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;"
-                          title="persName">
-                            <svg class="icon icon-person-add"><use href="#person-plus"></use></svg>
-                        </button>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-verse"></pb-i18n>
-                        </div>
-                    </span>
+                    <button
+                        class="hint-trigger"
+                        data-command="snippet"
+                        data-params='&lt;l met="$|1|" real="$|2|">$|_|&lt;/l>'
+                        title="Metric" data-i18n="[title]form.verse">
+                        <pb-i18n key="form.verse">Verse</pb-i18n>
+                    </button>
+                    <button
+                        class="hint-trigger"
+                        data-command="snippet"
+                        data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;"
+                        title="persName" data-i18n="[title]form.hint-add-person">
+                        <svg class="icon icon-person-add"><use href="#person-plus"></use></svg>
+                    </button>
                 </div>
             </jinn-epidoc-editor>
         </fx-control>
@@ -192,7 +182,15 @@
     </div>
     <div class="block">
         <h4>
-            <pb-i18n key="form.apparatus">Apparatus</pb-i18n>
+            <span class="form-hint-wrap">
+                <pb-i18n key="form.apparatus">Apparatus</pb-i18n>
+                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </span>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-apparatus"></pb-i18n>
+                </div>
+            </span>
         </h4>
         <fx-control
           class="apparatus editor"
@@ -239,23 +237,24 @@
                       title="Insert apparatus entry">
                         &lt;app&gt;
                     </button>
-                    <span class="form-hint-wrap">
-                        <button
-                          class="hint-trigger"
-                          data-command="snippet"
-                          data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
-                          title="Insert reference">
-                            &lt;ref&gt;
-                        </button>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-reference"></pb-i18n>
-                        </div>
-                    </span>
+                    <button 
+                      data-command="snippet"
+                      data-params="&lt;rdg source=&#34;$|1|&#34;&gt;$|_|&lt;/rdg&gt;"
+                      title="Insert reading">
+                        &lt;rdg&gt;
+                    </button>
+                    <button
+                        class="hint-trigger"
+                        data-command="snippet"
+                        data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
+                        title="Insert reference" data-i18n="[title]form.hint-reference">
+                        &lt;ref&gt;
+                    </button>
 
                     <button
                       data-command="snippet"
                       data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;"
-                      title="persName">
+                      title="persName" data-i18n="[title]form.hint-add-person">
                         <svg class="icon icon-person-add"><use href="#person-plus"></use></svg>
                     </button>
                     <button
@@ -318,7 +317,7 @@
                     <button
                       data-command="snippet"
                       data-params="&lt;persName key=&#34;$|1|&#34;&gt;$|_|&lt;/persName&gt;"
-                      title="persName">
+                      title="persName" data-i18n="[title]form.hint-add-person">
                         <svg class="icon icon-person-add"><use href="#person-plus"></use></svg>
                     </button>
                 </div>
