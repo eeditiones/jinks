@@ -98,17 +98,17 @@
             <fx-var name="lang" value="instance('vars')/language"></fx-var>
 
             <div>
-                <span class="form-hint-wrap">
-                    <button type="button" class="hint-trigger" aria-label="Help">
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    </button>
-                    <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
-                    </div>
-                </span>
                 <fx-control ref="instance('i-geo')/origPlace/@corresp" id="findspot-ctrl" update-event="input">
                     <label>
                         <pb-i18n key="form.geoid">Geo ID</pb-i18n>
+                        <span class="form-hint-wrap">
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
+                                <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
+                            </div>
+                        </span>
                     </label>
 
                     <input list="place-list" class="widget" />
