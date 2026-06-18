@@ -1,12 +1,16 @@
 <details id="transmission" class="group-6">
     <summary>
-        <h3><pb-i18n key="form.transmission">Überlieferung</pb-i18n></h3>
-        <pb-popover>
-            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-            <template slot="alternate">
-                <pb-i18n key="form.hint-recorded-location"></pb-i18n>
-            </template>
-        </pb-popover>
+        <h3>
+            <span class="form-hint-wrap">
+                <pb-i18n key="form.transmission">Überlieferung</pb-i18n>
+                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </span>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-recorded-location"></pb-i18n>
+                </div>
+            </span>
+        </h3>
     </summary>
 
     <!-- 12c) Überlieferung -->
@@ -30,15 +34,17 @@
                             <fx-call function="clipboard(@corresp)"></fx-call>
                         </fx-trigger>
                     </div>
-                    <pb-popover>
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                        <template slot="alternate">
+                                        <span class="form-hint-wrap">
+                        <button type="button" class="hint-trigger" aria-label="Help">
+                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                        </button>
+                        <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.hint-biblio-abbreviation"
-                            >XML:ID
-                            </pb-i18n
-                            >
-                        </template>
-                    </pb-popover>
+                                                        >XML:ID
+                                                        </pb-i18n
+                                                        >
+                        </div>
+                    </span>
                 </div>
                 <fx-control create="create" ref="@corresp" update-event="change">
                     <label>

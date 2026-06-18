@@ -6,6 +6,7 @@
     },
     "script": {
         "custom": [
+            "resources/scripts/edep-hints.js",
             "resources/scripts/zotero-autocomplete.js",
             "resources/scripts/edep-xml-editor.js",
             "resources/scripts/util.js",
@@ -14,7 +15,12 @@
     },
     "styles": [
         "resources/css/zotero-autocomplete.css"
-    ]
+    ],
+    "features": {
+        "toolbar": {
+            "navigation": false
+        }
+    }
 }
 ---
 [% template fore-prolog %]
@@ -546,12 +552,14 @@
             <fx-group ref="fileDesc/sourceDesc/listBibl" class="outer-group">
                 <h2>
                     <pb-i18n key="form.references" />
-                    <pb-popover>
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                        <template slot="alternate">
+                                        <span class="form-hint-wrap">
+                        <button type="button" class="hint-trigger" aria-label="Help">
+                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                        </button>
+                        <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.hint-references"></pb-i18n>
-                        </template>
-                    </pb-popover>
+                        </div>
+                    </span>
                 </h2>
 
 
@@ -629,5 +637,11 @@
             <input style="display: none" />
         </fx-control>
     </li>
+[% endtemplate %]
+
+[% template breadcrumb %]
+<li>
+    <fx-output ref="instance('default')//fileDesc/titleStmt/title"></fx-output>
+</li>
 [% endtemplate %]
 </template>

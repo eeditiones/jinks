@@ -6,12 +6,14 @@
         <fx-control ref=".">
             <label>
                 <pb-i18n key="form.last-recorded-location"/>
-                <pb-popover>
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    <template slot="alternate">
+                                <span class="form-hint-wrap">
+                    <button type="button" class="hint-trigger" aria-label="Help">
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    </button>
+                    <div class="form-hint" popover="manual" role="tooltip">
                         <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
-                    </template>
-                </pb-popover>
+                    </div>
+                </span>
 
             </label>
             <textarea class="widget"></textarea>
@@ -37,12 +39,14 @@
           update-event="leave">
             <label>
                 <pb-i18n key="form.other-events"/>
-                <pb-popover>
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    <template slot="alternate">
+                                <span class="form-hint-wrap">
+                    <button type="button" class="hint-trigger" aria-label="Help">
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    </button>
+                    <div class="form-hint" popover="manual" role="tooltip">
                         <pb-i18n key="form.other-events"></pb-i18n>
-                    </template>
-                </pb-popover>
+                    </div>
+                </span>
 
             </label>
             <edep-xml-editor
