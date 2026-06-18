@@ -5,6 +5,8 @@
 
         <title>Places</title>
         <link href="../resources/css/fore.css" rel="stylesheet" />
+        <link href="../resources/css/edep-theme.css" rel="stylesheet" />
+        <script src="../resources/scripts/edep-hints.js"></script>
 
         <style>
             /*
@@ -83,6 +85,7 @@
         </style>
     </head>
     <body>
+        [% include "../resources/css/edep-icons.svg" %]
         <div class="wrapper">
             <h1>Places</h1>
             <fx-fore id="places" show-confirmation="show-confirmation">
@@ -191,24 +194,29 @@
                         <label>
                             <pb-i18n key="form.site-find-spot">Fundstelle</pb-i18n>
                         </label>
-                        <pb-popover>
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                            <template slot="alternate">
+                                                <span class="form-hint-wrap">
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
                                 <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
-                            </template>
-                        </pb-popover>
+                            </div>
+                        </span>
                         <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
                     </fx-control>
                     <fx-control ref="placeName[@type='modern']">
                         <label>
                             <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
                         </label>
-                        <pb-popover>
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                            <template slot="alternate">
+                                                <span class="form-hint-wrap">
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
                                 <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n
-                            ></template>
-                        </pb-popover>
+                                                            >
+                            </div>
+                        </span>
                     </fx-control>
                     <fx-control ref="placeName[@type='ancient']">
                         <label>

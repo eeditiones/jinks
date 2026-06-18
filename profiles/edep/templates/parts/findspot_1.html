@@ -19,12 +19,14 @@
                 update-event="leave">
                 <label>
                     <pb-i18n key="form.site-find-spot" />
-                    <pb-popover>
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                        <template slot="alternate">
+                                        <span class="form-hint-wrap">
+                        <button type="button" class="hint-trigger" aria-label="Help">
+                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                        </button>
+                        <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.site-find-spot"></pb-i18n>
-                        </template>
-                    </pb-popover>
+                        </div>
+                    </span>
                 </label>
                 <edep-xml-editor
                     base-url="${app}"

@@ -206,7 +206,8 @@ fx-control > .xml-editor {
     pointer-events: all;
 }
 
-fx-control .icon-info {
+fx-control .icon-info,
+fx-control .hint-trigger .icon-info {
     flex: 0 0 1.2rem;
     cursor: pointer;
     margin-left: 0.25rem;
@@ -281,6 +282,85 @@ fx-control fx-hint {
 fx-control .icon:hover ~ fx-hint {
     opacity: 1;
     transition: opacity 0.25s;
+}
+
+.form-hint-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    vertical-align: middle;
+    position: relative;
+}
+
+.hint-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: var(--jinks-colors-500, #6f6b5d);
+    cursor: help;
+    line-height: 1;
+}
+
+.hint-trigger .icon,
+.hint-trigger--passive .icon {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.hint-trigger--passive {
+    cursor: help;
+}
+
+.form-hint {
+    margin: 0;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    background: var(--jinks-background-color-dark, #2D2B26);
+    color: var(--jinks-colors-light, #FCFCF8);
+    font-size: 0.8rem;
+    width: min(22vw, 28rem);
+    max-width: min(22vw, 28rem);
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: break-word;
+    border-radius: 0.5rem;
+    line-height: 1.4;
+}
+
+@supports (top: anchor(bottom)) {
+    .form-hint.form-hint-anchored {
+        position: fixed;
+        top: anchor(bottom);
+        left: anchor(left);
+        margin-top: 0.35rem;
+    }
+}
+
+.form-hint-wrap.form-hint-css {
+    position: relative;
+}
+
+.form-hint-wrap.form-hint-css .form-hint {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    z-index: 30;
+}
+
+.form-hint-wrap.form-hint-css:focus-within .form-hint,
+.form-hint-wrap.form-hint-css:hover .form-hint {
+    display: block;
+}
+
+fx-control .form-hint-wrap {
+    flex: 0 0 auto;
+    margin-left: 0.25rem;
 }
 
 /* --- Inputs ----------------------------------------------------------------- */
@@ -491,6 +571,22 @@ fx-trigger.delete button {
     background: #ef4444;
     color: white;
     border: none;
+}
+
+.form-hint-wrap > button.hint-trigger {
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--jinks-colors-500, #6f6b5d);
+    box-shadow: none;
+    cursor: help;
+}
+
+.form-hint-wrap > button.hint-trigger:hover {
+    background: transparent;
+    opacity: 1;
 }
 
 fx-trigger.add {
@@ -1009,7 +1105,7 @@ jinn-xml-editor::part(status) {
     display: inline;
 }
 
-.output pb-popover {
+.output .form-hint-wrap {
     grid-area: icon;
 }
 
@@ -1079,21 +1175,6 @@ jinn-xml-editor::part(status) {
 
 .with-hint {
     grid-area: control;
-    display: grid;
-    grid-template-areas: "control hint";
-    align-items: center;
-}
-
-.with-hint pb-popover {
-    grid-area: hint;
-    align-self: start;
-}
-
-#findspot-popover {
-    position: absolute;
-    top: -22px;
-    left: 72px;
-    z-index: 5;
 }
 
 #places fx-switch {
@@ -1239,14 +1320,6 @@ pb-split-list .place .place-id {
     top: -0.5rem;
 }
 
-/* --- pb-popover ------------------------------------------------------------- */
-pb-popover > .icon {
-    display: inline-block;
-    width: 1.4rem;
-    height: 1.4rem;
-    color: var(--jinks-colors-500, #6f6b5d);
-}
-
 pb-login {
     z-index: auto;
 }
@@ -1309,6 +1382,8 @@ fieldset > legend {
     padding: 0.5rem 1rem;
     margin-left: -1rem;
     color: var(--jinks-colors-500, #6f6b5d);
+    display: inline-flex;
+    column-gap: var(--s-2);
 }
 
 .nested-repeat fieldset legend {
