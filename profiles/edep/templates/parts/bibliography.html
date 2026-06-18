@@ -1,12 +1,16 @@
 <details id="bibliography" class="group-6">
     <summary>
-        <h3><pb-i18n key="form.bibliography">Bibliographie</pb-i18n></h3>
-        <pb-popover>
-            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-            <template slot="alternate">
-                <pb-i18n key="form.hint-bibliography"></pb-i18n>
-            </template>
-        </pb-popover>
+        <h3>
+            <span class="form-hint-wrap">
+                <pb-i18n key="form.bibliography">Bibliographie</pb-i18n>
+                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </span>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-bibliography"></pb-i18n>
+                </div>
+            </span>
+        </h3>
     </summary>
     <!-- 35b) -->
 <!--
@@ -44,14 +48,16 @@
                                 <fx-call function="clipboard(@corresp)"></fx-call>
                             </fx-trigger>
                         </div>
-                        <pb-popover>
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                            <template slot="alternate">
+                                                <span class="form-hint-wrap">
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
                                 <pb-i18n key="form.hint-biblio-abbreviation"
-                                >XML:ID</pb-i18n
-                                >
-                            </template>
-                        </pb-popover>
+                                                                >XML:ID</pb-i18n
+                                                                >
+                            </div>
+                        </span>
                     </div>
                     <fx-control ref="@corresp" update-event="value-changed" create="create">
                         <label>
@@ -74,12 +80,14 @@
                     <fx-control ref="note" as="node" update-event="leave">
                         <label>
                             <pb-i18n key="form.notes">Anmerkungen</pb-i18n>
-                            <pb-popover>
-                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                                <template slot="alternate">
+                                                        <span class="form-hint-wrap">
+                                <button type="button" class="hint-trigger" aria-label="Help">
+                                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                                </button>
+                                <div class="form-hint" popover="manual" role="tooltip">
                                     <pb-i18n key="form.hint-biblio-note">Hint</pb-i18n>
-                                </template>
-                            </pb-popover>
+                                </div>
+                            </span>
                         </label>
                         <edep-xml-editor
                           class="widget"

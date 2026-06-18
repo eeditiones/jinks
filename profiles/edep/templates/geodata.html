@@ -101,23 +101,28 @@
             <label>
                 <pb-i18n key="form.site-find-spot">Fundstelle</pb-i18n>
             </label>
-            <pb-popover>
-                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                <template slot="alternate">
+                        <span class="form-hint-wrap">
+                <button type="button" class="hint-trigger" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </button>
+                <div class="form-hint" popover="manual" role="tooltip">
                     <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
-                </template>
-            </pb-popover>
+                </div>
+            </span>
             <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
         </fx-control>
         <fx-control ref="placeName[@type='modern']">
             <label>
                 <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
             </label>
-            <pb-popover>
-                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                <template slot="alternate">
-                    <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n></template>
-            </pb-popover>
+                        <span class="form-hint-wrap">
+                <button type="button" class="hint-trigger" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </button>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n>
+                </div>
+            </span>
         </fx-control>
         <fx-control ref="placeName[@type='ancient']">
             <label>
