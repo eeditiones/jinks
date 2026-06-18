@@ -99,30 +99,17 @@
         </legend>
         <fx-control ref="placeName[@type='findspot']" id="findspot">
             <label>
-                <pb-i18n key="form.site-find-spot">Fundstelle</pb-i18n>
+                <span class="form-hint-wrap">
+                    <pb-i18n key="form.context-of-provenance">Fundstelle</pb-i18n>
+                    <button type="button" class="hint-trigger" aria-label="Help">
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    </button>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
+                    </div>
+                </span>
             </label>
-                        <span class="form-hint-wrap">
-                <button type="button" class="hint-trigger" aria-label="Help">
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                </button>
-                <div class="form-hint" popover="manual" role="tooltip">
-                    <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
-                </div>
-            </span>
             <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
-        </fx-control>
-        <fx-control ref="placeName[@type='modern']">
-            <label>
-                <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
-            </label>
-                        <span class="form-hint-wrap">
-                <button type="button" class="hint-trigger" aria-label="Help">
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                </button>
-                <div class="form-hint" popover="manual" role="tooltip">
-                    <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n>
-                </div>
-            </span>
         </fx-control>
         <fx-control ref="placeName[@type='ancient']">
             <label>
@@ -138,6 +125,19 @@
                     <option value="{@xml:id}">{catDesc}</option>
                 </template>
             </select>
+        </fx-control>
+        <fx-control ref="placeName[@type='modern']">
+            <label>
+                <span class="form-hint-wrap">
+                    <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
+                    <button type="button" class="hint-trigger" aria-label="Help">
+                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    </button>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n>
+                    </div>
+                </span>
+            </label>
         </fx-control>
         <fx-control ref="region[@type='modern']">
             <label>

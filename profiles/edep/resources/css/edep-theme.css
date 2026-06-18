@@ -485,11 +485,14 @@ textarea:focus {
     padding: 8px 20px;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    min-height: 2rem;
     border-radius: var(--jinks-form-border-radius-full, 999px);
     border: none;
     color: var(--jinks-color-white, #fff);
     background-color: var(--jinks-colors-500, #6f6b5d);
     font-size: var(--jinks-form-control-font-size, 0.875rem);
+    line-height: 1;
     cursor: pointer;
     transition: opacity 0.12s;
 }
@@ -500,23 +503,30 @@ textarea:focus {
 }
 
 /* Secondary buttons (links) */
+.content-top nav.toolbar fx-trigger > a:link,
+.content-top nav.toolbar fx-trigger > a:visited,
 .buttonBar fx-trigger a:link,
 .buttonBar fx-trigger a:visited {
-    color: var(--jinks-colors-light, #FCFCF8);
+    color: var(--jinks-color-white, #fff) !important;
     font-size: var(--jinks-form-control-font-size, 0.875rem);
     text-decoration: none;
     padding: 8px 16px;
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 2rem;
     border-radius: var(--jinks-form-border-radius-full, 999px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: none;
+    background-color: var(--jinks-colors-500, #6f6b5d);
+    line-height: 1;
     opacity: 0.8;
     transition: opacity 0.12s, background 0.12s;
 }
 
+.content-top nav.toolbar fx-trigger > a:hover,
 .buttonBar fx-trigger a:hover {
-    opacity: 1;
-    background: rgba(255,255,255,0.08);
+    opacity: 0.85;
 }
 
 .loginMessage {
