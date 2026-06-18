@@ -19,22 +19,33 @@
                 update-event="leave">
                 <label>
                     <pb-i18n key="form.site-find-spot" />
-                                        <span class="form-hint-wrap">
-                        <button type="button" class="hint-trigger" aria-label="Help">
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                        </button>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.site-find-spot"></pb-i18n>
-                        </div>
-                    </span>
                 </label>
-                <edep-xml-editor
-                    base-url="${app}"
-                    class="widget"
-                    data-template="lib:parse-params"
-                    placeholder="[Inline text/markup or sequence of paragraphs]"
-                    schema-root="provenance">
-                </edep-xml-editor>
+                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
+                    schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
+                    base-url="${app}" providers="zotero" data-template="lib:parse-params">
+                    <div slot="toolbar">
+                        <button data-command="selectElement" title="Select element around current cursor position">
+                            &lt;|&gt;
+                        </button>
+                        <button data-command="encloseWith" title="Enclose selection in new element">
+                            &lt;...&gt;
+                        </button>
+                        <button data-command="removeEnclosing" title="Remove enclosing tags" class="sep">
+                            &lt;X&gt;
+                        </button>
+                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;"
+                            title="placeName">
+                            <svg class="icon icon-pin-map">
+                                <use href="#pin-map"></use>
+                            </svg>
+                        </button>
+                        <button data-command="snippet"
+                            data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
+                            title="form.hint-reference" data-i18n="[title]form.hint-reference">
+                            &lt;ref&gt;
+                        </button>
+                    </div>
+                </jinn-xml-editor>
             </fx-control>
 
             <!-- YYYY ->  matches(//title,'^-?[1-9]\d*$')-->
@@ -76,15 +87,34 @@
                 ref="note[@type='found-date']"
                 update-event="leave">
                 <label>
-                    <pb-i18n key="form.remarks">Anmerkungen</pb-i18n>
+                    <pb-i18n key="form.found-date">Fundkontext</pb-i18n>
                 </label>
-                <edep-xml-editor
-                    base-url="${app}"
-                    class="widget"
-                    data-template="lib:parse-params"
-                    placeholder="[Inline text/markup or sequence of paragraphs]"
-                    schema-root="provenance">
-                </edep-xml-editor>
+                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
+                    schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
+                    base-url="${app}" providers="zotero" data-template="lib:parse-params">
+                    <div slot="toolbar">
+                        <button data-command="selectElement" title="Select element around current cursor position">
+                            &lt;|&gt;
+                        </button>
+                        <button data-command="encloseWith" title="Enclose selection in new element">
+                            &lt;...&gt;
+                        </button>
+                        <button data-command="removeEnclosing" title="Remove enclosing tags" class="sep">
+                            &lt;X&gt;
+                        </button>
+                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;"
+                            title="placeName">
+                            <svg class="icon icon-pin-map">
+                                <use href="#pin-map"></use>
+                            </svg>
+                        </button>
+                        <button data-command="snippet"
+                            data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
+                            title="form.hint-reference" data-i18n="[title]form.hint-reference">
+                            &lt;ref&gt;
+                        </button>
+                    </div>
+                </jinn-xml-editor>
             </fx-control>
         </fx-group>
 
