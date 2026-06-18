@@ -41,4 +41,14 @@
     </li>
     [% endif %]
     [% endtemplate %]
+
+    [%# Native form hint (replaces pb-popover). Copy this pattern into templates: %]
+    [% template form-hint %]
+    <span class="form-hint-wrap">
+        <button type="button" class="hint-trigger" aria-label="Help">
+            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+        </button>
+        <div class="form-hint" popover="manual" role="tooltip"></div>
+    </span>
+    [% endtemplate %]
 </div>

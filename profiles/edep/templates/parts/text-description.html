@@ -21,12 +21,14 @@
 
             <fx-group ref="langUsage">
                 <fx-trigger class="add">
-                    <pb-popover>
-                        <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
-                        <template slot="alternate">
+                                        <span class="form-hint-wrap">
+                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                            <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+                        </span>
+                        <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.hint-add-language"/>
-                        </template>
-                    </pb-popover>
+                        </div>
+                    </span>
                     <fx-insert
                     context="."
                     ref="language"
@@ -69,12 +71,14 @@
                             </fx-control>
                         </fx-group>
                         <fx-trigger>
-                            <pb-popover>
-                                <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
-                                <template slot="alternate">
+                                                        <span class="form-hint-wrap">
+                                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                                    <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                                </span>
+                                <div class="form-hint" popover="manual" role="tooltip">
                                     <pb-i18n key="form.hint-delete-language"/>
-                                </template>
-                            </pb-popover>
+                                </div>
+                            </span>
                             <fx-delete ref="."></fx-delete>
                         </fx-trigger>
                     </template>

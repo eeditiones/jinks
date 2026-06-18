@@ -1,12 +1,16 @@
 <details id="pictures" class="group-6">
     <summary>
-        <h3><pb-i18n key="form.images">Abbildungen (URLs)</pb-i18n></h3>
-        <pb-popover>
-            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-            <template slot="alternate">
-                <pb-i18n key="form.hint-images"></pb-i18n>
-            </template>
-        </pb-popover>
+        <h3>
+            <span class="form-hint-wrap">
+                <pb-i18n key="form.images">Abbildungen (URLs)</pb-i18n>
+                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                </span>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-images"></pb-i18n>
+                </div>
+            </span>
+        </h3>
     </summary>
     <fx-group ref="instance('default')">
         <fx-group ref="facsimile" class="neutral">
