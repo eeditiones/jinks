@@ -1,20 +1,23 @@
 <details id="location">
     <summary>
-        <h2><pb-i18n key="form.last-recorded-location"></pb-i18n></h2>
+        <h2>
+            <pb-i18n key="form.last-recorded-location"></pb-i18n>
+            <span class="form-hint-wrap">
+                <button type="button" class="hint-trigger" aria-label="Help">
+                    <svg class="icon icon-info">
+                        <use href="#info-circle"></use>
+                    </svg>
+                </button>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-last-location">Aufbewahrungsort</pb-i18n>
+                </div>
+            </span>
+        </h2>
     </summary>
     <fx-group ref="msIdentifier/repository" class="neutral">
         <fx-control ref=".">
             <label>
                 <pb-i18n key="form.last-recorded-location"/>
-                                <span class="form-hint-wrap">
-                    <button type="button" class="hint-trigger" aria-label="Help">
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    </button>
-                    <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-geo">Geo ID</pb-i18n>
-                    </div>
-                </span>
-
             </label>
             <textarea class="widget"></textarea>
         </fx-control>
@@ -39,7 +42,7 @@
           update-event="leave">
             <label>
                 <pb-i18n key="form.other-events"/>
-                                <span class="form-hint-wrap">
+                <span class="form-hint-wrap">
                     <button type="button" class="hint-trigger" aria-label="Help">
                         <svg class="icon icon-info"><use href="#info-circle"></use></svg>
                     </button>
@@ -49,13 +52,7 @@
                 </span>
 
             </label>
-            <edep-xml-editor
-              class="widget"
-              placeholder="[Inline text/markup or sequence of paragraphs]"
-              schema-root="provenance"
-              base-url="${app}"
-              data-template="lib:parse-params">
-            </edep-xml-editor>
+            [% include "templates/parts/xml-editor-provenance.html" %]
         </fx-control>
     </div>
 </details>
