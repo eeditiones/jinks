@@ -3,8 +3,8 @@
         <h2><pb-i18n key="form.object-description"/></h2>
     </summary>
 
-    <fx-group class="neutral" ref="physDesc">
-        <fx-group class="neutral form-row" ref="decoDesc/decoNote">
+    <fx-group class="neutral form-grid" ref="physDesc">
+        <fx-group class="neutral" ref="decoDesc/decoNote">
             <fx-control ref="@corresp" update-event="input" create="create">
                 <label>
                     <pb-i18n key="form.decoration"/>
@@ -165,21 +165,21 @@
                 </fx-trigger>
             </fieldset>
             <section class="measurement-row form-row">
-            <fx-control class="measurement" ref="dimensions/height">
-                <label>
-                    <pb-i18n key="form.height"/>
-                </label>
-            </fx-control>
-            <fx-control class="measurement" ref="dimensions/width">
-                <label>
-                    <pb-i18n key="form.width"/>
-                </label>
-            </fx-control>
-            <fx-control class="measurement" ref="dimensions/depth">
-                <label>
-                    <pb-i18n key="form.depth"/>
-                </label>
-            </fx-control>
+                <fx-control class="measurement" ref="dimensions/height">
+                    <label>
+                        <pb-i18n key="form.height"/> (cm)
+                    </label>
+                </fx-control>
+                <fx-control class="measurement" ref="dimensions/width">
+                    <label>
+                        <pb-i18n key="form.width"/> (cm)
+                    </label>
+                </fx-control>
+                <fx-control class="measurement" ref="dimensions/depth">
+                    <label>
+                        <pb-i18n key="form.depth"/> (cm)
+                    </label>
+                </fx-control>
             </section>
         </fx-group>
     </fx-group>
