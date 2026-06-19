@@ -11,6 +11,17 @@
             </button>
         </a>
     </li>
+    <li>
+        <pb-restricted>
+            <pb-ajax url="api/zotero/sync" method="get" emit="transcription"
+                title="Sync Zotero" data-i18n="[title]menu.zotero-sync">
+                <h3 slot="title"><pb-i18n key="menu.zotero-sync"></pb-i18n></h3>
+                <button class="light">
+                    <span><pb-i18n key="menu.zotero-sync">Synchronize Bibliography</pb-i18n></span>
+                </button>
+            </pb-ajax>
+        </pb-restricted>
+    </li>
     [% endtemplate %]
     [% template document-actions %]
     <a href="[[ $context-path ]]/edit/[[ $options?relpath ]]" data-tooltip="Edit Document in EDEp Editor" data-placement="bottom" target="edep">

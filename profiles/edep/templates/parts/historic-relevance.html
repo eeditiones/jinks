@@ -27,6 +27,7 @@
             </fx-group>
         </fx-group>
         
+        <section class="form-grid" style="--edep-label-width: 16rem;">
         <!-- dummy switch to insert or delete 'term' elements in main instance -->
         <fx-control
             ref="instance('vars')/history-term"
@@ -92,5 +93,6 @@
                 if="context()/text()='false'"
                 ref="instance('default')//term[@ref='#military']"></fx-delete>
         </fx-control>
+        </section>
     </details>
 </fx-group>
