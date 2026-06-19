@@ -152,6 +152,17 @@ pb-page[unresolved]~.splash {
     margin-inline: 0;
 }
 
+.toolbar button:not(:has(svg)),
+.toolbar .btn:not(pb-link):not(:has(svg)),
+.toolbar pb-link.btn a:not(:has(svg)) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+}
+
 .toolbar > ul:last-of-type > li > a > button,
 .toolbar > ul:last-of-type > li > button {
     margin-inline: 0 !important;
