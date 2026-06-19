@@ -10,6 +10,9 @@
     "features": {
         "forms": {
             "enabled": true
+        },
+        "toolbar": {
+            "navigation": false
         }
     }
 }
@@ -174,7 +177,12 @@
     </fx-model>
 [% endtemplate %]
 
+[% template breadcrumb %]
+    <li>
     <fx-output ref="instance('default')/@xml:id"></fx-output>
+    </li>
+[% endtemplate %]
+
     <fieldset>
         <legend>Person</legend>
         <p class="hint"><pb-i18n key="form.hint-person-validation"></pb-i18n></p>
@@ -272,31 +280,41 @@
             </fx-repeat>
         </fieldset>
     </fieldset>
-[% template footer %]
-    <footer>
+[% template toolbar %]
+    <li>
         <pb-restricted login="login" group="tei">
             <p class="loginMessage" slot="fallback">You need to be logged in to edit.</p>
-            <div class="actions">
-                <fx-trigger id="save" class="saveBtn" debounce="1000">
-                    <button type="submit">
-                        <pb-i18n key="form.save">Save</pb-i18n>
-                    </button>
-                    <fx-action>
-                        <fx-send submission="s-login"></fx-send>
-                        <fx-send submission="s-create" if="not(exists(instance('query')/id))"></fx-send>
-                        <fx-send submission="s-save" if="exists(instance('query')/id)"></fx-send>
-                    </fx-action>
-                </fx-trigger>
-                <fx-trigger id="new-entry">
-                    <a href="person">
-                        <pb-i18n key="form.new">New</pb-i18n>
-                    </a>
-                </fx-trigger>
-            </div>
+            <fx-trigger id="save" class="saveBtn" debounce="1000">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
+                        viewBox="0 0 16 16">
+                        <path d="M11 2H9v3h2z" />
+                        <path
+                            d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                    </svg>
+                    <span><pb-i18n key="form.save">Save</pb-i18n></span>
+                </button>
+                <fx-action>
+                    <fx-send submission="s-login"></fx-send>
+                    <fx-send submission="s-create" if="not(exists(instance('query')/id))"></fx-send>
+                    <fx-send submission="s-save" if="exists(instance('query')/id)"></fx-send>
+                </fx-action>
+            </fx-trigger>
         </pb-restricted>
-        <a href="[[ $context-path ]]/people">
-            <pb-i18n key="form.list"></pb-i18n>
-        </a>
-    </footer>
+    </li>
+    <li>
+        <fx-trigger id="new-entry">
+            <a href="person" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+                    <path
+                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                </svg>
+                <span><pb-i18n key="form.new">New</pb-i18n></span>
+            </a>
+        </fx-trigger>
+    </li>
 [% endtemplate %]
 </template>
