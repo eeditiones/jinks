@@ -191,11 +191,14 @@ fx-output[relevant] {
 fx-control label,
 fx-output label {
     flex: 0 0 auto;
-    min-width: var(--edep-label-width);
     font-size: var(--jinks-form-control-font-size, 0.875rem);
     color: var(--jinks-colors-500, #6f6b5d);
     line-height: 1.3;
     white-space: nowrap;
+}
+
+.form-grid fx-control label {
+    min-width: var(--edep-label-width);
 }
 
 fx-control > .widget,
@@ -478,57 +481,6 @@ textarea:focus {
     column-gap: 1rem;
 }
 
-/* Primary save button — filled */
-.saveBtn button,
-.buttonBar pb-restricted > fx-trigger:first-child button {
-    display: inline-flex;
-    padding: 8px 20px;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 2rem;
-    border-radius: var(--jinks-form-border-radius-full, 999px);
-    border: none;
-    color: var(--jinks-color-white, #fff);
-    background-color: var(--jinks-colors-500, #6f6b5d);
-    font-size: var(--jinks-form-control-font-size, 0.875rem);
-    line-height: 1;
-    cursor: pointer;
-    transition: opacity 0.12s;
-}
-
-.saveBtn button:hover,
-.buttonBar pb-restricted > fx-trigger:first-child button:hover {
-    opacity: 0.85;
-}
-
-/* Secondary buttons (links) */
-.content-top nav.toolbar fx-trigger > a:link,
-.content-top nav.toolbar fx-trigger > a:visited,
-.buttonBar fx-trigger a:link,
-.buttonBar fx-trigger a:visited {
-    color: var(--jinks-color-white, #fff) !important;
-    font-size: var(--jinks-form-control-font-size, 0.875rem);
-    text-decoration: none;
-    padding: 8px 16px;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 2rem;
-    border-radius: var(--jinks-form-border-radius-full, 999px);
-    border: none;
-    background-color: var(--jinks-colors-500, #6f6b5d);
-    line-height: 1;
-    opacity: 0.8;
-    transition: opacity 0.12s, background 0.12s;
-}
-
-.content-top nav.toolbar fx-trigger > a:hover,
-.buttonBar fx-trigger a:hover {
-    opacity: 0.85;
-}
-
 .loginMessage {
     color: #f59e0b;
     font-size: 0.82rem;
@@ -546,27 +498,6 @@ textarea:focus {
 }
 
 /* --- Triggers --------------------------------------------------------------- */
-fx-trigger {
-    display: block;
-}
-
-fx-trigger button {
-    display: inline-flex;
-    padding: 6px 16px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--jinks-form-border-radius-full, 999px);
-    font-size: var(--jinks-form-control-font-size, 0.875rem);
-    cursor: pointer;
-    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
-    background: var(--jinks-form-background-color, #FEFEF9);
-    color: var(--jinks-color-primary, #2D2B26);
-}
-
-fx-trigger button:hover {
-    background: var(--jinks-form-hover-color, #CFCDC5);
-}
-
 fx-trigger.add button {
     background: var(--jinks-background-color-dark, #2D2B26);
     color: var(--jinks-color-white, #fff);
@@ -1068,24 +999,8 @@ jinn-xml-editor::part(status) {
 }
 
 /* --- Measurements ----------------------------------------------------------- */
-.measurement {
-    position: relative;
-    width: 26rem;
-}
-
-.measurement::after {
-    content: 'cm';
-    position: absolute;
-    right: 0;
-    top: 1.3rem;
-    color: var(--jinks-colors-500, #6f6b5d);
-    font-size: 0.8rem;
-}
-
-.measurement input.widget {
-    width: 5rem;
-    text-align: right;
-    padding-right: 1.5rem;
+fx-control.measurement input.widget {
+    max-width: 20rem;
 }
 
 /* --- Output rows ------------------------------------------------------------ */
@@ -1124,10 +1039,10 @@ jinn-xml-editor::part(status) {
 }
 
 /* --- Specific sections ------------------------------------------------------ */
-#historic-relevance fx-control {
+/* #historic-relevance fx-control {
     display: flex;
     gap: 1rem;
-}
+} */
 
 #historic-relevance fx-items {
     display: flex;

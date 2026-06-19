@@ -21,13 +21,12 @@
     <fieldset id="idnos">
         <legend>Identifier
             <fx-trigger class="add">
-                                <span class="form-hint-wrap">
+                <span class="form-hint-wrap">
                     <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
                         <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
                     </span>
                     <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-add-idno"> </pb-i18n
-                                                >
+                        <pb-i18n key="form.hint-add-idno"></pb-i18n>
                     </div>
                 </span>
                 <fx-insert
@@ -36,7 +35,7 @@
                     origin="instance('templates')/idno"></fx-insert>
             </fx-trigger>
         </legend>
-        <fx-repeat ref="idno[@type != 'EDEp']" class="idno-repeat">
+        <fx-repeat ref="idno[not(@type = ('EDEp', 'inventory'))]" class="idno-repeat">
             <template>
                 <fx-control ref="@type">
                     <label>Type</label>
@@ -47,13 +46,12 @@
                     </label>
                 </fx-control>
                 <fx-trigger>
-                                        <span class="form-hint-wrap">
+                    <span class="form-hint-wrap">
                         <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
                             <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
                         </span>
                         <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-delete-idno"></pb-i18n
-                                                        >
+                            <pb-i18n key="form.hint-delete-idno"></pb-i18n>
                         </div>
                     </span>
                     <fx-delete ref="."></fx-delete>
