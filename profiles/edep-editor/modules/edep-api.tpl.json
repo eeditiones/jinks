@@ -635,34 +635,6 @@
         }
       }
     },
-    "/api/document/{id}/epidoc": {
-      "get": {
-        "summary": "Get the EpiDoc source of a document",
-        "tags": ["documents"],
-        "operationId": "dapi:epidoc",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Content of the document",
-            "content": {
-              "application/xml": { "schema": { "type": "string" } },
-              "text/markdown": { "schema": { "type": "string" } },
-              "text/text": { "schema": { "type": "string" } }
-            }
-          },
-          "410": {
-            "description": "Document deleted"
-          }
-        }
-      }
-    },
     "/api/zotero/sync": {
       "get": {
         "summary": "Incrementally sync local Zotero cache",
