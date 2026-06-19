@@ -210,6 +210,10 @@ button:has(svg):not(:has(span)),
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
 }
 
+nav li .btn:not(pb-link) {
+    margin-top: 0;
+}
+
 /* Group of buttons, e.g. navigate left/right */
 :not(fx-group)[role="group"] {
     list-style-type: none;

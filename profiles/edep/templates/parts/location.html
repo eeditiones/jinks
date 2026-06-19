@@ -14,25 +14,25 @@
             </span>
         </h2>
     </summary>
-    <fx-group ref="msIdentifier/repository" class="neutral">
-        <fx-control ref=".">
+    <fx-group ref="msIdentifier" class="neutral form-grid">
+        <fx-control ref="repository">
             <label>
                 <pb-i18n key="form.last-recorded-location"/>
             </label>
             <textarea class="widget"></textarea>
         </fx-control>
 
-        <fx-control ref="@key" create="create">
+        <fx-control ref="repository/@key" create="create">
             <label>
                 <pb-i18n key="form.repository"/>
             </label>
         </fx-control>
+        <fx-control ref="idno[@type='inventory']" class="form-grid">
+            <label>
+                <pb-i18n key="form.repository-number"/>
+            </label>
+        </fx-control>
     </fx-group>
-    <fx-control ref="msIdentifier/idno[@type='inventory']">
-        <label>
-            <pb-i18n key="form.repository-number"/>
-        </label>
-    </fx-control>
 
     <!-- 12b) -->
     <div class="with-hint">
