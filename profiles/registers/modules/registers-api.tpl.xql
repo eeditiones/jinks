@@ -25,7 +25,7 @@ declare function rview:sort($people as array(*)*, $dir as xs:string) {
 declare function rview:people-all($request as map(*)) {
     let $people :=
         [% if $features?register?config?person?id %]
-        collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id([[ $features?register?config?person?id ]])//tei:person
+        collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id("[[ $features?register?config?person?id ]]")//tei:person
         [% else %]
         collection($config:data-root || "/[[$features?register?config?person?collection ]]")//tei:person
         [% endif %]
@@ -57,13 +57,13 @@ declare function rview:people-categories($request as map(*)){
     let $people :=
         if ($search and $search != '') then
             [% if $features?register?config?person?id %]
-            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id([[ $features?register?config?person?id ]])//tei:person[ft:query(., 'name:(' || $search || '*)')]
+            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id("[[ $features?register?config?person?id ]]")//tei:person[ft:query(., 'name:(' || $search || '*)')]
             [% else %]
             collection($config:data-root || "/[[$features?register?config?person?collection ]]")//tei:person[ft:query(., 'name:(' || $search || '*)')]
             [% endif %]
         else
             [% if $features?register?config?person?id %]
-            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id([[ $features?register?config?person?id ]])//tei:person
+            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id("[[ $features?register?config?person?id ]]")//tei:person
             [% else %]
             collection($config:data-root || "/[[$features?register?config?person?collection ]]")//tei:person
             [% endif %]
@@ -127,7 +127,7 @@ declare function rview:detail-html($request as map(*)) {
     let $id := xmldb:decode-uri(xs:anyURI($request?parameters?id))
     let $entry := 
         [% if $features?register?config?place?id %]
-        collection($config:data-root)/id([[ $features?register?config?place?id ]])//tei:place[@xml:id = $id] => head()
+        collection($config:data-root)/id("[[ $features?register?config?place?id ]]")//tei:place[@xml:id = $id] => head()
         [% else %]
         collection($config:data-root)/id($id) => head()
         [% endif %]
@@ -161,13 +161,13 @@ declare function rview:places($request as map(*)){
     let $places :=
         if ($search and $search != '') then
             [% if $features?register?config?place?id %]
-            collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id([[ $features?register?config?place?id ]])//tei:place[ft:query(., 'name:(' || $search || '*)')]
+            collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id("[[ $features?register?config?place?id ]]")//tei:place[ft:query(., 'name:(' || $search || '*)')]
             [% else %]
             collection($config:data-root || "/[[$features?register?config?place?collection ]]")//tei:place[ft:query(., 'name:(' || $search || '*)')]
             [% endif %]
         else
             [% if $features?register?config?place?id %]
-            collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id([[ $features?register?config?place?id ]])//tei:place
+            collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id("[[ $features?register?config?place?id ]]")//tei:place
             [% else %]
             collection($config:data-root || "/[[$features?register?config?place?collection ]]")//tei:place
             [% endif %]
@@ -228,7 +228,7 @@ declare function rview:output-place($list, $category as xs:string, $search as xs
 declare function rview:places-all($request as map(*)) {
     let $places :=
         [% if $features?register?config?place?id %]
-        collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id([[ $features?register?config?place?id ]])//tei:place
+        collection($config:data-root || "/[[$features?register?config?place?collection ]]")/id("[[ $features?register?config?place?id ]]")//tei:place
         [% else %]
         collection($config:data-root || "/[[$features?register?config?place?collection ]]")//tei:place
         [% endif %]
