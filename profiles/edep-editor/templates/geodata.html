@@ -97,7 +97,16 @@
 
 [% template breadcrumb %]
 <li>
-    <fx-output ref="instance('default')/@xml:id"></fx-output>
+    <nav aria-label="breadcrumb">
+        <ul>
+            <li>
+                <a href="[[ $context-path ]]/places"><pb-i18n key="menu.places"/></a>
+            </li>
+            <li>
+                <fx-output ref="instance('default')/@xml:id"></fx-output>
+            </li>
+        </ul>
+    </nav>
 </li>
 [% endtemplate %]
 
