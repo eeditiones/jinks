@@ -179,7 +179,16 @@
 
 [% template breadcrumb %]
     <li>
-    <fx-output ref="instance('default')/@xml:id"></fx-output>
+        <nav aria-label="breadcrumb">
+            <ul>
+                <li>
+                    <a href="[[ $context-path ]]/people"><pb-i18n key="menu.people" /></a>
+                </li>
+                <li>
+                    <fx-output ref="instance('default')/@xml:id"></fx-output>
+                </li>
+            </ul>
+        </nav>
     </li>
 [% endtemplate %]
 
