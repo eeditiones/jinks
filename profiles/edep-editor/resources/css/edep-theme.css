@@ -578,7 +578,8 @@ fx-repeatitem {
 }
 
 fx-repeatitem:has(fx-trigger) > div {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 fx-repeatitem fx-control:has(jinn-xml-editor) {
@@ -603,11 +604,12 @@ fx-repeat.repeat-flex fx-repeatitem {
 fx-fore details > fx-repeat {
     margin-left: 1rem;
     margin-right: 1rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
 }
 
 .nested-repeat {
     display: block;
-    width: 100%;
     min-width: 0;
     justify-self: stretch;
 }
@@ -628,6 +630,8 @@ fieldset .nested-repeat fx-repeatitem {
     position: relative;
     gap: 0.5rem;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 }
 
@@ -643,7 +647,8 @@ fieldset .nested-repeat fx-repeatitem {
 
 .nested-repeat fx-repeatitem > fx-group,
 fieldset .nested-repeat fx-repeatitem > fx-group {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .nested-repeat fx-repeatitem > fx-trigger,
