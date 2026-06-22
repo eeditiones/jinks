@@ -63,9 +63,15 @@ declare function rview:people-categories($request as map(*)){
             [% endif %]
         else
             [% if $features?register?config?person?id %]
-            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id("[[ $features?register?config?person?id ]]")//tei:person
+            collection($config:data-root || "/[[$features?register?config?person?collection ]]")/id("[[ $features?register?config?person?id ]]")//tei:person[ft:query(., '*', map {
+                        "leading-wildcard": "yes",
+                        "filter-rewrite": "yes"
+                    })]
             [% else %]
-            collection($config:data-root || "/[[$features?register?config?person?collection ]]")//tei:person
+            collection($config:data-root || "/[[$features?register?config?person?collection ]]")//tei:person[ft:query(., '*', map {
+                        "leading-wildcard": "yes",
+                        "filter-rewrite": "yes"
+                    })]
             [% endif %]
     let $byKey := for-each($people, function($person as element()) {
         let $label := ft:field($person, "sort-name")
@@ -125,12 +131,7 @@ declare function rview:output-person-all($list as array(*)*, $letter as xs:strin
 
 declare function rview:detail-html($request as map(*)) {
     let $id := xmldb:decode-uri(xs:anyURI($request?parameters?id))
-    let $entry := 
-        [% if $features?register?config?place?id %]
-        collection($config:data-root)/id("[[ $features?register?config?place?id ]]")//tei:place[@xml:id = $id] => head()
-        [% else %]
-        collection($config:data-root)/id($id) => head()
-        [% endif %]
+    let $entry := collection($config:register-root)/id($id) => head()
     let $config := tpu:parse-pi(root($entry), $request?parameters?view, $request?parameters?odd)
     let $mentions := 
         if ($entry instance of element(tei:person)) then

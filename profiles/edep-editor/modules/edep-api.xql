@@ -15,81 +15,6 @@ declare namespace fore = "http://teipublisher.com/ns/fore";
 
 declare variable $edep:inscription-templ := $config:app-root || "/templates/fore/epidoc-template.xml";
 
-declare function edep:places-browse($request as map(*)) {
-    let $search := normalize-space($request?parameters?search)
-    let $letterParam := $request?parameters?category
-    let $limit := $request?parameters?limit
-    let $places :=
-        if ($search and $search != '') then
-            collection($config:data-root || "/places")//tei:place[ft:query(tei:placeName, $search || '*')] |
-            collection($config:data-root || "/places")//tei:place[contains(@xml:id, $search)]
-        else
-            collection($config:data-root || "/places")//tei:place
-    let $sorted :=
-        for $place in $places
-        order by $place/tei:placeName[@type="modern"]
-        return
-            $place
-    let $letter :=
-        if (count($places) < $limit) then
-            "Alle"
-        else if ($letterParam = '') then
-            substring($sorted[1], 1, 1) => upper-case()
-        else
-            $letterParam
-    let $byLetter :=
-        if ($letter = 'Alle') then
-            $sorted
-        else
-            filter($sorted, function($entry) {
-                starts-with(lower-case($entry/tei:placeName[@type="modern"]), lower-case($letter))
-            })
-    return
-        map {
-            "items": edep:output-place($byLetter, $letter, $search),
-            "categories":
-                if (count($places) < $limit) then
-                    []
-                else array {
-                    for $index in 1 to string-length('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-                    let $alpha := substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $index, 1)
-                    let $hits := count(filter($sorted, function($entry) { starts-with(lower-case($entry/tei:placeName[@type="modern"]), lower-case($alpha))}))
-                    where $hits > 0
-                    return
-                        map {
-                            "category": $alpha,
-                            "count": $hits
-                        },
-                    map {
-                        "category": "Alle",
-                        "count": count($sorted)
-                    }
-                }
-        }
-};
-
-declare function edep:output-place($list, $category as xs:string, $search as xs:string?) {
-    array {
-        for $place in $list
-        let $categoryParam := if ($category = "all") then substring($place/@n, 1, 1) else $category
-        let $params := "id=" || $place/@xml:id || "&amp;category=" || $categoryParam || "&amp;search=" || $search
-        let $label := string-join((
-            $place/tei:placeName[@type='modern'][node()],
-            $place/tei:placeName[@type='ancient'][node()],
-            $place/tei:region[@type='ancient'][node()],
-            $place/tei:region[@type='province'][node()],
-            $place/tei:placeName[@type='findspot'][node()]
-        ), '; ')
-        let $coords := tokenize($place/tei:location/tei:geo)
-        return
-            <div class="place">
-                <a href="geodata.html?{$params}">{$label}</a>
-                <paper-icon-button id="{$place/@xml:id}" class="place-id" icon="icons:content-copy"
-                    title="ID kopieren"></paper-icon-button>
-            </div>
-    }
-};
-
 declare function edep:find-spot($request as map(*)) {
     let $doc := xmldb:decode($request?parameters?id)
     let $xml := doc($config:data-root || '/' || $doc)
@@ -109,7 +34,7 @@ declare function edep:find-spot($request as map(*)) {
 };
 
 declare function edep:load-place($request as map(*)) {
-    let $loc := $config:data-root || "/places/" || $request?parameters?id || ".xml"
+    let $loc := $config:register-root || "/places/" || $request?parameters?id || ".xml"
     return if (not(doc-available($loc))) then
         error($errors:NOT_FOUND)
     else
@@ -155,79 +80,8 @@ declare function edep:places-add($request as map(*)) {
     }
 };
 
-declare function edep:people-browse($request as map(*)) {
-    let $search := normalize-space($request?parameters?search)
-    let $letterParam := $request?parameters?category
-    let $limit := $request?parameters?limit
-    let $people :=
-        if ($search and $search != '') then
-            collection($config:data-root || "/people")//tei:person[ft:query(tei:persName, $search || '*')]
-        else
-            collection($config:data-root || "/people")//tei:person
-    let $sorted :=
-        for $person in $people
-        order by $person/tei:persName[@type='nomen']
-        return
-            $person
-    let $letter :=
-        if (count($people) < $limit) then
-            "Alle"
-        else if ($letterParam = '') then
-            substring($sorted[1], 1, 1) => upper-case()
-        else
-            $letterParam
-    let $byLetter :=
-        if ($letter = 'Alle') then
-            $sorted
-        else
-            filter($sorted, function($entry) {
-                starts-with(lower-case($entry/tei:persName/tei:name[@type='nomen']), lower-case($letter))
-            })
-    return
-        map {
-            "items": edep:output-person($byLetter, $letter, $search),
-            "categories":
-                if (count($people) < $limit) then
-                    []
-                else array {
-                    for $index in 1 to string-length('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-                    let $alpha := substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $index, 1)
-                    let $hits := count(filter($sorted, function($entry) { starts-with(lower-case($entry/tei:persName/tei:name[@type='nomen']), lower-case($alpha))}))
-                    where $hits > 0
-                    return
-                        map {
-                            "category": $alpha,
-                            "count": $hits
-                        },
-                    map {
-                        "category": "Alle",
-                        "count": count($sorted)
-                    }
-                }
-        }
-};
-
-declare function edep:output-person($list, $category as xs:string, $search as xs:string?) {
-    array {
-        for $person in $list
-        let $categoryParam := if ($category = "all") then substring($person/tei:persName/tei:name[@type='nomen'], 1, 1) else $category
-        let $params := "id=" || $person/@xml:id || "&amp;category=" || $categoryParam || "&amp;search=" || $search
-        let $label := string-join((
-            $person/tei:persName/tei:name[@type='praenomen'][node()],
-            $person/tei:persName/tei:name[@type='cognomen'][node()],
-            $person/tei:persName/tei:name[@type='nomen'][node()]
-        ), ' ')
-        return
-            <span class="person">
-                <a href="person?{$params}">{$label}</a>
-                <paper-icon-button id="{$person/@xml:id}" class="place-id" icon="icons:content-copy"
-                    title="ID kopieren"></paper-icon-button>
-            </span>
-    }
-};
-
 declare function edep:load-person($request as map(*)) {
-    let $loc := $config:data-root || "/people/" || $request?parameters?id || ".xml"
+    let $loc := $config:register-root || "/people/" || $request?parameters?id || ".xml"
     return if (not(doc-available($loc))) then
         error($errors:NOT_FOUND)
     else
