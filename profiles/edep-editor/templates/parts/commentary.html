@@ -15,7 +15,7 @@
           schema="resources/scripts/tei.json"
           schema-root="div"
           namespace="http://www.tei-c.org/ns/1.0"
-          base-url="${app}"
+          base-url="[[ $context-path]]"
           providers="zotero"
           data-template="lib:parse-params">
             <div slot="toolbar">
