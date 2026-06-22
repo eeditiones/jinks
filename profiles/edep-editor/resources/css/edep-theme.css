@@ -648,7 +648,7 @@ fieldset .nested-repeat fx-repeatitem {
 .nested-repeat fx-repeatitem > fx-group,
 fieldset .nested-repeat fx-repeatitem > fx-group {
     flex: 1 1 auto;
-    min-width: 0;
+    /* min-width: 0; */
 }
 
 .nested-repeat fx-repeatitem > fx-trigger,
@@ -814,7 +814,7 @@ fx-items {
 }
 
 .inline-form fx-control {
-    display: inline-block;
+    display: inline-flex;
 }
 
 fx-group.form-row,
