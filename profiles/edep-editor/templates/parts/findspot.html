@@ -22,7 +22,7 @@
                 </label>
                 <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
                     schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
-                    base-url="${app}" providers="zotero" data-template="lib:parse-params">
+                    base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
                     <div slot="toolbar">
                         <button data-command="selectElement" title="Select element around current cursor position">
                             &lt;|&gt;
@@ -91,7 +91,7 @@
                 </label>
                 <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
                     schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
-                    base-url="${app}" providers="zotero" data-template="lib:parse-params">
+                    base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
                     <div slot="toolbar">
                         <button data-command="selectElement" title="Select element around current cursor position">
                             &lt;|&gt;
