@@ -38,7 +38,14 @@
         <fx-repeat ref="idno[not(@type = ('EDEp', 'inventory'))]" class="idno-repeat">
             <template>
                 <fx-control ref="@type">
-                    <label>Type</label>
+                    <label>
+                        <pb-i18n key="form.idno-type">Type</pb-i18n>
+                    </label>
+                    <select class="widget" ref="sortNames(instance('idno-types')//category)">
+                        <template>
+                            <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                        </template>
+                    </select>
                 </fx-control>
                 <fx-control class="idno" ref=".">
                     <label>
