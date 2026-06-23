@@ -1,5 +1,6 @@
 <div>
     [% template before-document-list %]
+    [% if $features?edep?editor?enabled %]
     <li>
         <a id="createNewDocument" href="[[ $context-path ]]/edit/workspace/" data-tooltip="Create New Document" data-placement="left">
             <button class="secondary">
@@ -22,8 +23,10 @@
             </pb-ajax>
         </pb-restricted>
     </li>
+    [% endif %]
     [% endtemplate %]
     [% template document-actions %]
+    [% if $features?edep?editor?enabled %]
     <a href="[[ $context-path ]]/edit/[[ $options?relpath ]]" data-tooltip="Edit Document in EDEp Editor" data-placement="bottom" target="edep">
         <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
@@ -34,9 +37,10 @@
             <span><pb-i18n key="menu.edit-in-edep-editor"></pb-i18n></span>
         </button>
     </a>
+    [% endif %]
     [% endtemplate %]
     [% template toggle %]
-    [% if exists($context?doc) and $features?edep?toolbar-button %]
+    [% if exists($context?doc) and $features?edep?editor?enabled %]
     <li>
         <a href="[[ $context-path ]]/edit/[[ $context?doc?path ]]" data-tooltip="Edit Document in EDEp Editor"
             data-placement="bottom" target="edep">
@@ -51,15 +55,5 @@
         </a>
     </li>
     [% endif %]
-    [% endtemplate %]
-
-    [%# Native form hint (replaces pb-popover). Copy this pattern into templates: %]
-    [% template form-hint %]
-    <span class="form-hint-wrap">
-        <button type="button" class="hint-trigger" aria-label="Help">
-            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-        </button>
-        <div class="form-hint" popover="manual" role="tooltip"></div>
-    </span>
     [% endtemplate %]
 </div>
