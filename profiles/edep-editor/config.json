@@ -43,29 +43,15 @@
     ],
     "features": {
         "edep": {
-            "toolbar-button": true
+            "editor": {
+                "enabled": false
+            }
         },
         "zotero": {
             "api_base": "https://api.zotero.org",
             "group_id": "2519759",
             "style": "digital-humanities-im-deutschsprachigen-raum",
             "api_key": ""
-        },
-        "upload": {
-            "enabled": true,
-            "target": "workspace",
-            "accept": ".xml, .tei, .odd, .docx, .md, .mei"
-        },
-        "register": {
-            "config": {
-                "$replace": true,
-                "place": {
-                    "collection": "registers/places"
-                },
-                "person": {
-                    "collection": "registers/people"
-                }
-            }
         }
     }
 }
