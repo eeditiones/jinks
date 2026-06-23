@@ -686,6 +686,36 @@
                             "examples": [ "templates/docx/documentation.docx" ]
                         }
                     }
+                },
+                "edep": {
+                    "type": "object",
+                    "properties": {
+                        "editor": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "zotero": {
+                    "type": "object",
+                    "properties": {
+                        "api_base": {
+                            "type": "string"
+                        },
+                        "group_id": {
+                            "type": "string"
+                        },
+                        "style": {
+                            "type": "string"
+                        },
+                        "api_key": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
