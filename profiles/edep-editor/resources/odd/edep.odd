@@ -1,5 +1,4 @@
-<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -65,11 +64,14 @@
                     <model output="web" behaviour="block"/>
                 </elementSpec>
             <elementSpec ident="TEI" mode="change">
-                    <model predicate="@type='about'" behaviour="inline">
-            <param name="content" value="text/body/div[starts-with($parameters?language, @xml:lang)]"/>
-        </model>
-                    <model behaviour="document"/>
-                </elementSpec>
+                <model predicate="$parameters?mode = 'breadcrumb'" behaviour="inline">
+                    <param name="content" value="text/body/div[@xml:lang = 'en']//head[1]"/>
+                </model>
+                <model predicate="@type='about'" behaviour="inline">
+                    <param name="content" value="text/body/div[starts-with(@xml:lang, $parameters?language)]"/>
+                </model>
+                <model behaviour="document"/>
+            </elementSpec>
                 <elementSpec ident="ex" mode="change">
                     <model behaviour="inline">
             <param name="content" value="if (./@cert='low')  then ('(',., '?)') else ('(',., ')')"/>
@@ -106,18 +108,7 @@
                 <elementSpec ident="supplied" mode="change">
                     <model predicate="@reason=('lost', 'damage', 'illegible') or not(@reason)" behaviour="inline">
                         <desc>all lost rendered in [] brackets, except when brackets are merged with prev/next sibling of gap or supplied</desc>
-                        <param name="content" value="
-                        let $prev := head(reverse(preceding-sibling::node() except preceding-sibling::text()[normalize-space(.)='']))
-                        let $next := head(following-sibling::node() except following-sibling::text()[normalize-space(.)=''])
-
-                        let $prefix := if ($prev[local-name() = ('supplied', 'gap')]) then () else '['
-                        let $suffix := if ($next[local-name() = ('supplied', 'gap')]) then () else ']'
-                        let $cert := head((@cert, @precision))
-                        let $modifier := if ($cert = ('low', '?', 'uncertain')) then '?' else ()
-
-                        let $content := .
-                        
-                        return ($prefix, $content, $modifier, $suffix)"/>
+                        <param name="content" value="                         let $prev := head(reverse(preceding-sibling::node() except preceding-sibling::text()[normalize-space(.)='']))                         let $next := head(following-sibling::node() except following-sibling::text()[normalize-space(.)=''])                          let $prefix := if ($prev[local-name() = ('supplied', 'gap')]) then () else '['                         let $suffix := if ($next[local-name() = ('supplied', 'gap')]) then () else ']'                         let $cert := head((@cert, @precision))                         let $modifier := if ($cert = ('low', '?', 'uncertain')) then '?' else ()                          let $content := .                                                  return ($prefix, $content, $modifier, $suffix)"/>
                     </model>
                     <model predicate="@reason='undefined' and @evidence='previouseditor'" behaviour="inline">
             <outputRendition xml:space="preserve">
@@ -172,14 +163,7 @@
                     </model>
                     <model behaviour="inline">
                         <desc>in all other assume it's a gap for a given number of characters</desc>
-                        <param name="content" value="
-                        let $prev := head(reverse(preceding-sibling::node() except preceding-sibling::text()[normalize-space(.)='']))
-                        let $next := head(following-sibling::node() except following-sibling::text()[normalize-space(.)=''])
-
-                        let $prefix := if ($prev[local-name() = ('supplied', 'gap')]) then () else '['
-                        let $suffix := if ($next[local-name() = ('supplied', 'gap')]) then () else ']'
-                        
-                        let $ext := head((@extent, @quantity)) let $extent := try {     xs:integer($ext) } catch * {     () }   return if ($extent) then $prefix || '-' || $extent || '-' || $suffix else $prefix || '- - -' || $suffix"/>
+                        <param name="content" value="                         let $prev := head(reverse(preceding-sibling::node() except preceding-sibling::text()[normalize-space(.)='']))                         let $next := head(following-sibling::node() except following-sibling::text()[normalize-space(.)=''])                          let $prefix := if ($prev[local-name() = ('supplied', 'gap')]) then () else '['                         let $suffix := if ($next[local-name() = ('supplied', 'gap')]) then () else ']'                                                  let $ext := head((@extent, @quantity)) let $extent := try {     xs:integer($ext) } catch * {     () }   return if ($extent) then $prefix || '-' || $extent || '-' || $suffix else $prefix || '- - -' || $suffix"/>
                     </model>
                 </elementSpec>
                 <elementSpec ident="surplus" mode="add">
@@ -244,7 +228,7 @@
                         <param name="id" value="@xml:id"/>
                         <param name="label" value="head((persName[@type='sort'], persName[@type='main'], persName[1]))"/>
                         <param name="description" value="note[@type='bio']"/>
-                        <pb:template xml:space="preserve" xmlns=""><div>
+                        <pb:template xmlns="" xml:space="preserve"><div>
 <header>
     <a href="person?id=[[ id ]]">[[ label ]]</a>
 </header>
@@ -299,7 +283,7 @@ flex-wrap: wrap;
                     occur; (shown in register details view only); trying to match by key
                     or ref attributes</desc>
                             <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
-                            <pb:template xml:space="preserve" xmlns=""><div>
+                            <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
                         </h2>
@@ -312,14 +296,11 @@ flex-wrap: wrap;
                             <desc>List of documents (from data-default collection), where references occur;
                     (shown in register details view only); trying to match by key or ref attributes</desc>
                             <param name="uri" value="$parameters?context-path || '/browse.html?facet-person=' || @xml:id"/>
-                            <param name="content" value="let $id := @xml:id return count(
-                collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI
-                | collection($global:data-default)//text//rs[@key = $id or @ref = $id]/ancestor::TEI
-                )"/>
+                            <param name="content" value="let $id := @xml:id return count(                 collection($global:data-default)//text//persName[@key = $id or @ref = $id]/ancestor::TEI                 | collection($global:data-default)//text//rs[@key = $id or @ref = $id]/ancestor::TEI                 )"/>
                             <param name="level" value="4"/>
-                            <pb:template xml:space="preserve" xmlns="">
+                            <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
-                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <svg class="icon icon-launch"><use href="#box-arrow-up-right"></use></svg>
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <svg class="icon icon-launch"><use href="#box-arrow-up-right"/></svg>
                     </a></pb:template>
                         </model>
                     </modelSequence>
@@ -333,7 +314,7 @@ flex-wrap: wrap;
                         <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]"/>
                         <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
                         <param name="description" value="note"/>
-                        <pb:template xml:space="preserve" xmlns=""><div>
+                        <pb:template xmlns="" xml:space="preserve"><div>
 <header>
     <a href="place?id=[[id]]">
         [[ label ]]
@@ -354,7 +335,7 @@ flex-wrap: wrap;
                         <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]"/>
                         <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]"/>
                         <param name="label" value="placeName[@type='main']/node()"/>
-                        <pb:template xml:space="preserve" xmlns=""><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
+                        <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
                     </model>
                     <modelSequence>
                         <desc>Register details view</desc>
@@ -364,7 +345,7 @@ flex-wrap: wrap;
                             <param name="label" value="placeName[@type='main']/node()"/>
                             <param name="content" value="placeName[@type='main']"/>
                             <param name="location" value="string-join((country, region), ', ')"/>
-                            <pb:template xml:space="preserve" xmlns=""><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
+                            <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="click" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="#map" subscribe="map" emit="map" zoom="11">[[content]] <small>[[location]]</small></pb-geolocation></pb:template>
                         </model>
                         <model behaviour="paragraph">
                             <desc>Additional notes</desc>
@@ -379,7 +360,7 @@ flex-wrap: wrap;
                                 occur; (shown in register details view only); trying to match by key
                                 or ref attributes</desc>
                             <param name="content" value="let $id := @xml:id return collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt"/>
-                            <pb:template xml:space="preserve" xmlns=""><div>
+                            <pb:template xmlns="" xml:space="preserve"><div>
                         <h2>
                             <pb-i18n key="register-details.document-list"/>
                         </h2>
@@ -393,9 +374,9 @@ flex-wrap: wrap;
                                 query</desc>
                             <param name="uri" value="$parameters?context-path || '/browse.html?facet-place=' || @xml:id"/>
                             <param name="content" value="let $id := @xml:id return count(collection($global:data-default)//text//placeName[@key = $id or @ref = $id]/ancestor::TEI)"/>
-                            <pb:template xml:space="preserve" xmlns="">
+                            <pb:template xmlns="" xml:space="preserve">
                     <a href="[[uri]]">
-                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <svg class="icon icon-launch"><use href="#box-arrow-up-right"></use></svg>
+                        <pb-i18n key="register-details.document-list"/> ( [[content]] ) <svg class="icon icon-launch"><use href="#box-arrow-up-right"/></svg>
                     </a></pb:template>
                         </model>
                     </modelSequence>
