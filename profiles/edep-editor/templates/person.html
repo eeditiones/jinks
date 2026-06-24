@@ -30,7 +30,7 @@
         width: 20rem;
     }
     fx-control[required]::after,
-    fx-control[required] > label::after {
+    fx-control[required] &gt; label::after {
         display: none;
     }
     .actions {
@@ -49,7 +49,7 @@
     main {
         padding: 0 2rem;
     }
-    fieldset > fieldset {
+    fieldset &gt; fieldset {
         margin: 2rem 1rem;
         width: auto;
     }
@@ -61,22 +61,20 @@
 
 [% template fore-prolog %]
     <fx-action event="ready" if="exists(instance('query')/id)">
-        <fx-send submission="s-load"></fx-send>
-        <fx-setfocus control="first" delay="300"></fx-setfocus>
+        <fx-send submission="s-load"/>
+        <fx-setfocus control="first" delay="300"/>
     </fx-action>
 
     <fx-model>
         <fx-action event="model-construct-done">
-            <fx-send submission="s-login"></fx-send>
-            <fx-send submission="s-load" if="exists(instance('query')/id)"></fx-send>
+            <fx-send submission="s-login"/>
+            <fx-send submission="s-load" if="exists(instance('query')/id)"/>
         </fx-action>
 
         <fx-instance src="templates/fore/person-tmpl.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+            <data/>
         </fx-instance>
-        <fx-bind
-            ref="instance('default')/persName/name[@type = ('nomen', 'praenomen', 'god', 'cognomen', 'supernomen')]"
-            required="let $c := . return empty(../name[@type = ('nomen', 'praenomen', 'god', 'cognomen', 'supernomen')][$c/@type != @type][string-length(.) > 0])">
+        <fx-bind ref="instance('default')/persName" constraint="exists(name[@type = ('nomen', 'praenomen', 'god', 'cognomen', 'supernomen')][normalize-space(.)])">
         </fx-bind>
 
         <fx-instance id="tribus">
@@ -122,19 +120,19 @@
         </fx-instance>
         <fx-instance id="status">
             <data>
-                <item key="Herrscher / Herrscherhaus"></item>
-                <item key="Herrscher (peregrin)"></item>
-                <item key="Senatorenstand"></item>
-                <item key="Ritterstand"></item>
-                <item key="Dekurionenstand"></item>
-                <item key="Militärpersonal / Soldaten"></item>
-                <item key="höhere Gemeindeverwaltung"></item>
-                <item key="subalterne Beamte"></item>
-                <item key="Domänen- / niedere Gemeindeverwaltung"></item>
-                <item key="Augustalen"></item>
-                <item key="Freigelassene"></item>
-                <item key="Sklaven"></item>
-                <item key="Sonstige"></item>
+                <item key="Herrscher / Herrscherhaus"/>
+                <item key="Herrscher (peregrin)"/>
+                <item key="Senatorenstand"/>
+                <item key="Ritterstand"/>
+                <item key="Dekurionenstand"/>
+                <item key="Militärpersonal / Soldaten"/>
+                <item key="höhere Gemeindeverwaltung"/>
+                <item key="subalterne Beamte"/>
+                <item key="Domänen- / niedere Gemeindeverwaltung"/>
+                <item key="Augustalen"/>
+                <item key="Freigelassene"/>
+                <item key="Sklaven"/>
+                <item key="Sonstige"/>
             </data>
         </fx-instance>
         <fx-instance id="vars">
@@ -142,16 +140,16 @@
                 <loggedin>hidden</loggedin>
             </data>
         </fx-instance>
-        <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"></fx-bind>
+        <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"/>
 
         <fx-instance id="query" src="#querystring">
-            <data></data>
+            <data/>
         </fx-instance>
 
         <fx-submission id="s-save" method="post" url="[[ $context-path ]]/api/people/{instance('query')/id}" replace="instance">
             <fx-action event="submit-done">
                 <fx-message>Person wurde gespeichert</fx-message>
-                <fx-send submission="s-load"></fx-send>
+                <fx-send submission="s-load"/>
             </fx-action>
             <fx-message event="submit-error">couldn't be saved</fx-message>
         </fx-submission>
@@ -163,14 +161,12 @@
                 <fx-message>Daten konnten nicht gespeichert werden.</fx-message>
             </fx-action>
         </fx-submission>
-        <fx-submission id="s-load" method="get" url="[[ $context-path ]]/api/people/{instance('query')/id}" replace="instance"
-            validate="false"></fx-submission>
+        <fx-submission id="s-load" method="get" url="[[ $context-path ]]/api/people/{instance('query')/id}" replace="instance" validate="false"/>
         <fx-submission id="s-reset" url="templates/fore/person-tmpl.xml" replace="instance">
         </fx-submission>
 
         <fx-instance id="login" type="json">{}</fx-instance>
-        <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post" replace="instance"
-            instance="login" validate="false">
+        <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post" replace="instance" instance="login" validate="false">
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-error">false</fx-setvalue>
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-done">true</fx-setvalue>
         </fx-submission>
@@ -182,10 +178,10 @@
         <nav aria-label="breadcrumb">
             <ul>
                 <li>
-                    <a href="[[ $context-path ]]/people"><pb-i18n key="menu.people" /></a>
+                    <a href="[[ $context-path ]]/people"><pb-i18n key="menu.people"/></a>
                 </li>
                 <li>
-                    <fx-output ref="instance('default')/@xml:id"></fx-output>
+                    <fx-output ref="instance('default')/@xml:id"/>
                 </li>
             </ul>
         </nav>
@@ -194,12 +190,12 @@
 
     <fieldset>
         <legend>Person</legend>
-        <p class="hint"><pb-i18n key="form.hint-person-validation"></pb-i18n></p>
+        <p class="hint"><pb-i18n key="form.hint-person-validation"/></p>
         <fx-control id="first" ref="persName/name[@type='god']">
             <label>
                 <pb-i18n key="person.deity">Gott</pb-i18n>
             </label>
-            <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
+            <input type="text" autofocus="autofocus" class="widget" tabindex="1"/>
         </fx-control>
         <fx-control ref="persName/name[@type='praenomen']">
             <label>Praenomen</label>
@@ -226,10 +222,10 @@
         </fx-control>
         <fx-control ref="@sex">
             <label>
-                <pb-i18n key="person.sex"></pb-i18n>
+                <pb-i18n key="person.sex"/>
             </label>
             <select class="widget">
-                <option></option>
+                <option/>
                 <option value="M" selected="selected">
                     <pb-i18n key="person.male">Männlich</pb-i18n>
                 </option>
@@ -260,9 +256,9 @@
                     <pb-i18n key="form.references">Referenzen</pb-i18n>
                 </label>
                 <fx-trigger class="add" title="Referenz hinzufügen">
-                    <svg class="icon icon-add" title="Referenz hinzufügen"><use href="#plus-circle"></use></svg>
-                    <fx-insert context="." ref="idno"></fx-insert>
-                    <fx-refresh control="r-idno"></fx-refresh>
+                    <svg class="icon icon-add" title="Referenz hinzufügen"><use href="#plus-circle"/></svg>
+                    <fx-insert context="." ref="idno"/>
+                    <fx-refresh control="r-idno"/>
                 </fx-trigger>
             </legend>
             <fx-repeat ref="./idno" id="r-idno">
@@ -280,9 +276,9 @@
                         </fx-control>
                         <fx-control ref=".">
                             <label>
-                                <pb-i18n key="form.idno"></pb-i18n>
+                                <pb-i18n key="form.idno"/>
                             </label>
-                            <input />
+                            <input/>
                         </fx-control>
                     </div>
                 </template>
@@ -295,18 +291,16 @@
             <p class="loginMessage" slot="fallback">You need to be logged in to edit.</p>
             <fx-trigger id="save" class="saveBtn" debounce="1000">
                 <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
-                        viewBox="0 0 16 16">
-                        <path d="M11 2H9v3h2z" />
-                        <path
-                            d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                        <path d="M11 2H9v3h2z"/>
+                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
                     </svg>
                     <span><pb-i18n key="form.save">Save</pb-i18n></span>
                 </button>
                 <fx-action>
-                    <fx-send submission="s-login"></fx-send>
-                    <fx-send submission="s-create" if="not(exists(instance('query')/id))"></fx-send>
-                    <fx-send submission="s-save" if="exists(instance('query')/id)"></fx-send>
+                    <fx-send submission="s-login"/>
+                    <fx-send submission="s-create" if="not(exists(instance('query')/id))"/>
+                    <fx-send submission="s-save" if="exists(instance('query')/id)"/>
                 </fx-action>
             </fx-trigger>
         </pb-restricted>
@@ -314,12 +308,9 @@
     <li>
         <fx-trigger id="new-entry">
             <a href="person" class="btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
-                    <path
-                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
                 </svg>
                 <span><pb-i18n key="form.new">New</pb-i18n></span>
             </a>
