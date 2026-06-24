@@ -263,6 +263,11 @@ fx-control[required] > label::after {
     color: #ef4444;
 }
 
+.toolbar li fx-output {
+    margin: 0;
+    width: auto;
+}
+
 /* --- Tooltips/hints --------------------------------------------------------- */
 fx-control fx-hint {
     display: inline-block;
@@ -287,6 +292,10 @@ fx-control .icon:hover ~ fx-hint {
 }
 
 .form-hint-wrap {
+    font-family: var(--jinks-base-font-family);
+    font-weight: var(--jinks-base-font-weight);
+    line-height: var(--jinks-base-line-height);
+    hyphens: none;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
