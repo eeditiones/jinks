@@ -10,7 +10,7 @@
     
     -->
     <summary>
-        <h2><pb-i18n key="form.text-description"></pb-i18n></h2>
+        <h2><pb-i18n key="form.text-description"/></h2>
     </summary>
     <fx-group ref="ancestor::teiHeader/profileDesc" class="outer-group" aria-labelledby="profile-lbl">
 
@@ -23,31 +23,23 @@
                 <fx-trigger class="add">
                                         <span class="form-hint-wrap">
                         <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                            <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+                            <svg class="icon icon-add"><use href="#plus-circle"/></svg>
                         </span>
                         <div class="form-hint" popover="manual" role="tooltip">
                             <pb-i18n key="form.hint-add-language"/>
                         </div>
                     </span>
-                    <fx-insert
-                    context="."
-                    ref="language"
-                    origin="instance('templates')/language"></fx-insert>
+                    <fx-insert context="." ref="language" origin="instance('templates')/language"/>
                 </fx-trigger>
 
-                <fx-repeat
-                class="nested-repeat repeat-flex"
-                ref="language[@ident!='edep']"
-                id="r-language">
+                <fx-repeat class="nested-repeat repeat-flex" ref="language[not(@ident = 'edep')]" id="r-language">
                     <template>
                     <fx-group class="neutral">
                             <fx-control ref="@ident" create="create">
                                 <label>
                                     <pb-i18n key="form.language"/>
                                 </label>
-                        <select
-                    ref="instance('language-options')//category"
-                            class="widget">
+                        <select ref="instance('language-options')//category" class="widget">
                                     <template>
                                         <!-- prettier-ignore -->
                                         <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -60,9 +52,7 @@
                                 <label>
                                     <pb-i18n key="form.languageScope"/>
                                 </label>
-                                <select
-                                ref="instance('language-scope')//category"
-                                class="widget">
+                                <select ref="instance('language-scope')//category" class="widget">
                                 <template>
                                     <!-- prettier-ignore -->
                                     <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -73,13 +63,13 @@
                         <fx-trigger>
                                                         <span class="form-hint-wrap">
                                 <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                                    <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                                    <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
                                 </span>
                                 <div class="form-hint" popover="manual" role="tooltip">
                                     <pb-i18n key="form.hint-delete-language"/>
                                 </div>
                             </span>
-                            <fx-delete ref="."></fx-delete>
+                            <fx-delete ref="."/>
                         </fx-trigger>
                     </template>
                 </fx-repeat>
@@ -89,7 +79,7 @@
                         <label>
                             <pb-i18n key="form.languageFree"/>
                         </label>
-                        <textarea class="widget"></textarea>
+                        <textarea class="widget"/>
 
                     </fx-control>
                 </fx-group>
@@ -103,9 +93,7 @@
             <label>
                 <pb-i18n key="form.metre">Metrik</pb-i18n>
             </label>
-            <select class="widget"
-                ref="sortNames(instance('metre')//category)"
-                selection="open">
+            <select class="widget" ref="sortNames(instance('metre')//category)" selection="open">
                 <template>
                     <!-- prettier-ignore -->
                     <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -115,10 +103,7 @@
 
         <div class="alternatives">
             <fx-group ref="note[@type='paleography']" class="neutral">
-                <fx-control
-                ref="@corresp"
-                create="create"
-                update-event="input">
+                <fx-control ref="@corresp" create="create" update-event="input">
                     <label>
                         <pb-i18n key="form.paleography">Paläographie</pb-i18n>
                     </label>
@@ -131,12 +116,7 @@
                         </template>
                     </fx-items>
                 </fx-control>
-                <fx-control
-                id="input34"
-                ref="."
-                class="{instance('vars')/hide}"
-                as="node"
-                update-event="leave">
+                <fx-control id="input34" ref="." class="{instance('vars')/hide}" as="node" update-event="leave">
                     <label>
                         <pb-i18n key="form.free-form">freie Angabe</pb-i18n>
                     </label>
@@ -154,9 +134,7 @@
                 <label>
                     <pb-i18n key="form.ligature">Ligatur</pb-i18n>
                 </label>
-                <select
-                    ref="sortNames(instance('ligature')//category)"
-                    class="widget">
+                <select ref="sortNames(instance('ligature')//category)" class="widget">
                     <template>
                         <!-- prettier-ignore -->
                         <option value="{@corresp}">{catDesc[@xml:lang = $lang]}</option>
