@@ -6,32 +6,23 @@
     <fx-trigger class="add">
                 <span class="form-hint-wrap">
             <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+                <svg class="icon icon-add"><use href="#plus-circle"/></svg>
             </span>
             <div class="form-hint" popover="manual" role="tooltip">
-                <pb-i18n key="form.hint-add-language"></pb-i18n
-                                >
+                <pb-i18n key="form.hint-add-language"/>
             </div>
         </span>
-        <fx-insert
-          context="langUsage"
-          ref="language"
-          origin="instance('templates')/language"></fx-insert>
+        <fx-insert context="langUsage" ref="language" origin="instance('templates')/language"/>
     </fx-trigger>
 
-    <fx-repeat
-      class="nested-repeat"
-      ref="langUsage/language[not(note)][@ident!='']"
-      id="r-language">
+    <fx-repeat class="nested-repeat" ref="langUsage/language[not(note)][not(@ident = '')]" id="r-language">
         <template>
             <fx-group>
                 <fx-control ref="@ident">
                     <label>
                         <pb-i18n key="form.language">Language</pb-i18n>
                     </label>
-                    <select
-                  ref="instance('language-options')//category"
-                  class="widget">
+                    <select ref="instance('language-options')//category" class="widget">
                     <template>
                         <!-- prettier-ignore -->
                         <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -44,9 +35,7 @@
                     <label>
                         <pb-i18n key="form.languageScope"/>
                     </label>
-                    <select
-                    ref="instance('language-scope')//category"
-                    class="widget">
+                    <select ref="instance('language-scope')//category" class="widget">
                       <template>
                           <!-- prettier-ignore -->
                           <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -57,23 +46,19 @@
             <fx-trigger>
                                 <span class="form-hint-wrap">
                     <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                        <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                        <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
                     </span>
                     <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-delete-language"></pb-i18n
-                                                >
+                        <pb-i18n key="form.hint-delete-language"/>
                     </div>
                 </span>
-                <fx-delete ref="."></fx-delete>
+                <fx-delete ref="."/>
             </fx-trigger>
         </template>
     </fx-repeat>
 
     <fx-control ref="langUsage/language[@ident='']/note">
         <label>
-            <pb-i18n key="form.languageFree"
-            >Andere Sprachen oder Kommentare</pb-i18n
-            ></label
-        >
+            <pb-i18n key="form.languageFree">Andere Sprachen oder Kommentare</pb-i18n></label>
     </fx-control>
 </details>
