@@ -80,12 +80,12 @@ h4 {
 }
 
 :host(pb-lang) summary {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
     height: 36px;
-    padding: 13.5px 7.2px;
+    min-width: 36px;
+    padding: 6px 12px;
     border-radius: 81px;
     background-color: var(--jinks-menubar-button-color);
     font-size: var(--jinks-menubar-font-size);

@@ -181,6 +181,11 @@
                     "type": "string",
                     "description": "Default language pre-selected for the app"
                 },
+                "language-label": {
+                    "type": "string",
+                    "description": "The label to use for the language selector. If 'text', display the verbose language name. Otherwise, if the language code is mapped to an object in `languages.json`, look up the label in the property specified by this value. In all remaining cases, use just the language code.",
+                    "default": "label"
+                },
                 "languages": {
                     "type": "array",
                     "items": {
