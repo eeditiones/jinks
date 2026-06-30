@@ -14,10 +14,12 @@
      *  regulate their width either by using variables (--column-before-width / column-after-width)
      *  or by being resized and getting an absolute width set in HTML
      */
+    --jinks-layout-before-track: minmax(0, var(--jinks-layout-before-width));
+    --jinks-layout-after-track: minmax(0, var(--jinks-layout-after-width));
     grid-template-columns:
-        0.001fr
-        1fr
-        0.001fr;
+        var(--jinks-layout-before-track)
+        minmax(0, 1fr)
+        var(--jinks-layout-after-track);
     grid-template-areas:
         "header header header"
         "before-top content-top after-top"
@@ -90,6 +92,25 @@
     display: none;
 }
 
+.fixed-layout:not(:has(> .before > :not(.resize-handler))),
+.fixed-layout:has(> .before.hidden):not(:has(> .before-top .aside-toggle)) {
+    --jinks-layout-before-track: 0;
+}
+
+.fixed-layout:not(:has(> .after > :not(.resize-handler))),
+.fixed-layout:has(> .after.hidden):not(:has(> .after-top .aside-toggle)) {
+    --jinks-layout-after-track: 0;
+}
+
+/* Collapsed sidebars with a toggle: keep the top bar wide enough for the button only */
+.fixed-layout:has(> .before.hidden):has(> .before-top .aside-toggle) {
+    --jinks-layout-before-track: max-content;
+}
+
+.fixed-layout:has(> .after.hidden):has(> .after-top .aside-toggle) {
+    --jinks-layout-after-track: max-content;
+}
+
 .fixed-layout > .before-top.hidden svg,
 .fixed-layout > .after-top svg {
     rotate: 180deg;
@@ -113,8 +134,10 @@
 .fixed-layout > .before.hidden,
 .fixed-layout > .after.hidden {
     visibility: hidden;
-    /* Make sure this is actually hidden and takes no more width */
-    width: auto !important;
+    /* Collapsed panel must not widen the grid column (after-top/before-top keep the toggle) */
+    width: 0 !important;
+    min-width: 0;
+    overflow: hidden;
     padding: 0;
 }
 
