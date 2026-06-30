@@ -10,7 +10,6 @@
     <style>
         .logo-text {
             display: block;
-            margin-bottom: var(--s1);
             margin-right: var(--s2);
         }
 
@@ -26,11 +25,73 @@
         .fixed-layout > .before-top {
             display: none;
         }
+
+        .before h1 {
+            font-size: var(--jinks-h2-font-size);
+            line-height: var(--jinks-h2-line-height);
+            font-weight: var(--jinks-h2-font-weight);
+            margin-bottom: 0;
+        }
+
+        .license {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--s-2);
+            text-decoration: none;
+            color: var(--jinks-colors-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.3rem 0.6rem;
+        }
+
+        .license svg {
+            height: var(--s2);
+            width: var(--s2);
+            fill: currentColor;
+            stroke: transparent;
+            background: transparent;
+        }
+
+        .serafin-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 0;
+            padding: var(--s-1) var(--s2);
+            background-image:
+                linear-gradient(90deg,
+                    rgba(243, 237, 221, 0.35) 0%,
+                    rgba(243, 237, 221, 0.38) 65%,
+                    rgba(243, 237, 221, 0.55) 80%,
+                    rgba(243, 237, 221, 0.92) 88%,
+                    rgba(243, 237, 221, 0.95) 100%),
+                url("[[ $context-path ]]/resources/images/parchment.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .serafin-footer a.license {
+            width: auto;
+        }
     </style>
     [% endtemplate %]
     [% template before 1 %]
-    <li>
-        <img class="logo-text" src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg" alt="Serafin" />
-    </li>
+    <img class="logo-text" src="[[ $context-path ]]/resources/images/base_textlogo_transparent_background.svg" alt="Serafin" />
+    <h1>Korespondencja żupnika krakowskiego Mikołaja Serafina z lat 1437-1459</h1>
+    <p>Wydali: Waldemar Bukowski, Tomasz Płóciennik, Anna Skolimowska</p>
+    [% endtemplate %]
+    [% template footer %]
+    <footer class="serafin-footer">
+        <a class="license" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" aria-hidden="true">
+                <use href="[[ $context-path ]]/resources/images/cc-icons.svg#cc-logo"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" aria-hidden="true">
+                <use href="[[ $context-path ]]/resources/images/cc-icons.svg#cc-by"/>
+            </svg>
+            <span>CC BY 4.0</span>
+        </a>
+    </footer>
     [% endtemplate %]
 </template>

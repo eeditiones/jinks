@@ -51,6 +51,63 @@
     --jinks-toolbar-background-color: [[ $theme?toolbar?background-color ]];
     --jinks-toolbar-color: [[ $theme?toolbar?color ]];
 
+    /* ---------------------------------------------------------------------
+       Customization hooks — defaults match theme-base10; override in app CSS
+       or config.json (e.g. theme.content.max-width, theme.texture).
+       --------------------------------------------------------------------- */
+
+    --jinks-toolbar-background-image: none;
+    --jinks-toolbar-background-size: cover;
+    --jinks-toolbar-background-position: center;
+    --jinks-toolbar-background-repeat: no-repeat;
+    --jinks-chrome-inset-inline: var(--s0);
+    --jinks-page-header-border-bottom: none;
+    --jinks-highlight-accent-percent: 100%;
+
+    /* Segmented toolbar controls (opt-in styling in app CSS) */
+    --jinks-toolbar-segment-height: 2rem;
+    --jinks-toolbar-segment-cell-width: 2.25rem;
+    --jinks-toolbar-segment-gap: 0.5rem;
+    --jinks-toolbar-segment-icon-size: 1rem;
+    --jinks-toolbar-segment-radius: var(--jinks-form-border-radius);
+    --jinks-toolbar-segment-bg: var(--jinks-colors-light);
+    --jinks-toolbar-segment-border-color: var(--jinks-colors-400);
+    --jinks-toolbar-segment-color: var(--jinks-toolbar-color);
+    --jinks-toolbar-segment-hover-bg: var(--jinks-colors-500);
+    --jinks-toolbar-segment-hover-color: var(--jinks-colors-light);
+    --jinks-toolbar-segment-unavailable-opacity: 0.35;
+    --jinks-toolbar-segment-transition: background-color 0.12s ease, color 0.12s ease;
+
+    /* Toolbar breadcrumb typography (opt-in styling in app CSS) */
+    --jinks-toolbar-breadcrumb-label-size: var(--jinks-breadcrumbs-font-size);
+    --jinks-toolbar-breadcrumb-label-letter-spacing: normal;
+    --jinks-toolbar-breadcrumb-title-size: var(--jinks-h3-font-size);
+    --jinks-toolbar-breadcrumb-title-letter-spacing: normal;
+    --jinks-toolbar-breadcrumb-title-line-height: var(--jinks-heading-line-height);
+    --jinks-toolbar-breadcrumb-title-shadow: none;
+
+    /* Fixed side panels (opt-in styling in app CSS) */
+    --jinks-aside-after-bg: var(--jinks-colors-50);
+    --jinks-aside-after-border-color: var(--jinks-color-border);
+    --jinks-aside-after-padding: var(--s-1) var(--s-1) var(--s1) var(--s-1);
+
+    /* Document browse cards (opt-in styling in app CSS) */
+    --jinks-document-card-radius: var(--pico-border-radius);
+    --jinks-document-card-shadow: var(--pico-card-box-shadow);
+    --jinks-document-card-border-color: var(--jinks-color-border);
+
+    /* Multi-column pb-view layout: class "column" on each pb-view in main;
+       set --jinks-columns-count when using more than two columns (default 2). */
+    --jinks-columns-count: 2;
+    --jinks-columns-gap: var(--s1);
+    --jinks-columns-gap-md: calc(var(--s1) * var(--ratio));
+    --jinks-columns-padding: var(--s0);
+    --jinks-columns-row-gap-sm: calc(var(--s1) * var(--ratio));
+
+    /* Menubar search field on dark bars */
+    --jinks-menubar-search-border-color: transparent;
+    --jinks-menubar-search-bg-color: var(--jinks-menubar-button-color);
+
     /* Splash */
 
     --jinks-splash-background-light: url("[[ $theme?splash?image ]]");
@@ -227,5 +284,5 @@
     --pb-zoom-factor: 1;
     --pb-min-zoom: 0.5;
     --pb-max-zoom: 3.0;
-    --pb-highlight-color: var(--jinks-colors-highlight);
+    --pb-highlight-color: color-mix(in srgb, var(--jinks-colors-highlight) var(--jinks-highlight-accent-percent), var(--jinks-colors-200));
 }

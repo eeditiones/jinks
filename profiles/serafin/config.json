@@ -7,6 +7,7 @@
     "version": "1.0.0",
     "depends": [
         "base10",
+        "serafin-theme",
         "registers",
         "edition-navigation",
         "timeline",
@@ -22,7 +23,7 @@
         "template": "serafin.html",
         "browse": "browse-custom.html",
         "odd": "serafin.odd",
-        "media": ["web", "print", "fo", "epub", "docx"]
+        "media": ["web", "print", "epub", "docx"]
     },
     "i18n": [
         "serafin"
@@ -62,7 +63,8 @@
     },
     "theme": {
         "logo": {
-            "width": "48px",
+            "width": "44px",
+            "height": "44px",
             "image": "../images/base_icon_transparent_background.svg"
         },
         "splash": {
@@ -70,10 +72,10 @@
         },
         "layout": {
             "search": "before",
-            "before-width": "min(30vw, 420px)"
-        },
-        "colors": {
-            "palette": "dark"
+            "before-width": "min(30vw, 420px)",
+            "after": {
+                "mode": "tabs"
+            }
         }
     },
     "static": {

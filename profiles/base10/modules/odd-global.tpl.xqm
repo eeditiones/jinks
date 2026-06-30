@@ -55,3 +55,5 @@ declare variable $config:register-root := $config:data-root || "/registers";
 [% else %]
     declare variable $config:address-by-id := false();
 [% endif %]
+
+declare variable $config:browse-page := "[[if ($defaults?browse) then $defaults?browse else 'browse.html']]";

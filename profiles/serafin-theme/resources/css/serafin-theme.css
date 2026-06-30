@@ -1,0 +1,322 @@
+/* ===========================================================================
+   Serafin theme — token overrides + edition-specific layout and chrome.
+   Central hooks are defined in theme-base10 (jinks-variables.css); set values
+   here or in config.json to customize without forking the base theme.
+   Fonts: resources/fonts/font.css (via jinks-theme.css).
+   =========================================================================== */
+
+:root {
+    --jinks-form-border-radius: 2px;
+    --jinks-highlight-accent-percent: 38%;
+    --jinks-page-header-border-bottom: 1px solid var(--jinks-colors-accent);
+
+    --jinks-toolbar-segment-height: 2.25rem;
+    --jinks-toolbar-segment-cell-width: 2.5rem;
+    --jinks-toolbar-segment-gap: 0.625rem;
+    --jinks-toolbar-segment-icon-size: 1.15rem;
+    --jinks-toolbar-segment-radius: 0;
+    --jinks-toolbar-segment-bg: var(--jinks-colors-100);
+    --jinks-toolbar-segment-hover-bg: #8a0000;
+
+    --jinks-toolbar-breadcrumb-label-size: 0.72rem;
+    --jinks-toolbar-breadcrumb-label-letter-spacing: 0.05em;
+    --jinks-toolbar-breadcrumb-title-size: 1.05rem;
+    --jinks-toolbar-breadcrumb-title-letter-spacing: 0.08em;
+    --jinks-toolbar-breadcrumb-title-line-height: 1.35;
+    --jinks-toolbar-breadcrumb-title-shadow:
+        0 0 4px rgba(255, 252, 248, 1),
+        0 0 10px rgba(255, 252, 248, 0.92),
+        0 1px 2px rgba(255, 252, 248, 0.85);
+
+    --jinks-document-card-radius: 0;
+    --jinks-document-card-shadow: none;
+    --jinks-document-card-border-color: var(--jinks-colors-400);
+
+    --jinks-aside-after-bg: var(--jinks-colors-100);
+    --jinks-aside-after-border-color: var(--jinks-colors-400);
+    --jinks-aside-after-padding: 1.5rem 1.25rem;
+
+    --jinks-columns-gap: 2rem;
+    --jinks-columns-gap-md: 1.5rem;
+}
+
+.fixed-layout > main {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+}
+
+/* Menubar search on the dark bar */
+.page-header,
+.mobile.menubar {
+    --jinks-menubar-search-border-color: rgba(252, 252, 248, 0.35);
+    --jinks-search-border-color: rgba(252, 252, 248, 0.35);
+    --jinks-search-bg-color: var(--jinks-menubar-button-color);
+}
+
+/* Parchment toolbar: texture + readability gradient (toolbar only — not the
+   content-top wrapper, which would stretch with the sidebar grid row). */
+.toolbar {
+    --jinks-toolbar-background-image:
+        linear-gradient(90deg,
+            rgba(243, 237, 221, 0.72) 0%,
+            rgba(243, 237, 221, 0.65) 10%,
+            rgba(243, 237, 221, 0.45) 18%,
+            rgba(243, 237, 221, 0.36) 28%,
+            rgba(243, 237, 221, 0.36) 50%,
+            rgba(243, 237, 221, 0.52) 62%,
+            rgba(243, 237, 221, 0.72) 75%,
+            rgba(243, 237, 221, 0.88) 88%,
+            rgba(243, 237, 221, 0.94) 100%),
+        var(--jinks-texture-background);
+    /* One value per layer — otherwise the texture defaults to auto and tiles */
+    --jinks-toolbar-background-size: 100% 100%, cover;
+    --jinks-toolbar-background-repeat: no-repeat, no-repeat;
+    --jinks-toolbar-background-position: center, center;
+}
+
+.content-top:has(> .toolbar) {
+    background-color: transparent;
+    background-image: none;
+    align-self: start;
+}
+
+/* Align toolbar controls with the menubar login */
+.fixed-layout.after-fixed:not(.before-fixed) > header.content-top {
+    grid-column: content-top / -1;
+}
+
+.toolbar {
+    padding-inline-end: var(--jinks-chrome-inset-inline);
+}
+
+.toolbar > ul.hidden-mobile {
+    padding-inline-end: 0;
+    padding-right: 0;
+}
+
+.toolbar [aria-label="breadcrumb"] {
+    font-size: var(--jinks-toolbar-breadcrumb-label-size);
+    letter-spacing: var(--jinks-toolbar-breadcrumb-label-letter-spacing);
+    color: var(--jinks-colors-500);
+    text-transform: uppercase;
+}
+
+.toolbar [aria-label="breadcrumb"] a {
+    color: var(--jinks-colors-500) !important;
+    font-weight: 500;
+}
+
+.toolbar [aria-label="breadcrumb"] li:last-child {
+    font-family: var(--jinks-heading-font-family, 'Belleza', sans-serif);
+    font-size: var(--jinks-toolbar-breadcrumb-title-size);
+    font-weight: 400;
+    letter-spacing: var(--jinks-toolbar-breadcrumb-title-letter-spacing);
+    color: var(--jinks-colors-700);
+    line-height: var(--jinks-toolbar-breadcrumb-title-line-height);
+    text-shadow: var(--jinks-toolbar-breadcrumb-title-shadow);
+}
+
+.toolbar [aria-label="breadcrumb"] li:last-child .tei-title {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+}
+
+/* Flat segmented toolbar controls */
+.toolbar ul.hidden-mobile {
+    align-items: center;
+    gap: var(--jinks-toolbar-segment-gap);
+}
+
+.toolbar ul.hidden-mobile > li {
+    display: flex;
+    align-items: center;
+}
+
+.toolbar [role="group"].light,
+.toolbar .correspContext.light,
+.toolbar button.light,
+.toolbar pb-link .btn.light a {
+    height: var(--jinks-toolbar-segment-height);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    gap: 0;
+    background-color: var(--jinks-toolbar-segment-bg);
+    border: 1px solid var(--jinks-toolbar-segment-border-color);
+    border-radius: var(--jinks-toolbar-segment-radius);
+    color: var(--jinks-toolbar-segment-color);
+    overflow: hidden;
+}
+
+.toolbar [role="group"].light > pb-zoom,
+.toolbar [role="group"].light > pb-navigation,
+.toolbar .correspContext.light > li {
+    height: 100%;
+    width: var(--jinks-toolbar-segment-cell-width);
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--jinks-toolbar-segment-border-color);
+    transition: var(--jinks-toolbar-segment-transition);
+}
+
+/* Labeled navigation: grow past the icon-only cell width */
+.toolbar [role="group"].light > pb-navigation:has(> span + svg),
+.toolbar [role="group"].light > pb-navigation:has(> svg + span) {
+    width: auto;
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    padding-inline: 0.625rem;
+    gap: 0.375rem;
+}
+
+.toolbar [role="group"].light > pb-navigation > span {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Edition-navigation correspContext buttons may include text labels */
+.toolbar .correspContext.light > li:has(a > .icon ~ *:not(svg):not(use)),
+.toolbar .correspContext.light > li:has(a > *:not(svg):not(use) ~ .icon) {
+    width: auto;
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    padding-inline: 0.625rem;
+    gap: 0.375rem;
+}
+
+.toolbar .correspContext.light > li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+}
+
+.toolbar [role="group"].light > pb-zoom:first-child,
+.toolbar [role="group"].light > pb-navigation:first-child,
+.toolbar .correspContext.light > li:first-child {
+    border-left: 0;
+}
+
+.toolbar button.light {
+    width: var(--jinks-toolbar-segment-cell-width);
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    justify-content: center;
+    transition: var(--jinks-toolbar-segment-transition);
+}
+
+.toolbar ul.hidden-mobile svg,
+.toolbar ul.hidden-mobile .ionicon {
+    width: var(--jinks-toolbar-segment-icon-size);
+    height: var(--jinks-toolbar-segment-icon-size);
+}
+
+.toolbar [role="group"].light > pb-zoom:hover,
+.toolbar [role="group"].light > pb-navigation:not([disabled]):hover,
+.toolbar .correspContext.light > li:not(.unavailable):hover,
+.toolbar button.light:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-toolbar-segment-hover-color);
+}
+
+.toolbar .correspContext.light > li.unavailable {
+    opacity: var(--jinks-toolbar-segment-unavailable-opacity);
+}
+
+.fixed-layout > aside.after {
+    background-color: var(--jinks-aside-after-bg);
+    border-left: 1px solid var(--jinks-aside-after-border-color);
+    padding: var(--jinks-aside-after-padding);
+}
+
+ul.documents > li.document.card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    border-radius: var(--jinks-document-card-radius);
+    box-shadow: var(--jinks-document-card-shadow);
+    border: 1px solid var(--jinks-document-card-border-color);
+}
+
+ul.documents > li.document.card header {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+ul.documents > li.document.card .actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+ul.documents > li.document.card .matches {
+    flex: 1 1 100%;
+}
+
+aside.after pb-leaflet-map {
+    display: block;
+    height: 40vh;
+    min-height: 40vh;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    border: 1px solid var(--jinks-colors-400);
+    border-radius: 2px;
+    margin-top: 1rem;
+}
+
+/* ===========================================================================
+   Landing page — rectangular chrome (overrides landing-page.css pill defaults)
+   =========================================================================== */
+
+pb-page.landing-layout .page-header {
+    border-bottom: none;
+}
+
+pb-page.landing-layout .menubar {
+    border-radius: var(--jinks-form-border-radius);
+}
+
+pb-page.landing-layout .menubar > ul:first-of-type {
+    gap: var(--jinks-toolbar-segment-gap);
+}
+
+pb-page.landing-layout .menubar > ul:first-of-type > li > a,
+pb-page.landing-layout .menubar > ul:first-of-type > li > details.dropdown > summary {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--jinks-form-border-radius);
+    border: 1px solid rgba(252, 252, 248, 0.35);
+    transition: background-color 0.12s ease;
+}
+
+pb-page.landing-layout .menubar > ul:first-of-type > li > a:hover,
+pb-page.landing-layout .menubar > ul:first-of-type > li > details.dropdown > summary:hover {
+    background-color: rgba(252, 252, 248, 0.2);
+}
+
+pb-page.landing-layout .button-link {
+    border-radius: var(--jinks-form-border-radius);
+    font-weight: 500;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+pb-page.landing-layout .button-link:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    border-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-colors-light);
+}
+
+pb-page.landing-layout .highlight-card a.button-link:hover {
+    color: var(--jinks-colors-light);
+}

@@ -103,7 +103,10 @@ pb-page[unresolved]~.splash {
 
 /* check should take the theming settings */
 .toolbar {
-    background-image: none;
+    background-image: var(--jinks-toolbar-background-image);
+    background-size: var(--jinks-toolbar-background-size);
+    background-position: var(--jinks-toolbar-background-position);
+    background-repeat: var(--jinks-toolbar-background-repeat);
     position: relative;
     width: 100%;
     background-color: var(--jinks-toolbar-background-color);
@@ -182,6 +185,10 @@ a[role="button"] svg, .theme-toggle svg, .icon {
 
 .content-top:has(.toolbar) {
     background-color: var(--jinks-toolbar-background-color);
+    background-image: var(--jinks-toolbar-background-image);
+    background-size: var(--jinks-toolbar-background-size);
+    background-position: var(--jinks-toolbar-background-position);
+    background-repeat: var(--jinks-toolbar-background-repeat);
 }
 
 @media (max-width: 1024px) {
@@ -229,6 +236,7 @@ pb-document {
     background-repeat: no-repeat;
     background-position: top;
     background-color: var(--jinks-menubar-background-color);
+    border-bottom: var(--jinks-page-header-border-bottom);
 }
 
 /* hero covers 100% of the viewport height */
