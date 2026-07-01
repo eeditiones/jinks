@@ -5,6 +5,17 @@
  * You should not need to change this unless you want to add new features.
  */
 
+function randomUUID() {
+	if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+		return crypto.randomUUID();
+	}
+	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+		const r = (Math.random() * 16) | 0;
+		const v = c === "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
+}
+
 function disableButtons(disable, range) {
 	document
 		.querySelectorAll(".annotation-action:not([data-type=edit])")
@@ -114,7 +125,7 @@ document.addEventListener("pb-page-loaded", () => {
 	let previewOdd = "teipublisher";
 	let currentUser = null;
 	const doc = view.getDocument();
-	const editorVisitId = crypto.randomUUID();
+	const editorVisitId = randomUUID();
 
 	function annotationSessionKey(docPath) {
 		return `tei-publisher.annotations.session.${docPath}`;

@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(function(json) {
                 pbEvents.emit("pb-update-map", "map", json)
+            })
+            .catch(function(err) {
+                // Navigation away from the page aborts the in-flight fetch
+                if (err.name !== 'AbortError') {
+                    console.error(err);
+                }
             });
     
             pbEvents.subscribe('pb-leaflet-marker-click', 'map', function(ev) {
