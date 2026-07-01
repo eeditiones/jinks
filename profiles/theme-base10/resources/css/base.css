@@ -122,7 +122,9 @@ pb-page[unresolved]~.splash {
 .toolbar > ul:last-of-type {
     display: flex;
     align-items: center;
-    gap: 0;
+    column-gap: var(--s-1);
+    flex-wrap: wrap;
+    row-gap: var(--s-1);
 }
 
 .toolbar ul {
@@ -139,10 +141,6 @@ pb-page[unresolved]~.splash {
 .toolbar > ul:last-of-type > li {
     padding-inline: 0;
     margin-inline: 0 !important;
-}
-
-.toolbar > ul:last-of-type > li + li {
-    margin-inline-start: var(--s-1) !important;
 }
 
 .toolbar [role="group"] {
