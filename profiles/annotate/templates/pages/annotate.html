@@ -50,11 +50,7 @@
                     </ul>
                 </nav>
             </li>
-        </ul>
-        <ul>
             [% block annotation-toolbar %][% endblock %]
-        </ul>
-		<ul>
             <li>
                 <span role="group">
                     <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page" keyboard="left"
@@ -79,8 +75,6 @@
                     <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
                 </span>
             </li>
-        </ul>
-        <ul>
             <li>
                 <span role="group">
                     <button data-i18n="[title]annotations.reload" id="reload-all">
@@ -221,7 +215,7 @@
         </fx-group>
 
 
-        <fx-group ref="authority" class="card">
+        <fx-group ref="authority" id="authority" class="card">
             <header>
                 <pb-i18n key="annotations.edit-reference"></pb-i18n>
             </header>
