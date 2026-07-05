@@ -153,11 +153,11 @@ document.addEventListener("pb-page-loaded", () => {
 		runForeAction("reset-panels");
 		document.dispatchEvent(new CustomEvent("hide-authority", { bubbles: true }));
 		currentEntityInfo = null;
+		document.getElementById("annotation")?.setAttribute("hidden", "");
 	}
 
 	function closeAnnotationPanel() {
 		resetAnnotationPanels();
-		document.getElementById("annotation")?.setAttribute("hidden", "");
 	}
 
 	function annotationSessionKey(docPath) {
@@ -285,7 +285,7 @@ document.addEventListener("pb-page-loaded", () => {
 		}
 	}
 
-	function hideForm({ closePanel = false } = {}) {
+	function hideForm({ closePanel = true } = {}) {
 		if (closePanel) {
 			closeAnnotationPanel();
 		} else {
