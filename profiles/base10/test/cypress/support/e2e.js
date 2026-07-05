@@ -49,7 +49,8 @@ beforeEach(() => {
     cy.intercept('POST', '**/api/login**', (req) => {
       const body = req.body
       const hasCredentials = typeof body === 'string'
-        ? /(?:^|&)(?:user|password)=/.test(body)
+        // Match only non-empty user/password fields (pb-login sends user=&password= for probes)
+        ? /(?:^|&)(?:user|password)=[^&]/.test(body)
         : Boolean(body?.user || body?.password)
       if (!hasCredentials) {
         req.reply({ statusCode: 200, body: { user: null } })
