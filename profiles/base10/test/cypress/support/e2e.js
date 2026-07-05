@@ -43,9 +43,22 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 // Universal intercepts for all GUI tests
 // These stubs prevent hanging on API calls that aren't relevant to most tests
 beforeEach(() => {
-  // Stub login attempts to prevent authentication popups in non-auth tests
-  cy.intercept('POST', '/api/login/**', { statusCode: 401, body: { error: 'Unauthorized' } }).as('loginStub')
-  
+  // API specs exercise real auth behavior against the server (Roaster session probe).
+  if (!Cypress.spec.relative.includes('/api/')) {
+    // pb-login probes the session with an empty POST; it expects 200 + { user: null }.
+    cy.intercept('POST', '**/api/login**', (req) => {
+      const body = req.body
+      const hasCredentials = typeof body === 'string'
+        ? /(?:^|&)(?:user|password)=/.test(body)
+        : Boolean(body?.user || body?.password)
+      if (!hasCredentials) {
+        req.reply({ statusCode: 200, body: { user: null } })
+      } else {
+        req.continue()
+      }
+    }).as('loginStub')
+  }
+
   // Stub timeline API to prevent hanging when timeline component tries to load
   cy.intercept('GET', '/api/timeline/**', { statusCode: 200, body: { timeline: [] } }).as('timelineStub')
 })
