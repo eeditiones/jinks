@@ -38,7 +38,7 @@ The Docker profile can be configured in your application's `config.json`:
         "eXist": "6.4.0",
         "tei-publisher-lib": "6.0.2",
         "jinks-templates": "1.2.0",
-        "roaster": "1.11.0",
+        "roaster": "1.12.1",
         "jwt": "2.0.0",
         "crypto": "6.0.1",
         "ant": "1.10.15",
@@ -66,7 +66,7 @@ The Docker profile can be configured in your application's `config.json`:
 | `eXist` | string | `6.4.0` | Version of eXist-db to use |
 | `tei-publisher-lib` | string | `6.0.2` | Version of tei-publisher-lib |
 | `jinks-templates` | string | `1.2.0` | Version of jinks-templates |
-| `roaster` | string | `1.11.0` | Version of the roaster package |
+| `roaster` | string | `1.12.1` | Version of the roaster package |
 | `jwt` | string | `2.0.0` | Version of the JWT package |
 | `crypto` | string | `6.0.1` | Version of the crypto package |
 | `ant` | string | `1.10.15` | Version of Apache Ant |
