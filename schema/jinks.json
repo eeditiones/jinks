@@ -1383,6 +1383,25 @@
                 "roaster"
             ]
         },
+        "test": {
+            "type": "object",
+            "description": "Test configuration for generated applications",
+            "properties": {
+                "cypress": {
+                    "type": "object",
+                    "description": "Cypress-specific test settings",
+                    "properties": {
+                        "env": {
+                            "type": "object",
+                            "description": "Environment variables passed to Cypress (Cypress.env)",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "ci": {
             "type": "object",
             "description": "CI/CD configuration for continuous integration and deployment",

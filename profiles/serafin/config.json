@@ -28,6 +28,14 @@
     "i18n": [
         "serafin"
     ],
+    "test": {
+        "cypress": {
+            "env": {
+                "REGISTER_TEST_DOCUMENT": "letters/serafin01.xml",
+                "TIMELINE_TEST_COLLECTION": "letters"
+            }
+        }
+    },
     "features": {
         "toc": {
             "enabled": false

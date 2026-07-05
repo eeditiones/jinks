@@ -19,6 +19,7 @@ module.exports = defineConfig({
     includeShadowDom: true,
     retries: 2,
     pageLoadTimeout: 90000,
+    env: [[ serialize(head(($test?cypress?env, map {})), map { 'method': 'json' }) ]],
     supportFile: 'test/cypress/support/e2e.js',
     specPattern: 'test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     screenshotsFolder: 'test/cypress/screenshots',
