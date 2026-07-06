@@ -174,7 +174,9 @@ describe('TEI-Publisher Documentation Page', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
 
-      // Media queries apply on viewport change; avoid a second visit (races pb-login probe)
+      // Shrinking to mobile activates pb-login in .mobile.menubar (second session probe)
+      cy.wait('@loginStub', { timeout: 10000 })
+
       cy.get('body').should('be.visible')
       
       // Wait for documentation content to load (check for pb-view which loads the content)

@@ -39,7 +39,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   if (
     err.message.includes("reading 'user'") ||
     err.message.includes('property "user"') ||
-    err.message.includes("access property \"user\"")
+    err.message.includes("access property \"user\"") ||
+    (err.stack?.includes('_handleResponse') && /\buser\b/i.test(err.message))
   ) {
     // pb-login session probe can crash when login response is null (e.g. after cy.reload)
     return false
