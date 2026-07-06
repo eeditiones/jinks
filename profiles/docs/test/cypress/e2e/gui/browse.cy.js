@@ -13,8 +13,9 @@ describe('TEI-Publisher Browse Collection', () => {
     cy.visit('/browse.html?collection=demo')
 
     // Wait for page to stabilize and pagination to be fully initialized
+    cy.wait('@loginStub', { timeout: 10000 })
     cy.get('body').should('be.visible')
-    cy.waitForPaginate({ timeout: 15000 })
+    cy.get('pb-paginate', { timeout: 15000 }).should('be.visible')
   })
 
   describe('Page Load & Structure', () => {
@@ -214,8 +215,7 @@ describe('TEI-Publisher Browse Collection', () => {
 
   describe('Pagination', () => {
     it('displays pagination component with total count', () => {
-      cy.waitForPaginateAttributes({ timeout: 15000 })
-      cy.get('pb-paginate').should('be.visible').should('have.attr', 'total')
+      cy.get('pb-paginate', { timeout: 15000 }).should('be.visible').should('have.attr', 'total')
 
       cy.get('pb-paginate')
         .invoke('attr', 'total')

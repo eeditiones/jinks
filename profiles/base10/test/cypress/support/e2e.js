@@ -36,7 +36,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     // Leaflet may be unavailable in test runtime; this should not fail unrelated specs
     return false
   }
-  if (err.message.includes("reading 'user'") || err.message.includes('property "user"')) {
+  if (
+    err.message.includes("reading 'user'") ||
+    err.message.includes('property "user"') ||
+    err.message.includes("access property \"user\"")
+  ) {
     // pb-login session probe can crash when login response is null (e.g. after cy.reload)
     return false
   }
@@ -46,7 +50,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 // Universal intercepts for all GUI tests
 // These stubs prevent hanging on API calls that aren't relevant to most tests
-const loginProbeReply = { statusCode: 200, headers: { 'content-type': 'application/json' }, body: { user: null } }
+const loginProbeReply = {
+  statusCode: 200,
+  headers: { 'content-type': 'application/json' },
+  body: { user: null, authenticated: false },
+}
 
 const isLoginAttempt = (req) => {
   if (req.query?.logout === 'true' || req.query?.logout === true) return false

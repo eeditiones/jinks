@@ -7,6 +7,7 @@ describe('TEI-Publisher Documentation Page', () => {
     cy.viewport(1280, 720)
     // Universal intercepts (loginStub, timelineStub) are automatically set up in support/e2e.js
     cy.visit('/doc/documentation.xml')
+    cy.wait('@loginStub', { timeout: 10000 })
   })
 
   describe('Documentation Page Load', () => {
@@ -173,10 +174,7 @@ describe('TEI-Publisher Documentation Page', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
 
-      // Revisit at mobile size (cy.reload can race pb-login session probe)
-      cy.visit('/doc/documentation.xml')
-      
-      // Wait for page to stabilize
+      // Media queries apply on viewport change; avoid a second visit (races pb-login probe)
       cy.get('body').should('be.visible')
       
       // Wait for documentation content to load (check for pb-view which loads the content)
@@ -196,10 +194,6 @@ describe('TEI-Publisher Documentation Page', () => {
     it('adapts to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
 
-      // Revisit at tablet size (cy.reload can race pb-login session probe)
-      cy.visit('/doc/documentation.xml')
-      
-      // Wait for page to stabilize
       cy.get('body').should('be.visible')
       
       // Wait for documentation content to load (check for pb-view which loads the content)
