@@ -214,6 +214,7 @@ describe('TEI-Publisher Browse Collection', () => {
 
   describe('Pagination', () => {
     it('displays pagination component with total count', () => {
+      cy.waitForPaginateAttributes({ timeout: 15000 })
       cy.get('pb-paginate').should('be.visible').should('have.attr', 'total')
 
       cy.get('pb-paginate')

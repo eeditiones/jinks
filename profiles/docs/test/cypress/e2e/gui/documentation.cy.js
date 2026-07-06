@@ -172,9 +172,9 @@ describe('TEI-Publisher Documentation Page', () => {
   describe('Documentation Responsive Design', () => {
     it('adapts to mobile viewport', () => {
       cy.viewport(375, 667) // iPhone SE
-      
-      // Reload page to ensure layout adjusts to new viewport
-      cy.reload()
+
+      // Revisit at mobile size (cy.reload can race pb-login session probe)
+      cy.visit('/doc/documentation.xml')
       
       // Wait for page to stabilize
       cy.get('body').should('be.visible')
@@ -195,9 +195,9 @@ describe('TEI-Publisher Documentation Page', () => {
 
     it('adapts to tablet viewport', () => {
       cy.viewport(768, 1024) // iPad
-      
-      // Reload page to ensure layout adjusts to new viewport
-      cy.reload()
+
+      // Revisit at tablet size (cy.reload can race pb-login session probe)
+      cy.visit('/doc/documentation.xml')
       
       // Wait for page to stabilize
       cy.get('body').should('be.visible')

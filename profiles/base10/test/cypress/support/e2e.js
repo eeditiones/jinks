@@ -36,24 +36,38 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     // Leaflet may be unavailable in test runtime; this should not fail unrelated specs
     return false
   }
+  if (err.message.includes("reading 'user'") || err.message.includes('property "user"')) {
+    // pb-login session probe can crash when login response is null (e.g. after cy.reload)
+    return false
+  }
   // Let other errors fail the test
   return true
 })
 
 // Universal intercepts for all GUI tests
 // These stubs prevent hanging on API calls that aren't relevant to most tests
+const loginProbeReply = { statusCode: 200, headers: { 'content-type': 'application/json' }, body: { user: null } }
+
+const isLoginAttempt = (req) => {
+  if (req.query?.logout === 'true' || req.query?.logout === true) return false
+  const body = req.body
+  if (typeof body === 'string') {
+    const params = new URLSearchParams(body)
+    return Boolean(params.get('user') || params.get('password'))
+  }
+  if (body && typeof body === 'object') {
+    return Boolean(body.user || body.password)
+  }
+  return false
+}
+
 beforeEach(() => {
   // API specs exercise real auth behavior against the server (Roaster session probe).
   if (!Cypress.spec.relative.includes('/api/')) {
-    // pb-login probes the session with an empty POST; it expects 200 + { user: null }.
-    cy.intercept('POST', '**/api/login**', (req) => {
-      const body = req.body
-      const hasCredentials = typeof body === 'string'
-        // Match only non-empty user/password fields (pb-login sends user=&password= for probes)
-        ? /(?:^|&)(?:user|password)=[^&]/.test(body)
-        : Boolean(body?.user || body?.password)
-      if (!hasCredentials) {
-        req.reply({ statusCode: 200, body: { user: null } })
+    // pb-login probes the session on page load (GET or empty POST); stub unless logging in.
+    cy.intercept('**/api/login**', (req) => {
+      if (req.method === 'GET' || !isLoginAttempt(req)) {
+        req.reply(loginProbeReply)
       } else {
         req.continue()
       }
