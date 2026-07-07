@@ -16,6 +16,16 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+const isPbLoginProbeError = (err) => {
+  if (/\buser\b/i.test(err.message) && /\bnull\b/i.test(err.message)) {
+    return true
+  }
+  if (!err.stack?.includes('pb-components')) {
+    return false
+  }
+  return err.stack.includes('_handleResponse') && /\buser\b/i.test(err.message)
+}
+
 // Handle uncaught exceptions from application code
 // Some errors in pb-components are non-critical and shouldn't fail tests
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -36,13 +46,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     // Leaflet may be unavailable in test runtime; this should not fail unrelated specs
     return false
   }
-  if (
-    err.message.includes("reading 'user'") ||
-    err.message.includes('property "user"') ||
-    err.message.includes("access property \"user\"") ||
-    (err.stack?.includes('_handleResponse') && /\buser\b/i.test(err.message))
-  ) {
-    // pb-login session probe can crash when login response is null (e.g. after cy.reload)
+  if (isPbLoginProbeError(err)) {
     return false
   }
   // Let other errors fail the test
@@ -70,17 +74,19 @@ const isLoginAttempt = (req) => {
   return false
 }
 
+const stubLoginProbe = (req) => {
+  if (req.method === 'GET' || !isLoginAttempt(req)) {
+    req.reply(loginProbeReply)
+  } else {
+    req.continue()
+  }
+}
+
 beforeEach(() => {
   // API specs exercise real auth behavior against the server (Roaster session probe).
   if (!Cypress.spec.relative.includes('/api/')) {
     // pb-login probes the session on page load (GET or empty POST); stub unless logging in.
-    cy.intercept('**/api/login**', (req) => {
-      if (req.method === 'GET' || !isLoginAttempt(req)) {
-        req.reply(loginProbeReply)
-      } else {
-        req.continue()
-      }
-    }).as('loginStub')
+    cy.intercept({ method: /GET|POST/, url: '**/api/login**' }, stubLoginProbe).as('loginStub')
   }
 
   // Stub timeline API to prevent hanging when timeline component tries to load
