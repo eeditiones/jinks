@@ -11,33 +11,9 @@ describe('GitLab CI Templates', () => {
   let gitlabCiSchema
 
   before(() => {
-    // Load GitLab CI schema from GitLab repository
-    cy.request({
-      url: 'https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json',
-      failOnStatusCode: false
-    }).then(res => {
-      if (res.status !== 200) {
-        cy.log('Failed to load GitLab CI schema:', res.status)
-        cy.log('Response body:', res.body)
-        throw new Error(`Failed to load GitLab CI schema: ${res.status}`)
-      }
-      // Cypress automatically parses JSON, but check if it's a string
-      let schemaData = res.body
-      if (typeof schemaData === 'string') {
-        try {
-          schemaData = JSON.parse(schemaData)
-        } catch (e) {
-          cy.log('Failed to parse schema as JSON:', e.message)
-          cy.log('Response body (first 500 chars):', schemaData.substring(0, 500))
-          throw new Error(`GitLab CI schema is not valid JSON: ${e.message}`)
-        }
-      }
-      // Validate it's a schema object
-      if (!schemaData || typeof schemaData !== 'object' || Array.isArray(schemaData)) {
-        cy.log('Invalid schema response type:', typeof schemaData)
-        cy.log('Response body (first 500 chars):', JSON.stringify(schemaData).substring(0, 500))
-        throw new Error('GitLab CI schema is not a valid object')
-      }
+    // Vendored copy of GitLab's CI schema (avoids 429 rate limits from gitlab.com in CI).
+    // Source: https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
+    cy.readFile('test/cypress/schemas/gitlab-ci.json').then(schemaData => {
       gitlabCiSchema = schemaData
       ajv7.addSchema(gitlabCiSchema, 'gitlab-ci-schema')
     })
