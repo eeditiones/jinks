@@ -16,5 +16,6 @@ function teip:setup($context as map(*)) {
     cpy:copy-template($context, "expath-pkg.tpl.xml", "expath-pkg.xml"),
     cpy:copy-template($context, "repo.tpl.xml", "repo.xml"),
     cpy:copy-template($context, "build.tpl.xml", "build.xml"),
+    cpy:copy-template($context, "build.cjs.tpl", "build.cjs"),
     util:log("INFO", "new-profile: copying files done.")
 };

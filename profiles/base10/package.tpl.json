@@ -18,6 +18,10 @@
         "glob": "^13.0.0"
     },
     "scripts": {
+        "build": "node build.cjs",
+        "build:local": "node build.cjs --local",
+        "build:release": "node build.cjs --release",
+        "build:release:local": "node build.cjs --local --release",
         "test": "cypress run",
         "test:open": "cypress open"
     }
