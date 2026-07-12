@@ -225,24 +225,6 @@
                 },
                 "address-by-id": {
                     "type": "boolean"
-                },
-                "sort": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "field": {
-                                "type": "string"
-                            },
-                            "label": {
-                                "type": "string"
-                            },
-                            "default": {
-                                "type": "boolean"
-                            }
-                        }
-                    },
-                    "description": "The fields to sort by default when displaying list of documents"
                 }
             }
         },
