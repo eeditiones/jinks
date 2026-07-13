@@ -106,10 +106,11 @@
                     <model predicate="@type='section'" behaviour="pass-through">
             <param name="header" value="* except div"/>
             <param name="label" value="@n"/>
+            <param name="label-class" value="if (@n) then 'label' else 'label-hide'"/>
             <param name="content" value="div"/>
             <param name="rend" value="@rend"/>
             <pb:template xml:space="preserve"><div xmlns="" class="center-l">
-    <span class="label">[[label]]</span>
+    <span class="[[label-class]]">[[label]]</span>
     <div class="row [[rend]]">
       <header>
         [[header]]
