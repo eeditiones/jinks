@@ -203,7 +203,7 @@ function _saveCurrent() {
             }
         })
     })
-    .then((response) => {
+    .then(async (response) => {
         window.pbEvents.emit("pb-end-update", "transcription", {});
         if (response.ok) {
             reviewDocs.splice(currentReview, 1);
@@ -217,11 +217,7 @@ function _saveCurrent() {
             }
             return response.json();
         }
-        if (response.status === 403) {
-            document.getElementById('permission-denied-dialog').show();
-            return;
-        }
-        document.getElementById('error-dialog').show();
+        await showSaveError(response);
         return;
     });
 }

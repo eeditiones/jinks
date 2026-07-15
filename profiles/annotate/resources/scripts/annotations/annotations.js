@@ -464,15 +464,11 @@ document.addEventListener("pb-page-loaded", () => {
 				},
 				body: JSON.stringify(data),
 			})
-				.then((response) => {
+				.then(async (response) => {
 					if (response.ok) {
 						return response.json();
 					}
-					if (response.status === 403) {
-						document.getElementById("permission-denied-dialog").show();
-						throw new Error(response.statusText);
-					}
-					document.getElementById("error-dialog").show();
+					await showSaveError(response);
 					throw new Error(response.statusText);
 				})
 				.then((json) => {
@@ -526,6 +522,12 @@ document.addEventListener("pb-page-loaded", () => {
 							const iframe = document.getElementById("html");
 							iframe.srcdoc = html;
 						});
+				})
+				.catch((err) => {
+					if (err?.name === "TypeError") {
+						showNetworkError();
+					}
+					reject(err);
 				});
 		});
 	}
@@ -662,17 +664,13 @@ document.addEventListener("pb-page-loaded", () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
-		}).then((response) => {
+		}).then(async (response) => {
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			if (response.ok) {
 				reviewDialog.close();
 				return;
 			}
-			if (response.status === 403) {
-				document.getElementById("permission-denied-dialog").show();
-				throw new Error(response.statusText);
-			}
-			document.getElementById("error-dialog").show();
+			await showSaveError(response);
 			throw new Error(response.statusText);
 		});
 	}

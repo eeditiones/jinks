@@ -159,10 +159,10 @@
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
                     <model behaviour="pass-through">
-            <param name="lem" value="lem[1]/node()"/>
-            <param name="rdg" value="string-join(  for $rdg at $p in ./rdg return (      '&#34;rdg[' || $p || ']&#34;:&#34;' || $rdg/string() || '&#34;',         '&#34;wit[' || $p || ']&#34;:&#34;' || $rdg/@wit/string() || '&#34;'     ),     ',' )"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="annotation annotation-app" data-type="app" data-annotation="{{[[rdg]]}}">[[lem]]</span></pb:template>
-        </model>
+                        <param name="lem" value="lem[1]/node()"/>
+                        <param name="rdg" value="string-join(  for $rdg at $p in ./rdg return (      '&quot;rdg[' || $p || ']&quot;:&quot;' || $rdg/string() || '&quot;',         '&quot;wit[' || $p || ']&quot;:&quot;' || $rdg/@wit/string() || '&quot;'     ),     ',' )"/>
+                        <pb:template xml:space="preserve" xmlns=""><span class="annotation annotation-app" data-type="app" data-annotation="{{[[rdg]]}}">[[lem]]</span></pb:template>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
                     <model behaviour="inline" cssClass="annotation annotation-ref"/>
