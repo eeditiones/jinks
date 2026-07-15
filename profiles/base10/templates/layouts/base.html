@@ -134,6 +134,7 @@
                     </li>
                 </ul>
                 [% endif %]
+                <ul>[% block after-top %][% endblock %]</ul>
             </nav>
             <aside class="after hidden-mobile [[ if ($context?theme?layout?after?hidden) then 'hidden' else '' ]] [[ if ($context?theme?layout?after?mode = 'tabs') then 'after-tabs' else '' ]]">
                 [% block after %][% endblock %]
