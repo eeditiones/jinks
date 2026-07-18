@@ -41,7 +41,9 @@
         ],
         "theme": {
             "layout": {
-                "after-width": "30vw"
+                "after": {
+                    "width": "30vw"
+                }
             }
         },
         "script": {
@@ -137,6 +139,13 @@
     </nav>
     [% endtemplate %]
 
+    [% template after-top %]
+    <li>
+        <img class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
+            alt="JinnTap" />
+    </li>
+    [% endtemplate %]
+
     [% template after %]
 	[% block metadata-editor %][% endblock %]
     <div id="attributes-panel"></div>
@@ -148,7 +157,6 @@
         <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="![[ $context?features?jinntap?formats($doctype)?schema ]]"
             format="[[ $doctype ]]"
             token="![[ if ($features?collab?enable) then jt:jwt-token() else () ]]" server="![[ if ($features?collab?enable) then $features?collab?server else () ]]" sidebar="#attributes-panel">
-            <img slot="aside" class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png" alt="JinnTap"/>
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>

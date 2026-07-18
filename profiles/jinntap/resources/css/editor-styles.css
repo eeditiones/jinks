@@ -1,5 +1,7 @@
 :root {
     --jinn-tap-background-color: var(--jinks-background-color-light);
+    --jinn-tap-unknown-font-size: var(--jinks-font-size-smaller);
+    --jinn-tap-unknown-color: #ef4646;
 }
 
 [data-theme="dark"] {
@@ -31,19 +33,85 @@ jinn-tap .toolbar {
     padding: 1rem 0;
 }
 
+/* The toolbar nav is sticky, so it forms its own stacking context. Give it a
+   z-index above the sticky breadcrumb (z-index 3) so the toolbar buttons'
+   bottom-placed tooltips render over the breadcrumb bar instead of behind it. */
+jinn-tap > nav:has(.toolbar) {
+    z-index: 4;
+}
+
 jinn-tap .toolbar i {
     --jinks-base-line-height: unset;
     font-size: var(--pb-content-font-size);
 }
 
-.jinn-tap-aside .logo {
+/* Element-path breadcrumb rendered as a slim status bar below the toolbar,
+   matching the embedded JinnTap demo: no card border, no "Element path" label. */
+nav[aria-label=breadcrumb].navigation-panel {
+    display: block;
+    margin: 0;
+    padding: 0 0 0.4rem 0;
+    border: none;
+    white-space: normal;
+    font-size: var(--jinks-font-size-smaller);
+    color: var(--jinks-muted-color, var(--pico-muted-color));
+    /* Stick below the sticky toolbar so the element path stays visible while the
+       document scrolls. --jinntap-toolbar-height is the toolbar's rendered
+       height (padding: 1rem 0 + icon row). */
+    position: sticky;
+    top: var(--jinntap-toolbar-height, 60px);
+    z-index: 3;
+    background-color: var(--jinn-tap-background-color, white);
+    /* Soft, light shadow to lift the bar above the content scrolling beneath. */
+    box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.12);
+}
+
+/* Flat text row. Kill the base flex gap and per-crumb padding so ALL horizontal
+   spacing comes from the divider margin alone and stays symmetric. */
+nav[aria-label=breadcrumb].navigation-panel ul {
+    gap: 0;
+}
+
+nav[aria-label=breadcrumb].navigation-panel a {
+    padding: 0;
+    /* Base stylesheet sets a negative margin-inline-start that would cancel the
+       divider's right margin and pull crumbs together — reset it. */
+    margin: 0;
+    border-radius: 0;
+    color: inherit;
+}
+
+/* Subtle underline on hover instead of a padded highlight box, so hovering
+   doesn't shift the layout. */
+nav[aria-label=breadcrumb].navigation-panel a:hover {
+    background: none;
+    text-decoration: underline;
+}
+
+/* Ancestors emphasised; the current node (last crumb) stays normal weight. */
+nav[aria-label=breadcrumb].navigation-panel ul li:not(:last-child) {
+    font-weight: 600;
+}
+
+/* This nav carries aria-label="breadcrumb", so pico injects its own separator
+   via li::after. Suppress it so only the centered ::before divider shows,
+   otherwise the two divider glyphs collide (rendering as "≫"). */
+nav[aria-label=breadcrumb].navigation-panel ul li::after {
+    content: none;
+}
+
+/* Divider, centered: equal margin on both sides is the only inter-crumb space. */
+nav[aria-label=breadcrumb].navigation-panel ul li + li::before {
+    content: "\203A"; /* › */
+    margin: 0 0.45rem;
+    color: var(--pico-muted-color, var(--jinks-muted-color));
+    font-weight: 400;
+    opacity: 1;
+}
+
+.after-top .logo {
     width: auto;
-    height: 92px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 100;
-    background-image: none;
+    height: var(--jinks-logo-image-height);
 }
 
 jinn-toast {
