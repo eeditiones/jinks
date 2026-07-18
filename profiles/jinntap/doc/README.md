@@ -10,8 +10,8 @@ references, and where to retrieve them is not set in stone. Linking facsimiles f
 inscriptions.
 
 Jinntap does not intend to specify which tag set should be used in what way. Instead, if offers a
-way to configure the schema (through a schema.json file) to specify the role of elements, what
-attributes they have and how authors work with them.
+way to configure the schema (through a JSON schema file, e.g. `tei-schema.json`) to specify the
+role of elements, what attributes they have and how authors work with them.
 
 #### Considerations
 
@@ -28,7 +28,7 @@ that is not configured yet.
 
 ### Schema
 
-We need to update the schema. The default is in `resources/schema/schema.json`. Add new elements by
+We need to update the schema. The default is in `resources/schema/tei-schema.json`. Add new elements by
 appending into the `schema` object. Inline elements have a `type` set to `inline`, block elements
 have a `type` set to `block`. Usually these new elements have some kind of attribute set. Add those
 as well. The `type` property there provides schema validation.
@@ -168,7 +168,8 @@ toolbar. Use the "order" option to move them.
 ### Connectors
 
 Some elements link to external systems, like GND, Airtable or Anton. Jinn-tap uses the
-pb-authority-lookup element to link to these elements. Configure this in the schema.json.
+pb-authority-lookup element to link to these elements. Configure this in the schema file
+(`tei-schema.json` / `jats-schema.json`).
 
 #### Example
 
@@ -206,7 +207,7 @@ The jinntap feature can be configured like this:
  "jinntap": {
     "version": "<version>",
     "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap",
-    "schema": "resources/schema/schema.json"
+    "schema": "resources/schema/tei-schema.json"
   }
 }
 ```
