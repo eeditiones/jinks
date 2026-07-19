@@ -8,8 +8,37 @@
     --jinn-tap-background-color: var(--jinks-background-color-dark);
 }
 
+jinn-tap,
+jinn-tap .jinn-tap-toolbar {
+    /* Map JinnTap toolbar tokens onto the workbench/jinks theme. Also set on
+       .jinn-tap-toolbar because the library redefines the same tokens there
+       (for externally hosted toolbars), which would otherwise shadow inheritance. */
+    --toolbar-bg: var(--jinks-toolbar-background-color);
+    --toolbar-fg: var(--jinks-toolbar-color);
+    --toolbar-separator: color-mix(in srgb, var(--jinks-toolbar-color) 18%, transparent);
+    --toolbar-hover: color-mix(in srgb, var(--jinks-toolbar-color) 8%, transparent);
+    --toolbar-active: color-mix(in srgb, var(--jinks-toolbar-color) 14%, transparent);
+    --toolbar-mark: color-mix(in srgb, var(--jinks-colors-accent) 28%, transparent);
+    --toolbar-mark-fg: var(--jinks-toolbar-color);
+    --toolbar-btn-size: var(--jinks-toolbar-segment-cell-width, 2.25rem);
+    --toolbar-dropdown-bg: var(--jinks-background-color-light, var(--jinks-colors-light));
+    --toolbar-dropdown-border: var(--jinks-color-border, var(--jinks-colors-400));
+    --toolbar-dropdown-shadow: 0 2px 8px color-mix(in srgb, var(--jinks-toolbar-color) 16%, transparent);
+    --toolbar-focus-ring: var(--jinks-form-focus-color2, rgba(59, 130, 246, 0.45));
+    /* Shared inset for toolbar list + breadcrumb + editor. Set here (not only on
+       jinn-tap) so it survives library CSS that loads after this file. */
+    --jinn-tap-chrome-inline: var(--s1);
+}
+
 jinn-tap {
-    padding: 0 2rem;
+    column-gap: 0;
+    margin: 0 auto;
+}
+
+/* Scroll happens inside jinn-tap, not the page main pane. */
+.fixed-layout > main:has(> jinn-tap) {
+    overflow: hidden;
+    min-height: 0;
 }
 
 jinn-tap .editor-area {
@@ -21,91 +50,56 @@ jinn-tap .editor-area {
 jinn-tap .editor-area,
 jinn-tap .code-area {
     max-width: var(--pb-view-max-width);
+    width: 100%;
+    justify-self: center;
+    margin-inline: auto;
+    padding-inline: var(--jinn-tap-chrome-inline);
+    padding-top: var(--s-1);
 }
 
-jinn-tap .toolbar,
+/* Vertical rhythm only — horizontal inset comes from --jinn-tap-chrome-inline
+   on the toolbar list and breadcrumb nav in the library. */
+jinn-tap > nav:has(.toolbar) {
+    padding-block: var(--s-3);
+    padding-inline: 0;
+}
+
+/* Neutralize page-level .toolbar chrome from theme-base10 — it also matches
+   ul.toolbar.jinn-tap-toolbar because of the shared class name. */
+jinn-tap .toolbar.jinn-tap-toolbar {
+    background: none;
+    background-image: none;
+    gap: var(--jinks-toolbar-segment-gap, var(--s-2));
+    color: var(--toolbar-fg);
+    --pico-color: var(--toolbar-fg);
+}
+
 jinn-tap .logo {
     background: none;
 }
 
-jinn-tap .toolbar {
-    margin: 0;
-    padding: 1rem 0;
+/* theme-base10 sets .toolbar a { color: … !important } — restore the token. */
+jinn-tap .toolbar a,
+jinn-tap .jinn-tap-toolbar a {
+    color: var(--toolbar-fg) !important;
 }
 
-/* The toolbar nav is sticky, so it forms its own stacking context. Give it a
-   z-index above the sticky breadcrumb (z-index 3) so the toolbar buttons'
-   bottom-placed tooltips render over the breadcrumb bar instead of behind it. */
-jinn-tap > nav:has(.toolbar) {
-    z-index: 4;
-}
-
-jinn-tap .toolbar i {
+jinn-tap .toolbar i,
+jinn-tap .toolbar-button i {
     --jinks-base-line-height: unset;
-    font-size: var(--pb-content-font-size);
+    font-size: var(--jinks-toolbar-segment-icon-size, 1.15rem);
 }
 
-/* Element-path breadcrumb rendered as a slim status bar below the toolbar,
-   matching the embedded JinnTap demo: no card border, no "Element path" label. */
-nav[aria-label=breadcrumb].navigation-panel {
-    display: block;
-    margin: 0;
-    padding: 0 0 0.4rem 0;
-    border: none;
-    white-space: normal;
+/* Theme spacing / muted colour on top of library breadcrumb chrome. */
+jinn-tap > nav.navigation-panel {
+    padding-block: var(--s-3) var(--s-2);
     font-size: var(--jinks-font-size-smaller);
     color: var(--jinks-muted-color, var(--pico-muted-color));
-    /* Stick below the sticky toolbar so the element path stays visible while the
-       document scrolls. --jinntap-toolbar-height is the toolbar's rendered
-       height (padding: 1rem 0 + icon row). */
-    position: sticky;
-    top: var(--jinntap-toolbar-height, 60px);
-    z-index: 3;
-    background-color: var(--jinn-tap-background-color, white);
-    /* Soft, light shadow to lift the bar above the content scrolling beneath. */
-    box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.12);
 }
 
-/* Flat text row. Kill the base flex gap and per-crumb padding so ALL horizontal
-   spacing comes from the divider margin alone and stays symmetric. */
-nav[aria-label=breadcrumb].navigation-panel ul {
-    gap: 0;
-}
-
-nav[aria-label=breadcrumb].navigation-panel a {
-    padding: 0;
-    /* Base stylesheet sets a negative margin-inline-start that would cancel the
-       divider's right margin and pull crumbs together — reset it. */
-    margin: 0;
-    border-radius: 0;
-    color: inherit;
-}
-
-/* Subtle underline on hover instead of a padded highlight box, so hovering
-   doesn't shift the layout. */
-nav[aria-label=breadcrumb].navigation-panel a:hover {
-    background: none;
-    text-decoration: underline;
-}
-
-/* Ancestors emphasised; the current node (last crumb) stays normal weight. */
-nav[aria-label=breadcrumb].navigation-panel ul li:not(:last-child) {
-    font-weight: 600;
-}
-
-/* This nav carries aria-label="breadcrumb", so pico injects its own separator
-   via li::after. Suppress it so only the centered ::before divider shows,
-   otherwise the two divider glyphs collide (rendering as "≫"). */
-nav[aria-label=breadcrumb].navigation-panel ul li::after {
-    content: none;
-}
-
-/* Divider, centered: equal margin on both sides is the only inter-crumb space. */
-nav[aria-label=breadcrumb].navigation-panel ul li + li::before {
-    content: "\203A"; /* › */
-    margin: 0 0.45rem;
-    color: var(--pico-muted-color, var(--jinks-muted-color));
-    font-weight: 400;
+jinn-tap > nav.navigation-panel li + li::before {
+    margin: 0 var(--s-2);
+    color: var(--jinks-muted-color, var(--pico-muted-color));
     opacity: 1;
 }
 
@@ -116,11 +110,6 @@ nav[aria-label=breadcrumb].navigation-panel ul li + li::before {
 
 jinn-toast {
     font-size: var(--pb-footnote-font-size);
-}
-
-.jinn-tap-aside .attribute-panel {
-    padding: 1.5rem;
-    margin-bottom: .5rem;
 }
 
 .attribute-panel summary {

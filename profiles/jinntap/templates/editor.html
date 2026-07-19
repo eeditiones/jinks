@@ -39,13 +39,6 @@
         "styles": [
             "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         ],
-        "theme": {
-            "layout": {
-                "after": {
-                    "width": "30vw"
-                }
-            }
-        },
         "script": {
             "extra-components": [
                 "pb-odd-editor"
@@ -66,6 +59,9 @@
     <link rel="stylesheet" href="[[ $context-path ]]/resources/css/[[ $features?jinntap?formats($doctype)?stylesheet ]]" />
     [% endlet %]
     <style>
+        .toolbar {
+            padding-bottom: 0;
+        }
 		pb-facsimile {
 			width: 100%;
 			height:100%;
@@ -139,24 +135,12 @@
     </nav>
     [% endtemplate %]
 
-    [% template after-top %]
-    <li>
-        <img class="logo" src="https://cdn.jsdelivr.net/npm/@jinntec/jinntap@latest/dist/jinntap-logo-128.png"
-            alt="JinnTap" />
-    </li>
-    [% endtemplate %]
-
-    [% template after %]
-	[% block metadata-editor %][% endblock %]
-    <div id="attributes-panel"></div>
-    [% endtemplate %]
-
     <main>
         [% let $doctype = if (map:contains($context, 'doc')) then config:document-type(root($context?doc?content)/*) else $features?jinntap?default-format %]
         [% let $url = if (map:contains($context, 'doc')) then $context-path || "/api/document/" || $context?doc?path else () %]
-        <jinn-tap url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="![[ $context?features?jinntap?formats($doctype)?schema ]]"
+        <jinn-tap fill="fill" url="[[ $url ]]" name="[[ $context?doc?path ]]" schema="![[ $context?features?jinntap?formats($doctype)?schema ]]"
             format="[[ $doctype ]]"
-            token="![[ if ($features?collab?enable) then jt:jwt-token() else () ]]" server="![[ if ($features?collab?enable) then $features?collab?server else () ]]" sidebar="#attributes-panel">
+            token="![[ if ($features?collab?enable) then jt:jwt-token() else () ]]" server="![[ if ($features?collab?enable) then $features?collab?server else () ]]">
             <li slot="toolbar">
                 <a href="#" class="saveBtn toolbar-button" data-tooltip="Save" data-placement="bottom">
                     <i class="bi bi-floppy"></i>
