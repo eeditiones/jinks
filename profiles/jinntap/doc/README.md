@@ -1,5 +1,5 @@
 The **Jinntap** integration brings editing of your documents directly in your app. It enables
-creating new TEI (and JATS) files and editing existing ones.
+creating new TEI (and JATS) files and editing existing ones. Read more about JinnTap, get help on editing or learn about customization in its [documentation](https://jinnelements.github.io/jinn-tap/).
 
 # Customising the editor
 
