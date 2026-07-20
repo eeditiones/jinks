@@ -74,6 +74,19 @@ runs:
         npm install
         npx cypress run --browser firefox
 
+    - name: Retrieve eXist log
+      if: failure()
+      shell: bash
+      run: docker cp jinks-server:/exist/logs/exist.log ./exist-${{ inputs.app-name }}.log || true
+
+    - name: Publish eXist log as artifact
+      if: failure()
+      uses: actions/upload-artifact@v6
+      with:
+        name: exist-log-${{ inputs.app-name }}
+        path: ./exist-${{ inputs.app-name }}.log
+        retention-days: 7
+
     - name: Stop jinks container
       if: always()
       shell: bash
