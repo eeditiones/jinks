@@ -159,6 +159,14 @@ jobs:
             sleep 4
           done
 
+      - name: Deploy Jinks built from source
+        run: |
+          # The base image already ships jinks@10.0.0; autodeploy skips same-version
+          # packages, so profile changes from the current checkout would never reach
+          # jinks create without a forced reinstall.
+          docker exec jinks-server java org.exist.start.Main client --no-gui -l -u admin -P "" \
+            -f -s -x "repo:remove('http://tei-publisher.com/library/jinks'), repo:install-and-deploy('/exist/autodeploy/jinks.xar')"
+
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
@@ -197,6 +205,20 @@ jobs:
             fi
             echo "$app OK (HTTP $response)"
           done
+
+      - name: Smoke test tp-workbench ODD transforms
+        run: |
+          transform=$(docker exec jinks-server java org.exist.start.Main client --no-gui -l -u admin -P "" \
+            -f -s -x "string-join(doc('/db/apps/tp-workbench/transform/teipublisher-web.xql')//text()[contains(., 'import module')], '&#10;')")
+          echo "$transform"
+          if echo "$transform" | grep -q 'namespace global="http://www.tei-c.org/tei-simple/config"'; then
+            echo "FAIL: teipublisher-web.xql binds global to config.xqm (stale Jinks profiles?)"
+            exit 1
+          fi
+          if ! echo "$transform" | grep -q 'odd-global.xqm'; then
+            echo "FAIL: teipublisher-web.xql does not import odd-global.xqm"
+            exit 1
+          fi
 
       - name: Extract XAR files for generated apps
         working-directory: demo
