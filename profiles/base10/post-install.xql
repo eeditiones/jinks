@@ -62,7 +62,7 @@ declare function local:create-data-collection() {
 declare function local:generate-code($collection as xs:string) {
     for $source in ($config:odd-available, $config:odd-internal)
     let $odd := doc($collection || "/resources/odd/" || $source)
-    let $pi := tpu:parse-pi($odd, (), $source, ())
+    let $pi := tpu:parse-pi($odd, (), $source)
     for $module in
         if ($pi?output) then
             tokenize($pi?output)
@@ -98,8 +98,8 @@ sm:chgrp(xs:anyURI($target || "/modules/lib/api-dba.xql"), "dba"),
 sm:chmod(xs:anyURI($target || "/modules/lib/api-dba.xql"), "rwxr-Sr-x"),
 
 local:mkcol($target, "transform"),
-local:generate-code($target),
 local:create-data-collection(),
 let $pmuConfig := pmc:generate-pm-config(($config:odd-available, $config:odd-internal), $config:default-odd, $config:odd-root, $config:odd-media)
+let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
 return
-    xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
+    local:generate-code($target)
