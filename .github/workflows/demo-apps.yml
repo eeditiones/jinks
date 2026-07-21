@@ -159,21 +159,21 @@ jobs:
             sleep 4
           done
 
-      - name: Deploy Jinks built from source
-        run: |
-          # The base image already ships jinks@10.0.0; autodeploy skips same-version
-          # packages, so profile changes from the current checkout would never reach
-          # jinks create without a forced reinstall.
-          docker exec jinks-server java org.exist.start.Main client --no-gui -l -u admin -P "" \
-            -f -s -x "repo:remove('http://tei-publisher.com/library/jinks'), repo:install-and-deploy('/exist/autodeploy/jinks.xar')"
-
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
 
-      - name: Install jinks-cli
-        run: npm install -g @teipublisher/jinks-cli
+      - name: Install CLI tools
+        run: npm install -g @teipublisher/jinks-cli @existdb/xst
+
+      - name: Deploy Jinks built from source
+        run: |
+          # The base image already ships jinks@10.0.0; autodeploy skips same-version
+          # packages, so profile changes from the current checkout would never reach
+          # jinks create without a forced reinstall. Talk to the running server
+          # (do not start a second embedded client — that hits dbx_dir.lck).
+          xst package install --force build/jinks.xar
 
       - name: Generate tei-publisher app
         working-directory: demo
@@ -208,17 +208,16 @@ jobs:
 
       - name: Smoke test tp-workbench ODD transforms
         run: |
-          transform=$(docker exec jinks-server java org.exist.start.Main client --no-gui -l -u admin -P "" \
-            -f -s -x "string-join(doc('/db/apps/tp-workbench/transform/teipublisher-web.xql')//text()[contains(., 'import module')], '&#10;')")
-          echo "$transform"
-          if echo "$transform" | grep -q 'namespace global="http://www.tei-c.org/tei-simple/config"'; then
+          xst get /db/apps/tp-workbench/transform/teipublisher-web.xql /tmp/teipublisher-web.xql
+          if grep -q 'namespace global="http://www.tei-c.org/tei-simple/config"' /tmp/teipublisher-web.xql; then
             echo "FAIL: teipublisher-web.xql binds global to config.xqm (stale Jinks profiles?)"
             exit 1
           fi
-          if ! echo "$transform" | grep -q 'odd-global.xqm'; then
+          if ! grep -q 'odd-global.xqm' /tmp/teipublisher-web.xql; then
             echo "FAIL: teipublisher-web.xql does not import odd-global.xqm"
             exit 1
           fi
+          echo "OK: teipublisher-web.xql imports odd-global.xqm"
 
       - name: Extract XAR files for generated apps
         working-directory: demo
