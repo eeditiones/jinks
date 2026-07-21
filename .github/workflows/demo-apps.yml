@@ -137,7 +137,22 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Jinks from source
-        run: ant
+        run: |
+          # Bump package/@version so the mounted autodeploy XAR upgrades the
+          # image-baked jinks instead of being skipped as same-version.
+          # Read the real version (do not hardcode); produce valid semver that
+          # sorts higher: MAJOR.MINOR.(PATCH + run_number).
+          version=$(sed -n 's/.*<package[^>]*version="\([^"]*\)".*/\1/p' expath-pkg.xml | head -1)
+          base=${version%%+*}
+          base=${base%%-*}
+          major=$(echo "$base" | cut -d. -f1)
+          minor=$(echo "$base" | cut -d. -f2)
+          patch=$(echo "$base" | cut -d. -f3)
+          patch=${patch:-0}
+          ci_version="${major}.${minor}.$((patch + GITHUB_RUN_NUMBER))"
+          sed -i -E 's/(<package[^>]*version=")[^"]+"/\1'"${ci_version}"'"/' expath-pkg.xml
+          echo "CI package version: ${version} -> ${ci_version}"
+          ant
 
       - name: Pull jinks base image
         run: docker pull ${JINKS_IMAGE}:latest
@@ -166,14 +181,6 @@ jobs:
 
       - name: Install CLI tools
         run: npm install -g @teipublisher/jinks-cli @existdb/xst
-
-      - name: Deploy Jinks built from source
-        run: |
-          # The base image already ships jinks@10.0.0; autodeploy skips same-version
-          # packages, so profile changes from the current checkout would never reach
-          # jinks create without a forced reinstall. Talk to the running server
-          # (do not start a second embedded client — that hits dbx_dir.lck).
-          xst package install --force build/jinks.xar
 
       - name: Generate tei-publisher app
         working-directory: demo
