@@ -179,9 +179,6 @@ jobs:
         working-directory: demo
         run: jinks create -c workbench_config.json
 
-      - name: Recompile tp-workbench ODDs
-        run: jinks run tp-workbench fix-odds
-
       - name: Verify deployed apps
         run: jinks list
 
@@ -216,6 +213,9 @@ jobs:
 
       - name: Commit container for test jobs
         run: |
+          # Flush the database before snapshotting: committing a running eXist
+          # instance leaves a stale journal and the test jobs restart with recovery.
+          docker stop -t 120 jinks-server
           docker commit jinks-server temp/jinks-server:$GITHUB_SHA
           mkdir -p path/to/artifacts
           docker save temp/jinks-server:$GITHUB_SHA > path/to/artifacts/docker-image.tar
@@ -236,7 +236,7 @@ jobs:
 
       - name: Stop jinks container
         if: always()
-        run: docker stop jinks-server || true
+        run: docker rm -f jinks-server || true
 
   push-demo:
     name: push demo
