@@ -62,7 +62,7 @@ declare function local:create-data-collection() {
 declare function local:generate-code($collection as xs:string) {
     for $source in ($config:odd-available, $config:odd-internal)
     let $odd := doc($collection || "/resources/odd/" || $source)
-    let $pi := tpu:parse-pi($odd, (), $source)
+    let $pi := tpu:parse-pi($odd, (), $source, ())
     for $module in
         if ($pi?output) then
             tokenize($pi?output)
