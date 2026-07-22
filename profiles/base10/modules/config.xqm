@@ -361,7 +361,12 @@ declare variable $config:default-odd-for-docx := $config:default-odd;
 
 declare variable $config:default-docx-pi := 'odd="' || $config:default-odd-for-docx || '"]';
 
-declare variable $config:module-config := doc($config:odd-root || "/configuration.xml")/*;
+(:
+    In-memory copy of configuration.xml so $config:module-config/*:module does not
+    depend on DB node navigation. Empty module list makes pmu fall back to config.xqm
+    as "global" instead of odd-global.xqm.
+:)
+declare variable $config:module-config := util:expand(doc($config:odd-root || "/configuration.xml"))/*;
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 

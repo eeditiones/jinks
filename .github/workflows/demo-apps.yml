@@ -120,12 +120,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: 11
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -136,34 +130,27 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Jinks from source
-        run: |
-          # Bump package/@version so the mounted autodeploy XAR upgrades the
-          # image-baked jinks instead of being skipped as same-version.
-          # Read the real version (do not hardcode); produce valid semver that
-          # sorts higher: MAJOR.MINOR.(PATCH + run_number).
-          version=$(sed -n 's/.*<package[^>]*version="\([^"]*\)".*/\1/p' expath-pkg.xml | head -1)
-          base=${version%%+*}
-          base=${base%%-*}
-          major=$(echo "$base" | cut -d. -f1)
-          minor=$(echo "$base" | cut -d. -f2)
-          patch=$(echo "$base" | cut -d. -f3)
-          patch=${patch:-0}
-          ci_version="${major}.${minor}.$((patch + GITHUB_RUN_NUMBER))"
-          sed -i -E 's/(<package[^>]*version=")[^"]+"/\1'"${ci_version}"'"/' expath-pkg.xml
-          echo "CI package version: ${version} -> ${ci_version}"
-          ant
-
-      - name: Pull jinks base image
-        run: docker pull ${JINKS_IMAGE}:latest
+      - name: Build Jinks image from source
+        # Build the image from this checkout (Dockerfile BUILD=local) so jinks is
+        # autodeployed into a clean DB. Pulling the prebuilt image and mounting
+        # build/ does not work: eXist autodeploy never upgrades an already-installed
+        # package, so jinks create would keep running the image's stale profiles.
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=6.4.0
+          load: true
+          tags: jinks-server:ci
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
 
       - name: Start jinks container
         run: |
           docker run -d \
             --name jinks-server \
             -p 8080:8080 \
-            -v ${{ github.workspace }}/build:/exist/autodeploy \
-            ${JINKS_IMAGE}:latest
+            jinks-server:ci
 
       - name: Wait for server to start
         timeout-minutes: 10
