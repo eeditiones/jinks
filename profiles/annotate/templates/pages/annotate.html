@@ -10,6 +10,7 @@
         "script": {
             "extra-components": [ "pb-code-editor", "pb-leaflet-map" ],
             "custom": [
+                "resources/scripts/annotations/save-error.js",
                 "resources/scripts/annotations/review-dialog.js",
                 "resources/scripts/annotations/annotations.js"
             ]
@@ -50,11 +51,7 @@
                     </ul>
                 </nav>
             </li>
-        </ul>
-        <ul>
             [% block annotation-toolbar %][% endblock %]
-        </ul>
-		<ul>
             <li>
                 <span role="group">
                     <pb-navigation emit="transcription" subscribe="transcription" direction="backward" unit="page" keyboard="left"
@@ -79,8 +76,6 @@
                     <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
                 </span>
             </li>
-        </ul>
-        <ul>
             <li>
                 <span role="group">
                     <button data-i18n="[title]annotations.reload" id="reload-all">
@@ -123,6 +118,7 @@
         </pb-view>
         <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]"
             key="[[ $context?features?annotate?configs?($doctype)?key ]]"
+            collapse-whitespace="collapse-whitespace"
             append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
@@ -221,7 +217,7 @@
         </fx-group>
 
 
-        <fx-group ref="authority" class="card">
+        <fx-group ref="authority" id="authority" class="card">
             <header>
                 <pb-i18n key="annotations.edit-reference"></pb-i18n>
             </header>
@@ -420,11 +416,15 @@
         data-i18n="[title]annotations.confirm-reload-title;[message]annotations.confirm-reload"></pb-message>
     <pb-message id="permission-denied-dialog"
         data-i18n="[title]dialogs.error;[message]annotations.permission"></pb-message>
+    <pb-message id="login-required-dialog"
+        data-i18n="[title]dialogs.error;[message]annotations.save-login-required"></pb-message>
     <pb-message id="ner-denied-dialog" data-i18n="[title]dialogs.error;[message]annotations.ner.denied"></pb-message>
     <pb-message id="error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
     <pb-message id="runtime-error-dialog" data-i18n="[title]dialogs.error;[message]dialogs.serverError"></pb-message>
     <pb-message id="discard-review-dialog"
         data-i18n="[title]annotations.confirm-discard-title;[message]annotations.confirm-discard"></pb-message>
+    <pb-i18n id="i18n-save-failed" key="annotations.save-failed" hidden=""></pb-i18n>
+    <pb-i18n id="i18n-save-network-error" key="annotations.save-network-error" hidden=""></pb-i18n>
     <dialog id="d-review">
         <article>
             <header>
