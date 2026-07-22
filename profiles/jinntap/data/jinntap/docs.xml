@@ -34,7 +34,7 @@
                     either way. However, the editor has a clear distinction between block and inline
                     content<anchor xml:id="fn-m9ic2gkq-e2pwse" type="note" />. Therefore JinnTap
                     uses its own <ref
-                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/schema.json">
+                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/tei-schema.json">
                     schema</ref> to define what is allowed in which position. It extends the schema
                     used by the underlying editor (<ref target="https://prosemirror.net/">
                     ProseMirror</ref>) with custom node types and configures additional features
@@ -228,7 +228,7 @@
                 <p>As stated above, the editor is strict with respect to the elements allowed in
                     different positions and the distinction between block-level and inline nodes. It
                     therefore comes with its own schema, representing a subset of the TEI. This <ref
-                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/schema.json">
+                        target="https://github.com/JinnElements/jinn-tap/blob/main/src/tei-schema.json">
                     schema</ref> is written in JSON and can be changed. You probably always want to
                     review it before using the editor on a real-world project. The JSON schema also
                     defines toolbar buttons and keyboard shortcuts.</p>

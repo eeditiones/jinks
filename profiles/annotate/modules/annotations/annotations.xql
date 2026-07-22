@@ -299,9 +299,17 @@ declare %private function anno:apply($node as node(), $startOffset as xs:int, $e
     let $endAdjusted :=
         if ($end?2 = string-length($end?1) and not($start?1 is $end?1)) then
             let $outer := anno:find-outermost($node, $end?1, "end")
-            let $offset := if ($outer/following-sibling::node()) then 1 else $end?2
             return
-                [anno:find-outermost($node, $end?1, "end"), $offset]
+                (: if the end text node is a direct child of the context, there is no
+                   enclosing element to extend to. Collapsing to offset 1 here would drop
+                   the remaining text of the node (e.g. the last word before a note), so
+                   keep the original end offset instead. :)
+                if ($outer is $end?1) then
+                    $end
+                else
+                    let $offset := if ($outer/following-sibling::node()) then 1 else $end?2
+                    return
+                        [$outer, $offset]
         else
             $end
     return
