@@ -77,12 +77,40 @@
     <script type="module" src="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/index.es.js"></script>
     [% endif %]
     <script src="[[ $context-path ]]/resources/scripts/editor.js"></script>
-    <script>
+    <script type="module">
+        [% if $features?jinntap?version = "dev" %]
+        import { attachPublisherAssetStore } from '[[ $features?jinntap?cdn ]]/jinn-tap/src/storage/index.js';
+        [% else %]
+        import { attachPublisherAssetStore } from '[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/storage.es.js';
+        [% endif %]
+
         window.addEventListener('DOMContentLoaded', () => {
             const doc = "[[ $context?doc?path ]]";
             const baseURI = "[[ $context-path ]]";
+            const dataDefaultRel = "[[ head(($features?upload?target, $defaults?upload, '')) ]]";
 
             initEditor(baseURI, doc);
+
+            customElements.whenDefined('jinn-tap').then(() => {
+                const editor = document.querySelector('jinn-tap');
+                if (!editor) return;
+                const attach = () => {
+                    try {
+                        attachPublisherAssetStore(editor, {
+                            contextPath: baseURI,
+                            docPath: doc || editor.metadata?.name || '',
+                            dataDefaultRel,
+                        });
+                    } catch (err) {
+                        console.error('Asset store unavailable', err);
+                    }
+                };
+                if (editor._initialized || editor.editor) {
+                    attach();
+                } else {
+                    editor.addEventListener('ready', attach, { once: true });
+                }
+            });
         });
     </script>
     [% endtemplate %]

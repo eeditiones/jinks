@@ -1,0 +1,237 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – JinnTap Assets API",
+        "description": "List, fetch, upload and delete binary assets (images) co-located with documents for the JinnTap editor."
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "jinntap-assets",
+            "description": "Binary assets for JinnTap graphic elements"
+        }
+    ],
+    "paths": {
+        "/api/jinntap/assets": {
+            "get": {
+                "summary": "List binary assets in a collection",
+                "tags": ["jinntap-assets"],
+                "operationId": "jtapi:list-assets",
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "query",
+                        "required": true,
+                        "description": "Collection path relative to data-default (e.g. empty or a subdirectory)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Asset metadata list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Upload one or more assets into a collection",
+                "tags": ["jinntap-assets"],
+                "operationId": "jtapi:upload-assets",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
+                "parameters": [
+                    {
+                        "name": "collection",
+                        "in": "query",
+                        "required": true,
+                        "description": "Collection path relative to data-default",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Uploaded assets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/jinntap/assets/{id}": {
+            "get": {
+                "summary": "Get a binary asset",
+                "tags": ["jinntap-assets"],
+                "operationId": "jtapi:get-asset",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Path relative to data-default, e.g. photo.png (URL-encoded)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Binary content",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asset not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Store or overwrite a binary asset at a path",
+                "tags": ["jinntap-assets"],
+                "operationId": "jtapi:put-asset",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Path relative to data-default",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/octet-stream": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        },
+                        "*/*": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Stored",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a binary asset",
+                "tags": ["jinntap-assets"],
+                "operationId": "jtapi:delete-asset",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted"
+                    },
+                    "404": {
+                        "description": "Asset not found"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

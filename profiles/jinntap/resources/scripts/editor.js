@@ -33,6 +33,14 @@ async function save(baseUri, editor, newFile = false) {
 					},
 				}),
 			);
+			// Keep asset store collection in sync when the document path changes
+			if (editor.assets && typeof editor.assets.setCollectionFromDoc === "function") {
+				editor.assets.setCollectionFromDoc(json.path);
+			} else if (editor.assets && typeof editor.assets.setCollection === "function") {
+				const parts = (json.path || "").split("/");
+				const collection = parts.length > 1 ? parts.slice(0, -1).join("/") : "";
+				editor.assets.setCollection(collection);
+			}
 			// Change the URL if the document is now in some other place (happens for newly created documents)
 			// Keep into account collections though: 'a/b.xml' will be saved in 'a/b.xml', not in some other location.
 			// TODO: consider URIEncoding the collection and path to prevent this.

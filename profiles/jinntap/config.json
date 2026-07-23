@@ -27,6 +27,14 @@
     "templating": {
         "use": [ "templates/editor-blocks.html" ]
     },
+    "api": [
+        {
+            "spec": "jinntap-api.json",
+            "prefix": "jtapi",
+            "path": "jinntap-api.xql",
+            "id": "http://e-editiones.org/api/jinntap"
+        }
+    ],
     "features": {
         "collab": {
             "enable": false,
@@ -34,7 +42,7 @@
         },
         "jinntap": {
             "enabled": false,
-            "version": "1.32.0",
+            "version": "1.33.0",
             "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap",
             "default-format": "tei",
             "toolbar-button": true,
