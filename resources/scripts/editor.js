@@ -21,8 +21,43 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let resolveConflicts = {};
     let pendingConfig = null;
+    /** @type {{ abbrev: string, id: string } | null} Locked package identity while an installed app is selected */
+    let installedIdentity = null;
 
     let isProcessing = false;
+
+    function setIdentityLocked(locked) {
+        const abbrevInput = form.querySelector('[name="abbrev"]');
+        const idInput = form.querySelector('[name="id"]');
+        abbrevInput.disabled = locked;
+        idInput.disabled = locked;
+        form.querySelectorAll('.identity-locked-note').forEach((note) => {
+            note.hidden = !locked;
+        });
+    }
+
+    /**
+     * When an installed app is selected, force abbrev/id back to the locked package identity.
+     * @returns {boolean} true if the config was changed
+     */
+    function pinInstalledIdentity(config) {
+        if (!installedIdentity) {
+            return false;
+        }
+        let changed = false;
+        if (!config.pkg) {
+            config.pkg = {};
+        }
+        if (config.pkg.abbrev !== installedIdentity.abbrev) {
+            config.pkg.abbrev = installedIdentity.abbrev;
+            changed = true;
+        }
+        if (config.id !== installedIdentity.id) {
+            config.id = installedIdentity.id;
+            changed = true;
+        }
+        return changed;
+    }
 
     function createOpenButtonHtml(abbrev) {
         return `<a id="open-action" class="action" href="../${abbrev}" target="_new">
@@ -166,6 +201,11 @@ window.addEventListener('DOMContentLoaded', () => {
     async function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
+        installedIdentity = {
+            abbrev: app.config.pkg.abbrev,
+            id: app.config.id
+        };
+        setIdentityLocked(true);
 
         document.querySelector('.tabs li:has([href="#files"])').style.display = 'block';
         document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
@@ -675,6 +715,11 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll(':valid').forEach((element) => {
             element.setAttribute('aria-invalid', 'false');
         });
+        // Disabled controls are barred from constraint validation, so :valid/:invalid
+        // never match them — clear any stale aria-invalid (e.g. from before locking).
+        form.querySelectorAll(':disabled').forEach((element) => {
+            element.setAttribute('aria-invalid', 'false');
+        });
         const themes = form.querySelectorAll('input[name="theme"]');
         const valid = Array.from(themes).some(cb => cb.checked);
         if (!valid) {
@@ -782,9 +827,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 appConfig[key] = value;
             }
         });
-        appConfig.pkg = {
-            abbrev: formData.get('abbrev')
-        };
+        // Disabled identity fields are omitted by collectFormData; pin from lock or form
+        if (installedIdentity) {
+            appConfig.pkg = { abbrev: installedIdentity.abbrev };
+            appConfig.id = installedIdentity.id;
+        } else {
+            appConfig.pkg = {
+                abbrev: formData.get('abbrev')
+            };
+        }
         const extend = formData.getAll('base')
             .concat(formData.getAll('feature'))
             .concat(formData.getAll('theme'))
@@ -917,6 +968,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function reset(updateEditor = true) {
         appConfig = {};
+        installedIdentity = null;
+        setIdentityLocked(false);
         const ul = document.getElementById('actions');
         ul.style.display = 'none';
         ul.innerHTML = '';
@@ -1058,6 +1111,10 @@ window.addEventListener('DOMContentLoaded', () => {
         editorSyncTimer = setTimeout(() => {
             try {
                 appConfig = JSON.parse(editor.value);
+                if (pinInstalledIdentity(appConfig)) {
+                    // Keep Monaco in sync when pasted JSON tried to change identity
+                    editor.value = JSON.stringify(appConfig, null, 2);
+                }
                 applyConfigToForm(appConfig);
                 updateConfig(false);
             } catch (err) {

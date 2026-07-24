@@ -70,7 +70,7 @@
                 <label>
                     Abbreviation
                     <input type="text" name="abbrev" placeholder="Abbreviation" required="" pattern="[\w\-_]+"/>
-                    <small>Unique name to identify the app. Only characters and -, _</small>
+                    <small id="abbrev-hint">Unique name to identify the app. Only characters and -, _. <span class="identity-locked-note" hidden="">Cannot be changed on an already installed app.</span></small>
                 </label>
                 <label>
                     Label
@@ -80,7 +80,7 @@
                 <label>
                     Unique identifier
                     <input type="url" name="id" placeholder="URI" required=""/>
-                    <small>Unique URL to identify the app</small>
+                    <small id="id-hint">Unique URL to identify the app (eXist package URI). <span class="identity-locked-note" hidden="">Cannot be changed on an already installed app.</span></small>
                 </label>
                 <label>
                     Description
