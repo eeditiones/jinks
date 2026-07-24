@@ -31,11 +31,6 @@
             "command": "toggleSource",
             "label": "<i class='bi bi-filetype-xml'></i>",
             "order": 20
-        },
-        "Debug Mode": {
-            "command": "toggleDebug",
-            "label": "<i class='bi bi-question-circle'></i>",
-            "order": 20
         }
     },
     "selects": {
@@ -216,7 +211,11 @@
             "attributes": {
                 "xlink:href": {
                     "type": "string",
-                    "default": "https://placehold.co/320x200"
+                    "default": "https://placehold.co/320x200",
+                    "connector": {
+                        "name": "Asset",
+                        "type": "image"
+                    }
                 }
             },
             "toolbar": {

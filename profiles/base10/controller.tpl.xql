@@ -70,8 +70,12 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
             </forward>
         </dispatch>
 
-(: other images are resolved against the data collection and also returned directly :)
-else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
+(: other images are resolved against the data collection and also returned directly.
+ : Skip /api/… — those must reach the OpenAPI router (e.g. /api/jinntap/assets/foo.png). :)
+else if (
+    matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")
+    and not(matches($exist:path, "^/+api/+"))
+) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/data/{$exist:path}"/>
     </dispatch>
