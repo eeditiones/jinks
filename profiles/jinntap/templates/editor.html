@@ -67,6 +67,12 @@
 			height:100%;
 			min-width: 20vw;
 		}
+        #saveDialog article {
+            width: min(90vw, 42rem);
+        }
+        #saveDialog label:has(input:not([type="checkbox"])) {
+            grid-template-columns: max-content 1fr;
+        }
     </style>
     [% endtemplate %]
 

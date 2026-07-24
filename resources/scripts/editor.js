@@ -131,26 +131,45 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Reinitialize form controls from a config object (e.g. after loading an app
+     * or pasting JSON into the Monaco editor).
+     */
+    function applyConfigToForm(config) {
+        const extendsList = Array.isArray(config.extends) ? config.extends : [];
+        form.querySelector('[name="bootstrap"]').checked = Boolean(config.profile?.type);
+        form.querySelector('[name="id"]').value = config.id || '';
+        form.querySelector('[name="label"]').value = config.label || '';
+        form.querySelector('[name="abbrev"]').value = config.pkg?.abbrev || '';
+        form.querySelector('[name="description"]').value = config.description || '';
+        form.querySelectorAll('[name="base"]').forEach((input) => {
+            input.checked = extendsList.includes(input.value);
+        });
+        form.querySelectorAll('[name="feature"],[name="blueprint"],[name="theme"]').forEach((input) => {
+            input.checked = extendsList.includes(input.value);
+        });
+
+        // Radios require a selection; fall back if the config names no known base profile
+        if (!form.querySelector('[name="base"]:checked')) {
+            const fallback = form.querySelector('[name="base"][value="base10"]')
+                || form.querySelector('[name="base"]');
+            if (fallback) {
+                fallback.checked = true;
+            }
+        }
+
+        filterProfilesByBaseProfile();
+        updateColorPaletteSelection(config);
+        validateForm();
+    }
+
     async function loadApp(app) {
         resolveConflicts = {};
         appConfig = app.config;
 
         document.querySelector('.tabs li:has([href="#files"])').style.display = 'block';
         document.getElementById('fileManager').setAttribute('root', `/db/apps/${appConfig.pkg.abbrev}`);
-        form.querySelector('[name="bootstrap"]').checked = appConfig.profile?.type;
-        form.querySelector('[name="id"]').value = appConfig.id;
-        form.querySelector('[name="label"]').value = appConfig.label;
-        form.querySelector('[name="abbrev"]').value = appConfig.pkg.abbrev;
-        form.querySelector('[name="description"]').value = appConfig.description || '';
-        form.querySelectorAll('[name="base"]').forEach((input) => {
-            input.checked = appConfig.extends.includes(input.value);
-        });
-        form.querySelectorAll('[name="feature"],[name="blueprint"],[name="theme"]').forEach((input) => {
-            input.checked = appConfig.extends.includes(input.value);
-        });
-
-        // Filter profiles based on selected base profile
-        filterProfilesByBaseProfile();
+        applyConfigToForm(appConfig);
 
         editor.value = JSON.stringify(app.config, null, 2);
         update(false);
@@ -1033,8 +1052,18 @@ window.addEventListener('DOMContentLoaded', () => {
         process(false, true);
     });
 
-    editor.addEventListener('change', (e) => {
-        appConfig = JSON.parse(e.target.value);
+    let editorSyncTimer = null;
+    editor.addEventListener('change', () => {
+        clearTimeout(editorSyncTimer);
+        editorSyncTimer = setTimeout(() => {
+            try {
+                appConfig = JSON.parse(editor.value);
+                applyConfigToForm(appConfig);
+                updateConfig(false);
+            } catch (err) {
+                // Ignore invalid JSON while the user is still editing
+            }
+        }, 300);
     });
 
     // Color scheme picker functionality
