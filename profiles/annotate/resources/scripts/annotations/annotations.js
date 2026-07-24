@@ -126,6 +126,39 @@ document.addEventListener("pb-page-loaded", () => {
 	let currentUser = null;
 	const doc = view.getDocument();
 	const editorVisitId = randomUUID();
+	const editPanel = document.querySelector("fx-fore.edit-panel");
+
+	function setForeValue(name, value) {
+		const node = editPanel?.querySelector(
+			`fx-instance#i-default > data > ${name}`,
+		);
+		if (node) {
+			node.textContent = String(value);
+		}
+	}
+
+	function runForeAction(id) {
+		const action = editPanel?.querySelector(`#${id}`);
+		if (typeof action?.perform === "function") {
+			action.perform();
+			return;
+		}
+		document.dispatchEvent(new CustomEvent(id, { bubbles: true }));
+	}
+
+	function resetAnnotationPanels() {
+		setForeValue("annotation", false);
+		setForeValue("authority", false);
+		setForeValue("occurrences", false);
+		runForeAction("reset-panels");
+		document.dispatchEvent(new CustomEvent("hide-authority", { bubbles: true }));
+		currentEntityInfo = null;
+		document.getElementById("annotation")?.setAttribute("hidden", "");
+	}
+
+	function closeAnnotationPanel() {
+		resetAnnotationPanels();
+	}
 
 	function annotationSessionKey(docPath) {
 		return `tei-publisher.annotations.session.${docPath}`;
@@ -201,6 +234,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 * @param {any} data properties of the annotation (if any); used to prefill the form
 	 */
 	function showForm(type, data) {
+		document.getElementById("annotation")?.removeAttribute("hidden");
 		form.reset();
 		refInput.forEach((input) => {
 			input.dispatchEvent(new Event("input"));
@@ -217,8 +251,13 @@ document.addEventListener("pb-page-loaded", () => {
 		form.querySelectorAll(`.annotation-form.${type}`).forEach((elem) => {
 			elem.style.display = "";
 		});
-		occurDiv.style.display = "";
-		occurrences.innerHTML = "";
+		if (autoSave) {
+			occurDiv.style.display = "";
+		} else {
+			occurDiv.style.display = "none";
+			occurrences.innerHTML = "";
+			document.querySelector("#occurrences .messages").innerHTML = "";
+		}
 
 		if (data) {
 			Object.keys(data).forEach((key) => {
@@ -246,10 +285,12 @@ document.addEventListener("pb-page-loaded", () => {
 		}
 	}
 
-	function hideForm() {
-		window.pbEvents.emit("hide-all-panels", {});
-
-		form.style.display = "none";
+	function hideForm({ closePanel = true } = {}) {
+		if (closePanel) {
+			closeAnnotationPanel();
+		} else {
+			form.style.display = "none";
+		}
 		occurDiv.style.display = "none";
 	}
 
@@ -358,8 +399,10 @@ document.addEventListener("pb-page-loaded", () => {
 
 	/**
 	 * Apply the current annotation.
+	 *
+	 * @param {{ hideAfter?: boolean }} [options]
 	 */
-	function save() {
+	function save({ hideAfter = false } = {}) {
 		view.saveHistory();
 		const data = form.serializeForm();
 		form
@@ -370,8 +413,8 @@ document.addEventListener("pb-page-loaded", () => {
 					data[editor.getAttribute("name")] = value;
 				}
 			});
-		if (!autoSave) {
-			hideForm();
+		if (hideAfter) {
+			hideForm({ closePanel: true });
 		}
 		if (activeSpan) {
 			window.pbEvents.emit("pb-edit-annotation", "transcription", {
@@ -401,7 +444,7 @@ document.addEventListener("pb-page-loaded", () => {
 	 */
 	function preview(annotations, doStore, changeLog) {
 		if (doStore) {
-			document.dispatchEvent(new CustomEvent("reset-panels"));
+			resetAnnotationPanels();
 		}
 		const endpoint = document.querySelector("pb-page").getEndpoint();
 		const doc = document.getElementById("document1");
@@ -421,15 +464,11 @@ document.addEventListener("pb-page-loaded", () => {
 				},
 				body: JSON.stringify(data),
 			})
-				.then((response) => {
+				.then(async (response) => {
 					if (response.ok) {
 						return response.json();
 					}
-					if (response.status === 403) {
-						document.getElementById("permission-denied-dialog").show();
-						throw new Error(response.statusText);
-					}
-					document.getElementById("error-dialog").show();
+					await showSaveError(response);
 					throw new Error(response.statusText);
 				})
 				.then((json) => {
@@ -483,6 +522,12 @@ document.addEventListener("pb-page-loaded", () => {
 							const iframe = document.getElementById("html");
 							iframe.srcdoc = html;
 						});
+				})
+				.catch((err) => {
+					if (err?.name === "TypeError") {
+						showNetworkError();
+					}
+					reject(err);
 				});
 		});
 	}
@@ -506,9 +551,10 @@ document.addEventListener("pb-page-loaded", () => {
 			// if class contains 'before' or 'after' value, it's an empty element
 			emptyElement = elementPosition == "before";
 			if (button.classList.contains("toggle")) {
-				save();
+				save({ hideAfter: true });
 				return;
 			}
+			resetAnnotationPanels();
 			autoSave = false;
 			if (button.classList.contains("authority")) {
 				autoSave = true;
@@ -516,8 +562,9 @@ document.addEventListener("pb-page-loaded", () => {
 					type,
 					query: selection,
 				});
+			} else {
+				runForeAction("show-annotation");
 			}
-			window.pbEvents.emit("show-annotation", "transcription", {});
 			showForm(type);
 			text = selection;
 			activeSpan = null;
@@ -617,17 +664,13 @@ document.addEventListener("pb-page-loaded", () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
-		}).then((response) => {
+		}).then(async (response) => {
 			window.pbEvents.emit("pb-end-update", "transcription", {});
 			if (response.ok) {
 				reviewDialog.close();
 				return;
 			}
-			if (response.status === 403) {
-				document.getElementById("permission-denied-dialog").show();
-				throw new Error(response.statusText);
-			}
-			document.getElementById("error-dialog").show();
+			await showSaveError(response);
 			throw new Error(response.statusText);
 		});
 	}
@@ -711,7 +754,7 @@ document.addEventListener("pb-page-loaded", () => {
 	hideForm();
 
 	// apply annotation action
-	saveBtn.addEventListener("click", () => save());
+	saveBtn.addEventListener("click", () => save({ hideAfter: true }));
 
 	const nerActionButton = document.getElementById("ner-action");
 	if (nerActionButton) {
@@ -738,7 +781,7 @@ document.addEventListener("pb-page-loaded", () => {
 				preserveScroll: true,
 			});
 			hideForm();
-			document.dispatchEvent(new CustomEvent("reset-panels"));
+			resetAnnotationPanels();
 		}
 		if (view.annotations.length > 0) {
 			document.getElementById("confirm-reload-dialog").confirm().then(reload);
@@ -911,10 +954,12 @@ document.addEventListener("pb-page-loaded", () => {
 					.querySelector("pb-authority-lookup")
 					.lookup(type, input.value, authorityInfo)
 					.then((info) => {
-						document.getElementById("edit-entity").style.display = info.editable
-							? "block"
-							: "none";
-
+                        const editButton = document.getElementById("edit-entity");
+                        if (editButton) {
+                            document.getElementById("edit-entity").style.display = info.editable
+                                ? "block"
+                                : "none";
+                        }
 						currentEntityInfo = info;
 						findOther(info);
 					})
@@ -1033,6 +1078,7 @@ document.addEventListener("pb-page-loaded", () => {
 		activeSpan = ev.detail.target;
 		text = activeSpan.textContent.replace(/\s+/g, " ");
 		type = ev.detail.type;
+		resetAnnotationPanels();
 		autoSave = false;
 		const trigger = document.querySelector(`[data-type=${type}]`);
 		if (trigger && trigger.classList.contains("authority")) {
@@ -1041,7 +1087,8 @@ document.addEventListener("pb-page-loaded", () => {
 				type,
 				query: text,
 			});
-			//authorityDialog.open();
+		} else {
+			runForeAction("show-annotation");
 		}
 		window.pbEvents.emit("annotation-edit", "transcription", {
 			ref: ev.detail.properties[view.key] || "",

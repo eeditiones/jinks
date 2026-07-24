@@ -120,12 +120,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: 11
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -136,19 +130,27 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Jinks from source
-        run: ant
-
-      - name: Pull jinks base image
-        run: docker pull ${JINKS_IMAGE}:latest
+      - name: Build Jinks image from source
+        # Build the image from this checkout (Dockerfile BUILD=local) so jinks is
+        # autodeployed into a clean DB. Pulling the prebuilt image and mounting
+        # build/ does not work: eXist autodeploy never upgrades an already-installed
+        # package, so jinks create would keep running the image's stale profiles.
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            EXIST_VERSION=6.4.0
+          load: true
+          tags: jinks-server:ci
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
 
       - name: Start jinks container
         run: |
           docker run -d \
             --name jinks-server \
             -p 8080:8080 \
-            -v ${{ github.workspace }}/build:/exist/autodeploy \
-            ${JINKS_IMAGE}:latest
+            jinks-server:ci
 
       - name: Wait for server to start
         timeout-minutes: 10
@@ -164,8 +166,8 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Install jinks-cli
-        run: npm install -g @teipublisher/jinks-cli
+      - name: Install CLI tools
+        run: npm install -g @teipublisher/jinks-cli @existdb/xst
 
       - name: Generate tei-publisher app
         working-directory: demo
@@ -198,6 +200,19 @@ jobs:
             echo "$app OK (HTTP $response)"
           done
 
+      - name: Smoke test tp-workbench ODD transforms
+        run: |
+          xst get /db/apps/tp-workbench/transform/teipublisher-web.xql /tmp/teipublisher-web.xql
+          if grep -q 'namespace global="http://www.tei-c.org/tei-simple/config"' /tmp/teipublisher-web.xql; then
+            echo "FAIL: teipublisher-web.xql binds global to config.xqm (stale Jinks profiles?)"
+            exit 1
+          fi
+          if ! grep -q 'odd-global.xqm' /tmp/teipublisher-web.xql; then
+            echo "FAIL: teipublisher-web.xql does not import odd-global.xqm"
+            exit 1
+          fi
+          echo "OK: teipublisher-web.xql imports odd-global.xqm"
+
       - name: Extract XAR files for generated apps
         working-directory: demo
         run: |
@@ -213,6 +228,9 @@ jobs:
 
       - name: Commit container for test jobs
         run: |
+          # Flush the database before snapshotting: committing a running eXist
+          # instance leaves a stale journal and the test jobs restart with recovery.
+          docker stop -t 120 jinks-server
           docker commit jinks-server temp/jinks-server:$GITHUB_SHA
           mkdir -p path/to/artifacts
           docker save temp/jinks-server:$GITHUB_SHA > path/to/artifacts/docker-image.tar
@@ -233,7 +251,7 @@ jobs:
 
       - name: Stop jinks container
         if: always()
-        run: docker stop jinks-server || true
+        run: docker rm -f jinks-server || true
 
   push-demo:
     name: push demo

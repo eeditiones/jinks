@@ -39,6 +39,20 @@ describe("Annotations", () => {
 			});
 		});
 
+		// Warm-up request: on a freshly generated app, the first render of an ODD
+		// (here "annotations") can race with its own on-the-fly compilation on the
+		// server, occasionally surfacing as a transient "dynamic error ... is not
+		// set" response. pb-view-annotate fires several near-simultaneous requests
+		// on load, which is exactly the situation that can trigger the race. Doing
+		// one throwaway request first - serially, outside of that concurrent burst -
+		// forces the compilation/caching to happen ahead of time so the real
+		// assertions below don't hit it. Errors here are ignored on purpose.
+		cy.api({
+			url: "/api/parts/annotate%2Fannotation.xml/html",
+			qs: { template: "annotate-tei.html", odd: "annotations", view: "div" },
+			failOnStatusCode: false,
+		});
+
 		cy.visit(
 			"annotate/annotation.xml?template=annotate-tei.html&odd=annotations&view=div",
 		);

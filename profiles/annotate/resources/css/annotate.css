@@ -205,7 +205,7 @@ fx-fore textarea {
     width: 100%;
 }
 
-fx-group[ref="authority"]{
+fx-group#authority{
     overflow: hidden;
 }
 fx-fore #markupPanel pb-tabs,
@@ -372,6 +372,13 @@ paper-icon-button[data-type="edit"] {
 }
 
 #commit[nonrelevant] {
+    display: none;
+}
+
+fx-group#annotation[nonrelevant],
+fx-group#authority[nonrelevant],
+fx-group.occurrences[nonrelevant],
+fx-group#annotation[hidden] {
     display: none;
 }
 

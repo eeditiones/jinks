@@ -197,6 +197,12 @@ h4 {
     color: var(--jinks-colors-light);
 }
 
+:host(pb-authority-lookup) .badge {
+    height: 1.25rem;
+    border-radius: 0;
+    padding: 0px 6px;
+}
+
 :host(pb-toggle-feature) {
     display: inline-flex;
     align-items: center;

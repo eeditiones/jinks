@@ -32,6 +32,11 @@ declare %private function action:generate-pm-config() {
 };
 
 declare %private function action:generate-code() {
+    (:
+        In-memory copy of configuration.xml for pmu:process-odd ($config/*:module).
+        If that step is empty, pmu falls back to config.xqm as "global". See post-install.xql.
+    :)
+    let $modulesConfig := util:expand(doc($config:app-root || "/resources/odd/configuration.xml"))/*
     for $source in ($config:odd-available, $config:odd-internal)
     let $odd := doc($config:app-root || "/resources/odd/" || $source)
     let $pi := tpu:parse-pi($odd, (), $source)
@@ -51,7 +56,7 @@ declare %private function action:generate-code() {
             (:    $relPath as xs:string    :)
             "transform",
             (:    $config as element(modules)?    :)
-            doc($config:app-root || "/resources/odd/configuration.xml")/*,
+            $modulesConfig,
             $module = "web"
         )
     return
