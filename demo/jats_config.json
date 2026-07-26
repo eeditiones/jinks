@@ -1,0 +1,25 @@
+{
+  "label": "JATS Publisher",
+  "id": "https://e-editiones.org/apps/tp-jats",
+  "extends": [
+    "base10",
+    "demo-data",
+    "theme-base10",
+    "jats",
+    "modern-theme",
+    "docker",
+    "ci",
+    "jinntap",
+    "forms",
+    "annotate",
+    "upload",
+    "jats-publisher"
+  ],
+  "pkg": {
+    "abbrev": "tp-jats"
+  },
+  "description": "Display, annotate and edit JATS XML",
+  "defaults": {
+    "site-root": "/exist/apps/tei-publisher"
+}
+}
