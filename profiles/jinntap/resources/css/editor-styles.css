@@ -73,6 +73,17 @@ jinn-tap .toolbar.jinn-tap-toolbar {
     --pico-color: var(--toolbar-fg);
 }
 
+/* theme-base10 controls.css adds summary::after chevrons on .dropdown;
+   jinn-tap already ships a real .toolbar-dropdown-caret — hide the duplicate. */
+jinn-tap .toolbar details.dropdown > summary::after,
+.jinn-tap-toolbar details.dropdown > summary::after {
+    display: none !important;
+    content: none !important;
+    background-image: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
 jinn-tap .logo {
     background: none;
 }

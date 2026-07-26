@@ -59,6 +59,16 @@
         .toolbar {
             padding-bottom: 0;
         }
+        /* theme-base10 adds summary::after chevrons; jinn-tap already has
+           .toolbar-dropdown-caret — keep only the library caret. */
+        jinn-tap .toolbar details.dropdown > summary::after,
+        .toolbar.jinn-tap-toolbar details.dropdown > summary::after {
+            display: none !important;
+            content: none !important;
+            background-image: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
 		pb-facsimile {
 			width: 100%;
 			height:100%;

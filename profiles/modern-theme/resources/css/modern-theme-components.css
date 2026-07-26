@@ -19,6 +19,28 @@
     background-color: rgba(252, 252, 248, 0.2);
 }
 
+/* Language menu panel: same flat rectangular chrome as light-DOM dropdowns. */
+:host(pb-lang) summary + ul,
+:host(pb-lang) ul {
+    border-radius: 2px;
+    box-shadow: none;
+    border: 1px solid var(--jinks-colors-400, #CFCDC5);
+    background-color: var(--jinks-colors-light, #FCFCF8);
+    padding: 0.25rem;
+}
+
+:host(pb-lang) summary + ul li {
+    border-radius: 2px;
+    background-color: transparent;
+    transition: background-color 0.12s ease;
+}
+
+:host(pb-lang) summary + ul li:hover,
+:host(pb-lang) ul li:hover {
+    border-color: transparent;
+    background-color: var(--jinks-colors-300, #DCDAD4);
+}
+
 /* Login button: same flat chip. */
 :host(pb-login) > a {
     border-radius: 2px;
