@@ -1,12 +1,17 @@
 /* ===========================================================================
-   Serafin theme — token overrides + edition-specific layout and chrome.
+   Modern theme — token overrides + flat rectangular chrome.
    Central hooks are defined in theme-base10 (jinks-variables.css); set values
    here or in config.json to customize without forking the base theme.
    Fonts: resources/fonts/font.css (via jinks-theme.css).
+   Edition-specific parchment toolbar / breadcrumbs live in consuming
+   blueprints (e.g. serafin/resources/css/serafin.css).
    =========================================================================== */
 
 :root {
     --jinks-form-border-radius: 2px;
+    /* Labeled buttons in theme-base10 use the *-full token (pill). Keep them
+       rectangular so annotate / jinntap / download actions match the theme. */
+    --jinks-form-border-radius-full: 0;
     --jinks-highlight-accent-percent: 38%;
     --jinks-page-header-border-bottom: 1px solid var(--jinks-colors-accent);
 
@@ -17,16 +22,6 @@
     --jinks-toolbar-segment-radius: 0;
     --jinks-toolbar-segment-bg: var(--jinks-colors-100);
     --jinks-toolbar-segment-hover-bg: #8a0000;
-
-    --jinks-toolbar-breadcrumb-label-size: 0.72rem;
-    --jinks-toolbar-breadcrumb-label-letter-spacing: 0.05em;
-    --jinks-toolbar-breadcrumb-title-size: 1.05rem;
-    --jinks-toolbar-breadcrumb-title-letter-spacing: 0.08em;
-    --jinks-toolbar-breadcrumb-title-line-height: 1.35;
-    --jinks-toolbar-breadcrumb-title-shadow:
-        0 0 4px rgba(255, 252, 248, 1),
-        0 0 10px rgba(255, 252, 248, 0.92),
-        0 1px 2px rgba(255, 252, 248, 0.85);
 
     --jinks-document-card-radius: 0;
     --jinks-document-card-shadow: none;
@@ -54,33 +49,6 @@
     --jinks-search-bg-color: var(--jinks-menubar-button-color);
 }
 
-/* Parchment toolbar: texture + readability gradient (toolbar only — not the
-   content-top wrapper, which would stretch with the sidebar grid row). */
-.toolbar {
-    --jinks-toolbar-background-image:
-        linear-gradient(90deg,
-            rgba(243, 237, 221, 0.72) 0%,
-            rgba(243, 237, 221, 0.65) 10%,
-            rgba(243, 237, 221, 0.45) 18%,
-            rgba(243, 237, 221, 0.36) 28%,
-            rgba(243, 237, 221, 0.36) 50%,
-            rgba(243, 237, 221, 0.52) 62%,
-            rgba(243, 237, 221, 0.72) 75%,
-            rgba(243, 237, 221, 0.88) 88%,
-            rgba(243, 237, 221, 0.94) 100%),
-        var(--jinks-texture-background);
-    /* One value per layer — otherwise the texture defaults to auto and tiles */
-    --jinks-toolbar-background-size: 100% 100%, cover;
-    --jinks-toolbar-background-repeat: no-repeat, no-repeat;
-    --jinks-toolbar-background-position: center, center;
-}
-
-.content-top:has(> .toolbar) {
-    background-color: transparent;
-    background-image: none;
-    align-self: start;
-}
-
 /* Align toolbar controls with the menubar login */
 .fixed-layout.after-fixed:not(.before-fixed) > header.content-top {
     grid-column: content-top / -1;
@@ -93,35 +61,6 @@
 .toolbar > ul.hidden-mobile {
     padding-inline-end: 0;
     padding-right: 0;
-}
-
-.toolbar [aria-label="breadcrumb"] {
-    font-size: var(--jinks-toolbar-breadcrumb-label-size);
-    letter-spacing: var(--jinks-toolbar-breadcrumb-label-letter-spacing);
-    color: var(--jinks-colors-500);
-    text-transform: uppercase;
-}
-
-.toolbar [aria-label="breadcrumb"] a {
-    color: var(--jinks-colors-500) !important;
-    font-weight: 500;
-}
-
-.toolbar [aria-label="breadcrumb"] li:last-child {
-    font-family: var(--jinks-heading-font-family, 'Belleza', sans-serif);
-    font-size: var(--jinks-toolbar-breadcrumb-title-size);
-    font-weight: 400;
-    letter-spacing: var(--jinks-toolbar-breadcrumb-title-letter-spacing);
-    color: var(--jinks-colors-700);
-    line-height: var(--jinks-toolbar-breadcrumb-title-line-height);
-    text-shadow: var(--jinks-toolbar-breadcrumb-title-shadow);
-}
-
-.toolbar [aria-label="breadcrumb"] li:last-child .tei-title {
-    font: inherit;
-    color: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
 }
 
 /* Flat segmented toolbar controls */
@@ -138,7 +77,11 @@
 .toolbar [role="group"].light,
 .toolbar .correspContext.light,
 .toolbar button.light,
-.toolbar pb-link .btn.light a {
+.toolbar pb-link .btn.light a,
+/* Labeled action buttons injected by feature profiles (jinntap, annotate, …)
+   — same flat chrome as .light segments, without requiring that class. */
+.toolbar ul.hidden-mobile > li > a > button,
+.toolbar ul.hidden-mobile > li > button {
     height: var(--jinks-toolbar-segment-height);
     box-sizing: border-box;
     display: inline-flex;
@@ -149,6 +92,7 @@
     border: 1px solid var(--jinks-toolbar-segment-border-color);
     border-radius: var(--jinks-toolbar-segment-radius);
     color: var(--jinks-toolbar-segment-color);
+    box-shadow: none;
     overflow: hidden;
 }
 
@@ -214,6 +158,29 @@
     transition: var(--jinks-toolbar-segment-transition);
 }
 
+/* Labeled toolbar actions (icon + text): grow past the icon-only cell */
+.toolbar ul.hidden-mobile > li > a > button:has(svg + span),
+.toolbar ul.hidden-mobile > li > a > button:has(span + svg),
+.toolbar ul.hidden-mobile > li > button:has(svg + span),
+.toolbar ul.hidden-mobile > li > button:has(span + svg),
+.toolbar button.light:has(svg + span),
+.toolbar button.light:has(span + svg) {
+    width: auto;
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    padding-inline: 0.625rem;
+    gap: 0.375rem;
+    justify-content: center;
+    transition: var(--jinks-toolbar-segment-transition);
+}
+
+.toolbar ul.hidden-mobile > li > a > button > span,
+.toolbar ul.hidden-mobile > li > button > span,
+.toolbar button.light > span {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
 .toolbar ul.hidden-mobile svg,
 .toolbar ul.hidden-mobile .ionicon {
     width: var(--jinks-toolbar-segment-icon-size);
@@ -223,7 +190,9 @@
 .toolbar [role="group"].light > pb-zoom:hover,
 .toolbar [role="group"].light > pb-navigation:not([disabled]):hover,
 .toolbar .correspContext.light > li:not(.unavailable):hover,
-.toolbar button.light:hover {
+.toolbar button.light:hover,
+.toolbar ul.hidden-mobile > li > a > button:hover,
+.toolbar ul.hidden-mobile > li > button:hover {
     background-color: var(--jinks-toolbar-segment-hover-bg);
     color: var(--jinks-toolbar-segment-hover-color);
 }
@@ -236,6 +205,92 @@
     background-color: var(--jinks-aside-after-bg);
     border-left: 1px solid var(--jinks-aside-after-border-color);
     padding: var(--jinks-aside-after-padding);
+}
+
+/* Kill soft “card” shadows on default buttons / dropdowns (hardcoded in
+   theme-base10 controls.css) and give them the same hairline as segments. */
+button:has(svg + span),
+button:has(span + svg),
+button:has(svg):not(:has(span)),
+.dropdown-button summary,
+:not(fx-group)[role="group"] {
+    box-shadow: none;
+    border: 1px solid var(--jinks-toolbar-segment-border-color);
+}
+
+button:has(svg + span):hover,
+button:has(span + svg):hover,
+button:has(svg):not(:has(span)):hover,
+.dropdown-button summary:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    border-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-toolbar-segment-hover-color);
+}
+
+button.secondary:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    border-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-toolbar-segment-hover-color);
+}
+
+/* Document-list action row: same flat chrome as toolbar segments */
+ul.documents > li.document.card .actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--jinks-toolbar-segment-gap);
+}
+
+ul.documents > li.document.card .actions > a > button,
+ul.documents > li.document.card .actions > button,
+ul.documents > li.document.card .actions pb-ajax button,
+ul.documents > li.document.card .actions .dropdown-button summary {
+    height: var(--jinks-toolbar-segment-height);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding-inline: 0.625rem;
+    background-color: var(--jinks-toolbar-segment-bg);
+    border: 1px solid var(--jinks-toolbar-segment-border-color);
+    border-radius: var(--jinks-toolbar-segment-radius);
+    color: var(--jinks-toolbar-segment-color);
+    box-shadow: none;
+    transition: var(--jinks-toolbar-segment-transition);
+}
+
+ul.documents > li.document.card .actions > a > button:has(svg):not(:has(span)),
+ul.documents > li.document.card .actions > button:has(svg):not(:has(span)),
+ul.documents > li.document.card .actions pb-ajax button:has(svg):not(:has(span)) {
+    width: var(--jinks-toolbar-segment-cell-width);
+    min-width: var(--jinks-toolbar-segment-cell-width);
+    padding-inline: 0;
+}
+
+ul.documents > li.document.card .actions > a > button > span,
+ul.documents > li.document.card .actions > button > span,
+ul.documents > li.document.card .actions .dropdown-button summary {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+ul.documents > li.document.card .actions svg,
+ul.documents > li.document.card .actions .ionicon {
+    width: var(--jinks-toolbar-segment-icon-size);
+    height: var(--jinks-toolbar-segment-icon-size);
+}
+
+ul.documents > li.document.card .actions > a > button:hover,
+ul.documents > li.document.card .actions > button:hover,
+ul.documents > li.document.card .actions pb-ajax button:hover,
+ul.documents > li.document.card .actions .dropdown-button summary:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg);
+    border-color: var(--jinks-toolbar-segment-hover-bg);
+    color: var(--jinks-toolbar-segment-hover-color);
 }
 
 ul.documents > li.document.card {
@@ -252,11 +307,6 @@ ul.documents > li.document.card header {
     flex: 1 1 auto;
     margin-bottom: 0;
     min-width: 0;
-}
-
-ul.documents > li.document.card .actions {
-    flex: 0 0 auto;
-    margin-left: auto;
 }
 
 ul.documents > li.document.card .matches {
@@ -276,7 +326,9 @@ aside.after pb-leaflet-map {
 }
 
 /* ===========================================================================
-   Landing page — rectangular chrome (overrides landing-page.css pill defaults)
+   Landing page — keep rectangular chrome on the menubar shell and CTA links,
+   but do not restyle nav items as bordered chips (landing-page.css already
+   provides link-style menubar entries).
    =========================================================================== */
 
 pb-page.landing-layout .page-header {
@@ -285,24 +337,6 @@ pb-page.landing-layout .page-header {
 
 pb-page.landing-layout .menubar {
     border-radius: var(--jinks-form-border-radius);
-}
-
-pb-page.landing-layout .menubar > ul:first-of-type {
-    gap: var(--jinks-toolbar-segment-gap);
-}
-
-pb-page.landing-layout .menubar > ul:first-of-type > li > a,
-pb-page.landing-layout .menubar > ul:first-of-type > li > details.dropdown > summary {
-    display: inline-block;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--jinks-form-border-radius);
-    border: 1px solid rgba(252, 252, 248, 0.35);
-    transition: background-color 0.12s ease;
-}
-
-pb-page.landing-layout .menubar > ul:first-of-type > li > a:hover,
-pb-page.landing-layout .menubar > ul:first-of-type > li > details.dropdown > summary:hover {
-    background-color: rgba(252, 252, 248, 0.2);
 }
 
 pb-page.landing-layout .button-link {

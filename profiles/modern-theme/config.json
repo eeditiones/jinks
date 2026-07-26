@@ -1,9 +1,9 @@
 {
     "$schema": "../../schema/jinks.json",
     "type": "theme",
-    "id": "https://e-editiones.org/app/tei-publisher/serafin-theme",
-    "label": "Serafin theme",
-    "description": "Parchment-and-ink styling, flat rectangular controls, extending the default Jinks theme",
+    "id": "https://e-editiones.org/app/tei-publisher/modern-theme",
+    "label": "Modern theme",
+    "description": "Flat rectangular controls and contemporary typography, extending the default Jinks theme",
     "order": 2,
     "version": "1.0.0",
     "depends": [
@@ -20,27 +20,21 @@
                 "size": "1.2rem"
             },
             "heading": {
-                "family": "'Belleza', sans-serif",
-                "weight": "400"
+                "family": "'Albert Sans', sans-serif",
+                "weight": "600"
             }
         },
         "content": {
             "max-width": "48ch"
         },
-        "breadcrumbs": {
-            "max": "none"
-        },
-        "texture": {
-            "background-image": "../images/parchment.png"
-        },
         "colors": {
             "palette": "beige"
         },
         "components": {
-            "styles": "resources/css/serafin-theme-components.css"
+            "styles": "resources/css/modern-theme-components.css"
         }
     },
     "styles": [
-        "resources/css/serafin-theme.css"
+        "resources/css/modern-theme.css"
     ]
 }

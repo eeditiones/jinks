@@ -1,0 +1,93 @@
+/* ===========================================================================
+   Serafin edition chrome — parchment toolbar band + breadcrumb typography.
+   Flat controls and Albert Sans come from modern-theme; this profile restores
+   Belleza headings and adds the parchment texture specific to the edition.
+   =========================================================================== */
+
+/* Belleza — regular (latin-ext) */
+@font-face {
+    font-display: swap;
+    font-family: 'Belleza';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/belleza-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Belleza — regular (latin) */
+@font-face {
+    font-display: swap;
+    font-family: 'Belleza';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/belleza-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    --jinks-toolbar-breadcrumb-label-size: 0.72rem;
+    --jinks-toolbar-breadcrumb-label-letter-spacing: 0.05em;
+    --jinks-toolbar-breadcrumb-title-size: 1.05rem;
+    --jinks-toolbar-breadcrumb-title-letter-spacing: 0.08em;
+    --jinks-toolbar-breadcrumb-title-line-height: 1.35;
+    --jinks-toolbar-breadcrumb-title-shadow:
+        0 0 4px rgba(255, 252, 248, 1),
+        0 0 10px rgba(255, 252, 248, 0.92),
+        0 1px 2px rgba(255, 252, 248, 0.85);
+}
+
+/* Parchment toolbar: texture + readability gradient (toolbar only — not the
+   content-top wrapper, which would stretch with the sidebar grid row). */
+.toolbar {
+    --jinks-toolbar-background-image:
+        linear-gradient(90deg,
+            rgba(243, 237, 221, 0.72) 0%,
+            rgba(243, 237, 221, 0.65) 10%,
+            rgba(243, 237, 221, 0.45) 18%,
+            rgba(243, 237, 221, 0.36) 28%,
+            rgba(243, 237, 221, 0.36) 50%,
+            rgba(243, 237, 221, 0.52) 62%,
+            rgba(243, 237, 221, 0.72) 75%,
+            rgba(243, 237, 221, 0.88) 88%,
+            rgba(243, 237, 221, 0.94) 100%),
+        var(--jinks-texture-background);
+    /* One value per layer — otherwise the texture defaults to auto and tiles */
+    --jinks-toolbar-background-size: 100% 100%, cover;
+    --jinks-toolbar-background-repeat: no-repeat, no-repeat;
+    --jinks-toolbar-background-position: center, center;
+}
+
+.content-top:has(> .toolbar) {
+    background-color: transparent;
+    background-image: none;
+    align-self: start;
+}
+
+.toolbar [aria-label="breadcrumb"] {
+    font-size: var(--jinks-toolbar-breadcrumb-label-size);
+    letter-spacing: var(--jinks-toolbar-breadcrumb-label-letter-spacing);
+    color: var(--jinks-colors-500);
+    text-transform: uppercase;
+}
+
+.toolbar [aria-label="breadcrumb"] a {
+    color: var(--jinks-colors-500) !important;
+    font-weight: 500;
+}
+
+.toolbar [aria-label="breadcrumb"] li:last-child {
+    font-family: var(--jinks-heading-font-family, 'Belleza', sans-serif);
+    font-size: var(--jinks-toolbar-breadcrumb-title-size);
+    font-weight: 400;
+    letter-spacing: var(--jinks-toolbar-breadcrumb-title-letter-spacing);
+    color: var(--jinks-colors-700);
+    line-height: var(--jinks-toolbar-breadcrumb-title-line-height);
+    text-shadow: var(--jinks-toolbar-breadcrumb-title-shadow);
+}
+
+.toolbar [aria-label="breadcrumb"] li:last-child .tei-title {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+}

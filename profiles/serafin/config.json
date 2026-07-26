@@ -7,7 +7,7 @@
     "version": "1.0.0",
     "depends": [
         "base10",
-        "serafin-theme",
+        "modern-theme",
         "registers",
         "edition-navigation",
         "timeline",
@@ -78,6 +78,18 @@
         "splash": {
             "image": "../images/animation_serafin.gif"
         },
+        "fonts": {
+            "heading": {
+                "family": "'Belleza', sans-serif",
+                "weight": "400"
+            }
+        },
+        "breadcrumbs": {
+            "max": "none"
+        },
+        "texture": {
+            "background-image": "../images/parchment.png"
+        },
         "layout": {
             "search": "before",
             "before-width": "min(30vw, 420px)",
@@ -86,6 +98,9 @@
             }
         }
     },
+    "styles": [
+        "resources/css/serafin.css"
+    ],
     "static": {
         "templating": {
             "use": [
