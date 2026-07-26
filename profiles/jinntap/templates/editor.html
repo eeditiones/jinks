@@ -55,9 +55,6 @@
     [% else %]
     <link rel="stylesheet" href="[[ $features?jinntap?cdn ]]@[[ $features?jinntap?version ]]/dist/jinn-tap.css"/>
     [% endif %]
-    [% let $doctype = if (map:contains($context, 'doc')) then config:document-type(root($context?doc?content)/*) else $features?jinntap?default-format %]
-    <link rel="stylesheet" href="[[ $context-path ]]/resources/css/[[ $features?jinntap?formats($doctype)?stylesheet ]]" />
-    [% endlet %]
     <style>
         .toolbar {
             padding-bottom: 0;

@@ -42,18 +42,16 @@
         },
         "jinntap": {
             "enabled": false,
-            "version": "1.34.0",
+            "version": "1.34.5",
             "cdn": "https://cdn.jsdelivr.net/npm/@jinntec/jinntap",
             "default-format": "tei",
             "toolbar-button": true,
             "formats": {
                 "tei": {
-                    "schema": "resources/schema/tei-schema.json",
-                    "stylesheet": "editor-styles.css"
+                    "schema": "resources/schema/tei-schema.json"
                 },
                 "jats": {
-                    "schema": "resources/schema/jats-schema.json",
-                    "stylesheet": "jats-editor-styles.css"
+                    "schema": "resources/schema/jats-schema.json"
                 }
             }
         }

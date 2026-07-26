@@ -13,9 +13,9 @@ in the JinnTap library docs:
 
 → [Customizing the editor](https://jinnelements.github.io/jinn-tap/guide/customizing/)
 
-In a TEI Publisher app the schema and stylesheet paths are set under `features.jinntap`
-(see below). Edit the copies under `resources/schema/` and `resources/css/` in your
-generated application.
+In a TEI Publisher app the schema path is set under `features.jinntap` (see below).
+Editor CSS is referenced from the schema itself (`"css": "…"`). Edit the copies under
+`resources/schema/` and `resources/css/` in your generated application.
 
 # Configuration
 
@@ -29,19 +29,17 @@ The jinntap feature can be configured like this:
     "default-format": "tei",
     "formats": {
       "tei": {
-        "schema": "resources/schema/tei-schema.json",
-        "stylesheet": "editor-styles.css"
+        "schema": "resources/schema/tei-schema.json"
       },
       "jats": {
-        "schema": "resources/schema/jats-schema.json",
-        "stylesheet": "jats-editor-styles.css"
+        "schema": "resources/schema/jats-schema.json"
       }
     }
   }
 }
 ```
 
-The schema defines the toolbar, which elements can be edited, and more. Full schema
+The schema defines the toolbar, which elements can be edited, CSS, and more. Full schema
 reference: [https://jinnelements.github.io/jinn-tap/schema/](https://jinnelements.github.io/jinn-tap/schema/).
 
 ## Collaboration
