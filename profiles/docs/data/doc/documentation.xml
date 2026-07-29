@@ -1986,17 +1986,25 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             <para>Plain text enhanced with markdown</para>
           </listitem>
         </varlistentry>
+        <varlistentry>
+          <term>docx</term>
+          <listitem>
+            <para>Exports the document as a Microsoft Word file (.docx)</para>
+          </listitem>
+        </varlistentry>
       </variablelist>
       <note>
         <para>By default, the base10 profile only enables the output modes <code>web</code>,
             <code>print</code> and <code>epub</code>. The <productname>markdown</productname>
-          profile obviously adds <code>markdown</code> to the list. If you would like to use the
-            <code>latex</code> or <code>fo</code> mode, you have to configure this in the
+          profile adds <code>markdown</code> to the list; the <productname>docx</productname>
+          profile adds <code>docx</code>. If you would like to use the <code>latex</code>,
+            <code>fo</code> or <code>docx</code> mode, you have to configure this in the
             <filename>config.json</filename>:</para>
         <programlisting language="json"><![CDATA[{
   …
+  "extends": [ "base10", "docx" ],
   "defaults": {
-    "media": ["web", "print", "fo", "latex", "epub"]
+    "media": ["web", "print", "fo", "latex", "epub", "docx"]
   }
   …
 }]]></programlisting>
@@ -2103,6 +2111,193 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             <filename>resources/css/epub.css</filename>. This external stylesheet is included into
           all generated epub files and may be used to configure general settings like page breaks,
           hyphenation, font sizes etc. </para>
+      </section>
+      <section xml:id="output-media-docx">
+        <title>DOCX Output</title>
+        <para> The <parameter>docx</parameter> output mode exports a TEI document as a Microsoft
+          Word file. It uses the same Processing Model pipeline as the other output modes: models
+          with <parameter>output="docx"</parameter> (or no output restriction) drive the
+          transformation into WordprocessingML, which is then packaged as a standard
+            <filename>.docx</filename> ZIP archive.</para>
+        <para>Export does <emphasis>not</emphasis> build a Word document from scratch. Instead,
+          the implementation starts from a <emphasis>template</emphasis> <filename>.docx</filename>
+          file and inserts the transformed TEI content into it. The template supplies page layout,
+          fonts, paragraph and character styles, list numbering definitions, and other document
+          defaults; your ODD decides how TEI elements map onto those styles. The quality of the
+          exported file therefore depends heavily on how well the template styles match your
+          encoding. </para>
+        <para>This export mode is separate from DOCX <emphasis>import</emphasis> (Word → TEI via
+            <filename>docx.odd</filename>). For import, see the chapter on <link
+            linkend="docx">MS Word DOCX format conversion</link>. Export uses its own ODD
+          (conventionally <filename>docx-output.odd</filename>) and the
+            <productname>docx</productname> profile, which registers the output mode, provides a
+          default template, and adds a download API route. </para>
+        <section xml:id="output-media-docx-enable">
+          <title>Enabling DOCX export</title>
+          <para>Add the <productname>docx</productname> profile to your application and include
+              <code>docx</code> in the list of enabled media formats: </para>
+          <programlisting language="json"><![CDATA[{
+  "extends": [ "base10", "docx" ],
+  "defaults": {
+    "media": [ "web", "print", "docx" ]
+  }
+}]]></programlisting>
+          <para>The profile ships with a default Word template at
+              <filename>templates/docx/default.docx</filename>. Override the path in
+              <filename>config.json</filename> if you want to use an institutional template: </para>
+          <programlisting language="json"><![CDATA[{
+  "features": {
+    "docx": {
+      "template": "templates/docx/my-template.docx"
+    }
+  }
+}]]></programlisting>
+          <para>When a document is downloaded, the template path is passed to the transform as
+              <code>docx-template</code>. You may also supply a different template per request via
+          the <parameter>template</parameter> query parameter (see below). </para>
+        </section>
+        <section xml:id="output-media-docx-template">
+          <title>Template and style mapping</title>
+          <para>Paragraph styles declared on a model via
+              <parameter>@cssClass</parameter> are matched to Word 
+          <emphasis>only if a style with that id exists in the template</emphasis>. If no match is
+          found, export falls back to the template's <code>Normal</code> paragraph style. </para>
+          <para> The automatically generated <code>tei-*</code> classes (e.g.
+              <code>tei-p</code>, <code>tei-div2</code>) are ignored for style resolution — only
+          explicitly declared classes on the model count. Style ids are matched case-sensitively;
+          as a fallback, paragraph style <emphasis>names</emphasis> from the template are compared
+          case-insensitively. </para>
+          <programlisting language="xml" xml:space="preserve">&lt;model output="docx" behaviour="paragraph" cssClass="Intro"/&gt;</programlisting>
+          <para> maps to the Word style <code>Intro</code> when that style is defined in the
+          template. Headings use the built-in <code>Heading1</code> … <code>Heading9</code> styles
+          according to the heading level. </para>
+          <para>Character-level formatting can come from two sources: Word character styles
+          referenced via <parameter>@cssClass</parameter> (again, only if present in the template),
+          and CSS rules linked from the ODD or declared in <tag>outputRendition</tag>. The
+          following CSS properties are translated into inline run properties when no matching
+          character style exists:</para>
+          <itemizedlist>
+            <listitem>
+              <para><code>font-weight</code> (bold)</para>
+            </listitem>
+            <listitem>
+              <para><code>font-style</code> (italic)</para>
+            </listitem>
+            <listitem>
+              <para><code>text-decoration</code> (underline, line-through)</para>
+            </listitem>
+            <listitem>
+              <para><code>vertical-align</code> (superscript, subscript)</para>
+            </listitem>
+          </itemizedlist>
+          <para>Scoped <tag>outputRendition</tag> rules with a <code>content:</code> property on
+              <code>:before</code> or <code>:after</code> pseudo-selectors are supported — for
+          example, to wrap conjectures in square brackets: </para>
+          <programlisting language="xml" xml:space="preserve">&lt;model behaviour="inline"&gt;
+  &lt;outputRendition scope="before" xml:space="preserve"&gt;
+    content: '[...]';
+  &lt;/outputRendition&gt;
+&lt;/model&gt;</programlisting>
+          <para>Paragraph styles named <code>Code</code> or <code>Preformatted</code> (or the
+          character style <code>CodeChar</code>) preserve whitespace and emit hard line breaks for
+          newlines — useful for code blocks and preformatted text.</para>
+        </section>
+        <section xml:id="output-media-docx-elements">
+          <title>Supported structures</title>
+          <para> The DOCX output module implements the standard Processing Model behaviours. In
+          practice, the following structures export reliably: </para>
+          <variablelist>
+            <varlistentry>
+              <term>Headings and paragraphs</term>
+              <listitem>
+                <para>Rendered as Word paragraphs with the resolved paragraph style.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Lists</term>
+              <listitem>
+                <para>Nested ordered and bulleted lists are preserved. List type follows the TEI
+                    <parameter>@type</parameter> attribute; each nested list receives its own
+                  numbering instance so counters reset correctly.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Footnotes</term>
+              <listitem>
+                <para>Exported as real Word footnotes with reference markers in the body text.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Hyperlinks</term>
+              <listitem>
+                <para>External URLs and internal anchors are exported as clickable Word
+                  hyperlinks.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Images</term>
+              <listitem>
+                <para>Embedded into the DOCX package under <filename>word/media/</filename>. Binary
+                  data is loaded from HTTP(S), the database, or paths relative to the document
+                  root.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Figures and captions</term>
+              <listitem>
+                <para>Figures wrap their content; captions use the template's caption style when
+                  available.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Tables</term>
+              <listitem>
+                <para>Rendered as Word tables, using a table style from the template when one is
+                  defined.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>Line and page breaks</term>
+              <listitem>
+                <para><tag>lb</tag> and <tag>pb</tag> (or equivalent break behaviours) emit Word
+                  line and page breaks, not literal text markers.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <note>
+            <para>As with FO and LaTeX output, not every CSS property or layout construct maps cleanly
+              to Word. Complex page layout, floating elements, and browser-specific features are
+              outside the scope of this mode. Prefer explicit Processing Model definitions and
+              template styles over fine-grained CSS layout rules.</para>
+          </note>
+        </section>
+        <section xml:id="output-media-docx-download">
+          <title>Downloading DOCX</title>
+          <para> The <productname>docx</productname> profile registers an API endpoint that
+          generates and streams a Word file: </para>
+          <synopsis>/api/document/{id}/docx</synopsis>
+          <para>Supported query parameters:</para>
+          <variablelist>
+            <varlistentry>
+              <term>odd</term>
+              <listitem>
+                <para>ODD file to use for the transform (defaults to the ODD configured for the
+                  document).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>template</term>
+              <listitem>
+                <para>Path to a template <filename>.docx</filename> within the application package,
+                  relative to the app root. Overrides
+                    <code>features.docx.template</code> for this request.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para>In the web interface, the profile also contributes a <guibutton>DOCX</guibutton>
+          entry to document download menus via the <tag>pb-download</tag> component with
+            <parameter>type="docx"</parameter>. </para>
+        </section>
       </section>
       <section xml:id="output-print-css">
         <title>Print CSS</title>
@@ -3156,6 +3351,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
 
     <section xml:id="docx">
       <title>MS Word DOCX format conversion</title>
+      <para> TEI Publisher supports Microsoft Word in two directions: <emphasis>import</emphasis>
+        (DOCX → TEI, described in this chapter) and <emphasis>export</emphasis> (TEI → DOCX via the
+          <link linkend="output-media-docx"><parameter>docx</parameter> output mode</link>). </para>
       <para> Starting with the version 5.0.0 of the TEI Publisher a new docx handling module is
         available to allow for ingesting documents in <emphasis>docx</emphasis> format. The goal of
         this module is to provide a way to import Word documents, preserving their textual content,
