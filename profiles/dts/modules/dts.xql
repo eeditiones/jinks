@@ -10,6 +10,7 @@ import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/ut
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
 import module namespace router="http://e-editiones.org/roaster";
+import module namespace errors="http://e-editiones.org/roaster/errors";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -89,20 +90,28 @@ declare function dts:entry($request as map(*)) {
  :)
 declare function dts:collection($request as map(*)) {
     let $id := $request?parameters?id
+    let $nav-parents := string(head(($request?parameters?nav, ""))) = "parents"
+    (: Always resolve the queried collection/resource itself — never swap in the parent. :)
     let $collectionInfo :=
         if ($id) then
-            dts:collection-by-id($dts-config:members, $id, (), $request?parameters?nav = "parents")
+            dts:collection-by-id($dts-config:members, $id, (), false())
         else
             $dts-config:members
     return
         if (exists($collectionInfo)) then
             let $pageSize := xs:int(($request?parameters?per-page, $dts-config:page-size)[1])
-            let $resources := dts:get-members($collectionInfo, $request?parameters?page, $pageSize)
             let $parentInfo :=
                 if ($id) then
                     dts:collection-by-id($dts-config:members, $id, (), true())
                 else
                     ()
+            let $childMembers := dts:get-members($collectionInfo, $request?parameters?page, $pageSize)
+            (: nav=parents: member lists parent Collection(s); otherwise child members. :)
+            let $memberItems :=
+                if ($nav-parents) then
+                    dts:as-collection-member($parentInfo)
+                else
+                    $childMembers?items
             return map:merge((
                 map {
                     "@context": "https://dtsapi.org/context/v1.0.json",
@@ -110,13 +119,16 @@ declare function dts:collection($request as map(*)) {
                     "dtsVersion": "1.0",
                     "@type": "Collection",
                     "title": $collectionInfo?title,
-                    "totalChildren": $resources?total,
+                    "totalChildren": $childMembers?total,
                     "totalParents": count($parentInfo),
-                    "collection": dts:base-path() || "/collection?id=" || $collectionInfo?id || "{&amp;page,nav}",
-                    "member": array { $resources?items }
+                    "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
+                    "member": array { $memberItems }
                 },
                 (if (exists($collectionInfo?dublinCore)) then map { "dublinCore": $collectionInfo?dublinCore } else ()),
-                dts:pagination-info($collectionInfo, $request?parameters?page, $resources?total)
+                if ($nav-parents) then
+                    ()
+                else
+                    dts:pagination-info($collectionInfo, $request?parameters?page, $childMembers?total)
             ))
         else if ($id and contains($id, "/")) then
             (: Resource ID: look up parent collection and return the Resource representation :)
@@ -127,7 +139,7 @@ declare function dts:collection($request as map(*)) {
             let $doc := doc($collPath || "/" || $resourceId)//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
             return
                 if (empty($coll) or empty($doc)) then
-                    response:set-status-code(404)
+                    error($errors:NOT_FOUND, "Resource not found: " || $id)
                 else
                     let $config := tpu:parse-pi(root($doc), ())
                     return map:merge((
@@ -162,10 +174,40 @@ declare function dts:collection($request as map(*)) {
                                 }
                             }
                         },
-                        dts:metadata($doc)
+                        dts:metadata($doc),
+                        if ($nav-parents) then
+                            map { "member": array { dts:as-collection-member($coll) } }
+                        else
+                            ()
                     ))
         else
-            response:set-status-code(404)
+            error($errors:NOT_FOUND, "Collection not found: " || ($id, "(root)")[1])
+};
+
+(:~ Serialize a collection config map as a Collection member object (no nested member list). :)
+declare %private function dts:as-collection-member($info as map(*)?) as map(*)* {
+    if (empty($info)) then
+        ()
+    else
+        let $childCount :=
+            if (map:contains($info, "members")) then
+                count($info?members?*)
+            else if (map:contains($info, "path")) then
+                count(collection($info?path)//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)])
+            else
+                0
+        return
+            map:merge((
+                map {
+                    "@id": $info?id,
+                    "title": $info?title,
+                    "@type": "Collection",
+                    "totalParents": if ($info?id = $dts-config:members?id) then 0 else 1,
+                    "totalChildren": $childCount,
+                    "collection": dts:base-path() || "/collection?id=" || encode-for-uri($info?id) || "{&amp;page,nav}"
+                },
+                (if (exists($info?dublinCore)) then map { "dublinCore": $info?dublinCore } else ())
+            ))
 };
 
 declare %private function dts:pagination-info($collectionInfo as map(*), $page as xs:int, $count as xs:int) {
@@ -241,7 +283,7 @@ declare %private function dts:get-members($collectionInfo as map(*), $page as xs
                                 "totalChildren": 0,
                                 "collection": dts:base-path() || "/collection?id=" || encode-for-uri($collectionInfo?id) || "{&amp;page,nav}",
                                 "document": dts:base-path() || "/document?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,tree,mediaType}",
-                                "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;down}",
+                                "navigation": dts:base-path() || "/navigation?resource=" || encode-for-uri($collectionInfo?id || "/" || $id) || "{&amp;ref,start,end,down,tree,page}",
                                 "mediaTypes": array {
                                     "application/tei+xml",
                                     "application/xml",
@@ -348,40 +390,58 @@ declare function dts:document($request as map(*)) {
  :)
 declare function dts:navigation($request as map(*)) {
     let $resource := $request?parameters?resource
+    (: Roaster may pass absent optional params as "" rather than the empty sequence :)
+    let $raw-down := $request?parameters?down
+    let $down-param :=
+        if (empty($raw-down) or string($raw-down) = "") then () else $raw-down
+    let $down := if (exists($down-param)) then xs:int($down-param) else ()
+    let $raw-ref := $request?parameters?ref
+    let $ref := if (empty($raw-ref) or string($raw-ref) = "") then () else string($raw-ref)
+    let $raw-start := $request?parameters?start
+    let $start := if (empty($raw-start) or string($raw-start) = "") then () else string($raw-start)
+    let $raw-end := $request?parameters?end
+    let $end := if (empty($raw-end) or string($raw-end) = "") then () else string($raw-end)
     return
         if (empty($resource) or $resource = "") then
-            response:set-status-code(400)
-        else if (($request?parameters?ref and ($request?parameters?start or $request?parameters?end)) or
-                ($request?parameters?start and empty($request?parameters?end)) or
-                ($request?parameters?end and empty($request?parameters?start))) then
-            response:set-status-code(400)
+            error($errors:BAD_REQUEST, "Missing required parameter: resource")
+        else if ((exists($ref) and (exists($start) or exists($end))) or
+                (exists($start) and empty($end)) or
+                (exists($end) and empty($start))) then
+            error($errors:BAD_REQUEST, "Invalid parameter combination: ref and start/end are mutually exclusive; start and end must be used together")
+        (: Spec: resource alone, or down=0 without ref, is a bad request.
+           down=0 with start/end (and no ref) is also invalid. :)
+        else if (empty($ref) and (empty($down-param) or $down = 0) and empty($start) and empty($end)) then
+            error($errors:BAD_REQUEST, "Navigation requires down (non-zero), ref, or start/end in addition to resource")
+        else if (empty($ref) and exists($down-param) and $down = 0 and exists($start) and exists($end)) then
+            error($errors:BAD_REQUEST, "Navigation with down=0 requires ref; down=0 with start/end is invalid")
         else
             let $collection := dts:collection-by-id($dts-config:members, substring-before($resource, "/"), (), false())
-            let $doc :=
+            let $text :=
                 doc($collection?path || "/" || substring-after($resource, "/"))//tei:text[ft:query(., "file:*", $query:QUERY_OPTIONS)]
             return
-                if (empty($collection) or empty($doc)) then
-                    response:set-status-code(404)
+                if (empty($collection) or empty($text)) then
+                    error($errors:NOT_FOUND, "Resource not found: " || $resource)
                 else
-                    let $config := tpu:parse-pi(root($doc), ())
-                    let $down-param := $request?parameters?down
-                    let $down := if (exists($down-param)) then xs:int($down-param) else 0
-                    let $ref := $request?parameters?ref
-                    let $start := $request?parameters?start
-                    let $end := $request?parameters?end
+                    let $doc := root($text)
+                    let $config := tpu:parse-pi($doc, ())
+                    let $effective-down := if (exists($down)) then $down else 0
                     let $ref-unit := if (exists($ref)) then dts:ref-citable-unit($doc, $ref, $config?odd) else ()
                     return
                         if (exists($ref) and empty($ref-unit)) then
-                            response:set-status-code(404)
+                            error($errors:NOT_FOUND, "ref not found: " || $ref)
+                        else if ((exists($start) or exists($end)) and (
+                                empty(dts:resolve-ref-node($doc, $start)) or
+                                empty(dts:resolve-ref-node($doc, $end)))) then
+                            error($errors:NOT_FOUND, "start/end not found: " || string-join(($start, $end), " .. "))
                         else
                             let $member :=
                                 if (exists($ref)) then
-                                    dts:navigation-by-ref($doc, $config?odd, $ref, $down-param, $down)
+                                    dts:navigation-by-ref($doc, $config?odd, $ref, $down-param, $effective-down)
                                 else if (exists($start) and exists($end)) then
-                                    array { dts:navigation-range($doc, $config?odd, $start, $end, $down) }
+                                    array { dts:navigation-range($doc, $config?odd, $start, $end, $effective-down) }
                                 else
-                                    array { dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $down, 0) }
-                            let $resourceId := $collection?id || "/" || util:document-name($doc)
+                                    array { dts:navigation-tree($doc//tei:body/tei:div, $config?odd, $effective-down, 1) }
+                            let $resourceId := $collection?id || "/" || util:document-name($text)
                             return
                                 router:response(200, "application/ld+json",
                                     map:merge((
@@ -398,7 +458,7 @@ declare function dts:navigation($request as map(*)) {
                                                 map:merge((
                                                     map {
                                                         "@id": $resourceId,
-                                                        "title": util:document-name($doc),
+                                                        "title": util:document-name($text),
                                                         "@type": "Resource",
                                                         "totalParents": 1,
                                                         "totalChildren": 0,
@@ -414,7 +474,7 @@ declare function dts:navigation($request as map(*)) {
                                                             }
                                                         }
                                                     },
-                                                    dts:metadata($doc)
+                                                    dts:metadata($text)
                                                 )),
                                             "member": $member
                                         },
@@ -492,14 +552,18 @@ declare %private function dts:ref-citable-unit($doc as document-node(), $ref as 
 };
 
 declare %private function dts:resolve-ref-node($doc as document-node(), $ref as xs:string) as element()? {
-    let $by-id := $doc/id($ref)
+    (: head(): documents may contain duplicate xml:id values; id() then returns a
+       sequence and `instance of element()` would fail. :)
+    let $by-id := head(id($ref, $doc)[self::element()])
     return
-        if ($by-id instance of element()) then $by-id
-        else
+        if (exists($by-id)) then
+            $by-id
+        else if (starts-with($ref, "exist:")) then
             let $by-node-id := util:node-by-id($doc, substring-after($ref, "exist:"))
             return
-                if ($by-node-id instance of element()) then $by-node-id
-                else ()
+                if ($by-node-id instance of element()) then $by-node-id else ()
+        else
+            ()
 };
 
 declare %private function dts:metadata($doc as element()) {
@@ -710,10 +774,5 @@ declare %private function dts:resolve-fragment($doc as document-node(), $ref as 
     else if (empty($ref)) then
         $doc
     else
-        let $xml := $doc/id($ref)
-        return
-            if ($xml) then
-                $xml
-            else
-                util:node-by-id($doc, substring-after($ref, "exist:"))
+        dts:resolve-ref-node($doc, $ref)
 };
