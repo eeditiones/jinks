@@ -326,7 +326,9 @@
   <section xml:id="development-workflow">
     <title>Development Workflows</title>
     <para>This chapter discusses the different ways to interact with the database while you are
-      developing your own digital edition. In essence, one can distinguish two basic approaches:<orderedlist>
+      developing your own digital edition. In essence, one can distinguish two basic approaches:
+      </para>
+    <orderedlist>
         <listitem>
           <para>development is primarily done inside the database using tools like eXide, Jinks or
             oXygen</para>
@@ -335,7 +337,7 @@
           <para>main development takes place in a local directory using whatever editor and tools
             you prefer</para>
         </listitem>
-      </orderedlist></para>
+      </orderedlist>
     <para>In reality, you will likely mix both. For example, even if you are mainly working in a
       directory, you may still want to use the visual ODD editor, occasionally update the
       application with Jinks etc. You therefore need ways to sync from database to file system and
@@ -348,7 +350,8 @@
   <section xml:id="development-workflow-in-database">
     <title>Approach 1: Developing inside the Database</title>
     <para>This will be the easier approach as it does not require additional tooling (except for git
-      – see below). It will work perfectly fine if:<itemizedlist>
+      – see below). It will work perfectly fine if:</para>
+    <itemizedlist>
         <listitem>
           <para>you are mainly interested in changing the presentation of the data via ODD and TEI
             Processing Model</para>
@@ -361,7 +364,7 @@
           <para>you do not need (or only very little) custom CSS, javascript or additional API
             endpoints</para>
         </listitem>
-      </itemizedlist></para>
+      </itemizedlist>
     <para>If those conditions apply, you will mostly work with the visual ODD editor (for addressing
       the presentation) and Jinks for theming and other configuration changes. If you have to add
       single source files (like CSS styles), eXide provides a reliable editor.</para>
@@ -717,7 +720,6 @@ Total time: 0 seconds]]>
         <section xml:id="pm-syntax-model-children">
           <title>
             <tag>model</tag> children and attributes</title>
-          <para>
             <itemizedlist>
               <listitem>
                 <para>
@@ -765,7 +767,6 @@ Total time: 0 seconds]]>
                   <note><para>NB: this element should be used with care, it is <emphasis role="bold">strongly recommended to use <code>@cssClass</code></emphasis> wherever possible</para></note>
               </listitem>
             </itemizedlist>
-          </para>
           </section>
 
         <section xml:id="model-styling">
@@ -3096,7 +3097,8 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         <varlistentry>
           <term>Before Sidebar (<code>before</code>)</term>
           <listitem>
-            <para>Contains blocks for the left sidebar area: <itemizedlist>
+            <para>Contains blocks for the left sidebar area:</para>
+            <itemizedlist>
                 <listitem>
                   <para><code>before-top</code> - Navigation items above the sidebar</para>
                 </listitem>
@@ -3105,13 +3107,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                     contents)</para>
                 </listitem>
               </itemizedlist>
-            </para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term>Main Content (<code>content</code>)</term>
           <listitem>
-            <para>Contains blocks for the main content area: <itemizedlist>
+            <para>Contains blocks for the main content area:</para> 
+            <itemizedlist>
                 <listitem>
                   <para><code>content-top</code> - Header area above main content (often contains
                     toolbar)</para>
@@ -3129,13 +3131,13 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                     block</para>
                 </listitem>
               </itemizedlist>
-            </para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term>After Sidebar (<code>after</code>)</term>
           <listitem>
-            <para>Contains blocks for the right sidebar area: <itemizedlist>
+            <para>Contains blocks for the right sidebar area:</para> 
+            <itemizedlist>
                 <listitem>
                   <para><code>after-top</code> - Navigation items above the sidebar</para>
                 </listitem>
@@ -3144,7 +3146,6 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
                     metadata, or other supplementary content)</para>
                 </listitem>
               </itemizedlist>
-            </para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -3188,11 +3189,12 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
           <code>resources/css</code> will contain all the CSS stylesheets files.</para>
       <para>Out of the box, TEI Publisher 10 comes with a single default theme,
           <emphasis>theme-base10</emphasis>, carefully prepared by a professional designer. The
-        future will bring additional themes and users are invited to develop and contribute their own.<note>
+        future will bring additional themes and users are invited to develop and contribute their own.</para>
+      <note>
           <para><productname>theme-base10</productname> is currently based on a custom build of Pico
             CSS, a minimal CSS framework, which we further stripped down. It provides sensible
             defaults for the most important HTML elements. s</para>
-        </note></para>
+        </note>
       <para>To facilitate the modification of frequently customized styling aspects, there are
         several styling definitions that can be be directly configured in
           <filename>config.json</filename> when generating/updating the application, such as the
