@@ -1,35 +1,18 @@
 {
     "$schema": "../../schema/jinks.json",
-    "type": "blueprint",
+    "type": "feature",
+    "category": "workflow",
     "id": "https://e-editiones.org/app/tei-publisher/playground",
     "label": "Playground",
-    "description": "Sandbox environment for experimentation and learning",
+    "description": "Adds ODD selection, ODD management, and experiment prompts to the browse view",
     "version": "1.0.0",
-    "depends": [
-        "base10",
-        "demo-data",
-        "upload",
-        "ci"
-    ],
     "order": 100,
-    "defaults": {
-        "data-default": "playground",
-        "template": "basic.html"
-    },
+    "depends": [
+        "base10"
+    ],
     "features": {
         "playground": {
             "enabled": true
-        },
-        "toc": {
-            "enabled": true
-        },
-        "upload": {
-            "enabled": true
-        }
-    },
-    "theme": {
-        "colors": {
-            "palette": "beige"
         }
     },
     "generator": {

@@ -76,7 +76,7 @@ The CI workflows automatically handle authentication for private XAR packages:
 
 ## Default Behavior
 
-- All blueprints (docs, serafin, playground, workbench) include CI by default
+- All blueprints (docs, serafin, workbench) include CI by default
 - CI runs on every push to any branch
 - CI runs on pull/merge requests targeting `main` or `master` branches
 - Only one provider's files are generated at a time (GitHub Actions OR GitLab CI, not both)
