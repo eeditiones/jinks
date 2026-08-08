@@ -23,6 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
     let pendingConfig = null;
     /** @type {{ abbrev: string, id: string } | null} Locked package identity while an installed app is selected */
     let installedIdentity = null;
+    /** Currently selected blueprint radio (for clearing deps when switching) */
+    let selectedBlueprint = form.querySelector('[name="blueprint"]:checked');
 
     let isProcessing = false;
 
@@ -180,8 +182,11 @@ window.addEventListener('DOMContentLoaded', () => {
         form.querySelectorAll('[name="base"]').forEach((input) => {
             input.checked = extendsList.includes(input.value);
         });
-        form.querySelectorAll('[name="feature"],[name="blueprint"],[name="theme"]').forEach((input) => {
+        form.querySelectorAll('[name="feature"],[name="theme"]').forEach((input) => {
             input.checked = extendsList.includes(input.value);
+        });
+        form.querySelectorAll('[name="blueprint"]').forEach((input) => {
+            input.checked = Boolean(input.value) && extendsList.includes(input.value);
         });
 
         // Radios require a selection; fall back if the config names no known base profile
@@ -192,6 +197,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 fallback.checked = true;
             }
         }
+        if (!form.querySelector('[name="blueprint"]:checked')) {
+            const none = form.querySelector('[name="blueprint"][value=""]');
+            if (none) {
+                none.checked = true;
+            }
+        }
+        selectedBlueprint = form.querySelector('[name="blueprint"]:checked');
 
         filterProfilesByBaseProfile();
         updateColorPaletteSelection(config);
@@ -839,7 +851,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const extend = formData.getAll('base')
             .concat(formData.getAll('feature'))
             .concat(formData.getAll('theme'))
-            .concat(formData.getAll('blueprint'));
+            .concat(formData.getAll('blueprint').filter(Boolean));
         const sortedExtends = extend.sort((a, b) => {
             const orderA = appOrder[a];
             const orderB = appOrder[b];
@@ -890,11 +902,17 @@ window.addEventListener('DOMContentLoaded', () => {
         const selectedBase = form.querySelector('input[type="radio"][name="base"]:checked');
         const baseProfileValue = selectedBase.value;
 
-        // Get all feature, blueprint, and theme checkboxes
-        const profileCheckboxes = form.querySelectorAll('input[type="checkbox"][name="feature"], input[type="checkbox"][name="blueprint"], input[type="checkbox"][name="theme"]');
+        // Feature/theme checkboxes plus blueprint radios (excluding the empty "None" option)
+        const profileCheckboxes = form.querySelectorAll('input[type="checkbox"][name="feature"], input[type="checkbox"][name="theme"], input[name="blueprint"]');
 
         const bootstrapCheckbox = form.querySelector('input[type="checkbox"][name="bootstrap"]:checked');
         profileCheckboxes.forEach((checkbox) => {
+            // "None" blueprint option has an empty value and must stay selectable
+            if (checkbox.name === 'blueprint' && checkbox.value === '') {
+                checkbox.disabled = false;
+                return;
+            }
+
             if (bootstrapCheckbox) {
                 // When bootstrapping a new profile, allow all profiles to be selected
                 checkbox.disabled = false;
@@ -948,15 +966,31 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // If the selected blueprint was disabled/unchecked, fall back to None
+        if (!form.querySelector('[name="blueprint"]:checked')) {
+            const none = form.querySelector('[name="blueprint"][value=""]');
+            if (none) {
+                none.checked = true;
+            }
+        }
+        selectedBlueprint = form.querySelector('[name="blueprint"]:checked');
     }
 
     function toggleFeature(eventOrControl) {
         const target = eventOrControl.target || eventOrControl;
-        const configExtends = JSON.parse(target.dataset.depends);
+        const configExtends = JSON.parse(target.dataset.depends || '[]');
         if (configExtends) {
             configExtends.forEach((profile) => {
                 const input = form.querySelector(`[value="${profile}"]`);
+                if (!input) {
+                    return;
+                }
                 if (!target.checked && input.name === 'base') {
+                    return;
+                }
+                // Never flip another blueprint radio while resolving depends
+                if (input.name === 'blueprint' && input !== target) {
                     return;
                 }
                 input.checked = target.checked;
@@ -964,6 +998,35 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
         update();
+    }
+
+    /**
+     * Blueprints are exclusive radios. When switching, clear the previous blueprint's
+     * dependency tree first so leftover features from the old selection are not kept.
+     */
+    function toggleBlueprint(ev) {
+        const target = ev.target;
+        const nextDepends = new Set(JSON.parse(target.dataset.depends || '[]'));
+        if (selectedBlueprint && selectedBlueprint !== target && selectedBlueprint.value) {
+            const previousDepends = JSON.parse(selectedBlueprint.dataset.depends || '[]');
+            previousDepends.forEach((profile) => {
+                if (nextDepends.has(profile)) {
+                    return;
+                }
+                const input = form.querySelector(`[value="${profile}"]`);
+                if (!input || input.name === 'base' || input.name === 'blueprint') {
+                    return;
+                }
+                input.checked = false;
+                toggleFeature(input);
+            });
+        }
+        selectedBlueprint = target;
+        if (target.value) {
+            toggleFeature(target);
+        } else {
+            update();
+        }
     }
 
     function reset(updateEditor = true) {
@@ -976,6 +1039,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         form.reset();
         form.querySelector('[name="theme"]').checked = true;
+        selectedBlueprint = form.querySelector('[name="blueprint"]:checked');
         // Filter profiles based on selected base profile (default will be first base profile)
         filterProfilesByBaseProfile();
         update(updateEditor);
@@ -1057,7 +1121,7 @@ window.addEventListener('DOMContentLoaded', () => {
         toggleFeature(ev);
         loadColorPalettes();
     }));
-    form.querySelectorAll('input[type="checkbox"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleFeature));
+    form.querySelectorAll('input[type="radio"][name="blueprint"]').forEach((control) => control.addEventListener('change', toggleBlueprint));
     form.querySelectorAll('input[type="checkbox"][name="bootstrap"]').forEach((control) => control.addEventListener('change', toggleFeature));
 
     document.getElementById('reset').addEventListener('click', (ev) => {

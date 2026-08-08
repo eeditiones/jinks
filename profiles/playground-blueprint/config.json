@@ -1,0 +1,32 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "blueprint",
+    "id": "https://e-editiones.org/apps/playground-blueprint",
+    "label": "Playground",
+    "description": "Sandbox environment for experimentation and learning",
+    "version": "1.0.0",
+    "order": 100,
+    "depends": [
+        "base10",
+        "playground",
+        "demo-data",
+        "upload"
+    ],
+    "defaults": {
+        "data-default": "playground",
+        "template": "basic.html"
+    },
+    "features": {
+        "toc": {
+            "enabled": true
+        },
+        "upload": {
+            "enabled": true
+        }
+    },
+    "theme": {
+        "colors": {
+            "palette": "beige"
+        }
+    }
+}

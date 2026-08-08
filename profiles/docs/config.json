@@ -23,14 +23,23 @@
         "demo-data",
         "docker",
         "ci",
-        "landing-page"
+        "landing-page",
+        "upload"
     ],
+    "theme": {
+        "colors": {
+            "palette": "beige"
+        }
+    },
     "pkg": {
         "abbrev": "tei-publisher-docs"
     },
     "features": {
         "browse": {
             "read-only": false
+        },
+        "toc": {
+            "enabled": true
         },
         "upload": {
             "enabled": true,
