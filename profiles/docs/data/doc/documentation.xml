@@ -3676,9 +3676,9 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
             Processing Model were never limited to a single vocabulary. Publisher very quickly
             extended support to other XML formats. Currently TEI, DocBook, JATS and MS Word DOCX are
             supported out of the box (DOCX via automated conversion to TEI on upload).</para>
-        <para> Few specificities of <emphasis>TEI</emphasis> and <emphasis>DocBook</emphasis> are
-            listed below, while <emphasis>DOCX</emphasis> is discussed at length in the following
-            section. </para>
+        <para>Specificities of <emphasis>TEI</emphasis>, <emphasis>DocBook</emphasis> and
+                <emphasis>JATS</emphasis> are listed below, while <emphasis>DOCX</emphasis> is
+            discussed at length in the following section.</para>
         <section xml:id="format-tei">
             <title>TEI</title>
             <para>In principle, any TEI document will be supported by any TEI Publisher-based app,
@@ -3717,12 +3717,35 @@ declare function pmf:code($config as map(*), $node as element(), $class as xs:st
         </section>
         <section xml:id="format-jats">
             <title>JATS (Journal Publishing Tag Library)</title>
-            <para> The <emphasis>Jats support</emphasis> feature includes the JATS ODD, which
-                currently supports <link
+            <para>JATS is a first-class citizen in TEI Publisher: the same publishing, browsing and
+                editing stack used for TEI applies to journal articles encoded in the <link
                     xlink:href="https://jats.nlm.nih.gov/publishing/tag-library/1.2/">NISO JATS
-                    Version 1.2</link>. It covers many elements commonly used for journal articles
-                in the humanities, and can be easily customized for more specific use cases or
-                encoding flavours.</para>
+                    Journal Publishing Tag Library</link> (currently version 1.2). The
+                    <emphasis>JATS support</emphasis> feature profile supplies a dedicated ODD
+                    (<filename>jats.odd</filename>), page template, navigation and indexing, covering
+                many elements commonly used for journal articles in the humanities. As with TEI, the
+                ODD can be customized for more specific use cases or encoding flavours.</para>
+            <para>Beyond display, JATS is also supported by the editorial tooling that used to be
+                TEI-only:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>the web-based <emphasis>annotation editor</emphasis> can mark up entities
+                        and other inline annotations in JATS documents (via
+                            <filename>jats-annotations.odd</filename> and a JATS-specific annotation
+                        configuration module);</para>
+                </listitem>
+                <listitem>
+                    <para><productname>JinnTap</productname> can create and structurally edit JATS
+                        files in the browser, using a dedicated schema
+                            (<filename>jats-schema.json</filename>) alongside the TEI schema.</para>
+                </listitem>
+            </itemizedlist>
+            <para>The <emphasis>JATS Publisher</emphasis> blueprint
+                    (<filename>profiles/jats-publisher</filename>) demonstrates the full combination:
+                it assembles <emphasis>base10</emphasis>, <emphasis>JATS support</emphasis>, the
+                annotation editor and <productname>JinnTap</productname> into a workspace for
+                viewing, annotating and editing JATS documents. Generate an application from that
+                blueprint in Jinks to explore the workflow end to end.</para>
         </section>
         <section xml:id="docx">
             <title>MS Word DOCX format conversion</title>
