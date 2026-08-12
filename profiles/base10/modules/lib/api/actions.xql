@@ -27,7 +27,10 @@ declare %private function action:generate-pm-config() {
     let $_ := xmldb:store($config:app-root || "/modules", "pm-config.xql", $pmuConfig, "application/xquery")
     return map {
         "type": "action:fix-odds",
-        "message": "recreated pm-config.xql"
+        "message": "recreated pm-config.xql",
+        "files": map {
+            "modules/pm-config.xql": $pmuConfig
+        }
     }
 };
 
