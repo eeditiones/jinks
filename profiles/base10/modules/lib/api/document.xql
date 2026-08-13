@@ -430,12 +430,31 @@ declare function dapi:pdf($request as map(*)) {
 };
 
 declare function dapi:markdown($request as map(*)) {
-    let $id := xmldb:decode($request?parameters?id)
+    let $id := xmldb:decode($request?parameters?doc)
     let $doc := config:get-document($id)
     return
         if (exists($doc)) then
             let $config := tpu:parse-pi(root($doc), ())
-            let $markdown := $pm-config:markdown-transform($doc, map { "root": $doc }, $config?odd)
+            let $section-id := $request?parameters?id
+            let $node :=
+                if ($section-id) then
+                    let $section := root($doc)/id($section-id)
+                    return
+                        if (exists($section)) then
+                            (: Wrap in the document root element so the transform enters via
+                               markdown:document, which turns template strings into text nodes.
+                               Transforming a bare section/div leaves those strings as atomics
+                               and markdown:finish then fails with XPTY0004. :)
+                            let $root := root($doc)/*
+                            return
+                                element { node-name($root) } {
+                                    $section
+                                }
+                        else
+                            error($errors:NOT_FOUND, "Section " || $section-id || " not found in document " || $id)
+                else
+                    $doc
+            let $markdown := $pm-config:markdown-transform($node, map { "root": $node }, $config?odd)
             return
                 router:response(200, "text/markdown; charset=utf-8", string-join($markdown, ""))
         else

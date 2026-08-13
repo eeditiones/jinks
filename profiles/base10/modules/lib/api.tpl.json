@@ -1077,21 +1077,33 @@
 				}
 			}
 		},
-        "/api/document/{id}/md": {
+        "/api/document/{doc}/md": {
             "get": {
                 "summary": "Retrieve document content as markdown",
+                "description": "Returns the document (or an optional section identified by xml:id) transformed to markdown via ODD.",
                 "tags": [
                     "documents"
                 ],
                 "operationId": "dapi:markdown",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "doc",
                         "in": "path",
                         "required": true,
+                        "description": "Path to the document relative to the data root",
                         "schema": {
                             "type": "string",
-                            "example": "test/F-rom.xml"
+                            "example": "doc/documentation.xml"
+                        },
+                        "allowReserved": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Optional xml:id of a section to export instead of the entire document",
+                        "schema": {
+                            "type": "string",
+                            "example": "templates-syntax"
                         }
                     },
                     {
@@ -1113,7 +1125,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Returns the entire document as markdown",
+                        "description": "Returns the document or section as markdown",
                         "content": {
                             "text/markdown": {
                                 "schema": {
@@ -1123,7 +1135,7 @@
                         }
                     },
                     "404": {
-                        "description": "Document not found",
+                        "description": "Document or section not found",
                         "content": {
                             "application/json": {
                                 "schema": {
