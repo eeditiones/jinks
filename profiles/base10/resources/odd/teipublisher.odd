@@ -402,10 +402,10 @@
                     <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
                         <desc>For browse view and table of contents, just output inline text</desc>
                     </model>
-                    <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
-                    <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
-                    <model predicate="parent::lg" behaviour="block" cssClass="lg-head"/>
-                    <model predicate="parent::list" behaviour="block" cssClass="list-head"/>
+                    <model predicate="parent::figure" behaviour="inline" cssClass="figure-head"/>
+                    <model predicate="parent::table" behaviour="inline" cssClass="table-head"/>
+                    <model predicate="parent::lg" behaviour="inline" cssClass="lg-head"/>
+                    <model predicate="parent::list" behaviour="inline" cssClass="list-head"/>
                     <model predicate="parent::div" behaviour="heading">
             <param name="level" value="count(ancestor::div)"/>
         </model>
