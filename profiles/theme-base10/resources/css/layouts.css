@@ -382,6 +382,17 @@
     .fixed-layout > .after.hidden-mobile {
         display: none !important;
     }
+
+    /* The desktop zero-out rules above only match .hidden: a panel hidden on mobile via
+       .hidden-mobile keeps its grid column reserved at full width, squeezing the content
+       column even though the panel itself is invisible. Zero out the track here too. */
+    .fixed-layout:has(> .before.hidden-mobile) {
+        --jinks-layout-before-track: 0;
+    }
+
+    .fixed-layout:has(> .after.hidden-mobile) {
+        --jinks-layout-after-track: 0;
+    }
 }
 @media (min-width: 1024px) {
     .mobile,
