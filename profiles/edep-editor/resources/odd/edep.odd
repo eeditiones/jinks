@@ -57,18 +57,29 @@
                         <model behaviour="block">
                             <param name="content" value="subsequence(title, 2)"/>
                         </model>
-                        <model behaviour="block">
-                            <param name="content" value="author"/>
+                        <model predicate="editor[normalize-space(.) != '']" behaviour="block">
+                            <param name="content" value="string-join(
+                                for $e in editor[normalize-space(.) != '']
+                                let $name := normalize-space(string($e))
+                                let $role := normalize-space(string($e/@role))
+                                return if ($role != '') then concat($name, ' (', $role, ')') else $name,
+                                ', '
+                            )"/>
                         </model>
                     </modelSequence>
                     <model output="web" behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="publicationStmt" mode="change">
+                    <model predicate="$parameters?display='browse'" behaviour="omit"/>
+                    <model behaviour="block"/>
                 </elementSpec>
             <elementSpec ident="TEI" mode="change">
                 <model predicate="$parameters?mode = 'breadcrumb'" behaviour="inline">
                     <param name="content" value="text/body/div[@xml:lang = 'en']//head[1]"/>
                 </model>
                 <model predicate="@type='about'" behaviour="inline">
-                    <param name="content" value="text/body/div[starts-with(@xml:lang, $parameters?language)]"/>
+                    <!-- Ignore empty/invalid user.language until pb-lang has a real value; default to en. -->
+                    <param name="content" value="let $raw := normalize-space(string($parameters?language)) let $lang := if ($raw = '' or not(matches($raw, '^(de|en)(-|$)'))) then 'en' else tokenize($raw, '-')[1] return text/body/div[starts-with(@xml:lang, $lang)]"/>
                 </model>
                 <model behaviour="document"/>
             </elementSpec>

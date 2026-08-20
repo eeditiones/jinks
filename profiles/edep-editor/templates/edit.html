@@ -320,6 +320,41 @@
             const found = document.querySelector($selector); if(found){
             found.scrollIntoView({block: "start", inline: "nearest", behavior:"smooth"}); }
         </fx-function>
+        <fx-function signature="previewInstanceXml() as xs:boolean" type="text/javascript">
+            const fore = document.querySelector('fx-fore');
+            const data = fore.getModel().getInstance('default').getInstanceData();
+            const root = (data &amp;&amp; data.nodeType === Node.DOCUMENT_NODE) ? data.documentElement : data;
+            if (!root) { return false; }
+            const xml = new XMLSerializer().serializeToString(root);
+            const editor = document.getElementById('xml-preview-editor');
+            const dialog = document.getElementById('xml-preview-dialog');
+            if (!editor || !dialog) { return false; }
+            editor.value = xml;
+            const layoutCm = () =&gt; {
+                const header = dialog.querySelector('.xml-preview-header');
+                const available = Math.max(120, dialog.clientHeight - (header ? header.offsetHeight : 0));
+                editor.style.height = available + 'px';
+                editor.style.maxHeight = available + 'px';
+                const shadow = editor.shadowRoot;
+                if (!shadow) { return; }
+                let style = shadow.getElementById('xml-preview-cm-pin');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'xml-preview-cm-pin';
+                    shadow.appendChild(style);
+                }
+                style.textContent = [
+                    ':host { display:block !important; height:' + available + 'px !important; max-height:' + available + 'px !important; overflow:hidden !important; }',
+                    '.cm-editor, .cm-scroller { height:' + available + 'px !important; max-height:' + available + 'px !important; min-height:0 !important; }',
+                    '.cm-scroller { overflow:auto !important; }'
+                ].join('');
+            };
+            dialog.showModal();
+            layoutCm();
+            requestAnimationFrame(layoutCm);
+            setTimeout(layoutCm, 50);
+            return true;
+        </fx-function>
     </fx-model>
     <fx-action event="pb-i18n-update" target="#document">
         <fx-setvalue ref="instance('vars')/language"
@@ -604,6 +639,16 @@
         [% include "templates/parts/editor.html" %]
     </fx-group>
 
+    <dialog id="xml-preview-dialog" class="xml-preview-dialog">
+        <form method="dialog" class="xml-preview-header">
+            <h2><pb-i18n key="form.preview-xml">Preview XML</pb-i18n></h2>
+            <button type="submit" class="secondary" value="close" aria-label="Close">
+                <pb-i18n key="dialogs.close">Close</pb-i18n>
+            </button>
+        </form>
+        <jinn-codemirror id="xml-preview-editor" mode="xml" namespace="http://www.tei-c.org/ns/1.0"/>
+    </dialog>
+
 [% template toolbar %]
     <li>
         <pb-restricted login="login" group="tei">
@@ -643,6 +688,26 @@
                 </svg>
                 <span><pb-i18n key="menu.new-inscription"></pb-i18n></span>
             </a>
+        </fx-trigger>
+    </li>
+    <li>
+        <a class="btn" href="[[ $context-path ]]/zotero-sync.html" target="_blank" rel="noopener" data-tooltip="Synchronize Bibliography" data-placement="left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+            </svg>
+            <span><pb-i18n key="menu.zotero-sync">Synchronize Bibliography</pb-i18n></span>
+        </a>
+    </li>
+    <li>
+        <fx-trigger>
+            <button type="button" data-tooltip="Preview XML" data-placement="left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+                    <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0"/>
+                </svg>
+                <span><pb-i18n key="form.preview-xml">Preview XML</pb-i18n></span>
+            </button>
+            <fx-call function="previewInstanceXml()"/>
         </fx-trigger>
     </li>
     <li>

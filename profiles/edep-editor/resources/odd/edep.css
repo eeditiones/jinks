@@ -26,9 +26,15 @@ pb-geolocation {
     color: var(--pb-link-color);
 }
 
-a:link, a:visited, a:hover {
-    color: var(--pb-link-color);
-    text-decoration: none;
+a:link, a:visited {
+    color: var(--pb-link-color, var(--jinks-colors-accent, #E30613));
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+a:hover, a:focus {
+    color: var(--jinks-colors-600, #6F030A);
+    text-decoration: underline;
 }
 
 .facs {
