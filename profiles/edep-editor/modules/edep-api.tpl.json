@@ -637,6 +637,7 @@
     },
     "/api/zotero/sync": {
       "get": {
+        "security": [{ "basicAuth": [] }],
         "summary": "Incrementally sync local Zotero cache",
         "tags": ["zotero"],
         "operationId": "zotero:sync",
