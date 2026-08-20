@@ -1154,7 +1154,8 @@ fx-var {
     display: none;
 }
 
-.hidden {
+/* Keep before-top/after-top visible when collapsed: they host the reopen (|->) toggle. */
+.hidden:not(.before-top):not(.after-top) {
     display: none;
 }
 
@@ -1188,4 +1189,75 @@ fx-inspector[open] {
     font-size: 0.76rem;
     margin-top: 0;
     color: var(--jinks-colors-500, #6f6b5d);
+}
+
+/* --- XML preview dialog ----------------------------------------------------- */
+/* Pico sets dialog { display:flex; min-width/height:100% }, which keeps closed
+   dialogs visible and lets content grow the box. Scope layout to [open] only. */
+dialog.xml-preview-dialog:not([open]) {
+    display: none !important;
+}
+
+dialog.xml-preview-dialog[open] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    position: fixed;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(96vw, 56rem);
+    max-width: min(96vw, 56rem);
+    min-width: 0 !important;
+    height: min(90vh, 48rem);
+    max-height: min(90vh, 48rem);
+    min-height: 0 !important;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--jinks-colors-primary, #2D2B26);
+    border-radius: 0.35rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: var(--jinks-colors-light, #FCFCF8);
+    color: inherit;
+    backdrop-filter: none;
+}
+
+dialog.xml-preview-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: none;
+}
+
+.xml-preview-header {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--paper-grey-300, #e0e0e0);
+    background: var(--jinks-colors-light, #FCFCF8);
+}
+
+.xml-preview-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+dialog.xml-preview-dialog[open] jinn-codemirror {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden !important;
+    box-sizing: border-box;
+    contain: size layout;
 }

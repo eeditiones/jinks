@@ -91,39 +91,33 @@ window.addEventListener('DOMContentLoaded', () => {
     let language;
     let endpoint;
 
-    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    // Only the editor section nav (aside.before), not the menubar — menubar links must navigate normally.
+    const navLinks = Array.from(document.querySelectorAll('aside.before nav a'));
     navLinks.forEach(link => {
         link.addEventListener('click', e => {
-            console.log('clicked it');
-
             navLinks.forEach(lk => {
                 lk.style.textDecoration = 'none';
                 lk.style.fontWeight = '300';
             });
 
             const parent = e.target.closest('a');
+            if (!parent) {
+                return;
+            }
             parent.style.textDecoration = 'underline';
             parent.style.fontWeight = '700';
 
-            const id = parent.getAttribute('href').split('#')[1];
+            const href = parent.getAttribute('href') || '';
+            const id = href.includes('#') ? href.split('#')[1] : '';
+            if (!id) {
+                return;
+            }
             const el = document.getElementById(id);
             if (el) {
-                /*
-                el.scrollIntoView({
-                    block: 'start',
-                    inline: 'nearest',
-                    behavior: 'smooth',
-                });
-*/
                 setTimeout(() => {
                     el.setAttribute('open', 'open');
                 }, 400);
             }
-            /*
-            const parentLi = e.target.closest('li');
-            const check = parentLi.querySelector('input');
-            check.checked = true;
-*/
         });
     });
 
