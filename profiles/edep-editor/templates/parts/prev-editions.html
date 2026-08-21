@@ -4,41 +4,33 @@
             <span class="form-hint-wrap">
                 <pb-i18n key="form.previous-editions">Ältere Editionen</pb-i18n>
                 <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    <svg class="icon icon-info"><use href="#info-circle"/></svg>
                 </span>
                 <div class="form-hint" popover="manual" role="tooltip">
-                    <pb-i18n key="form.hint-previous-editions"></pb-i18n>
+                    <pb-i18n key="form.hint-previous-editions"/>
                 </div>
             </span>
         </h3>
     </summary>
     <!-- 35a) Ältere Editionen -->
-    <fx-repeat
-      class="nested-repeat"
-      id="r-editions"
-      ref="listBibl[@type='previousEditions']/bibl">
+    <fx-repeat class="nested-repeat" id="r-editions" ref="listBibl[@type='previousEditions']/bibl">
         <template>
             <div>
                 <div class="output">
                     <label>
-                        <pb-i18n key="form.biblio-abbreviation"
-                        >Kürzel</pb-i18n
-                        ></label
-                    >
+                        <pb-i18n key="form.biblio-abbreviation">Kürzel</pb-i18n></label>
                     <div>
                         <fx-trigger>
-                            <svg class="icon icon-copy widget"><use href="#clipboard"></use></svg>
-                            <fx-call function="clipboard(@corresp)"></fx-call>
+                            <svg class="icon icon-copy widget"><use href="#clipboard"/></svg>
+                            <fx-call function="clipboard(@corresp)"/>
                         </fx-trigger>
                     </div>
                                         <span class="form-hint-wrap">
                         <button type="button" class="hint-trigger" aria-label="Help">
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            <svg class="icon icon-info"><use href="#info-circle"/></svg>
                         </button>
                         <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-biblio-abbreviation"
-                                                        >XML:ID</pb-i18n
-                                                        >
+                            <pb-i18n key="form.hint-biblio-abbreviation">XML:ID</pb-i18n>
                         </div>
                     </span>
                 </div>
@@ -46,14 +38,16 @@
                     <label>
                         <pb-i18n key="form.reference">Referenz</pb-i18n>
                     </label>
-                    <zotero-autocomplete
-                        class="widget"
-                        endpoint="{instance('vars')/appdir}/api/zotero/items/suggest"
-                        limit="8"
-                        minlength="2"
-                        debounce="250"
-                        wait-ready="true">
+                    <zotero-autocomplete class="widget" endpoint="{instance('vars')/appdir}/api/zotero/items/suggest" limit="8" minlength="2" debounce="250" wait-ready="true">
                     </zotero-autocomplete>
+                    <span class="form-hint-wrap">
+                        <button type="button" class="hint-trigger" aria-label="Help">
+                            <svg class="icon icon-info"><use href="#info-circle"/></svg>
+                        </button>
+                        <div class="form-hint" popover="manual" role="tooltip">
+                            <pb-i18n key="form.hint-reference"/>
+                        </div>
+                    </span>
                 </fx-control>
                 <fx-control ref="citedRange">
                     <label>
@@ -71,20 +65,16 @@
             </div>
 
             <fx-trigger>
-                <svg class="icon icon-remove"
-                  title="delete Bibliographie"><use href="#dash-circle"></use></svg>
-                <fx-delete ref="."></fx-delete>
-                <fx-refresh control="r-editions"></fx-refresh>
+                <svg class="icon icon-remove" title="delete Bibliographie"><use href="#dash-circle"/></svg>
+                <fx-delete ref="."/>
+                <fx-refresh control="r-editions"/>
             </fx-trigger>
         </template>
     </fx-repeat>
     <fx-trigger class="add" title="Ältere Edition hinzufügen">
-        <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+        <svg class="icon icon-add"><use href="#plus-circle"/></svg>
 
-        <fx-insert
-            context="listBibl[@type='previousEditions']"
-            ref="bibl"
-            origin="instance('templates')//bibl"></fx-insert>
-        <fx-refresh control="r-editions"></fx-refresh>
+        <fx-insert context="listBibl[@type='previousEditions']" ref="bibl" origin="instance('templates')//bibl"/>
+        <fx-refresh control="r-editions"/>
     </fx-trigger>
 </details>

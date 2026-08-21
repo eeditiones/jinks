@@ -1,28 +1,18 @@
-<!-- context: fileDesc/sourceDesc/msDesc-->
-<details id="findspot">
+<!-- context: fileDesc/sourceDesc/msDesc--><details id="findspot">
     <summary>
-        <h2><pb-i18n key="form.finding" /></h2>
+        <h2><pb-i18n key="form.finding"/></h2>
     </summary>
 
     <fx-group ref="history">
-        <fx-control class="fore-control"
-                    id="findspot-ctrl"
-                    initial=".."
-                    ref="origin/origPlace/@corresp"
-                    src="[[ $context-path ]]/geo-picker.html">
+        <fx-control class="fore-control" id="findspot-ctrl" initial=".." ref="origin/origPlace/@corresp" src="[[ $context-path ]]/geo-picker.html">
         </fx-control>
 
         <fx-group class="neutral" ref="provenance[@type='found']">
-            <fx-control
-                as="node"
-                ref="note[@type='context']"
-                update-event="leave">
+            <fx-control as="node" ref="note[@type='context']" update-event="leave">
                 <label>
-                    <pb-i18n key="form.site-find-spot" />
+                    <pb-i18n key="form.site-find-spot"/>
                 </label>
-                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
-                    schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
-                    base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
+                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0" base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
                     <div slot="toolbar">
                         <button data-command="selectElement" title="Select element around current cursor position">
                             &lt;|&gt;
@@ -33,15 +23,12 @@
                         <button data-command="removeEnclosing" title="Remove enclosing tags" class="sep">
                             &lt;X&gt;
                         </button>
-                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;"
-                            title="placeName">
+                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;" title="placeName">
                             <svg class="icon icon-pin-map">
-                                <use href="#pin-map"></use>
+                                <use href="#pin-map"/>
                             </svg>
                         </button>
-                        <button data-command="snippet"
-                            data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
-                            title="form.hint-reference" data-i18n="[title]form.hint-reference">
+                        <button data-command="snippet" data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;" title="Insert bibliographic reference" data-i18n="[title]form.hint-reference-editor">
                             &lt;ref&gt;
                         </button>
                     </div>
@@ -53,45 +40,40 @@
             <section class="form-grid">
             <fx-control create="create" ref="@when">
                 <label>
-                    <pb-i18n key="form.date" />
+                    <pb-i18n key="form.date"/>
                 </label>
-                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD" />
+                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD"/>
                 <fx-alert>
-                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"></use></svg>
+                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"/></svg>
                     <pb-i18n key="form.date-invalid">Ungültiges Datum</pb-i18n>
                 </fx-alert>
             </fx-control>
             <fx-control create="create" ref="@notBefore">
                 <label>
-                    <pb-i18n key="form.date-after" />
+                    <pb-i18n key="form.date-after"/>
                 </label>
-                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD" />
+                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD"/>
                 <fx-alert>
-                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"></use></svg>
+                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"/></svg>
                     <pb-i18n key="form.date-invalid">Ungültiges Datum</pb-i18n>
                 </fx-alert>
             </fx-control>
             <fx-control create="create" ref="@notAfter">
                 <label>
-                    <pb-i18n key="form.date-before" />
+                    <pb-i18n key="form.date-before"/>
                 </label>
-                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD" />
+                <input class="widget" placeholder="YYYY, YYYY-MM oder YYYY-MM-DD"/>
                 <fx-alert>
-                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"></use></svg>
+                    <svg class="icon icon-warning"><use href="#exclamation-triangle-fill"/></svg>
                     <pb-i18n key="form.invalid-date">Ungültiges Datum</pb-i18n>
                 </fx-alert>
             </fx-control>
             </section>
-            <fx-control
-                as="node"
-                ref="note[@type='found-date']"
-                update-event="leave">
+            <fx-control as="node" ref="note[@type='found-date']" update-event="leave">
                 <label>
                     <pb-i18n key="form.found-date">Fundkontext</pb-i18n>
                 </label>
-                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]"
-                    schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0"
-                    base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
+                <jinn-xml-editor class="widget" unwrap="unwrap" placeholder="[Inline text/markup or sequence of paragraphs]" schema="resources/scripts/tei.json" schema-root="provenance" namespace="http://www.tei-c.org/ns/1.0" base-url="[[ $context-path]]" providers="zotero" data-template="lib:parse-params">
                     <div slot="toolbar">
                         <button data-command="selectElement" title="Select element around current cursor position">
                             &lt;|&gt;
@@ -102,15 +84,12 @@
                         <button data-command="removeEnclosing" title="Remove enclosing tags" class="sep">
                             &lt;X&gt;
                         </button>
-                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;"
-                            title="placeName">
+                        <button data-command="snippet" data-params="&lt;placeName key=&#34;$|1|&#34;&gt;$|_|&lt;/placeName&gt;" title="placeName">
                             <svg class="icon icon-pin-map">
-                                <use href="#pin-map"></use>
+                                <use href="#pin-map"/>
                             </svg>
                         </button>
-                        <button data-command="snippet"
-                            data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;"
-                            title="form.hint-reference" data-i18n="[title]form.hint-reference">
+                        <button data-command="snippet" data-params="&lt;ref type=&#34;biblio&#34; target=&#34;$|1|&#34;&gt;$|_|&lt;/ref&gt;" title="Insert bibliographic reference" data-i18n="[title]form.hint-reference-editor">
                             &lt;ref&gt;
                         </button>
                     </div>
