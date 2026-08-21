@@ -8,6 +8,7 @@
         "custom": [
             "resources/scripts/edep-hints.js",
             "resources/scripts/zotero-autocomplete.js",
+            "resources/scripts/geo-autocomplete.js",
             "resources/scripts/util.js",
             "https://cdn.jsdelivr.net/npm/@jinntec/jinn-codemirror@1.19.0/dist/jinn-codemirror-bundle.js"
         ]
@@ -25,18 +26,17 @@
 [% template fore-prolog %]
     <fx-model>
         <fx-action event="model-construct-done">
-            <fx-send submission="s-login" if="instance('vars')/loggedin != 'true'"></fx-send>
+            <fx-send submission="s-login" if="instance('vars')/loggedin != 'true'"/>
             <!-- ### if get called with an id param we load the data via submission ### -->
-            <fx-send submission="s-load-inscription" if="string-length(instance('params')/id) != 0"></fx-send>
+            <fx-send submission="s-load-inscription" if="string-length(instance('params')/id) != 0"/>
             <fx-setvalue ref="instance('vars')/inited">true</fx-setvalue>
         </fx-action>
 
-        <fx-instance id="default" src="templates/fore/epidoc-template.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="default" src="templates/fore/epidoc-template.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="i-fragment" xpath-default-namespace="http://www.tei-c.org/ns/1.0"></fx-instance>
+        <fx-instance id="i-fragment" xpath-default-namespace="http://www.tei-c.org/ns/1.0"/>
         <!--
         <fx-submission id="s-load-template" method="get"
             url="[[ $context-path ]]/templates/fore/epidoc-template.xml" replace="instance" instance="i-fragment"
@@ -51,126 +51,106 @@
         </fx-submission>
         -->
         <!-- <fx-instance id="i-fragments" type="json"></fx-instance> -->
-        <fx-submission id="s-create-fragment"
-            url="[[ $context-path ]]/api/fragment?collection={instance('params')/collection}" method="post"
-            ref="instance('default')" replace="instance" instance="i-fragment">
+        <fx-submission id="s-create-fragment" url="[[ $context-path ]]/api/fragment?collection={instance('params')/collection}" method="post" ref="instance('default')" replace="instance" instance="i-fragment">
             <fx-action event="submit-done">
-                <fx-message><pb-i18n key="form.data-saved"></pb-i18n></fx-message>
-                <fx-setvalue ref="instance('default')/@fragments"
-                    value="concat(instance('default')/@fragments, ' ', instance('i-fragment')/@xml:id)"></fx-setvalue>
+                <fx-message><pb-i18n key="form.data-saved"/></fx-message>
+                <fx-setvalue ref="instance('default')/@fragments" value="concat(instance('default')/@fragments, ' ', instance('i-fragment')/@xml:id)"/>
             </fx-action>
             <fx-action event="submit-error">
                 <fx-message>
-                    <pb-i18n key="form.save-failed"></pb-i18n>
+                    <pb-i18n key="form.save-failed"/>
                 </fx-message>
-                <fx-action src="resources/scripts/showErrors.js"></fx-action>
+                <fx-action src="resources/scripts/showErrors.js"/>
             </fx-action>
         </fx-submission>
         <fx-bind ref="instance('default')">
             <!-- Fragments are relevant if they are actually there and if this TEI is of type partial -->
-            <fx-bind ref="@fragments" relevant="string() and not(../@type='partial')"></fx-bind>
-            <fx-bind ref="@type" relevant=". = 'partial'"></fx-bind>
+            <fx-bind ref="@fragments" relevant="string() and not(../@type='partial')"/>
+            <fx-bind ref="@type" relevant=". = 'partial'"/>
             <fx-bind ref="teiHeader">
                 <fx-bind ref="fileDesc/titleStmt/title" required="true()" constraint="string-length(.) &gt; 0">
                 </fx-bind>
                 <fx-bind ref="fileDesc/sourceDesc/msDesc/history">
                     <fx-bind ref="provenance">
-                        <fx-bind ref="./@when" constraint="checkDate(.)"></fx-bind>
-                        <fx-bind ref="./@notBefore" constraint="checkDate(.)"></fx-bind>
-                        <fx-bind ref="./@notAfter" constraint="checkDate(.)"></fx-bind>
+                        <fx-bind ref="./@when" constraint="checkDate(.)"/>
+                        <fx-bind ref="./@notBefore" constraint="checkDate(.)"/>
+                        <fx-bind ref="./@notAfter" constraint="checkDate(.)"/>
                     </fx-bind>
                     <fx-bind ref="origin/origDate">
-                        <fx-bind ref="./@when-custom" constraint="checkDate(.)"></fx-bind>
-                        <fx-bind ref="./@notBefore-custom" constraint="checkDate(.)"></fx-bind>
-                        <fx-bind ref="./@notAfter-custom" constraint="checkDate(.)"></fx-bind>
+                        <fx-bind ref="./@when-custom" constraint="checkDate(.)"/>
+                        <fx-bind ref="./@notBefore-custom" constraint="checkDate(.)"/>
+                        <fx-bind ref="./@notAfter-custom" constraint="checkDate(.)"/>
                     </fx-bind>
                 </fx-bind>
             </fx-bind>
         </fx-bind>
 
-        <fx-instance id="typeins" src="[[ $context-path ]]/data/taxonomy/typeins.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="typeins" src="[[ $context-path ]]/data/taxonomy/typeins.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="objtyp" src="[[ $context-path ]]/data/taxonomy/objtyp.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="objtyp" src="[[ $context-path ]]/data/taxonomy/objtyp.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="material" src="[[ $context-path ]]/data/taxonomy/material.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="material" src="[[ $context-path ]]/data/taxonomy/material.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="paleography" src="[[ $context-path ]]/data/taxonomy/paleography.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="paleography" src="[[ $context-path ]]/data/taxonomy/paleography.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="editor-roles" src="[[ $context-path ]]/data/taxonomy/editor-roles.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="editor-roles" src="[[ $context-path ]]/data/taxonomy/editor-roles.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="language-options" src="[[ $context-path ]]/data/taxonomy/languages.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="language-options" src="[[ $context-path ]]/data/taxonomy/languages.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="language-scope" src="[[ $context-path ]]/data/taxonomy/language-scope.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="language-scope" src="[[ $context-path ]]/data/taxonomy/language-scope.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="decoration" src="[[ $context-path ]]/data/taxonomy/decor.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="decoration" src="[[ $context-path ]]/data/taxonomy/decor.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="metre" src="[[ $context-path ]]/data/taxonomy/metre.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="metre" src="[[ $context-path ]]/data/taxonomy/metre.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="ligature" src="[[ $context-path ]]/data/taxonomy/ligature.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="ligature" src="[[ $context-path ]]/data/taxonomy/ligature.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="verification-options" src="[[ $context-path ]]/data/taxonomy/verification.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="verification-options" src="[[ $context-path ]]/data/taxonomy/verification.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="idno-types" src="[[ $context-path ]]/data/taxonomy/idno-types.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="idno-types" src="[[ $context-path ]]/data/taxonomy/idno-types.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="publication-status" src="[[ $context-path ]]/data/taxonomy/publication-status.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="publication-status" src="[[ $context-path ]]/data/taxonomy/publication-status.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="preservation" src="[[ $context-path ]]/data/taxonomy/preservation.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="preservation" src="[[ $context-path ]]/data/taxonomy/preservation.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="religion" src="[[ $context-path ]]/data/taxonomy/religion.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="religion" src="[[ $context-path ]]/data/taxonomy/religion.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="document-type" src="[[ $context-path ]]/data/taxonomy/document-type.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="document-type" src="[[ $context-path ]]/data/taxonomy/document-type.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
-        <fx-instance id="templates" src="[[ $context-path ]]/templates/fore/templates.xml"
-            xpath-default-namespace="http://www.tei-c.org/ns/1.0">
-            <data></data>
+        <fx-instance id="templates" src="[[ $context-path ]]/templates/fore/templates.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+            <data/>
         </fx-instance>
 
         <fx-instance id="vars" shared="true">
@@ -178,14 +158,14 @@
                 <appdir>[[ $context-path ]]</appdir>
                 <display-leiden>hidden</display-leiden>
                 <can-delete>false</can-delete>
-                <parent></parent>
-                <uuid></uuid>
-                <geoid></geoid>
+                <parent/>
+                <uuid/>
+                <geoid/>
                 <loggedin>hidden</loggedin>
                 <xml-valid>true</xml-valid>
-                <history-term></history-term>
-                <geography-term></geography-term>
-                <military-term></military-term>
+                <history-term/>
+                <geography-term/>
+                <military-term/>
                 <language>en</language>
                 <inited>false</inited>
                 <is-fragment>false</is-fragment>
@@ -194,15 +174,13 @@
             </data>
         </fx-instance>
         <!-- todo: remove static readonly once new fragment functionality is completely done -->
-        <fx-bind ref="instance('vars')/is-fragment" relevant="not(exists(instance('default')/@type))"
-            readonly="true()"></fx-bind>
+        <fx-bind ref="instance('vars')/is-fragment" relevant="not(exists(instance('default')/@type))" readonly="true()"/>
         <!-- drive fragment-nav visibility off these vars: empty-nodeset refs are not hidden by this Fore version -->
-        <fx-bind ref="instance('vars')/has-fragments"
-            relevant="string-length(instance('default')/@fragments) > 0 and not(instance('default')/@type='partial')"></fx-bind>
-        <fx-bind ref="instance('vars')/is-partial" relevant="instance('default')/@type = 'partial'"></fx-bind>
+        <fx-bind ref="instance('vars')/has-fragments" relevant="string-length(instance('default')/@fragments) &gt; 0 and not(instance('default')/@type='partial')"/>
+        <fx-bind ref="instance('vars')/is-partial" relevant="instance('default')/@type = 'partial'"/>
         <!--<fx-bind ref="instance('vars')/can-delete" relevant="index('r-fragments') gt 1"></fx-bind>-->
-        <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"></fx-bind>
-        <fx-bind ref="instance('vars')/xml-valid" calculate="editorsValid()" constraint=".='true'"></fx-bind>
+        <fx-bind ref="instance('vars')/loggedin" relevant=".='true'"/>
+        <fx-bind ref="instance('vars')/xml-valid" calculate="editorsValid()" constraint=".='true'"/>
 
         <fx-instance id="tmp">
             <data>
@@ -219,56 +197,46 @@
             </data>
         </fx-instance>
 
-        <fx-submission id="s-load-inscription"
-            url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}"
-            method="get" replace="instance" validate="false">
+        <fx-submission id="s-load-inscription" url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}" method="get" replace="instance" validate="false">
             <fx-message event="submit-error">
-                <pb-i18n key="loading-failed"></pb-i18n>
+                <pb-i18n key="loading-failed"/>
             </fx-message>
 
             <fx-action event="submit-done">
                 <!--
                         ### initializing state for 30) 31) 32) dummy switches
                     -->
-                <fx-setvalue ref="instance('vars')/history-term"
-                    value="if(exists(instance('default')//term[@ref='#social-economic-legal-history'])) then 'true' else 'false'"></fx-setvalue>
+                <fx-setvalue ref="instance('vars')/history-term" value="if(exists(instance('default')//term[@ref='#social-economic-legal-history'])) then 'true' else 'false'"/>
 
-                <fx-setvalue ref="instance('vars')/geography-term"
-                    value="if(exists(instance('default')//term[@ref='#geography'])) then 'true' else 'false'"></fx-setvalue>
+                <fx-setvalue ref="instance('vars')/geography-term" value="if(exists(instance('default')//term[@ref='#geography'])) then 'true' else 'false'"/>
 
-                <fx-setvalue ref="instance('vars')/military-term"
-                    value="if(exists(instance('default')//term[@ref='#military'])) then 'true' else 'false'"></fx-setvalue>
+                <fx-setvalue ref="instance('vars')/military-term" value="if(exists(instance('default')//term[@ref='#military'])) then 'true' else 'false'"/>
             </fx-action>
         </fx-submission>
 
-        <fx-submission id="s-create"
-            url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}" method="post"
-            replace="instance">
+        <fx-submission id="s-create" url="[[ $context-path ]]/api/inscription?collection={instance('params')/collection}" method="post" replace="instance">
             <fx-message event="submit-done">
-                <pb-i18n key="form.data-saved"></pb-i18n>
+                <pb-i18n key="form.data-saved"/>
             </fx-message>
             <fx-action event="submit-error">
                 <fx-message>
-                    <pb-i18n key="form.save-failed"></pb-i18n>
+                    <pb-i18n key="form.save-failed"/>
                 </fx-message>
-                <fx-action src="resources/scripts/showErrors.js"></fx-action>
+                <fx-action src="resources/scripts/showErrors.js"/>
             </fx-action>
         </fx-submission>
 
-        <fx-submission id="s-save"
-            url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}"
-            method="post" replace="instance">
+        <fx-submission id="s-save" url="[[ $context-path ]]/api/inscription?id={instance('params')/id}&amp;collection={instance('params')/collection}" method="post" replace="instance">
             <fx-action event="submit-done">
-                <fx-message><pb-i18n key="form.data-saved"></pb-i18n></fx-message>
-                <fx-unmodified></fx-unmodified>
-                <fx-call function="updateUrl(instance('default')/@xml:id)"
-                    if="not(ends-with(uri-path(),'.xml'))"></fx-call>
+                <fx-message><pb-i18n key="form.data-saved"/></fx-message>
+                <fx-unmodified/>
+                <fx-call function="updateUrl(instance('default')/@xml:id)" if="not(ends-with(uri-path(),'.xml'))"/>
             </fx-action>
             <fx-action event="submit-error">
                 <fx-message>
-                    <pb-i18n key="form.save-failed"></pb-i18n>
+                    <pb-i18n key="form.save-failed"/>
                 </fx-message>
-                <fx-action src="resources/scripts/showErrors.js"></fx-action>
+                <fx-action src="resources/scripts/showErrors.js"/>
             </fx-action>
         </fx-submission>
 
@@ -277,8 +245,7 @@
         </fx-function>
 
         <fx-instance id="login" type="json">{}</fx-instance>
-        <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post"
-            replace="instance" instance="login" validate="false" serialization="none">
+        <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post" replace="instance" instance="login" validate="false" serialization="none">
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-error">false</fx-setvalue>
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-done">true</fx-setvalue>
         </fx-submission>
@@ -294,8 +261,7 @@
             if(editors.length !== 0){ return false; }else{ return true; }
         </fx-function>
 
-        <fx-function signature="shortlang($input as xs:string,$default as xs:string) as xs:string"
-            type="text/javascript">
+        <fx-function signature="shortlang($input as xs:string,$default as xs:string) as xs:string" type="text/javascript">
             if($input) { return $input.substring(0, 2); } return $default;
         </fx-function>
 
@@ -357,12 +323,11 @@
         </fx-function>
     </fx-model>
     <fx-action event="pb-i18n-update" target="#document">
-        <fx-setvalue ref="instance('vars')/language"
-            value="shortlang(event('language'), instance('vars')/language/string())"></fx-setvalue>
-        <fx-refresh force="force"></fx-refresh>
+        <fx-setvalue ref="instance('vars')/language" value="shortlang(event('language'), instance('vars')/language/string())"/>
+        <fx-refresh force="force"/>
     </fx-action>
 
-    <fx-var name="lang" value="instance('vars')/language"></fx-var>
+    <fx-var name="lang" value="instance('vars')/language"/>
 [% endtemplate %]
 
 [% template before %]
@@ -390,36 +355,36 @@
             </li>
             <li>
                 <a href="{uri-path()}#findspot">
-                    <pb-i18n key="form.finding"></pb-i18n>
+                    <pb-i18n key="form.finding"/>
                 </a>
             </li>
             <li>
                 <a href="{uri-path()}#location">
-                    <pb-i18n key="form.last-recorded-location"></pb-i18n>
+                    <pb-i18n key="form.last-recorded-location"/>
                 </a>
                 <!--                                                <input type="checkbox" id="location-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#verification">
-                    <pb-i18n key="form.verification"></pb-i18n>
+                    <pb-i18n key="form.verification"/>
                 </a>
                 <!--                                                <input type="checkbox" id="verification-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#objectdesc">
-                    <pb-i18n key="form.object-description"></pb-i18n>
+                    <pb-i18n key="form.object-description"/>
                 </a>
                 <!--                                                <input type="checkbox" id="objectdesc-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#inscription-field">
-                    <pb-i18n key="form.inscription-field"></pb-i18n>
+                    <pb-i18n key="form.inscription-field"/>
                 </a>
                 <!--                                                <input type="checkbox" id="inscription-field-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#text-description">
-                    <pb-i18n key="form.text-description"></pb-i18n>
+                    <pb-i18n key="form.text-description"/>
                 </a>
                 <!--                                                <input type="checkbox" id="text-description-checkbox" title="expand/collapse"/>-->
             </li>
@@ -431,7 +396,7 @@
                                 </li> -->
             <li>
                 <a href="{uri-path()}#references">
-                    <pb-i18n key="form.references"></pb-i18n>
+                    <pb-i18n key="form.references"/>
                 </a>
                 <!-- <input type="checkbox" id="references-checkbox" title="expand/collapse"/> -->
             </li>
@@ -474,25 +439,25 @@
             </li>
             <li>
                 <a href="{uri-path()}#commentary">
-                    <pb-i18n key="form.commentary"></pb-i18n>
+                    <pb-i18n key="form.commentary"/>
                 </a>
                 <!--                                        <input type="checkbox" id="commentary-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#dating">
-                    <pb-i18n key="form.dating"></pb-i18n>
+                    <pb-i18n key="form.dating"/>
                 </a>
                 <!--                                                <input type="checkbox" id="dating-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#historic-relevance">
-                    <pb-i18n key="form.historic-relevance"></pb-i18n>
+                    <pb-i18n key="form.historic-relevance"/>
                 </a>
                 <!--                                                <input type="checkbox" id="profileDesc-checkbox" title="expand/collapse"/>-->
             </li>
             <li>
                 <a href="{uri-path()}#editor">
-                    <pb-i18n key="form.editing"></pb-i18n>
+                    <pb-i18n key="form.editing"/>
                 </a>
                 <!--                                                <input type="checkbox" id="editor-checkbox" title="expand/collapse"/>-->
             </li>
@@ -506,18 +471,17 @@
                             <button  onclick="expander()">&lt; &gt;<pb-i18n key="form.expand">Expand all sections</pb-i18n></button>
                         </li>
         -->
-            <li class="nav-divider"></li>
+            <li class="nav-divider"/>
             <li class="noflex">
                 <fx-group ref="instance('vars')/has-fragments" class="neutral">
                     <fieldset id="fragment-fields">
                         <legend>
-                            <pb-i18n key="form.fragments"></pb-i18n>
+                            <pb-i18n key="form.fragments"/>
                         </legend>
-                        <fx-repeat id="r-fragments" ref="tokenize(instance('default')/@fragments)"
-                            aria-labelledby="r-fragments-label">
+                        <fx-repeat id="r-fragments" ref="tokenize(instance('default')/@fragments)" aria-labelledby="r-fragments-label">
                             <template>
                                 <a href="{uri-relpath()}{.}.xml" target="_blank">
-                                    <fx-output ref="."></fx-output>
+                                    <fx-output ref="."/>
                                 </a>
                             </template>
                         </fx-repeat>
@@ -527,14 +491,14 @@
                 <!-- show trigger only on composite/parent docs (no @type) -->
                 <fx-group ref="instance('vars')/is-fragment">
                     <fx-trigger id="addFragment">
-                        <button><pb-i18n key="form.add"></pb-i18n></button>
-                        <fx-send submission="s-create-fragment"></fx-send>
+                        <button><pb-i18n key="form.add"/></button>
+                        <fx-send submission="s-create-fragment"/>
                     </fx-trigger>
                 </fx-group>
 
                 <fx-group id="backlink" ref="instance('vars')/is-partial">
                     <a href="{concat(uri-relpath(),instance('default')/@corresp)}.xml" target="_blank">
-                        <fx-output ref="instance('default')/@corresp"></fx-output>
+                        <fx-output ref="instance('default')/@corresp"/>
                     </a>
                 </fx-group>
             </li>
@@ -546,7 +510,7 @@
         <h1 id="title-lbl">
             <fx-control id="edeptitle" class="title" ref="fileDesc/titleStmt/title">
                 <label>
-                    <pb-i18n key="form.title"></pb-i18n>
+                    <pb-i18n key="form.title"/>
                 </label>
             </fx-control>
         </h1>
@@ -590,13 +554,13 @@
         <fx-group id="references" class="references-background">
             <fx-group ref="fileDesc/sourceDesc/listBibl" class="outer-group">
                 <h2>
-                    <pb-i18n key="form.references" />
+                    <pb-i18n key="form.references"/>
                                         <span class="form-hint-wrap">
                         <button type="button" class="hint-trigger" aria-label="Help">
-                            <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            <svg class="icon icon-info"><use href="#info-circle"/></svg>
                         </button>
                         <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-references"></pb-i18n>
+                            <pb-i18n key="form.hint-references"/>
                         </div>
                     </span>
                 </h2>
@@ -656,37 +620,31 @@
 
             <fx-trigger class="saveBtn" debounce="1000">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
-                        viewBox="0 0 16 16">
-                        <path d="M11 2H9v3h2z" />
-                        <path
-                            d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                        <path d="M11 2H9v3h2z"/>
+                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
                     </svg>
-                    <span><pb-i18n key="form.save"></pb-i18n></span>
+                    <span><pb-i18n key="form.save"/></span>
                 </button>
                 <fx-action if="not(exists(instance('params')/id))">
-                    <fx-send submission="s-login"></fx-send>
-                    <fx-send submission="s-create"></fx-send>
+                    <fx-send submission="s-login"/>
+                    <fx-send submission="s-create"/>
                 </fx-action>
                 <fx-action if="exists(instance('params')/id)">
-                    <fx-send submission="s-login"></fx-send>
-                    <fx-send submission="s-save"></fx-send>
+                    <fx-send submission="s-login"/>
+                    <fx-send submission="s-save"/>
                 </fx-action>
             </fx-trigger>
         </pb-restricted>
     </li>
     <li>
         <fx-trigger>
-            <a id="createNewDocument" class="btn" href="[[ $context-path ]]/edit/workspace/" data-tooltip="Create New Document"
-                data-placement="left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
-                    <path
-                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
-                    <path
-                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+            <a id="createNewDocument" class="btn" href="[[ $context-path ]]/edit/workspace/" data-tooltip="Create New Document" data-placement="left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
                 </svg>
-                <span><pb-i18n key="menu.new-inscription"></pb-i18n></span>
+                <span><pb-i18n key="menu.new-inscription"/></span>
             </a>
         </fx-trigger>
     </li>
@@ -701,7 +659,7 @@
     </li>
     <li>
         <fx-trigger>
-            <button type="button" data-tooltip="Preview XML" data-placement="left">
+            <button type="button" class="btn" data-tooltip="Preview XML" data-placement="left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
                     <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0"/>
                 </svg>
@@ -713,16 +671,16 @@
     <li>
         <fx-control ref="instance('vars')/xml-valid" class="valid-warning">
             <fx-alert>
-                <pb-i18n key="form.invalid-data"></pb-i18n>
+                <pb-i18n key="form.invalid-data"/>
             </fx-alert>
-            <input style="display: none" />
+            <input style="display: none"/>
         </fx-control>
     </li>
 [% endtemplate %]
 
 [% template breadcrumb %]
 <li>
-    <fx-output ref="instance('default')//fileDesc/titleStmt/title"></fx-output>
+    <fx-output ref="instance('default')//fileDesc/titleStmt/title"/>
 </li>
 [% endtemplate %]
 </template>
