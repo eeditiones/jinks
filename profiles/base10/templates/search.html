@@ -49,6 +49,7 @@
     [% endtemplate %]
 
     <main>
+        <pb-paginate id="paginate" per-page="10" range="5" subscribe="results" emit="search"/>
         <pb-load class="results" url="api/search" emit="results"></pb-load>
     </main>
 
