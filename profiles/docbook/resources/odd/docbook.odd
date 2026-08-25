@@ -35,64 +35,6 @@
         </fileDesc>
         <encodingDesc>
             <tagsDecl>
-                <pb:behaviour ident="code" output="latex">
-                    <desc>Code listing</desc>
-                    <pb:param name="language"
-                        value="if (@language = ('xml', 'html', 'sh', 'bash')) then '[language=' || @language || ']' else ()"/>
-                    <pb:param name="code" value="replace($content, '^\s*(.*?)$', '$1')"/>
-                    <pb:template xml:space="preserve">\begin{lstlisting}[[language]]
-[[code]]
-\end{lstlisting} </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="code" output="fo">
-                    <desc>Code listing</desc>
-                    <pb:param name="language" value="@language"/>
-                    <pb:template xml:space="preserve">
-                        <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" space-before=".5em" space-after=".5em" padding-left="1em" padding-right="1em" padding-top=".5em" padding-bottom=".5em" border-color="#A0A0A0" border="solid 2pt" font-family="monospace" font-size=".85em" line-height="1.2" hyphenate="false" white-space="pre" wrap-option="wrap">[[content]]</fo:block>
-                    </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definitionList" output="web">
-                    <pb:template xml:space="preserve">
-                        <dl xmlns="">[[content]]</dl>
-                    </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definition" output="web">
-                    <pb:param name="term"/>
-                    <pb:template xml:space="preserve">
-                        <dt xmlns="">[[term]]</dt>
-                        <dd xmlns="">[[content]]</dd>
-                    </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definitionList" output="fo">
-                    <pb:template xml:space="preserve">
-                        <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">[[content]]</fo:block>
-                    </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definition" output="fo">
-                    <pb:param name="term"/>
-                    <pb:template xml:space="preserve">
-                        <pb:template>
-                            <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">[[content]]</fo:block>
-                        </pb:template>
-                    </pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definitionList" output="latex">
-                    <pb:template xml:space="preserve">\begin{description}
-[[content]]
-\end{description}</pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="definition" output="latex">
-                    <pb:param name="term"/>
-                    <pb:template xml:space="preserve">\item [[[term]]] [[content]]</pb:template>
-                </pb:behaviour>
-                <pb:behaviour ident="iframe">
-                    <pb:param name="src"/>
-                    <pb:param name="width"/>
-                    <pb:param name="height"/>
-                    <pb:template xml:space="preserve">
-                        <iframe xmlns="" src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"/>
-                    </pb:template>
-                </pb:behaviour>
                 <rendition source="docbook.css"/>
             </tagsDecl>
         </encodingDesc>
@@ -231,6 +173,15 @@
                         <pb:template xml:space="preserve">\title{[[content]]}</pb:template>
                     </model>
                     <model predicate="$parameters?mode='title'" behaviour="inline"/>
+                    <model output="opm-web" predicate="$parameters?mode='breadcrumb' and ../@xml:id and parent::section/section and not($parameters?root is ..)"
+                        behaviour="listItem">
+                        <desc>Ancestor section — link to the chunk that owns @xml:id</desc>
+                        <param name="id" value="../@xml:id"/>
+                        <pb:template xml:space="preserve"><a xmlns="" href="#[[id]]">[[content]]</a></pb:template>
+                    </model>
+                    <model output="opm-web" predicate="$parameters?mode='breadcrumb'" behaviour="listItem">
+                        <desc>Document title or current chunk — not a link</desc>
+                    </model>
                     <model predicate="$parameters?mode='breadcrumb' and not(parent::section)"
                         behaviour="listItem">
                         <pb:template xml:space="preserve"><a xmlns="" href="../browse.html?collection=doc">[[content]]</a></pb:template>
@@ -268,6 +219,15 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="section">
+                    <model output="opm-web" predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
+                        <param name="content" value="(($parameters?root)/ancestor::article/info/title, ($parameters?root)/ancestor::section/title, title)"/>
+                        <pb:template xml:space="preserve" xmlns=""><nav xmlns="" aria-label="breadcrumb">
+  <ul>[[ content ]]</ul>
+</nav></pb:template>
+                    </model>
+                    <model output="opm-web" predicate="$parameters?mode='title'" behaviour="inline">
+                        <param name="content" value="string-join((($parameters?root)/ancestor::article/info/title, ($parameters?root)/ancestor::section/title, title), ' – ')"/>
+                    </model>
                     <model predicate="$parameters?mode='breadcrumb'" behaviour="pass-through">
                         <param name="content" value="($get(.)/ancestor::article/info/title, $get(.)/ancestor::section/title, title)"/>
                         <pb:template xml:space="preserve" xmlns=""><nav xmlns="" aria-label="breadcrumb">
@@ -426,8 +386,23 @@ font-style: italic;
                             )
                         </pb:template>
                     </model>
-                    <model behaviour="definitionList">
+                    <model output="latex" behaviour="block">
                         <param name="content" value="varlistentry"/>
+                        <pb:template xml:space="preserve">\begin{description}
+[[content]]
+\end{description}</pb:template>
+                    </model>
+                    <model output="fo" behaviour="pass-through">
+                        <param name="content" value="varlistentry"/>
+                        <pb:template xml:space="preserve">
+                            <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">[[content]]</fo:block>
+                        </pb:template>
+                    </model>
+                    <model behaviour="pass-through">
+                        <param name="content" value="varlistentry"/>
+                        <pb:template xml:space="preserve">
+                            <dl xmlns="">[[content]]</dl>
+                        </pb:template>
                     </model>
                 </elementSpec>
                 <elementSpec ident="varlistentry">
@@ -441,9 +416,25 @@ font-style: italic;
                             [*[[term]]*], [[[definition]]],
                         </pb:template>
                     </model>
-                    <model behaviour="definition">
+                    <model output="latex" behaviour="block">
                         <param name="term" value="term/node()"/>
                         <param name="content" value="listitem/node()"/>
+                        <pb:template xml:space="preserve">\item [[[term]]] [[content]]</pb:template>
+                    </model>
+                    <model output="fo" behaviour="pass-through">
+                        <param name="term" value="term/node()"/>
+                        <param name="content" value="listitem/node()"/>
+                        <pb:template xml:space="preserve">
+                            <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">[[content]]</fo:block>
+                        </pb:template>
+                    </model>
+                    <model behaviour="pass-through">
+                        <param name="term" value="term/node()"/>
+                        <param name="content" value="listitem/node()"/>
+                        <pb:template xml:space="preserve">
+                            <dt xmlns="">[[term]]</dt>
+                            <dd xmlns="">[[content]]</dd>
+                        </pb:template>
                     </model>
                 </elementSpec>
                 <elementSpec ident="term" mode="add">
@@ -516,8 +507,14 @@ white-space: pre-wrap;
 
             </outputRendition>
                     </model>
-                    <model output="latex" behaviour="code">
-                        <param name="language" value="@language"/>
+                    <model output="latex" behaviour="block">
+                        <desc>Code listing</desc>
+                        <param name="language"
+                            value="if (@language = ('xml', 'html', 'sh', 'bash')) then '[language=' || @language || ']' else ()"/>
+                        <param name="code" value="replace($content, '^\s*(.*?)$', '$1')"/>
+                        <pb:template xml:space="preserve">\begin{lstlisting}[[language]]
+[[code]]
+\end{lstlisting} </pb:template>
                     </model>
                     <modelGrp output="web">
                         <model predicate="@role='codepen'" behaviour="webcomponent">
@@ -567,7 +564,15 @@ white-space: pre-wrap;
 
             </outputRendition>
                     </model>
-                    <model output="latex" behaviour="code"/>
+                    <model output="latex" behaviour="block">
+                        <desc>Code listing</desc>
+                        <param name="language"
+                            value="if (@language = ('xml', 'html', 'sh', 'bash')) then '[language=' || @language || ']' else ()"/>
+                        <param name="code" value="replace($content, '^\s*(.*?)$', '$1')"/>
+                        <pb:template xml:space="preserve">\begin{lstlisting}[[language]]
+[[code]]
+\end{lstlisting} </pb:template>
+                    </model>
                     <model output="print" behaviour="block" cssClass="programlisting"/>
                     <model output="docx" behaviour="block" cssClass="Code"/>
                     <model behaviour="webcomponent">
@@ -641,14 +646,8 @@ padding: 1em 0 1em .5em;
             color: red;
             </outputRendition>
                     </model>
-                    <model output="typst" behaviour="block">
-                        <param name="content" value="*[not(self::title)]"/>
-                        <param name="title" value="title"/>
-                        <pb:template xml:space="preserve">#note[
-[[title]]
-
-[[content]]
-]</pb:template>
+                    <model output="typst" behaviour="block" cssClass="note">
+                        <param name="content" value="(title, *[not(self::title)])"/>
                     </model>
                     <model output="web" behaviour="block" cssClass="note">
                         <param name="content" value="(title, *[not(self::title)])"/>
@@ -715,10 +714,13 @@ padding: 1em 0 1em .5em;
 Not available in PDF edition. Go to \url{[[content]]} to view.
 \end{center}</pb:template>
                     </model>
-                    <model behaviour="iframe">
+                    <model behaviour="pass-through">
                         <param name="width" value="@width"/>
                         <param name="height" value="@depth"/>
                         <param name="src" value="@fileref"/>
+                        <pb:template xml:space="preserve">
+                            <iframe xmlns="" src="[[src]]" width="[[width]]" height="[[height]]" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="allowfullscreen"/>
+                        </pb:template>
                         <outputRendition xml:space="preserve">
             max-width: 100%;
             </outputRendition>
