@@ -138,6 +138,9 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="author" mode="change">
+                    <model output="typst" predicate="ancestor::teiHeader" behaviour="metadata">
+                        <param name="key" value="'authors'"/>
+                    </model>
                     <model predicate="ancestor::teiHeader" behaviour="block"/>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -433,6 +436,14 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
+                    <model output="typst" predicate="@break='no'" behaviour="pass-through">
+                        <!-- Trailing ; so #(…) after the call is not parsed as more args;
+                             #linebreak() (not \) so ] after a break cannot form \]. -->
+                        <pb:template xml:space="preserve">-#linebreak();</pb:template>
+                    </model>
+                    <model output="typst" behaviour="break">
+                        <param name="type" value="'line'"/>
+                    </model>
                     <modelSequence predicate="@break">
                         <desc>Generated hyphen for line breaks marked as non-word breaking. Can be later toggled on/off as desired.</desc>
                         <model predicate="@break='no'" behaviour="inline" cssClass="lb-hyphen">
@@ -520,6 +531,16 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
+                    <modelSequence output="typst">
+                        <desc>Inline page-break marker; @n as margin note</desc>
+                        <model behaviour="inline">
+                            <param name="content" value="'|'"/>
+                        </model>
+                        <model predicate="@n" behaviour="note">
+                            <param name="place" value="'margin'"/>
+                            <param name="content" value="@n"/>
+                        </model>
+                    </modelSequence>
                     <model predicate="$parameters?mode='title'" behaviour="inline">
                         <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
                         <param name="page" value="head((@n, @facs))"/>
@@ -760,6 +781,9 @@
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
+                    <model output="typst" behaviour="pass-through">
+                        <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
+                    </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
         </model>
@@ -806,6 +830,9 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
+                    <model output="typst" predicate="parent::titleStmt" behaviour="metadata">
+                        <param name="key" value="'title'"/>
+                    </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
