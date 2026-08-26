@@ -12,6 +12,7 @@
                     [[ browse:show-hits($context, $doc) ]]
                 </div>
                 <div class="actions">
+                    [% block document-browse %][% endblock %]
                     [% if $menu?download %]
                     <details class="dropdown-button">
                         <summary data-i18n="[title]download.title">
