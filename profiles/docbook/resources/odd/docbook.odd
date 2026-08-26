@@ -91,6 +91,11 @@
                     <model predicate="$parameters?mode='title'" behaviour="block">
                         <param name="content" value="info"/>
                     </model>
+                    <model output="opm-web" predicate="$parameters?mode='toc'" behaviour="pass-through">
+                        <desc>Static/OPM TOC: top-level sections (live TOC uses nav:toc-entry)</desc>
+                        <param name="content" value="section"/>
+                        <pb:template xml:space="preserve"><ul xmlns="">[[content]]</ul></pb:template>
+                    </model>
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="info">
@@ -203,6 +208,9 @@
                             </h1>
                         </pb:template>
                     </model>
+                    <model output="opm-web" predicate="$parameters?mode='toc'" behaviour="inline">
+                        <desc>Label only; section opm-web TOC models wrap pb-link</desc>
+                    </model>
                     <model predicate="$parameters?mode='toc'" behaviour="inline"/>
                     <model predicate="parent::note" behaviour="heading">
                         <param name="level" value="4"/>
@@ -237,7 +245,56 @@
                     <model predicate="$parameters?mode='title'" behaviour="inline">
                         <param name="content" value="string-join(($get(.)/ancestor::article/info/title, $get(.)/ancestor::section/title, title), ' – ')"/>
                     </model>
+                    <model output="opm-web" predicate="$parameters?mode='toc' and section and not($parameters?collapse)"
+                        behaviour="pass-through">
+                        <desc>Static/OPM TOC: nested, expanded (live TOC uses nav:toc-entry)</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="heading" value="title"/>
+                        <param name="children" value="section"/>
+                        <param name="target" value="($parameters?target, 'transcription')[1]"/>
+                        <pb:template xml:space="preserve"><li xmlns="">
+  <details open="open">
+    <summary>
+      <pb-link xml-id="[[id]]" node-id="[[id]]" emit="[[target]]" subscribe="[[target]]">[[heading]]</pb-link>
+    </summary>
+    <ul>[[children]]</ul>
+  </details>
+</li></pb:template>
+                    </model>
+                    <model output="opm-web" predicate="$parameters?mode='toc' and section and $parameters?collapse"
+                        behaviour="pass-through">
+                        <desc>Static/OPM TOC: nested, collapsed</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="heading" value="title"/>
+                        <param name="children" value="section"/>
+                        <param name="target" value="($parameters?target, 'transcription')[1]"/>
+                        <pb:template xml:space="preserve"><li xmlns="">
+  <details>
+    <summary>
+      <pb-link xml-id="[[id]]" node-id="[[id]]" emit="[[target]]" subscribe="[[target]]">[[heading]]</pb-link>
+    </summary>
+    <ul>[[children]]</ul>
+  </details>
+</li></pb:template>
+                    </model>
+                    <model output="opm-web" predicate="$parameters?mode='toc'" behaviour="pass-through">
+                        <desc>Static/OPM TOC: leaf entry</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="heading" value="title"/>
+                        <param name="target" value="($parameters?target, 'transcription')[1]"/>
+                        <pb:template xml:space="preserve"><li xmlns="">
+  <pb-link xml-id="[[id]]" node-id="[[id]]" emit="[[target]]" subscribe="[[target]]">[[heading]]</pb-link>
+</li></pb:template>
+                    </model>
                     <model output="print" behaviour="section"/>
+                    <model output="opm-web" behaviour="block">
+                        <desc>xml:id stand-in for util:node-id so TOC highlighting works offline (OPM only)</desc>
+                        <param name="root" value="@xml:id"/>
+                        <param name="nodeId" value="@xml:id"/>
+                        <pb:template xml:space="preserve" xmlns="">
+                            <pb-observable xmlns="" data="[[root]],[[nodeId]]" emit="transcription">[[content]]</pb-observable>
+                        </pb:template>
+                    </model>
                     <model output="web" behaviour="block">
                         <param name="root" value="util:node-id($parameters?root)"/>
                         <param name="nodeId" value="util:node-id($get(.))"/>
