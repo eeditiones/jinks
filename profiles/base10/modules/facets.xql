@@ -113,7 +113,9 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                 else
                     ft:facets($nodes, $config?dimension, $maxcount)
             )
-    return (
+    return 
+        if ($table//*:tr) then
+        (
         <div class="facet-dimension" data-dimension="facet-{$config?dimension}">
             {
                 if ($config?max != 0) then
@@ -161,7 +163,9 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                     ()
             }
         </div>
-    )
+        )
+        else
+            ()
 };
 
 declare function facets:get-parameter($name as xs:string) {
