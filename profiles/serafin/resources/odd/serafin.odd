@@ -172,7 +172,7 @@
                     models replicate the base div behaviour (combined register, title, section, block)
                     which would otherwise be lost when this importing ODD redefines the spec.</desc>
                     <model predicate="$parameters?mode = 'register' and $parameters?category = 'people'" behaviour="pass-through">
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <ul>
 [[people]]
@@ -180,7 +180,7 @@
 </div></pb:template>
                     </model>
                     <model predicate="$parameters?mode = 'register' and $parameters?category = 'places'" behaviour="pass-through">
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <ul>
 [[places]]
@@ -188,8 +188,8 @@
 </div></pb:template>
                     </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>

@@ -138,6 +138,9 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="author" mode="change">
+                    <model output="typst" predicate="ancestor::teiHeader" behaviour="metadata">
+                        <param name="key" value="'authors'"/>
+                    </model>
                     <model predicate="ancestor::teiHeader" behaviour="block"/>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -288,8 +291,8 @@
                 <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
                         <desc>Output register data if register profile is enabled</desc>
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>
@@ -402,10 +405,10 @@
                     <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
                         <desc>For browse view and table of contents, just output inline text</desc>
                     </model>
-                    <model predicate="parent::figure" behaviour="inline" cssClass="figure-head"/>
-                    <model predicate="parent::table" behaviour="inline" cssClass="table-head"/>
-                    <model predicate="parent::lg" behaviour="inline" cssClass="lg-head"/>
-                    <model predicate="parent::list" behaviour="inline" cssClass="list-head"/>
+                    <model predicate="parent::figure" behaviour="block" cssClass="figure-head"/>
+                    <model predicate="parent::table" behaviour="block" cssClass="table-head"/>
+                    <model predicate="parent::lg" behaviour="block" cssClass="lg-head"/>
+                    <model predicate="parent::list" behaviour="block" cssClass="list-head"/>
                     <model predicate="parent::div" behaviour="heading">
             <param name="level" value="count(ancestor::div)"/>
         </model>
@@ -433,6 +436,14 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
+                    <model output="typst" predicate="@break='no'" behaviour="pass-through">
+                        <!-- Trailing ; so #(…) after the call is not parsed as more args;
+                             #linebreak() (not \) so ] after a break cannot form \]. -->
+                        <pb:template xml:space="preserve">-#linebreak();</pb:template>
+                    </model>
+                    <model output="typst" behaviour="break">
+                        <param name="type" value="'line'"/>
+                    </model>
                     <modelSequence predicate="@break">
                         <desc>Generated hyphen for line breaks marked as non-word breaking. Can be later toggled on/off as desired.</desc>
                         <model predicate="@break='no'" behaviour="inline" cssClass="lb-hyphen">
@@ -520,6 +531,16 @@
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
+                    <modelSequence output="typst">
+                        <desc>Inline page-break marker; @n as margin note</desc>
+                        <model behaviour="inline">
+                            <param name="content" value="'|'"/>
+                        </model>
+                        <model predicate="@n" behaviour="note">
+                            <param name="place" value="'margin'"/>
+                            <param name="content" value="@n"/>
+                        </model>
+                    </modelSequence>
                     <model predicate="$parameters?mode='title'" behaviour="inline">
                         <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
                         <param name="page" value="head((@n, @facs))"/>
@@ -760,6 +781,9 @@
                 <elementSpec ident="teiHeader" mode="change">
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
+                    <model output="typst" behaviour="pass-through">
+                        <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
+                    </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
         </model>
@@ -806,6 +830,9 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
+                    <model output="typst" predicate="parent::titleStmt" behaviour="metadata">
+                        <param name="key" value="'title'"/>
+                    </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
@@ -975,8 +1002,8 @@ flex-wrap: wrap;
             <desc>Register entry overview in list</desc>
             <param name="id" value="@xml:id"/>
             <param name="label" value="placeName[1]/string()"/>
-            <param name="longitude" value="tokenize(location/geo)[2]"/>
-            <param name="latitude" value="tokenize(location/geo)[1]"/>
+            <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+            <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
             <param name="zoom" value="if (@type != 'approximate') then 12 else 9"/>
             <param name="description" value="note"/>
             <pb:template xmlns="" xml:space="preserve"><div>
@@ -996,16 +1023,16 @@ flex-wrap: wrap;
                     <model predicate="$parameters?mode='register'" behaviour="listItem">
             <desc>Register sidebar: add pb-geolocation, which emits to channel 'map' to avoid interference with other pb-view </desc>
             <param name="content" value="placeName[@type='main']"/>
-            <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-            <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+            <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+            <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
             <param name="label" value="placeName[@type='main']/node()"/>
             <pb:template xmlns="" xml:space="preserve"><pb-geolocation event="mouseover" longitude="[[longitude]]" latitude="[[latitude]]" label="[[label]]" auto="auto" wait-for="pb-leaflet-map" zoom="11" emit="map">[[content]]</pb-geolocation></pb:template>
         </model>
                     <modelSequence>
             <desc>Register details view</desc>
             <model behaviour="heading">
-                <param name="longitude" value="tokenize(location/geo, ' ')[2]"/>
-                <param name="latitude" value="tokenize(location/geo, ' ')[1]"/>
+                <param name="longitude" value="tokenize(location/geo, '[\s,;]+')[2]" />
+                <param name="latitude" value="tokenize(location/geo, '[\s,;]+')[1]" />
                 <param name="label" value="placeName[@type='main']/node()"/>
                 <param name="content" value="placeName[@type='main']"/>
                 <param name="location" value="string-join((country, region), ', ')"/>
@@ -1050,7 +1077,7 @@ flex-wrap: wrap;
                     <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'toc', 'register', 'register-details')" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+            <param name="alternate" value="let $key:= head((@key, @ref)), $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -1085,7 +1112,7 @@ flex-wrap: wrap;
         </model>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="persName context">
             <param name="default" value="."/>
-            <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
+            <param name="alternate" value="let $key:= head((@key, @ref)), $resolved := id($key, collection($global:register-root)/id('pb-persons')) return if (count($resolved)) then $resolved else $key"/>
         </model>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -1114,7 +1141,7 @@ flex-wrap: wrap;
                     <model predicate="ancestor::correspContext" behaviour="inline"/>
                     <model predicate="@key or @ref" behaviour="alternate" cssClass="placeName context">
                         <param name="default" value="."/>
-                        <param name="alternate" value="let $key:= head((@key, @ref))                          let $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
+                        <param name="alternate" value="let $key:= head((@key, @ref)), $resolved := id($key, collection($global:register-root)/id('pb-places')) return if (count($resolved)) then $resolved else $key"/>
                     </model>
                     <model behaviour="inline"/>
                 </elementSpec>
