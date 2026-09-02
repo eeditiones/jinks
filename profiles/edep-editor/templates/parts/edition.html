@@ -18,6 +18,9 @@
         </h4>
         <fx-control class="transcription editor" ref="div[@type='edition']" as="node" update-event="leave">
             <jinn-epidoc-editor id="transcriptionEditor" unwrap="unwrap" class="widget" show-leiden="" schema="resources/scripts/tei.json" schema-root="div" mode="leiden_plus">
+                <h5 slot="leiden-header" class="editor-pane-title">
+                    <pb-i18n key="form.leiden-editor"></pb-i18n>
+                </h5>
                 <div slot="leiden-toolbar">
                     <button data-command="snippet" data-mode="leiden_plus" data-params="($|_|)" title="Abbreviation parenthesis">
                         (abc)
@@ -55,6 +58,9 @@
                         Convert to Leiden+
                     </button>
                 </div>
+                <h5 slot="xml-header" class="editor-pane-title">
+                    <pb-i18n key="form.xml-editor"></pb-i18n>
+                </h5>
                 <div slot="xml-toolbar">
                     <button data-command="selectElement" title="Select element around current cursor position">
                         &lt;|&gt;
