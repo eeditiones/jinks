@@ -114,74 +114,80 @@
         <legend>
             <pb-i18n key="place.place"></pb-i18n>
         </legend>
-        <fx-control ref="placeName[@type='findspot']" id="findspot">
-            <label>
-                <span class="form-hint-wrap">
-                    <pb-i18n key="form.context-of-provenance">Fundstelle</pb-i18n>
-                    <button type="button" class="hint-trigger" aria-label="Help">
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    </button>
-                    <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
-                    </div>
-                </span>
-            </label>
-            <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
-        </fx-control>
-        <fx-control ref="placeName[@type='ancient']">
-            <label>
-                <pb-i18n key="form.site-ancient-name"></pb-i18n>
-            </label>
-        </fx-control>
-        <fx-control ref="region[@type='province']" update-event="input">
-            <label>
-                <pb-i18n key="form.site-ancient-province"></pb-i18n>"{./@xml:id}"
-            </label>
-            <select ref="instance('province')//category" class="widget" selection="open">
-                <template>
-                    <option value="{@xml:id}">{catDesc}</option>
-                </template>
-            </select>
-        </fx-control>
-        <fx-control ref="placeName[@type='modern']">
-            <label>
-                <span class="form-hint-wrap">
-                    <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
-                    <button type="button" class="hint-trigger" aria-label="Help">
-                        <svg class="icon icon-info"><use href="#info-circle"></use></svg>
-                    </button>
-                    <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n>
-                    </div>
-                </span>
-            </label>
-        </fx-control>
-        <fx-control ref="region[@type='modern']">
-            <label>
-                <pb-i18n key="form.site-modern-region"></pb-i18n>
-            </label>
-        </fx-control>
-        <fx-control ref="country" update-event="input">
-            <label>
-                <pb-i18n key="form.site-modern-country"></pb-i18n>
-            </label>
-            <select ref="instance('country')//category" class="widget" selection="open">
-                <template>
-                    <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
-                </template>
-            </select>
-        </fx-control>
-        <fx-control ref="location/geo">
-            <label>
-                <pb-i18n key="place.geolocation"></pb-i18n>
-            </label>
-        </fx-control>
-        <fx-control ref="ptr[@type='pleiades']">
-            <label>Pleiades</label>
-        </fx-control>
-        <fx-control ref="ptr[@type='geonames']">
-            <label>Geonames</label>
-        </fx-control>
+        <div class="geodata-columns">
+            <div class="geodata-column">
+                <fx-control ref="placeName[@type='findspot']" id="findspot">
+                    <label>
+                        <span class="form-hint-wrap">
+                            <pb-i18n key="form.context-of-provenance">Fundstelle</pb-i18n>
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
+                                <pb-i18n key="form.hint-geodata-findspot"></pb-i18n>
+                            </div>
+                        </span>
+                    </label>
+                    <input type="text" autofocus="autofocus" class="widget" tabindex="1" />
+                </fx-control>
+                <fx-control ref="placeName[@type='ancient']">
+                    <label>
+                        <pb-i18n key="form.site-ancient-name"></pb-i18n>
+                    </label>
+                </fx-control>
+                <fx-control ref="placeName[@type='modern']">
+                    <label>
+                        <span class="form-hint-wrap">
+                            <pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n>
+                            <button type="button" class="hint-trigger" aria-label="Help">
+                                <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                            </button>
+                            <div class="form-hint" popover="manual" role="tooltip">
+                                <pb-i18n key="form.hint-geodata-findspot-modern"></pb-i18n>
+                            </div>
+                        </span>
+                    </label>
+                </fx-control>
+                <fx-control ref="region[@type='province']" update-event="input">
+                    <label>
+                        <pb-i18n key="form.site-ancient-province"></pb-i18n>
+                    </label>
+                    <select ref="instance('province')//category" class="widget" selection="open">
+                        <template>
+                            <option value="{@xml:id}">{catDesc}</option>
+                        </template>
+                    </select>
+                </fx-control>
+                <fx-control ref="region[@type='modern']">
+                    <label>
+                        <pb-i18n key="form.site-modern-region"></pb-i18n>
+                    </label>
+                </fx-control>
+            </div>
+            <div class="geodata-column">
+                <fx-control ref="country" update-event="input">
+                    <label>
+                        <pb-i18n key="form.site-modern-country"></pb-i18n>
+                    </label>
+                    <select ref="instance('country')//category" class="widget" selection="open">
+                        <template>
+                            <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
+                        </template>
+                    </select>
+                </fx-control>
+                <fx-control ref="location/geo">
+                    <label>
+                        <pb-i18n key="place.geolocation"></pb-i18n>
+                    </label>
+                </fx-control>
+                <fx-control ref="ptr[@type='pleiades']">
+                    <label>Pleiades</label>
+                </fx-control>
+                <fx-control ref="ptr[@type='geonames']">
+                    <label>Geonames</label>
+                </fx-control>
+            </div>
+        </div>
     </fieldset>
 
 [% template toolbar %]

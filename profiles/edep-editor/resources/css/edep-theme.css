@@ -343,13 +343,6 @@ fx-control.editor[relevant] {
     display: block;
 }
 
-fx-control[required] > label::after {
-    position: absolute;
-    right: 0;
-    content: '*';
-    color: #ef4444;
-}
-
 .toolbar li fx-output {
     margin: 0;
     width: auto;
@@ -535,6 +528,13 @@ textarea:focus {
 }
 
 /* --- Validation states ------------------------------------------------------ */
+/* fore.css adds label:after { content: "*" } and loads after this sheet */
+fx-control[required]::after,
+fx-fore fx-control[required] label::after {
+    display: none;
+    content: none;
+}
+
 .visited[required].isEmpty .widget,
 .visited[invalid] .widget {
     border-color: #ef4444;
@@ -782,6 +782,43 @@ fieldset .nested-repeat fx-repeatitem > fx-trigger {
     grid-row: 1;
     align-self: center;
     justify-self: end;
+}
+
+/* Letter height repeat: Zeile + min + max on one row, free text below */
+#r-letterHeight .letter-height-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
+}
+
+#r-letterHeight .letter-height-metrics {
+    display: grid;
+    grid-template-columns: minmax(3.5rem, 0.75fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.5rem 0.75rem;
+    align-items: start;
+    margin: 0;
+}
+
+#r-letterHeight .letter-height-metrics > fx-group {
+    display: contents;
+}
+
+#r-letterHeight .letter-height-bounds {
+    display: contents;
+}
+
+#r-letterHeight .letter-height-metrics fx-control,
+#r-letterHeight .letter-height-metrics fx-control[relevant] {
+    margin: 0;
+    min-width: 0;
+}
+
+#r-letterHeight .letter-height-free fx-control,
+#r-letterHeight .letter-height-free fx-control[relevant] {
+    margin: 0;
+    width: 100%;
 }
 
 .nested-repeat textarea {
@@ -1451,6 +1488,43 @@ fieldset > legend {
 .nested-repeat fieldset legend label {
     flex: 0 0 var(--edep-label-width);
     font-style: italic;
+}
+
+/* Geodata place form: two equal columns, fields stacked top-to-bottom per column */
+fieldset.case-content {
+    display: block;
+}
+
+fieldset.case-content > legend {
+    margin-bottom: 0.75rem;
+}
+
+.geodata-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 1.5rem;
+    align-items: start;
+}
+
+.geodata-column:first-child {
+    border-right: 1px solid var(--jinks-colors-accent, #E30613);
+    padding-right: 1.5rem;
+}
+
+.geodata-column fx-control,
+.geodata-column fx-control[relevant] {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 0.65rem;
+}
+
+.geodata-column fx-control > .widget,
+.geodata-column fx-control > select.widget,
+.geodata-column fx-control textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
 }
 
 /* --- Misc ------------------------------------------------------------------- */
