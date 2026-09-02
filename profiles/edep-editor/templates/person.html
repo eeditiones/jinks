@@ -67,15 +67,13 @@
 
     <fx-model>
         <fx-action event="model-construct-done">
-            <fx-send submission="s-login"/>
+            <fx-send submission="s-login" if="instance('vars')/loggedin != 'true'"/>
             <fx-send submission="s-load" if="exists(instance('query')/id)"/>
         </fx-action>
 
-        <fx-instance src="templates/fore/person-tmpl.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+        <fx-instance id="default" src="templates/fore/person-tmpl.xml" xpath-default-namespace="http://www.tei-c.org/ns/1.0">
             <data/>
         </fx-instance>
-        <fx-bind ref="instance('default')/persName" constraint="exists(name[@type = ('nomen', 'praenomen', 'god', 'cognomen', 'supernomen')][normalize-space(.)])">
-        </fx-bind>
 
         <fx-instance id="tribus">
             <data>
@@ -146,29 +144,30 @@
             <data/>
         </fx-instance>
 
-        <fx-submission id="s-save" method="post" url="[[ $context-path ]]/api/people/{instance('query')/id}" replace="instance">
+        <fx-submission id="s-save" method="post" url="[[ $context-path ]]/api/people/{instance('query')/id}" instance="default" replace="instance" validate="false">
             <fx-action event="submit-done">
                 <fx-message>Person wurde gespeichert</fx-message>
-                <fx-send submission="s-load"/>
+                <fx-unmodified/>
             </fx-action>
             <fx-message event="submit-error">couldn't be saved</fx-message>
         </fx-submission>
-        <fx-submission id="s-create" url="[[ $context-path ]]/api/people" method="post" replace="instance">
+        <fx-submission id="s-create" url="[[ $context-path ]]/api/people" method="post" instance="default" replace="instance">
             <fx-action event="submit-done">
                 <fx-message>Daten wurden gespeichert</fx-message>
+                <fx-unmodified/>
             </fx-action>
             <fx-action event="submit-error">
                 <fx-message>Daten konnten nicht gespeichert werden.</fx-message>
             </fx-action>
         </fx-submission>
-        <fx-submission id="s-load" method="get" url="[[ $context-path ]]/api/people/{instance('query')/id}" replace="instance" validate="false"/>
+        <fx-submission id="s-load" method="get" url="[[ $context-path ]]/api/people/{instance('query')/id}" instance="default" replace="instance" validate="false"/>
         <fx-submission id="s-reset" url="templates/fore/person-tmpl.xml" replace="instance">
         </fx-submission>
 
         <fx-instance id="login" type="json">{}</fx-instance>
-        <fx-submission id="s-login" ref="instance('login')?*" url="[[ $context-path ]]/api/login" method="post" replace="instance" instance="login" validate="false">
+        <fx-submission id="s-login" url="[[ $context-path ]]/api/login" method="post" replace="instance" instance="login" validate="false" serialization="application/x-www-form-urlencoded">
             <fx-setvalue ref="instance('vars')/loggedin" event="submit-error">false</fx-setvalue>
-            <fx-setvalue ref="instance('vars')/loggedin" event="submit-done">true</fx-setvalue>
+            <fx-setvalue ref="instance('vars')/loggedin" event="submit-done" value="string(instance('login')/user) != ''"/>
         </fx-submission>
     </fx-model>
 [% endtemplate %]
@@ -298,7 +297,6 @@
                     <span><pb-i18n key="form.save">Save</pb-i18n></span>
                 </button>
                 <fx-action>
-                    <fx-send submission="s-login"/>
                     <fx-send submission="s-create" if="not(exists(instance('query')/id))"/>
                     <fx-send submission="s-save" if="exists(instance('query')/id)"/>
                 </fx-action>
