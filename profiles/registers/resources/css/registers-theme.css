@@ -1,5 +1,6 @@
-.places {
-    width: 100vw;
+/* Pico nav-link negative margins cancel .toolbar ul padding on action buttons */
+nav.toolbar > ul.hidden-mobile > li > a.btn {
+    margin-inline: 0;
 }
 
 .person, .people .list, .places .list, .place {
@@ -33,10 +34,21 @@ pb-split-list::part(items) {
     grid-auto-rows: min-content;
 }
 
-.places .split-list-item header {
+.places .split-list-item header,
+.people .split-list-item header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
+}
+
+.places .split-list-item .place-actions,
+.places .split-list-item .register-actions,
+.people .split-list-item .register-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
 }
 
 pb-custom-form {

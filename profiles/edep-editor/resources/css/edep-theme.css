@@ -7,6 +7,7 @@
     --edep-nav-width: 13rem;
     --edep-header-height: 4rem;
     --edep-label-width: 10rem;
+    --edep-editor-border-color: #CFCDC5;
     --jinn-codemirror-background-color: white;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
@@ -164,6 +165,43 @@ main summary h3 {
     font-size: var(--jinks-form-control-font-size, 0.875rem);
     margin: 0;
     font-weight: 600;
+}
+
+/* Macro sections: collapsible h2 titles and outer-group headers → small caps */
+main details > summary > h2,
+fx-group.outer-group > h2 {
+    font-family: var(--jinks-heading-font-family, 'Cinzel', serif);
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+}
+
+/* Sub-sections: in-section h4 and reference sub-panels (group-6 h3) → body text */
+main details h4,
+main details.group-6 > summary > h3 {
+    font-family: var(--jinks-base-font-family, 'Inter', sans-serif);
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    font-variant: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    color: var(--jinks-color-primary, #2D2B26);
+    line-height: 1.3;
+}
+
+/* Textedition: separate sub-section blocks visually */
+#edition .block + .block,
+#edition #transcript > h4:not(:first-child) {
+    margin-top: 1.25rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--jinks-form-border-color, #CFCDC5);
+}
+
+#edition h4 {
+    margin: 0.65rem 1rem 0.35rem;
+}
+
+#edition .block > h4:first-child,
+#edition #transcript > h4:first-child {
+    margin-top: 0;
 }
 
 main details > fx-group {
@@ -816,8 +854,10 @@ fx-group > h2 {
 
 fx-group h4 {
     margin: 0.65rem 1rem;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: var(--jinks-form-control-font-size, 0.875rem);
+    font-weight: 400;
+    font-family: var(--jinks-base-font-family, 'Inter', sans-serif);
+    font-variant: normal;
     color: var(--jinks-color-primary, #2D2B26);
 }
 
@@ -1006,18 +1046,81 @@ jinn-xml-editor,
 jinn-epidoc-editor {
     font-size: 16px;
     overflow: hidden;
+    border: 1px solid var(--edep-editor-border-color, #CFCDC5);
+    border-radius: 0.5rem;
+    background: var(--jinks-form-background-color, #FEFEF9);
 }
 
-jinn-xml-editor [slot],
-jinn-epidoc-editor [slot] {
+jinn-epidoc-editor [slot="leiden-header"],
+jinn-epidoc-editor [slot="xml-header"] {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: inherit;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Single full-width divider between Leiden and XML panes */
+jinn-epidoc-editor [slot="xml-header"] {
+    border-top: 1px solid var(--edep-editor-border-color, #CFCDC5);
+    padding-top: 0.35rem;
+}
+
+jinn-xml-editor [slot="toolbar"] {
     display: flex;
     column-gap: 4px;
     align-items: center;
     overflow-x: auto;
     flex-wrap: wrap;
-    background: var(--jinks-form-background-color, #FEFEF9);
+    width: 100%;
+    box-sizing: border-box;
+    background: inherit;
     padding: 0.25rem 0.5rem;
-    border-bottom: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border: none;
+    border-bottom: 1px solid var(--edep-editor-border-color, #CFCDC5);
+}
+
+/* Toolbar border comes from the shadow [slot=toolbar] wrapper (same as Leiden) */
+jinn-epidoc-editor [slot="xml-toolbar"] {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    width: auto;
+    box-sizing: border-box;
+    background: inherit;
+    padding: 0;
+    border: none;
+}
+
+/* Do not stretch: Close follows the Leiden buttons in the shadow toolbar row */
+jinn-epidoc-editor [slot="leiden-toolbar"] {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    width: auto;
+    box-sizing: border-box;
+    background: inherit;
+    padding: 0;
+    border: none;
+}
+
+jinn-epidoc-editor .editor-pane-title {
+    margin: 0;
+    padding: 0.35rem 0.5rem 0.15rem;
+    font-family: var(--jinks-base-font-family, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.3;
+    color: var(--jinks-colors-500, #6f6b5d);
 }
 
 jinn-epidoc-editor [slot] *,
@@ -1045,7 +1148,7 @@ jinn-epidoc-editor [slot] .label {
 jinn-xml-editor [slot] > *:hover,
 jinn-epidoc-editor [slot] > *:hover,
 jinn-epidoc-editor::part(button):hover {
-    border: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border: 1px solid var(--edep-editor-border-color, #CFCDC5);
     border-radius: 3px;
 }
 
@@ -1055,7 +1158,7 @@ jinn-epidoc-editor [slot] > .label:hover {
 
 jinn-xml-editor [slot] .sep,
 jinn-epidoc-editor [slot] .sep {
-    border-right: 1px solid var(--jinks-form-border-color, #CFCDC5);
+    border-right: 1px solid var(--edep-editor-border-color, #CFCDC5);
 }
 
 jinn-epidoc-editor::part(status),
