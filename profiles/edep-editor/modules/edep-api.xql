@@ -59,9 +59,9 @@ declare function edep:geopicker-places($request as map(*)) {
 
 declare function edep:places-add($request as map(*)) {
     let $id := 
-        if ($request?parameters?id and not(empty($request?body//@xml:id))) then
+        if ($request?parameters?id) then
             let $store := xmldb:store($config:register-root || "/places", concat($request?parameters?id, ".xml"), $request?body)
-            return $request?body//@xml:id
+            return $request?parameters?id
 
         else if ($request?body//@xml:id) then
             let $id := $request?body//@xml:id
@@ -74,7 +74,7 @@ declare function edep:places-add($request as map(*)) {
             let $update := update insert attribute xml:id {concat("G", $id-new)} into doc($store)/tei:place
             return concat("G", $id-new)
     return try {
-        doc(concat($config:register-root || "/places", $id, ".xml"))
+        doc($config:register-root || "/places/" || $id || ".xml")
     } catch * {
         ()
     }
@@ -91,22 +91,39 @@ declare function edep:load-person($request as map(*)) {
 
 declare function edep:person-add($request as map(*)) {
     let $people := $config:register-root || "/people"
-    let $id := if ($request?parameters?id and not(empty($request?body//@xml:id))) then
-            let $store := xmldb:store($people, concat($request?parameters?id, ".xml"), $request?body)
-            return $request?body//@xml:id
+    let $raw := edep:person-from-body($request?body)
+    let $person :=
+        if ($raw) then
+            let $cleaned := edep:clean-person($raw)
+            return
+                if ($request?parameters?id and not($cleaned/@xml:id)) then
+                    <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$request?parameters?id}">
+                    {
+                        $cleaned/@sex,
+                        $cleaned/*
+                    }
+                    </person>
+                else
+                    $cleaned
+        else
+            error($errors:BAD_REQUEST, "Request body must contain a person element")
+    let $id :=
+        if ($request?parameters?id) then
+            let $store := xmldb:store($people, concat($request?parameters?id, ".xml"), $person)
+            return $request?parameters?id
 
-        else if ($request?body//@xml:id) then
-            let $id := $request?body//@xml:id
-            let $store := xmldb:store($people, concat($id, ".xml"), $request?body)
-            return $id
+        else if ($person/@xml:id) then
+            let $id := $person/@xml:id
+            let $store := xmldb:store($people, concat($id, ".xml"), $person)
+            return string($id)
         else
             let $ids := sort(collection($people)//@xml:id/string())
             let $id-new := if (empty($ids)) then "000000" else format-number(xs:integer(replace($ids[last()], "P", "")) + 1, "000000")
             let $withId :=
                 <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="P{$id-new}">
                 {
-                    $request?body//tei:person/@sex,
-                    $request?body/tei:person/*
+                    $person/@sex,
+                    $person/*
                 }
                 </person>
             let $store := xmldb:store($people, concat("P", $id-new, ".xml"), $withId)
@@ -116,6 +133,24 @@ declare function edep:person-add($request as map(*)) {
         doc($people || "/" || $id || ".xml")
     } catch * {
         ()
+    }
+};
+
+declare %private function edep:person-from-body($body as item()*) as element(tei:person)? {
+    if (not(exists($body))) then ()
+    else
+        ($body//tei:person,
+         $body/*[local-name() eq "person" and namespace-uri() = "http://www.tei-c.org/ns/1.0"],
+         if ($body instance of element(tei:person)) then $body else ())[1]
+};
+
+declare %private function edep:clean-person($person as element(tei:person)) as element(tei:person) {
+    element { node-name($person) } {
+        $person/@*,
+        $person/tei:persName,
+        $person/tei:state[normalize-space(.)],
+        $person/tei:occupation[normalize-space(.)],
+        $person/tei:idno[normalize-space(.) != '' or normalize-space(@type) != '']
     }
 };
 
