@@ -59,7 +59,7 @@
     [% template toolbar %]
     [% if $features?edep?editor?enabled and "people" = $context?theme?body?classes?* %]
     <li>
-        <a href="[[ $context-path ]]/person" class="btn">
+        <a href="[[ $context-path ]]/person" class="btn secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
                 viewBox="0 0 16 16">
                 <path
@@ -73,7 +73,7 @@
     [% endif %]
     [% if $features?edep?editor?enabled and "places" = $context?theme?body?classes?* %]
     <li>
-        <a href="[[ $context-path ]]/place" class="btn">
+        <a href="[[ $context-path ]]/place" class="btn secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
                 viewBox="0 0 16 16">
                 <path
