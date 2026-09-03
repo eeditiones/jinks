@@ -61,7 +61,15 @@
                     </model>
                     <model predicate="$parameters?mode='register-overview' and $parameters?show-notes and text()" behaviour="block"/>
                     <model predicate="$parameters?mode='register-overview' and not($parameters?show-notes) and text()" behaviour="omit"/>
-                    <model predicate="parent::person or parent::place or parent::org" behaviour="paragraph"/>
+                    <model output="epub" predicate="ancestor::person or ancestor::place or ancestor::org" behaviour="block">
+                        <desc>SERAFIN: as in teipublisher.odd — a register entry is a footnote
+                            aside in EPUB, so a note anywhere inside it must not open a second
+                            one.</desc>
+                    </model>
+                    <model predicate="parent::person or parent::place or parent::org" behaviour="block">
+                        <desc>A note in a register entry may hold paragraphs of its own, so it
+                            needs a block: a paragraph cannot nest a paragraph.</desc>
+                    </model>
                     <model predicate="$parameters?mode='toc' or ancestor::listAnnotation" behaviour="omit"/>
                     <model behaviour="note">
                         <param name="place" value="@place"/>

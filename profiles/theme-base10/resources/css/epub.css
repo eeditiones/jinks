@@ -90,3 +90,69 @@ blockquote cite {
 .pagebreak {
     display: none;
 }
+
+/* Footnotes are hoisted into a section at the end of each chapter file;
+   reading systems with popup support (Apple Books, Thorium, …) lift each
+   aside into a floating panel. Prefer class selectors here: several readers
+   drop or ignore `aside[epub|type=…]` rules inside that chrome, which left
+   register entries (pulled in via persName/placeName's "alternate" model)
+   looking like chapter titles at the h1 size set above. pmf:note/pmf:alternate
+   (ext-epub.xql) wrap the aside's content in `.fn-body`; the register person/
+   place elementSpecs give the entry name a `.fn-title` paragraph for EPUB
+   instead of their usual `<h1>`. */
+aside.note,
+aside.altcontent {
+    margin: 0 0 0.85em;
+}
+
+.fn-body {
+    margin: 0;
+    padding: 0.85em 1em 0.95em;
+    font-size: 0.95em;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+    text-align: left;
+    text-indent: 0;
+}
+
+.fn-body > :first-child {
+    margin-top: 0;
+}
+
+.fn-body > :last-child {
+    margin-bottom: 0;
+}
+
+.fn-body .fn-title {
+    display: block;
+    margin: 0 0 0.55em;
+    padding: 0;
+    border: none;
+    font-size: 0.9em;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.35;
+    text-indent: 0;
+}
+
+.fn-body p {
+    margin: 0.45em 0 0;
+    text-indent: 0;
+    line-height: 1.6;
+}
+
+.fn-body .fn-title + p {
+    margin-top: 0;
+}
+
+.fn-body ul,
+.fn-body ol {
+    margin: 0.55em 0 0;
+    padding-left: 1.2em;
+}
+
+.fn-body ul:empty,
+.fn-body p:empty {
+    display: none;
+}
