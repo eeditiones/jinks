@@ -148,11 +148,11 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="back" mode="change">
-                    <model predicate="$parameters?mode='toc'" behaviour="pass-through"/>
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
-                    <model predicate="$parameters?mode='toc'" behaviour="pass-through"/>
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <modelSequence>
             <model behaviour="index">
                 <param name="type" value="'toc'"/>
@@ -369,7 +369,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="front" mode="change">
-                    <model predicate="$parameters?mode='toc'" behaviour="pass-through"/>
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
