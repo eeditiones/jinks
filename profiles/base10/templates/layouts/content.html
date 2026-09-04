@@ -36,6 +36,13 @@
     <pb-load class="toc" url="api/document/{doc}/contents?lang=[[page:resolve-language($context)]]&amp;target=transcription&amp;icons=true[[ if ($context?features?toc?collapse) then '&amp;collapse=true' else '' ]]" expand="expand"
         src="document1" subscribe="toc" emit="toc" load-once="load-once" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
     [% endif %]
+
+    [% if $context?features?toc-odd?enabled and exists($context?doc) %]
+        <pb-view src="document1" subscribe="none" xpath="//text" view="single" emit="transcription" disable-history="disable-history">
+            <pb-param name="mode" value="toc"/>
+            <pb-param name="mode-sub" value="toc-odd"/>
+        </pb-view>
+    [% endif %]
     [% endtemplate %]
 
     <main>

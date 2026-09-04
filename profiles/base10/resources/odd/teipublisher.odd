@@ -108,13 +108,19 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
-                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="inline">
-                        <param name="content" value="lem"/>
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through">
+                        <param name="content" value="head((lem, rdg))"/>
                     </model>
                     <model behaviour="alternate">
                         <param name="default" value="lem"/>
                         <param name="alternate" value="rdg"/>
                     </model>
+                </elementSpec>
+                <elementSpec ident="rdg" mode="add">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
+                </elementSpec>
+                <elementSpec ident="lem" mode="add">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
                     <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
@@ -142,9 +148,11 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="back" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="body" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <modelSequence>
             <model behaviour="index">
                 <param name="type" value="'toc'"/>
@@ -172,6 +180,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="cb" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="omit"/>
                     <model behaviour="break">
             <param name="type" value="'column'"/>
             <param name="label" value="@n"/>
@@ -286,6 +295,17 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
+                    <model predicate="$parameters?mode='toc' and div" behaviour="pass-through">
+                        <param name="content" value="div"/>
+                        <param name="head" value="head"/>
+                        <pb:template xml:space="preserve" xmlns=""><ul><li>
+                            <details><summary>[[head]]</summary><ul>[[content]]</ul></details>
+                        </li></ul></pb:template>
+                    </model>
+                    <model predicate="$parameters?mode='toc'" behaviour="pass-through">
+                        <param name="head" value="head"/>
+                        <pb:template xml:space="preserve" xmlns=""><li>[[head]]</li></pb:template>
+                    </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
                         <desc>Output register data if register profile is enabled</desc>
                         <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
@@ -349,6 +369,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="front" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="list"/>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="fw" mode="change">
@@ -399,6 +420,14 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
+                    <model predicate="$parameters?mode='toc' and $parameters?mode-sub='toc-odd'" behaviour="pass-through">
+                        <param name="id" value="parent::div/@xml:id"/>
+                        <param name="hash" value="parent::div/@xml:id"/>
+                        <param name="node-id" value="util:node-id(.)"/>
+                        <pb:template  xml:space="preserve">
+                            <pb-link xmlns="" xml-id="[[id]]" hash="[[hash]]" node-id="[[node-id]]" emit="transcription" subscribe="transcription">[[content]]</pb-link>
+                        </pb:template>
+                    </model>
                     <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
                         <desc>For browse view and table of contents, just output inline text</desc>
                     </model>
@@ -433,6 +462,7 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="omit"/>
                     <modelSequence predicate="@break">
                         <desc>Generated hyphen for line breaks marked as non-word breaking. Can be later toggled on/off as desired.</desc>
                         <model predicate="@break='no'" behaviour="inline" cssClass="lb-hyphen">
@@ -519,6 +549,7 @@
                     <model behaviour="paragraph" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="pb" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="omit"/>
                     <model output="print" behaviour="omit"/>
                     <model predicate="$parameters?mode='title'" behaviour="inline">
                         <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
@@ -797,6 +828,7 @@
                     <model behaviour="document"/>
                 </elementSpec>
                 <elementSpec ident="text" mode="change">
+                    <model predicate="$parameters?mode='toc'" behaviour="block" cssClass="toc"/>
                     <model predicate="$parameters?mode='title'" behaviour="text">
                         <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
                     </model>
@@ -1062,7 +1094,7 @@ flex-wrap: wrap;
             <param name="uri" value="head((@key, @ref))"/>
             <param name="target" value="'_blank'"/>
         </model>
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="pass-through"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="content" value="."/>
