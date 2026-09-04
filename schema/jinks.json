@@ -367,7 +367,16 @@
                         },
                         "enabled": {
                             "type": "boolean",
-                            "description": "If true, the table of contents will be displayed"
+                            "description": "If true, the XQuery-based table of contents will be displayed"
+                        }
+                    }
+                },
+                "odd-toc": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "If true, the ODD-based table of contents will be displayed"
                         }
                     }
                 },
