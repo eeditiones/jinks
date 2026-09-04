@@ -420,15 +420,15 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="head" mode="change">
-                    <model predicate="$parameters?mode='toc'" behaviour="pass-through">
+                    <model predicate="$parameters?mode='toc' and $parameters?mode-sub='toc-odd'" behaviour="pass-through">
                         <param name="id" value="parent::div/@xml:id"/>
                         <param name="hash" value="parent::div/@xml:id"/>
                         <param name="node-id" value="util:node-id(.)"/>
                         <pb:template  xml:space="preserve">
-                            <pb-link  xmlns="" xml-id="[[id]]" hash="[[hash]]" node-id="[[node-id]]" emit="transcription" subscribe="transcription">[[content]]</pb-link>
+                            <pb-link xmlns="" xml-id="[[id]]" hash="[[hash]]" node-id="[[node-id]]" emit="transcription" subscribe="transcription">[[content]]</pb-link>
                         </pb:template>
                     </model>
-                    <model predicate="$parameters?display='browse'" behaviour="inline">
+                    <model predicate="$parameters?display='browse' or $parameters?mode='toc'" behaviour="inline">
                         <desc>For browse view and table of contents, just output inline text</desc>
                     </model>
                     <model predicate="parent::figure" behaviour="inline" cssClass="figure-head"/>

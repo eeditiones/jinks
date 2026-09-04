@@ -40,6 +40,7 @@
     [% if $context?features?toc-odd?enabled and exists($context?doc) %]
         <pb-view src="document1" subscribe="none" xpath="//text" view="single" emit="transcription" disable-history="disable-history">
             <pb-param name="mode" value="toc"/>
+            <pb-param name="mode-sub" value="toc-odd"/>
         </pb-view>
     [% endif %]
     [% endtemplate %]
