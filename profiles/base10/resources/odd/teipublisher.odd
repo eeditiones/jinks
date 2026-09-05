@@ -141,6 +141,9 @@
                     <model output="typst" predicate="ancestor::teiHeader" behaviour="metadata">
                         <param name="key" value="'authors'"/>
                     </model>
+                    <model output="docx" predicate="ancestor::teiHeader" behaviour="metadata">
+                        <param name="key" value="'authors'"/>
+                    </model>
                     <model predicate="ancestor::teiHeader" behaviour="block"/>
                     <model behaviour="inline"/>
                 </elementSpec>
@@ -777,6 +780,12 @@
                 <param name="content" value="../profileDesc/abstract"/>
             </model>
         </modelSequence>
+                    <model output="epub" behaviour="block">
+                        <desc>EPUB title page: title and author only. The whole
+                        fileDesc — respStmts, publication and source description —
+                        is a catalogue record, not a title page.</desc>
+                        <param name="content" value="(titleStmt/title[1], titleStmt/author)"/>
+                    </model>
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="profileDesc" mode="change">
@@ -792,6 +801,9 @@
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
                     <model output="typst" behaviour="pass-through">
+                        <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
+                    </model>
+                    <model output="docx" behaviour="pass-through">
                         <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
                     </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
@@ -843,6 +855,9 @@
                     <model output="typst" predicate="parent::titleStmt" behaviour="metadata">
                         <param name="key" value="'title'"/>
                     </model>
+                    <model output="docx" predicate="parent::titleStmt" behaviour="metadata">
+                        <param name="key" value="'title'"/>
+                    </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
@@ -856,6 +871,9 @@
                     </model>
                     <model predicate="$parameters?display='browse'" behaviour="heading">
                         <param name="level" value="5"/>
+                    </model>
+                    <model output="epub" predicate="parent::titleStmt" behaviour="heading" cssClass="doc-title">
+                        <param name="level" value="1"/>
                     </model>
                     <model predicate="@key or @ref" behaviour="alternate">
                         <param name="alternate" value="let $key:= head((@key, @ref))  return collection($global:register-root)/id($key)"/>

@@ -50,8 +50,108 @@
     <text>
         <body>
             <schemaSpec start="TEI teiCorpus" ident="serafin" source="teipublisher.odd">
-                <elementSpec ident="lb" mode="change">
+                <elementSpec ident="gap" mode="change">
+                    <desc>Lacunae, after the Leiden conventions.</desc>
+                    <model predicate="desc" behaviour="inline"/>
+
+                    <!-- Leiden: a lost passage of known extent is one dot per lost
+                         character, inside square brackets — [....] for four. -->
+                    <model output="typst" predicate="@unit = 'chars' and @quantity and xs:integer(@quantity) le 10" behaviour="inline">
+                        <param name="content" value="tp:gap_dots(@quantity)"/>
+                    </model>
+                    <!-- Beyond a handful of characters Leiden allows the count in place
+                         of the dots, so a long lacuna does not become a rule of dots. -->
+                    <model output="typst" predicate="@unit = 'chars' and @quantity" behaviour="inline">
+                        <param name="content" value="'[c. ' || @quantity || ']'"/>
+                    </model>
+                    <!-- Dashes mark a lacuna whose extent in characters is undetermined.
+                         A word count does not convert into one, so a gap measured in
+                         words prints this too; the count stays in the XML and in the
+                         web popover. The predicate is spelled out rather than left off:
+                         a model without one is compiled as the element's default and
+                         sorted last, where the inherited popover model would reach a
+                         quantified gap first. -->
+                    <model output="typst" predicate="not(@quantity and @unit = 'chars')" behaviour="inline">
+                        <param name="content" value="'[- - -]'"/>
+                    </model>
+
+                    <model output="plain" predicate="@extent or @quantity" behaviour="inline">
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: "[.. ..]";
+                        </outputRendition>
+                    </model>
+                    <!-- Print has no popover runtime behind it: the <template> that
+                         carries the reason/extent/unit for the web hover card would
+                         otherwise print as plain text. Print gets the same precise,
+                         quantity-aware dots as Typst instead rather than the web's
+                         fixed "[.. ..]" glyph.
+
+                         tp:gap_dots is an opm-only XPath extension (extensions/
+                         serafin_functions.py), so the dot-generating rule is tagged
+                         "opm-print" rather than "print": tei-publisher-lib (jinks)
+                         does not know that function and, ported upstream, would fail
+                         to compile it. tei-publisher-lib also does not recognise the
+                         "opm-print" output value at all and skips models tagged with
+                         it, so it falls through to the plain "print" rule below —
+                         the same dot count, spelled out in portable XQuery/XPath
+                         instead of calling out to Python. opm itself matches both
+                         "opm-print" and "print" for -t print, and takes the first
+                         match in document order, so the opm-only rule must stay
+                         first. -->
+                    <model output="opm-print" predicate="@unit = 'chars' and @quantity and xs:integer(@quantity) le 10" behaviour="inline">
+                        <param name="content" value="tp:gap_dots(@quantity)"/>
+                    </model>
+                    <model output="print" predicate="@unit = 'chars' and @quantity and xs:integer(@quantity) le 10" behaviour="inline">
+                        <param name="content" value="'[' || string-join(for $i in 1 to xs:integer(@quantity) return '.', '') || ']'"/>
+                    </model>
+                    <model output="print" predicate="@unit = 'chars' and @quantity" behaviour="inline">
+                        <param name="content" value="'[c. ' || @quantity || ']'"/>
+                    </model>
+                    <model output="print" predicate="not(@quantity and @unit = 'chars')" behaviour="inline">
+                        <param name="content" value="'[- - -]'"/>
+                    </model>
+                    <model output="web" predicate="@extent or @quantity" behaviour="inline">
+                        <param name="extent" value="head((@extent, @quantity))"/>
+                        <param name="unit" value="@unit"/>
+                        <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-popover>
+                            <span class="gap" slot="default"/>
+                            <template slot="alternate">[[reason]] [[ extent ]] [[unit]]</template>
+                        </pb-popover></pb:template>
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: "[.. ..]";
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline">
+                        <outputRendition xml:space="preserve" scope="before">
+                        content: '[...]';
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="standOff" mode="change">
+                    <desc>The notes live in standOff and are pulled inline at their
+                        anchors, so the section itself must not also print. Without
+                        this it renders after the text as a run of unseparated note
+                        texts — invisible in the chunked pages, which never contain
+                        standOff, but present in every whole-document output.</desc>
                     <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="lb" mode="change">
+                    <!-- Print does not keep the manuscript lineation, so a line
+                         beginning becomes an ordinary word space. Dropping it outright
+                         (as the web does, where the source whitespace survives in the
+                         markup) runs words together in Typst whenever the text between
+                         two elements is whitespace only — "[....]grate" for a lacuna at
+                         a line end. @break="no" marks a word split across the line,
+                         which must not gain a space. -->
+                    <model output="typst" predicate="@break = 'no'" behaviour="omit"/>
+                    <model output="typst" predicate="not(@break = 'no')" behaviour="inline">
+                        <param name="content" value="' '"/>
+                    </model>
+                    <model behaviour="omit"/>
+                </elementSpec>
+                <elementSpec ident="editor" mode="add">
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model predicate="ancestor::listAnnotation" behaviour="inline">
@@ -77,12 +177,17 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="seg" mode="change">
+                    <model output="typst" predicate="ancestor::text[@type='source']" behaviour="inline">
+                        <param name="translation" value="let $id := @xml:id return root()//seg[@corresp = '#' || $id]"/>
+                        <pb:template xml:space="preserve" xmlns=""><![CDATA[#opm-parallel([[[content]]], [[[translation]]]);]]></pb:template>
+                    </model>
                     <model output="print" behaviour="inline"/>
                     <model output="plain" behaviour="inline"/>
                     <model output="docx" behaviour="inline"/>
                     <model output="latex" behaviour="inline">
                         <pb:template xml:space="preserve" xmlns=""><![CDATA[\pstart [[content]] \pend]]></pb:template>
                     </model>
+                    <model output="epub" behaviour="inline"/>
                     <model predicate="@corresp" behaviour="webcomponent" useSourceRendition="true">
                         <desc>SERAFIN</desc>
                         <param name="name" value="'pb-highlight'"/>
@@ -179,8 +284,20 @@
                     register models come first so they win for a given category; the remaining
                     models replicate the base div behaviour (combined register, title, section, block)
                     which would otherwise be lost when this importing ODD redefines the spec.</desc>
+                    <!-- EPUB: a book, not a reading view. Nothing can stand beside
+                         anything, so the transcription and the translation follow one
+                         another as chapters, each headed in the edition's own words —
+                         which is also what names it in the table of contents. -->
+                    <modelSequence output="epub" predicate="parent::text[@type=('source', 'translation')]">
+                        <model behaviour="heading">
+                            <param name="level" value="1" />
+                            <param name="content"
+                                value="if (parent::text/@type='source') then 'Transcriptio (lat.)' else 'Przekład (pol.)'" />
+                        </model>
+                        <model behaviour="block" />
+                    </modelSequence>
                     <model predicate="$parameters?mode = 'register' and $parameters?category = 'people'" behaviour="pass-through">
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <ul>
 [[people]]
@@ -188,7 +305,7 @@
 </div></pb:template>
                     </model>
                     <model predicate="$parameters?mode = 'register' and $parameters?category = 'places'" behaviour="pass-through">
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <ul>
 [[places]]
@@ -196,8 +313,8 @@
 </div></pb:template>
                     </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]) let $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>
@@ -220,6 +337,9 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="text" mode="change">
+                    <!-- The translation is pulled into the parallel rows above, so it
+                         must not also print as a second block after the source. -->
+                    <model output="typst" predicate="@type = 'translation'" behaviour="omit"/>
                     <model output="print" behaviour="section"/>
                     <modelSequence output="docx">
                         <model behaviour="break">
@@ -233,6 +353,15 @@
                     <model behaviour="body"/>
                 </elementSpec>
                 <elementSpec ident="teiHeader" mode="change">
+                    <!-- Typst: this local elementSpec replaces the inherited one, which
+                         is where the title normally reaches the template's `metadata`
+                         map. Pass it through so the parallel edition can head itself. -->
+                    <model output="typst" behaviour="pass-through">
+                        <param name="content" value="fileDesc/titleStmt/title[1]"/>
+                    </model>
+                    <model output="epub" behaviour="pass-through">
+                        <param name="content" value="fileDesc/titleStmt"/>
+                    </model>
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
                     <model output="docx" behaviour="pass-through">
@@ -259,6 +388,14 @@
                         </model>
                         <model behaviour="paragraph">
                             <param name="content" value="string-join(editor, ', ')"/>
+                        </model>
+                    </modelSequence>
+                    <modelSequence output="epub">
+                        <model behaviour="block">
+                            <param name="content" value="title"/>
+                        </model>
+                        <model behaviour="paragraph">
+                            <param name="content" value="editor"/>
                         </model>
                     </modelSequence>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
@@ -293,7 +430,13 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model output="print" behaviour="paragraph">
+                    <model output="print" predicate="ancestor::teiHeader" behaviour="paragraph">
+                        <desc>Letter-head date only (teiHeader/profileDesc/correspDesc). This model
+                            had no predicate at all, so it also caught every date embedded inline in
+                            running prose ("ad feriam secundam proximam post Conductum Pasche" etc.) —
+                            each one broke its sentence into its own right-aligned paragraph, since a
+                            block-level p cannot sit inside the inline span the sentence is wrapped in
+                            and paged-media renderers force a break there instead.</desc>
                         <outputRendition xml:space="preserve">
                         text-align: right;
                         </outputRendition>
@@ -302,7 +445,16 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="title" mode="change">
-                    <model output="print" behaviour="heading">
+                    <model output="typst" predicate="ancestor::teiHeader" behaviour="metadata">
+                        <param name="key" value="'title'"/>
+                    </model>
+                    <model output="print" predicate="parent::titleStmt and not(@level)" behaviour="heading">
+                        <desc>Document title page only — this model had no predicate at all, so it
+                            was winning first-match-wins for *every* title element compiled for
+                            print, including bibliographic citations inside footnotes. Those rarely
+                            contain a comma at the right spot, so substring-before(., ',') returned
+                            "" and the citation silently became an empty h1 sitting in the
+                            middle of the footnote text.</desc>
                         <param name="content" value="substring-before(., ',')"/>
                         <param name="level" value="1"/>
                     </model>
