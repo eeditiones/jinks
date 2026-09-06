@@ -791,10 +791,10 @@
                     <model output="latex" behaviour="metadata"/>
                     <model output="fo" behaviour="omit"/>
                     <model output="typst" behaviour="pass-through">
-                        <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
+                        <param name="content" value="(fileDesc/titleStmt/title[1], fileDesc/titleStmt/author)"/>
                     </model>
                     <model output="docx" behaviour="pass-through">
-                        <param name="content" value="fileDesc/titleStmt/title[1], fileDesc/titleStmt/author"/>
+                        <param name="content" value="(fileDesc/titleStmt/title[1], fileDesc/titleStmt/author)"/>
                     </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
