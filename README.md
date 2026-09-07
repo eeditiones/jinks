@@ -107,7 +107,7 @@ Conflicting files will be reported by the `generator:process` function.
 
 ## Note on AI
 
-**Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are a reality for many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
+**Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are part of many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
 
 **We strongly recommend** using AI agents to work in small, incremental steps, ensuring a competent human review at every stage of the entire process. We also offer support packages to start you on the right track or assist with the review. This way you are benefitting from the wealth of community-wisdom and contribute back to it.
 
