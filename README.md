@@ -109,13 +109,7 @@ Conflicting files will be reported by the `generator:process` function.
 
 **Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are a reality for many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
 
-**Jinks** and **TEI Publisher** were designed to enable the rapid creation of robust, interoperable, and sustainable applications based on standards and good practices. In fact, developers familiar with the framework often implement features faster than an AI agent. Nevertheless, we recognize that many community members utilize AI agents in their daily workflows. To ensure you don't waste precious resources running into common pitfalls, we provide a set of reviewed and tested agentic skills covering key tasks. These are available in the relevant profiles under `AGENTS.md` and in the `skills` subdirectories.
-
-**We strongly recommend** to work with agents in small, incremental steps and tasks, with competent human revision of the entire process. We also strongly recommend a financial contribution in keeping with the value added by provisions of this open-source framework to the project.
-
-We strongly recommend working with agents in small, incremental steps, backed by competent human revision at every stage. Furthermore, because open-source infrastructure requires active maintenance to survive, we strongly request a financial contribution proportionate to the value this framework adds to your project—especially if used in commercial or automated environments.
-
-**We strongly recommend** using AI agents to work in small, incremental steps, ensuring a competent human review at every stage of the entire process. 
+**We strongly recommend** using AI agents to work in small, incremental steps, ensuring a competent human review at every stage of the entire process. We also offer support packages to start you on the right track or assist with the review. This way you are benefitting from the wealth of community-wisdom and contribute back to it.
 
 ## Shared Ecosystem and Sustainability 
 
@@ -127,7 +121,7 @@ Open source is a shared ecosystem that requires active maintenance to survive. W
 
 ## Acknowledgements
 
-Jinks is a community-driven open-source project coordinated by **e-editiones**, relying on volunteer individuals who generously contribute their time to its design, development, maintenance, dissemination, and support.
+Jinks is a community-driven open-source project coordinated by **e-editiones**, relying on individuals who generously contribute their time to its design, development, maintenance, dissemination, and support.
 
 Jinks has been directly funded and supported by a number of research and cultural heritage organizations. We would like to particularly acknowledge substantial contributions from the following institutions:
 
