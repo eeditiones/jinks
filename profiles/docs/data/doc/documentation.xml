@@ -141,7 +141,7 @@
             directory, you may still want to use the visual ODD editor, occasionally update the
             application with Jinks etc. You therefore need ways to sync from database to file system
             and the other way around.</para>
-        <para>But whichever way you choose, it is important to always have an up to data backup in a
+        <para>But whichever way you choose, it is important to always have an up to date backup in a
             safe place in case anything goes wrong. The best way to achieve this is to use a
             versioning system like git. We strongly recommend to set up a git repository whenever
             you start work on a digital edition. For beginners, a graphical git client like <link
@@ -486,6 +486,65 @@ xst --version</programlisting>
                 <para>If Jinks reports a <emphasis>conflict</emphasis> for some files, see the
                     section on <link linkend="jinks-apply-updates">applying updates</link> for how
                     to resolve them.</para>
+            </section>
+            <section xml:id="development-workflow-ai">
+                <title>AI-assisted development</title>
+                <para>
+                    We acknowledge that AI tools are now a core part of many workflows. 
+                    To prevent common pitfalls when using standard models on TEI Publisher projects, 
+                    we have curated and tested specific agentic skills for key tasks. These are located 
+                    under <emphasis>AGENTS.md</emphasis> and within the <emphasis>skills</emphasis> subdirectories 
+                    of relevant profiles.
+                </para>
+                <para>
+                    For using AI agents, only the <link linkend="development-workflow-jinks">second workflow approach</link> 
+                    described above is realistically suitable, with the basic local setup relying on 
+                    <link linkend="development-workflow-cli">command line tools</link> and 
+                    backed with the source control repository. 
+                </para>
+                <para>Unfortunately using agentic assistance does not remove neither the need for 
+                    modelling and engineering mindset nor standards compliance, 
+                    governance and sustainability concerns. Before you accept AI-generated contributions:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Make sure you familiarize yourself with the elementary
+                            operations of generating an application, changing configuration in config.json and regenerating, 
+                            synchronizing from the filesystem to the database as well as in reverse direction. 
+                        </para>
+                    </listitem>
+                    <listitem>  
+                        <para>Bear in mind that ODD or configuration changes often require regeneration of the application and ODDS, 
+                        and subsequent synchronization to the filesystem. Pay attention to the fact which files are safe to customize,
+                        and which ones are always regenerated.
+                    </para>
+                    </listitem>
+                    <listitem>
+                        <para>Instruct your agent to familiarize itself with skills related to the tasks before starting. 
+                            Make sure it obeys the recommendations: doesn't attempt to change the files it should not touch but 
+                            uses the available configuration options and extension points.</para>
+                    </listitem>
+                    <listitem>
+                       <para>Break down your vision into small tasks. Commit the results in logical chunks, 
+                        related to a single feature or fix.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    We strongly recommend working with AI agents in <emphasis role="bold">small, incremental steps</emphasis>, ensuring a 
+                    competent human guidance and critical review at every stage of the process. 
+                </para>
+                <para>
+                    Jinks and TEI Publisher are designed with flexibility, interoperability, 
+                    and sustainability in mind. To maintain these standards, reviewers should ensure 
+                    that automated solutions do not just solve an immediate technical 
+                    problem, but <emphasis role="bold">accord with the core architectural principles</emphasis> above.
+                    This is a particular concern for any contributions to be back-ported into the framework.
+                </para>
+                <para>
+                    Last but not least, open source is a shared ecosystem.
+                    We rely on <emphasis role="bold">fair reciprocity</emphasis> for survival and request 
+                    financial or in-kind contributions to support ongoing development and maintenance.
+                </para>
             </section>
         </section>
         <section xml:id="development-workflow-building">
