@@ -22,7 +22,7 @@ The core concept of jinks is the *profile*. Jinks provides a set of *profiles* t
 
 A profile can build upon, i.e. extend and import other profiles. It can also be very minimalistic, contributing only a singular feature.
 
-Conceptually we distinguish **three** different **kinds of profiles**:
+Conceptually we distinguish **three** different **types of profiles**:
 
 A *blueprint* is a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary, etc. An application generated from a blueprint is fully functional.
 
