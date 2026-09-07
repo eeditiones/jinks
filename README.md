@@ -107,16 +107,16 @@ Conflicting files will be reported by the `generator:process` function.
 
 ## Note on AI
 
-**Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are part of many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
+**Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are a part of many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
 
 **We strongly recommend** using AI agents to work in small, incremental steps, ensuring a competent human review at every stage of the entire process. We also offer support packages to start you on the right track or assist with the review. This way you are benefitting from the wealth of community-wisdom and contribute back to it.
 
 ## Shared Ecosystem and Sustainability 
 
-Open source is a shared ecosystem that requires active maintenance to survive. We believe in and hope for **fair reciprocity**. Therefore, we strongly request a **financial contribution** proportionate to the value this framework adds to your project, business, or workflow.
+Open source is a shared ecosystem that requires active maintenance, **funds and resources** to **survive**. We believe in, and hope for **fair reciprocity** from our user community. Therefore, we strongly request a **financial contribution** proportionate to the value this framework adds to your project, business, or workflow.
 
-* **For short-term Academic, Research or other Non-Commercial Projects:** We suggest a one-time donation to e-editiones or the purchase of a small support package.
-* **For larger, long-term Projects and Institutions:** If you run a long-running project, or represent an institution managing multiple projects, we kindly ask for an institutional membership in e-editiones combined with a larger support package, or a direct financial contribution toward the development and maintenance of the framework or a specific feature.
+* **For short-term Academic, Research or other Non-Commercial Projects:** We suggest a [one-time donation](https://github.com/sponsors/eeditiones/sponsorships?frequency=one-time&amount=1000) to e-editiones or the purchase of a small [support package](https://jinntec.de).
+* **For larger, long-term Projects and Institutions:** If you run a long-running project, or represent an institution managing multiple projects, we kindly ask for an institutional membership in e-editiones combined with a [recurring donation](https://github.com/sponsors/eeditiones/sponsorships?frequency=recurring&amount=200), a larger [support package](https://jinntec.de), or a direct financial contribution toward the development and maintenance of the framework.
 * **For Grants & Funding Proposals:** If you are planning a new grant-funded project or research proposal, we are happy to partner with you. Including us as a project partner or budget line item is an excellent way to fund the development of new features and custom enhancements that your specific project requires.
 
 ## Acknowledgements
