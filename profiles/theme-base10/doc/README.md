@@ -27,6 +27,7 @@ The following table shows the current list of settings which can be changed via 
 | `fonts.content.line-height` | *No description available* | `"150%"` |
 | `fonts.content.size` | Font size for the content area. Use `rem` for relative size. | `"1.25rem"` |
 | `fonts.content.weight` | Font weight for the content area. Use `normal` for regular weight, `bold` for bold weight, etc. | `"400"` |
+| `fonts.footnote.padding` | Footnote anchor padding | `"0 0 0 .25em"` |
 | `fonts.footnote.size` | Font size for footnotes. Use `rem` for relative size. | `"0.9em"` |
 | `fonts.heading.family` | Font family for headings | `"'Inter', 'Noto', sans-serif"` |
 | `fonts.heading.size` | Font size for headings. Use `rem` for relative size. | `"1.2rem"` |

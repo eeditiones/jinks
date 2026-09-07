@@ -11,12 +11,15 @@ people, places, organizations etc */
 
 .pb {
     float: right;
-    background-color: rgba(255, 255, 255, 0.4); 
-    border-radius: 1rem; 
     color: grey;
     margin-left: 2rem;
-    padding: .5em;
     font-size: 1em;
+}
+
+.pb:not(.facs) {
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 1rem; 
+    padding: .5em;
 }
 
 /* 
@@ -83,10 +86,9 @@ Toggle styles for
     text-align: right;
 }
 
-.tei-closer {
-    .tei-signed, .tei-salute {
-        text-align: right;
-    }
+.tei-closer .tei-signed,
+.tei-closer .tei-salute {
+    text-align: right;
 }
 
 .tei-castList {

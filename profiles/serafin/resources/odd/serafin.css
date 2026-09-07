@@ -198,8 +198,13 @@ pb-geolocation small:has(*)::after {
     text-align: left;
 }
 
+/* Print/PDF: page-break between ODD ``section`` behaviours (text/div chapters).
+   EPUB reuses this stylesheet and appends footnotes as
+   ``<section epub:type="footnotes">`` at the end of each spine item — a bare
+   ``section { break-after: page }`` therefore leaves a blank page between
+   transcription and translation. Limit the break to classed ODD sections. */
 @media print {
-    section {
+    section[class] {
         break-after: page;
     }
 }

@@ -122,6 +122,528 @@
                 is necessary.</para>
         </section>
     </section>
+    <section xml:id="development-workflow">
+        <title>Development Workflows</title>
+        <para>This chapter discusses the different ways to interact with the database while you are
+            developing your own digital edition. In essence, one can distinguish two basic
+            approaches: </para>
+        <orderedlist>
+            <listitem>
+                <para>development is primarily done inside the database using tools like eXide,
+                    Jinks or oXygen</para>
+            </listitem>
+            <listitem>
+                <para>main development takes place in a local directory, which is deployed to the
+                    server</para>
+            </listitem>
+        </orderedlist>
+        <para>In reality, you may mix both. For example, even if you are mainly working in a
+            directory, you may still want to use the visual ODD editor, occasionally update the
+            application with Jinks etc. You therefore need ways to sync from database to file system
+            and the other way around.</para>
+        <para>But whichever way you choose, it is important to always have an up to data backup in a
+            safe place in case anything goes wrong. The best way to achieve this is to use a
+            versioning system like git. We strongly recommend to set up a git repository whenever
+            you start work on a digital edition. For beginners, a graphical git client like <link
+                xlink:href="https://github.com/apps/desktop">GitHub Desktop</link> might be the best
+            choice.</para>
+        <section xml:id="development-workflow-in-database">
+            <title>Approach 1: Developing inside the Database</title>
+            <para>This will be the easier approach as it does not require additional tooling (except
+                for git – see below). It will work perfectly fine if:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>you are mainly interested in changing the presentation of the data via ODD
+                        and TEI Processing Model</para>
+                </listitem>
+                <listitem>
+                    <para>your application can rely on the existing profiles and requires only minor
+                        customization by changing the configuration in Jinks</para>
+                </listitem>
+                <listitem>
+                    <para>you do not need (or only very little) custom CSS, javascript or additional
+                        API endpoints</para>
+                </listitem>
+            </itemizedlist>
+            <para>If those conditions apply, you will mostly work with the visual ODD editor (for
+                addressing the presentation) and Jinks for theming and other configuration changes.
+                If you have to add single source files (like CSS styles), eXide provides a reliable
+                editor.</para>
+            <para>However, it is vital to keep an up to date copy of your application somewhere
+                save. Jinks itself provides two actions for retrieving a copy (see the bottom
+                toolbar):</para>
+            <variablelist>
+                <varlistentry>
+                    <term><guilabel>Download</guilabel></term>
+                    <listitem>
+                        <para>Packages the application into a single archive (a so called XAR),
+                            which you can later re-install into eXist-db using the Package Manager
+                            in the Dashboard. This is a quick choice to get a fully functional copy
+                            or for passing the application on to other people to try out.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><guilabel>Sync</guilabel></term>
+                    <listitem>
+                        <para>Synchronizes the file hierarchy into a local disk directory. Note that
+                            <emphasis>local</emphasis> means the machine where eXist-db is
+                            running. If you are using docker, the directory will be
+                            <emphasis>inside</emphasis> the docker image. If you connect to a
+                            remote server, it will be a directory on the server. Sync therefore is
+                            particularly convenient to use during development, to create snapshots
+                            to be committed to the source control repository, like Git.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Because <guilabel>Sync</guilabel> won't work for everyone, let's start with the
+                <guilabel>Download</guilabel> option: running the action will result in a file
+                ending with <filename>.xar</filename> being downloaded to your browser. This is a
+                normal ZIP archive and you can use standard utilities to extract the files into a
+                directory of your choice. If your system does not recognize the
+                <filename>.xar</filename> as a ZIP and refuses to process it, simply change the
+                file ending.</para>
+            <note>
+                <para>Contrary to an ordinary ZIP file, a <filename>.xar</filename> has a
+                    standardized internal structure and comes with metadata, which informs eXist-db
+                    about how to install the data, create indexes and so on.</para>
+            </note>
+            <para>The extracted archive contains everything, which would be required to restore the
+                current state of the application. At this point, we strongly recommend to initialize
+                this directory as a git repository and push it to a service like Github.</para>
+            <para>You can also rebuild the <filename>.xar</filename> – e.g. after making local
+                changes to files – <link linkend="development-workflow-building">using the build
+                    scripts</link> included in the archive. The build step will result in another,
+                updated <filename>.xar</filename> being written into the <filename>build</filename>
+                subdirectory and you can install this new archive into any
+                <productname>eXist-db</productname> using the
+                <productname>dashboard</productname> (or command line utility like
+                <productname>xst</productname>, see <link linkend="development-workflow-links"
+                    >below</link>).</para>
+        </section>
+        <section xml:id="development-workflow-local">
+            <title>Approach 2: Developing in a local directory</title>
+            <para>If an application reaches a certain complexity, you may prefer to switch to a
+                directory-first approach. This is also how TEI Publisher itself is developed. The
+                advantages:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>you have a safe copy of your work in a local directory at any point</para>
+                </listitem>
+                <listitem>
+                    <para>you can immediately commit changes to git or undo them later if
+                        needed</para>
+                </listitem>
+                <listitem>
+                    <para>coding agents (Claude Code, Cursor etc.) work better in a directory
+                        context</para>
+                </listitem>
+                <listitem>
+                    <para>you can use any tools you like, including the editor of your choice</para>
+                </listitem>
+            </itemizedlist>
+            <para>On the downside, this requires some familiarity with the command line. However, modern IDEs (see <link linkend="development-workflow-ide">below</link>) make this much easier.</para>
+      
+            <section xml:id="development-workflow-cli">
+                <title>Command line utilities</title>
+                <para>We strongly suggest to install a few command line tools if you use a
+                    directory-first approach.  They allow you to control most Jinks and eXist-db
+                    operations and will make your life a lot easier. Also, installing the tools is a
+                    must if you want to use the coding agent skills which ship with TEI Publisher (see
+                    below):</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><link xlink:href="https://eeditiones.github.io/jinks-cli/">jinks-cli</link></term>
+                        <listitem>
+                            <para>A command line interface to Jinks. Allows you to create, update and manage applications from profiles, run actions,
+                                download <filename>.xar</filename> archives and more.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><link xlink:href="https://www.npmjs.com/package/@existdb/xst">xst</link></term>
+                        <listitem>
+                            <para>A command line interface to eXist-db. Allows you to install or remove packages,
+                                browse collections, upload single files, run queries and more.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>First, make sure you have <link xlink:href="https://nodejs.org/en">Node.js</link>
+                    and <code>npm</code> available on your system. Both command line utilities are
+                    distributed as npm packages and require a recent Node.js release. Check your
+                    version by running:</para>
+                <programlisting xml:space="preserve">node -v</programlisting>
+                <para>You need Node.js 20.19 or newer (22.11 or newer is also supported). If your
+                    version is too old, install a current LTS release from the <link
+                        xlink:href="https://nodejs.org/en">Node.js website</link> before continuing.</para>
+                <para>Install the two utilities globally:</para>
+                <programlisting xml:space="preserve">npm install -g @teipublisher/jinks-cli @existdb/xst</programlisting>
+                <para>This provides the <command>jinks</command> and <command>xst</command> commands
+                    on your path. <productname>jinks-cli</productname> talks to the Jinks app
+                    running in eXist-db (create or update applications from profiles, run actions,
+                    download <filename>.xar</filename> archives and more). <productname>xst</productname>
+                    is a command line interface to eXist-db itself (install or remove packages,
+                    browse collections, upload single files and more).</para>
+                <para>Confirm that both tools are available:</para>
+                <programlisting xml:space="preserve">jinks --version
+xst --version</programlisting>
+            </section>
+            <section xml:id="development-workflow-local-directory">
+                <title>Setting up a local directory</title>
+                <para>To work on your edition in a folder on your own computer, you first need to
+                    obtain a copy of the application. Jinks stores everything inside the database,
+                    so you have to export it once. The standard exchange format for eXist-db applications is a
+                        <filename>.xar</filename> file — think of it as a single ZIP archive containing
+                    all the files that make up your edition. You can create this archive in two
+                    ways:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>Using the browser</term>
+                        <listitem>
+                            <para>This is the simplest option and does not require any command line
+                                tools:</para>
+                            <procedure>
+                                <step>
+                                    <para>Open <productname>Jinks</productname> in your web browser
+                                        and select your application from the list on the left.</para>
+                                </step>
+                                <step>
+                                    <para>Click the <guilabel>Download</guilabel> button in the
+                                        toolbar at the bottom of the page (next to
+                                            <guilabel>Apply</guilabel>).</para>
+                                </step>
+                                <step>
+                                    <para>Your browser will save a file named after your
+                                        application's short name (its
+                                            <emphasis>abbreviation</emphasis> — for example
+                                            <filename>barth.xar</filename> if you chose
+                                            <guilabel>barth</guilabel> when creating the app). It
+                                        will usually land in your <filename>Downloads</filename>
+                                        folder.</para>
+                                </step>
+                            </procedure>
+                            <para>For more background on what a <filename>.xar</filename> file is,
+                                see the section on <link linkend="jinks-download-sync">downloading
+                                the application</link> earlier in this guide.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Using the command line</term>
+                        <listitem>
+                            <para>If you have installed <productname>jinks-cli</productname> (see the
+                                section on <link linkend="development-workflow-cli">command line
+                                utilities</link> above), you can download the same package without
+                                opening the browser. Open a terminal window and run:</para>
+                            <programlisting xml:space="preserve">jinks run barth download -o ~/Downloads</programlisting>
+                            <para>Replace <code>barth</code> with the abbreviation of your
+                                application, and adjust the path after <code>-o</code> if you would
+                                like the file saved somewhere else. The command writes a
+                                    <filename>barth.xar</filename> file into the folder you
+                                specified.</para>
+                            <para>By default, <productname>jinks-cli</productname> connects to a
+                                Jinks instance running on your own machine. If you use a different
+                                server or login, see the tool's documentation for connection
+                                options.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>Once you have the <filename>.xar</filename> file, unpack it into a folder of
+                    your choice. Despite the different file extension, a <filename>.xar</filename> is
+                    a normal ZIP archive — standard tools like <command>unzip</command> can extract
+                    it as-is. If your system's archive utility does not recognize the
+                        <filename>.xar</filename> extension (for example when double-clicking does
+                    nothing), rename it to <filename>.zip</filename> first, or extract it from the
+                    command line. You now have a local directory containing the complete
+                    application, ready to open in an editor or to put under version control with
+                    git.</para>
+            </section>
+            <section xml:id="development-workflow-ide">
+                <title>Setting up your development environment</title>
+                <para>For sure you can use any editor you like, but we do provide a set of extensions for some popular IDEs to make your life easier. This includes all IDEs compatible
+                    with <link xlink:href="https://code.visualstudio.com/">Visual Studio Code</link>, i.e. vscode itself, but also <link xlink:href="https://www.cursor.so/">Cursor</link>, 
+                    <link xlink:href="https://antigravity.dev/">Antigravity</link>, <link xlink:href="https://vscodium.com/">VSCodium</link> and others. The following extensions 
+                    are available and can be installed from within the respective IDE:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><link xlink:href="https://open-vsx.org/extension/eXist-db/existdb-vscode">eXist-db VSCode Extension</link></term>
+                        <listitem>
+                            <para>Adds XQuery language support and a sync task to Visual Studio Code and
+                            other IDEs derived from it</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><link xlink:href="https://open-vsx.org/extension/e-editiones/oddity">ODDity</link></term>
+                        <listitem>
+                            <para>An extension for ODD editing. Mimics the visual ODD editor in the TEI Publisher web application, but operates on the file system. Allows you to switch
+                                between source XML and a visual representation of the ODD.
+                            </para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section xml:id="development-workflow-sync">
+                <title>Synchronizing changes to the database</title>
+                <para>If you make your changes in a directory first, you obviously have to synchronize
+                    them to the database. The easiest way to do so is to rebuild the
+                        <filename>.xar</filename> every time and install it via the
+                        <productname>dashboard</productname>. However, reinstalling the entire
+                    application may take a while and therefore slow you down.</para>
+                <para>You can also upload single files using eXide, the file browser in jinks, using xst, or via
+                    oXygen's eXist-db integration. But again, this is a manual process. Better options are:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>Using an IDE with the eXist-db extension</term>
+                        <listitem>
+                            <para>The eXist-db extension for the IDE you are using will provide a sync task. Once activated, it will continuously watch for
+                                changes in the monitored directories and synchronize them to the
+                                database.</para>
+                            <figure>
+                                <title>Cursor editor with active sync task in bottom panel</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="cursor-sync.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Using <command>jinks watch</command></term>
+                        <listitem>
+                            <para>If you have installed <productname>jinks-cli</productname>, you can
+                                start a file watcher from the command line instead. Open a terminal
+                                in your application's local directory and run:</para>
+                            <programlisting xml:space="preserve">jinks watch</programlisting>
+                            <para>This keeps running in the background and uploads every file you
+                                save to the corresponding collection in eXist-db. It reads the target
+                                collection and login details from the application's
+                                    <filename>repo.xml</filename>, and respects ignore patterns from
+                                    <filename>.existdb.json</filename> when present. Stop it with
+                                    <keycap>Ctrl</keycap>+<keycap>C</keycap> when you are done
+                                editing.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section xml:id="development-workflow-jinks">
+                <title>Updating the application via Jinks</title>
+                <para>Uploading individual files (as described above) is enough when you edit
+                    something you already own — a custom stylesheet, your own HTML page, or a TEI
+                    document. Regeneration with <productname>Jinks</productname> is a different
+                    step: it updates the application from its configuration and the profiles it
+                    extends. You need to run it when:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>you change settings in <filename>config.json</filename> (theme,
+                            features, menu entries, ODDs, and similar options)</para>
+                    </listitem>
+                    <listitem>
+                        <para>you add or remove a profile on the
+                            <guilabel>Profiles</guilabel> tab (or in the
+                            <code>extends</code> list in <filename>config.json</filename>)</para>
+                    </listitem>
+                    <listitem>
+                        <para>a new version of TEI Publisher / Jinks is available and the profiles
+                            your app uses have changed <emphasis>upstream</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+                <para>In the browser, open your application in <productname>Jinks</productname> and
+                    press <guibutton>Apply</guibutton>. That updates the copy living in the
+                    database and does <emphasis>not</emphasis> touch the files on disk — you still need a
+                    download or sync afterwards.</para>
+                <para>From the command line, ask Jinks to regenerate the application and pull the
+                    updated files back into your local directory. Name the application by its
+                    abbreviation (replace <code>barth</code> with yours):</para>
+                <programlisting xml:space="preserve">jinks update barth --sync</programlisting>
+                <para>This is enough after installing a newer Jinks release, for example, simply to
+                    pick up upstream changes in the profiles your app extends — even if you did not
+                    touch <filename>config.json</filename>.</para>
+                <para>If you <emphasis>have</emphasis> edited <filename>config.json</filename> in
+                    your local directory, pass it with <option>-c</option> so the server uses your
+                    local settings. The abbreviation is then taken from the file, so you do not need
+                    to type the short name:</para>
+                <programlisting xml:space="preserve">jinks update -c config.json --sync</programlisting>
+                <para>Run these commands from the root of your application folder (where
+                    <filename>config.json</filename> lives). The options mean:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><option>--sync</option></term>
+                        <listitem>
+                            <para>After regenerating, copy the updated files from the database back
+                                into your local directory. Without <option>--sync</option>, only
+                                the database copy changes and your folder can fall out of date.
+                                Always pass this option when you work directory-first.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><option>-c config.json</option></term>
+                        <listitem>
+                            <para>Send your local configuration to the server and use it for
+                                regeneration. Without this flag, Jinks regenerates from the
+                                configuration already stored in the database and ignores your local
+                                edits to <filename>config.json</filename>.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>If Jinks reports a <emphasis>conflict</emphasis> for some files, see the
+                    section on <link linkend="jinks-apply-updates">applying updates</link> for how
+                    to resolve them.</para>
+            </section>
+        </section>
+        <section xml:id="development-workflow-building">
+            <title>Building</title>
+            <para>To build an application generated by Jinks/TEI Publisher 11, you have two options.
+                Choose the one which best fits the tools you have available:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>Using Apache Ant</term>
+                    <listitem>
+                        <para>This is the traditional way to build applications in TEI Publisher,
+                            but requires Java and Apache Ant to be installed.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Using Node.js</term>
+                    <listitem>
+                        <para>An alternative way to build applications in TEI Publisher 11. Requires
+                            Node.js and npm.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <section xml:id="development-workflow-building-ant">
+                <title>Using Apache Ant</title>
+                <para>To build an application using Apache Ant, you at least need to have <link
+                        xlink:href="installation.xml?id=java">Java</link> and the build tool <link
+                            xlink:href="https://ant.apache.org/">Apache Ant</link>. Both should be
+                    installed so they are found in your environment if you open a terminal or shell.
+                    Typing <code>ant</code> should produce output similar to the following: </para>
+                <programlisting xml:space="preserve">Buildfile: /Users/wolfgang/Downloads/serafin/build.xml
+
+clean:
+
+release.true:
+
+release.false:
+     [echo] Not a release, moving on ...
+
+check-release:
+
+git.revision:
+
+prepare:
+    [mkdir] Created dir: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
+     [copy] Copying 245 files to /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
+
+xar:
+      [zip] Building zip: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0.xar
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+      </programlisting>
+                <para>Expert: if you would like to run the test suite or provide a <link
+                        xlink:href="web-components-loading">local copy of TEI Publisher's
+                        webcomponents</link>, you'll also need to have <link
+                            xlink:href="https://nodejs.org/en">nodejs</link> with the <code>npm</code>
+                    command available in your terminal.</para>
+            </section>
+            <section xml:id="development-workflow-building-node">
+                <title>Using Node.js</title>
+                <para>To build an application using Node.js, you need to have Node.js and npm
+                    installed. You can install them from the <link
+                        xlink:href="https://nodejs.org/en">Node.js website</link>.</para>
+                <para>Once you have Node.js and npm installed, you can build the application using
+                    the <code>npm run build</code> command. This will run the build script in the
+                    <filename>build.cjs</filename> file.</para>
+            </section>
+        </section>
+        <section xml:id="development-workflow-agents">
+            <title>Using Coding Agents</title>
+            <para>When generating an application, Jinks includes a set of guidelines and skills for
+                coding agents like <link xlink:href="https://claude.ai/">Claude Code</link>, <link xlink:href="https://cursor.sh/">Cursor</link> and similar. 
+                The instructions mostly cover best
+                practices and development workflows, i.e. explain which files are safe to modify,
+                when and where to add custom files and what not to touch.</para>
+            <note>
+                <para>Never blindly trust your agent and always review the result.
+                    Coding agents have a strong tendency to start messing around when getting stressed
+                    because things do not work out as planned. For sure, the application may look great
+                    on the surface, but will it be sustainable, interoperable and long-term maintainable? 
+                    Probably not.</para>
+                <para>Agents are great at coding, but they don't see the big picture. This still does and always should 
+                    remain your job.</para>
+            </note>
+            <para>The guidelines and skills assume that you keep the application code in a local directory while having
+      
+                it installed in eXist at the same time. Claude and Cursor will automatically pick up
+                the instructions and skills when the agent is pointed at the application directory.
+                For other agent types you need to check their documentation.</para>
+            <para>The relevant files are:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><filename>AGENTS.md</filename></term>
+                    <listitem>
+                        <para>Key information which should always be read by an agent.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><filename>CLAUDE.md</filename></term>
+                    <listitem>
+                        <para>Points to <filename>AGENTS.md</filename></para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><filename>.claude/skills</filename></term>
+                    <listitem>
+                        <para>Basic set of skills. Both, Cursor and Claude, will find them in this location.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>The skills interact with the database using the command line clients for Jinks and eXist-db (xst), which therefore need to be available. Agents should be able to help with the installation.</para>
+            <para>Using the Karl Barth sermons example from the <link xlink:href="quickstart.xml"
+                    >gentle introduction</link>, we would procede as follows:</para>
+            <procedure>
+                <step>
+                    <para>
+                        create the application skeleton via the Jinks web version or the command line client. Enable only the <option>demo
+                            data</option> profile, but nothing else.     
+                    </para>
+                </step>
+                <step>
+                    <para>download the generated application 
+                        <filename>.xar</filename> (see <link linkend="development-workflow-local-directory">instructions above</link>) and unpack it into a directory (it's a ZIP archive).</para>
+                </step>
+                <step>
+                    <para>Point your agent at this directory: when using an IDE like Visual Studio Code or Cursor, just opening the directory in the editor should be enough. 
+                        The included agents should pick up the instructions and skills automatically. </para>
+                </step>
+            </procedure>
+            <para>Based on the Karl Barth example, here are some prompts which should work well:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>"switch the base, heading and content font to Albert Sans"</para>
+                </listitem>
+                <listitem>
+                    <para>"use the attached portrait image as the splash image, the given logo file
+                        as the logo, and the remaining photo as the menubar background image"</para>
+                </listitem>
+                <listitem>
+                    <para>"style the bible-quote <tag>epigraph</tag> at the head of each sermon and
+                        review the general spacing/typography: for example, the opener sits too
+                        close to the following text and the final hymns section isn't visually set
+                        off"</para>
+                </listitem>
+                <listitem>
+                    <para>"bible references in the text should link to an external Bible reader:
+                        <code>https://www.bibleserver.com/LUT/&lt;target&gt;</code>, built from the
+                        reference's @target attribute"</para>
+                </listitem>
+                <listitem>
+                    <para>"enable the 'registers' feature/profile so the app gets a sidebar
+                        listing people and places"</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
     <section xml:id="data-organization">
         <title>Data</title>
         <para>Applications generated by Jinks/TEI Publisher will refer to a
@@ -387,272 +909,7 @@
             </variablelist>
         </section>
     </section>
-    <section xml:id="development-workflow">
-        <title>Development Workflows</title>
-        <para>This chapter discusses the different ways to interact with the database while you are
-            developing your own digital edition. In essence, one can distinguish two basic
-            approaches: </para>
-        <orderedlist>
-            <listitem>
-                <para>development is primarily done inside the database using tools like eXide,
-                    Jinks or oXygen</para>
-            </listitem>
-            <listitem>
-                <para>main development takes place in a local directory using whatever editor and
-                    tools you prefer</para>
-            </listitem>
-        </orderedlist>
-        <para>In reality, you will likely mix both. For example, even if you are mainly working in a
-            directory, you may still want to use the visual ODD editor, occasionally update the
-            application with Jinks etc. You therefore need ways to sync from database to file system
-            and the other way around.</para>
-        <para>But whichever way you choose, it is important to always have an up to data backup in a
-            safe place in case anything goes wrong. The best way to achieve this is to use a
-            versioning system like git. We strongly recommend to set up a git repository whenever
-            you start work on a digital edition. For beginners, a graphical git client like <link
-                xlink:href="https://github.com/apps/desktop">GitHub Desktop</link> might be the best
-            choice.</para>
-        <section xml:id="development-workflow-in-database">
-            <title>Approach 1: Developing inside the Database</title>
-            <para>This will be the easier approach as it does not require additional tooling (except
-                for git – see below). It will work perfectly fine if:</para>
-            <itemizedlist>
-                <listitem>
-                    <para>you are mainly interested in changing the presentation of the data via ODD
-                        and TEI Processing Model</para>
-                </listitem>
-                <listitem>
-                    <para>your application can rely on the existing profiles and requires only minor
-                        customization by changing the configuration in Jinks</para>
-                </listitem>
-                <listitem>
-                    <para>you do not need (or only very little) custom CSS, javascript or additional
-                        API endpoints</para>
-                </listitem>
-            </itemizedlist>
-            <para>If those conditions apply, you will mostly work with the visual ODD editor (for
-                addressing the presentation) and Jinks for theming and other configuration changes.
-                If you have to add single source files (like CSS styles), eXide provides a reliable
-                editor.</para>
-            <para>However, it is vital to keep an up to date copy of your application somewhere
-                save. Jinks itself provides two actions for retrieving a copy (see the bottom
-                toolbar):</para>
-            <variablelist>
-                <varlistentry>
-                    <term><guilabel>Download</guilabel></term>
-                    <listitem>
-                        <para>Packages the application into a single archive (a so called XAR),
-                            which you can later re-install into eXist-db using the Package Manager
-                            in the Dashboard. This is a quick choice to get a fully functional copy
-                            or for passing the application on to other people to try out.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><guilabel>Sync</guilabel></term>
-                    <listitem>
-                        <para>Synchronizes the file hierarchy into a local disk directory. Note that
-                                <emphasis>local</emphasis> means the machine where eXist-db is
-                            running. If you are using docker, the directory will be
-                                <emphasis>inside</emphasis> the docker image. If you connect to a
-                            remote server, it will be a directory on the server. Sync therefore is
-                            particularly convenient to use during development, to create snapshots
-                            to be committed to the source control repository, like Git.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-            <para>Because <guilabel>Sync</guilabel> won't work for everyone, let's start with the
-                    <guilabel>Download</guilabel> option: running the action will result in a file
-                ending with <filename>.xar</filename> being downloaded to your browser. This is a
-                normal ZIP archive and you can use standard utilities to extract the files into a
-                directory of your choice. If your system does not recognize the
-                    <filename>.xar</filename> as a ZIP and refuses to process it, simply change the
-                file ending.</para>
-            <note>
-                <para>Contrary to an ordinary ZIP file, a <filename>.xar</filename> has a
-                    standardized internal structure and comes with metadata, which informs eXist-db
-                    about how to install the data, create indexes and so on.</para>
-            </note>
-            <para>The extracted archive contains everything, which would be required to restore the
-                current state of the application. At this point, we strongly recommend to initialize
-                this directory as a git repository and push it to a service like Github.</para>
-            <para>You can also rebuild the <filename>.xar</filename> – e.g. after making local
-                changes to files – <link linkend="development-workflow-building">using the build
-                    scripts</link> included in the archive. The build step will result in another,
-                updated <filename>.xar</filename> being written into the <filename>build</filename>
-                subdirectory and you can install this new archive into any
-                    <productname>eXist-db</productname> using the
-                    <productname>dashboard</productname> (or command line utility like
-                    <productname>xst</productname>, see <link linkend="development-workflow-links"
-                    >below</link>).</para>
-        </section>
-        <section xml:id="development-workflow-local">
-            <title>Approach 2: Developing in a local directory</title>
-            <para>If an application reaches a certain complexity, you may prefer to switch to a
-                directory-first approach. This is also how TEI Publisher itself is developed. The
-                advantages:</para>
-            <itemizedlist>
-                <listitem>
-                    <para>you have a safe copy of your work in a local directory at any point</para>
-                </listitem>
-                <listitem>
-                    <para>you can immediately commit changes to git or undo them later if
-                        needed</para>
-                </listitem>
-                <listitem>
-                    <para>you can use any tools you like, including the editor of your choice</para>
-                </listitem>
-            </itemizedlist>
-            <para>If you make your changes in a directory first, you obviously have to synchronize
-                them to the database. The easiest way to do so is to rebuild the
-                    <filename>.xar</filename> every time and install it via the
-                    <productname>dashboard</productname>. However, reinstalling the entire
-                application may take a while and therefore slow you down.</para>
-            <para>You can also upload single files using eXide, the file browser in jinks or
-                oXygen's eXist-db integration. But again, this is a manual process.</para>
-            <para>Therefore, most TEI Publisher developers prefer using a development environment
-                (IDE) like Visual Studio Code, Cursor or Antigravity. They all allow you to install
-                an <link xlink:href="https://open-vsx.org/extension/eXist-db/existdb-vscode"
-                    >eXist-db extension</link>, which – apart from providing XQuery language support
-                – comes with a helpful synchronization utility. Applications generated by Jinks
-                already contain the necessary configuration (in file
-                    <filename>.existdb.json</filename>) to run this synchronization utility.</para>
-            <figure>
-                <title>Cursor editor with active sync task in bottom panel</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="cursor-sync.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Once activated, the sync utility will continously watch for changes in the
-                monitored directories and synchronize them to the database.</para>
-            <para>While convenient, there are some caveats of this approach:</para>
-            <itemizedlist>
-                <listitem>
-                    <para>if you use the visual ODD editor, you need to download the modified ODD
-                        yourself as it only exists in the database</para>
-                </listitem>
-                <listitem>
-                    <para>if you modify the application configuration in jinks and apply it, there
-                        will likely be changes to files in the database, but not in your local
-                        directory</para>
-                </listitem>
-            </itemizedlist>
-            <para>In those cases, use either the <guilabel>Sync</guilabel> action to automatically
-                sync from database to local directory, or download a fresh <filename>.xar</filename>
-                and unpack it manually.</para>
-            <note>
-                <para>Note, however, that if you have the sync task running in your editor, replaced
-                    files will be again written into the database. While this does usually not cause
-                    much damage, it is better to stop the task temporarily.</para>
-            </note>
-        </section>
-        <section xml:id="development-workflow-building">
-            <title>Building</title>
-            <para>To build an application generated by Jinks/TEI Publisher 11, you have two options.
-                Choose the one which best fits the tools you have available:</para>
-            <variablelist>
-                <varlistentry>
-                    <term>Using Apache Ant</term>
-                    <listitem>
-                        <para>This is the traditional way to build applications in TEI Publisher,
-                            but requires Java and Apache Ant to be installed.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Using Node.js</term>
-                    <listitem>
-                        <para>An alternative way to build applications in TEI Publisher 11. Requires
-                            Node.js and npm.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-            <section xml:id="development-workflow-building-ant">
-                <title>Using Apache Ant</title>
-                <para>To build an application using Apache Ant, you at least need to have <link
-                        xlink:href="installation.xml?id=java">Java</link> and the build tool <link
-                        xlink:href="https://ant.apache.org/">Apache Ant</link>. Both should be
-                    installed so they are found in your environment if you open a terminal or shell.
-                    Typing <code>ant</code> should produce output similar to the following: </para>
-                <programlisting xml:space="preserve">Buildfile: /Users/wolfgang/Downloads/serafin/build.xml
-
-clean:
-
-release.true:
-
-release.false:
-     [echo] Not a release, moving on ...
-
-check-release:
-
-git.revision:
-
-prepare:
-    [mkdir] Created dir: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
-     [copy] Copying 245 files to /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0
-
-xar:
-      [zip] Building zip: /Users/wolfgang/Downloads/serafin/build/tp-serafin-1.0.0.xar
-
-all:
-
-BUILD SUCCESSFUL
-Total time: 0 seconds
-      </programlisting>
-                <para>Expert: if you would like to run the test suite or provide a <link
-                        xlink:href="web-components-loading">local copy of TEI Publisher's
-                        webcomponents</link>, you'll also need to have <link
-                        xlink:href="https://nodejs.org/en">nodejs</link> with the <code>npm</code>
-                    command available in your terminal.</para>
-            </section>
-            <section xml:id="development-workflow-building-node">
-                <title>Using Node.js</title>
-                <para>To build an application using Node.js, you need to have Node.js and npm
-                    installed. You can install them from the <link
-                        xlink:href="https://nodejs.org/en">Node.js website</link>.</para>
-                <para>Once you have Node.js and npm installed, you can build the application using
-                    the <code>npm run build</code> command. This will run the build script in the
-                        <filename>build.cjs</filename> file.</para>
-            </section>
-        </section>
-        <section xml:id="development-workflow-links">
-            <title>Useful Resources</title>
-            <para>Here are links to some of the utilities mentioned above:</para>
-            <variablelist>
-                <varlistentry>
-                    <term><link xlink:href="https://github.com/eXist-db/xst">xst</link></term>
-                    <listitem>
-                        <para>A command line interface to eXist-db, which allows you to
-                            install/remove <filename>.xar</filename> packages, browse collections,
-                            upload single files and more.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><link xlink:href="https://www.npmjs.com/package/@teipublisher/jinks-cli"
-                            >jinks-cli</link></term>
-                    <listitem>
-                        <para>Control Jinks from the command line: supports creating/updating
-                            applications from profiles, running actions etc.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><link xlink:href="https://open-vsx.org/extension/eXist-db/existdb-vscode"
-                            >eXist-db VSCode Extension</link></term>
-                    <listitem>
-                        <para>Adds XQuery language support and a sync task to Visual Studio Code and
-                            other IDEs derived from it</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><link xlink:href="https://github.com/apps/desktop">GitHub
-                        Desktop</link></term>
-                    <listitem>
-                        <para>A graphical client to create and manage git repositories</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </section>
-    </section>
+    
     <section xml:id="odd">
         <title>TEI Processing Model</title>
         <para>TEI Publisher derives its name from TEI and the TEI Processing Model (TEI PM). TEI
