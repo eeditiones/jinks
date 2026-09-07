@@ -121,11 +121,14 @@ declare function page:collection-breadcrumbs($context as map(*)) {
  : <slot>) and still fetches and renders into its shadow DOM for interactive use,
  : so the user experience is unchanged.
  :
- : The fragment is selected from the request parameters the same way as the
- : api/parts/{doc}/json endpoint (dapi:get-fragment): the persistent "id"
- : (xml:id) wins over the volatile "root" (node id); with neither, the first
- : fragment is rendered. This makes every per-fragment URL the sitemap emits
- : (e.g. ?id=intro-jinks) resolve server-side to that fragment's text.
+ : When defaults.view-static is set, the fragment is preferably loaded from the
+ : pre-generated cache under that subdirectory (same index/key lookup as
+ : pb-view's static mode). On a miss, the fragment is selected from the request
+ : parameters the same way as the api/parts/{doc}/json endpoint
+ : (dapi:get-fragment): the persistent "id" (xml:id) wins over the volatile
+ : "root" (node id); with neither, the first fragment is rendered. This makes
+ : every per-fragment URL the sitemap emits (e.g. ?id=intro-jinks) resolve
+ : server-side to that fragment's text.
  :
  : @param $context the templating context (expects $context?doc with content/path/view)
  : @return the transformed HTML nodes for the requested fragment, or empty if no document
@@ -141,52 +144,199 @@ declare function page:content($context as map(*)) {
  :)
 declare function page:content($context as map(*), $xpath as xs:string?) {
     if (exists($context?doc?content)) then
-        let $view := head(($context?doc?view, $config:default-view))
-        let $xml := page:fragment($context, $context?doc?content, $view, $context?doc?path, $xpath)
+        let $fromCache := page:content-from-static($context, $xpath)
         return
-            if (exists($xml?data)) then
-                let $content :=
-                    if ($view = "single") then
-                        $xml?data
+            if (exists($fromCache)) then
+                $fromCache
+            else
+                page:content-dynamic($context, $xpath)
+    else
+        ()
+};
+
+(:~
+ : Load a pre-generated part from the view-static cache directory, mirroring
+ : pb-view._staticUrl: read `${view-static}/${doc.path}/index.json`, look up a
+ : key built from odd/view[/xpath][/map][/id|/root], then load the referenced
+ : part JSON. Returns empty if view-static is unset, the index is missing, or
+ : no key matches — caller then falls back to dynamic rendering.
+ :)
+declare %private function page:content-from-static($context as map(*), $xpath as xs:string?) {
+    let $viewStatic := normalize-space($context?defaults?view-static)
+    return
+        if (not($viewStatic) or not($context?doc?path)) then
+            ()
+        else
+            let $base := string-join(($config:app-root, $viewStatic, $context?doc?path), "/")
+            let $indexPath := $base || "/index.json"
+            return
+                if (not(util:binary-doc-available($indexPath))) then
+                    ()
+                else
+                    let $index := parse-json(util:binary-to-string(util:binary-doc($indexPath)))
+                    let $file := page:static-part-file($index, $context, $xpath)
+                    let $partPath := if ($file) then $base || "/" || $file else ()
+                    return
+                        if (not($partPath) or not(util:binary-doc-available($partPath))) then
+                            ()
+                        else
+                            try {
+                                let $json := parse-json(util:binary-to-string(util:binary-doc($partPath)))
+                                return
+                                    page:wrap-ssr($json?rootNode, $json?content, $json?footnotes)
+                            } catch * {
+                                ()
+                            }
+};
+
+(:~
+ : Resolve the part filename from an index map using the same key order as
+ : pb-view._staticUrl: prefer a key that includes id (when set) or root (when
+ : set), then fall back to the base key without position (first chunk).
+ :)
+declare %private function page:static-part-file($index as map(*), $context as map(*), $xpath as xs:string?) as xs:string? {
+    let $baseParams := page:static-base-params($context, $xpath)
+    let $id := normalize-space(page:parameter($context, 'id'))
+    let $root := normalize-space(page:parameter($context, 'root'))
+    let $keys := (
+        if ($id) then
+            page:static-key(map:merge(($baseParams, map { "id": $id })))
+        else if ($root) then
+            page:static-key(map:merge(($baseParams, map { "root": $root })))
+        else
+            (),
+        page:static-key($baseParams)
+    )
+    return
+        head(
+            for $key in $keys
+            let $file := $index($key)
+            where exists($file) and not($file instance of map(*) or $file instance of array(*))
+            let $name := string($file)
+            where string-length($name) gt 0
+            return
+                $name
+        )
+};
+
+(:~
+ : Parameters that participate in the static index key (odd, view, optional
+ : xpath/map), matching the paramNames list in pb-view._staticUrl plus values
+ : from getParameters.
+ :)
+declare %private function page:static-base-params($context as map(*), $xpath as xs:string?) as map(*) {
+    let $odd :=
+        let $o := head(($context?doc?odd, $config:default-odd))
+        return
+            if (ends-with($o, '.odd')) then $o else $o || '.odd'
+    let $view := head(($context?doc?view, $config:default-view))
+    let $map := normalize-space(page:parameter($context, 'map'))
+    return
+        map:merge((
+            map {
+                "odd": $odd,
+                "view": $view
+            },
+            if (normalize-space($xpath)) then map { "xpath": $xpath } else (),
+            if ($map) then map { "map": $map } else ()
+        ))
+};
+
+(:~ Sorted query-string key, same algorithm as pb-view createKey / static:compute-key. :)
+declare %private function page:static-key($params as map(*)) as xs:string {
+    string-join(
+        for $key in map:keys($params)
+        order by $key
+        return
+            $key || "=" || $params($key),
+        "&amp;"
+    )
+};
+
+(:~
+ : Build the light-DOM SSR wrappers from serialized part content/footnotes
+ : (as stored in static part JSON). Empty content yields empty sequence.
+ :)
+declare %private function page:wrap-ssr($nodeId as item()?, $content as item()?, $footnotes as item()?) {
+    let $contentStr := if (exists($content)) then string($content) else ()
+    return
+        if (not(normalize-space($contentStr))) then
+            ()
+        else
+            try {
+                let $contentNodes := parse-xml-fragment($contentStr)
+                let $footnoteStr := if (exists($footnotes)) then string($footnotes) else ()
+                let $footnoteNodes :=
+                    if (normalize-space($footnoteStr)) then
+                        parse-xml-fragment($footnoteStr)
                     else
-                        pages:get-content($xml?config, $xml?data)
-                let $nodeId := util:node-id($xml?data[1])
-                let $rendered := page:unwrap-body(
-                    pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
-                )
-                (: process-content collects footnotes into a sibling <div class="footnotes">
-                 : (wrapping everything in a content div). Split it out so the markup
-                 : matches the parts API response (resp.content / resp.footnotes) and
-                 : pb-view can adopt content and footnotes the same way for SSR and
-                 : dynamic loads. :)
-                let $footnotes := $rendered/div[@class = "footnotes"]
+                        ()
+                let $id := if (exists($nodeId)) then string($nodeId) else ""
                 return
                     (
-                        (: Content block; pb-view detects this marker, adopts it into
-                         : its shadow DOM and requests content=none so the fragment is
-                         : not rendered a second time. :)
                         element div {
-                            attribute data-pb-ssr { $nodeId },
-                            if (exists($footnotes)) then
-                                element { node-name($rendered) } {
-                                    $rendered/@*,
-                                    $rendered/node() except $footnotes
-                                }
-                            else
-                                $rendered
+                            attribute data-pb-ssr { $id },
+                            $contentNodes
                         },
-                        if (exists($footnotes)) then
+                        if (exists($footnoteNodes)) then
                             element div {
-                                attribute data-pb-ssr-footnotes { $nodeId },
-                                $footnotes
+                                attribute data-pb-ssr-footnotes { $id },
+                                $footnoteNodes
                             }
                         else
                             ()
                     )
-            else
+            } catch * {
                 ()
-    else
-        ()
+            }
+};
+
+(:~ Dynamic ODD transform path used when the static cache has no matching part. :)
+declare %private function page:content-dynamic($context as map(*), $xpath as xs:string?) {
+    let $view := head(($context?doc?view, $config:default-view))
+    let $xml := page:fragment($context, $context?doc?content, $view, $context?doc?path, $xpath)
+    return
+        if (exists($xml?data)) then
+            let $content :=
+                if ($view = "single") then
+                    $xml?data
+                else
+                    pages:get-content($xml?config, $xml?data)
+            let $nodeId := util:node-id($xml?data[1])
+            let $rendered := page:unwrap-body(
+                pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+            )
+            (: process-content collects footnotes into a sibling <div class="footnotes">
+             : (wrapping everything in a content div). Split it out so the markup
+             : matches the parts API response (resp.content / resp.footnotes) and
+             : pb-view can adopt content and footnotes the same way for SSR and
+             : dynamic loads. :)
+            let $footnotes := $rendered/div[@class = "footnotes"]
+            return
+                (
+                    (: Content block; pb-view detects this marker, adopts it into
+                     : its shadow DOM and requests content=none so the fragment is
+                     : not rendered a second time. :)
+                    element div {
+                        attribute data-pb-ssr { $nodeId },
+                        if (exists($footnotes)) then
+                            element { node-name($rendered) } {
+                                $rendered/@*,
+                                $rendered/node() except $footnotes
+                            }
+                        else
+                            $rendered
+                    },
+                    if (exists($footnotes)) then
+                        element div {
+                            attribute data-pb-ssr-footnotes { $nodeId },
+                            $footnotes
+                        }
+                    else
+                        ()
+                )
+        else
+            ()
 };
 
 (:~ Narrow $data to the nodes selected by $xpath, evaluated with the document's

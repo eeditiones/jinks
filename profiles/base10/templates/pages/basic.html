@@ -8,6 +8,9 @@
     ---
     <!-- Basic template for a page with a single document -->
     <div class="center">
-        <pb-view src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]">[[ page:content($context) ]]</pb-view>
+        <pb-view src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]"
+            static="![[$context?defaults?view-static]]">
+            [[ page:content($context) ]]
+        </pb-view>
     </div>
 </template>

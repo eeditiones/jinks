@@ -155,6 +155,15 @@
                     "type": "string",
                     "enum": ["div", "page", "single"]
                 },
+                "view-static": {
+                    "type": "string",
+                    "description": "Value for the pb-view @static attribute: subdirectory name where pre-rendered view content is served from (e.g. \"cached\"). Omit or leave empty to disable static loading.",
+                    "examples": [
+                        "cached",
+                        "prerendered",
+                        "static"
+                    ]
+                },
                 "media": {
                     "type": "array",
                     "items": {
