@@ -2,16 +2,27 @@
 
 # jinks - Application Manager for TEI Publisher
 
-Replaces the custom app generator in earlier versions of TEI Publisher. The idea is to create a more powerful tool for creating, updating and maintaining a custom application. This tool:
+Jinks' purpose is to aid in creation, maintenance and updating of custom TEI Publisher applications.
 
-* can not only create new custom applications, but also reconfigure them at a later time
-* uses a hierarchy of application *profiles* targeted at specific use cases. A profile can extend or build upon other profiles. It can be modular, i.e., contribute only one feature
-* detects local changes to files and leaves them untouched
-* comes with its own [templating module](https://github.com/eeditiones/jinks-templates), which can also process plain-text files (XQuery, CSS, etc.)
+This tool:
+
+* can **create** new custom applications, 
+* **adjust** the configuration at **any time** later
+* automate the **upgrade** of the custom app to the newest Jinks/TEI Publisher version, tracking and respecting custom changes in the app
+
+**NB** Jinks replaces and extends the app generator in TEI Publisher 9 and earlier.
+
+## Jinks templates
+
+Jinks uses a modern [templating engine](https://github.com/eeditiones/jinks-templates), providing a unified, syntax for all templating tasks in the TEI Publisher ecosystem. It can process XML as well as other file types (plain-text, XQuery CSS, etc.) supporting block-based template inheritance and XPath, among other features.
 
 ## Profiles: Blueprints, themes and features
 
-The core concept of jinks is the *profile*. Profiles can extend and import each other. We distinguish three different kinds of profiles:
+The core concept of jinks is the *profile*. Jinks provides a set of *profiles* targeted at specific use cases, which can be assembled as necessary.
+
+A profile can build upon, i.e. extend and import other profiles. It can also be very minimalistic, contributing only a singular feature.
+
+Conceptually we distinguish **three** different **types of profiles**:
 
 A *blueprint* is a complete template for an application targeted at a specific use case like a monograph, correspondence edition, dictionary, etc. An application generated from a blueprint is fully functional.
 
@@ -19,7 +30,7 @@ A *feature* is a functional sub-profile to be imported into another profile. It 
 
 A *theme* is a customization of a base profile, changing mainly the look and feel, e.g., modify images, fonts, or colors according to a corporate identity.
 
-Each profile has a subcollection under `profiles` and must contain at least one configuration file, `config.json`, which defines all the variables to be used in templated files.
+All profiles are implemented following the same basic pattern. Each profile is a subcollection under `profiles` and must contain at least one configuration file, `config.json`, which defines all the profile-related variables to be used in templated files.
 
 ### `config.json`
 
@@ -94,12 +105,25 @@ Unless `overwrite=all`, jinks will **never** overwrite files which have been cha
 
 Conflicting files will be reported by the `generator:process` function.
 
+## Note on AI
+
+**Jinks** and **TEI Publisher** are built for speed, interoperability, and sustainability. Experienced developers routinely build features faster than an AI agent using our framework. However, we know AI tools are a part of many workflows. To save your time and precious resources, and prevent common pitfalls, we have curated and tested specific agentic skills for key tasks, located under `AGENTS.md` and in the `skills` subdirectories.
+
+**We strongly recommend** using AI agents to work in small, incremental steps, ensuring a competent human review at every stage of the entire process. We also offer support packages to start you on the right track or assist with the review. This way you are benefitting from the wealth of community-wisdom and contribute back to it.
+
+## Shared Ecosystem and Sustainability 
+
+Open source is a shared ecosystem that requires active maintenance, **funds and resources** to **survive**. We believe in, and hope for **fair reciprocity** from our user community. Therefore, we strongly request a **financial contribution** proportionate to the value this framework adds to your project, business, or workflow.
+
+* **For short-term Academic, Research or other Non-Commercial Projects:** We suggest a [one-time donation](https://github.com/sponsors/eeditiones/sponsorships?frequency=one-time&amount=1000) to e-editiones or the purchase of a small [support package](https://jinntec.de).
+* **For larger, long-term Projects and Institutions:** If you run a long-running project, or represent an institution managing multiple projects, we kindly ask for an institutional membership in e-editiones combined with a [recurring donation](https://github.com/sponsors/eeditiones/sponsorships?frequency=recurring&amount=200), a larger [support package](https://jinntec.de), or a direct financial contribution toward the development and maintenance of the framework.
+* **For Grants & Funding Proposals:** If you are planning a new grant-funded project or research proposal, we are happy to partner with you. Including us as a project partner or budget line item is an excellent way to fund the development of new features and custom enhancements that your specific project requires.
 
 ## Acknowledgements
 
-Jinks has been funded and supported by a number of research and cultural heritage organizations, as well as through individual contributions.
+Jinks is a community-driven open-source project coordinated by **e-editiones**, relying on individuals who generously contribute their time to its design, development, maintenance, dissemination, and support.
 
-We would like to particularly acknowledge substantial support from the following institutions:
+Jinks has been directly funded and supported by a number of research and cultural heritage organizations. We would like to particularly acknowledge substantial contributions from the following institutions:
 
 ### [Jagiellonian Digital Platform](https://labedyt.dhlab.uj.edu.pl/)
 
@@ -110,4 +134,3 @@ We would like to particularly acknowledge substantial support from the following
 ### [Tadeusz Manteuffel Institute of History, Polish Academy of Sciences](https://ihpan.edu.pl/en/)
 
 ![ihpan](./resources/images/ihpan.svg)
-
