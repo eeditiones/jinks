@@ -141,7 +141,7 @@
             directory, you may still want to use the visual ODD editor, occasionally update the
             application with Jinks etc. You therefore need ways to sync from database to file system
             and the other way around.</para>
-        <para>But whichever way you choose, it is important to always have an up to data backup in a
+        <para>But whichever way you choose, it is important to always have an up to date backup in a
             safe place in case anything goes wrong. The best way to achieve this is to use a
             versioning system like git. We strongly recommend to set up a git repository whenever
             you start work on a digital edition. For beginners, a graphical git client like <link
@@ -234,8 +234,8 @@
                         needed</para>
                 </listitem>
                 <listitem>
-                    <para>coding agents (Claude Code, Cursor etc.) work better in a directory
-                        context</para>
+                    <para><link linkend="development-workflow-agents">coding agents</link> (Claude Code, Cursor etc.) 
+                        work better in a directory context</para>
                 </listitem>
                 <listitem>
                     <para>you can use any tools you like, including the editor of your choice</para>
@@ -248,8 +248,8 @@
                 <para>We strongly suggest to install a few command line tools if you use a
                     directory-first approach.  They allow you to control most Jinks and eXist-db
                     operations and will make your life a lot easier. Also, installing the tools is a
-                    must if you want to use the coding agent skills which ship with TEI Publisher (see
-                    below):</para>
+                    must if you want to use the <link linkend="development-workflow-agents">coding agent skills</link> 
+                    which ship with TEI Publisher:</para>
                 <variablelist>
                     <varlistentry>
                         <term><link xlink:href="https://eeditiones.github.io/jinks-cli/">jinks-cli</link></term>
@@ -558,23 +558,40 @@ Total time: 0 seconds
         </section>
         <section xml:id="development-workflow-agents">
             <title>Using Coding Agents</title>
-            <para>When generating an application, Jinks includes a set of guidelines and skills for
-                coding agents like <link xlink:href="https://claude.ai/">Claude Code</link>, <link xlink:href="https://cursor.sh/">Cursor</link> and similar. 
-                The instructions mostly cover best
-                practices and development workflows, i.e. explain which files are safe to modify,
-                when and where to add custom files and what not to touch.</para>
+            <para>
+                We acknowledge that AI tools are now a core part of many workflows. 
+                To prevent common pitfalls when using coding agents on TEI Publisher projects, 
+                we have curated and tested specific agentic skills for key tasks. 
+                The instructions cover best practices for customization and development workflows, 
+                i.e. explain which files are safe to modify,
+                when and where to add custom files and, critically, what <emphasis>not</emphasis> to touch.
+            </para>
             <note>
+                <para>Unfortunately using agentic assistance does not remove neither the need for 
+                    modelling and engineering mindset nor standards compliance, 
+                    governance and sustainability concerns.</para>
                 <para>Never blindly trust your agent and always review the result.
-                    Coding agents have a strong tendency to start messing around when getting stressed
-                    because things do not work out as planned. For sure, the application may look great
-                    on the surface, but will it be sustainable, interoperable and long-term maintainable? 
-                    Probably not.</para>
-                <para>Agents are great at coding, but they don't see the big picture. This still does and always should 
+                    Coding agents have a strong tendency to focus on the immediate problem at hand,
+                    messing-up other parts of the application in the process. They also do not `care` about 
+                    standards compliance, interoperability or respecting the community best practices. 
+                    As a result, the application may look great on the surface, but not be easy to maintain in the future 
+                    and cease to integrate with the broader network of TEI Publisher-based applications.
+                </para>
+                <para>Agents can be great at coding, but they don't see the big picture. This still is and always should 
                     remain your job.</para>
             </note>
-            <para>The guidelines and skills assume that you keep the application code in a local directory while having
-      
-                it installed in eXist at the same time. Claude and Cursor will automatically pick up
+            <para>When generating an application, Jinks includes this set of guidelines for
+                coding agents like <link xlink:href="https://claude.ai/">Claude Code</link>, 
+                <link xlink:href="https://cursor.sh/">Cursor</link> and similar.
+            </para>
+            <para>The guidelines and skills assume that you keep the application code in a 
+                <link linkend="development-workflow-jinks">local directory</link> while having
+                it installed in eXist at the same time. The skills interact with the database using the 
+                <link linkend="development-workflow-cli">command line tools for Jinks and eXist-db</link>, 
+                which therefore need to be available. The setup should be complemented with a source control (git) repository.
+                Agents should be able to help with the installation.
+            </para>
+            <para>Claude and Cursor will automatically pick up
                 the instructions and skills when the agent is pointed at the application directory.
                 For other agent types you need to check their documentation.</para>
             <para>The relevant files are:</para>
@@ -598,9 +615,8 @@ Total time: 0 seconds
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>The skills interact with the database using the command line clients for Jinks and eXist-db (xst), which therefore need to be available. Agents should be able to help with the installation.</para>
             <para>Using the Karl Barth sermons example from the <link xlink:href="quickstart.xml"
-                    >gentle introduction</link>, we would procede as follows:</para>
+                    >gentle introduction</link>, we would proceed as follows:</para>
             <procedure>
                 <step>
                     <para>
@@ -617,6 +633,13 @@ Total time: 0 seconds
                         The included agents should pick up the instructions and skills automatically. </para>
                 </step>
             </procedure>
+            <para>
+                We strongly recommend working with AI agents in <emphasis role="bold">small, incremental steps</emphasis>, 
+                ensuring a competent guidance and critical review at every stage. 
+                To manage this process with confidence, break down your vision into small tasks, covering a single new feature or fix. 
+                When accomplished, commit the results to source control in logical chunks, 
+                related to a single task.
+            </para>
             <para>Based on the Karl Barth example, here are some prompts which should work well:</para>
             <itemizedlist>
                 <listitem>
@@ -627,8 +650,10 @@ Total time: 0 seconds
                         as the logo, and the remaining photo as the menubar background image"</para>
                 </listitem>
                 <listitem>
-                    <para>"style the bible-quote <tag>epigraph</tag> at the head of each sermon and
-                        review the general spacing/typography: for example, the opener sits too
+                    <para>"style the bible-quote <tag>epigraph</tag> at the head of each sermon"</para>
+                </listitem>
+                <listitem>
+                    <para>"review the general spacing/typography: for example, the opener sits too
                         close to the following text and the final hymns section isn't visually set
                         off"</para>
                 </listitem>
@@ -642,6 +667,22 @@ Total time: 0 seconds
                         listing people and places"</para>
                 </listitem>
             </itemizedlist>
+            <note>
+                <para>
+                    Jinks and TEI Publisher are designed with <emphasis role="bold">flexibility, interoperability, 
+                    and sustainability</emphasis> in mind. To maintain these standards, reviewers should ensure 
+                    that automated solutions do not just solve an immediate technical 
+                    problem, but <emphasis role="bold">accord with the architectural principles</emphasis> above.
+                    This is a particular concern for any contributions to be incorporated into the framework.
+                </para>
+                <!--
+                <para>
+                    Last but not least, open source is a shared ecosystem.
+                    We rely on <emphasis role="bold">fair reciprocity</emphasis> for survival and request 
+                    financial or in-kind contributions to support ongoing development and maintenance.
+                </para>
+                -->
+            </note>
         </section>
     </section>
     <section xml:id="data-organization">

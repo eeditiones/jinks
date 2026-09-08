@@ -54,6 +54,12 @@
                         <link linkend="support">Community &amp; support</link>
                     </td>
                 </tr>
+                <tr>
+                    <td>Note on AI</td>
+                    <td>
+                        <link linkend="ai">Best practice considerations for AI workflows</link>
+                    </td>
+                </tr>
             </tbody>
         </informaltable>
         <para>This document serves as a cheat-sheet to help you navigate the TEI Publisher ecosystem.</para>
@@ -281,6 +287,30 @@
                 </listitem>
             </itemizedlist>
         </section>
+    </section>
+    <section xml:id="ai">
+        <title>AI-supported workflows</title>
+        <para>
+            We acknowledge that AI tools are now a core part of many workflows. 
+            To save you time, protect precious resources, and prevent common pitfalls, 
+            we have curated and tested specific agentic skills for key tasks. These are located 
+            under <emphasis>AGENTS.md</emphasis> and within the <emphasis>skills</emphasis> subdirectories.
+        </para>
+        <para>
+            We strongly recommend working with AI agents in <emphasis role="bold">small, incremental steps</emphasis>, ensuring a 
+            competent human reviews every stage of the process. 
+        </para>
+        <para>
+            Jinks and TEI Publisher are designed with flexibility, interoperability, 
+            and sustainability in mind. To maintain these standards, reviewers should ensure 
+            that automated solutions do not just solve an immediate technical 
+            problem, but <emphasis role="bold">accord with these core architectural principles</emphasis>.
+        </para>
+        <para>
+            Last but not least, open source is a shared ecosystem.
+            We rely on <emphasis role="bold">fair reciprocity</emphasis> for survival and request 
+            financial or in-kind contributions to support ongoing development and maintenance.
+        </para>
     </section>
     <section xml:id="support">
         <title>Support &amp; Community</title>
