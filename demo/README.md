@@ -13,7 +13,7 @@ The demo container (`ghcr.io/eeditiones/jinks-demo`) includes three pre-generate
 ## Configuration Files
 
 - `tp_config.json` - Configuration for tei-publisher app (CI / local default; no view-static)
-- `tp_config.prod.json` - Same app with `data-static` / `view-static` for documentation (used when `PRODUCTION=true`)
+- `tp_config.prod.json` - Same app with `data-static` / `view-static` for documentation, plus the `sitemap` profile (used when `PRODUCTION=true`)
 - `ser_config.json` - Configuration for tp-serafin app
 - `workbench_config.json` - Configuration for tp-annotator app
 
@@ -37,11 +37,11 @@ The workflow:
 # Default: build jinks from this checkout, use tp_config.json (no opm)
 ./build.sh
 
-# Production-style: published jinks image, tp_config.prod.json, opm chunk + upload
+# Production-style: published jinks image, tp_config.prod.json, opm chunk + upload, sitemap action
 PRODUCTION=true ./build.sh
 ```
 
-`PRODUCTION=true` requires Docker, `opm`, and `xst` on the PATH. Chunking is configured in `opm.toml`.
+`PRODUCTION=true` requires Docker, `opm`, and `xst` on the PATH. Chunking is configured in `opm.toml`. After upload it runs `jinks run tei-publisher sitemap` so `sitemap.xml` is included in the downloaded XAR.
 
 ## Usage
 

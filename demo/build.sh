@@ -4,8 +4,8 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# PRODUCTION=true: use published jinks image, tp_config.prod.json (view-static),
-# and pre-generate/upload documentation into cached/.
+# PRODUCTION=true: use published jinks image, tp_config.prod.json (view-static + sitemap),
+# pre-generate/upload documentation into cached/, and run the sitemap action.
 # Default (unset/false): build jinks from this checkout and use tp_config.json
 # without static mode — suitable when opm is not available (e.g. matching CI).
 PRODUCTION="${PRODUCTION:-false}"
@@ -109,6 +109,9 @@ if [ "$PRODUCTION" = "true" ]; then
 
     echo "Uploading pre-generated content into tei-publisher..."
     xst upload chunks/ /db/apps/tei-publisher/cached/ -v
+
+    echo "Generating sitemap.xml..."
+    $JINKS_CMD run tei-publisher sitemap
 fi
 
 $JINKS_CMD run tei-publisher download
