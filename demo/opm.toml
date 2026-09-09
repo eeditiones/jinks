@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 e-editiones
+# SPDX-License-Identifier: CC0-1.0
+#
+# Chunking config for pre-generating TEI Publisher documentation pages
+# (pb-view static mode). Adapted from tei-publisher-py examples/docbook/opm.toml.
+
+[project]
+pythonpath = ["."]
+
+[transform]
+odd = "../profiles/docbook/resources/odd/docbook.odd"
+xpath_extensions = [
+    "opm.runtime.common_xpath_functions"
+]
+
+[transform.web.webcomponents]
+enabled = true
+
+[chunking]
+selector = "opm.navigation.dbk_section_chunks"
+depth = 2
+output_dir = "chunks"
+# For --format pb-view / TEI Publisher URL scheme (absolute paths).
+# Omit for local `opm serve` so prev/next stay relative.
+# link_pattern = "/{doc}/{file}"
+doc_path = "doc"
+
+[[chunking.fragments]]
+name = "title"
+scope = "global"
+xpath = "(/article/info/title, /book/info/title)[1]"
+parameters = { mode = "title" }
+
+[[chunking.fragments]]
+name = "toc"
+scope = "global"
+xpath = "(/article, /book)[1]"
+parameters = { mode = "toc" }
+
+# Collection index entry for `opm chunk …/data/doc` (a directory run).
+# The ODD's display='browse' models render title, author and abstract, and
+# build their own link from $parameters?doc, which opm supplies per document.
+[[chunking.fragments]]
+name = "browse"
+scope = "global"
+xpath = "(/article/info, /book/info)[1]"
+parameters = { display = "browse" }
+
+[[chunking.fragments]]
+name = "breadcrumbs"
+scope = "per-chunk"
+xpath = "."
+parameters = { mode = "breadcrumb" }

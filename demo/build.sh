@@ -4,10 +4,30 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# PRODUCTION=true: use published jinks image, tp_config.prod.json (view-static),
+# and pre-generate/upload documentation into cached/.
+# Default (unset/false): build jinks from this checkout and use tp_config.json
+# without static mode — suitable when opm is not available (e.g. matching CI).
+PRODUCTION="${PRODUCTION:-false}"
+
 # Check if npx is available
 if ! command -v npx &> /dev/null; then
     echo "Error: npx command not found. Please install Node.js and npm."
     exit 1
+fi
+
+if [ "$PRODUCTION" = "true" ]; then
+    # Check if opm is available (pre-generates documentation pages)
+    if ! command -v opm &> /dev/null; then
+        echo "Error: opm command not found. Please install the Open Processing Model."
+        exit 1
+    fi
+
+    # Check if xst is available (uploads pre-generated content into eXist)
+    if ! command -v xst &> /dev/null; then
+        echo "Error: xst command not found. Please install @existdb/xst (npm install -g @existdb/xst)."
+        exit 1
+    fi
 fi
 
 # Check if port 8080 is already in use
@@ -23,7 +43,20 @@ fi
 # Use npx to run the latest version of @teipublisher/jinks-cli
 JINKS_CMD="npx @teipublisher/jinks-cli"
 
-docker pull ghcr.io/eeditiones/jinks:latest
+if [ "$PRODUCTION" = "true" ]; then
+    echo "PRODUCTION=true: using ghcr.io/eeditiones/jinks:latest and tp_config.prod.json"
+    docker pull ghcr.io/eeditiones/jinks:latest
+    JINKS_IMAGE="ghcr.io/eeditiones/jinks:latest"
+    TP_CONFIG="tp_config.prod.json"
+else
+    # Build jinks from this checkout (same as CI). Pulling ghcr.io/eeditiones/jinks:latest
+    # leaves the image's already-installed profiles in place, so `jinks create` would keep
+    # generating apps from stale templates/config even when this repo has newer ones.
+    echo "PRODUCTION=false: building local jinks image and using tp_config.json"
+    docker build -t jinks-server:local -f ../Dockerfile --build-arg EXIST_VERSION=6.4.0 ..
+    JINKS_IMAGE="jinks-server:local"
+    TP_CONFIG="tp_config.json"
+fi
 
 # Remove existing container if it exists (running or stopped)
 if docker ps --format '{{.Names}}' | grep -q '^jinks-server$'; then
@@ -37,7 +70,7 @@ fi
 
 # Create new container
 echo "Creating new container 'jinks-server'..."
-docker run -d --name jinks-server -p 8080:8080 ghcr.io/eeditiones/jinks:latest
+docker run -d --name jinks-server -p 8080:8080 "$JINKS_IMAGE"
 
 # Wait for server to be ready
 echo "Waiting for eXist-db to start..."
@@ -59,12 +92,24 @@ if [ $elapsed -ge $timeout ]; then
 fi
 
 echo "Creating apps..."
-$JINKS_CMD create -c tp_config.json
+$JINKS_CMD create -c "$TP_CONFIG"
 $JINKS_CMD create -c ser_config.json
 $JINKS_CMD create -c workbench_config.json
 $JINKS_CMD create -c jats_config.json
 
 $JINKS_CMD list
+
+if [ "$PRODUCTION" = "true" ]; then
+    # Pre-generate documentation pages for tei-publisher (pb-view static mode)
+    # and upload them into the app's cached/ collection before packaging the XAR.
+    # See tei-publisher-py docs/guide/tei-publisher.md
+    DOCS_DATA="../profiles/docs/data/doc"
+    echo "Pre-generating documentation pages with opm..."
+    opm chunk "$DOCS_DATA" -c opm.toml --format pb-view --force
+
+    echo "Uploading pre-generated content into tei-publisher..."
+    xst upload chunks/ /db/apps/tei-publisher/cached/ -v
+fi
 
 $JINKS_CMD run tei-publisher download
 $JINKS_CMD run tp-serafin download
