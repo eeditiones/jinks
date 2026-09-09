@@ -53,7 +53,7 @@
     [% template before-top %]
     [% if $context?theme?layout?search = 'before-top' %]
     <li>
-        <pb-search subscribe="search" value="[[ $request?parameters?query ]]"
+        <pb-search subscribe="search" value="[[ page:parameter($context, 'query', '') ]]"
             subforms=".facets,.options" submit-on-load="submit-on-load">
             <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
             <input type="hidden" name="field" value="text"/>
@@ -62,16 +62,18 @@
     [% endif %]
     [% endtemplate %]
     [% template before %]
-    <pb-search class="mobile" subscribe="search" value="[[ $request?parameters?query ]]"
-        subforms=".facets,.options" submit-on-load="submit-on-load">
-        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
-        <input type="hidden" name="field" value="text"/>
-    </pb-search>
     [% if $context?theme?layout?search = 'before' %]
-    <pb-search subscribe="search" value="[[ $request?parameters?query ]]" subforms=".facets,.options"
+    <pb-search subscribe="search" value="[[ page:parameter($context, 'query', '') ]]" subforms=".facets,.options"
         submit-on-load="submit-on-load">
         <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
         <input type="hidden" name="field" value="text" />
+    </pb-search>
+    [% elif not($context?theme?layout?search = 'before-top') %]
+    <!-- Only one pb-search may subscribe to pagination; a hidden duplicate races with an empty query. -->
+    <pb-search class="mobile" subscribe="search" value="[[ page:parameter($context, 'query', '') ]]"
+        subforms=".facets,.options" submit-on-load="submit-on-load">
+        <button slot="searchButton"><pb-i18n key="search.search">Search</pb-i18n></button>
+        <input type="hidden" name="field" value="text"/>
     </pb-search>
     [% endif %]
     
