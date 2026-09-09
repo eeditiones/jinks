@@ -499,9 +499,9 @@ declare %private function dapi:work2epub($request as map(*), $id as xs:string, $
     (: @namespace must precede all style rules. epub.css starts with one; keep it
        first so ODD CSS cannot push it into an invalid mid-file position. :)
     let $css :=
-        if (matches($cssEpub, "^\s*@namespace\b")) then
-            let $ns := replace($cssEpub, "^(\s*@namespace\b[^;]*;).*", "$1", "s")
-            let $rest := replace($cssEpub, "^\s*@namespace\b[^;]*;\s*", "", "s")
+        if (matches($cssEpub, "^\s*@namespace\s")) then
+            let $ns := replace($cssEpub, "^(\s*@namespace\s[^;]*;).*", "$1", "s")
+            let $rest := replace($cssEpub, "^\s*@namespace\s[^;]*;\s*", "", "s")
             return
                 $ns || "&#10;" || $cssDefault ||
                 "&#10;/* styles imported from epub.css */&#10;" || $rest
