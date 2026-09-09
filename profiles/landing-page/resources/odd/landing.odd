@@ -232,31 +232,30 @@
                 </elementSpec>
                 <elementSpec ident="item" mode="change">
                     <model predicate="parent::list/@type='links'" behaviour="listItem"/>
-                    <model predicate="ancestor::div[@type='highlights'][@ana='demo'] and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
-                        <desc>For the demo highlights, first check if an application with URI given in @context is actually installed</desc>
+                    <model predicate="ancestor::div[@type='highlights'] and @ana='demo' and @corresp and not(index-of(repo:list(), @corresp))" behaviour="omit">
+                        <desc>For demo highlights marked @ana='demo', omit the card when the application URI in @corresp is not installed</desc>
                     </model>
                     <model predicate="ancestor::div[@type='highlights'] and @corresp" behaviour="pass-through">
-                        <desc>For highlights with corresp, make entire tile a link</desc>
+                        <desc>For highlights with corresp, make entire tile a link without nesting anchors (nested a breaks the CSS grid)</desc>
                         <param name="pos" value="count(preceding-sibling::item) + 1"/>
                         <param name="label" value="@n"/>
                         <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
-                        <param name="corresp" value="@corresp"/>
-                        <param name="content" value="note"/>
+                        <param name="href" value="(list[@type='links']//ref/@target, desc/ref/@target)[1]"/>
+                        <param name="content" value="note/node()"/>
                         <param name="image" value="ptr[@type='image']/@target"/>
-                        <param name="title" value="desc"/>
+                        <param name="title" value="normalize-space(desc)"/>
                         <param name="links" value="list[@type='links']"/>
-                        <pb:template xml:space="preserve"><a href="[[corresp]]"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
-                    
-                <span class="label label-dark [[label-class]]">[[label]]</span>
-                <div class="desc">
-                <details>
-                    <summary>[[title]]</summary>
-                    <p>[[content]]</p> 
-                    [[links]]
-                    </details>
-                </div>
-                
-            </article></a></pb:template>
+                        <pb:template xml:space="preserve"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
+    <a class="highlight-stretched-link" href="[[href]]"><span class="visually-hidden">[[title]]</span></a>
+    <span class="label label-dark [[label-class]]">[[label]]</span>
+    <div class="desc">
+        <h3>[[title]]</h3>
+        <p>
+            [[content]]
+        </p>
+        [[links]]
+    </div>
+</article></pb:template>
                     </model>
                     <model predicate="ancestor::div[@type='highlights']" behaviour="pass-through">
             <desc>Output a highlight card linking to an installed application</desc>
