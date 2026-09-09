@@ -45,8 +45,8 @@ Logo, splash image, layout options, texture, and breadcrumb styling are typicall
 
 | File | Role |
 |------|------|
-| `resources/css/modern-theme.css` | Light-DOM overrides: CSS variables, segmented controls, browse cards, landing-page rectangular chrome, register sidebar |
-| `resources/css/modern-theme-components.css` | Shadow-DOM overrides for `pb-lang`, `pb-login`, and `pb-search` (appended to `components.css` by the theme-base10 generator) |
+| `resources/css/modern-theme.css` | Light-DOM overrides: CSS variables, segmented controls, browse cards, landing-page rectangular chrome, register sidebar, `pb-timeline` tokens / `::part` chrome |
+| `resources/css/modern-theme-components.css` | Shadow-DOM overrides for `pb-lang`, `pb-login`, `pb-search`, and `pb-timeline` (appended to `components.css` by the theme-base10 generator) |
 
 Both load **after** the theme-base10 bundle, so they override only what is needed instead of forking `jinks-components.css` or `layouts.css`.
 
@@ -58,6 +58,7 @@ Compared to the rounded, neutral default theme, modern-theme applies:
 - **Segmented toolbar** — icon groups (`pb-zoom`, `pb-navigation`, edition-navigation) are square cells with hairline dividers; hover uses a burgundy accent (`#8a0000`). Labelled navigation buttons grow to fit their text.
 - **Menubar chrome** — search, language, and login controls use flat hairline-bordered chips consistent with the toolbar.
 - **Browse & document chrome** — flat document cards (no shadow), full-width main column, styled `aside.after` for tabbed registers/maps.
+- **Timeline** — when the timeline profile is present, `pb-timeline` uses Chronologia-inspired chrome (parchment bars, burgundy selection, range pills, flat clear control) while keeping full content-column width and the component’s own scope/tick rotation so short and long series both remain usable.
 - **Landing pages** — when combined with the landing-page profile, keeps a rectangular menubar shell and flat `.button-link` CTAs without restyling nav links as chips.
 
 ### Assets
