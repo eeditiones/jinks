@@ -568,30 +568,27 @@ Total time: 0 seconds
             </para>
             <note>
                 <para>Unfortunately using agentic assistance does not remove neither the need for 
-                    modelling and engineering mindset nor standards compliance, 
+                    modelling and an engineering mindset nor standards compliance, 
                     governance and sustainability concerns.</para>
                 <para>Never blindly trust your agent and always review the result.
                     Coding agents have a strong tendency to focus on the immediate problem at hand,
-                    messing-up other parts of the application in the process. They also do not `care` about 
-                    standards compliance, interoperability or respecting the community best practices. 
-                    As a result, the application may look great on the surface, but not be easy to maintain in the future 
+                    messing-up other parts of the application in the process. By design they lean towards the statistically most common solution 
+                    and care less about 
+                    standards compliance, interoperability or respecting community best practices. 
+                    As a result, the application may look great on the surface, but will not be easy to maintain in the future 
                     and cease to integrate with the broader network of TEI Publisher-based applications.
                 </para>
-                <para>Agents can be great at coding, but they don't see the big picture. This still is and always should 
+                <para>Agents can be great at coding, but they don't see the big picture or follow a vision. This still is and always should 
                     remain your job.</para>
             </note>
-            <para>When generating an application, Jinks includes this set of guidelines for
-                coding agents like <link xlink:href="https://claude.ai/">Claude Code</link>, 
-                <link xlink:href="https://cursor.sh/">Cursor</link> and similar.
-            </para>
-            <para>The guidelines and skills assume that you keep the application code in a 
+            <para>Jinks includes the set of guidelines and skills into every generated application. They assume that you keep the application code in a 
                 <link linkend="development-workflow-jinks">local directory</link> while having
-                it installed in eXist at the same time. The skills interact with the database using the 
+                it installed in eXist at the same time. They interact with the database using the 
                 <link linkend="development-workflow-cli">command line tools for Jinks and eXist-db</link>, 
                 which therefore need to be available. The setup should be complemented with a source control (git) repository.
                 Agents should be able to help with the installation.
             </para>
-            <para>Claude and Cursor will automatically pick up
+            <para><link xlink:href="https://claude.ai/">Claude Code</link> and <link xlink:href="https://cursor.sh/">Cursor</link> will automatically pick up
                 the instructions and skills when the agent is pointed at the application directory.
                 For other agent types you need to check their documentation.</para>
             <para>The relevant files are:</para>
