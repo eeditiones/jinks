@@ -121,14 +121,14 @@ declare function page:collection-breadcrumbs($context as map(*)) {
  : <slot>) and still fetches and renders into its shadow DOM for interactive use,
  : so the user experience is unchanged.
  :
- : When defaults.view-static is set, the fragment is preferably loaded from the
- : pre-generated cache under that subdirectory (same index/key lookup as
- : pb-view's static mode). On a miss, the fragment is selected from the request
- : parameters the same way as the api/parts/{doc}/json endpoint
- : (dapi:get-fragment): the persistent "id" (xml:id) wins over the volatile
- : "root" (node id); with neither, the first fragment is rendered. This makes
- : every per-fragment URL the sitemap emits (e.g. ?id=intro-jinks) resolve
- : server-side to that fragment's text.
+ : When view-static is enabled (context or defaults) and defaults.data-static
+ : is set, the fragment is preferably loaded from the pre-generated cache under
+ : that subdirectory (same index/key lookup as pb-view's static mode). On a
+ : miss, the fragment is selected from the request parameters the same way as
+ : the api/parts/{doc}/json endpoint (dapi:get-fragment): the persistent "id"
+ : (xml:id) wins over the volatile "root" (node id); with neither, the first
+ : fragment is rendered. This makes every per-fragment URL the sitemap emits
+ : (e.g. ?id=intro-jinks) resolve server-side to that fragment's text.
  :
  : @param $context the templating context (expects $context?doc with content/path/view)
  : @return the transformed HTML nodes for the requested fragment, or empty if no document
@@ -155,19 +155,21 @@ declare function page:content($context as map(*), $xpath as xs:string?) {
 };
 
 (:~
- : Load a pre-generated part from the view-static cache directory, mirroring
- : pb-view._staticUrl: read `${view-static}/${doc.path}/index.json`, look up a
+ : Load a pre-generated part from the data-static cache directory, mirroring
+ : pb-view._staticUrl: read `${data-static}/${doc.path}/index.json`, look up a
  : key built from odd/view[/xpath][/map][/id|/root], then load the referenced
- : part JSON. Returns empty if view-static is unset, the index is missing, or
- : no key matches — caller then falls back to dynamic rendering.
+ : part JSON. Returns empty if view-static is disabled, data-static is unset,
+ : the index is missing, or no key matches — caller then falls back to dynamic
+ : rendering.
  :)
 declare %private function page:content-from-static($context as map(*), $xpath as xs:string?) {
-    let $viewStatic := normalize-space($context?defaults?view-static)
+    let $enabled := ($context?view-static, $context?defaults?view-static) = true()
+    let $dataStatic := if ($enabled) then normalize-space($context?defaults?data-static) else ()
     return
-        if (not($viewStatic) or not($context?doc?path)) then
+        if (not($dataStatic) or not($context?doc?path)) then
             ()
         else
-            let $base := string-join(($config:app-root, $viewStatic, $context?doc?path), "/")
+            let $base := string-join(($config:app-root, $dataStatic, $context?doc?path), "/")
             let $indexPath := $base || "/index.json"
             return
                 if (not(util:binary-doc-available($indexPath))) then

@@ -33,8 +33,8 @@
     <h5>
         <pb-i18n key="document.contents">Contents</pb-i18n>
     </h5>
-    [% if $context?defaults?view-static %]
-    <pb-load class="toc" url="[[$context-path]]/[[$context?defaults?view-static]]/[[$context?doc?path]]/toc.html" expand="expand" 
+    [% if ($context?view-static or $context?defaults?view-static) and $context?defaults?data-static %]
+    <pb-load class="toc" url="[[$context-path]]/[[$context?defaults?data-static]]/[[$context?doc?path]]/toc.html" expand="expand" 
         auto="auto" subscribe="toc" emit="toc" load-once="load-once">
         <pb-i18n key="dialogs.loading">Loading</pb-i18n>
     </pb-load>

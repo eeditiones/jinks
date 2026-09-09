@@ -70,8 +70,8 @@
     </header>
     <pb-view class="column" src="document1" xpath="//text[@type = 'source']" 
         append-footnotes="append-footnotes" subscribe="transcription" emit="transcription"
-        static="![[$context?defaults?view-static]]">[[ page:content($context, "//text[@type = 'source']") ]]</pb-view>
+        static="![[if ($context?view-static or $context?defaults?view-static) then $context?defaults?data-static else ()]]">[[ page:content($context, "//text[@type = 'source']") ]]</pb-view>
     <pb-view class="column" src="document1" xpath="//text[@type = 'translation']" 
         subscribe="transcription" append-footnotes="append-footnotes"
-        static="![[$context?defaults?view-static]]"/>
+        static="![[if ($context?view-static or $context?defaults?view-static) then $context?defaults?data-static else ()]]"/>
 </template>

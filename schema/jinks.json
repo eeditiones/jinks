@@ -155,14 +155,19 @@
                     "type": "string",
                     "enum": ["div", "page", "single"]
                 },
-                "view-static": {
+                "data-static": {
                     "type": "string",
-                    "description": "Value for the pb-view @static attribute: subdirectory name where pre-rendered view content is served from (e.g. \"cached\"). Omit or leave empty to disable static loading.",
+                    "description": "Subdirectory name where pre-rendered pb-view content is stored and served from (e.g. \"cached\"). Used by the controller for static file serving and as the @static attribute value when view-static is enabled. Omit or leave empty if the app does not use a static cache.",
                     "examples": [
                         "cached",
                         "prerendered",
                         "static"
                     ]
+                },
+                "view-static": {
+                    "type": "boolean",
+                    "description": "When true, enable pb-view/pb-load static mode for all pages (loads from defaults.data-static). Prefer setting view-static per collection in collection-config (or in a page template's frontmatter) so only selected collections use the cache.",
+                    "default": false
                 },
                 "media": {
                     "type": "array",
@@ -251,6 +256,11 @@
                         },
                         "view": {
                             "type": "string"
+                        },
+                        "view-static": {
+                            "type": "boolean",
+                            "description": "When true, enable pb-view/pb-load static mode for documents in this collection (loads from defaults.data-static).",
+                            "default": false
                         }
                     },
                     "additionalProperties": true
