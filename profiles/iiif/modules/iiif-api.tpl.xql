@@ -45,7 +45,7 @@ declare %private function iiif:canvases($doc as node()) {
         map {
             "@id": $iiifc:CANVAS_ID_PREFIX || $id,
             "@type": "sc:Canvas",
-            "label": "Page " || $pb/@n,
+            "label":  [[ $context?features?iiif?page_label ]],
             "width": $info?width,
             "height": $info?height,
             "images": [
