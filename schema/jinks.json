@@ -517,6 +517,10 @@
                             "type": "string",
                             "description": "XPath expression to select the milestone elements pointing to images"
                         },
+                        "page_label": {
+                            "type": "string",
+                            "description": "XPath expression to generate the label for the pages in the IIIF viewer"
+                        },
                         "replace_facs": {
                             "type": "object",
                             "description": "Regular expression applied to the facs attribute of the milestone elements to extract the image identifier",
