@@ -45,8 +45,53 @@
     text-underline-offset: 2px;
 }
 
+/* Popover chrome: Tippy is appended in pb-view’s shadow, so variables must
+   live on :host (not only pb-popover) to reach .tippy-box. */
+:host {
+    --pb-popover-line-height: 1.55;
+    --pb-popover-font-size: 0.95rem;
+    --pb-popover-max-width: 28rem;
+}
+
 pb-popover {
     --pb-popover-theme: "light-border";
+}
+
+/* Beat Tippy’s injected `.tippy-content { padding: 5px 9px }` (same shadow). */
+.tippy-box > .tippy-content {
+    padding: 1.15rem 1.35rem 1.2rem !important;
+}
+
+.tippy-content h1 {
+    margin: 0 0 0.7rem;
+    padding: 0;
+    font-family: var(--pb-heading-font-family, Belleza, serif);
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #2c2a24;
+}
+
+.tippy-content .tei-note {
+    margin: 0;
+    line-height: 1.55;
+    color: #3d3a32;
+}
+
+.tippy-content ul {
+    margin: 1rem 0 0;
+    padding-left: 1.2em;
+    list-style: disc;
+}
+
+.tippy-content li {
+    margin: 0.2rem 0;
+    line-height: 1.4;
+}
+
+.tippy-content .links {
+    margin-top: 0.85rem;
 }
 
 .person .dates {
