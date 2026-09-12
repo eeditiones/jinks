@@ -306,8 +306,8 @@
                     </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
                         <desc>Output register data if register profile is enabled</desc>
-                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref], root(.)//rs[@type='person'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
-                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref], root(.)//rs[@type='place'][@key or @ref]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
+                        <param name="people" value="let $refs := (root(.)//persName[@key or @ref][not(ancestor::correspContext)], root(.)//rs[@type='person'][@key or @ref][not(ancestor::correspContext)]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::person]"/>
+                        <param name="places" value="let $refs := (root(.)//placeName[@key or @ref][not(ancestor::correspContext)], root(.)//rs[@type='place'][@key or @ref][not(ancestor::correspContext)]), $keys := for $i in ($refs/@key, $refs/@ref) return $i ! tokenize(., ' ')  return for $key in distinct-values($keys) return collection($global:register-root)/id($key)[self::place]"/>
                         <pb:template xml:space="preserve" xmlns=""><div class="register">
 <h3><pb-i18n key="register-details.people">ppl</pb-i18n></h3>
 <ul>
@@ -567,16 +567,15 @@
                 <elementSpec ident="pb" mode="change">
                     <model predicate="$parameters?mode='toc'" behaviour="omit"/>
                     <model output="print" behaviour="omit"/>
-                    <modelSequence output="typst">
-                        <desc>Inline page-break marker; @n as margin note</desc>
-                        <model behaviour="inline">
-                            <param name="content" value="'|'"/>
-                        </model>
-                        <model predicate="@n" behaviour="note">
-                            <param name="place" value="'margin'"/>
-                            <param name="content" value="@n"/>
-                        </model>
-                    </modelSequence>
+                    <model output="typst" behaviour="inline">
+                        <desc>Inline page-break marker: |&lt;n&gt; in a small font. A
+                            margin note per page break is too loud in a running text —
+                            the number belongs next to the break it marks.</desc>
+                        <param name="content" value="'|' || @n"/>
+                        <outputRendition xml:space="preserve">
+                        font-size: 0.75em; color: grey;
+                        </outputRendition>
+                    </model>
                     <model predicate="$parameters?mode='title'" behaviour="inline">
                         <param name="content" value="root($parameters?root)//teiHeader/fileDesc/titleStmt"/>
                         <param name="page" value="head((@n, @facs))"/>
@@ -786,8 +785,9 @@
                 </elementSpec>
                 <elementSpec ident="subst" mode="change">
                     <model behaviour="inline">
-            <desc>explicitly set content to avoid whitespace issues</desc>
-            <param name="content" value="(del, add)"/>
+            <desc>explicitly set content to avoid whitespace issues; keep a note
+                anchor placed inside the subst, whose note is lost otherwise</desc>
+            <param name="content" value="(del, add, anchor)"/>
         </model>
                 </elementSpec>
                 <elementSpec ident="table" mode="change">
@@ -849,8 +849,8 @@
         </model>
                     <model predicate="$parameters?mode = 'register'" behaviour="pass-through">
             <desc>Output register data if register profile is enabled</desc>
-            <param name="people" value="for $key in distinct-values((root(.)//persName/@key, root(.)//persName/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
-            <param name="places" value="for $key in distinct-values((root(.)//placeName/@key, root(.)//placeName/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
+            <param name="people" value="for $key in distinct-values((root(.)//persName[not(ancestor::correspContext)]/@key, root(.)//persName[not(ancestor::correspContext)]/@ref)) return collection($global:register-root)/id($key)[self::person]"/>
+            <param name="places" value="for $key in distinct-values((root(.)//placeName[not(ancestor::correspContext)]/@key, root(.)//placeName[not(ancestor::correspContext)]/@ref)) return collection($global:register-root)/id($key)[self::place]"/>
             <pb:template xmlns="" xml:space="preserve"><div class="register">
 <h3>People</h3>
 <ul>
