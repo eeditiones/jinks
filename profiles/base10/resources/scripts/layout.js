@@ -105,7 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hide mobile asides on pb-refresh event
+    // Close mobile asides on pb-refresh (e.g. page navigation) and keep main visible.
+    // main and .before are toggled as opposites: when the TOC is open, main has
+    // .hidden-mobile. Closing the TOC must remove that class from main — adding it
+    // here left main hidden after every navigation (empty content).
     const mobileAsideToggles = document.querySelectorAll(".aside-toggle.mobile");
     if (mobileAsideToggles.length > 0) {
         document.addEventListener("pb-refresh", function () {
@@ -121,12 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (topPanel && !topPanel.classList.contains('hidden-mobile')) {
                         topPanel.classList.add('hidden-mobile');
                     }
-                    const main = document.querySelector('.fixed-layout > main');
-                    if (main && !main.classList.contains('hidden-mobile')) {
-                        main.classList.add('hidden-mobile');
-                    }
                 }
             });
+            const main = document.querySelector('.fixed-layout > main');
+            if (main) {
+                main.classList.remove('hidden-mobile');
+            }
         });
     }
 

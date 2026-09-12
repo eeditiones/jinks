@@ -356,6 +356,18 @@
         max-width: unset;
     }
 
+    /* When the mobile TOC is open, main is hidden. Collapse to a single column so
+       content-top (toolbar) and .before both span the full width — otherwise the
+       toolbar stays in the middle track and looks cramped beside a wide TOC. */
+    .fixed-layout:has(> main.hidden-mobile) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "content-top"
+            "before"
+            "footer";
+    }
+
     /* Hide aside toggle if .before is empty */
     .fixed-layout:not(:has(> .before > :not(.resize-handler))) > footer.mobile-footer .aside-toggle {
         display: none;
@@ -379,6 +391,19 @@
     /* This overrides the more specific .fixed-layout > .before { display: flex; } rule */
     .fixed-layout > .before.hidden-mobile,
     .fixed-layout > .after.hidden-mobile {
+        display: none !important;
+    }
+
+    /* Same for main: mobile TOC toggle adds .hidden-mobile to main while .before is
+       shown. Without this, .fixed-layout > main { display: flex } / the 768px
+       display:block rule keep main visible and the TOC draws over the text. */
+    .fixed-layout > main.hidden-mobile {
+        display: none !important;
+    }
+
+    /* Page prev/next live in the mobile footer; hide the toolbar duplicates.
+       Beat .toolbar ul / li display rules that outrank plain .hidden-mobile. */
+    .toolbar li.toolbar-navigation {
         display: none !important;
     }
 

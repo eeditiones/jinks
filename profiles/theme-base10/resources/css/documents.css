@@ -1,7 +1,24 @@
+/* Browse: pin above-content (timeline, etc.) and scroll only the result list.
+   Overrides layouts.css `.fixed-layout > main > * { flex: 1 }` and avoids making
+   main itself the scrollport (which dragged the timeline away with the cards). */
+.fixed-layout main:has(#document-list) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.fixed-layout main:has(#document-list) pb-timeline,
+.fixed-layout main:has(#document-list) #timeline-options,
+.fixed-layout main:has(#document-list) .hero {
+    flex: 0 0 auto;
+}
+
 #document-list {
-    flex-grow: 2;
+    flex: 1 1 auto;
     width: 100%;
-    height: 100%;
+    min-height: 0;
+    height: auto;
 }
 
 #document-list pb-load {

@@ -38,6 +38,28 @@
     --jinks-timeline-chart-max-width: 40rem;
 }
 
+/* Pin the browse timeline while letter cards scroll (documents.css has the same
+   rules; repeated here because this file is linked directly and avoids a stale
+   @import of documents.css via jinks-theme.css). */
+.fixed-layout main:has(#document-list) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.fixed-layout main:has(#document-list) pb-timeline,
+.fixed-layout main:has(#document-list) #timeline-options,
+.fixed-layout main:has(#document-list) .hero {
+    flex: 0 0 auto;
+}
+
+.fixed-layout main:has(#document-list) #document-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+}
+
 /* Parchment toolbar: texture + readability gradient (toolbar only — not the
    content-top wrapper, which would stretch with the sidebar grid row). */
 .toolbar {
