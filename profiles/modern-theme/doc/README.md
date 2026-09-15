@@ -1,12 +1,10 @@
 # Modern theme
 
-A contemporary visual theme for TEI Publisher 10. It extends [theme-base10](../theme-base10/doc/README.md) rather than replacing it: all layout, component structure, and CSS custom-property hooks come from the default Jinks theme; this profile layers typography, colour, and flat rectangular controls on top.
-
-Edition-specific chrome (for example the parchment toolbar band and breadcrumb title treatment in the Serafin blueprint) belongs in the consuming profile, not here.
+A contemporary visual theme for TEI Publisher 10. It **extends** [theme-base10](../theme-base10/doc/README.md): all layout, component structure, and CSS custom-property hooks come from the default Jinks theme; this profile layers typography, colour, and flat rectangular controls on top.
 
 ## Using the theme
 
-Add **both** `theme-base10` and `modern-theme` to your application's `extends` list (or select them on the **Themes** tab in Jinks). `modern-theme` depends on `theme-base10`; the base theme must remain present because it supplies the core stylesheets, palettes, and generator hooks.
+Add **both** `theme-base10` and `modern-theme` to your application's `extends` list (or select them via the **Themes** tab in Jinks). `modern-theme` depends on `theme-base10`; the base theme must remain present because it supplies the core stylesheets, palettes, and generator hooks.
 
 ```json
 "extends": [
@@ -17,6 +15,8 @@ Add **both** `theme-base10` and `modern-theme` to your application's `extends` l
 ```
 
 Blueprints that declare a dependency on `modern-theme` (for example the Serafin blueprint) will auto-select it when chosen in the profile picker.
+
+Edition-specific details (for example the parchment toolbar band and breadcrumb title treatment in the Serafin blueprint) belong in the **blueprint** or **custom application** using this theme, not here.
 
 ## How it differs from theme-base10
 
@@ -35,18 +35,20 @@ The profile merges these defaults into the app configuration (later profiles and
 | `theme.content.max-width` | `70ch` | `48ch` |
 | `theme.components.styles` | — | `resources/css/modern-theme-components.css` |
 
-Logo, splash image, layout options, texture, and breadcrumb styling are typically set by the consuming blueprint—for example the Serafin blueprint adds its parchment toolbar band, icon, animation, and browse layout on top of this theme.
+**NB** *Logo, splash image, layout options, texture, and breadcrumb styling are typically set by the consuming blueprint (or custom application)—for example the Serafin blueprint adds its parchment toolbar band, icon, animation, and browse layout on top of this theme.*
 
 ### Fonts
 
-`theme-base10` ships Inter and JunicodeVF in `resources/fonts/font.css`. **modern-theme replaces that file** with locally hosted [Albert Sans](https://fonts.google.com/specimen/Albert+Sans) (variable, latin + latin-ext) for UI, content, and headings. No Google Fonts CDN request is made at runtime; faces are loaded via `jinks-theme.css` → `../fonts/font.css`. Edition-specific display faces (for example Belleza in the Serafin blueprint) belong in the consuming profile.
+`theme-base10` ships Inter and JunicodeVF in `resources/fonts/font.css`. **modern-theme replaces that file** with locally hosted [Albert Sans](https://fonts.google.com/specimen/Albert+Sans) (variable, latin + latin-ext) for UI, content, and headings. No Google Fonts CDN request is made at runtime; fonts are loaded via `jinks-theme.css` → `../fonts/font.css`. 
+
+**NB** *Edition-specific display fonts (for example Belleza in the Serafin blueprint) belong in the consuming profile.*
 
 ### Stylesheets
 
 | File | Role |
 |------|------|
-| `resources/css/modern-theme.css` | Light-DOM overrides: CSS variables, segmented controls, browse cards, landing-page rectangular chrome, register sidebar |
-| `resources/css/modern-theme-components.css` | Shadow-DOM overrides for `pb-lang`, `pb-login`, and `pb-search` (appended to `components.css` by the theme-base10 generator) |
+| `resources/css/modern-theme.css` | Light-DOM overrides: CSS variables, segmented controls, browse cards, landing-page rectangular chrome, register sidebar, `pb-timeline` tokens / `::part` chrome |
+| `resources/css/modern-theme-components.css` | Shadow-DOM overrides for `pb-lang`, `pb-login`, `pb-search`, and `pb-timeline` (appended to `components.css` by the theme-base10 generator) |
 
 Both load **after** the theme-base10 bundle, so they override only what is needed instead of forking `jinks-components.css` or `layouts.css`.
 
@@ -58,6 +60,7 @@ Compared to the rounded, neutral default theme, modern-theme applies:
 - **Segmented toolbar** — icon groups (`pb-zoom`, `pb-navigation`, edition-navigation) are square cells with hairline dividers; hover uses a burgundy accent (`#8a0000`). Labelled navigation buttons grow to fit their text.
 - **Menubar chrome** — search, language, and login controls use flat hairline-bordered chips consistent with the toolbar.
 - **Browse & document chrome** — flat document cards (no shadow), full-width main column, styled `aside.after` for tabbed registers/maps.
+- **Timeline** — when the timeline profile is present, `pb-timeline` uses Chronologia-inspired chrome (parchment bars, burgundy selection, range pills, flat clear control) while keeping full content-column width and the component’s own scope/tick rotation so short and long series both remain usable.
 - **Landing pages** — when combined with the landing-page profile, keeps a rectangular menubar shell and flat `.button-link` CTAs without restyling nav links as chips.
 
 ### Assets
@@ -68,10 +71,10 @@ This theme does not ship edition logos. Consuming blueprints supply their own im
 
 Most frequent tweaks belong in the app's `config.json` under `theme` (palette, fonts, content width)—the same keys documented for [theme-base10](../theme-base10/doc/README.md).
 
-For visual details not exposed in JSON, edit the CSS custom properties at the top of `resources/css/modern-theme.css` (they map to hooks defined in `theme-base10/resources/css/jinks-variables.tpl.css`). Web-component internals go in `modern-theme-components.css`.
+For visual details not exposed in `config.json`, edit the CSS custom properties at the top of `resources/css/modern-theme.css` (they map to hooks defined in `theme-base10/resources/css/jinks-variables.tpl.css`). Styles for web-component internals go in `modern-theme-components.css`.
 
 After changing the profile, regenerate and redeploy the consuming application so `font.css`, `components.css`, and copied assets are refreshed.
 
 ## Credits
 
-Visual design developed for the [Correspondence of Mikołaj Serafin](https://e-editiones.org/) edition at the Jagiellonian University Digital Humanities Lab.
+Visual design developed *pro publico bono* by [JinnTec](https://jinntec.de) for the *Correspondence of Mikołaj Serafin* edition.

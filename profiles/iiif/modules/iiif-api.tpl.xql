@@ -22,7 +22,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~ Contact the IIIF image api to get the dimensions of an image :)
 declare %private function iiif:image-info($path as xs:string) {
-    let $request := <http:request method="GET" href="{$iiifc:IMAGE_API_BASE}/{$path}/info.json"/>
+    let $request := <http:request method="GET" href="{string-join(($iiifc:IMAGE_API_BASE, $path), '/')}/info.json"/>
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
@@ -45,7 +45,7 @@ declare %private function iiif:canvases($doc as node()) {
         map {
             "@id": $iiifc:CANVAS_ID_PREFIX || $id,
             "@type": "sc:Canvas",
-            "label": "Page " || $pb/@n,
+            "label":  [[ $context?features?iiif?page_label ]],
             "width": $info?width,
             "height": $info?height,
             "images": [
@@ -53,14 +53,14 @@ declare %private function iiif:canvases($doc as node()) {
                     "@type": "oa:Annotation",
                     "motivation": "sc:painting",
                     "resource": map {
-                        "@id": $iiifc:IMAGE_API_BASE || "/" || $id || "/full/full/0/default.jpg",
+                        "@id": string-join(($iiifc:IMAGE_API_BASE, $id), '/') || "/full/max/0/default.jpg",
                         "@type": "dctypes:Image",
                         "format": "image/jpeg",
                         "width": $info?width,
                         "height": $info?height,
                         "service": map {
                             "@context": "http://iiif.io/api/image/2/context.json",
-                            "@id": $iiifc:IMAGE_API_BASE || "/" || $id,
+                            "@id": string-join(($iiifc:IMAGE_API_BASE, $id), '/'),
                             "profile": "http://iiif.io/api/image/2/level2.json"
                         }
                     },

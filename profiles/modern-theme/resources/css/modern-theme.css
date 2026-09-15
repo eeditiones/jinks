@@ -416,3 +416,84 @@ pb-page.landing-layout .button-link:hover {
 pb-page.landing-layout .highlight-card a.button-link:hover {
     color: var(--jinks-colors-light);
 }
+
+/* ===========================================================================
+   pb-timeline — Chronologia-inspired chrome for any collection size/scope.
+   Width follows the browse content column; bins flex evenly. Tick rotation
+   stays under the component’s control (rotated for Y/5Y/10Y/D/W, upright for M).
+   =========================================================================== */
+
+pb-timeline {
+    --pb-timeline-height: 5.5rem;
+    --pb-timeline-padding: 0;
+    /* Cap column width so week/day drill-downs stay a dense strip. Keep the cap
+       high enough that a typical year-scale series can still fill a ~40rem host. */
+    --pb-timeline-min-width: 0.45rem;
+    --pb-timeline-max-width: 2.25rem;
+    --pb-timeline-title-font-size: 0.7rem;
+    --pb-timeline-tooltip-font-size: 0.78rem;
+    /* Muted parchment bars; burgundy on hover / selection (toolbar accent). */
+    --pb-timeline-color-bin: color-mix(in srgb, var(--jinks-colors-500) 42%, var(--jinks-colors-300));
+    --pb-timeline-color-highlight: #8a0000;
+    /* Alternating column stripes behind the bars. */
+    --pb-timeline-color-light: transparent;
+    --pb-timeline-color-dark: color-mix(in srgb, var(--jinks-colors-300) 55%, transparent);
+    --pb-timeline-color-selected: color-mix(in srgb, #8a0000 8%, transparent);
+    /* Range pills + tooltip chrome. */
+    --pb-timeline-background-color-title: color-mix(in srgb, var(--jinks-colors-700) 78%, var(--jinks-colors-500));
+    --pb-timeline-color-title: var(--jinks-colors-light);
+
+    display: block;
+    box-sizing: border-box;
+    /* Block width:auto fills the main column (minus margins). Editions may set
+       --jinks-timeline-chart-max-width (Serafin: 40rem) to keep the chart dense. */
+    width: auto;
+    max-width: var(--jinks-timeline-chart-max-width, none);
+    /* Match .documents horizontal padding so the chart lines up with card borders. */
+    margin: 0 20px 1.35rem;
+    padding: 0 0 0.35rem;
+    border-bottom: 1px solid var(--jinks-colors-400);
+}
+
+pb-timeline::part(label) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--jinks-colors-500);
+    font-variant-numeric: tabular-nums;
+}
+
+pb-timeline::part(title) {
+    border-radius: 999px;
+    padding: 0.22rem 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    height: auto;
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+pb-timeline::part(tooltip) {
+    border-radius: 2px;
+    background-color: var(--pb-timeline-background-color-title);
+    color: var(--pb-timeline-color-title);
+    font-size: var(--pb-timeline-tooltip-font-size);
+    box-shadow: none;
+}
+
+.after pb-timeline {
+    margin: 0 0 1rem;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.after pb-timeline::part(label) {
+    display: none;
+}

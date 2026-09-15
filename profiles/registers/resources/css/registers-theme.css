@@ -23,6 +23,17 @@
     margin-right: auto;
 }
 
+/* Detail pages are direct flex children of main (flex: 1). Override that so
+   max-width + auto margins can center them like the overview lists.
+   Specificity must beat `.fixed-layout > main > *`. */
+.fixed-layout > main > section.person,
+.fixed-layout > main > section.place {
+    flex: 0 1 auto;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .person .variant:not(:first-child)::before {
     content: "; ";
 }

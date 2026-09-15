@@ -1,20 +1,12 @@
+/* Baseline pb-timeline hooks. Themes (e.g. modern-theme) override look and feel. */
+
 pb-timeline::part(tooltip) {
     background-color: var(--jinks-color-inverse);
-    color: var(--pb-color);
-}
-
-pb-timeline {
-    margin-bottom: var(--s-2);
-    margin-left: var(--s0);
-    padding-left: var(--s-2);
+    color: var(--jinks-colors-light, var(--pb-color, #fff));
 }
 
 pb-timeline::part(label) {
     font-size: var(--jinks-font-size-smaller);
-}
-
-pb-timeline::part(tooltip) {
-    color: var(--jinks-color-white);
 }
 
 .after pb-timeline::part(label) {

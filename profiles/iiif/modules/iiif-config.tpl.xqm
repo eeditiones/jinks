@@ -11,7 +11,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:~
  : Base URI of the IIIF image API service to use for the images
  :)
+[% if $context?features?iiif?base_uri %]
 declare variable $iiifc:IMAGE_API_BASE := "[[ $context?features?iiif?base_uri ]]";
+[% else %]
+declare variable $iiifc:IMAGE_API_BASE := ();
+[% endif %]
 
 (:~
  : URL prefix to use for the canvas id

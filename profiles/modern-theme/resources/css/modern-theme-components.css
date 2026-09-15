@@ -66,3 +66,156 @@
     border: 1px solid var(--jinks-search-border-color, var(--jinks-colors-400));
     background-color: var(--jinks-search-bg-color, var(--jinks-colors-100));
 }
+
+/* pb-timeline — Chronologia-inspired internals for any scope/bin count.
+   Custom-property tokens are set on the host from modern-theme.css and inherit here. */
+:host(pb-timeline) .wrapper {
+    width: 100%;
+    height: var(--pb-timeline-height, 5.5rem);
+    margin: 0;
+    padding: 0 0 1.85rem;
+    box-sizing: content-box;
+    overflow: visible;
+    gap: 1px;
+}
+
+:host(pb-timeline) .bin-container {
+    margin-top: 1.75rem;
+    /* Share the host width; max-width keeps week/day zooms from becoming slabs. */
+    flex: 1 1 0;
+    min-width: var(--pb-timeline-min-width, 0.45rem);
+    max-width: var(--pb-timeline-max-width, 2.25rem);
+    border-left: none;
+}
+
+:host(pb-timeline) .bin-container.border-left,
+:host(pb-timeline) .bin-container.unknown {
+    border-left: none;
+}
+
+:host(pb-timeline) .bin-container.unknown {
+    margin-left: 1.5rem;
+}
+
+:host(pb-timeline) .bin {
+    width: 100%;
+    border-radius: 1px 1px 0 0;
+    transition: background-color 0.15s ease;
+}
+
+:host(pb-timeline) .bin-container:hover .bin,
+:host(pb-timeline) .bin-container.selected > .bin {
+    background-color: var(--pb-timeline-color-highlight, #8a0000);
+}
+
+:host(pb-timeline) .bin-container.selected p {
+    font-weight: 500;
+}
+
+/* Tick labels under the baseline; keep the component’s rotate flag for dense scopes. */
+:host(pb-timeline) p.bin-title {
+    top: auto;
+    bottom: -1.45rem;
+    left: 50%;
+    right: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    transform: translateX(-50%);
+    font-size: var(--pb-timeline-title-font-size, 0.7rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--jinks-colors-600, #2A2925);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+:host(pb-timeline) p.bin-title.rotated {
+    bottom: -0.2rem;
+    transform: translateX(-50%) rotate(-90deg);
+    transform-origin: center;
+}
+
+:host(pb-timeline) .bins-title {
+    top: -1.35rem;
+    height: auto;
+    /* Do not use % of the bin — that collapses decade pills when columns are narrow. */
+    max-width: 9rem;
+    line-height: 1.2;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: var(--pb-timeline-background-color-title);
+    color: var(--pb-timeline-color-title);
+    transition: background-color 0.15s ease;
+    z-index: 2;
+}
+
+:host(pb-timeline) .bin-container:hover .bins-title,
+:host(pb-timeline) .bin-container.selected .bins-title {
+    background-color: var(--pb-timeline-color-highlight, #8a0000);
+}
+
+:host(pb-timeline) .label {
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+:host(pb-timeline) #clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: var(--jinks-toolbar-segment-cell-width, 2.5rem);
+    height: var(--jinks-toolbar-segment-height, 2.25rem);
+    margin-left: 0.5rem;
+    padding: 0;
+    border: 1px solid var(--jinks-toolbar-segment-border-color, var(--jinks-colors-400, #DDD5C0));
+    border-radius: var(--jinks-toolbar-segment-radius, var(--jinks-form-border-radius, 2px));
+    background-image: none;
+    background-color: var(--jinks-toolbar-segment-bg, var(--jinks-colors-100, #FFFEF9));
+    color: var(--jinks-toolbar-segment-color, var(--jinks-colors-700, #24211D));
+    box-shadow: none;
+    cursor: pointer;
+    position: relative;
+    transition: var(--jinks-toolbar-segment-transition, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease);
+}
+
+:host(pb-timeline) #clear::before,
+:host(pb-timeline) #clear::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.7rem;
+    height: 1.5px;
+    background: currentColor;
+}
+
+:host(pb-timeline) #clear::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+:host(pb-timeline) #clear::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+:host(pb-timeline) #clear:hover {
+    background-color: var(--jinks-toolbar-segment-hover-bg, #8a0000);
+    border-color: var(--jinks-toolbar-segment-hover-bg, #8a0000);
+    color: var(--jinks-toolbar-segment-hover-color, var(--jinks-colors-light, #FCFCF8));
+}
+
+:host(pb-timeline) .tooltip {
+    border-radius: 2px;
+    top: calc(var(--pb-timeline-height, 5.5rem) + 2.1rem);
+}
+
+:host(pb-timeline) .tooltip::after {
+    border-color: transparent transparent var(--pb-timeline-background-color-title, #535353) transparent;
+}

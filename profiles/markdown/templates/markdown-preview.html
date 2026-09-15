@@ -48,6 +48,8 @@
     </li>
     [% endtemplate %]
 
-    <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md"
-        emit="transcription"></pb-markdown>
+    <div class="center">
+        <pb-markdown url="[[ $context-path ]]/api/document/[[ encode-for-uri($doc?path) ]]/md"
+            emit="transcription"></pb-markdown>
+    </div>
 </main>

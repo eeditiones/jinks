@@ -12,7 +12,8 @@ The demo container (`ghcr.io/eeditiones/jinks-demo`) includes three pre-generate
 
 ## Configuration Files
 
-- `tp_config.json` - Configuration for tei-publisher app
+- `tp_config.json` - Configuration for tei-publisher app (CI / local default; no view-static)
+- `tp_config.prod.json` - Same app with `data-static` / `view-static` for documentation, plus the `sitemap` profile (used when `PRODUCTION=true`)
 - `ser_config.json` - Configuration for tp-serafin app
 - `workbench_config.json` - Configuration for tp-annotator app
 
@@ -24,11 +25,32 @@ The demo container is automatically built by the CI workflow (`.github/workflows
 - **Release tags (v*)** - Generates apps, builds, and pushes versioned images to GHCR
 
 The workflow:
-1. Starts a jinks container
-2. Uses jinks-cli to generate apps from the config files
+1. Builds a jinks image from this checkout and starts it
+2. Uses jinks-cli to generate apps from the config files (`tp_config.json` without static mode)
 3. Downloads XAR files for each generated app
 4. Builds a Docker image using `Dockerfile.demo`
 5. (On tags only) Pushes the image to `ghcr.io/eeditiones/jinks-demo:{version}`
+
+### Local builds (`./build.sh`)
+
+```bash
+# Default: build jinks from this checkout, use tp_config.json (no opm)
+./build.sh
+
+# Production-style: published jinks image, tp_config.prod.json, opm chunk + upload, sitemap action
+PRODUCTION=true ./build.sh
+
+# Multi-arch build + push (amd64 + arm64). Requires docker login to the target registry.
+IMAGE=wolfgangmm/tei-publisher-home:latest \
+  PLATFORMS=linux/amd64,linux/arm64 \
+  PUSH=true \
+  PRODUCTION=true \
+  ./build.sh
+```
+
+`PRODUCTION=true` requires Docker, `opm`, and `xst` on the PATH. Chunking is configured in `opm.toml`. After upload it runs `jinks run tei-publisher sitemap` so `sitemap.xml` is included in the downloaded XAR.
+
+Multi-arch builds use `docker buildx` and must push directly (`PUSH=true`) because Docker cannot load a multi-platform image into the local store. Cross-arch builds emulated via QEMU are slower than native.
 
 ## Usage
 

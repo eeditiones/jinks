@@ -4,13 +4,14 @@
     "description": "A workspace for editing and annotating documents. Includes the Jinntap editor, web-based annotation editor, and an upload component.",
     "id": "https://e-editiones.org/apps/workbench",
     "type": "blueprint",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "depends": [
         "base10",
         "forms",
         "annotate",
         "jinntap",
         "upload",
+        "docx",
         "ci"
     ],
     "skipSource": [

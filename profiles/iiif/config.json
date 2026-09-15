@@ -5,7 +5,7 @@
     "id": "https://e-editiones.org/app/tei-publisher/iiif",
     "label": "IIIF Viewer Integration",
     "description": "Integrates a IIIF viewer for displaying facsimiles and other images",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "order": 3,
     "depends": [
         "base10"
@@ -32,6 +32,7 @@
                 "regex": "^[^:]+:(.*)",
                 "replace": "$1"
             },
+            "page_label": "'Page ' || $pb/@n",
             "enabled": false
         }
     }

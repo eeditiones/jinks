@@ -2,13 +2,13 @@
     "$schema": "../../schema/jinks.json",
     "type": "base",
     "id": "https://e-editiones.org/app/tei-publisher/base",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "label": "TEI Publisher Base",
     "description": "Base profile for a TEI Publisher 10 application. Provides the core API and basic page layout without styling.",
     "order": 0,
     "pkg": {
         "abbrev": "tei-publisher-base",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "website": "http://tei-publisher.org",
         "author": "Wolfgang Meier et al.",
         "user": {
@@ -46,7 +46,7 @@
         }
     },
     "script": {
-        "webcomponents": "3.6.6",
+        "webcomponents": "3.6.8",
         "extra-components": [],
         "cdn": "https://cdn.jsdelivr.net/npm/@teipublisher/pb-components",
         "custom": []
