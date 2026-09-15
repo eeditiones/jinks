@@ -39,9 +39,18 @@ The workflow:
 
 # Production-style: published jinks image, tp_config.prod.json, opm chunk + upload, sitemap action
 PRODUCTION=true ./build.sh
+
+# Multi-arch build + push (amd64 + arm64). Requires docker login to the target registry.
+IMAGE=wolfgangmm/tei-publisher-home:latest \
+  PLATFORMS=linux/amd64,linux/arm64 \
+  PUSH=true \
+  PRODUCTION=true \
+  ./build.sh
 ```
 
 `PRODUCTION=true` requires Docker, `opm`, and `xst` on the PATH. Chunking is configured in `opm.toml`. After upload it runs `jinks run tei-publisher sitemap` so `sitemap.xml` is included in the downloaded XAR.
+
+Multi-arch builds use `docker buildx` and must push directly (`PUSH=true`) because Docker cannot load a multi-platform image into the local store. Cross-arch builds emulated via QEMU are slower than native.
 
 ## Usage
 

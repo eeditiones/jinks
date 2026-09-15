@@ -13,8 +13,8 @@ xpath_extensions = [
     "opm.runtime.common_xpath_functions"
 ]
 
-[transform.web.webcomponents]
-enabled = true
+[transform.web]
+webcomponents = true
 
 [chunking]
 selector = "opm.navigation.dbk_section_chunks"

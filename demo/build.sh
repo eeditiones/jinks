@@ -108,7 +108,7 @@ if [ "$PRODUCTION" = "true" ]; then
     opm chunk "$DOCS_DATA" -c opm.toml --format pb-view --force
 
     echo "Uploading pre-generated content into tei-publisher..."
-    xst upload chunks/ /db/apps/tei-publisher/cached/ -v
+    xst upload chunks/ /db/apps/tei-publisher/cached/
 
     echo "Generating sitemap.xml..."
     $JINKS_CMD run tei-publisher sitemap
@@ -121,4 +121,33 @@ $JINKS_CMD run tp-jats download
 
 docker stop jinks-server
 
-docker build -f Dockerfile.demo -t jinks-demo .
+# Final demo image
+# IMAGE:     tag to build/push (default: jinks-demo)
+# PLATFORMS: e.g. linux/amd64,linux/arm64 — multi-arch via buildx (requires PUSH=true)
+# PUSH:      if true, push to the registry
+IMAGE="${IMAGE:-jinks-demo}"
+PLATFORMS="${PLATFORMS:-}"
+PUSH="${PUSH:-false}"
+
+if [ -n "$PLATFORMS" ]; then
+    if [ "$PUSH" != "true" ]; then
+        echo "Error: multi-arch builds (PLATFORMS set) require PUSH=true;"
+        echo "Docker cannot load a multi-platform image into the local image store."
+        echo "Example: IMAGE=wolfgangmm/tei-publisher-home:latest PLATFORMS=linux/amd64,linux/arm64 PUSH=true ./build.sh"
+        exit 1
+    fi
+    echo "Building multi-arch image ($PLATFORMS) and pushing as $IMAGE..."
+    docker buildx build \
+        --platform "$PLATFORMS" \
+        -f Dockerfile.demo \
+        -t "$IMAGE" \
+        --push \
+        .
+else
+    echo "Building image $IMAGE..."
+    docker build -f Dockerfile.demo -t "$IMAGE" .
+    if [ "$PUSH" = "true" ]; then
+        echo "Pushing $IMAGE..."
+        docker push "$IMAGE"
+    fi
+fi
