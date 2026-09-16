@@ -26,6 +26,11 @@
     ],
     "styles": [
     ],
+    "theme": {
+        "icons": [
+            "annotate-icons.svg"
+        ]
+    },
     "api": [
         {
             "prefix": "anno",
@@ -39,6 +44,12 @@
             "configs": {
                 "tei": {
                     "key": "key",
+                    "keyMap": {
+                        "person": "ref",
+                        "organization": "ref",
+                        "place": "ref",
+                        "work": "ref"
+                    },
                     "id": "http://teipublisher.com/api/annotations/config/tei",
                     "path": "tei-annotation-config.xqm"
                 }

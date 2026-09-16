@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "https://reconciliation-api.github.io/specs/draft/schemas/reconciliation-result-batch.json",
+  "type": "object",
+  "description": "This schema can be used to validate the JSON serialization of any reconciliation result batch.",
+  "required": [
+    "results"
+  ],
+  "properties": {
+    "results": {
+      "type": "array",
+      "description": "The list of candidates for each reconciliation query, in the same order",
+      "items": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Entity identifier of the candidate"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Entity name of the candidate"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Optional description of the candidate entity"
+                },
+                "lang": {
+                  "type": "string",
+                  "description": "The text-processing language for the natural language fields of this object"
+                },
+                "dir": {
+                  "type": "string",
+                  "enum": [
+                    "ltr",
+                    "rtl",
+                    "auto"
+                  ],
+                  "description": "The text direction for the natural language fields of this object"
+                },
+                "image": {
+                  "type": "string",
+                  "description": "Optional URL of an image illustrating the entity"
+                },
+                "score": {
+                  "type": "number",
+                  "description": "Number indicating how likely it is that the candidate matches the query"
+                },
+                "features": {
+                  "type": "array",
+                  "description": "A list of features which can be used to derive a matching score",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "A unique string identifier for the feature"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "A human-readable name for the feature"
+                      },
+                      "lang": {
+                        "type": "string",
+                        "description": "The text-processing language for the natural language fields of this object"
+                      },
+                      "dir": {
+                        "type": "string",
+                        "enum": [
+                          "ltr",
+                          "rtl",
+                          "auto"
+                        ],
+                        "description": "The text direction for the natural language fields of this object"
+                      },
+                      "value": {
+                        "description": "The value of the feature for this reconciliation candidate",
+                        "oneOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "value"
+                    ]
+                  }
+                },
+                "match": {
+                  "type": "boolean",
+                  "description": "Boolean value indicating whether the candiate is a certain match or not."
+                },
+                "type": {
+                  "type": "array",
+                  "description": "Types the candidate entity belongs to",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "description": "A type can be given by id and name",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "lang": {
+                            "type": "string",
+                            "description": "The text-processing language for the natural language fields of this object"
+                          },
+                          "dir": {
+                            "type": "string",
+                            "enum": [
+                              "ltr",
+                              "rtl",
+                              "auto"
+                            ],
+                            "description": "The text direction for the natural language fields of this object"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "description": "Alternatively, if only a string is given, it is treated as the id"
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        },
+        "required": [
+          "candidates"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "type": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier of the suggested type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the suggested type"
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description which can be provided to disambiguate namesakes, providing more context."
+        },
+        "lang": {
+          "type": "string",
+          "description": "The text-processing language for the natural language fields of this object"
+        },
+        "dir": {
+          "type": "string",
+          "enum": [
+            "ltr",
+            "rtl",
+            "auto"
+          ],
+          "description": "The text direction for the natural language fields of this object"
+        },
+        "broader": {
+          "type": "array",
+          "description": "An optional array of types, each representing a direct (i.e., immediate) broader category of entities.",
+          "items": {
+            "$ref": "#/$defs/type"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    }
+  }
+}

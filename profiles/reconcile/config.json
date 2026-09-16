@@ -1,0 +1,21 @@
+{
+    "$schema": "../../schema/jinks.json",
+    "type": "feature",
+    "category": "development",
+    "id": "https://e-editiones.org/app/tei-publisher/reconcile",
+    "version": "1.0.0",
+    "label": "Reconciliation Service API",
+    "description": "OpenRefine reconciliation endpoints (spec 0.2 and 1.0-draft)",
+    "order": 100,
+    "depends": [
+        "base10"
+    ],
+    "api": [
+        {
+            "prefix": "reconc",
+            "id": "http://teipublisher.com/api/reconcile",
+            "path": "reconcile-api.xql",
+            "spec": "reconcile-api.json"
+        }
+    ]
+}
