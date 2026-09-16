@@ -51,11 +51,9 @@ declare function anno:entity-type($node as element()) as xs:string? {
  : person/place/term/organization/work all copy EVERY entry of $properties through as an
  : attribute generically (not just the reference/key field, [[ $key ]]) - this is what makes a
  : connector's `fields` mapping (see tei-publisher-components' Registry.buildProperties) usable at
- : all beyond the one hardcoded key attribute: whichever attributes the client-side config maps
- : (e.g. @ref alongside @[[ $key ]], or a fetched-via-/extend @gnd) land in the output with no
- : further server-side change needed per newly-mapped field. A form field with no value for the
- : current selection is never in $properties to begin with (see annotations.js
- : applyFieldValues/authoritySelected), so this never emits an attribute with an empty value.
+ : all. A form field with no value for the current selection is never in $properties to begin
+ : with (see annotations.js applyFieldValues/authoritySelected), so this never emits an attribute
+ : with an empty value.
  :)
 declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
@@ -184,21 +182,20 @@ declare function anno:occurrences($type as xs:string, $key as xs:string) {
 
 (:~
  : Coerce a log field (message/user/status) to a plain string. Defends against a
- : client sending an empty JSON object (e.g. {}) where a string was expected: maps
- : are function items in XQuery 3.1, and atomizing a function item other than an
- : array (e.g. inside an attribute value template's curly-brace interpolation)
- : throws err:FOTY0013 "A function item other than an array cannot be atomized".
+ : client sending an empty JSON object (e.g. {}) where a string was expected.
+ :
  : NOTE: do not write a backtick immediately followed by an opening curly brace
  : anywhere in this file, even inside a comment - Jinks's templates.xqm wraps the
  : whole .tpl.xqm source in an eXist string constructor and treats that exact
  : sequence as the start of a real interpolation, corrupting template expansion
  : (confirmed the hard way: err:XPST0003 "unexpected token: ." from cpy:template).
- : This happened in practice
- : when an fx-property's expr yielded a raw attribute node instead of an atomized
- : string - JSON.stringify() collapses such a node to "{}" client-side, which
- : parse-json() turns back into an empty map server-side. Fixed at the client too
- : (annotate.html's pb-commit dispatch now calls string() on every property), but
- : this stays as defense in depth so a malformed request body can never 500 here.
+ :
+ : This happened in practice when an fx-property's expr yielded a raw attribute
+ : node instead of an atomized string - JSON.stringify() collapses such a node to
+ : "{}" client-side, which parse-json() turns back into an empty map server-side.
+ : Fixed at the client too (annotate.html's pb-commit dispatch now calls string()
+ : on every property), but this stays as defense in depth so a malformed request
+ : body can never 500 here.
  :)
 declare function anno:sanitize-log-value($value as item()*) as xs:string {
     if (empty($value) or $value instance of function(*)) then
