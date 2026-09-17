@@ -13,6 +13,7 @@
         </h3>
     </summary>
     <!-- 35a) Ältere Editionen -->
+    <div class="repeat-with-add">
     <fx-repeat class="nested-repeat" id="r-editions" ref="listBibl[@type='previousEditions']/bibl">
         <template>
             <div>
@@ -77,4 +78,5 @@
         <fx-insert context="listBibl[@type='previousEditions']" ref="bibl" origin="instance('templates')//bibl"/>
         <fx-refresh control="r-editions"/>
     </fx-trigger>
+    </div>
 </details>

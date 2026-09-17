@@ -33,25 +33,7 @@
         <fx-group ref="physDesc">
             <fx-group ref="handDesc">
 
-                <fx-trigger class="add">
-                                        <span class="form-hint-wrap">
-                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                            <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
-                        </span>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-letter-size"/>
-                        </div>
-                    </span>
-                    <fx-insert
-                    context="."
-                    ref="handNote"
-                    origin="instance('templates')/handNote[@scope='letterHeight']"></fx-insert>
-                </fx-trigger>
-
-                <fx-repeat
-                class="nested-repeat"
-                ref="handNote[@scope='letterHeight']"
-                id="r-letterHeight">
+                <fx-repeat class="nested-repeat" ref="handNote[@scope='letterHeight']" id="r-letterHeight">
                     <template>
                         <fx-group class="letter-height-entry">
                             <section class="letter-height-metrics">
@@ -90,16 +72,27 @@
                         <fx-trigger tabindex="">
                                                         <span class="form-hint-wrap">
                                 <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                                    <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                                    <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
                                 </span>
                                 <div class="form-hint" popover="manual" role="tooltip">
                                     <pb-i18n key="form.hint-delete-letter-size"/>
                                 </div>
                             </span>
-                            <fx-delete ref="."></fx-delete>
+                            <fx-delete ref="."/>
                         </fx-trigger>
                     </template>
                 </fx-repeat>
+                <fx-trigger class="add">
+                                        <span class="form-hint-wrap">
+                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                            <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+                        </span>
+                        <div class="form-hint" popover="manual" role="tooltip">
+                            <pb-i18n key="form.hint-letter-size"/>
+                        </div>
+                    </span>
+                    <fx-insert context="." ref="handNote" origin="instance('templates')/handNote[@scope='letterHeight']"/>
+                </fx-trigger>
             </fx-group>
         </fx-group>
     </fieldset>

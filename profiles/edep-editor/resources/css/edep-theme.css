@@ -360,6 +360,37 @@ fx-control.editor[relevant] {
     line-height: 1.2;
 }
 
+/* Unify Save / New / Sync / Preview: cream resting state, red hover with light label.
+   Anchors need an explicit hover (button:hover does not match them). Preview is a
+   button.btn and must keep readable light text over the red hover background.
+   !important on link color beats `.toolbar a { color: … !important }` from base.css. */
+nav.toolbar > ul.hidden-mobile > li a.btn,
+nav.toolbar > ul.hidden-mobile > li fx-trigger > button,
+nav.toolbar > ul.hidden-mobile > li pb-restricted fx-trigger > button {
+    background-color: var(--jinks-form-background-color, #FEFEF9);
+    color: var(--jinks-colors-700, #2B0205);
+}
+
+nav.toolbar > ul.hidden-mobile > li a.btn:hover,
+nav.toolbar > ul.hidden-mobile > li a.btn:focus-visible,
+nav.toolbar > ul.hidden-mobile > li fx-trigger > button:hover,
+nav.toolbar > ul.hidden-mobile > li fx-trigger > button:focus-visible,
+nav.toolbar > ul.hidden-mobile > li pb-restricted fx-trigger > button:hover,
+nav.toolbar > ul.hidden-mobile > li pb-restricted fx-trigger > button:focus-visible {
+    background-color: var(--jinks-form-hover-color, var(--jinks-colors-500));
+    color: var(--jinks-colors-light, #FCFCF8) !important;
+}
+
+nav.toolbar > ul.hidden-mobile > li a.btn:hover svg,
+nav.toolbar > ul.hidden-mobile > li a.btn:focus-visible svg,
+nav.toolbar > ul.hidden-mobile > li fx-trigger > button:hover svg,
+nav.toolbar > ul.hidden-mobile > li fx-trigger > button:focus-visible svg,
+nav.toolbar > ul.hidden-mobile > li pb-restricted fx-trigger > button:hover svg,
+nav.toolbar > ul.hidden-mobile > li pb-restricted fx-trigger > button:focus-visible svg {
+    color: inherit;
+    fill: currentColor;
+}
+
 /* --- Tooltips/hints --------------------------------------------------------- */
 fx-control fx-hint {
     display: inline-block;
@@ -395,6 +426,11 @@ fx-control .icon:hover ~ fx-hint {
     position: relative;
 }
 
+main details > summary > h2 > .form-hint-wrap,
+fx-group.outer-group > h2 > .form-hint-wrap {
+    margin-left: 0.35rem;
+}
+
 .hint-trigger {
     display: inline-flex;
     align-items: center;
@@ -425,6 +461,10 @@ fx-control .icon:hover ~ fx-hint {
     box-shadow: 0 3px 10px rgba(0,0,0,0.12);
     background: var(--jinks-background-color-dark, #2D2B26);
     color: var(--jinks-colors-light, #FCFCF8);
+    font-family: var(--jinks-base-font-family, 'Inter', sans-serif);
+    font-weight: var(--jinks-base-font-weight, 400);
+    font-variant: normal;
+    letter-spacing: normal;
     font-size: 0.8rem;
     width: min(22vw, 28rem);
     max-width: min(22vw, 28rem);
@@ -730,7 +770,7 @@ fx-fore details > fx-repeat {
 fieldset .nested-repeat fx-repeatitem {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     background: var(--jinks-form-background-color, #FEFEF9);
     border: 1px solid var(--jinks-form-border-color, #CFCDC5);
@@ -763,14 +803,15 @@ fieldset .nested-repeat fx-repeatitem > fx-group {
 fieldset .nested-repeat fx-repeatitem > fx-trigger {
     flex: 0 0 auto;
     margin-left: auto;
+    align-self: flex-end;
 }
 
-/* Row-oriented nested repeats with delete button on right */
+/* Row-oriented nested repeats with delete button on right — center on the row */
 .nested-repeat fx-repeatitem:has(> fx-group.form-row) {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto;
-    align-items: start;
+    align-items: center;
 }
 
 .nested-repeat fx-repeatitem:has(> fx-group.form-row) > fx-group {
@@ -1079,13 +1120,47 @@ fx-group.form-row fx-control > input[type="radio"].widget {
 }
 
 /* --- XML / EpiDoc editors --------------------------------------------------- */
+.transcription-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    margin-bottom: 0.35rem;
+}
+
+.transcription-heading h4 {
+    margin: 0;
+}
+
+.leiden-open-btn {
+    font-family: var(--jinks-base-font-family, 'Inter', sans-serif);
+    font-size: 0.82rem;
+    line-height: 1.3;
+    color: var(--jinks-colors-700, #3f3c34);
+    background: var(--jinks-form-background-color, #FEFEF9);
+    border: 1px solid var(--edep-editor-border-color, #CFCDC5);
+    border-radius: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.leiden-open-btn:hover {
+    border-color: var(--jinks-colors-500, #6f6b5d);
+}
+
 jinn-xml-editor,
 jinn-epidoc-editor {
+    display: block;
+    width: 100%;
     font-size: 16px;
     overflow: hidden;
     border: 1px solid var(--edep-editor-border-color, #CFCDC5);
     border-radius: 0.5rem;
     background: var(--jinks-form-background-color, #FEFEF9);
+    white-space: normal;
+    line-height: normal;
+    vertical-align: top;
 }
 
 jinn-epidoc-editor [slot="leiden-header"],
@@ -1369,12 +1444,12 @@ fx-control.measurement input.widget {
 #r-verification fx-repeatitem,
 #r-verification fx-group {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 0.5rem;
 }
 
 #r-verification fx-repeatitem {
-    width: calc(100% - 2rem);
+    width: 100%;
     justify-content: space-between;
 }
 
@@ -1385,18 +1460,97 @@ fx-control.measurement input.widget {
 #r-verification fx-repeatitem fx-trigger {
     flex: 0 0 auto;
     margin-left: auto;
+    align-self: flex-end;
 }
 
-#verification fx-group fx-trigger.add,
-#inscription-field fx-group fx-trigger.add,
-#text-description fx-group fx-trigger.add,
-#pictures .add {
+/* Place + to the right of the last repeat entry, beside the - column.
+   Note: do not put this grid on <details> — disclosure layout ignores it for non-summary kids. */
+.repeat-with-add,
+fieldset:has(> fx-repeat):has(> fx-trigger.add),
+fx-group:has(> fx-repeat):has(> fx-trigger.add) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 0.35rem;
+}
+
+/* Identifier entries are narrower than the form — keep + next to them */
+#idnos:has(> fx-repeat):has(> fx-trigger.add) {
+    grid-template-columns: minmax(0, 32rem) auto;
+    justify-content: start;
+}
+
+#idnos:has(> fx-repeat):has(> fx-trigger.add) > fx-trigger.add {
+    margin-bottom: 0;
+}
+
+fieldset:has(> fx-repeat):has(> fx-trigger.add) > legend {
+    grid-column: 1 / -1;
+}
+
+.repeat-with-add > fx-repeat,
+fieldset:has(> fx-repeat):has(> fx-trigger.add) > fx-repeat,
+fx-group:has(> fx-repeat):has(> fx-trigger.add) > fx-repeat {
+    grid-column: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+/* Keep left indent inside details, but let - meet + on the right */
+details > .repeat-with-add {
+    margin-left: 1rem;
+    margin-right: 0;
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+}
+
+details > .repeat-with-add > fx-repeat {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
+.repeat-with-add > fx-trigger.add,
+fieldset:has(> fx-repeat):has(> fx-trigger.add) > fx-trigger.add,
+fx-group:has(> fx-repeat):has(> fx-trigger.add) > fx-trigger.add {
+    grid-column: 2;
+    align-self: end;
+    justify-self: start;
     position: relative;
-    margin-left: auto;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
+    display: flex;
+    min-width: 1.4rem;
+    margin: 0 0 0.75rem 0;
     right: auto;
     bottom: auto;
+    z-index: 10;
+}
+
+/* Raise + by the last item's padding+border so it lines up with - inside the box */
+.repeat-with-add:has(> .nested-repeat) > fx-trigger.add,
+fx-group:has(> fx-repeat.nested-repeat):has(> fx-trigger.add) > fx-trigger.add {
+    transform: translateY(calc(-1rem - 1px));
+}
+
+fieldset:has(> fx-repeat.nested-repeat):has(> fx-trigger.add) > fx-trigger.add,
+fieldset fx-group:has(> fx-repeat.nested-repeat):has(> fx-trigger.add) > fx-trigger.add {
+    transform: translateY(calc(-0.75rem - 1px));
+}
+
+/* Single-row entries: center + on the last row instead of its bottom edge */
+#idnos:has(> fx-repeat):has(> fx-trigger.add) > fx-trigger.add {
+    /* ~49px row, 1.4rem icon */
+    transform: translateY(calc(-1 * (3.0625rem - 1.4rem) / 2));
+}
+
+fieldset:has(> fx-repeat.nested-repeat):has(> fx-trigger.add):has(fx-group.form-row) > fx-trigger.add {
+    /* ~105px padded card, 1.4rem icon — bottoms already match via margin */
+    transform: translateY(calc(-1 * (6.5625rem - 1.4rem) / 2));
+}
+
+/* Extra siblings under a repeat+add group (e.g. free-language field) span full width */
+fx-group:has(> fx-repeat):has(> fx-trigger.add) > fx-group,
+fx-group:has(> fx-repeat):has(> fx-trigger.add) > fx-control {
+    grid-column: 1 / -1;
 }
 
 /* --- Zotero ----------------------------------------------------------------- */
@@ -1428,11 +1582,6 @@ fieldset > fieldset {
     background: rgba(255,255,255,0.5);
 }
 
-fieldset:has(> fx-repeat.nested-repeat) {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
-}
-
 fieldset:has(> fx-repeat.nested-repeat) > legend {
     grid-column: 1 / -1;
 }
@@ -1446,7 +1595,7 @@ fieldset:has(> fx-repeat.nested-repeat) > fx-repeat.nested-repeat {
 fieldset:has(> fx-repeat.nested-repeat) > fx-trigger.add {
     grid-column: 2;
     align-self: end;
-    margin-left: 0.5rem;
+    margin-left: 0;
 }
 
 fieldset > fieldset legend {

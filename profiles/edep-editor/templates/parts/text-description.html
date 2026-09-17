@@ -20,18 +20,6 @@
             </legend>
 
             <fx-group ref="langUsage">
-                <fx-trigger class="add">
-                                        <span class="form-hint-wrap">
-                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                            <svg class="icon icon-add"><use href="#plus-circle"/></svg>
-                        </span>
-                        <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-add-language"/>
-                        </div>
-                    </span>
-                    <fx-insert context="." ref="language" origin="instance('templates')/language"/>
-                </fx-trigger>
-
                 <fx-repeat class="nested-repeat repeat-flex" ref="language[not(@ident = 'edep')]" id="r-language">
                     <template>
                     <fx-group class="neutral">
@@ -73,6 +61,17 @@
                         </fx-trigger>
                     </template>
                 </fx-repeat>
+                <fx-trigger class="add">
+                                        <span class="form-hint-wrap">
+                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                            <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+                        </span>
+                        <div class="form-hint" popover="manual" role="tooltip">
+                            <pb-i18n key="form.hint-add-language"/>
+                        </div>
+                    </span>
+                    <fx-insert context="." ref="language" origin="instance('templates')/language"/>
+                </fx-trigger>
 
                 <fx-group ref="language[@ident='edep']">
                     <fx-control ref=".">
