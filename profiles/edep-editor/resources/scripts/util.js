@@ -130,6 +130,22 @@ window.addEventListener('DOMContentLoaded', () => {
     fore.addEventListener('ready', () => {
         const epidoc = document.getElementById('transcriptionEditor');
         const output = document.getElementById('transcription-display');
+        const openLeidenBtn = document.getElementById('open-leiden-btn');
+        const openLeidenSlot = epidoc?.shadowRoot?.querySelector('#import');
+
+        if (openLeidenBtn && openLeidenSlot) {
+            const syncOpenLeidenBtn = () => {
+                openLeidenBtn.hidden = openLeidenSlot.classList.contains('hidden');
+            };
+            syncOpenLeidenBtn();
+            new MutationObserver(syncOpenLeidenBtn).observe(openLeidenSlot, {
+                attributes: true,
+                attributeFilter: ['class'],
+            });
+            openLeidenBtn.addEventListener('click', () => {
+                openLeidenSlot.click();
+            });
+        }
 
         epidoc.addEventListener('update', ev => {
             fetch(`${endpoint}/api/render`, {

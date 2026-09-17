@@ -13,6 +13,7 @@
         </h3>
     </summary>
     <!-- 35b) -->
+        <div class="repeat-with-add">
         <fx-repeat class="nested-repeat" id="r-biblio" ref="listBibl[@type='bibliography']/bibl">
             <template>
                 <div>
@@ -85,6 +86,7 @@
             <fx-insert context="listBibl[@type='bibliography']" ref="bibl" origin="instance('templates')//bibl"/>
             <fx-refresh control="r-biblio"/>
         </fx-trigger>
+        </div>
 
 <!--    </fieldset>-->
 </details>
