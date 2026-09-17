@@ -254,11 +254,6 @@
                 <label>
                     <pb-i18n key="form.references">Referenzen</pb-i18n>
                 </label>
-                <fx-trigger class="add" title="Referenz hinzufügen">
-                    <svg class="icon icon-add" title="Referenz hinzufügen"><use href="#plus-circle"/></svg>
-                    <fx-insert context="." ref="idno"/>
-                    <fx-refresh control="r-idno"/>
-                </fx-trigger>
             </legend>
             <fx-repeat ref="./idno" id="r-idno">
                 <template>
@@ -282,6 +277,11 @@
                     </div>
                 </template>
             </fx-repeat>
+            <fx-trigger class="add" title="Referenz hinzufügen">
+                <svg class="icon icon-add" title="Referenz hinzufügen"><use href="#plus-circle"/></svg>
+                <fx-insert context="." ref="idno"/>
+                <fx-refresh control="r-idno"/>
+            </fx-trigger>
         </fieldset>
     </fieldset>
 [% template toolbar %]

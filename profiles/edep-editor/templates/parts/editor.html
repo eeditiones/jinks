@@ -1,6 +1,6 @@
 <details id="editor">
     <summary>
-        <h2><pb-i18n key="form.editing"></pb-i18n></h2>
+        <h2><pb-i18n key="form.editing"/></h2>
     </summary>
 
     <fieldset>
@@ -9,9 +9,7 @@
                 <label>
                     <pb-i18n key="form.status-of-editing">Stand der Bearbeitung</pb-i18n>
                 </label>
-                <select
-                    ref="instance('publication-status')//category"
-                    class="widget">
+                <select ref="instance('publication-status')//category" class="widget">
                         <template>
                             <!-- prettier-ignore -->
                             <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
@@ -26,36 +24,16 @@
             <label>
                 <pb-i18n key="form.author-epigraphic-edition">Author(s)</pb-i18n>
             </label>
-            <fx-trigger class="add">
-                                <span class="form-hint-wrap">
-                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                        <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
-                    </span>
-                    <div class="form-hint" popover="manual" role="tooltip">
-                        <pb-i18n key="form.hint-add-editor"></pb-i18n
-                                                >
-                    </div>
-                </span>
-                <fx-insert
-                context="fileDesc/titleStmt"
-                ref="editor"
-                origin="instance('templates')/editor"></fx-insert>
-            </fx-trigger>
         </legend>
 
-        <fx-repeat
-        class="nested-repeat"
-        ref="fileDesc/titleStmt/editor"
-        id="r-editor">
+        <fx-repeat class="nested-repeat" ref="fileDesc/titleStmt/editor" id="r-editor">
             <template>
                 <fx-group class="form-row">
                     <fx-control ref="@role" create="create">
                         <label>
                             <pb-i18n key="form.author-role">Role</pb-i18n>
                         </label>
-                        <select
-                        class="widget"
-                        ref="instance('editor-roles')//category">
+                        <select class="widget" ref="instance('editor-roles')//category">
                             <template>
                                 <option value="{@xml:id}">{catDesc[@xml:lang = $lang]}</option>
                             </template>
@@ -72,16 +50,26 @@
                 <fx-trigger>
                                         <span class="form-hint-wrap">
                         <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                            <svg class="icon icon-remove"><use href="#dash-circle"></use></svg>
+                            <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
                         </span>
                         <div class="form-hint" popover="manual" role="tooltip">
-                            <pb-i18n key="form.hint-delete-editor"></pb-i18n
-                                                        >
+                            <pb-i18n key="form.hint-delete-editor"/>
                         </div>
                     </span>
-                    <fx-delete ref="."></fx-delete>
+                    <fx-delete ref="."/>
                 </fx-trigger>
             </template>
         </fx-repeat>
+        <fx-trigger class="add">
+                                <span class="form-hint-wrap">
+                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                        <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+                    </span>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-add-editor"/>
+                    </div>
+                </span>
+                <fx-insert context="fileDesc/titleStmt" ref="editor" origin="instance('templates')/editor"/>
+            </fx-trigger>
     </fieldset>  
 </details>

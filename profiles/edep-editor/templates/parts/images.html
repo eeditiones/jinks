@@ -13,6 +13,7 @@
         </h3>
     </summary>
     <!-- 35c) Bilder: Verweis auf Literatur, in der Abbildung vorhanden -->
+    <div class="repeat-with-add">
     <fx-repeat class="nested-repeat" id="r-images" ref="listBibl[@type='images']/bibl">
         <template>
             <div>
@@ -77,4 +78,5 @@
             <fx-refresh control="r-images"/>
         </fx-action>
     </fx-trigger>
+    </div>
 </details>
