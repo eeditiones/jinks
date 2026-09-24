@@ -19,6 +19,22 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
+else if (matches($exist:path, "^/profiles/[^/]+/.+\.(json|js|css|md|png|svg|ttf|woff2)$", "s")) then
+    let $name := replace($exist:path, "^/profiles/([^/]+)/.*$", "$1")
+    let $internal := $exist:root || "/profiles/" || $name
+    return
+        if (xmldb:collection-available($internal)) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/{$exist:path}"/>
+            </dispatch>
+        else
+            (: Library packages are not web applications. Read the file from the package repository. :)
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward url="{$exist:controller}/modules/profile-resource.xql">
+                    <add-parameter name="path" value="{$exist:path}"/>
+                </forward>
+            </dispatch>
+
 else if (matches($exist:path, "\.(json|js|css|md|png|svg|ttf|woff2)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/{$exist:path}"/>

@@ -70,7 +70,7 @@
     </style>
     [% endtemplate %]
 
-    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/screenshot.png") %]
+    [% if util:binary-doc-available($root || "/doc/screenshot.png") %]
     <figure>
         <img src="screenshot.png" class="screenshot"/>
         <figcaption>Screenshot</figcaption>
@@ -81,7 +81,7 @@
     [% endif %]
     <h1>
         [[ upper-case(substring($profile?type, 1, 1)) || substring($profile?type, 2) ]]: [[ $label ]] <span class="version">[[ $profile?version ]]</span>
-        <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/config.json"
+        <a class="source" href="[[ $context-path ]]/api/source?path=[[ $root ]]/config.json"
             data-tooltip="View config.json">
             <svg class="icon"><use href="#icon-code"></use></svg>
         </a>
@@ -126,7 +126,7 @@
     </article>
     [% endif %]
 
-    [% let $files = tu:scan-collection($path || "/resources/odd") %]
+    [% let $files = tu:scan-collection($root || "/resources/odd") %]
     [% if exists($files) %]
     <article>
         <h3>ODD files provided</h3>
@@ -134,7 +134,7 @@
             [% for $odd in $files %]
             <li>
                 [[ $odd ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $odd ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $odd ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -152,7 +152,7 @@
             [% if map:contains($api, "spec") %]
             <li>
                 [[ $api?spec ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $path ]]/modules/[[ replace($api?spec, '^(.*?)\.json$', '$1.tpl.json') ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $root ]]/modules/[[ replace($api?spec, '^(.*?)\.json$', '$1.tpl.json') ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -162,7 +162,7 @@
     </article>
     [% endif %]
 
-    [% let $files = tu:scan-collection($path || "/modules", "^.*\.xql$") %]
+    [% let $files = tu:scan-collection($root || "/modules", "^.*\.xql$") %]
     [% if exists($files) %]
     <article>
         <h3>XQuery Modules</h3>
@@ -170,7 +170,7 @@
             [% for $file in $files %]
             <li>
                 [[ substring-after($file, "profiles/" || $name || "/") ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $file ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -180,7 +180,7 @@
     [% endif %]
     [% endlet %]
 
-    [% let $files = tu:scan-collection($path || "/templates") %]
+    [% let $files = tu:scan-collection($root || "/templates") %]
     [% if exists($files) %]
     <article>
         <h3>HTML Templates</h3>
@@ -188,7 +188,7 @@
             [% for $file in $files %]
             <li>
                 [[ substring-after($file, "profiles/" || $name || "/") ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $file ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $file ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -198,7 +198,7 @@
     [% endif %]
     [% endlet %]
 
-    [% let $styles = tu:scan-collection($path || "/resources/css") %]
+    [% let $styles = tu:scan-collection($root || "/resources/css") %]
     [% if exists($styles) %]
     <article>
         <h3>CSS Styles</h3>
@@ -206,7 +206,7 @@
             [% for $style in $styles %]
             <li>
                 [[ substring-after($style, "profiles/" || $name || "/") ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $style ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $style ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -216,7 +216,7 @@
     [% endif %]
     [% endlet %]
 
-    [% let $scripts = tu:scan-collection($path || "/resources/scripts") %]
+    [% let $scripts = tu:scan-collection($root || "/resources/scripts") %]
     [% if exists($scripts) %]
     <article>
         <h3>Javascript</h3>
@@ -224,7 +224,7 @@
             [% for $script in $scripts %]
             <li>
                 [[ substring-after($script, "profiles/" || $name || "/") ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $script ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $script ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -247,7 +247,7 @@
     </article>
     [% endif %]
 
-    [% let $i18n = tu:scan-collection($path || "/resources/i18n") %]
+    [% let $i18n = tu:scan-collection($root || "/resources/i18n") %]
     [% if exists($i18n) %]
     <article>
         <h3>Internationalization</h3>
@@ -256,7 +256,7 @@
             [% if ends-with($lang, ".json") %]
             <li>
                 [[ substring-after($lang, "profiles/" || $name || "/") ]]
-                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $config:app-root ]]/[[ $lang ]]">
+                <a class="source" href="[[ $context-path ]]/api/source?path=[[ $lang ]]">
                     <svg class="icon"><use href="#icon-code"></use></svg>
                 </a>
             </li>
@@ -268,7 +268,7 @@
     [% endlet %]
 
     <hr/>
-    [% if util:binary-doc-available($config:app-root || "/" || $path || "/doc/README.md") %]
-    <pb-markdown style="display: none;" url="[[ $path ]]/doc/README.md"></pb-markdown>
+    [% if util:binary-doc-available($root || "/doc/README.md") %]
+    <pb-markdown style="display: none;" url="[[ $context-path ]]/[[ $path ]]/doc/README.md"></pb-markdown>
     [% endif %]
 </main>

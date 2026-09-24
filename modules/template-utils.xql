@@ -16,7 +16,11 @@ declare function tu:scan-collection($relPath as xs:string) {
  : @return the content of the resource - either binary data or parsed XML
  :)
 declare function tu:scan-collection($relPath as xs:string, $pattern as xs:string?) {
-    let $path := $config:app-root || "/" || $relPath
+    let $path :=
+        if (starts-with($relPath, "/db/")) then
+            $relPath
+        else
+            $config:app-root || "/" || $relPath
     return 
         if (xmldb:collection-available($path)) then (
             for $file in xmldb:get-child-resources($path)
