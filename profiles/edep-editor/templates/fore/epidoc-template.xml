@@ -1,5 +1,4 @@
-<?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?><!-- Fehlende Felder da unklar: 34, 24 -->
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="" corresp="" fragments="" type="">
+<?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?><!-- Fehlende Felder da unklar: 34, 24 --><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="" corresp="" fragments="" type="">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -7,7 +6,7 @@
                 <editor/>
                 <author/>
                 <respStmt>
-                    <resp when=""></resp>
+                    <resp when=""/>
                     <persName/>
                 </respStmt>
             </titleStmt>
@@ -58,8 +57,7 @@
                             </layoutDesc>
                         </objectDesc>
                         <handDesc>
-                            <handNote scope="ligature">
-                            </handNote>
+                            <handNote scope="ligature">unknown</handNote>
                         </handDesc>
                         <decoDesc>
                             <decoNote corresp=""/>
@@ -102,8 +100,8 @@
                 </keywords>
             </textClass>
             <langUsage>
-                <language ident="edep"></language>
-                <language ident="lat" ana="main"></language>
+                <language ident="edep"/>
+                <language ident="lat" ana="main"/>
             </langUsage>
         </profileDesc>
         <revisionDesc status="draft"/>
