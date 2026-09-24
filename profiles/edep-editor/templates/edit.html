@@ -211,6 +211,7 @@
                 <fx-setvalue ref="instance('vars')/geography-term" value="if(exists(instance('default')//term[@ref='#geography'])) then 'true' else 'false'"/>
 
                 <fx-setvalue ref="instance('vars')/military-term" value="if(exists(instance('default')//term[@ref='#military'])) then 'true' else 'false'"/>
+                <fx-setvalue ref="instance('default')//handNote[@scope='ligature'][normalize-space(.) = '']" value="'unknown'"/>
             </fx-action>
         </fx-submission>
 
