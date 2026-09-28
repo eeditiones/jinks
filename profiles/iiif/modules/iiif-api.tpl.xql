@@ -131,6 +131,6 @@ declare function iiif:facsimiles ($request as map(*)) {
     let $document := config:get-document($id)
     let $milestones := iiifc:milestones($document)
     let $entries := for $milestone in $milestones
-      return map:entry($milestone/@facs, $iiifc:IMAGE_API_BASE || iiifc:milestone-id($milestone))
+      return map:entry(($milestone/@facs, $milestone/@url)[1], $iiifc:IMAGE_API_BASE || iiifc:milestone-id($milestone))
     return map:merge($entries)
 };

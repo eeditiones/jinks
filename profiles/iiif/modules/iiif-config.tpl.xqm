@@ -34,9 +34,10 @@ declare function iiifc:milestones($doc as node()) {
 (:~
  : Extract the image path from the milestone element. If you need to strip
  : out or add something, this is the place. By default strips any prefix before a colon.
+ : @facs wins; a graphic milestone with only @url contributes that filename.
  :)
 declare function iiifc:milestone-id($milestone as element()) {
-    let $facs := $milestone/@facs
+    let $facs := ($milestone/@facs, $milestone/@url)[1]
     let $link :=
         if (starts-with($facs, "#")) then
             let $target := id(substring-after($facs, "#"), root($milestone))
