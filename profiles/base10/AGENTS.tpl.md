@@ -109,13 +109,22 @@ When a template error appears, do **not** edit upstream profile files or gut the
 content. Read the **customize-templates** skill for extension points, block append vs
 overwrite, and debugging steps.
 
-Files you *may* edit directly:
+Files you *may* edit directly (the `editable` patterns in `config.json`, matched against the
+path in the app):
+[% for $pattern in $context?editable?* %]
+- `[[ $pattern ]]`[% endfor %]
 
-- `collection.xconf`
-- `index.xql`
-- `modules/navigation*.xql`
-- `modules/query*.xql`
-- `modules/facets-config.xql`
+## Data
+
+Documents live in the data collection, `defaults.data` in `config.json` (`data` unless
+configured otherwise). A relative path lies inside the app; an absolute one, such as
+`/db/apps/<name>-data`, points to a separate data package. Subcollections show up as
+folders when browsing. Browse starts at `defaults.data-default`, a subcollection of the data
+collection; set it to the collection holding your documents, or to `""` for all of them.
+
+eXist indexes documents as they are stored, so uploading or removing documents needs no
+extra step. Reindex (`jinks run <abbrev> reindex`) only after changing the index
+configuration in `collection.xconf`, or when search, browse or facets don't match the data.
 
 ## Key files
 

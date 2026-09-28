@@ -82,6 +82,13 @@
             },
             "description": "List of regular expressions matching relative target paths to files, which should not be copied into the target application."
         },
+        "editable": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of regular expressions matching relative target paths to generated files the project may edit directly. Guidance for agents and tools, which otherwise refuse to change generated files; the generator itself ignores it. Like any changed generated file, an edited one is reported as a conflict on the next update, which keeps the local version unless resolved."
+        },
         "skipSource": {
             "type": "array",
             "items": {
