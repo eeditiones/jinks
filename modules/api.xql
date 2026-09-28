@@ -7,6 +7,7 @@ declare namespace expath="http://expath.org/ns/pkg";
 import module namespace config="https://tei-publisher.com/generator/xquery/config" at "config.xql";
 import module namespace generator="http://tei-publisher.com/library/generator" at "generator.xql";
 import module namespace path="http://tei-publisher.com/jinks/path" at "paths.xql";
+import module namespace coll="http://tei-publisher.com/jinks/collections" at "collections.xql";
 import module namespace roaster="http://e-editiones.org/roaster";
 import module namespace auth="http://e-editiones.org/roaster/auth";
 import module namespace errors = "http://e-editiones.org/roaster/errors";
@@ -432,103 +433,13 @@ declare %private function api:list-collections($request as map(*)) {
         roaster:response(200, "application/json", array { api:collections($root, $collName, $user) })
 };
 
-declare %private function api:list-collection-contents($collection as xs:string, $user as xs:string, $filter as xs:string?) as xs:string* {
-    let $subcollections :=
-        for $child in xmldb:get-child-collections($collection)
-        let $collpath := concat($collection, "/", $child)
-        where sm:has-access(xs:anyURI($collpath), "r")
-        return
-            concat("/", $child)
-    let $resources :=
-        for $r in xmldb:get-child-resources($collection)
-        where sm:has-access(xs:anyURI(concat($collection, "/", $r)), "r")
-        return
-            $r
-    let $all := if ($filter) then ($subcollections, $resources)[contains(., $filter)] else ($subcollections, $resources)
-    for $resource in $all
-    order by $resource collation "http://www.w3.org/2013/collation/UCA?numeric=yes"
-    return
-        $resource
-};
-
 declare %private function api:list-resources($request as map(*)) {
     let $collection := $request?parameters?collection
-    let $user := api:get-user()
     let $start := (number(head(($request?parameters?start, 0))) + 1) cast as xs:integer
-    let $endParam := (number(head(($request?parameters?end, 1000000))) + 1) cast as xs:integer
-    let $filter := $request?parameters?filter
-    let $resources := api:list-collection-contents($collection, $user, $filter)
-    let $count := count($resources) + 1
-    let $end := if ($endParam gt $count) then $count else $endParam
-    let $subset := subsequence($resources, $start, $end - $start + 1)
-    let $parent := $start = 1 and $collection != "/db"
-    let $items :=
-        (
-            if ($parent) then
-                map {
-                    "name": "..",
-                    "permissions": "",
-                    "owner": "",
-                    "group": "",
-                    "last-modified": "",
-                    "writable": sm:has-access(xs:anyURI($collection), "w"),
-                    "isCollection": true(),
-                    "key": $collection
-                }
-            else
-                (),
-            for $resource in $subset
-            let $isCollection := starts-with($resource, "/")
-            let $path :=
-                if ($isCollection) then
-                    concat($collection, $resource)
-                else
-                    concat($collection, "/", $resource)
-            where sm:has-access(xs:anyURI($path), "r")
-            order by $resource collation "http://www.w3.org/2013/collation/UCA?numeric=yes"
-            return
-                let $permissions := sm:get-permissions(xs:anyURI($path))/sm:permission
-                let $owner := $permissions/@owner/string()
-                let $group := $permissions/@group/string()
-                let $lastMod :=
-                    let $date :=
-                        if ($isCollection) then
-                            xmldb:created($path)
-                        else
-                            xmldb:last-modified($collection, $resource)
-                    return
-                        if (xs:date($date) = current-date()) then
-                            format-dateTime($date, "Today [H00]:[m00]:[s00]")
-                        else
-                            format-dateTime($date, "[M00]/[D00]/[Y0000] [H00]:[m00]:[s00]")
-                let $canWrite := sm:has-access(xs:anyURI($path), "w")
-                let $permStr := string($permissions/@mode)
-                let $permDisplay := 
-                    if ($isCollection) then "c" else "-" ||
-                    $permStr ||
-                    (if ($permissions/sm:acl/@entries ne "0") then "+" else "")
-                return map:merge((
-                    map {
-                        "name": xmldb:decode-uri(xs:anyURI(if ($isCollection) then substring-after($resource, "/") else $resource)),
-                        "permissions": $permDisplay,
-                        "owner": $owner,
-                        "group": $group,
-                        "key": xs:anyURI($path),
-                        "last-modified": $lastMod,
-                        "writable": $canWrite,
-                        "isCollection": $isCollection
-                    },
-                    if (not($isCollection)) then
-                        map { "mime": xmldb:get-mime-type(xs:anyURI($path)) }
-                    else
-                        ()
-                ))
-        )
+    let $end := (number(head(($request?parameters?end, 1000000))) + 1) cast as xs:integer
     return
-        roaster:response(200, "application/json", map {
-            "total": count($resources) + (if ($parent) then 1 else 0),
-            "items": array { $items }
-        })
+        roaster:response(200, "application/json",
+            coll:list($collection, $request?parameters?filter, $start, $end, true()))
 };
 
 declare function api:create-collection($request as map(*)) {
@@ -555,81 +466,15 @@ declare function api:create-collection($request as map(*)) {
             })
 };
 
-declare %private function api:delete-collection($collName as xs:string, $user as xs:string) as map(*) {
-    if (sm:has-access(xs:anyURI($collName), "w")) then
-        try {
-            let $_ := xmldb:remove($collName)
-            return
-                map { "status": "ok" }
-        } catch * {
-            map {
-                "status": "fail",
-                "item": $collName,
-                "message": $err:description
-            }
-        }
-    else
-        map {
-            "status": "fail",
-            "item": $collName,
-            "message": "You are not allowed to write to collection " || xmldb:decode-uri(xs:anyURI($collName))
-        }
-};
-
-declare %private function api:delete-resource($collection as xs:string, $resource as xs:string, $user as xs:string) as map(*) {
-    let $components := analyze-string($resource, "^(.*)/([^/]+)$")//fn:group/string()
-    let $resource-collection := $components[1]
-    let $resource-name := $components[2]
-    let $canWrite :=
-        sm:has-access(xs:anyURI($resource), "w") and
-        sm:has-access(xs:anyURI($resource-collection), "w")
-    return
-        if ($canWrite) then
-            try {
-                let $_ := xmldb:remove($resource-collection, $resource-name)
-                return
-                    map { "status": "ok" }
-            } catch * {
-                map {
-                    "status": "fail",
-                    "item": $resource,
-                    "message": $err:description
-                }
-            }
-        else
-            map {
-                "status": "fail",
-                "item": $resource,
-                "message": "You are not allowed to write to resource " || $resource
-            }
-};
-
 declare function api:delete-resources($request as map(*)) {
     let $collection := $request?parameters?collection
     let $removeParam := $request?parameters?remove
     let $selections :=
         if ($removeParam instance of array(*)) then
             $removeParam?*
-        else if ($removeParam instance of xs:string) then
-            $removeParam
         else
             $removeParam
-    let $user := api:get-user()
-    let $results :=
-        for $selection in $selections
-        let $path :=
-            if (starts-with($selection, "/")) then
-                $selection
-            else
-                $collection || "/" || $selection
-        let $isCollection := xmldb:collection-available($path)
-        let $response :=
-            if ($isCollection) then
-                api:delete-collection($path, $user)
-            else
-                api:delete-resource($collection, $path, $user)
-        return
-            $response
+    let $results := coll:delete($collection, $selections)
     return
         if (some $r in $results satisfies $r?status = "fail") then
             let $failures := $results[?status = "fail"]
@@ -740,12 +585,7 @@ declare function api:rename-resource($request as map(*)) {
             })
         else
             try {
-                let $isCollection := xmldb:collection-available($collection || "/" || $resource)
-                let $_ :=
-                    if ($isCollection) then
-                        xmldb:rename($collection || "/" || $resource, $newName)
-                    else
-                        xmldb:rename($collection, $resource, $newName)
+                let $_ := coll:rename($collection, $resource, $newName)
                 return
                     roaster:response(200, "application/json", map { "status": "ok" })
             } catch * {
@@ -1016,31 +856,6 @@ declare function api:change-properties($request as map(*)) {
         }
 };
 
-declare %private function api:mkcol-recursive($collection as xs:string, $components as xs:string*) as xs:string? {
-    if (exists($components)) then
-        let $newColl := concat($collection, "/", $components[1])
-        return (
-            xmldb:create-collection($collection, $components[1]),
-            api:mkcol-recursive($newColl, subsequence($components, 2))
-        )[last()]
-    else
-        ()
-};
-
-declare %private function api:mkcol($collection as xs:string, $path as xs:string) as xs:string? {
-    api:mkcol-recursive($collection, tokenize($path, "/"))
-};
-
-declare %private function api:store-file($root as xs:string, $path as xs:string, $data as item()) as xs:string {
-    if (matches($path, "/[^/]+$")) then
-        let $split := analyze-string($path, "^(.*)/([^/]+)$")//fn:group/string()
-        let $newCol := api:mkcol($root, $split[1])
-        return
-            xmldb:store($newCol, $split[2], $data)
-    else
-        xmldb:store($root, $path, $data)
-};
-
 declare %private function api:get-descriptors($zipPath as xs:string) as element()? {
     let $binary := util:binary-doc($zipPath)
     return
@@ -1081,7 +896,7 @@ declare function api:upload($request as map(*)) {
         else
             try {
                 let $path := head(($pathParam, $name))
-                let $storedPath := api:store-file($collection, $path, $data)
+                let $storedPath := coll:store($collection, $path, $data)
                 let $mime := xmldb:get-mime-type(xs:anyURI($storedPath))
                 let $components := analyze-string($storedPath, "^(.*)/([^/]+)$")//fn:group/string()
                 let $size := 
