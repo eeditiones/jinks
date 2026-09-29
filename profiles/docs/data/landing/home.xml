@@ -58,6 +58,19 @@
                      <item><ref target="#">Open</ref></item>
                   </list>
                </item>
+                <item n="Manage">
+                    <desc>
+                        <ref target="/exist/apps/jinks" rend="new">Jinks</ref>
+                    </desc>
+                    <note>Jinks is TEI Publisher's central application manager. Use it to
+                        maintain or kickstart new applications.</note>
+                    <ptr type="image" target="resources/images/library.jpg" />
+                    <list type="links">
+                        <item>
+                            <ref target="/exist/apps/jinks" rend="new">Open</ref>
+                        </item>
+                    </list>
+                </item>
                <item n="Demo" corresp="https://e-editiones.org/apps/tp-serafin" ana="demo">
                   <desc><ref target="/exist/apps/tp-serafin">Correspondence Edition</ref></desc>
                   <note>Showcases a typical correspondence edition using the letters to Mikołaj
@@ -80,14 +93,26 @@
                      <item><ref target="/exist/apps/tp-workbench">Open</ref></item>
                   </list>
                </item>
-               <item n="Manage">
-                  <desc><ref target="/exist/apps/jinks" rend="new">Jinks</ref></desc>
-                  <note>Jinks is TEI Publisher's central application manager. Use it to maintain or kickstart new applications.</note>
-                  <ptr type="image" target="resources/images/library.jpg"/>
+               <item n="Demo" corresp="https://e-editiones.org/apps/wall-came-down" ana="demo">
+                  <desc><ref target="/exist/apps/wall-came-down" rend="new">When the Wall Came Down</ref></desc>
+                  <note>A playful, fancier demo reproducing an edition of diplomatic sources. Completely restyled for TP 11 and showing the full power of Jinks templating.</note>
+                  <ptr type="image" target="/exist/apps/wall-came-down/resources/images/brandenburg-gate-lights.jpg"/>
                   <list type="links">
-                     <item><ref target="/exist/apps/jinks" rend="new">Open</ref></item>
+                     <item><ref target="/exist/apps/wall-came-down" rend="new">Open</ref></item>
                   </list>
                </item>
+                <item n="Demo" corresp="https://e-editiones.org/apps/tp-jats" ana="demo">
+                    <desc>
+                        <ref target="/exist/apps/tp-jats" rend="new">JATS Publisher</ref>
+                    </desc>
+                    <note>TEI Publisher is not limited to TEI. In this demo you can view, annotate and edit JATS XML.</note>
+                    <ptr type="image" target="resources/images/journals.jpg"/>
+                    <list type="links">
+                        <item>
+                            <ref target="/exist/apps/tp-jats" rend="new">Open</ref>
+                        </item>
+                    </list>
+                </item>
             </list>
          </div>
          <div type="section" xml:lang="en" n="About" rend="two-column">

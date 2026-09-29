@@ -4,6 +4,8 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+DODIS_WALL="${DODIS_WALL:-../../dodis-wall}"
+
 # PRODUCTION=true: use published jinks image, tp_config.prod.json (view-static + sitemap),
 # pre-generate/upload documentation into cached/, and run the sitemap action.
 # Default (unset/false): build jinks from this checkout and use tp_config.json
@@ -120,6 +122,20 @@ $JINKS_CMD run tp-workbench download
 $JINKS_CMD run tp-jats download
 
 docker stop jinks-server
+
+# Optionally include the dodis-wall app if its checkout is available
+if [ -d "$DODIS_WALL" ]; then
+    if ! command -v ant &> /dev/null; then
+        echo "Error: ant command not found, required to build $DODIS_WALL."
+        exit 1
+    fi
+    echo "Building dodis-wall XAR in $DODIS_WALL..."
+    (cd "$DODIS_WALL" && ant) || { echo "Error: ant build failed in $DODIS_WALL"; exit 1; }
+    rm -f wall-came-down-*.xar
+    cp "$DODIS_WALL"/build/*.xar .
+else
+    echo "dodis-wall not found at $DODIS_WALL, skipping."
+fi
 
 # Final demo image
 # IMAGE:     tag to build/push (default: jinks-demo)

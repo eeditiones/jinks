@@ -1,0 +1,23 @@
+/* Ink-and-parchment palette for JATS Publisher: deep ink-navy for chrome and
+   headings, warm parchment for content backgrounds, burnt-sienna accent for
+   links and highlights. Same variable contract as the other palette-*.css
+   files in theme-base10; swap this file to restyle without touching markup. */
+:root {
+    --jinks-colors-700: #101B2E;
+    --jinks-colors-600: #16233A;
+    --jinks-colors-500: #1F3654;
+    --jinks-colors-400: #C9BFA6;
+    --jinks-colors-300: #F1EAD9;
+    --jinks-colors-200: #F8F3E8;
+    --jinks-colors-100: #FBF7EE;
+    --jinks-colors-50: #FFFFFF;
+
+    --jinks-colors-light: #FDFBF5;
+    --jinks-colors-grey: #5C5648;
+    --jinks-colors-dark: #16233A;
+    --jinks-colors-medium: #E4DCC8;
+    --jinks-colors-accent: #B5652D;
+    --jinks-colors-black-300: #6B6455;
+
+    --jinks-colors-highlight: var(--jinks-colors-accent);
+}

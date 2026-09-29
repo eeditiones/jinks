@@ -7,6 +7,7 @@
     "version": "1.0.0",
     "depends": [
         "base10",
+        "theme-base10",
         "demo-data",
         "modern-theme",
         "jats",
@@ -22,7 +23,8 @@
     ],
     "defaults": {
         "data-default": "jats",
-        "odd": "jats.odd"
+        "odd": "jats.odd",
+        "browse": "jats-browse.html"
     },
     "features": {
         "upload": {
@@ -35,8 +37,34 @@
         }
     },
     "theme": {
+        "fonts": {
+            "base": {
+                "family": "'Albert Sans', sans-serif"
+            },
+            "content": {
+                "family": "'JunicodeVF', Georgia, 'Times New Roman', serif",
+                "size": "1.2rem",
+                "line-height": "1.6"
+            },
+            "heading": {
+                "family": "'JunicodeVF', Georgia, 'Times New Roman', serif",
+                "weight": "600"
+            }
+        },
+        "content": {
+            "max-width": "64ch"
+        },
         "colors": {
-            "palette": "neutral"
+            "palette": "academic",
+            "palettes": {
+                "academic": "palette-academic.css"
+            }
+        },
+        "logo": {
+            "image": "../images/jats-publisher-logo-contrast-color.svg"
         }
-    }
+    },
+    "styles": [
+        "resources/css/jats-publisher.css"
+    ]
 }

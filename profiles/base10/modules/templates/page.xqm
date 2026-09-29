@@ -71,18 +71,21 @@ declare %private function page:lang-from-accept-language($header as xs:string?, 
 };
 
 (:~
- : Effective UI language: non-empty lang query param (primary subtag), else
- : Accept-Language if it matches defaults/languages, else defaults.language or first default.
+ : Effective UI language: non-empty lang query param (primary subtag), else the
+ : language stored in the "lang" cookie (set by language.js when the user picks a
+ : language) if it is supported, else Accept-Language if it matches defaults/languages,
+ : else defaults.language or first default.
  :)
 declare function page:resolve-language($context as map(*)) as xs:string? {
     let $param := page:parameter($context, 'lang')
     let $supported := $context?defaults?languages?*
+    let $fromCookie := page:primary-lang(request:get-cookie-value('lang'))[. = $supported]
     let $fromHeader := page:lang-from-accept-language(request:get-header('Accept-Language'), $supported)
     return
         if (string-length(normalize-space($param)) gt 0) then
             page:primary-lang($param)
         else
-            head(($fromHeader, $context?defaults?language, $context?defaults?languages?1))
+            head(($fromCookie, $fromHeader, $context?defaults?language, $context?defaults?languages?1))
 };
 
 (:~
@@ -463,5 +466,11 @@ declare function page:transform($nodes as node()*, $parameters as map(*)?, $odd 
         }
     ))
     return
-        $pm-config:web-transform($mapped, $params, $odd)
+        pages:process-content(
+            $mapped,
+            head(($parameters?root, $node)),
+            map { "odd": $odd },
+            $params,
+            ()
+        )
 };

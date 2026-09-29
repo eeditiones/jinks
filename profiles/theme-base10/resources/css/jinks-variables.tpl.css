@@ -95,6 +95,11 @@
     --jinks-document-card-radius: var(--pico-border-radius);
     --jinks-document-card-shadow: var(--pico-card-box-shadow);
     --jinks-document-card-border-color: var(--jinks-color-border);
+    --jinks-document-card-gap: 0.875rem;
+    --jinks-document-card-hover-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.12);
+    --jinks-document-card-hover-transform: translateY(-2px);
+    /* Set to 1 to always show the actions row instead of revealing it on hover */
+    --jinks-document-card-actions-opacity: 0;
 
     /* Multi-column pb-view layout: class "column" on each pb-view in main;
        set --jinks-columns-count when using more than two columns (default 2). */

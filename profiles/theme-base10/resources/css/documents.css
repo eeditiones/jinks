@@ -89,6 +89,45 @@ li.document .actions {
     justify-content: flex-end;
 }
 
+li.document.card {
+    margin-bottom: var(--jinks-document-card-gap);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+li.document.card:hover {
+    transform: var(--jinks-document-card-hover-transform);
+    box-shadow: var(--jinks-document-card-hover-shadow);
+}
+
+/* The hover transform creates a stacking context; lift the active card so its
+   download dropdown is not painted beneath the following card. */
+li.document.card:is(:hover, :focus-within, :has(details[open])) {
+    z-index: 2;
+}
+
+/* Touch devices cannot hover, so actions stay visible there. */
+@media (hover: hover) {
+    li.document.card .actions {
+        opacity: var(--jinks-document-card-actions-opacity);
+        transition: opacity 0.2s ease;
+    }
+
+    li.document.card:is(:hover, :focus-within, :has(details[open])) .actions {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    li.document.card,
+    li.document.card .actions {
+        transition: none;
+    }
+
+    li.document.card:hover {
+        transform: none;
+    }
+}
+
 li.document .thumbnail {
     width: 8rem;
     height: 8rem;

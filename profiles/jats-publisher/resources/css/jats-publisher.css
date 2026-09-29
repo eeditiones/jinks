@@ -1,0 +1,317 @@
+/* ===========================================================================
+   JATS Publisher — editorial styling for browsing and reading articles.
+   Extends modern-theme (flat chrome, Albert Sans UI) with a serif reading
+   face (see config.json + resources/fonts/font.css) and an ink/parchment
+   palette (resources/css/palette-academic.css). This file adds:
+     1. the journal masthead banner shown above the browse list
+     2. article "table of contents" cards with a journal/volume kicker line,
+        an abstract teaser and a compact DOI/license footer
+   The card markup (journal-meta kicker, abstract teaser, DOI/license links)
+   is produced by profiles/jats/resources/odd/jats.odd for
+   $parameters?display='browse'; base spacing/clamping lives in jats.css,
+   colors and flourishes live here.
+   =========================================================================== */
+
+/* Light-background search inputs share the border and fill of the adjacent
+   search button and selects. The dark menubar keeps its own values, set on
+   .page-header by modern-theme.css. */
+:root {
+    --jinks-search-border-color: var(--jinks-form-border-color);
+    --jinks-search-bg-color: var(--jinks-form-background-color);
+}
+
+/* ---------------------------------------------------------------------
+   Masthead panel — first thing inside <aside class="before">, rendered by
+   templates/jats-browse.html (jats-publisher), ahead of the inherited
+   query-scope/sort/facets controls. Bleeds out of aside.before's own
+   padding (theme-base10 layouts.css) for a full-bleed banner look.
+   --------------------------------------------------------------------- */
+
+.journal-masthead {
+    margin: calc(-1 * var(--s-1)) calc(-1 * var(--s-1)) var(--s0) calc(-1 * var(--s-1));
+    padding: var(--s1) var(--s-1) var(--s0);
+    background-color: var(--jinks-colors-300);
+    border-bottom: 1px solid var(--jinks-colors-400);
+    color: var(--jinks-colors-dark);
+}
+
+.journal-masthead-kicker {
+    margin: 0 0 0.75em;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--jinks-colors-accent);
+}
+
+.journal-masthead-kicker::after {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 2px;
+    margin-top: 0.6em;
+    background-color: var(--jinks-colors-accent);
+}
+
+.journal-masthead h1 {
+    margin: 0;
+    font-family: var(--jinks-heading-font-family);
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--jinks-colors-dark);
+    --pico-h1-color: var(--jinks-colors-dark);
+}
+
+/* ---------------------------------------------------------------------
+   Article cards in the browse list
+   --------------------------------------------------------------------- */
+
+ul.documents {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+ul.documents > li.document.card {
+    --card-accent: var(--jinks-colors-accent);
+    --jinks-document-card-hover-shadow: 0 2px 4px rgba(16, 27, 46, 0.08), 0 12px 28px rgba(16, 27, 46, 0.12);
+    --jinks-document-card-hover-transform: translateY(-2px);
+    margin: 0;
+    padding: 1.5rem 1.75rem 1.25rem;
+    border: 1px solid rgba(16, 27, 46, 0.08);
+    border-left: 6px solid var(--card-accent);
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(16, 27, 46, 0.06), 0 4px 14px rgba(16, 27, 46, 0.05);
+}
+
+/* Cycle through five muted, academic-press hues so a list of articles
+   from different journals/sections reads as more than a monotone stack. */
+ul.documents > li.document.card:nth-child(5n+2) { --card-accent: #3B6E71; }
+ul.documents > li.document.card:nth-child(5n+3) { --card-accent: #7A3B3B; }
+ul.documents > li.document.card:nth-child(5n+4) { --card-accent: #4C5F41; }
+ul.documents > li.document.card:nth-child(5n+5) { --card-accent: #5B4A7A; }
+
+ul.documents > li.document.card > header {
+    margin-bottom: 0.75rem;
+}
+
+/* Two columns: year/volume/type on the left, the article on the right. */
+.article-card {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1.75rem;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding-right: 1.25rem;
+    border-right: 1px solid rgba(16, 27, 46, 0.1);
+    font-family: var(--jinks-base-font-family);
+}
+
+.card-year {
+    font-family: var(--jinks-heading-font-family);
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--card-accent);
+}
+
+.card-volume {
+    font-size: 0.8rem;
+    color: var(--jinks-colors-grey);
+}
+
+.card-type {
+    margin-top: 0.35rem;
+    padding: 0.15em 0.6em;
+    border-radius: 0.25rem;
+    background-color: color-mix(in srgb, var(--card-accent) 12%, transparent);
+    color: var(--card-accent);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.card-meta > :empty,
+.card-body > :empty {
+    display: none;
+}
+
+.card-kicker {
+    margin: 0;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--card-accent);
+}
+
+.card-body a:has(> :is(h1, h2, h3, h4, h5, h6)) {
+    text-decoration: none;
+}
+
+.card-body :is(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    font-family: var(--jinks-heading-font-family);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--jinks-colors-dark);
+    --pico-color: var(--jinks-colors-dark);
+}
+
+.card-body a:hover :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--card-accent);
+}
+
+.card-authors {
+    margin: 0.15rem 0 0;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--jinks-colors-dark);
+}
+
+.card-affiliations {
+    margin-top: -0.35rem;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--jinks-colors-grey);
+}
+
+.card-abstract {
+    margin: 0.25rem 0 0;
+    font-family: var(--jinks-content-font-family);
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--jinks-colors-grey);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.card-keyword {
+    padding: 0.1em 0.55em;
+    border: 1px solid rgba(16, 27, 46, 0.14);
+    border-radius: 999px;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.75rem;
+    color: var(--jinks-colors-dark);
+}
+
+.card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-top: 0.35rem;
+    font-family: var(--jinks-base-font-family);
+    font-size: 0.8rem;
+    color: var(--jinks-colors-grey);
+}
+
+.card-footer > * {
+    margin: 0;
+}
+
+.card-doi,
+.card-license {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15em 0.65em;
+    border-radius: 999px;
+    background-color: var(--jinks-colors-300);
+    color: var(--jinks-colors-dark);
+    font-family: var(--jinks-base-font-family);
+    font-style: normal;
+    text-decoration: none;
+}
+
+/* Actions: borderless and quiet (the hover reveal comes from theme-base10). */
+ul.documents > li.document.card .actions {
+    gap: 0.25rem;
+}
+
+ul.documents > li.document.card .actions :is(button, summary) {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: var(--jinks-colors-grey);
+}
+
+ul.documents > li.document.card .actions :is(button, summary):hover {
+    background-color: color-mix(in srgb, var(--card-accent) 10%, transparent);
+    color: var(--card-accent);
+}
+
+@media (max-width: 700px) {
+    .article-card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+
+    .card-meta {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.6rem;
+        padding: 0 0 0.75rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(16, 27, 46, 0.1);
+    }
+
+    .card-year {
+        font-size: 1.5rem;
+    }
+
+    .card-type {
+        margin-top: 0;
+    }
+}
+
+.card-doi:hover,
+.card-license:hover {
+    background-color: var(--jinks-colors-accent);
+    color: var(--jinks-colors-light);
+}
+
+.card-doi::before {
+    content: "DOI";
+    font-weight: 700;
+    font-size: 0.7em;
+    margin-right: 0.4em;
+    opacity: 0.7;
+}
+
+.card-license::before {
+    content: "\1F513";
+    margin-right: 0.3em;
+}
