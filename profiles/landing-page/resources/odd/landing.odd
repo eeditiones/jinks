@@ -241,12 +241,13 @@
                         <param name="label" value="@n"/>
                         <param name="label-class" value="if (@n) then 'label' else 'no-label'"/>
                         <param name="href" value="(list[@type='links']//ref/@target, desc/ref/@target)[1]"/>
+                        <param name="link-target" value="if ((list[@type='links']//ref, desc/ref)[1]/@rend = 'new') then '_blank' else '_self'"/>
                         <param name="content" value="note/node()"/>
                         <param name="image" value="ptr[@type='image']/@target"/>
                         <param name="title" value="normalize-space(desc)"/>
                         <param name="links" value="list[@type='links']"/>
                         <pb:template xml:space="preserve"><article xmlns="" class="highlight-card area-[[pos]]" style="background-image: var(--lg), url('[[image]]');">
-    <a class="highlight-stretched-link" href="[[href]]"><span class="visually-hidden">[[title]]</span></a>
+    <a class="highlight-stretched-link" href="[[href]]" target="[[link-target]]"><span class="visually-hidden">[[title]]</span></a>
     <span class="label label-dark [[label-class]]">[[label]]</span>
     <div class="desc">
         <h3>[[title]]</h3>
