@@ -227,7 +227,28 @@ declare function api:profiles() {
                 map { "path": $collection }
             ))
         else
-            ()
+            (),
+    let $internal := xmldb:get-child-collections($config:app-root || "/profiles")
+    for $app in xmldb:get-child-collections(repo:get-root())
+    let $profilesRoot := repo:get-root() || "/" || $app || "/profiles"
+    where $profilesRoot != ($config:app-root || "/profiles")
+    where xmldb:collection-available($profilesRoot)
+    for $collection in xmldb:get-child-collections($profilesRoot)
+    where not($collection = $internal)
+    let $configPath := $profilesRoot || "/" || $collection || "/config.json"
+    where util:binary-doc-available($configPath)
+    let $config := generator:load-json-safe($configPath)
+    where not($config?_jsonError) and map:contains($config, "type")
+    order by
+        if (map:contains($config, "order")) then
+            number($config?order)
+        else
+            100
+    return
+        map:merge((
+            $config,
+            map { "path": $collection }
+        ))
 };
 
 declare function api:page($request as map(*)) {
@@ -258,13 +279,24 @@ declare function api:page($request as map(*)) {
 };
 
 declare function api:profile-documentation($request as map(*)) {
-    let $collection := "profiles/" || $request?parameters?profile
-    let $config := generator:load-json($config:app-root || "/" ||$collection || "/config.json", map {})
+    let $name := $request?parameters?profile
+    let $root := generator:profile-path($name)
+    let $collection := "profiles/" || $name
+    return
+        if (empty($root)) then
+            error($errors:NOT_FOUND, "Profile " || $name || " not found")
+        else
+            api:profile-documentation($root, $collection, $name)
+};
+
+declare %private function api:profile-documentation($root as xs:string, $collection as xs:string, $name as xs:string) {
+    let $config := generator:load-json($root || "/config.json", map {})
     let $template := api:resolver("pages/profile-documentation.html")?content
     let $context := map:merge(($config, map {
         "path": $collection,
-        "name": $request?parameters?profile,
-        "abbrev": head(($config?shortname, $request?parameters?profile)),
+        "root": $root,
+        "name": $name,
+        "abbrev": head(($config?shortname, $name)),
         "title": $config?label,
         "profile": $config,
         "context-path": $config:context-path,

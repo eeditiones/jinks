@@ -31,14 +31,36 @@ declare variable $generator:PROFILES_ROOT := $config:app-root || "/profiles";
 
 declare function generator:profile-path($name as xs:string) {
     let $internalPath := $generator:PROFILES_ROOT || "/" || $name
+    let $packaged := generator:packaged-profile-paths($name)
     return
         if (xmldb:collection-available($internalPath)) then
             $internalPath
+        else if (exists($packaged)) then
+            head($packaged)
         else
             for $collection in xmldb:get-child-collections(repo:get-root())
             where $collection = $name
             return
                 repo:get-root() || "/" || $collection
+};
+
+(:~
+ : Profiles shipped in another installed package, at <app>/profiles/<name>/config.json.
+ : A config.json without a type property is ignored. The Jinks app itself is skipped;
+ : its profiles are resolved through $generator:PROFILES_ROOT.
+ :)
+declare function generator:packaged-profile-paths($name as xs:string) as xs:string* {
+    for $app in xmldb:get-child-collections(repo:get-root())
+    let $profilesRoot := repo:get-root() || "/" || $app || "/profiles"
+    where $profilesRoot != $generator:PROFILES_ROOT
+    where xmldb:collection-available($profilesRoot || "/" || $name)
+    let $path := $profilesRoot || "/" || $name
+    let $configPath := $path || "/config.json"
+    where util:binary-doc-available($configPath)
+    let $config := generator:load-json-safe($configPath)
+    where not($config?_jsonError) and map:contains($config, "type")
+    return
+        $path
 };
 
 (:~
