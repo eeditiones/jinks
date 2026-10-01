@@ -4,9 +4,9 @@ ARG PUBLISHER_VERSION=10.0.0
 
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
-ARG ROUTER_VERSION=1.12.1
+ARG ROUTER_VERSION=1.13.1
 ARG CRYPTO_VERSION=6.0.1
-ARG JWT_VERSION=2.0.1
+ARG JWT_VERSION=2.0.2
 
 WORKDIR /tmp
 
@@ -25,8 +25,8 @@ RUN  cd jinks \
     && ant
 
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 001.xar
-ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 002.xar
-ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 003.xar
+ADD https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 002.xar
+ADD https://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 003.xar
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
 

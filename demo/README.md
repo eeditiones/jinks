@@ -48,6 +48,8 @@ IMAGE=wolfgangmm/tei-publisher-home:latest \
   ./build.sh
 ```
 
+Whenever jinks is built from this checkout (the default, or `PRODUCTION=true LOCAL=true`), the final image is built with `docker buildx bake` (`docker-bake.hcl`): it builds jinks from `../Dockerfile` for every requested platform and uses it as the base of `Dockerfile.demo`, so the jinks app inside the demo image matches the checkout. With `PRODUCTION=true` alone, the base is the published `ghcr.io/eeditiones/jinks:latest` (always re-pulled).
+
 `PRODUCTION=true` requires Docker, `opm`, and `xst` on the PATH. Chunking is configured in `opm.toml`. After upload it runs `jinks run tei-publisher sitemap` so `sitemap.xml` is included in the downloaded XAR.
 
 Multi-arch builds use `docker buildx` and must push directly (`PUSH=true`) because Docker cannot load a multi-platform image into the local store. Cross-arch builds emulated via QEMU are slower than native.
