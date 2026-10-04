@@ -64,7 +64,8 @@ body {
     padding: 0 8px;
 }
 
-#authority-info {
+/* class, not id - annotations.js renders the authority preview into a div with this class */
+.authority-info {
     font-size: .9rem;
     max-height: 25vh;
     overflow: auto;
@@ -113,7 +114,16 @@ fx-fore fx-group > section{
     position: relative;
 }
 
-fx-fore fx-group{
+/* [relevant] here, not just "fx-fore fx-group": fore.css's own generic `[relevant] {
+   display: block; }` rule (same 0,1,0 specificity, loaded after this stylesheet from the
+   CDN) otherwise wins the cascade over a plain two-type-selector rule like this one and
+   silently collapses every visible fx-group back to normal block flow - breaking the
+   grid-based grow/shrink animation entirely and, with it, every card's layout (this was
+   the root cause of the whole annotation-editor side panel looking visually broken:
+   misshapen cards, no spacing, oversized empty areas around otherwise-normal-sized
+   icons/buttons). [relevant] raises this selector's specificity to 0,1,2, beating
+   fore.css's 0,1,0 regardless of stylesheet load order. */
+fx-fore fx-group[relevant]{
     display:grid;
     grid-template-rows:1fr;
     height:auto;
@@ -208,6 +218,61 @@ fx-fore textarea {
 fx-group#authority{
     overflow: hidden;
 }
+
+/* This app's actually-deployed base10 ships an older controls.css whose `[role="group"]`
+   pill-button rule (border-radius: var(--jinks-form-border-radius), a 90px pill meant for
+   small toolbar segments) has no `:not(fx-group)` exclusion - unlike the fixed version already
+   in the tei-publisher-jinks git history. Every fx-group card here also carries role="group"
+   (Fore's own accessibility convention), so every card inherited that 90px radius and looked
+   like an oversized speech bubble instead of a normal rounded card. fx-group[role="group"]
+   (specificity 0,1,1) reliably beats the base10 rule (0,1,0) regardless of load order or
+   whether a future base10 update re-adds the exclusion - both cases end up with the same,
+   correct 1rem .card radius. */
+fx-group[role="group"]{
+    border-radius: 1rem;
+}
+
+/* Cancel/close button in each card header (annotation, authority, occurrences, commit) -
+   dismisses the panel via the existing reset-panels action. ".preview header" (below) already
+   right-aligns header content via flex/space-between, so this just sizes the icon itself
+   instead of the oversized default. */
+button.close-panel {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    line-height: 0;
+    cursor: pointer;
+    color: var(--jinks-color-primary);
+}
+button.close-panel svg {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+/* ".preview header" (below) is a flex row splitting a header into a label + an icon-button
+   group; neither side had flex-shrink protection, so once a header holds 4 icon buttons
+   (occurrences' mark-all/search-collection/save-all plus the new close-panel button above) the
+   label and icons compete for the card's ~505px width and the flex algorithm squeezes the
+   *icons* down disproportionately (observed: iron-icon width collapsing to 8px while height
+   stayed 24px, i.e. visibly squashed, not just smaller). Icon buttons keep their natural size;
+   the text label truncates instead, which reads better than a squashed/illegible icon. */
+.preview header button,
+.preview header iron-icon,
+.preview header svg {
+    flex-shrink: 0;
+}
+.preview header > div:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Same flex-squeeze problem as the header icons above, but for icon-only buttons living
+   outside a <header> too - e.g. #form-save (the annotation-form's own save button, a flex
+   sibling of the text <input> it saves) squeezed exactly the same way (iron-icon width
+   collapsing to 8px). Cover every icon-only button in the panel generically instead of
+   special-casing each container. */
+.preview button, .preview iron-icon {
+    flex-shrink: 0;
+}
 fx-fore #markupPanel pb-tabs,
 fx-fore #markupPanel .preview-toolbar {
     height: 25vh;
@@ -274,6 +339,14 @@ pb-view, pb-view-annotate{
     align-items: center;
     /*height: 3rem;*/
     padding:1rem 0.75rem;
+    /* Headers ("Annotation Details", "Revision Description", ...) rendered at the same
+       font-weight (300, Inter's Light) and transparent background as everything around them -
+       nothing set them apart from body text or from the following field labels. A background
+       tint plus a bottom border gives each card a clear title bar; bumping the weight keeps it
+       readable at 16px without needing a larger font-size. */
+    background-color: var(--jinks-colors-100);
+    border-bottom: 1px solid var(--jinks-colors-200);
+    font-weight: 600;
     }
 
 .preview header .toolbar {
@@ -512,6 +585,27 @@ fx-control input[type="text"], fx-control textarea {
 fx-control input[type="text"]:focus, fx-control textarea:focus {
     border-color: #007bff;
     /* Change border color on focus */
+}
+
+/* The annotation-form "correct the transcription" input isn't wrapped in <fx-control> (it's a
+   plain, non-Fore-bound <form> - see annotate.html's "annotation-form edit" block), so it never
+   picked up the fx-control input[type="text"] treatment above and rendered with no visible
+   border or background at all, indistinguishable from the surrounding card. Same visual
+   treatment, applied directly instead of via an fx-control ancestor. */
+.annotation-form input {
+    box-sizing: border-box;
+    width: calc(100% - 2rem);
+    padding: 12px 16px;
+    margin: 0 0 .5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: var(--jinks-color-primary);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+.annotation-form input:focus {
+    border-color: #007bff;
 }
 
 fx-control select {
