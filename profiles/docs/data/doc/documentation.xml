@@ -588,9 +588,11 @@ Total time: 0 seconds
                 which therefore need to be available. The setup should be complemented with a source control (git) repository.
                 Agents should be able to help with the installation.
             </para>
-            <para><link xlink:href="https://claude.ai/">Claude Code</link> and <link xlink:href="https://cursor.sh/">Cursor</link> will automatically pick up
-                the instructions and skills when the agent is pointed at the application directory.
-                For other agent types you need to check their documentation.</para>
+            <para><link xlink:href="https://claude.ai/">Claude Code</link> and <link
+                    xlink:href="https://cursor.sh/">Cursor</link> will automatically pick up the
+                instructions and skills when the agent is pointed at the application directory. For
+                other agent types you need to check their documentation and copy or rename the
+                skills directory.</para>
             <para>The relevant files are:</para>
             <variablelist>
                 <varlistentry>
@@ -608,10 +610,15 @@ Total time: 0 seconds
                 <varlistentry>
                     <term><filename>.claude/skills</filename></term>
                     <listitem>
-                        <para>Basic set of skills. Both, Cursor and Claude, will find them in this location.</para>
+                        <para>Basic set of skills. Both, Cursor and Claude, will find them in this
+                            location. Gemini and others may expect them in
+                                <filename>.agents/skills</filename> instead. Please consult their
+                            documentation.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
+            <note><para>Always check if your agent really sees the skills. Agents will try
+                    their best without the skills, but they take more time and results will be worse.</para></note>
             <para>Using the Karl Barth sermons example from the <link xlink:href="quickstart.xml"
                     >gentle introduction</link>, we would proceed as follows:</para>
             <procedure>
