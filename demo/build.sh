@@ -4,21 +4,11 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-<<<<<<< Updated upstream
-DODIS_WALL="${DODIS_WALL:-../../dodis-wall}"
-
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-# PRODUCTION=true: use published jinks image, tp_config.prod.json (view-static + sitemap),
-# pre-generate/upload documentation into cached/, and run the sitemap action.
-=======
 DODIS_WALL="${DODIS_WALL:-../../dodis-wall}"
 
 # PRODUCTION=true: use tp_config.prod.json (view-static + sitemap), pre-generate/upload
 # documentation into cached/, and run the sitemap action. Uses the published
 # ghcr.io/eeditiones/jinks:latest image unless LOCAL=true.
->>>>>>> Stashed changes
 # Default (unset/false): build jinks from this checkout and use tp_config.json
 # without static mode — suitable when opm is not available (e.g. matching CI).
 PRODUCTION="${PRODUCTION:-false}"

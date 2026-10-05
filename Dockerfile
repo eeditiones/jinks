@@ -2,6 +2,28 @@ ARG EXIST_VERSION=release
 ARG BUILD=local
 ARG PUBLISHER_VERSION=10.0.0
 
+# Latest published releases, not a git clone. `ant` on master packages
+# jinks-templates as 1.0.0 (the real version is applied only by semantic-release)
+# and tei-publisher-lib at the version committed on the default branch, which
+# lags the GitHub release.
+FROM ghcr.io/eeditiones/builder:latest AS libs
+
+WORKDIR /tmp
+
+# Stable asset name. ADD rechecks the URL and keeps this layer when the xar is unchanged.
+ADD https://github.com/eeditiones/jinks-templates/releases/latest/download/jinks-templates.xar /tmp/004.xar
+
+# The asset name includes the version (tei-publisher-lib-6.1.2.xar). The atom
+# feed changes when a release is published, which reruns the download below.
+ADD https://github.com/eeditiones/tei-publisher-lib/releases.atom /tmp/tei-publisher-lib.atom
+RUN set -eu; \
+    url=$(curl -fsSL https://api.github.com/repos/eeditiones/tei-publisher-lib/releases/latest \
+        | grep -o 'https://github.com/eeditiones/tei-publisher-lib/releases/download/[^"]*\.xar' \
+        | head -1); \
+    test -n "$url"; \
+    curl -fsSL -L -o /tmp/005.xar "$url"; \
+    rm /tmp/tei-publisher-lib.atom
+
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
 ARG ROUTER_VERSION=1.13.1
@@ -9,14 +31,6 @@ ARG CRYPTO_VERSION=6.0.1
 ARG JWT_VERSION=2.0.2
 
 WORKDIR /tmp
-
-# Build jinks-template
-ADD https://github.com/eeditiones/jinks-templates.git /tmp/jinks-templates
-RUN cd /tmp/jinks-templates && ant
-
-# Build tei-publisher-lib
-ADD https://github.com/eeditiones/tei-publisher-lib.git /tmp/tei-publisher-lib
-RUN cd /tmp/tei-publisher-lib && ant
 
 # Build Jinks
 # TODO(DP): needs to be xar local
@@ -34,8 +48,8 @@ ARG USR=root
 USER ${USR}
 
 ONBUILD COPY --from=builder /tmp/*.xar /exist/autodeploy/
-ONBUILD COPY --from=builder /tmp/jinks-templates/build/*.xar /exist/autodeploy/004.xar
-ONBUILD COPY --from=builder /tmp/tei-publisher-lib/build/*.xar /exist/autodeploy/005.xar
+ONBUILD COPY --from=libs /tmp/004.xar /exist/autodeploy/004.xar
+ONBUILD COPY --from=libs /tmp/005.xar /exist/autodeploy/005.xar
 ONBUILD COPY --from=builder /tmp/jinks/build/*.xar /exist/autodeploy/006.xar
 
 # TODO(DP): Tagging scheme add EXIST_VERSION to the tag
