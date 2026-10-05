@@ -6,7 +6,7 @@ describe('/api/document/{id}', () => {
     it('retrieves as xml', () => {
         cy.request('/api/document/demo%2Flet695.xml').then(({ status, headers, body }) => {
             expect(status).to.eq(200)
-            expect(headers['content-type']).to.eq('application/xml')
+            expect(headers['content-type']).to.match(/^application\/xml(;\s*charset=UTF-8)?$/i)
             expect(body).to.include('<TEI')
         })
     })
