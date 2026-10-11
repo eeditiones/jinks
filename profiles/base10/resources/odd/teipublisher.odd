@@ -100,7 +100,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="app" mode="add">
-                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through">
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through">
                         <param name="content" value="head((lem, rdg))"/>
                     </model>
                     <model behaviour="alternate">
@@ -109,13 +109,13 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="rdg" mode="add">
-                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
                 </elementSpec>
                 <elementSpec ident="lem" mode="add">
-                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through"/>
                 </elementSpec>
                 <elementSpec ident="anchor" mode="change">
-                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb')" behaviour="omit"/>
                     <model predicate="@corresp" behaviour="note">
             <desc>Process notes with corresp attribute (assuming the note is stand off,
                             somewhere in the same document)</desc>
@@ -190,6 +190,10 @@
         </model>
                 </elementSpec>
                 <elementSpec ident="choice" mode="change">
+                    <model predicate="$parameters?display='browse' 
+                    or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline">
+                    <param name="content" value="head((expan, corr, reg, seg))"/>
+                    </model>
                     <model predicate="sic and corr" behaviour="alternate">
             <param name="default" value="corr[1]"/>
             <param name="alternate" value="sic[1]"/>
@@ -231,7 +235,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="date" mode="change">
-                    <model predicate="$parameters?display='browse' or $parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="@when" behaviour="alternate">
                         <param name="default" value="if (normalize-space(.)) then . else @when/string()"/>
                         <param name="alternate" value="try { format-date(xs:date(@when), '[D1o] [MNn] [Y]', ($parameters?language, 'en')[1], (), ()) } catch * { @when/string() }"/>
@@ -829,7 +833,7 @@
                     <model output="docx" behaviour="pass-through">
                         <param name="content" value="(fileDesc/titleStmt/title[1], fileDesc/titleStmt/author)"/>
                     </model>
-                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline">
             <param name="content" value="fileDesc/titleStmt"/>
         </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through"/>
@@ -837,7 +841,7 @@
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
-                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="pass-through">
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="pass-through">
             <param name="content" value="teiHeader"/>
         </model>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="pass-through">
@@ -882,7 +886,7 @@
                     <model output="docx" predicate="parent::titleStmt" behaviour="metadata">
                         <param name="key" value="'title'"/>
                     </model>
-                    <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='metadata-panel'" behaviour="block"/>
                     <model predicate="$parameters?mode='register-details' and $parameters?static" behaviour="link">
                         <param name="uri" value="$parameters?context-path || &#34;/letters/&#34; || util:document-name(.) || '/1/index.html'"/>
@@ -1186,7 +1190,7 @@ flex-wrap: wrap;
             <param name="uri" value="head((@key, @ref))"/>
             <param name="target" value="'_blank'"/>
         </model>
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="pass-through"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="pass-through"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="content" value="."/>
@@ -1258,7 +1262,7 @@ flex-wrap: wrap;
                     <model predicate="@key and $parameters?mode='register-details'" behaviour="inline">
             <param name="content" value="let $key:= head((@key, @ref)) return id($key, collection($global:register-root)/id('pb-organizations'))/placeName[@type='main']/string()"/>
         </model>
-                    <model predicate="$parameters?display='browse' or $parameters?mode='breadcrumb' or $parameters?mode='toc'" behaviour="inline"/>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="$parameters?mode='register'" behaviour="pass-through">
             <desc>Register sidebar</desc>
             <param name="default" value="."/>
