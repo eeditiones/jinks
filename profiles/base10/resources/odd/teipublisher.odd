@@ -376,28 +376,24 @@
                 </elementSpec>
                 <elementSpec ident="gap" mode="change">
                     <model predicate="desc" behaviour="inline"/>
-                    <model output="plain" predicate="@extent or @quantity" behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: "[.. ..]";
-            </outputRendition>
-        </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb')" behaviour="inline">
+                        <desc>Represent the gap by a placeholder content</desc>
+                        <param name="content" value="'[...]'"/>
+                    </model>
                     <model predicate="@extent or @quantity" behaviour="inline">
-            <param name="extent" value="head((@extent, @quantity))"/>
-            <param name="unit" value="@unit"/>
-            <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
-            <pb:template xmlns="" xml:space="preserve"><pb-popover>
-                            <span class="gap" slot="default"/>
+                        <param name="extent" value="head((@extent, @quantity))"/>
+                        <param name="unit" value="@unit"/>
+                        <param name="reason" value="if (@reason) then @reason || ': ' else ()"/>
+                        <param name="placeholder" value="'[...]'"/>
+                        <pb:template xmlns="" xml:space="preserve"><pb-popover>
+                            <span class="gap" slot="default">[[placeholder]]</span>
                             <template slot="alternate">[[reason]] [[ extent ]] [[unit]]</template>
-            </pb-popover></pb:template>
-            <outputRendition xml:space="preserve" scope="before">
-            content: "[.. ..]";
-            </outputRendition>
-        </model>
+                        </pb-popover></pb:template>
+                    </model>
                     <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[...]';
-            </outputRendition>
-        </model>
+                        <desc>Represent the gap by a placeholder content</desc>
+                        <param name="content" value="'[...]'"/>
+                     </model>
                 </elementSpec>
                 <elementSpec ident="graphic" mode="change">
                     <model behaviour="graphic">
@@ -694,6 +690,7 @@
                     <model behaviour="block" cssClass="block-quote" useSourceRendition="true"/>
                 </elementSpec>
                 <elementSpec ident="ref" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="@subtype='placeholder'" behaviour="pass-through">
             <desc>placeholder for unavailable next/prev links</desc>
             <param name="type" value="if (@type='prev') then 'previous' else @type"/>
