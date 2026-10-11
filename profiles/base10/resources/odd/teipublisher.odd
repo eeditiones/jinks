@@ -788,11 +788,14 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="subst" mode="change">
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline">
+                        <param name="content" value="add"/>
+                    </model>
                     <model behaviour="inline">
-            <desc>explicitly set content to avoid whitespace issues; keep a note
-                anchor placed inside the subst, whose note is lost otherwise</desc>
-            <param name="content" value="(del, add, anchor)"/>
-        </model>
+                        <desc>explicitly set content to avoid whitespace issues; keep a note
+                            anchor placed inside the subst, whose note is lost otherwise</desc>
+                        <param name="content" value="(del, surplus, add, anchor)"/>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="table" mode="change">
                     <model behaviour="table"/>
