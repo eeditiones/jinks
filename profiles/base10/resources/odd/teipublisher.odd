@@ -219,17 +219,7 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="corr" mode="change">
-                    <model predicate="parent::choice and count(parent::*/*) gt 1" behaviour="inline">
-            <desc>simple inline, if in parent choice. </desc>
-        </model>
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve" scope="before">
-            content: '[';
-            </outputRendition>
-            <outputRendition xml:space="preserve" scope="after">
-            content: ']';
-            </outputRendition>
-        </model>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="damage" mode="add">
                     <model behaviour="inline"/>
@@ -780,11 +770,11 @@
                     <model behaviour="block"/>
                 </elementSpec>
                 <elementSpec ident="supplied" mode="change">
-                    <model predicate="parent::choice" behaviour="inline"/>
+                    <model predicate="parent::choice or $parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="inline"/>
                     <model predicate="@reason" behaviour="pass-through">
-            <param name="reason" value="@reason"/>
-            <pb:template xmlns="" xml:space="preserve"><span class="tei-supplied [[reason]]">[[ content ]]</span></pb:template>
-        </model>
+                        <param name="reason" value="@reason"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="tei-supplied [[reason]]">[[ content ]]</span></pb:template>
+                    </model>
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="subst" mode="change">
