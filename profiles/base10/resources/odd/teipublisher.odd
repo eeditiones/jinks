@@ -280,11 +280,8 @@
                     <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="del" mode="change">
-                    <model behaviour="inline">
-            <outputRendition xml:space="preserve">
-            text-decoration: line-through;
-            </outputRendition>
-        </model>
+                    <model predicate="$parameters?display='browse' or $parameters?mode=('toc', 'breadcrumb', 'title')" behaviour="omit"/>
+                    <model behaviour="inline"/>
                 </elementSpec>
                 <elementSpec ident="div" mode="change">
                     <model predicate="$parameters?mode='toc' and div" behaviour="pass-through">
