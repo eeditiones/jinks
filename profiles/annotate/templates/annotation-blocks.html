@@ -14,8 +14,13 @@
     [% endtemplate %]
     [% template toggle %]
     [% if exists($context?doc) and $features?annotate?toolbar-button %]
+    <!-- $context?doc?type is unreliable here (observed empty, unlike view.xql's own doc
+         comment for the fuller "doc" map - this app's base10 differs from the
+         tei-publisher-jinks git history, see the annotation_config_dispatcher_dormant
+         project memory for the same class of drift). $context?doc?content (the actual
+         document node) IS reliably present, so compute the doctype directly instead. -->
     <li>
-        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=annotate-[[$context?doc?type]].html&amp;odd=annotations.odd"
+        <a href="[[ $context-path ]]/[[ $context?doc?path ]]?template=annotate-[[config:document-type($context?doc?content/*)]].html&amp;odd=annotations.odd"
             data-tooltip="Annotate" data-placement="bottom" target="annotate">
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"

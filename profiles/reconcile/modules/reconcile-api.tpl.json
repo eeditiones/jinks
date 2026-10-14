@@ -1,0 +1,336 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "[[ head(($pkg?title, $label)) ]] – Reconciliation Service API",
+        "description": "OpenRefine-compatible reconciliation service (spec 0.2 and 1.0-draft)"
+    },
+    "servers": [
+        {
+            "description": "Endpoint for testing on localhost",
+            "url": "/exist/apps/[[$pkg?abbrev]]"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "name": "teipublisher.com.login",
+                "in": "cookie"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "reconcile",
+            "description": "Reconciliation Service API endpoints"
+        }
+    ],
+    "paths": {
+        "/api/reconcile": {
+            "get": {
+                "summary": "Service manifest",
+                "description": "Returns the service manifest describing the features supported by this reconciliation endpoint.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:manifest",
+                "parameters": [
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Force the manifest shape for a specific protocol version ('0.2' or '1.0-draft'). A single manifest cannot validate against both versions' JSON Schemas at once, so this defaults to a 1.0-draft-only manifest; pass '0.2' for a 0.2-only one.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "extend",
+                        "in": "query",
+                        "description": "Classic (pre-1.0) data-extension convention: a JSON-encoded data-extension query. When present, a data-extension response is returned instead of the manifest.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The service manifest",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Reconciliation query batch",
+                "description": "Accepts a batch of reconciliation queries (0.2 object-keyed shape or 1.0-draft queries-array shape) and returns matching candidates. Also accepts the classic application/x-www-form-urlencoded 'queries=<json>' form POST some 0.2 clients (incl. the local 0.2 test bench) still use, and the classic application/x-www-form-urlencoded 'extend=<json>' data-extension form POST OpenRefine's own client actually sends (see ReconciledDataExtensionJob.postExtendQuery) rather than the 1.0-draft canonical POST /extend route.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:reconcile",
+                "parameters": [
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Force the response shape for a specific protocol version ('0.2' or '1.0-draft'). Only relevant for the classic form-encoded 'extend=<json>' convention above; the regular query-batch shape is inferred from the body itself.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "queries": {
+                                        "type": "string"
+                                    },
+                                    "extend": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The reconciliation result batch",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/match": {
+            "post": {
+                "summary": "Reconciliation query batch (alias)",
+                "description": "Alias of POST /api/reconcile, used by the 1.0-draft test bench, which posts queries to '<endpoint>/match'.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:reconcile",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "queries": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The reconciliation result batch",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/suggest/entity": {
+            "get": {
+                "summary": "Suggest entities",
+                "description": "Entity auto-completion for a query prefix.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:suggest-entity",
+                "parameters": [
+                    { "name": "prefix", "in": "query", "schema": { "type": "string" } },
+                    { "name": "type", "in": "query", "schema": { "type": "string" } },
+                    { "name": "limit", "in": "query", "description": "Parsed leniently and clamped server-side; a non-numeric value falls back to the default rather than erroring.", "schema": { "type": "string", "default": "10" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's suggest.entity.service_path, which always includes it; currently has no effect on the response shape.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suggested entities",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/suggest/property": {
+            "get": {
+                "summary": "Suggest properties",
+                "description": "Property auto-completion for a query prefix.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:suggest-property",
+                "parameters": [
+                    { "name": "prefix", "in": "query", "schema": { "type": "string" } },
+                    { "name": "type", "in": "query", "schema": { "type": "string" } },
+                    { "name": "limit", "in": "query", "description": "Parsed leniently and clamped server-side; a non-numeric value falls back to the default rather than erroring.", "schema": { "type": "string", "default": "20" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's suggest.property.service_path, which always includes it; currently has no effect on the response shape.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suggested properties",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/suggest/type": {
+            "get": {
+                "summary": "Suggest types",
+                "description": "Reconciliation-type auto-completion for a query prefix.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:suggest-type",
+                "parameters": [
+                    { "name": "prefix", "in": "query", "schema": { "type": "string" } },
+                    { "name": "limit", "in": "query", "description": "Parsed leniently and clamped server-side; a non-numeric value falls back to the default rather than erroring.", "schema": { "type": "string", "default": "20" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's suggest.type.service_path, which always includes it; currently has no effect on the response shape.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suggested types",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/suggest/flyout": {
+            "get": {
+                "summary": "Suggest flyout",
+                "description": "Small HTML preview for a suggested entity, property, or type, shown on hover by OpenRefine's 0.2 suggest widget (see manifest.suggest.*.flyout_service_path). Has no 1.0-draft equivalent.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:suggest-flyout",
+                "parameters": [
+                    { "name": "kind", "in": "query", "schema": { "type": "string", "enum": ["entity", "property", "type"] } },
+                    { "name": "id", "in": "query", "required": true, "schema": { "type": "string" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's flyout_service_path, which always includes it; currently has no effect on the response shape.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Flyout preview",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/preview": {
+            "get": {
+                "summary": "Entity preview",
+                "description": "Small HTML preview of an entity, meant to be embedded in an iframe (see manifest.preview).",
+                "tags": ["reconcile"],
+                "operationId": "reconc:preview",
+                "parameters": [
+                    { "name": "id", "in": "query", "required": true, "schema": { "type": "string" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's preview.url, which always includes it; currently has no effect on the response.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML preview",
+                        "content": { "text/html": { "schema": { "type": "string" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/entity/{id}": {
+            "get": {
+                "summary": "Entity view",
+                "description": "Redirects to the entity's real browse page when one exists (person, place), otherwise a minimal fallback HTML page (see manifest.view).",
+                "tags": ["reconcile"],
+                "operationId": "reconc:entity",
+                "parameters": [
+                    { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's view.url, which always includes it; currently has no effect on the response.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTML fallback page",
+                        "content": { "text/html": { "schema": { "type": "string" } } }
+                    },
+                    "303": {
+                        "description": "Redirect to the real browse page"
+                    },
+                    "404": {
+                        "description": "No such entity"
+                    }
+                }
+            }
+        },
+        "/api/reconcile/extend": {
+            "post": {
+                "summary": "Data extension",
+                "description": "Fetches property values for a batch of entity ids (1.0-draft canonical path). The classic GET '<endpoint>?extend=...' convention is handled directly on GET /api/reconcile.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:extend",
+                "parameters": [
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Force the response shape for a specific protocol version ('0.2' or '1.0-draft').",
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": { "schema": { "type": "object" } }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The data-extension response",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        },
+        "/api/reconcile/extend/propose": {
+            "get": {
+                "summary": "Property proposal",
+                "description": "Suggests properties that can be fetched via data extension for a given type.",
+                "tags": ["reconcile"],
+                "operationId": "reconc:extend-propose",
+                "parameters": [
+                    { "name": "type", "in": "query", "schema": { "type": "string" } },
+                    { "name": "limit", "in": "query", "description": "Parsed leniently and clamped server-side; a non-numeric value falls back to the default rather than erroring.", "schema": { "type": "string", "default": "20" } },
+                    { "name": "version", "in": "query", "description": "Accepted for parity with the 0.2 manifest's extend.propose_properties.service_path, which always includes it; currently has no effect on the response shape.", "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proposed properties",
+                        "content": { "application/json": { "schema": { "type": "object" } } }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        },
+        {
+            "basicAuth": []
+        }
+    ]
+}

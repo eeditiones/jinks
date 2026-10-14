@@ -126,8 +126,32 @@
     [% template annotation-form %]
     <div class="annotation-form person organization place term work">
         [% let $doctype = config:document-type(root($doc?content)/*) %]
-        <input class="form-ref" name="[[ $context?features?annotate?configs($doctype)?key ]]" data-i18n="[placeholder]annotations.reference"
+        <!-- The "form-ref" class (not the field's "name") is what actually drives the live
+             lookup: annotations.js attaches its "input" -> pb-authority-lookup.lookup() listener
+             to whichever element carries this class (see refInput/"Reference changed" further
+             down in annotations.js), and pb-view-annotate.js's own getKey()/getId() (used when
+             READING an already-tagged span back, e.g. for the click-to-view popup) default to
+             property "ref" for every type here unless keyMap overrides it - which it doesn't for
+             any of person/organization/place/term/work (config.json's keyMap maps all four of
+             person/organization/place/work to "ref" explicitly; "term" falls through to
+             pb-view-annotate's own "ref" default). So "ref" (not
+             configs.tei.key, "key" - a *different*, unrelated config value only used to decide
+             which attribute holds a human-readable fallback slug, see reconcile-config.xql's
+             "key=label" field mapping) must be the field the user-facing, live-looked-up input
+             writes to. Getting this backwards (as this template did before) meant selecting a
+             reconciliation candidate wrote the correct id into the *hidden* "ref" field but ran
+             the live "Entity not found" preview lookup against the *visible* one, which had
+             received the candidate's human-readable label instead. -->
+        <input class="form-ref" name="ref" data-i18n="[placeholder]annotations.reference"
             placeholder="Reference"></input>
+        <!-- Extra fields a connector's `fields` mapping (see tei-publisher-components'
+             Registry.buildProperties) may write into, beyond the primary reference/key field
+             above - a mapping targeting a name with no corresponding input here is silently
+             ignored (see annotations.js applyFieldValues), so this list only needs to cover
+             whichever extra targets are actually configured on the connectors below. -->
+        <input type="hidden" name="[[ $context?features?annotate?configs($doctype)?key ]]"></input>
+        <input type="hidden" name="gnd"></input>
+        <input type="hidden" name="link"></input>
         [% endlet %]
         <div class="authority-info"><pb-i18n key="dialogs.loading">Loading ...</pb-i18n></div>
         <pb-restricted group="tei">
@@ -196,18 +220,77 @@
 
     [% template authority-config %]
     <pb-authority-lookup subscribe="transcription" emit="transcription">
-        <pb-authority connector="Custom" name="organization" edit="">
+        <!-- `fields` (target=source,...) is configured on the outer/registered Custom connector,
+             not any nested one — createConnectors() only registers direct children of
+             <pb-authority-lookup>, so Custom's buildProperties() is what actually runs on a
+             selected match, from the local register or any nested connector alike. Below, every
+             type maps id to @ref (see tei-publisher-components' Registry.buildProperties/
+             parseFieldsConfig); "link=extend:link" additionally fetches an external reference URL
+             via the nested connector's own fetchExtend(). This is opt-in per type: a type left
+             without `fields` still works on the old plain "id -> @key" default. Whichever
+             attribute ends up holding the id must also be named in this app's
+             features.annotate.configs.tei.keyMap (config.json), so pb-view-annotate's
+             click-to-view popup knows where to find it.
+
+             Deliberately does NOT map "key=label" (writing the match's human-readable label into
+             @key alongside @ref) despite that being the obvious-looking convenience - confirmed
+             live that it actively breaks the *server-side* rendering of an already-saved
+             annotation's click/hover popup (base10's generic teipublisher.odd, shared by
+             persName/placeName/orgName/rs, resolves the entity via `head((@key, @ref))` -
+             @key-if-present-else-@ref, the *opposite* priority of this app's own
+             keyMap/getKey(), which correctly prefers @ref client-side while editing but has no
+             equivalent override for that base10 ODD rule). With a real id in @ref but a
+             human-readable slug in @key, that XQuery expression picks the slug, tries to resolve
+             *it* as if it were an id, fails, and falls back to displaying the bare slug string
+             with no lookup at all - exactly the "shows only @key, no name/bio" symptom. Leaving
+             @key unset entirely sidesteps the mismatch outright: head((@key, @ref)) then simply
+             returns @ref, matching this app's own convention without needing to touch base10's
+             (shared, comparatively risky to override) generic ODD rule. -->
+        <pb-authority connector="Custom" name="organization" edit="" fields="ref=id,link=extend:link">
             <pb-authority connector="GND" prefix="gnd"></pb-authority>
         </pb-authority>
         <!--pb-authority connector="GeoNames" name="place" user="existdb" prefix="geo"></pb-authority-->
-        <pb-authority connector="Custom" name="place" edit="">
+        <pb-authority connector="Custom" name="place" edit="" fields="ref=id,link=extend:link">
             <pb-authority connector="GeoNames" user="existdb" prefix="geo"></pb-authority>
         </pb-authority>
-        <pb-authority connector="Custom" name="work" edit="">
+        <pb-authority connector="Custom" name="work" edit="" fields="ref=id,link=extend:link">
             <pb-authority connector="GND" prefix="gnd" />
         </pb-authority>
         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
-        <pb-authority connector="Custom" name="person" edit="">
+        <!-- Person's Custom wraps two nested connectors, unlike the single-connector types
+             above: a match can come from either one (or the local register), and
+             Custom.fetchExtend() tries each nested connector in turn with the same requested
+             property ids until one answers (see custom.js). "gnd=extend:gnd" resolves
+             consistently regardless of which one that turns out to be only because GND.js's own
+             record aliases its GND URI under both "link" and "gnd" (matching this app's
+             reconcile-config.xql "gnd" property name) — see gnd.js. Nested-connector query
+             results are concatenated in document order (Custom.query() in custom.js), so
+             ReconciliationService is listed first here to put this profile's own reconciliation
+             matches ahead of GND's in the candidate list. -->
+        <pb-authority connector="Custom" name="person" edit="" fields="ref=id,gnd=extend:gnd">
+            <!-- Generic OpenRefine Reconciliation API (0.2 + 1.0-draft) connector, decoupled
+                 from any particular server via "endpoint" — adjust to point at whichever
+                 reconciliation service you want (defaults here to this repo's own local
+                 "reconcile" demo app). See reconcile/doc/README.md.
+
+                 No "prefix" here (unlike GND's "gnd" below): this profile's own reconcile
+                 server matches directly against the *same* local KBGA actors register
+                 (reconcile-config.xql's "person" entities are literally
+                 collection($config:register-root)/id(...)//tei:person[@xml:id], the identical
+                 element the local register search already uses) - a candidate's id already
+                 *is* the local register's own xml:id (e.g. "kbga-actors-27"), not a foreign
+                 id needing disambiguation. Prefixing it (e.g. "reconc-kbga-actors-27") broke
+                 exactly this: selecting a reconciled match created a new, separate,
+                 near-empty local-register entry under the prefixed id instead of resolving to
+                 the already-rich existing entry - confirmed live (a hover/click on the
+                 resulting persName showed only its raw @key, "entity not found", while the
+                 pre-existing persName for the same real person, tagged directly with the
+                 unprefixed id, showed the full name/bio). A prefix is still appropriate for
+                 GND (a genuinely different id space, hence "gnd" below) or any other
+                 reconciliation service that mints its own, unrelated ids - just not for one
+                 that reconciles against this exact register. -->
+            <pb-authority connector="ReconciliationService"
+                endpoint="/exist/apps/tp-reconc/api/reconcile" type="person"></pb-authority>
             <pb-authority connector="GND" prefix="gnd"></pb-authority>
         </pb-authority>
     </pb-authority-lookup>

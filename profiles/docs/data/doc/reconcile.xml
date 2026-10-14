@@ -1,0 +1,357 @@
+<?teipublisher odd="docbook.odd" template="documentation.html" depth="2" fill="2"?>
+<?xml-model href="https://cdn.docbook.org/schema/5.0/xsd/docbook.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="5.0" xml:lang="en" label="f">
+    <info>
+        <title>Reconciliation Service API</title>
+        <author>
+            <orgname>TEI Publisher Community</orgname>
+        </author>
+        <abstract>
+            <para>Turn your TEI Publisher app into an OpenRefine-style reconciliation service,
+                matching external data against your own registers.</para>
+        </abstract>
+        <keywordset role="genre">
+            <keyword>Documentation</keyword>
+        </keywordset>
+    </info>
+    <section xml:id="reconcile-overview">
+        <title>Overview</title>
+        <para>The <emphasis>reconcile</emphasis> profile turns a TEI Publisher application into a
+            server implementing the <link
+                xlink:href="https://reconciliation-api.github.io/specs/">W3C Community Group
+                Reconciliation Service API</link>, the same protocol used by the <link
+                xlink:href="annotations.xml">Reconciliation Service connector</link>
+            described in the annotation editor documentation. Once enabled, other tools — OpenRefine,
+            the reconciliation-api <link xlink:href="https://reconciliation-api.github.io/testbench/"
+                >testbench</link>, or another TEI Publisher instance's own Reconciliation Service
+            connector — can query your registers of people, places, organizations and works to find
+            matching entities, retrieve additional properties, or fetch an HTML preview.</para>
+        <para>Both API versions currently in use are supported from the same endpoint: the mature
+                <emphasis>0.2</emphasis> release and the upcoming <emphasis>1.0-draft</emphasis>. A
+            client selects a version with a <code>?version=0.2</code> query parameter on the
+            manifest request (the default, parameter-less manifest is 1.0-draft); the reconcile and
+            data-extension endpoints detect the version automatically from the shape of the request
+            body, so no separate configuration is needed for either protocol.</para>
+        <para>The server and the client-side connector are deliberately <emphasis>decoupled</emphasis>:
+            the Reconciliation Service connector does not depend on this profile and can point at any
+            conforming reconciliation service, and this profile's endpoint can equally be queried by
+            any conforming client, not just TEI Publisher's own. You do not need the <code
+                >annotate</code> profile to run a reconciliation server, and you do not need this
+            profile to use the Reconciliation Service connector against someone else's server.</para>
+        <figure>
+            <title>The service manifest, requested directly in a browser</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="reconcile-manifest.png" width="700px"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+    <section xml:id="reconcile-adding">
+        <title>Adding the profile to an application</title>
+        <para>Add <code>reconcile</code> to your application's <code>extends</code> list in
+                <filename>config.json</filename> — it only depends on <code>base10</code>:</para>
+        <programlisting language="json" xml:space="preserve"><![CDATA[
+{
+    "extends": ["base10", "reconcile"]
+}
+]]></programlisting>
+        <para>The profile registers its Open API routes under the prefix <option>reconc</option>,
+            mounted at <code>/api/reconcile</code> (see <link xlink:href="documentation.xml"
+                >Extending the API</link> for how this mechanism works in general). No further
+            configuration is required to get started — the defaults described below cover the
+            typical case of reconciling against person, place, organization and work registers.
+            The <emphasis>registers</emphasis> profile (the one that adds browse pages like
+                <filename>/people</filename>) is entirely optional: if it happens to be part of
+            your application too, <code>GET /api/reconcile/entity/{id}</code> automatically
+            redirects there; if not, the same endpoint falls back to a built-in preview
+            transparently — see <link linkend="reconcile-config">Customizing what gets
+                reconciled</link> below.</para>
+    </section>
+    <section xml:id="reconcile-endpoints">
+        <title>Endpoints</title>
+        <para>All endpoints mandated by the specification are implemented for both versions, plus
+            the optional services recommended for a fully-featured service:</para>
+        <variablelist>
+            <varlistentry>
+                <term>GET /api/reconcile</term>
+                <listitem>
+                    <para>Service manifest. Add <code>?version=0.2</code> for a 0.2-shaped manifest;
+                        omit it for 1.0-draft (the default).</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>POST /api/reconcile (also /api/reconcile/match)</term>
+                <listitem>
+                    <para>Batch reconciliation queries. Accepts both JSON (1.0-draft) and the
+                        classic <code>application/x-www-form-urlencoded</code> <code>queries=&lt;json&gt;</code>
+                        convention (0.2), detected automatically.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>GET /api/reconcile/suggest/entity, /suggest/property, /suggest/type,
+                    /suggest/flyout</term>
+                <listitem>
+                    <para>Auto-suggest services used by OpenRefine's search-as-you-type UI, plus a
+                        small on-hover HTML preview (<emphasis>flyout</emphasis>) for a suggested
+                        entity, property, or type — 0.2 only, see <link
+                            linkend="reconcile-openrefine">Using this service from
+                            OpenRefine</link>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>GET /api/reconcile/preview</term>
+                <listitem>
+                    <para>HTML preview fragment for a single entity, shown by OpenRefine in a
+                        popover.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>GET /api/reconcile/entity/{id}</term>
+                <listitem>
+                    <para>Redirects to the entity's normal registers browse page when its type
+                        defines one <emphasis>and</emphasis> the registers profile is actually
+                        installed, otherwise falls back to the same preview rendering.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>POST /api/reconcile/extend, GET /extend/propose</term>
+                <listitem>
+                    <para>Data-extension services: fetch additional property values for a set of
+                        entities, and propose the catalog of extendable properties for a type. The
+                        classic <code>GET /api/reconcile?extend=&lt;json&gt;</code> convention is
+                        also supported.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    <section xml:id="reconcile-openrefine">
+        <title>Using this service from OpenRefine</title>
+        <para>Matching rows against this service works with either manifest version. However, for
+                <emphasis>"Add columns from reconciled values"</emphasis> — OpenRefine's data-extension
+            UI for fetching extra properties (GND identifier, gender, etc.) onto reconciled rows —
+            add the service using the <emphasis>0.2</emphasis> manifest explicitly:</para>
+        <programlisting xml:space="preserve">http://your-app/api/reconcile?version=0.2</programlisting>
+        <para>This is a limitation of OpenRefine's own client, not of the 1.0-draft protocol or of
+            this profile's implementation. OpenRefine's reconciliation UI code (as of the versions
+            tested) only ever looks for the 0.2 manifest field names — <code
+                >extend.propose_properties.service_url</code>/<code>service_path</code> and
+                <code>suggest.property.service_url</code>/<code>service_path</code> — to find the
+            property-proposal and suggest services it needs for this dialog. It has no code path at
+            all for 1.0-draft's boolean-only equivalents (<code>extend.proposeProperties: true</code>,
+                <code>suggest.property: true</code> with an implied canonical path), so pointing
+            OpenRefine at the default, parameter-less 1.0-draft manifest leaves the property list
+            empty and the "Add property" autocomplete unable to reach the suggest service at all —
+            regardless of how spec-conformant that 1.0-draft manifest is. The 1.0-draft manifest is
+            kept spec-pure here (no 0.2-only fields mixed in) since it is what the 1.0-draft
+            conformance testbench validates against; adding OpenRefine-specific fields to it would
+            only serve to work around a client limitation that the <code>?version=0.2</code> manifest
+            already avoids cleanly.</para>
+        <para>A related client quirk worth knowing about if you customize the suggest services:
+            OpenRefine's own autocomplete widget does not follow the 0.2 spec's rule that the
+                <emphasis>absence</emphasis> of a <code>flyout_service_path</code> means "no flyout
+            preview" — it silently falls back to a hardcoded legacy default path instead, which does
+            not exist on this (or most) reconciliation services and 404s on every hover. This is why
+            the shipped 0.2 manifest always declares an explicit <code>flyout_service_path</code> for
+            every suggest service, backed by <code>GET /api/reconcile/suggest/flyout</code>, even
+            though the 0.2 spec itself treats that field as optional.</para>
+    </section>
+    <section xml:id="reconcile-config">
+        <title>Customizing what gets reconciled</title>
+        <para>By default, the profile reconciles against four types drawn from the app's
+                <filename>registers</filename> collection — <emphasis>person</emphasis>,
+                <emphasis>place</emphasis>, <emphasis>organization</emphasis> and <emphasis>work</emphasis>
+            — the same collection the entity editors in the <emphasis>annotate</emphasis> profile
+            create and edit (this is a base10-level convention; the separate <emphasis
+                >registers</emphasis> profile that adds browse pages over that same collection is
+            not required, see below). This is entirely configurable: what counts as an entity of a given
+            type, how its label and properties are extracted, how candidates are scored and ranked,
+            and how a preview is rendered are all defined in one plain, editable module,
+                <filename>modules/reconcile-config.xql</filename>, kept separate from the HTTP
+            handling code so it can be safely customized without touching the profile's routes.</para>
+        <para>Like other user-editable profile modules (for example <filename
+                >profiles/annotate/modules/annotations/tei-annotation-config.tpl.xqm</filename>),
+                <filename>reconcile-config.xql</filename> is copied into a new application by <code
+                >jinks create</code> and left alone on subsequent <code>jinks update</code> runs — if
+            you have edited it, Jinks reports a conflict rather than silently overwriting your
+            changes.</para>
+        <para>Each entry in <code>$reconc-config:TYPES</code> is a map describing one reconcilable
+            type:</para>
+        <programlisting language="xquery" xml:space="preserve"><![CDATA[
+"person": map {
+    "name": "Person",                    (: display name, manifest + suggest/type :)
+    "view": "people",                    (: optional: registers browse-page name for /entity/{id} :)
+    "entities": function() as element()* {
+        collection($config:register-root)/id($config:register-map?person?id)//tei:person[@xml:id]
+    },
+    "label": function($e as element()) as xs:string { ... },  (: OR an xs:string XPath :)
+    "preview-mode": "register-overview", (: optional: ODD web-transform mode for the default preview :)
+    "properties": map {
+        "gender": map { "name": "Gender", "value": function($e as element()) as xs:string* { ... } }
+    }
+}
+]]></programlisting>
+        <para>The <option>label</option> field and each property's <option>value</option> field
+            accept either a compiled function item, or an <code>xs:string</code> treated as a
+            relative XPath expression evaluated dynamically against the matched entity — e.g.
+                <code>".//tei:persName[@type='main'][1]"</code>. Function items are what the shipped
+            defaults use and are the safer, faster choice for anything beyond a single path
+            expression; XPath strings are quicker to write for straightforward cases. The
+                <option>entities</option> field selecting all candidates for a type is always a
+            function item, since the context for a bare selection XPath (which collection? relative
+            to what?) is inherently ambiguous.</para>
+        <para>Matching and ranking is likewise pluggable: <code>$reconc-config:SCORE</code> points at
+            any function <code>function($label as xs:string?, $query as xs:string?) as xs:double</code>,
+            defaulting to a string-similarity algorithm in <filename
+                >modules/reconcile-scoring.xql</filename> that you may reuse, wrap, or fully replace
+            — for example to call an external NER or embedding-based similarity service. The default
+            already tolerates typos (a Levenshtein-based fallback tier, applied word by word so one
+            mistyped word in a multi-word name doesn't sink the whole match), and a type may also
+            list every name <emphasis>variant</emphasis> worth matching against — not just its
+            preferred display name — via an optional <option>labels</option> field. For larger
+            collections, a type can additionally supply a <option>fulltext-search</option> function
+            that pre-filters candidates through a Lucene full-text index (with the same typo
+            tolerance) before the precise scoring step runs, rather than scoring every entity
+            individually. Adding a new type, removing one, or pointing an existing type at a
+            completely different collection requires no change anywhere else in the profile: the
+            manifest, suggest services, preview and data-extension endpoints all derive automatically
+            from <code>$reconc-config:TYPES</code>.</para>
+        <para>A reconciliation query isn't limited to a plain name either: both spec versions let a
+            client add <emphasis>property</emphasis> conditions (e.g. "name is Goethe <emphasis
+                >and</emphasis> gender is male") to disambiguate same-named candidates, and 1.0-draft
+            also allows matching directly by a known entity <emphasis>id</emphasis> — a query may
+            even carry no name condition at all, reconciling purely by a known property value. No
+            extra configuration is needed for this: every property already defined for <code
+                >/extend</code> doubles as a match condition input. See <filename
+                >profiles/reconcile/doc/README.md</filename>'s "Matching on more than just a name"
+            section for the full <option>required</option>/<option>matchQualifier</option>/<option
+                >matchQuantifier</option> rules.</para>
+        <para>A property's <option>value</option> is not limited to reading the matched entity's
+            own record. It is a plain <code>function($entity as element()) as xs:string*</code> —
+            the same general-purpose XQuery function any other closure in this module is, with the
+            same full access to <code>collection()</code>, joins, and aggregation — so nothing in
+            the reconciliation protocol or this profile's implementation restricts it to the
+            entity's own subtree. A property can equally be <emphasis>computed</emphasis> from
+            outside the entity: derived from the wider document corpus, a related register entry,
+            or an external service call. For example, the average length of the title of every
+            document that actually mentions a given person — using this demo's own convention that
+            a document's <code>tei:persName/@key</code> matches the referenced person's <code
+                >@xml:id</code> — needs no change anywhere else in the profile, just one more entry
+            under that type's <option>properties</option>:</para>
+        <programlisting language="xquery" xml:space="preserve"><![CDATA["avg-title-length": map {
+    "name": "Average title length of documents mentioning this person",
+    "value": function($e as element()) as xs:string* {
+        let $id := $e/@xml:id/string()
+        let $lengths :=
+            for $doc in collection($config:data-root)//tei:persName[@key = $id]/root()
+            let $title := $doc//tei:titleStmt/tei:title[1]
+            where exists($title)
+            return string-length(normalize-space($title))
+        return if (exists($lengths)) then string(avg($lengths)) else ()
+    }
+}]]></programlisting>
+        <para>Once added, it needs no further wiring: it shows up in <code
+                >/suggest/property</code> and <code>/extend/propose</code> automatically (both
+            derive their property list from <code>$reconc-config:TYPES</code>, the same as every
+            other property), and <code>/extend</code> computes and returns it exactly like any
+            built-in property — <code>curl -X POST .../api/reconcile/extend -d
+                '{"ids":["some-id"],"properties":[{"id":"avg-title-length"}]}'</code> is enough to
+            try it end to end. The same freedom applies to <option>label</option>,
+                <option>labels</option>, and <option>entities</option>: anything expressible as an
+            XQuery function item is a valid extractor, so a property (or even the label used for
+            matching) can just as well come from a related registry, a computed statistic, or a
+            call to an external API — the only design question is cost, addressed next.</para>
+        <para>Because a computed property like this runs on every <code>/extend</code> request for
+            the ids asked for (never eagerly, and never for ids nobody requested), the only real
+            concern is how expensive the underlying query is at the corpus sizes you actually have.
+            A full <code>collection()</code> scan per call, as in the example above, is fine for a
+            few dozen documents but won't stay cheap indefinitely; if it starts to matter, the same
+            options that already apply elsewhere in this profile apply here too: index the lookup
+            (a range index on <code>persName/@key</code> makes the scan above a direct index hit
+            instead of a document-by-document walk, the same idea <option>fulltext-search</option>
+            already uses for matching, see above), or precompute and cache the aggregate rather
+            than recomputing it inline on every request. Start by simply writing the closure the
+            obvious way and only optimize once it is actually a bottleneck at your real data
+            volumes — that is what the worked example above does.</para>
+        <para>Preview rendering (used by <code>/preview</code>) reuses the application's own TEI
+            Processing Model transformation by default — the same mechanism the registers browse
+            pages use — in the type's <option>preview-mode</option> (default <code
+                >register-overview</code>), followed by every configured property that actually has
+            a value for the matched entity: the same properties <code>/extend</code> and <code
+                >/extend/propose</code> already expose, listed automatically underneath, so nothing
+            needs configuring twice. A property whose value looks like an image — a <code
+                >data:image/...</code> value, or a URL ending in a common image extension — renders
+            as a thumbnail instead of plain text; set <option>image</option> to <code>true()</code>
+            or <code>false()</code> on a property definition to force that decision either way if
+            the guess is ever wrong for your own data. Set a different existing ODD mode, or supply
+            a <option>preview</option> function item for full control over rendering for that type
+                — a fully custom <option>preview</option> is used exactly as returned, without the
+            property list or link rewriting described below.</para>
+        <para>Every link and image URL the default preview renders is rewritten to be absolute
+            before the response is sent, regardless of how relative the underlying transform's own
+            output is. This matters because the preview HTML is not necessarily loaded as its own
+            document (where a relative link would at least resolve consistently against its own
+            URL) — the shipped Reconciliation Service connector, for one, fetches this HTML and
+            injects it directly into whatever page is already open via <code>innerHTML</code>, so a
+            relative link resolves against <emphasis>that</emphasis> page's URL instead. A person's
+            registers-page link generated by the register-overview transform, for example, is
+            relative by design (<code>href="people/&lt;id&gt;"</code> — correct when rendered as
+            part of a page already served at that same path); embedded unmodified into an
+            annotation editor open on some unrelated document, a relative link like that resolves to
+            a broken URL instead of the entity's real page. Every <code>href</code>/<code
+                >src</code> is corrected to a full, working URL before the response leaves this
+            profile, so this is transparent regardless of which client embeds the preview or how.</para>
+        <para>The <option>view</option> field (used by the separate <code>/entity/{id}</code>
+            endpoint, not <code>/preview</code> — e.g. <code>"view": "people"</code> on the shipped
+                <emphasis>person</emphasis> type) names a <emphasis>registers</emphasis> profile
+            browse page to redirect <code>/entity/{id}</code> to — but only if that profile is
+            actually installed in this app, checked at request time rather than assumed. Without
+            it (or with no <option>view</option> at all), the default preview rendering above is
+            used instead. For full control, set <option>view</option> to a function item instead
+            of a string — <code>function($id, $found, $request) as item()*</code>, building the
+            response yourself.</para>
+        <para>The full reference, including a worked example of adding a fifth type, ships with the
+            profile source at <filename>profiles/reconcile/doc/README.md</filename>.</para>
+    </section>
+    <section xml:id="reconcile-production">
+        <title>Deploying to production</title>
+        <para>The profile ships with no request-rate limit and no authentication requirement by
+            default — matching how real-world reconciliation services (Wikidata's, GND's, etc.) are
+            conventionally deployed, and the spec itself defines no auth mechanism. Batch requests
+            and <code>/extend</code> calls are capped by a handful of overridable
+                <filename>reconcile-config.xql</filename> limits (rejecting anything oversized with
+            HTTP 400, since a batch response's positional shape can't tolerate silent truncation;
+            an over-large <code>limit</code> parameter is clamped instead of rejected). Rate limiting
+            is deliberately left to a reverse proxy in front of the app rather than hand-rolled in
+            XQuery, and restricting access to specific operations is a matter of adding an <code
+                >x-constraints</code> object to them in <filename>reconcile-api.tpl.json</filename> —
+            the <code>basicAuth</code>/<code>cookieAuth</code> schemes needed for that are already
+            declared. See <filename>profiles/reconcile/doc/README.md</filename>'s "Production
+            hardening" section for the exact config variables and worked examples.</para>
+        <para>Real-world batches are not always well-formed — a spreadsheet tool may include a blank
+            cell as a <code>null</code> entry, for instance. A single malformed query anywhere in a
+            batch never fails or misaligns the whole request: it is treated as an empty query
+            (contributing zero candidates at its own position in the results) rather than raising an
+            error, keeping every other query in the same batch — and the strict positional
+            correspondence between queries and results the specification requires — unaffected.</para>
+    </section>
+    <section xml:id="reconcile-client-side">
+        <title>Querying a reconciliation service from TEI Publisher</title>
+        <para>To reconcile entities <emphasis>against</emphasis> a service — this one, or any other
+            conforming 0.2 or 1.0-draft service — from within the annotation editor, use the
+                <link xlink:href="annotations.xml">Reconciliation Service
+                connector</link>, which can also be nested inside the Custom connector to combine
+            external matches with a local TEI register.</para>
+        <figure>
+            <title>Reconciling a tagged person entity from inside the annotation editor: the
+                Custom connector's federated search combines a local register match with GND
+                candidates in one list</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="reconcile-annotate-search.png" width="700px"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+</article>

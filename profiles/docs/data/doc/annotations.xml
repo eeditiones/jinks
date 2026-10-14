@@ -582,11 +582,12 @@
             </listitem>
           </varlistentry>
           <varlistentry>
-            <term>Reconciliation</term>
+            <term>ReconciliationService</term>
             <listitem>
               <para><link xlink:href="https://reconciliation-api.github.io/testbench/"
                   >Reconciliation Service</link> – arbitrary entities, provided by any
-                reconciliation service</para>
+                reconciliation service (including your own, see <link xlink:href="reconcile.xml"
+                  >Reconciliation Service API</link>)</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -608,8 +609,12 @@
         </variablelist></para>
       <para>The HTML template defining the user interface of the annotations editor determines which
         authority is used for which annotation type and can be easily adjusted. Just edit the
-          <filename> templates/pages/annotate.html</filename> file, which can be done in eXide (or
-        any editor of your choice). A simple configuration looks as follows:</para>
+          <filename>authority-config</filename> block in the doctype-specific page template — e.g.
+          <filename>templates/pages/annotate-tei.html</filename> for TEI documents (<filename
+            >templates/pages/annotate.html</filename> is a shared base template with no content of
+        its own — see <link linkend="annotations-config">Configuring Annotations</link> below) —
+        which can be done in eXide (or any editor of your choice). A simple configuration looks as
+        follows:</para>
       <programlisting language="xml" xml:space="preserve"><![CDATA[
 <pb-authority-lookup subscribe="transcription" emit="transcription">
     <pb-authority connector="GND" name="organization" prefix="gnd"></pb-authority>
@@ -628,10 +633,114 @@
               above</para>
           </listitem>
         </itemizedlist></para>
+      <caution>
+        <para>The <option>connector</option> value must match one of the names listed above
+            <emphasis>exactly</emphasis>, including capitalization — for example
+            <code>ReconciliationService</code>, not <code>Reconciliation</code> or
+            <code>reconciliationservice</code>. An unrecognized value does not raise an error or a
+          warning of any kind: it silently falls back to the <emphasis>Metagrid</emphasis>
+          connector. If your authority lookups appear to be querying <code
+            >api.metagrid.ch</code> instead of the service you configured, this is almost always
+          the cause — double-check the exact spelling of <option>connector</option> first.</para>
+      </caution>
       <para>In addition, you may define a <option>prefix</option>: this will be prepended to the
         xml:id referenced by the resulting TEI element (separated by a hyphen "-"). For example, you
         may want to prefix the numeric IDs received from GND with the prefix "gnd" to obtain an XML
         ID like "gnd-124507514" since a number alone would not be a valid @xml:id.</para>
+      <section xml:id="connector-fields">
+        <title>Mapping matched fields to output attributes</title>
+        <para>By default, selecting a matched entry writes just one value — its id — into the
+          annotation's reference/key attribute (the same one editable in the "Annotation Details"
+          panel). Any connector can instead be configured, via a <option>fields</option> attribute
+          on its <sgmltag>pb-authority</sgmltag> element, to write <emphasis>several</emphasis> of
+          the match's fields into several different, independently named output attributes — for
+          example the matched entry's <emphasis>name</emphasis> into the reference/key attribute and
+          its <emphasis>id</emphasis> into a separate one, rather than the id going to both purposes
+          at once:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="ReconciliationService" name="person" endpoint="..." type="person"
+    fields="key=label,ref=id"/&gt;</programlisting>
+        <para>The value is a comma-separated list of <code>target=source</code> pairs. Each
+            <emphasis>target</emphasis> is the name of an output attribute — it only actually ends
+          up on the inserted TEI element if there is also a form field with a matching
+              <option>name</option> for the current annotation type (see <link
+            linkend="annotations-config">Configuring Annotations</link> below); a target with no
+          corresponding form field is silently ignored, not an error, so a <option>fields</option>
+          mapping can freely name a target that only some annotation types have a field for.
+          Recognized <emphasis>source</emphasis> values are:<variablelist>
+            <varlistentry>
+              <term>id</term>
+              <listitem>
+                <para>the matched entry's id — used as-is, unescaped, since ids are already safe
+                  attribute values.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>label</term>
+              <listitem>
+                <para>the matched entry's display name, automatically converted into a
+                  hyphen-separated token safe to use as part of an @xml:id or attribute value (e.g.
+                    <emphasis>"Thurneysen, Eduard"</emphasis> becomes
+                    <emphasis>"Thurneysen-Eduard"</emphasis>), matching the hyphenated id convention
+                  already used elsewhere (e.g. <emphasis>gnd-119442086</emphasis>).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>extend:propertyId</term>
+              <listitem>
+                <para>a property fetched from the service's data-extension endpoint — see <link
+                    linkend="connector-reconciliation">Reconciliation Service Connector</link>
+                  below, the only connector that currently supports this source form.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>Leaving <option>fields</option> unset reproduces the previous, single-id
+          behaviour exactly, so existing configurations keep working unchanged.</para>
+        <caution>
+          <para>Moving the id to a target other than the reference/key attribute — as the
+                <literal>ref=id</literal> examples above do — needs one more piece of
+            configuration to work cleanly. The editor's click-to-view popup (a separate mechanism
+            from the edit form, unaware of any particular <option>fields</option> mapping) has to
+            be told which attribute now holds the id for that annotation type, via a
+                <option>keyMap</option> entry in this app's own <filename>config.json</filename>:</para>
+          <programlisting language="json" xml:space="preserve"><![CDATA[{
+    "features": {
+        "annotate": {
+            "configs": {
+                "tei": {
+                    "key": "key",
+                    "keyMap": {
+                        "person": "ref",
+                        "organization": "ref",
+                        "place": "ref",
+                        "work": "ref"
+                    }
+                }
+            }
+        }
+    }
+}]]></programlisting>
+          <para>Only the types you actually reconfigure with a non-default <option>fields</option>
+            need an entry here — a type left on the implicit default (the id going straight into
+            the reference/key attribute, as if <option>fields</option> were unset) keeps working
+            with no <option>keyMap</option> entry at all. As a safety net, the popup also falls
+            back to the plain <literal>@key</literal> attribute for any annotation where its
+            configured id attribute is missing — so an entity tagged before a
+                <option>fields</option>/<option>keyMap</option> change, or one created against a
+            type you haven't reconfigured yet, still shows its real details rather than
+                <emphasis>"Entity not found"</emphasis>. Still, set <option>keyMap</option>
+            explicitly for any reconfigured type: it is the documented, guaranteed behaviour,
+            rather than relying on that fallback.</para>
+        </caution>
+        <figure>
+            <title>Clicking an already-tagged person entity: the popup shows the entity's real
+                preview (here, fetched live from the connector's own service) rather than a bare
+                id or "Entity not found"</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="reconcile-annotate-detail.png" width="500px"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+      </section>
       <para>Some connectors require additional configuration attributes. At the moment those are the
           <emphasis> GeoNames</emphasis>, <emphasis>Airtable</emphasis> and
           <emphasis>Reconciliation</emphasis> connectors. GeoNames requires you to register a user,
@@ -765,16 +874,81 @@
           cleaning software <link xlink:href="openrefine.org/">OpenRefine</link>. The specification
           is an open, <link xlink:href="https://www.w3.org/community/reconciliation/"
             >community-maintained</link> standard now, and several authority data providers offer
-          comforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
+          conforming API endpoints. GeoNames, the German GND (again via lobid), Getty vocabularies
           and Wikidata are some examples – find a list of current services at the <link
-            xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>.
-          In addition to the general attributes described above, the only additional bit of
-          configuration is the service URL that should be queried. You specify it in the "endpoint"
-          attribute:</para>
-        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Reconciliation" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/></programlisting>
+            xlink:href="https://reconciliation-api.github.io/testbench/">service testbench</link>
+          (or run your own TEI Publisher application's <emphasis>reconcile</emphasis> profile as
+          the service — see <link xlink:href="reconcile.xml">Reconciliation Service API</link>).
+          In addition to the general attributes described above, the required bit of configuration
+          is the service URL that should be queried, given in the <option>endpoint</option>
+          attribute. Both the 0.2 and 1.0-draft versions of the protocol are supported and detected
+          automatically from the service's own manifest.</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="ReconciliationService" name="term" prefix="wd" endpoint="https://wikidata.reconci.link/api"/></programlisting>
         <para>This will retrieve authority entries from wikidata.</para>
-        <para>Currently, the Reconciliation connector cannot be used as a data provider for the
-          Custom connector described below. This will be added in a future release.</para>
+        <para>Two further attributes are optional:<variablelist>
+            <varlistentry>
+              <term>type</term>
+              <listitem>
+                <para>The reconciliation type id to query for (passed as the query's
+                    <code>type</code>), for services whose type vocabulary doesn't match your
+                  annotation type names one-to-one. Defaults to the <option>name</option> attribute
+                  of the enclosing <tag>pb-authority</tag> if omitted, which is correct for
+                  most services, including this project's own <emphasis>reconcile</emphasis>
+                  profile (whose type ids — <emphasis>person</emphasis>,
+                    <emphasis>place</emphasis>, <emphasis>organization</emphasis>,
+                    <emphasis>work</emphasis> — are chosen to match common annotation type names
+                  precisely for this reason).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>limit</term>
+              <listitem>
+                <para>Maximum number of candidates to request per query. Left to the service's own
+                  default if omitted.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist></para>
+        <para>Results in the lookup list are labeled with the provider name
+            <emphasis>Reconciliation</emphasis>, plus the connector's <option>prefix</option> in
+          parentheses if one is set (e.g. <emphasis>Reconciliation (wd)</emphasis>) — useful for
+          telling results apart when more than one reconciliation-style authority is configured for
+          the same or different annotation types.</para>
+        <figure>
+            <title>Search results for a person entity, nested inside a Custom connector: a local
+                register match (badge "local") alongside two GND candidates (badge "GND")</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="reconcile-annotate-search.png" width="500px"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The Reconciliation Service connector can also be nested inside the <emphasis
+            >Custom</emphasis> connector described below, exactly like any other connector,
+          allowing matches from a reconciliation service to be copied into and enriched within
+          your local TEI register.</para>
+        <para>If the service advertises the specification's optional <code>/suggest/entity</code>
+          endpoint in its manifest, the connector automatically prefers it over the full batch
+              <code>/reconcile</code> endpoint while the user is typing — the same lighter-weight
+          endpoint OpenRefine's own auto-complete uses — falling back to the full endpoint
+          transparently for services that don't advertise it. Since <code>/suggest/entity</code>
+          only ever returns a plain prefix match on a candidate's own preferred name/label, results
+          may differ from what a full name search finds (no fuzzy/typo tolerance, no confidence
+          score); this only affects the live-typing suggestions, not a full explicit search.</para>
+        <para>Beyond the general <code>id</code>/<code>label</code> sources described in <link
+            linkend="connector-fields">Mapping matched fields to output attributes</link> above,
+          this connector also supports <code>extend:propertyId</code> sources — fetching an
+          additional property value via the service's data-extension endpoint for whichever single
+          entry the user actually selects (one extra request per selection, not per search
+          result):</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="ReconciliationService" name="person" endpoint="..." type="person"
+    fields="key=label,ref=id,gnd=extend:gnd"/&gt;</programlisting>
+        <para>Here, selecting a match writes its escaped name to <code>@key</code>, its plain id to
+          a new <code>@ref</code> attribute, and — fetched on the fly via <code>/extend</code> — its
+          GND identifier to a new <code>@gnd</code> attribute, provided the service defines a "gnd"
+          property for this type (see its own <code>/extend/propose?type=...</code> response for
+          which property ids it actually offers) and the specific matched entity has a value for
+          it; a property with no value for that particular entity is simply omitted, not written as
+          an empty attribute.</para>
       </section>
       <section xml:id="connector-custom">
         <title>Custom Connector</title>
@@ -822,13 +996,29 @@
           is stored in a TEI document residing in <filename>data/registry.xml</filename>. You can
           change the location by modifying the variable
             <varname>$anno:local-authority-file</varname> in the annotation configuration,
-            <filename>modules/annotation-config.xqm</filename>. You can also change the function
+            <filename>modules/annotations/tei-annotation-config.xqm</filename>. You can also change the function
             <function>rapi:insert-point</function> to configure where exactly the local entity
           definitions will be stored.</para>
-        <note>
-          <para>Currently, it is not possible to use the Reconciliation connector described above in
-            the context of the Custom connector. This will be added in a future release.</para>
-        </note>
+        <para>Any of the connectors described above — including the Reconciliation Service
+          connector — can be nested inside the custom connector in exactly the same way. For
+          example:</para>
+        <programlisting language="xml" xml:space="preserve">&lt;pb-authority connector="Custom" name="person">
+    &lt;pb-authority connector="ReconciliationService" prefix="wd" endpoint="https://wikidata.reconci.link/api">&lt;/pb-authority>
+&lt;/pb-authority></programlisting>
+        <tip>
+          <para>Nesting <emphasis>more than one</emphasis> connector inside <emphasis>Custom</emphasis>
+            — e.g. both GND and a Reconciliation Service, so either can supply a match — is fully
+            supported, but an <literal>extend:propertyId</literal> field source (see <link
+                linkend="connector-fields">Mapping matched fields to output attributes</link>) is
+            only requested by its <emphasis>property id</emphasis>, not by which connector should
+            answer it: whichever nested connector is tried first and can supply that same property
+            id for the selected match wins, regardless of where the match itself came from. If two
+            nested connectors expose the same real-world value under different property names —
+            as GND and a reconciliation service typically do for an external identifier URL — pick
+            one property id and make sure every nested connector's own record actually exposes a
+            value under that name, rather than assuming the field source only ever talks to one of
+            them.</para>
+        </tip>
       </section>
     </section>
     <section xml:id="annotations-config">
@@ -845,15 +1035,28 @@
         files within TEI Publisher or generated apps:</para>
       <variablelist>
         <varlistentry>
-          <term><filename>templates/pages/annotate.html</filename></term>
+          <term><filename>templates/pages/annotate-tei.html</filename></term>
           <listitem>
-            <para>The HTML page for the annotation editor</para>
+            <para>The HTML page for the TEI annotation editor.
+                <filename>templates/pages/annotate.html</filename> is a base template with empty
+              content blocks, extended by a doctype-specific page — <filename
+                >annotate-tei.html</filename> for TEI documents, <filename
+                >annotate-jats.html</filename> for JATS — which is where the actual toolbar/form
+              markup lives; edit the doctype-specific page, not the base one.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term><filename>modules/annotation-config.xqm</filename></term>
+          <term><filename>modules/annotations/tei-annotation-config.xqm</filename></term>
           <listitem>
-            <para>Defines how annotations are mapped to TEI</para>
+            <para>Defines how annotations are mapped to TEI for TEI documents. The
+                <filename>annotation-config.xqm</filename> a generated app also ships is a
+                <emphasis>generated dispatcher</emphasis> (from <filename
+                >annotation-config.tpl.xqm</filename>, listed in <filename>config.json</filename>'s
+                <code>features.annotate.configs</code>) that delegates to one file per registered
+              document type — do not hand-edit it directly, a regeneration will overwrite it;
+              edit the doctype-specific module instead (<filename
+                >tei-annotation-config.xqm</filename> for TEI, or add a new
+                <code>configs</code> entry and module for another format).</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -864,9 +1067,17 @@
           </listitem>
         </varlistentry>
       </variablelist>
+      <caution>
+        <para>The walkthrough below (toolbar button markup, class names like <option
+            >header-toolbar</option>/<option>icon-group</option>) illustrates the general
+          mechanism, but predates TEI Publisher 10's page-template layout and may not match
+          today's <filename>annotate-tei.html</filename> verbatim — check the current template's
+          own <code>annotation-toolbar</code>/<code>annotation-form</code> blocks for the exact
+          markup shape before copying these snippets literally.</para>
+      </caution>
       <para>Let's assume we would like to support an annotation to tag foreign language passages
         with the TEI <tag>foreign</tag> element:</para>
-      <para>First, open <filename>templates/pages/annotate.html</filename> in eXide and locate the
+      <para>First, open <filename>templates/pages/annotate-tei.html</filename> in eXide and locate the
           <tag> div</tag> with class <option>header-toolbar</option>. This is the main toolbar and
         you'll find the list of <option>annotation-action</option> buttons in the second
           <option>span.icon-group</option>. Like many elements in TEI Publisher, <tag>
@@ -931,8 +1142,8 @@
       </variablelist>
       <para>If you reload the annotation editor in the browser, you should now see your new button.
         However, TEI Publisher does not yet know how to translate the new annotation into actual TEI
-        markup. To fix this, open <filename>modules/annotation-config.xqm</filename> and search for
-        the function <function>anno:annotations</function>. This is a long switch statement with
+        markup. To fix this, open <filename>modules/annotations/tei-annotation-config.xqm</filename>
+        and search for the function <function>anno:annotations</function>. This is a long switch statement with
         cases corresponding to the different annotation types. Add a new case at the top:</para>
       <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {
     switch ($type)
@@ -972,7 +1183,7 @@
         better if we could also indicate the used language in <tag>foreign</tag>. This means we have
         to change our annotation from a mere toggle into one which can take an additional
         parameter:</para>
-      <para>To achieve this, go back to <filename>templates/pages/annotate.html</filename> and
+      <para>To achieve this, go back to <filename>templates/pages/annotate-tei.html</filename> and
         remove the <option>toggle</option> class from the <tag>paper-icon-button</tag>:</para>
       <programlisting>&lt;paper-icon-button class="annotation-action" title="Foreign"
         data-type="foreign" icon="icons:language" data-shortcut="⌘+⇧+b,ctrl+⇧+b"
@@ -992,7 +1203,7 @@
         remember it for later. The label should contain a short title, which will be shown next to
         the input.</para>
       <para>Finally, we need to change our rule in
-          <filename>modules/annotation-config.xqm</filename> to add the new parameter to the
+          <filename>modules/annotations/tei-annotation-config.xqm</filename> to add the new parameter to the
         generated <tag>foreign</tag> element. Navigate to the file and change the
           <function>anno:annotations</function> function as follows:</para>
       <programlisting>declare function anno:annotations($type as xs:string, $properties as map(*), $content as function(*)) {

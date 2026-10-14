@@ -190,6 +190,12 @@
         <pb-authority connector="GND" name="term" prefix="gnd"></pb-authority>
         <pb-authority connector="Custom" name="person" edit="">
             <pb-authority connector="GND" prefix="gnd"></pb-authority>
+            <!-- Generic OpenRefine Reconciliation API (0.2 + 1.0-draft) connector, decoupled
+                 from any particular server via "endpoint" — adjust to point at whichever
+                 reconciliation service you want (defaults here to this repo's own local
+                 "reconcile" demo app). See reconcile/doc/README.md. -->
+            <pb-authority connector="ReconciliationService" prefix="reconc"
+                endpoint="/exist/apps/tp-reconc/api/reconcile" type="person"></pb-authority>
         </pb-authority>
     </pb-authority-lookup>
     [% endtemplate %]

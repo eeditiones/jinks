@@ -9,7 +9,12 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 [% let $key = $context?features?annotate?configs?tei?key %]
 
 (:~
- : Name of the attribute to use as reference key for entities
+ : Name of the attribute to use as reference key for entities - a single, global name
+ : (config.json's features.annotate.configs.tei.key, "key" by default) used server-side for
+ : occurrence lookups below. This is a DIFFERENT mechanism from the client-side keyMap in the same
+ : config: keyMap tells the editor's click-to-view popup (pb-view-annotate.js) which attribute
+ : holds an entity's *id* per type, and can point at @ref once a `fields` mapping is configured;
+ : $anno:reference-key/anno:get-key are unrelated to that and always mean literally @key.
  :)
 declare variable $anno:reference-key := '[[ $key ]]';
 
@@ -42,19 +47,51 @@ declare function anno:entity-type($node as element()) as xs:string? {
 (:~
  : Create TEI for the given type, properties and content of an annotation and return it.
  : This function is called when annotations are merged into the original TEI.
+ :
+ : person/place/term/organization/work all copy EVERY entry of $properties through as an
+ : attribute generically (not just the reference/key field, [[ $key ]]) - this is what makes a
+ : connector's `fields` mapping (see tei-publisher-components' Registry.buildProperties) usable at
+ : all. A form field with no value for the current selection is never in $properties to begin
+ : with (see annotations.js applyFieldValues/authoritySelected), so this never emits an attribute
+ : with an empty value.
  :)
 declare function anno:annotations($type as xs:string, $properties as map(*)?, $content as function(*)) {
     switch ($type)
         case "person" return
-            <persName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key]]}">{$content()}</persName>
+            <persName xmlns="http://www.tei-c.org/ns/1.0">
+            {
+                for $prop in map:keys($properties) return attribute { $prop } { $properties($prop) },
+                $content()
+            }
+            </persName>
         case "place" return
-            <placeName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</placeName>
+            <placeName xmlns="http://www.tei-c.org/ns/1.0">
+            {
+                for $prop in map:keys($properties) return attribute { $prop } { $properties($prop) },
+                $content()
+            }
+            </placeName>
         case "term" return
-            <term xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</term>
+            <term xmlns="http://www.tei-c.org/ns/1.0">
+            {
+                for $prop in map:keys($properties) return attribute { $prop } { $properties($prop) },
+                $content()
+            }
+            </term>
         case "organization" return
-            <orgName xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}">{$content()}</orgName>
+            <orgName xmlns="http://www.tei-c.org/ns/1.0">
+            {
+                for $prop in map:keys($properties) return attribute { $prop } { $properties($prop) },
+                $content()
+            }
+            </orgName>
         case "work" return
-            <bibl xmlns="http://www.tei-c.org/ns/1.0" [[ $key ]]="{$properties?[[ $key ]]}" type="work">{$content()}</bibl>
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" type="work">
+            {
+                for $prop in map:keys($properties) return attribute { $prop } { $properties($prop) },
+                $content()
+            }
+            </bibl>
         case "hi" return
             <hi xmlns="http://www.tei-c.org/ns/1.0">
             {
@@ -119,27 +156,70 @@ declare function anno:annotations($type as xs:string, $properties as map(*)?, $c
  : Search for existing occurrences of annotations of the given type and key
  : in the data collection.
  :
- : Used to display the occurrence count next to authority entries.
+ : Used to display the occurrence count next to authority entries. $key here is
+ : whatever id pb-authority-lookup.js sent (a candidate's real id, e.g. "kbga-actors-403"
+ : or "gnd-137224435" - see _occurrences() in pb-authority-lookup.js), not necessarily
+ : the value of @[[ $key ]]/$anno:reference-key: once a type is field-mapped (see
+ : annotate-tei.html's `fields=` attributes), the id lands in @ref instead, and @[[ $key ]]
+ : holds the (slugified, non-unique) label. Matching @ref as well as @[[ $key ]] covers
+ : both an unmapped annotation (id in @[[ $key ]]) and a field-mapped one (id in @ref)
+ : without needing this function to know which convention a given annotation used.
  :)
 declare function anno:occurrences($type as xs:string, $key as xs:string) {
     switch ($type)
         case "person" return
-            collection($config:data-default)//tei:persName[@[[ $key ]] = $key]
+            collection($config:data-default)//tei:persName[@[[ $key ]] = $key or @ref = $key]
         case "place" return
-            collection($config:data-default)//tei:placeName[@[[ $key ]] = $key]
+            collection($config:data-default)//tei:placeName[@[[ $key ]] = $key or @ref = $key]
         case "term" return
-            collection($config:data-default)//tei:term[@[[ $key ]] = $key]
+            collection($config:data-default)//tei:term[@[[ $key ]] = $key or @ref = $key]
         case "organization" return
-            collection($config:data-default)//tei:orgName[@[[ $key ]] = $key]
+            collection($config:data-default)//tei:orgName[@[[ $key ]] = $key or @ref = $key]
         case "work" return
-            collection($config:data-default)//tei:bibl[@[[ $key ]] = $key]
+            collection($config:data-default)//tei:bibl[@[[ $key ]] = $key or @ref = $key]
         default return ()
+};
+
+(:~
+ : Coerce a log field (message/user/status) to a plain string. Defends against a
+ : client sending an empty JSON object (e.g. {}) where a string was expected.
+ :
+ : NOTE: do not write a backtick immediately followed by an opening curly brace
+ : anywhere in this file, even inside a comment - Jinks's templates.xqm wraps the
+ : whole .tpl.xqm source in an eXist string constructor and treats that exact
+ : sequence as the start of a real interpolation, corrupting template expansion
+ : (confirmed the hard way: err:XPST0003 "unexpected token: ." from cpy:template).
+ :
+ : This happened in practice when an fx-property's expr yielded a raw attribute
+ : node instead of an atomized string - JSON.stringify() collapses such a node to
+ : "{}" client-side, which parse-json() turns back into an empty map server-side.
+ : Fixed at the client too (annotate.html's pb-commit dispatch now calls string()
+ : on every property), but this stays as defense in depth so a malformed request
+ : body can never 500 here.
+ :)
+declare function anno:sanitize-log-value($value as item()*) as xs:string {
+    if (empty($value) or $value instance of function(*)) then
+        ""
+    else
+        string($value)
 };
 
 (:~
  : Add a revisionDesc to the TEI header and move notes with a @target into standOff/listAnnotation.
  :)
 declare function anno:extend-header($nodes as node()*, $log as map(*)?) {
+    let $log :=
+        if (empty($log)) then
+            $log
+        else
+            map:merge((
+                $log,
+                map {
+                    "message": anno:sanitize-log-value($log?message),
+                    "user": anno:sanitize-log-value($log?user),
+                    "status": anno:sanitize-log-value($log?status)
+                }
+            ))
     for $node in $nodes
     return
         typeswitch($node)

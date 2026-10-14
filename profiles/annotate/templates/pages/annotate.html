@@ -37,6 +37,15 @@
     }
     ---
     [% template content-top %]
+    <!-- The toolbar buttons below reference icons via same-document fragment refs
+         (<use href="#person-fill">), which need the sprite's <symbol> defs present
+         somewhere in this page. base10's own theme.icons config key - the mechanism
+         "styles"/"script" use - has no consuming template in this app's actually-deployed
+         base10 (confirmed: templates/layouts/base.html has no icon-include loop, unlike
+         its menu.html/toolbar.html includes), so declaring it in config.json alone (still
+         done, for any base10 that does support it) has no effect here. Inline the sprite
+         directly instead. -->
+    [% include "resources/css/annotate-icons.svg" %]
     <nav class="toolbar">
         <ul>
             <li>
@@ -116,9 +125,18 @@
         <pb-view id="title-view1" src="document1" view="single">
             <pb-param name="mode" value="breadcrumb"></pb-param>
         </pb-view>
+        <!-- keyMap (per entity type: which attribute holds that type's id, e.g. person -> ref)
+             overrides the single global "key" default below on a per-type basis. Serialized to a
+             JSON string here because pb-view-annotate.js parses this attribute itself; falls back
+             to "{}" (not omitting the attribute) so JSON.parse() always has valid input even for
+             a doctype with no keyMap configured. -->
         <pb-view-annotate id="view1" src="document1" odd="[[ if ($doctype = 'tei') then 'annotations' else $doctype || '-annotations']]"
             key="[[ $context?features?annotate?configs?($doctype)?key ]]"
             collapse-whitespace="collapse-whitespace"
+            key-map="[[
+                let $key-map := $context?features?annotate?configs?($doctype)?keyMap
+                return if (exists($key-map)) then serialize($key-map, map { 'method': 'json' }) else '{}'
+            ]]"
             append-footnotes="append-footnotes"
             suppress-highlight="suppress-highlight" subscribe="transcription" emit="transcription">
             <pb-param name="track-ids" value="yes"></pb-param>
@@ -172,7 +190,15 @@
 
         <fx-group ref="commit[.='true']" id="commit" track-history="" class="card">
             <section>
-                <header><pb-i18n key="annotations.rev-desc"/></header>
+                <header>
+                    <pb-i18n key="annotations.rev-desc"/>
+                    <fx-trigger>
+                        <button class="close-panel" data-i18n="[title]annotations.cancel" title="Cancel">
+                            <svg><use href="#dialog-close"></use></svg>
+                        </button>
+                        <fx-call action="reset-panels"></fx-call>
+                    </fx-trigger>
+                </header>
                 <fx-control ref="instance('i-commit')/@user">
                     <label><pb-i18n key="annotations.user"/></label>
                 </fx-control>
@@ -182,19 +208,38 @@
                 </fx-control>
                 <fx-control ref="instance('i-commit')/@status">
                     <label><pb-i18n key="annotations.status"/></label>
+                    <!-- <option> can only reliably host text, not a nested custom element - a
+                         <pb-i18n> child here never rendered (pb-page's own i18n pass never
+                         "sees" text inside an <option>, and the browser doesn't render/upgrade
+                         non-text option content anyway), leaving both options blank. Use
+                         data-i18n's plain (no [attr] prefix) form instead, which pb-page.js
+                         applies via elem.innerHTML = translated - a plain text/HTML set that
+                         works on any element, <option> included. -->
                     <select class="widget">
-                        <option value="feat"><pb-i18n key="annotations.enrichment"/></option>
-                        <option value="fix"><pb-i18n key="annotations.correction"/></option>
+                        <option value="feat" data-i18n="annotations.enrichment"></option>
+                        <option value="fix" data-i18n="annotations.correction"></option>
                     </select>
                 </fx-control>
                 <fx-trigger>
                     <button data-i18n="[title]annotations.save"><iron-icon icon="icons:save"></iron-icon></button>
-                    <!-- emit a pb-commit event to annotations.js -->
+                    <!-- emit a pb-commit event to annotations.js.
+                         All four expr attributes MUST call string() explicitly: an fx-property
+                         expr that yields a raw attribute node (rather than an atomized string)
+                         gets assigned as-is into the CustomEvent detail object. JSON.stringify()
+                         on that node collapses it to "{}" (DOM/Fore node wrappers expose no own
+                         enumerable properties), so the server receives log.user/log.status as an
+                         empty JSON object instead of a string. tei-annotation-config.xqm's
+                         anno:extend-header() then tries to atomize that empty map inside an
+                         attribute value template ({$log?user}, {$log?status}) and eXist throws
+                         err:FOTY0013 "A function item other than an array cannot be atomized" -
+                         confirmed by reproducing the exact error via an ad-hoc query atomizing a
+                         bare map{} the same way. Only "message" originally called string() here,
+                         which is why the crash was intermittent and looked commit-message-related. -->
                     <fx-dispatch name="pb-commit" targetid="commit">
                         <fx-property name="message" expr="instance('i-commit')/message/string()"></fx-property>
-                        <fx-property name="user" expr="instance('i-commit')/@user"></fx-property>
-                        <fx-property name="export" expr="instance('i-commit')/@export"></fx-property>
-                        <fx-property name="status" expr="instance('i-commit')/@status"></fx-property>
+                        <fx-property name="user" expr="instance('i-commit')/@user/string()"></fx-property>
+                        <fx-property name="export" expr="instance('i-commit')/@export/string()"></fx-property>
+                        <fx-property name="status" expr="instance('i-commit')/@status/string()"></fx-property>
                     </fx-dispatch>
                     <fx-setvalue ref="commit">false</fx-setvalue>
                 </fx-trigger>
@@ -202,7 +247,15 @@
         </fx-group>
 
         <fx-group ref="annotation" id="annotation" class="card">
-            <header><pb-i18n key="annotations.details"/></header>
+            <header>
+                <pb-i18n key="annotations.details"/>
+                <fx-trigger>
+                    <button class="close-panel" data-i18n="[title]annotations.cancel" title="Cancel">
+                        <svg><use href="#dialog-close"></use></svg>
+                    </button>
+                    <fx-call action="reset-panels"></fx-call>
+                </fx-trigger>
+            </header>
             <iron-form id="edit-form">
                 <form action="">
                     [% block annotation-form %][% endblock %]
@@ -220,6 +273,12 @@
         <fx-group ref="authority" id="authority" class="card">
             <header>
                 <pb-i18n key="annotations.edit-reference"></pb-i18n>
+                <fx-trigger>
+                    <button class="close-panel" data-i18n="[title]annotations.cancel" title="Cancel">
+                        <svg><use href="#dialog-close"></use></svg>
+                    </button>
+                    <fx-call action="reset-panels"></fx-call>
+                </fx-trigger>
             </header>
             <div id="authority-editor"></div>
 
@@ -237,6 +296,12 @@
                             id="search-collection"><iron-icon icon="icons:search"></iron-icon></button>
                         <button data-i18n="[title]annotations.save-other" id="save-all"><iron-icon
                                 icon="icons:find-replace"></iron-icon></button>
+                        <fx-trigger>
+                            <button class="close-panel" data-i18n="[title]annotations.cancel" title="Cancel">
+                                <svg><use href="#dialog-close"></use></svg>
+                            </button>
+                            <fx-call action="reset-panels"></fx-call>
+                        </fx-trigger>
                     </div>
                 </header>
                 <p class="messages"></p>
@@ -279,7 +344,16 @@
             <!-- reset -->
             <fx-setvalue ref="key"></fx-setvalue>
             <fx-update></fx-update>
-            <fx-refresh></fx-refresh>
+            <!-- force="" : a bare <fx-refresh> (Fore's default, unforced form) does not
+                 reliably re-render [relevant]/[nonrelevant] when reset-panels is invoked via
+                 <fx-call> from *inside* one of the very cards it's about to hide (e.g. the new
+                 close/cancel buttons in each card header) - confirmed directly: an unforced
+                 refresh left #annotation's `relevant` attribute stuck at "true" after its own
+                 close button set the underlying value to false, while a forced
+                 fx-fore.refresh(true) cleared it correctly every time. force="" is a strict
+                 superset (always re-renders), so this is safe for every existing caller of
+                 reset-panels, not just the new close buttons. -->
+            <fx-refresh force=""></fx-refresh>
         </fx-action>
 
         <!-- Show the revision description panel before sending the document to the server -->
@@ -289,7 +363,7 @@
             <fx-setvalue ref="instance('i-commit')/@export" value="(event('export'), 'false')[1]"></fx-setvalue>
             <fx-setvalue ref="instance('i-commit')/message" value="''"></fx-setvalue>
             <fx-update></fx-update>
-            <fx-refresh></fx-refresh>
+            <fx-refresh force=""></fx-refresh>
         </fx-action>
 
         <fx-action event="pb-selection-changed" target="#document" if="event('hasContent')">
