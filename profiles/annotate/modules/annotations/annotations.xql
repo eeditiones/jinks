@@ -49,7 +49,10 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
         if (not($hasAccess) and request:get-method() = 'PUT') then
             error($errors:FORBIDDEN, "Not allowed to write to " || $path)
         else if ($srcDoc) then
-            let $doc := util:expand($srcDoc/*, 'add-exist-id=all')
+            (: expand-xincludes=no: an included document (an attachment) must stay an
+               xi:include, or its nodes take node ids the document's own already have, and
+               the save stores the included content in place of the include :)
+            let $doc := util:expand($srcDoc/*, 'add-exist-id=all expand-xincludes=no')
             let $map := map:merge(
                 for $annoGroup in $annotations?*
                 group by $id := $annoGroup?context
@@ -67,7 +70,13 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
                 $srcDoc/(processing-instruction()|comment()),
                 $merged
             }
-            let $serialized := serialize($output, map { "indent": false() })
+            (: the includes are kept as they are: expanded here, on a document in memory,
+               their relative @href can't be resolved (and the save would store them inlined) :)
+            let $serialized := serialize($output,
+                <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                    <output:indent value="no"/>
+                    <exist:expand-xincludes xmlns:exist="http://exist.sourceforge.net/NS/exist" value="no"/>
+                </output:serialization-parameters>)
             let $stored :=
                 if (request:get-method() = 'PUT') then
                     xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $serialized)
