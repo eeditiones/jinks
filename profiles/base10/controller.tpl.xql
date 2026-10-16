@@ -1,6 +1,11 @@
 xquery version "3.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
+[% if exists($context?controller?guard) %]
+(: the app's guard (config.json, controller.guard): it sees every request first, and
+ : answers with a dispatch of its own (a redirect to a login, say) or with nothing :)
+import module namespace guard="[[ $context?controller?guard?namespace ]]" at "[[ $context?controller?guard?at ]]";
+[% endif %]
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
@@ -31,6 +36,19 @@ declare function local:checkOriginWhitelist($regexes, $origin) {
         local:checkOriginWhitelist(tail($regexes), $origin)
 };
 
+[% if exists($context?controller?guard) %]
+let $guarded := guard:dispatch(map {
+    "path": $exist:path,
+    "resource": $exist:resource,
+    "controller": $exist:controller,
+    "prefix": $exist:prefix,
+    "root": $exist:root
+})
+return
+if (exists($guarded)) then
+    $guarded
+else
+[% endif %]
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
