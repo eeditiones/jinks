@@ -72,11 +72,11 @@ declare function anno:merge-and-save($srcDoc as node(), $path as xs:string, $ann
             }
             (: the includes are kept as they are: expanded here, on a document in memory,
                their relative @href can't be resolved (and the save would store them inlined) :)
-            let $serialized := serialize($output,
-                <output:serialization-parameters xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
-                    <output:indent value="no"/>
-                    <exist:expand-xincludes xmlns:exist="http://exist.sourceforge.net/NS/exist" value="no"/>
-                </output:serialization-parameters>)
+            let $serialized := serialize($output, map {
+                "indent": false(),
+                (: an implementation-defined parameter is keyed by its QName :)
+                QName("http://exist.sourceforge.net/NS/exist", "expand-xincludes"): false()
+            })
             let $stored :=
                 if (request:get-method() = 'PUT') then
                     xmldb:store(util:collection-name($srcDoc), util:document-name($srcDoc), $serialized)
