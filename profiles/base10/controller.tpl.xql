@@ -63,6 +63,11 @@ else if (matches($exist:path, "^.*/(resources|transform|templates|static|[[$cont
                 else if (contains($exist:path, "/resources/fonts/")) then
                     <set-header name="Cache-Control" value="max-age=31536000"/>
                 else (
+                    (: revalidated on every use, which eXist answers with 304 while the
+                       resource is unchanged: without a Cache-Control, browsers cache an
+                       app's scripts and styles heuristically and kept running a replaced
+                       script for hours after an update :)
+                    <set-header name="Cache-Control" value="no-cache"/>,
                     <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
                     if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
                 )
