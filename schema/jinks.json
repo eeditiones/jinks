@@ -1495,6 +1495,32 @@
                 }
             }
         },
+        "controller": {
+            "type": "object",
+            "description": "Settings for the app's controller.xql",
+            "properties": {
+                "guard": {
+                    "type": "object",
+                    "description": "An XQuery module that sees every request before the controller's own routes, for example to send a user to a single sign-on. Its function dispatch($request as map(*)) receives the request's path, resource, controller, prefix and root (the $exist: variables, by those names), and returns an exist:dispatch element to answer the request with, or the empty sequence to leave it to the controller's routes.",
+                    "properties": {
+                        "namespace": {
+                            "type": "string",
+                            "description": "The module's namespace URI"
+                        },
+                        "at": {
+                            "type": "string",
+                            "description": "The module's path, relative to the app's root, e.g. modules/guard.xqm"
+                        }
+                    },
+                    "required": [
+                        "namespace",
+                        "at"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
         "script": {
             "type": "object",
             "properties": {
