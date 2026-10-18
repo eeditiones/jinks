@@ -374,6 +374,14 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
 
+(:~
+ : The cache in which jinks-templates keeps this app's compiled page templates,
+ : so a page isn't parsed and compiled again on every request. One per app:
+ : apps share eXist's caches, and a compiled template refers to its app's modules.
+ : pre-install.xql empties it. Set it to () to compile on every request.
+ :)
+declare variable $config:template-cache := "jinks-templates-" || $config:app-root;
+
 declare variable $config:default-fields := ();
 
 (:~
