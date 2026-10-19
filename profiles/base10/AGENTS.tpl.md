@@ -89,6 +89,7 @@ frontmatter if they are required for a specific HTML page only):
 - **CSS** — add files to the `styles` array
 - **JavaScript** — add files to `script.custom`
 - **Custom templating functions** — register under `templating.modules`
+- **Requests, before the controller's routes** (a login or single sign-on, say) — a module whose `dispatch($request)` returns an `exist:dispatch` or nothing; register under `controller.guard` (`namespace`, `at`)
 - **HTML templates and named blocks** — see the **customize-templates** skill
 
 Conflicts tell you who owns a file. Anything that came from one of the profiles above has
