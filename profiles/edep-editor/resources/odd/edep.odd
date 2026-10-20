@@ -52,7 +52,7 @@
                     <modelSequence output="web" predicate="$parameters?display='browse'">
                         <model predicate="title/node()" behaviour="link">
                             <param name="content" value="title[1]"/>
-                            <param name="uri" value="$parameters?doc || '?odd=edep-output'"/>
+                            <param name="uri" value="$parameters?doc"/>
                         </model>
                         <model behaviour="block">
                             <param name="content" value="subsequence(title, 2)"/>
@@ -74,8 +74,11 @@
                     <model behaviour="block"/>
                 </elementSpec>
             <elementSpec ident="TEI" mode="change">
+                <model predicate="$parameters?mode='title'" behaviour="text">
+                    <param name="content" value="teiHeader/fileDesc/titleStmt/title[not(@type)][normalize-space(.)][1]"/>
+                </model>
                 <model predicate="$parameters?mode = 'breadcrumb'" behaviour="inline">
-                    <param name="content" value="text/body/div[@xml:lang = 'en']//head[1]"/>
+                    <param name="content" value="(teiHeader/fileDesc/titleStmt/title[not(@type)][normalize-space(.)], text/body/div[@xml:lang = 'en']//head[1])[1]"/>
                 </model>
                 <model predicate="@type='about'" behaviour="inline">
                     <!-- Ignore empty/invalid user.language until pb-lang has a real value; default to en. -->

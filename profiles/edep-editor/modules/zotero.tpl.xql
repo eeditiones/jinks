@@ -21,7 +21,12 @@ declare variable $zotero:API_KEY   as xs:string := "[[ $context?features?zotero?
 (: ---- CONFIG: paths derived at runtime from data-root and group-id ---- :)
 
 declare variable $zotero:GROUP_BASE as xs:string :=
-    $config:data-root || "/zotero/groups/" || $zotero:GROUP_ID;
+    let $under-data := $config:data-root || "/zotero/groups/" || $zotero:GROUP_ID
+    let $under-app := $config:app-root || "/data/zotero/groups/" || $zotero:GROUP_ID
+    return
+        if (xmldb:collection-available($under-data || "/items-xml")) then $under-data
+        else if (xmldb:collection-available($under-app || "/items-xml")) then $under-app
+        else $under-data;
 
 declare variable $zotero:ITEMS_DIR    as xs:string := $zotero:GROUP_BASE || "/items";
 declare variable $zotero:XML_DIR      as xs:string := $zotero:GROUP_BASE || "/items-xml";

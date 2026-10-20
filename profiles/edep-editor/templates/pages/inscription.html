@@ -1,0 +1,17 @@
+<template>
+    ---json
+    {
+        "templating": {
+            "extends": "templates/layouts/content.html"
+        }
+    }
+    ---
+    <!-- Reading pane for an inscription. The document odd stays edep.odd so
+         browse, the title, the breadcrumb and the metadata panel keep their
+         own models. This view alone requests the sheet. Server-rendered
+         content would be adopted as-is and transformed with the document odd,
+         so the pane loads its fragment from the parts API. -->
+    <div class="center">
+        <pb-view src="document1" odd="edep-display" view="single" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" direction="[[$context?defaults?direction]]" static="![[if ($context?view-static or $context?defaults?view-static) then $context?defaults?data-static else ()]]"></pb-view>
+    </div>
+</template>

@@ -147,18 +147,41 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        epidoc.addEventListener('update', ev => {
-            fetch(`${endpoint}/api/render`, {
-                method: 'POST',
-                body: ev.detail.content.outerHTML,
-                headers: {
-                    'Content-Type': 'application/xml',
-                },
-            })
-                .then(response => response.text())
-                .then(html => {
-                    output.innerHTML = html;
-                });
-        });
+        if (!epidoc || !output) {
+            return;
+        }
+
+        let renderTimer;
+        const scheduleRender = () => {
+            clearTimeout(renderTimer);
+            renderTimer = setTimeout(() => {
+                if (!endpoint) {
+                    return;
+                }
+                const data = fore.getModel()?.getInstance('default')?.getInstanceData();
+                const root = data && data.nodeType === Node.DOCUMENT_NODE ? data.documentElement : data;
+                if (!root) {
+                    return;
+                }
+                const xml = new XMLSerializer().serializeToString(root);
+                const lang = language || 'de';
+                fetch(`${endpoint}/api/render?language=${encodeURIComponent(lang)}&type=transcription`, {
+                    method: 'POST',
+                    body: xml,
+                    headers: {
+                        'Content-Type': 'application/xml',
+                    },
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        output.innerHTML = html;
+                    })
+                    .catch(() => {});
+            }, 400);
+        };
+
+        epidoc.addEventListener('update', scheduleRender);
+        fore.addEventListener('refresh-done', scheduleRender);
+        scheduleRender();
     });
 });

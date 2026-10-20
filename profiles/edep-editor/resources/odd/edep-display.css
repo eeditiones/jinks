@@ -1,0 +1,410 @@
+@import url("edep.css");
+
+/* ==========================================================================
+   EDEp inscription sheet (odd: edep-display)
+   Design: see the "EDEp" design system (reading view). Section order and
+   content are as the ODD writes them; this sheet only styles.
+   Sizes are in em so pb-view's zoom keeps working (base = content font size).
+   ========================================================================== */
+
+:host,
+.content {
+    --edep-paper: #F4EFE6;          /* limestone ground of the edition panel */
+    --edep-rose: #FBECEC;           /* tint behind status values */
+    --edep-rule: #E2DACB;           /* hairlines */
+    --edep-rule-strong: #BFB2A0;    /* toggle outline, colophon rule */
+    --edep-ink-muted: #6B5B57;      /* labels, line numbers: 6.3:1 on page, 5.6:1 on paper */
+    --edep-sigla: #74635D;          /* restored / expanded text: 5.0:1 on paper */
+    --edep-ink: var(--jinks-colors-700, #2B0205);
+    --edep-heading: var(--jinks-colors-600, #6F030A);
+    --edep-red: var(--jinks-colors-500, #8F040D);
+    --edep-mark: var(--jinks-colors-400, #E30613);
+    --edep-on-red: var(--jinks-colors-100, #FCFCF8);
+    --edep-font-display: var(--jinks-heading-font-family, Cinzel, serif);
+    --edep-font-text: var(--jinks-content-font-family, JunicodeVF, Georgia, serif);
+    --edep-font-ui: var(--jinks-base-font-family, Inter, sans-serif);
+    --edep-label-column: 11rem;
+    --edep-field-label-column: 10rem;
+    --edep-measure: 68ch;
+}
+
+/* the sheet needs more room than the default 70ch reading column */
+:host {
+    --pb-view-max-width: 60rem;
+}
+
+/* --- Leiden helpers (kept from edep.css so the edition renders even if the
+       import does not resolve next to this file) ------------------------- */
+.choice-alternate { display: none; }
+.choice-alternate.toggle { display: inline; }
+.choice.toggle { display: none; }
+.norm { text-transform: uppercase; }
+
+/* The transcription ODD writes Leiden marks into the text: (ex), [supplied].
+   tp.css repeats them with ::before/::after, and also appends [?] after unclear. */
+.tei-ex::before,
+.tei-ex::after,
+.tei-supplied::before,
+.tei-supplied::after,
+.tei-sic.sic::before,
+.tei-sic.sic::after,
+.tei-unclear::after {
+    content: none;
+}
+
+/* --- Title -------------------------------------------------------------- */
+.inscription-title {
+    margin: 0.5em 0 0.6em;
+    font-family: var(--edep-font-display);
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--edep-heading);
+    text-wrap: balance;
+}
+.inscription-title:empty { display: none; }
+
+/* --- Sections ----------------------------------------------------------- */
+.inscription-section {
+    display: grid;
+    grid-template-columns: var(--edep-label-column) minmax(0, 1fr);
+    column-gap: 2rem;
+    align-items: start;
+    padding: 1.2em 0;
+    border-top: 1px solid var(--edep-rule);
+    border-bottom: 0;
+    color: var(--edep-ink);
+}
+
+.inscription-category {
+    padding-top: 0.1em;
+    font-family: var(--edep-font-display);
+    font-size: 0.75em;
+    line-height: 1.6;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--edep-heading);
+    hyphens: auto;
+}
+
+.inscription-fields {
+    display: grid;
+    grid-template-columns: var(--edep-field-label-column) minmax(0, 1fr);
+    column-gap: 1rem;
+    row-gap: 0.4em;
+    max-width: calc(var(--edep-field-label-column) + 1rem + var(--edep-measure));
+}
+
+.inscription-field { display: contents; }
+
+.inscription-label {
+    grid-column: 1;
+    padding-top: 0.45em;
+    font-family: var(--edep-font-ui);
+    font-size: 0.6em;
+    line-height: 1.35;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--edep-ink-muted);
+    overflow-wrap: break-word;
+}
+.inscription-label::after { content: none; }
+
+.inscription-field > .inscription-value,
+.inscription-field > .inscription-label-row + .inscription-value { grid-column: 2; }
+
+.inscription-value {
+    min-width: 0;
+    font-family: var(--edep-font-text);
+    font-size: 0.9em;
+    line-height: 1.55;
+    font-variant-numeric: lining-nums;
+    color: var(--edep-ink);
+}
+
+/* values that sit directly in a section (Identifier, Datierung, Relevanz, Bearbeitung) */
+.inscription-fields > .inscription-value,
+.inscription-fields > section,
+.inscription-fields > .inscription-entry,
+.inscription-fields > .inscription-editor { grid-column: 1 / -1; }
+
+.inscription-value:empty,
+.inscription-field:has(> .inscription-value:empty),
+.inscription-section .inscription-fields .inscription-field:has(> .inscription-value:empty) { display: none !important; }
+
+/* repeated groups (Verifizierung): one sub-grid per entry */
+.inscription-entry {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    row-gap: 0.4em;
+}
+.inscription-entry + .inscription-entry {
+    padding-top: 0.4em;
+    border-top: 1px dashed var(--edep-rule);
+}
+
+/* --- Edition panel ------------------------------------------------------ */
+.inscription.inscription-section {
+    margin: 0.6em 0;
+    padding: 1.6em 1.6em 1.2em;
+    border: 0;
+    border-radius: 8px;
+    background: var(--edep-paper);
+}
+.inscription.inscription-section + .inscription-section { border-top: 0; }
+
+.inscription.inscription-section > .inscription-fields {
+    max-width: none;
+    row-gap: 0;
+}
+
+/* each part of the edition gets the full width, in source order */
+.inscription.inscription-section .inscription-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+.inscription.inscription-section .inscription-field + .inscription-field {
+    margin-top: 1em;
+    padding-top: 0.8em;
+    border-top: 1px solid var(--edep-rule);
+}
+.inscription.inscription-section .inscription-label { padding-top: 0; }
+.inscription.inscription-section .inscription-field > .inscription-value { grid-column: auto; }
+
+.inscription-label-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em 1em;
+}
+
+/* the transcription */
+.inscription-edition {
+    position: relative;
+    padding-left: 3em;
+    font-family: var(--edep-font-text);
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--edep-ink);
+}
+.inscription-edition .tei-ab { margin: 0; }
+
+/* line beginnings: <span class="lb" data-n="…"> (edep-display.odd, lb) */
+.inscription-edition .lb {
+    display: block;
+    height: 0;
+}
+.inscription-edition .lb::before {
+    content: attr(data-n);
+    position: absolute;
+    left: 0;
+    width: 2.2em;
+    margin-top: 0.62em;
+    text-align: right;
+    font-family: var(--edep-font-ui);
+    font-size: 0.55em;
+    line-height: 1.3;
+    font-weight: 500;
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    color: var(--edep-ink-muted);
+}
+.inscription-edition .number-lb { display: none; }
+
+/* restored and expanded text in a lighter ink than what is on the stone */
+.inscription-edition .tei-supplied,
+.inscription-edition .tei-ex { color: var(--edep-sigla); }
+.inscription-edition .tei-app {
+    text-decoration: underline dotted var(--edep-ink-muted);
+    text-underline-offset: 0.3em;
+}
+
+/* translation, apparatus, translator */
+.inscription.inscription-section .inscription-field > .inscription-value:not(.inscription-edition) {
+    max-width: var(--edep-measure);
+}
+.inscription.inscription-section a { color: var(--edep-red); }
+
+/* --- View toggle: both states visible, the current one filled ---------- */
+.inscription-view-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--edep-rule-strong);
+    border-radius: 999px;
+    background: var(--jinks-colors-100, #FCFCF8);
+    font-family: var(--edep-font-ui);
+    font-size: 0.6em;
+    line-height: 1.35;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--edep-ink-muted);
+    text-decoration: none;
+    cursor: pointer;
+}
+.inscription-view-toggle > span {
+    display: inline-block !important;
+    padding: 0.35em 0.85em;
+    border-radius: 999px;
+}
+.inscription-view-toggle .when-diplomatic { order: -1; }   /* "normiert" first */
+.inscription:not(.diplomatic) .inscription-view-toggle .when-diplomatic,
+.inscription.diplomatic .inscription-view-toggle .when-normalized {
+    background: var(--edep-red);
+    color: var(--edep-on-red);
+}
+.inscription-view-toggle:hover { border-color: var(--edep-red); }
+.inscription-view-toggle:focus-visible {
+    outline: 2px solid var(--edep-mark);
+    outline-offset: 2px;
+}
+
+/* --- Diplomatic transcription: capitals, only what was carved. ---------
+   Expansions, restorations, unresolved-abbreviation markers and editorial
+   line-break hyphens are not on the stone. */
+.inscription.diplomatic .choice { display: none; }
+.inscription.diplomatic .choice-alternate { display: inline; }
+.inscription.diplomatic .inscription-edition { text-transform: uppercase; }
+.inscription.diplomatic .inscription-edition .tei-ex,
+.inscription.diplomatic .inscription-edition .tei-supplied,
+.inscription.diplomatic .inscription-edition .abbr-unresolved,
+.inscription.diplomatic .inscription-edition span.tei-lb {
+    display: none;
+}
+/* A lacuna that continues into a restoration omits its closing bracket.
+   The restoration is hidden, so put the bracket back on the gap. */
+.inscription.diplomatic .inscription-edition .tei-gap:has(+ .tei-supplied)::after {
+    content: "]";
+}
+
+/* --- Commentary --------------------------------------------------------- */
+.inscription-section[data-section="commentary"] .inscription-fields { display: block; }
+.inscription-section[data-section="commentary"] .tei-div {
+    max-width: var(--edep-measure);
+    font-family: var(--edep-font-text);
+    font-size: 0.9em;
+    line-height: 1.65;
+}
+.inscription-section[data-section="commentary"] a.tei-ref {
+    color: var(--edep-red);
+    text-decoration: underline;
+    text-decoration-color: var(--edep-rule-strong);
+    text-underline-offset: 0.15em;
+}
+.inscription-section[data-section="commentary"] a.tei-ref:hover { text-decoration-color: currentColor; }
+
+/* --- References --------------------------------------------------------- */
+.inscription-section[data-section="references"] > .inscription-fields {
+    display: block;
+    max-width: none;
+}
+.inscription-section[data-section="references"] > .inscription-fields > .inscription-field {
+    display: block;
+    margin-bottom: 1.2em;
+}
+.inscription-section[data-section="references"] > .inscription-fields > .inscription-field > .inscription-label {
+    display: block;
+    padding: 0 0 0.5em;
+    margin-bottom: 0.8em;
+    border-bottom: 1px solid var(--edep-rule);
+}
+.inscription-section[data-section="references"] > .inscription-fields > .inscription-field > .inscription-value {
+    columns: 2 22rem;
+    column-gap: 2.5rem;
+}
+
+.inscription-entry:has(.inscription-zotero) {
+    display: block;
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 0.75em;
+    padding: 0 0 0 1.25em;
+    border: 0;
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+.inscription-entry:has(.inscription-zotero)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.5em;
+    height: 1px;
+    background: var(--edep-mark);
+}
+.inscription-entry:has(.inscription-zotero) .inscription-value {
+    font-size: 1em;
+    line-height: inherit;
+}
+.inscription-zotero .csl-bib-body,
+.inscription-zotero .csl-entry {
+    display: inline;
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    line-height: inherit;
+}
+.inscription-zotero:empty,
+.inscription-cited-range:empty { display: none; }
+.inscription-zotero:not(:empty) + .inscription-cited-range:not(:empty)::before { content: ", "; }
+
+/* notes and visibility inside an entry: one quiet line each */
+.inscription-entry:has(.inscription-zotero) .inscription-field {
+    display: block;
+    margin: 0.2em 0 0;
+    font-size: 0.92em;
+    color: var(--edep-ink-muted);
+}
+.inscription-entry:has(.inscription-zotero) .inscription-field > .inscription-label {
+    display: inline;
+    padding: 0;
+    margin-right: 0.4em;
+    font-size: 0.7em;
+}
+.inscription-entry:has(.inscription-zotero) .inscription-field > .inscription-value {
+    display: inline;
+    font-size: 1em;
+    color: inherit;
+}
+
+/* --- Quiet rows: Historische Relevanz, Bearbeitung ---------------------- */
+.inscription-section[data-section="relevance"],
+.inscription-section[data-section="editing"] { padding: 0.8em 0; }
+.inscription-section[data-section="editing"] {
+    border-top-color: var(--edep-rule-strong);
+}
+.inscription-section[data-section="editing"] .inscription-fields { display: block; }
+.inscription-editor {
+    display: inline;
+    font-family: var(--edep-font-text);
+    font-size: 0.9em;
+    line-height: 1.55;
+}
+.inscription-editor + .inscription-editor::before { content: "; "; }
+
+/* --- Narrow screens ----------------------------------------------------- */
+@media (max-width: 40rem) {
+    .inscription-title { font-size: 1.5em; }
+    .inscription-section {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0.4em;
+    }
+    .inscription-fields { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+    .inscription-label,
+    .inscription-field > .inscription-value { grid-column: 1; }
+    .inscription-field > .inscription-value { margin-bottom: 0.4em; }
+    .inscription.inscription-section { padding: 1.2em 1em; }
+    .inscription-edition { padding-left: 2.25em; }
+}
+
+@media print {
+    .inscription.inscription-section { background: none; padding: 0; }
+    .inscription-view-toggle { display: none; }
+}

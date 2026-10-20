@@ -2,6 +2,8 @@
 
 This feature provides a form-based editor for [EpiDoc](https://epidoc.stoa.org/) inscriptions, together with person and place register editors and a Zotero-backed bibliography.
 
+Inscriptions in the `workspace` collection open in a reading view (`templates/pages/inscription.html`). That view renders the sheet with `edep-display.odd`. Browse, the document title, the breadcrumb and the metadata panel stay on `edep.odd`. The page URL ignores the `odd` parameter, so the sheet transformation does not replace the document odd.
+
 The editing UI is off by default. Enable it in your application's `config.json` (or in the front matter of an HTML template) when you want users to create and edit inscriptions.
 
 ## Configuration
@@ -42,7 +44,7 @@ These values are baked into the generated Zotero API module at application gener
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `api_base` | string | `https://api.zotero.org` | Base URL of the [Zotero Web API](https://www.zotero.org/support/dev/web_api/v3/start). Use the official API unless you proxy it. |
-| `group_id` | string | `2519759` | Numeric ID of the Zotero group library to sync. Synced items are stored under `data/zotero/groups/{group_id}/`. |
+| `group_id` | string | `2519759` | Numeric ID of the Zotero group library to sync. Synced items are stored under `{data-root}/zotero/groups/{group_id}/`. If that collection has no `items-xml`, the module uses `{app-root}/data/zotero/groups/{group_id}/`. |
 | `style` | string | `digital-humanities-im-deutschsprachigen-raum` | Citation style identifier passed to the Zotero API as `style`. Any [CSL style](https://www.zotero.org/styles) known to Zotero can be used; it controls how bibliography entries are formatted in the editor. |
 | `api_key` | string | `""` | Optional [Zotero API key](https://www.zotero.org/settings/keys). Required for private groups; may be left empty for public groups. Do not commit a real key to version control. |
 

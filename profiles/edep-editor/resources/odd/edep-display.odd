@@ -1,0 +1,383 @@
+<?xml-model href="teipublisher_odds.xsd"?><?teipublisher output="web print"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:pb="http://teipublisher.com/1.0" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>EDEp inscription display</title>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>eXistSolutions GmbH</publisher>
+                <availability>
+                    <licence target="https://www.gnu.org/licenses/gpl-3.0.en.html">Distributed under GNU General Public License</licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>born digital</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <tagsDecl>
+                <rendition source="edep-display.css"/>
+            </tagsDecl>
+        </encodingDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <schemaSpec start="TEI teiCorpus" ident="edep-display" source="edep.odd">
+                <elementSpec ident="TEI" mode="change">
+                    <model predicate="$parameters?mode='title'" behaviour="text">
+                        <param name="content" value="teiHeader/fileDesc/titleStmt/title[not(@type)][normalize-space(.)][1]"/>
+                    </model>
+                    <model predicate="$parameters?mode = 'breadcrumb'" behaviour="inline">
+                        <param name="content" value="(teiHeader/fileDesc/titleStmt/title[not(@type)][normalize-space(.)], text/body/div[@xml:lang = 'en']//head[1])[1]"/>
+                    </model>
+                    <model predicate="@type='about'" behaviour="inline">
+                        <param name="content" value="let $raw := normalize-space(string($parameters?language)) let $lang := if ($raw = '' or not(matches($raw, '^(de|en)(-|$)'))) then 'en' else tokenize($raw, '-')[1] return text/body/div[starts-with(@xml:lang, $lang)]"/>
+                    </model>
+                    <modelSequence output="web">
+                        <desc>Inscription sheet. Each section is a template; the fields it contains are rendered by the element specifications below. mode=change replaces the models inherited from edep.odd, so breadcrumb and about are repeated above and document remains the fallback.</desc>
+                        <model predicate="teiHeader/fileDesc/titleStmt/title[not(@type)][normalize-space(.)]" behaviour="pass-through">
+                            <param name="title" value="sheet:plain(teiHeader/fileDesc/titleStmt/title[not(@type)][1])"/>
+                            <pb:template xmlns="" xml:space="preserve"><h1 class="inscription-title">[[title]]</h1></pb:template>
+                        </model>
+                        <model predicate="teiHeader//msIdentifier/idno[@type=('EDEp','TM')][normalize-space(.)]" behaviour="pass-through">
+                            <param name="ids" value="(teiHeader//msIdentifier/idno[@type='EDEp'][normalize-space(.)][1], teiHeader//msIdentifier/idno[@type='TM'][normalize-space(.)][1])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="identifier"><div class="inscription-category"><pb-i18n key="form.identifier">Identifier</pb-i18n></div><div class="inscription-fields">[[ids]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//origPlace[@corresp or normalize-space(.)] or teiHeader//provenance[@type='found'][@when or note[normalize-space(.)]]" behaviour="pass-through">
+                            <param name="fields" value="(teiHeader//origPlace[@corresp or normalize-space(.)], teiHeader//provenance[@type='found'][@when or note[normalize-space(.)]])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="finding"><div class="inscription-category"><pb-i18n key="form.finding">Fundumstände</pb-i18n></div><div class="inscription-fields">[[fields]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//msIdentifier/repository[normalize-space(.) or @key] or teiHeader//msIdentifier/idno[@type='inventory'][normalize-space(.)] or teiHeader//provenance[@type='history'][normalize-space(.)]" behaviour="pass-through">
+                            <param name="place" value="sheet:plain(teiHeader//msIdentifier/repository)"/>
+                            <param name="key" value="sheet:plain((teiHeader//msIdentifier/repository/@key)[1])"/>
+                            <param name="records" value="(teiHeader//msIdentifier/idno[@type='inventory'][normalize-space(.)], teiHeader//provenance[@type='history'][normalize-space(.)])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="repository"><div class="inscription-category"><pb-i18n key="form.last-recorded-location">Aufbewahrung</pb-i18n></div><div class="inscription-fields"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.repository-place">Aufbewahrungsort</pb-i18n></span><div class="inscription-value">[[place]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.repository">Sammlungs-ID</pb-i18n></span><div class="inscription-value">[[key]]</div></div>[[records]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//respStmt[resp or persName]" behaviour="pass-through">
+                            <param name="entries" value="teiHeader//respStmt[resp or persName]"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="verification"><div class="inscription-category"><pb-i18n key="form.verification">Verifizierung</pb-i18n></div><div class="inscription-fields">[[entries]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//decoNote[@corresp or normalize-space(.)] or teiHeader//supportDesc/condition[normalize-space(.)] or teiHeader//objectType/@ref or teiHeader//support/note[not(@type)][normalize-space(.)] or teiHeader//material/@ref or teiHeader//support/dimensions/(height|width|depth)[normalize-space(.)] or teiHeader//summary[normalize-space(.)] or teiHeader//keywords[contains(@scheme,'inscription-type')]/term/@ref" behaviour="pass-through">
+                            <param name="parts" value="(teiHeader//decoNote[@corresp or normalize-space(.)], teiHeader//supportDesc/condition[normalize-space(.)], teiHeader//support/objectType[@ref], teiHeader//support/note[not(@type)][normalize-space(.)], teiHeader//support/material[@ref], teiHeader//support/dimensions/height[normalize-space(.)], teiHeader//support/dimensions/width[normalize-space(.)], teiHeader//support/dimensions/depth[normalize-space(.)], teiHeader//summary[normalize-space(.)])"/>
+                            <param name="inscription-type" value="sheet:labels($parameters, 'typeins.xml', 'corresp', teiHeader//keywords[contains(@scheme,'inscription-type')]/term/@ref)"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="object"><div class="inscription-category"><pb-i18n key="form.object-description">Objektbeschreibung</pb-i18n></div><div class="inscription-fields">[[parts]]<div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.type-of-inscription">Inschriftengattung</pb-i18n></span><div class="inscription-value">[[inscription-type]]</div></div></div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//layoutDesc/layout/dimensions/(height|width)[normalize-space(.)] or teiHeader//layoutDesc/layout/ab[normalize-space(.)] or exists(sheet:letter-height(teiHeader//handNote[@scope='letterHeight']))" behaviour="pass-through">
+                            <param name="parts" value="(teiHeader//layoutDesc/layout/dimensions/height[normalize-space(.)], teiHeader//layoutDesc/layout/dimensions/width[normalize-space(.)], teiHeader//layoutDesc/layout/ab[normalize-space(.)])"/>
+                            <param name="letters" value="sheet:letter-height(teiHeader//handNote[@scope='letterHeight'])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="field"><div class="inscription-category"><pb-i18n key="form.inscription-field">Inschriftfeld</pb-i18n></div><div class="inscription-fields">[[parts]]<div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.letter-size">Buchstabenhöhe</pb-i18n></span><div class="inscription-value">[[letters]]</div></div></div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//langUsage/language[@ident][not(@ident=('','edep'))] or teiHeader//langUsage/language[@ident='edep'][normalize-space(.)] or teiHeader//layout/note[@type='metre'][normalize-space(.)] or teiHeader//layout/note[@type='paleography'][@corresp or normalize-space(.)] or teiHeader//handNote[@scope='ligature'][normalize-space(.)]" behaviour="pass-through">
+                            <param name="parts" value="(teiHeader//langUsage[language[@ident]], teiHeader//layout/note[@type='metre'][normalize-space(.)], teiHeader//layout/note[@type='paleography'][@corresp or normalize-space(.)], teiHeader//handNote[@scope='ligature'][normalize-space(.)])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="text"><div class="inscription-category"><pb-i18n key="form.text-description">Textbeschreibung</pb-i18n></div><div class="inscription-fields">[[parts]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//listBibl[@type=('transmission','previousEditions','bibliography','images')]/bibl[@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)] or @type[normalize-space(.)]] or facsimile//graphic[@url]" behaviour="pass-through">
+                            <param name="lists" value="(teiHeader//listBibl[@type='transmission'][bibl[@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)]]], teiHeader//listBibl[@type='previousEditions'][bibl[@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)]]], teiHeader//listBibl[@type='bibliography'][bibl[@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)] or @type[normalize-space(.)]]], teiHeader//listBibl[@type='images'][bibl[@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)]]])"/>
+                            <param name="images" value="facsimile//graphic[@url]"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="references"><div class="inscription-category"><pb-i18n key="form.references">Referenzen</pb-i18n></div><div class="inscription-fields">[[lists]]<div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.digital-images">Digitale Bilder</pb-i18n></span><div class="inscription-value">[[images]]</div></div></div></section></pb:template>
+                        </model>
+                        <model predicate="text/body/div[@type=('edition','apparatus','translation')][normalize-space(.)]" behaviour="pass-through">
+                            <param name="edition" value="text/body/div[@type='edition'][normalize-space(.)]"/>
+                            <param name="apparatus" value="text/body/div[@type='apparatus'][normalize-space(.)]"/>
+                            <param name="translation" value="text/body/div[@type='translation'][normalize-space(.)]"/>
+                            <param name="translator" value="sheet:plain((text/body/div[@type='translation']/@resp)[1])"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription inscription-section" data-section="edition"><div class="inscription-category"><pb-i18n key="form.edition">Textedition</pb-i18n></div><div class="inscription-fields"><div class="inscription-field"><span class="inscription-label-row"><span class="inscription-label"><pb-i18n key="form.transcription">Transkription</pb-i18n></span><button type="button" class="inscription-view-toggle"><span class="when-normalized"><pb-i18n key="display.diplomatic">diplomatisch</pb-i18n></span><span class="when-diplomatic"><pb-i18n key="display.normalized">normiert</pb-i18n></span></button></span><div class="inscription-value inscription-edition">[[edition]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.apparatus">Apparatus</pb-i18n></span><div class="inscription-value">[[apparatus]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.translation">Übersetzung</pb-i18n></span><div class="inscription-value">[[translation]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.translated-by">Übersetzer/in</pb-i18n></span><div class="inscription-value">[[translator]]</div></div></div></section></pb:template>
+                        </model>
+                        <model predicate="text/body/div[@type='commentary'][normalize-space(.)]" behaviour="pass-through">
+                            <param name="content" value="text/body/div[@type='commentary'][normalize-space(.)]"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="commentary"><div class="inscription-category"><pb-i18n key="form.commentary">Kommentar</pb-i18n></div><div class="inscription-fields">[[content]]</div></section></pb:template>
+                        </model>
+                        <model predicate="teiHeader//history/origin/origDate[@when-custom or @notBefore-custom or @notAfter-custom or normalize-space(.)]" behaviour="pass-through">
+                            <param name="date" value="teiHeader//history/origin/origDate"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="dating"><div class="inscription-category"><pb-i18n key="form.dating">Datierung</pb-i18n></div><div class="inscription-fields">[[date]]</div></section></pb:template>
+                        </model>
+                        <model predicate="exists(sheet:relevance(teiHeader//keywords, $parameters))" behaviour="pass-through">
+                            <param name="value" value="sheet:relevance(teiHeader//keywords, $parameters)"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="relevance"><div class="inscription-category"><pb-i18n key="form.historic-relevance">Historische Relevanz</pb-i18n></div><div class="inscription-fields"><div class="inscription-value">[[value]]</div></div></section></pb:template>
+                        </model>
+                        <model predicate="exists(sheet:label($parameters, 'publication-status.xml', 'id', (teiHeader/revisionDesc/@status)[1])) or teiHeader/fileDesc/titleStmt/editor[normalize-space(.)] or exists(sheet:edit-date(teiHeader/revisionDesc))" behaviour="pass-through">
+                            <param name="status" value="sheet:label($parameters, 'publication-status.xml', 'id', (teiHeader/revisionDesc/@status)[1])"/>
+                            <param name="editors" value="teiHeader/fileDesc/titleStmt/editor[normalize-space(.)]"/>
+                            <param name="date" value="sheet:edit-date(teiHeader/revisionDesc)"/>
+                            <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="editing"><div class="inscription-category"><pb-i18n key="form.editing">Bearbeitung</pb-i18n></div><div class="inscription-fields"><div class="inscription-value">[[status]]</div>[[editors]]<div class="inscription-value">[[date]]</div></div></section></pb:template>
+                        </model>
+                    </modelSequence>
+                    <model behaviour="document"/>
+                </elementSpec>
+
+                <elementSpec ident="idno" mode="change">
+                    <model output="web" predicate="@type=('EDEp','TM')" behaviour="pass-through">
+                        <param name="value" value="sheet:plain(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-value">[[value]]</div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='inventory'" behaviour="pass-through">
+                        <param name="value" value="sheet:plain(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.repository-number">Inv.-Nummer</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                    <model predicate="@type='ISBN'" behaviour="pass-through">
+                        <param name="type" value="@type"/>
+                        <pb:template xmlns="" xml:space="preserve"><div>
+                            <b>[[type]]</b>: [[content]]
+                        </div></pb:template>
+                    </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="origPlace" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="geoid" value="sheet:plain(@corresp)"/>
+                        <param name="ancient" value="sheet:place-name(@corresp, 'ancient')"/>
+                        <param name="modern" value="sheet:place-name(@corresp, 'modern')"/>
+                        <param name="findspot" value="sheet:place-name(@corresp, 'findspot')"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.geoid">Geo ID</pb-i18n></span><div class="inscription-value">[[geoid]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.site-ancient-name">Fundort (antik)</pb-i18n></span><div class="inscription-value">[[ancient]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.site-modern-name">Fundort (modern)</pb-i18n></span><div class="inscription-value">[[modern]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.context-of-provenance">Fundstelle</pb-i18n></span><div class="inscription-value">[[findspot]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="provenance" mode="add">
+                    <model output="web" predicate="@type='found'" behaviour="pass-through">
+                        <param name="details" value="note[@type='context']/node()"/>
+                        <param name="when" value="sheet:plain(@when)"/>
+                        <param name="context" value="note[@type='found-date']/node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.findspot-details">Nähere Informationen zu Fundort und Fundstelle</pb-i18n></span><div class="inscription-value">[[details]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.date">Zeitpunkt</pb-i18n></span><div class="inscription-value">[[when]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.found-context">Fundkontext</pb-i18n></span><div class="inscription-value">[[context]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='history'" behaviour="pass-through">
+                        <param name="content" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.other-events">Informationen zur Objektgeschichte</pb-i18n></span><div class="inscription-value">[[content]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="respStmt" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="basis" value="sheet:label($parameters, 'verification.xml', 'id', resp)"/>
+                        <param name="date" value="sheet:plain(resp/@when)"/>
+                        <param name="who" value="sheet:plain(persName)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-entry"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.basis-of-verification">Verifizierungsgrundlage</pb-i18n></span><div class="inscription-value">[[basis]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.date-of-verification">Datum der Verifizierung</pb-i18n></span><div class="inscription-value">[[date]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.verified-by">verifiziert durch</pb-i18n></span><div class="inscription-value">[[who]]</div></div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="decoNote" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="decoration" value="sheet:label($parameters, 'decor.xml', 'corresp', @corresp)"/>
+                        <param name="description" value="sheet:plain(text())"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.decoration">Dekor</pb-i18n></span><div class="inscription-value">[[decoration]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.decoration-description">Dekorbeschreibung</pb-i18n></span><div class="inscription-value">[[description]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="condition" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="value" value="sheet:label($parameters, 'preservation.xml', 'id', .)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.preservation">Erhaltung</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="objectType" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="value" value="sheet:labels($parameters, 'objtyp.xml', 'corresp', @ref)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.type-of-monument">Inschriftträger</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="material" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="value" value="sheet:labels($parameters, 'material.xml', 'corresp', @ref)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.material">Material</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="height" mode="add">
+                    <model output="web" predicate="ancestor::supportDesc" behaviour="pass-through">
+                        <param name="value" value="sheet:cm(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.height">Höhe</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="ancestor::layoutDesc" behaviour="pass-through">
+                        <param name="value" value="sheet:plain(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.height">Höhe</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="width" mode="add">
+                    <model output="web" predicate="ancestor::supportDesc" behaviour="pass-through">
+                        <param name="value" value="sheet:cm(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.width">Breite</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="ancestor::layoutDesc" behaviour="pass-through">
+                        <param name="value" value="sheet:plain(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.width">Breite</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="depth" mode="add">
+                    <model output="web" predicate="ancestor::supportDesc" behaviour="pass-through">
+                        <param name="value" value="sheet:cm(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.depth">Tiefe</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="summary" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="value" value="sheet:plain(.)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.notes">Anmerkungen</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="ab" mode="change">
+                    <model output="web" predicate="parent::layout" behaviour="pass-through">
+                        <param name="content" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.description">Beschreibung</pb-i18n></span><div class="inscription-value">[[content]]</div></div></pb:template>
+                    </model>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="note" mode="change">
+                    <model output="web" predicate="parent::support and not(@type)" behaviour="pass-through">
+                        <param name="content" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.description-of-monument">Beschreibung Inschriftträger</pb-i18n></span><div class="inscription-value">[[content]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='metre'" behaviour="pass-through">
+                        <param name="value" value="sheet:label($parameters, 'metre.xml', 'id', .)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.metre">Metrik</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='paleography'" behaviour="pass-through">
+                        <param name="labels" value="sheet:labels($parameters, 'paleography.xml', 'corresp', tokenize(normalize-space(string(@corresp)), '\s+'))"/>
+                        <param name="free" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.paleography">Paläographie</pb-i18n></span><div class="inscription-value">[[labels]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="display.paleography-free">Freie Eingabe</pb-i18n></span><div class="inscription-value">[[free]]</div></div></pb:template>
+                    </model>
+                    <model predicate="&#34;sic&#34;" behaviour="inline">
+                        <param name="inside" value="."/>
+                        <param name="content" value="&#34;(!)&#34;"/>
+                        <outputRendition xml:space="preserve">color:red;</outputRendition>
+                    </model>
+                    <model behaviour="note">
+                        <param name="place" value="@place"/>
+                        <param name="label" value="@n"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="handNote" mode="add">
+                    <model output="web" predicate="@scope='ligature'" behaviour="pass-through">
+                        <param name="value" value="sheet:label($parameters, 'ligature.xml', 'id', .)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.ligature">Ligatur(en)</pb-i18n></span><div class="inscription-value">[[value]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="langUsage" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="language" value="sheet:languages(., $parameters)"/>
+                        <param name="scope" value="sheet:language-scope(language[@ident][not(@ident=('edep',''))], $parameters)"/>
+                        <param name="free" value="sheet:plain(language[@ident='edep'])"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.language">Sprache</pb-i18n></span><div class="inscription-value">[[language]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.languageScope">Sprachspektrum</pb-i18n></span><div class="inscription-value">[[scope]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.languageFree">Andere Sprachen oder Kommentare</pb-i18n></span><div class="inscription-value">[[free]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="listBibl" mode="change">
+                    <model output="web" predicate="@type='transmission' and bibl" behaviour="pass-through">
+                        <param name="entries" value="bibl"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.transmission">Überlieferung</pb-i18n></span><div class="inscription-value">[[entries]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='previousEditions' and bibl" behaviour="pass-through">
+                        <param name="entries" value="bibl"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.previous-editions">Ältere Editionen</pb-i18n></span><div class="inscription-value">[[entries]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='bibliography' and bibl" behaviour="pass-through">
+                        <param name="entries" value="bibl"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.bibliography">Bibliographie</pb-i18n></span><div class="inscription-value">[[entries]]</div></div></pb:template>
+                    </model>
+                    <model output="web" predicate="@type='images' and bibl" behaviour="pass-through">
+                        <param name="entries" value="bibl"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.images-dps">Bilder (Zeichnungen, Fotos, Abklatsche)</pb-i18n></span><div class="inscription-value">[[entries]]</div></div></pb:template>
+                    </model>
+                    <model predicate="bibl" behaviour="list"/>
+                    <model behaviour="block"/>
+                </elementSpec>
+                <elementSpec ident="bibl" mode="change">
+                    <model output="web" predicate="parent::listBibl[@type=('transmission','previousEditions','bibliography','images')] and (@corresp or citedRange[normalize-space(.)] or note[normalize-space(.)] or (parent::listBibl/@type='bibliography' and @type[normalize-space(.)]))" behaviour="pass-through">
+                        <param name="key" value="sheet:plain(@corresp)"/>
+                        <param name="range" value="sheet:join(citedRange, ', ')"/>
+                        <param name="notes" value="note[normalize-space(.)]/node()"/>
+                        <param name="visibility" value="if (parent::listBibl/@type='bibliography') then sheet:label($parameters, 'publication-status.xml', 'id', @type) else ()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-entry"><div class="inscription-value"><span class="inscription-zotero">[[key]]</span><span class="inscription-cited-range">[[range]]</span></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.notes">Anmerkungen</pb-i18n></span><div class="inscription-value">[[notes]]</div></div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.visibility">Sichtbarkeit</pb-i18n></span><div class="inscription-value">[[visibility]]</div></div></div></pb:template>
+                    </model>
+                    <model predicate="ancestor::sourceDesc and $parameters?mode='metadata-panel'" behaviour="listItem"/>
+                    <modelSequence predicate="$parameters?mode='register-details'">
+                        <desc>Register details view</desc>
+                        <model behaviour="block">
+                            <param name="content" value="."/>
+                        </model>
+                        <model predicate="$parameters?mode='register-details'" behaviour="block">
+                            <desc>List of documents (from data-default collection), where references occur; (shown in register details view only); trying to match by key or ref attributes</desc>
+                            <param name="content" value="let $id := @xml:id return (collection($global:data-default)//text//bibl[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt, collection($global:data-default)//title[@key = $id or @ref = $id]/ancestor::TEI/teiHeader//titleStmt)"/>
+                            <pb:template xmlns="" xml:space="preserve"><div>
+  <h2><pb-i18n key="register-details.document-list"/></h2>
+  <ul>
+  [[content]]
+  </ul>
+</div></pb:template>
+                        </model>
+                    </modelSequence>
+                    <model predicate="parent::listBibl and $parameters?mode='register-overview'" behaviour="pass-through">
+                        <desc>Register entry overview in list</desc>
+                        <param name="id" value="@xml:id"/>
+                        <param name="label" value="(head(author), ' ', head(title), ' ', head(date))"/>
+                        <param name="description" value="."/>
+                        <pb:template xmlns="" xml:space="preserve"><header>
+                            <a href="bibliography/[[ id ]]">[[ label ]]</a>
+                            </header>
+                            <p>[[ description ]]</p></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="abbr" mode="change">
+                    <model predicate="parent::expan" behaviour="inline"/>
+                    <model behaviour="pass-through">
+                        <param name="letters" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="tei-abbr">[[letters]]<span class="abbr-unresolved">(---)</span></span></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="app" mode="change">
+                    <model predicate="note or text()[normalize-space(.)]" behaviour="inline">
+                        <param name="content" value="(note/node(), text()[normalize-space(.)])"/>
+                    </model>
+                    <model predicate="$parameters?mode=('toc', 'breadcrumb')" behaviour="pass-through">
+                        <param name="content" value="head((lem, rdg))"/>
+                    </model>
+                    <model behaviour="alternate">
+                        <param name="default" value="lem"/>
+                        <param name="alternate" value="rdg"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="graphic" mode="change">
+                    <model output="web" predicate="ancestor::facsimile" behaviour="pass-through">
+                        <param name="url" value="string(@url)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div><a href="[[url]]" target="_blank" rel="noopener">[[url]]</a></div></pb:template>
+                    </model>
+                    <model behaviour="graphic">
+                        <param name="url" value="@url"/>
+                        <param name="width" value="@width"/>
+                        <param name="height" value="@height"/>
+                        <param name="scale" value="@scale"/>
+                        <param name="title" value="desc"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="origDate" mode="add">
+                    <model output="web" behaviour="pass-through">
+                        <param name="dating" value="sheet:dating(., $parameters)"/>
+                        <param name="notes" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-value">[[dating]]</div><div class="inscription-field"><span class="inscription-label"><pb-i18n key="form.notes">Anmerkungen</pb-i18n></span><div class="inscription-value">[[notes]]</div></div></pb:template>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="lb" mode="change">
+                    <model predicate="preceding-sibling::*[1][self::lg]" behaviour="omit"/>
+                    <model output="web" predicate="ancestor::div[@type='edition']" behaviour="pass-through">
+                        <desc>Inscription sheet: a line beginning carries its number for the margin (edep-display.css). Hyphen for @break='no' stays a span.tei-lb so the diplomatic view can hide it.</desc>
+                        <param name="n" value="string(@n)"/>
+                        <param name="hyphen" value="if (@break = 'no') then '-' else ()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="tei-lb">[[hyphen]]</span><span class="lb" data-n="[[n]]"></span></pb:template>
+                    </model>
+                    <modelSequence predicate="@break=&#34;no&#34;">
+                        <model behaviour="inline">
+                            <param name="content" value="'-'"/>
+                        </model>
+                        <model behaviour="break">
+                            <param name="type" value="'line'"/>
+                            <param name="label" value="@n"/>
+                        </model>
+                    </modelSequence>
+                    <model behaviour="break" useSourceRendition="true">
+                        <param name="type" value="'line'"/>
+                        <param name="label" value="@n"/>
+                    </model>
+                </elementSpec>
+                <elementSpec ident="editor" mode="add">
+                    <model output="web" predicate="parent::titleStmt" behaviour="pass-through">
+                        <param name="value" value="sheet:editor(., $parameters)"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="inscription-editor">[[value]]</span></pb:template>
+                    </model>
+                </elementSpec>
+            </schemaSpec>
+        </body>
+    </text>
+</TEI>

@@ -14,19 +14,30 @@
     ],
     "odds": [
         "edep-clean.odd",
-        "edep.odd"
+        "edep.odd",
+        "edep-display.odd"
     ],
     "defaults": {
         "odd": "edep.odd",
         "data-default": "workspace"
+    },
+    "collection-config": {
+        "workspace": {
+            "view": "single",
+            "template": "inscription.html"
+        }
     },
     "theme": {
         "icons": [ "edep-icons.svg" ]
     },
     "script": {
         "custom": [
-            "resources/scripts/edep-copy-id.js"
+            "resources/scripts/edep-copy-id.js",
+            "resources/scripts/inscription-display.js"
         ]
+    },
+    "urls": {
+        "ignore": "odd"
     },
     "templating": {
         "use": [
