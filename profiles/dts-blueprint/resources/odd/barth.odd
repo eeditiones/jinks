@@ -38,7 +38,7 @@
     </teiHeader>
     <text>
         <body>
-            <schemaSpec start="TEI teiCorpus" source="teipublisher.odd">
+            <schemaSpec ident="barth" start="TEI teiCorpus" source="teipublisher.odd">
                 <elementSpec ident="ref" mode="change">
                     <model predicate="parent::cit and @type='can' and @subtype='bible' and contains(@target, ' ')" behaviour="heading">
                         <desc>link to bible passage range</desc>
