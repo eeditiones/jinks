@@ -469,20 +469,52 @@ declare function config:document-type($div as element()) {
             "jats"
 };
 
+(:~
+ : Collections from which documents may be loaded via config:get-document. Documents
+ : outside these collections are never returned, even if addressed by an absolute path.
+ : Extend this list if your app needs to display documents stored elsewhere.
+ :)
+declare variable $config:document-roots := distinct-values((
+    $config:data-root, $config:data-default, $config:register-root
+));
+
+(:~
+ : Filter the given documents, keeping only those stored below one of $config:document-roots.
+ :)
+declare function config:in-document-roots($docs as node()*) as node()* {
+    for $doc in $docs
+    let $uri := document-uri(root($doc))
+    where some $root in $config:document-roots satisfies
+        starts-with($uri, replace($root, "/+$", "") || "/")
+    return
+        $doc
+};
+
 declare function config:get-document($idOrName as xs:string) {
-    let $document :=
-        if ($config:address-by-id) then
-            root(collection($config:data-root)/id($idOrName))
-        else if (starts-with($idOrName, '/')) then
-            doc(xmldb:encode-uri($idOrName))
-        else
-            doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
-    return 
-        if (count($document)) then 
-            $document 
-        else 
-            (: if document not found, try to find it again in any way: by id, or by path in data-root or data-default  :)
-            head((collection($config:data-root)/id($idOrName), doc(xmldb:encode-uri($idOrName)), doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)), doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))))
+    (: reject relative path segments to prevent escaping the document roots :)
+    if (tokenize($idOrName, "/") = "..") then
+        ()
+    else
+        let $document :=
+            if ($config:address-by-id) then
+                root(collection($config:data-root)/id($idOrName))
+            else if (starts-with($idOrName, '/')) then
+                doc(xmldb:encode-uri($idOrName))
+            else
+                doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+        let $document := config:in-document-roots($document)
+        return
+            if (exists($document)) then
+                $document
+            else
+                (: if document not found, try to find it again: by id, or by path in data-root or data-default :)
+                head(
+                    config:in-document-roots((
+                        root(collection($config:data-root)/id($idOrName)),
+                        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)),
+                        doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))
+                    ))
+                )
 };
 
 (:~

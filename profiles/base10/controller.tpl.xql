@@ -31,7 +31,29 @@ declare function local:checkOriginWhitelist($regexes, $origin) {
         local:checkOriginWhitelist(tail($regexes), $origin)
 };
 
-if ($exist:path eq '') then
+(:~
+ : True if the request path or a query parameter contains a ".." path segment.
+ : Many endpoints build database paths from request input, so such requests are
+ : rejected up front to prevent access outside the intended collections.
+ : Only the query string is inspected: reading parameters via request:get-parameter
+ : would consume form-encoded request bodies before they reach the API.
+ :)
+declare function local:has-parent-segment() as xs:boolean {
+    let $decode := function($str as xs:string) {
+        try { xmldb:decode($str) } catch * { $str }
+    }
+    return
+        matches($decode($exist:path), "(^|/)\.\.(/|$)") or
+        (some $param in tokenize(request:get-query-string(), "&amp;")
+            satisfies matches($decode(substring-after($param, "=")), "(^|/)\.\.(/|$)"))
+};
+
+if (local:has-parent-segment()) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/modules/lib/bad-request.xql"/>
+    </dispatch>
+
+else if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
     </dispatch>
