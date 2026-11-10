@@ -133,7 +133,9 @@ window.addEventListener('DOMContentLoaded', () => {
         const openLeidenBtn = document.getElementById('open-leiden-btn');
         const openLeidenSlot = epidoc?.shadowRoot?.querySelector('#import');
 
-        if (openLeidenBtn && openLeidenSlot) {
+        // 'ready' may fire more than once; register the handlers only once
+        if (openLeidenBtn && openLeidenSlot && !openLeidenBtn.dataset.bound) {
+            openLeidenBtn.dataset.bound = 'true';
             const syncOpenLeidenBtn = () => {
                 openLeidenBtn.hidden = openLeidenSlot.classList.contains('hidden');
             };

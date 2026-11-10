@@ -44,8 +44,8 @@
                             <param name="ids" value="(teiHeader//msIdentifier/idno[@type='EDEp'][normalize-space(.)][1], teiHeader//msIdentifier/idno[@type='TM'][normalize-space(.)][1])"/>
                             <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="identifier"><div class="inscription-category"><pb-i18n key="form.identifier">Identifier</pb-i18n></div><div class="inscription-fields">[[ids]]</div></section></pb:template>
                         </model>
-                        <model predicate="teiHeader//origPlace[@corresp or normalize-space(.)] or teiHeader//provenance[@type='found'][@when or note[normalize-space(.)]]" behaviour="pass-through">
-                            <param name="fields" value="(teiHeader//origPlace[@corresp or normalize-space(.)], teiHeader//provenance[@type='found'][@when or note[normalize-space(.)]])"/>
+                        <model predicate="teiHeader//origPlace[normalize-space(@corresp)]" behaviour="pass-through">
+                            <param name="fields" value="(teiHeader//origPlace[normalize-space(@corresp)], teiHeader//provenance[@type='found'][@when or note[normalize-space(.)]])"/>
                             <pb:template xmlns="" xml:space="preserve"><section class="inscription-section" data-section="finding"><div class="inscription-category"><pb-i18n key="form.finding">Fundumstände</pb-i18n></div><div class="inscription-fields">[[fields]]</div></section></pb:template>
                         </model>
                         <model predicate="teiHeader//msIdentifier/repository[normalize-space(.) or @key] or teiHeader//msIdentifier/idno[@type='inventory'][normalize-space(.)] or teiHeader//provenance[@type='history'][normalize-space(.)]" behaviour="pass-through">
@@ -216,6 +216,22 @@
                     </model>
                     <model behaviour="block"/>
                 </elementSpec>
+                <elementSpec ident="placeName" mode="change">
+                    <desc>The inherited model resolves @key against a pb-places register that this app does not have; show the text as written.</desc>
+                    <model output="web" behaviour="inline"/>
+                </elementSpec>
+                <elementSpec ident="ref" mode="change">
+                    <model output="web" predicate="@type='biblio' and @target" behaviour="pass-through">
+                        <desc>Bibliographic reference; the entry is looked up in Zotero by its short title and shown in a popover (see inscription-display.js).</desc>
+                        <param name="tag" value="replace(normalize-space(@target), '^#', '')"/>
+                        <param name="content" value="node()"/>
+                        <pb:template xmlns="" xml:space="preserve"><span class="inscription-bibref" data-tag="[[tag]]" tabindex="0" role="button">[[content]]</span></pb:template>
+                    </model>
+                    <model predicate="@target" behaviour="link">
+                        <param name="uri" value="@target"/>
+                    </model>
+                    <model behaviour="inline"/>
+                </elementSpec>
                 <elementSpec ident="note" mode="change">
                     <model output="web" predicate="parent::support and not(@type)" behaviour="pass-through">
                         <param name="content" value="node()"/>
@@ -330,6 +346,10 @@
                     </model>
                 </elementSpec>
                 <elementSpec ident="graphic" mode="change">
+                    <model output="web" predicate="ancestor::facsimile and matches(@url, '\.(jpe?g|png|gif|webp|svg|tiff?)([?#].*)?$', 'i')" behaviour="pass-through">
+                        <param name="url" value="string(@url)"/>
+                        <pb:template xmlns="" xml:space="preserve"><div class="inscription-image"><a href="[[url]]" target="_blank" rel="noopener"><img src="[[url]]" alt="" loading="lazy"/></a></div></pb:template>
+                    </model>
                     <model output="web" predicate="ancestor::facsimile" behaviour="pass-through">
                         <param name="url" value="string(@url)"/>
                         <pb:template xmlns="" xml:space="preserve"><div><a href="[[url]]" target="_blank" rel="noopener">[[url]]</a></div></pb:template>

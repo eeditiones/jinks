@@ -74,14 +74,28 @@
                     </fx-control>
                 </div>
                 <fx-trigger>
-                    <svg class="icon icon-remove" title="Bibliographie löschen"><use href="#dash-circle"/></svg>
+                    <span class="form-hint-wrap">
+                        <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                            <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
+                        </span>
+                        <div class="form-hint" popover="manual" role="tooltip">
+                            <pb-i18n key="form.hint-delete-biblio"/>
+                        </div>
+                    </span>
                     <fx-delete ref="."/>
                     <fx-refresh control="r-biblio"/>
                 </fx-trigger>
             </template>
         </fx-repeat>
-        <fx-trigger class="add" title="Bibliographie hinzufügen">
-            <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+        <fx-trigger class="add">
+            <span class="form-hint-wrap">
+                <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                    <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+                </span>
+                <div class="form-hint" popover="manual" role="tooltip">
+                    <pb-i18n key="form.hint-add-biblio"/>
+                </div>
+            </span>
 
             <fx-insert context="listBibl[@type='bibliography']" ref="bibl" origin="instance('templates')//bibl"/>
             <fx-refresh control="r-biblio"/>

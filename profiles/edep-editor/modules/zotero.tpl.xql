@@ -108,6 +108,21 @@ declare %private function zotero:write-meta($lv as xs:integer) as xs:boolean {
     }
 };
 
+(:~
+ : Derive the identifier used to reference an item (e.g. in ref/@target) from its short title.
+ : The result must be a valid xml:id, so characters not allowed in an NCName are replaced
+ : by "_" (after mapping e.g. superscript digits to plain ones). If nothing usable remains,
+ : the Zotero key is used, prefixed because keys may start with a digit.
+ :)
+declare function zotero:ref-id($shortTitle as xs:string?, $key as xs:string) as xs:string {
+  let $norm := normalize-unicode(normalize-space($shortTitle), "NFKC")
+  let $id := replace(replace(replace($norm, "[^\c]|:", "_"), "_+", "_"), "^_|_$", "")
+  let $id := if ($id = "" or matches($id, "^\i")) then $id else "_" || $id
+  return
+    if ($id castable as xs:NCName) then $id
+    else "zotero-" || $key
+};
+
 declare %private function zotero:xml-from-json($data as map(*), $bib as xs:string?) as element(item) {
   let $type := $data?data?itemType
   let $key     := string(($data?key, $data?data?key)[1])
@@ -117,9 +132,10 @@ declare %private function zotero:xml-from-json($data as map(*), $bib as xs:strin
   let $creators     := if ($data?data?creators instance of array(*)) then $data?data?creators else array { $data?data?creators }
   let $tagsArr := $data?data?tags
   return
-    <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{ $key }">
+    <bibl xmlns="http://www.tei-c.org/ns/1.0" xml:id="{ $key }" type="{ $type }">
       <title>{ $title }</title>
       <title type="short">{ $shortTitle }</title>
+      <idno type="ref">{ zotero:ref-id($shortTitle, $key) }</idno>
       {
         switch ($type)
             case 'bookSection' return <title level="m">{ $data?data?bookTitle }</title>
@@ -507,7 +523,11 @@ declare function zotero:items-suggest($request as map(*)) {
   let $qry := if ($tag ne "") then () else zotero:_lucene-wildcard-and($qRaw)
   let $pool :=
     if ($tag ne "") then
-      collection($zotero:XML_DIR)/tei:bibl[tei:title[@type='short'] = $tag]
+      (: references use the id derived from the short title (see zotero:ref-id); older ones may use the short title as is :)
+      let $byRef := collection($zotero:XML_DIR)/tei:bibl[tei:idno[@type='ref'] = $tag or tei:title[@type='short'][not(@level)] = $tag]
+      return
+        if (exists($byRef)) then $byRef
+        else collection($zotero:XML_DIR)/tei:bibl[@xml:id = replace($tag, '^zotero-', '')]
     else if (empty($qry)) then
       ()
     else
@@ -517,7 +537,7 @@ declare function zotero:items-suggest($request as map(*)) {
           "filter-rewrite": "yes",
           "query-analyzer-id": "nodiacritics"
         })
-      ]
+      ][not(@type = ('note', 'attachment'))]
   let $sorted :=
     if ($tag ne "" or empty($qry)) then
       for $i in $pool
@@ -536,7 +556,8 @@ declare function zotero:items-suggest($request as map(*)) {
       "key":   string($i/@xml:id),
       "title": string($i/tei:title[not(@type|@level)][1]),
       "bib":   string(($i/tei:note[@type='display'])[1]),
-      "tag":   string(($i/tei:title[@type='short'])[1])
+      (: items synced before idno[@type='ref'] was introduced get the id computed on the fly :)
+      "tag":   (normalize-space($i/tei:idno[@type='ref'][1])[. ne ''], zotero:ref-id($i/tei:title[@type='short'][not(@level)][1], $i/@xml:id))[1]
     }
   }
   return serialize($arr, map{ "method":"json", "indent": true() })

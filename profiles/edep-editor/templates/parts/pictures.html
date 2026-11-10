@@ -4,10 +4,10 @@
             <span class="form-hint-wrap">
                 <pb-i18n key="form.images">Abbildungen (URLs)</pb-i18n>
                 <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
-                    <svg class="icon icon-info"><use href="#info-circle"></use></svg>
+                    <svg class="icon icon-info"><use href="#info-circle"/></svg>
                 </span>
                 <div class="form-hint" popover="manual" role="tooltip">
-                    <pb-i18n key="form.hint-digital-images"></pb-i18n>
+                    <pb-i18n key="form.hint-digital-images"/>
                 </div>
             </span>
         </h3>
@@ -21,15 +21,29 @@
                     </fx-control>
 
                     <fx-trigger>
-                        <svg class="icon icon-remove" title="delete image"><use href="#dash-circle"></use></svg>
-                        <fx-delete ref="."></fx-delete>
+                        <span class="form-hint-wrap">
+                            <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                                <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
+                            </span>
+                            <div class="form-hint" popover="manual" role="tooltip">
+                                <pb-i18n key="form.hint-delete-picture"/>
+                            </div>
+                        </span>
+                        <fx-delete ref="."/>
                     </fx-trigger>
                 </template>
             </fx-repeat>
-            <fx-trigger class="add" title="Abbildung hinzufügen">
-                <svg class="icon icon-add"><use href="#plus-circle"></use></svg>
+            <fx-trigger class="add">
+                <span class="form-hint-wrap">
+                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                        <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+                    </span>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-add-picture"/>
+                    </div>
+                </span>
 
-                <fx-insert context="facsimile" ref="graphic" origin="instance('templates')/graphic"></fx-insert>
+                <fx-insert context="facsimile" ref="graphic" origin="instance('templates')/graphic"/>
             </fx-trigger>
         </fx-group>
     </fx-group>

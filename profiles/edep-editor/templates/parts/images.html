@@ -65,14 +65,28 @@
                 </div>
             </div>
             <fx-trigger>
-                <svg class="icon icon-remove" title="delete image"><use href="#dash-circle"/></svg>
+                <span class="form-hint-wrap">
+                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                        <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
+                    </span>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-delete-image"/>
+                    </div>
+                </span>
                 <fx-delete ref="."/>
                 <fx-refresh control="r-images"/>
             </fx-trigger>
         </template>
     </fx-repeat>
-    <fx-trigger class="add" title="Bilder (Fotos, Zeichnungen, Abklatsche) hinzufügen">
-        <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+    <fx-trigger class="add">
+        <span class="form-hint-wrap">
+            <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+            </span>
+            <div class="form-hint" popover="manual" role="tooltip">
+                <pb-i18n key="form.hint-add-image"/>
+            </div>
+        </span>
         <fx-action>
             <fx-insert context="listBibl[@type='images']" ref="bibl" origin="instance('templates')//listBibl[@type='images']/bibl"/>
             <fx-refresh control="r-images"/>

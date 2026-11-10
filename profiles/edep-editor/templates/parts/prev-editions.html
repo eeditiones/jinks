@@ -66,14 +66,28 @@
             </div>
 
             <fx-trigger>
-                <svg class="icon icon-remove" title="delete Bibliographie"><use href="#dash-circle"/></svg>
+                <span class="form-hint-wrap">
+                    <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                        <svg class="icon icon-remove"><use href="#dash-circle"/></svg>
+                    </span>
+                    <div class="form-hint" popover="manual" role="tooltip">
+                        <pb-i18n key="form.hint-delete-prev-edition"/>
+                    </div>
+                </span>
                 <fx-delete ref="."/>
                 <fx-refresh control="r-editions"/>
             </fx-trigger>
         </template>
     </fx-repeat>
-    <fx-trigger class="add" title="Ältere Edition hinzufügen">
-        <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+    <fx-trigger class="add">
+        <span class="form-hint-wrap">
+            <span class="hint-trigger hint-trigger--passive" tabindex="0" role="button" aria-label="Help">
+                <svg class="icon icon-add"><use href="#plus-circle"/></svg>
+            </span>
+            <div class="form-hint" popover="manual" role="tooltip">
+                <pb-i18n key="form.hint-add-prev-edition"/>
+            </div>
+        </span>
 
         <fx-insert context="listBibl[@type='previousEditions']" ref="bibl" origin="instance('templates')//bibl"/>
         <fx-refresh control="r-editions"/>

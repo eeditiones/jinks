@@ -75,6 +75,57 @@ if (!window.__edepZoteroRefs) {
         });
     }
 
+    let bibPopover;
+
+    function popover() {
+        if (!bibPopover) {
+            bibPopover = document.createElement('div');
+            bibPopover.className = 'inscription-bibref-popover';
+            bibPopover.setAttribute('popover', 'auto');
+            bibPopover.style.cssText = 'margin:0;max-width:32rem;padding:.75rem 1rem;border:1px solid #ccc;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:fixed;inset:auto;';
+            document.body.appendChild(bibPopover);
+        }
+        return bibPopover;
+    }
+
+    function showBibref(el) {
+        const tag = el.dataset.tag;
+        if (!tag) {
+            return;
+        }
+        const pop = popover();
+        pop.textContent = '…';
+        const rect = el.getBoundingClientRect();
+        pop.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - 520)) + 'px';
+        pop.style.top = (rect.bottom + 4) + 'px';
+        pop.showPopover();
+        fetchBib(tag).then((bib) => {
+            if (bib) {
+                pop.innerHTML = bib;
+            } else {
+                pop.textContent = tag;
+            }
+        });
+    }
+
+    function bibrefTarget(ev) {
+        return ev.composedPath().find((node) => node.classList && node.classList.contains('inscription-bibref'));
+    }
+
+    document.addEventListener('click', (ev) => {
+        const el = bibrefTarget(ev);
+        if (el) {
+            showBibref(el);
+        }
+    });
+    document.addEventListener('keydown', (ev) => {
+        const el = (ev.key === 'Enter' || ev.key === ' ') && bibrefTarget(ev);
+        if (el) {
+            ev.preventDefault();
+            showBibref(el);
+        }
+    });
+
     function scan() {
         document.querySelectorAll('pb-view').forEach((view) => {
             if (view.shadowRoot) {

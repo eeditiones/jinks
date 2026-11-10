@@ -408,3 +408,16 @@
     .inscription.inscription-section { background: none; padding: 0; }
     .inscription-view-toggle { display: none; }
 }
+
+.inscription-image img {
+    display: block;
+    max-width: 100%;
+    max-height: 24rem;
+    height: auto;
+}
+
+.inscription-bibref {
+    color: var(--pb-link-color, inherit);
+    text-decoration: underline dotted;
+    cursor: pointer;
+}
