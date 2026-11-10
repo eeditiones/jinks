@@ -1,10 +1,9 @@
 const uploadAnnotations = () => {
     return cy.fixture('annotations.jats.xml', 'utf8').then(xml => {
-        return cy.uploadXml('/api/upload/', 'annotations.jats.xml', xml)
+        return cy.uploadXml('jats/annotations.jats.xml', xml)
             .then(({ status, body }) => {
                 cy.wrap(status).should('eq', 200)
-                cy.wrap(body).should('have.length', 1)
-                cy.wrap(body).its('0.name').should('include', 'annotations.jats.xml')
+                cy.wrap(body).its('path').should('include', 'jats/annotations.jats.xml')
             })
     })
 }

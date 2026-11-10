@@ -6,7 +6,7 @@ const uploadAnnotations = () => {
   return cy
     .fixture('annotations.xml', 'utf8')
     .then((xml) => {
-      return cy.uploadXml('annotations.xml', xml)
+      return cy.uploadXml('annotate/annotations.xml', xml)
     })
     .then(({ status, body }) => {
       cy.wrap(status).should('eq', 200)
