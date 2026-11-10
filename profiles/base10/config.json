@@ -61,9 +61,7 @@
             "doc($config:data-root || '/taxonomy.xml')//tei:text",
             "collection($config:register-root)//tei:text"
         ],
-        "allowed-xpath": [
-            "//text"
-        ],
+        "allowed-xpath": [],
         "register-root": "registers",
         "browse": "browse.html",
         "view": "div",

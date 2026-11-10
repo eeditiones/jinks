@@ -837,6 +837,10 @@
                     <model behaviour="metadata"/>
                 </elementSpec>
                 <elementSpec ident="TEI" mode="change">
+                    <model predicate="$parameters?mode='toc' and $parameters?mode-sub='toc-odd'" behaviour="pass-through">
+            <desc>ODD-based table of contents: descend into the text, skipping the header</desc>
+            <param name="content" value="text"/>
+        </model>
                     <model predicate="$parameters?mode=('breadcrumb', 'title')" behaviour="pass-through">
             <param name="content" value="teiHeader"/>
         </model>
