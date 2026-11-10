@@ -87,7 +87,8 @@ else
             "api-odd.xql" 
         else if (matches($exist:path, "^/+api/+actions/+fix-odds$")) then
             "api-actions.xql"
-        else if (matches($exist:path, "/+tex$") or matches($exist:path, "/+api/+(?:actions/reindex|actions/file-sync)$")) then
+        (: only the LaTeX endpoint may run with dba privileges :)
+        else if (matches($exist:path, "^/+api/+document/+.+/+tex$")) then
             "api-dba.xql"
         else 
             "api.xql"
