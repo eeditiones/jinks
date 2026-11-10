@@ -8,7 +8,12 @@
     "order": 103,
     "defaults": {
         "data-default": "",
-        "media": ["fo"]
+        "media": ["fo"],
+        "allowed-xpath": [
+            "//text[@type='source']",
+            "//teiHeader",
+            "//div[@type='original']"
+        ]
     },
     "data": {
         "landing": "landing/home.xml"

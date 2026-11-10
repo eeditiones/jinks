@@ -23,7 +23,11 @@
         "template": "serafin.html",
         "browse": "browse-custom.html",
         "odd": "serafin.odd",
-        "media": ["web", "print", "epub", "docx"]
+        "media": ["web", "print", "epub", "docx"],
+        "allowed-xpath": [
+            "//text[@type = 'source']",
+            "//text[@type = 'translation']"
+        ]
     },
     "i18n": [
         "serafin"

@@ -680,14 +680,29 @@ declare function dapi:get-fragment($request as map(*), $docs as node()*, $path a
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };
 
+(:~
+ : Narrow $data to the nodes selected by the xpath request parameter.
+ :
+ : The expression is only evaluated if it is white-listed
+ : in $config:allowed-xpath (configured via defaults.allowed-xpath in config.json).
+ : As a special case, an expression of the form /id('some-id') is resolved
+ : directly without evaluation. Anything else is rejected.
+ :)
 declare %private function dapi:apply-xpath($request as map(*), $data as node()) {
-    if ($request?parameters?xpath) then
-        let $namespace := namespace-uri-from-QName(node-name(root($data)/*))
-        let $xquery := "declare default element namespace '" || $namespace || "'; $data" || $request?parameters?xpath
-        return
-            util:eval($xquery)
-    else
-        $data
+    let $xpath := normalize-space($request?parameters?xpath)
+    return
+        if ($xpath = "") then
+            $data
+        else if (matches($xpath, "^/id\('[\i-[:]][\c-[:]]*'\)$")) then
+            $data/id(replace($xpath, "^/id\('(.*)'\)$", "$1"))
+        else if ($xpath = $config:allowed-xpath ! normalize-space(.)) then
+            let $namespace := namespace-uri-from-QName(node-name(root($data)/*))
+            let $xquery := "declare default element namespace '" || $namespace || "'; $data" || $xpath
+            return
+                util:eval($xquery)
+        else
+            error($errors:BAD_REQUEST, "XPath expression not allowed: " || $xpath ||
+                ". Add it to defaults.allowed-xpath in config.json.")
 };
 
 declare function dapi:get-collection($data) {

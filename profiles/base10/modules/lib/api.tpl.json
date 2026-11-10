@@ -1599,7 +1599,7 @@
 						"schema": {
 							"type": "string"
 						},
-						"description": "an XPath expression to directly select a sub-part of the document, e.g. the TEI body, front or back matter, or teiHeader. Usually only makes sense in combination with `view=single`."
+						"description": "an XPath expression to directly select a sub-part of the document, e.g. the TEI body, front or back matter, or teiHeader. Usually only makes sense in combination with `view=single`. For security reasons, only expressions listed in `defaults.allowed-xpath` of the app configuration are accepted, plus `/id('...')` with a valid xml:id. Other expressions result in a 400 error."
 					},
 					{
 						"name": "map",

@@ -51,7 +51,11 @@ declare variable $config:data-exclude := (
     [[ string-join($defaults?data-exclude?*, ",&#10;    ") ]]
 );
 
-declare variable $config:odd-root := $config:app-root || "/[[$defaults?odd-root]]";
+declare variable $config:allowed-xpath := (
+    [[ string-join($defaults?allowed-xpath?* ! ('"' || replace(replace(., '&amp;', '&amp;amp;'), '"', '""') || '"'), ",&#10;    ") ]]
+);
+
+declare variable $config:odd-root :=$config:app-root || "/[[$defaults?odd-root]]";
 declare variable $config:default-odd := "[[$defaults?odd]]";
 declare variable $config:odd-internal := 
     ( [[ string-join($defaults?odd-internal?* ! ('"' || . || '"'), ", ") ]] );

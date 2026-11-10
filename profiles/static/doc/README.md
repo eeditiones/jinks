@@ -168,7 +168,7 @@ Each part in the `parts` array can have the following properties:
 - `id` (string, optional): A name for the part. If not specified, `"default"` is used. Parts are available in templates via `$parts?<id>`, e.g., `$parts?default`
 - `odd` (string, optional): The ODD to use for transforming this part
 - `view` (string, optional): The view mode (`"div"`, `"page"`, or `"single"`)
-- `xpath` (string, optional): XPath expression to select specific content from the document
+- `xpath` (string, optional): XPath expression to select specific content from the document. It must also be listed in `defaults.allowed-xpath`, otherwise the API rejects it (`/id('...')` is always accepted)
 - `user.mode` (string, optional): Special processing mode (e.g., `"breadcrumb"`, `"register"`)
 
 **Example:**

@@ -229,6 +229,13 @@
                     },
                     "description": "List of XPath expressions to exclude from the data default collection"
                 },
+                "allowed-xpath": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "XPath expressions a client may pass in the `xpath` parameter of the `/api/parts` endpoint (e.g. via the `xpath` attribute of `pb-view` or the `xpath` property of a static pagination part). Must match exactly, apart from leading/trailing whitespace. Any other expression is rejected, except `/id('...')`, which is always allowed."
+                },
                 "register-root": {
                     "type": "string",
                     "description": "Absolute or relative path to the collection used for register data. Default is `data/registers`."

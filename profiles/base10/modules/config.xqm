@@ -290,6 +290,12 @@ declare variable $config:data-default := $gen:data-default;
 declare variable $config:data-exclude := $gen:data-exclude;
 
 (:~
+ : XPath expressions a client may pass in the xpath parameter of the /api/parts
+ : endpoint. Any other expression is rejected.
+ :)
+declare variable $config:allowed-xpath := $gen:allowed-xpath;
+
+(:~
  : The root of the collection hierarchy containing registers data.
  :)
 declare variable $config:register-root := $gen:register-root;
