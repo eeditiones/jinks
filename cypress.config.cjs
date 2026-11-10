@@ -8,6 +8,9 @@ module.exports = defineConfig({
         findFiles({ pattern }) {
           // Use glob.sync to get the files synchronously
           return glob.sync(pattern, { nodir: true });
+        },
+        readText(path) {
+          return require('fs').readFileSync(path, 'utf8');
         }
       });
       return config;

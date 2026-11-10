@@ -99,6 +99,6 @@ For the sitemap to work, you'll also need to set the `base-uri` property as foll
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/sitemap.xml` | Return the generated sitemap (404 if not yet generated) |
-| `POST` | `/api/actions/sitemap` | Crawl the application and store a new `sitemap.xml` |
+| `POST` | `/api/actions/sitemap` | Crawl the application and store a new `sitemap.xml` (requires login as a member of the `tei` group) |
 
 Both endpoints are defined in `modules/sitemap-api.tpl.json` and implemented in `modules/sitemap.xql`.

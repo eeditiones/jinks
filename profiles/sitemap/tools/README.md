@@ -44,7 +44,7 @@ docker compose -f profiles/sitemap/tools/docker-compose.yml up -d
 Generate the sitemap once (it is crawled on demand and stored):
 
 ```bash
-curl -s -X POST http://localhost/api/actions/sitemap
+curl -s -u tei:<password> -X POST http://localhost/api/actions/sitemap
 ```
 
 Then verify:

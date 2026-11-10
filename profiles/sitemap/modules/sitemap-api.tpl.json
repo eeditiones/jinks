@@ -57,6 +57,9 @@
                 "description": "Crawl the application and generate a sitemap.xml containing all document URLs and their pages",
                 "tags": ["actions"],
                 "operationId": "sitemap:generate-sitemap",
+                "x-constraints": {
+                    "groups": ["tei"]
+                },
                 "parameters": [
                     {
                         "name": "baseUri",
