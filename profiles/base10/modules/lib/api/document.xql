@@ -142,7 +142,8 @@ declare function dapi:source($request as map(*)) {
         if (tokenize($doc, "/") = "..") then
             error($errors:BAD_REQUEST, "Invalid path: " || $doc)
         else if ($doc) then
-            let $path := xmldb:encode-uri($config:data-root || "/" || $doc)
+            let $document := config:get-document($doc)
+            let $path := xmldb:encode-uri(util:collection-name($document)) || "/" || util:document-name($document)
             let $filename := replace($doc, "^.*/([^/]+)$", "$1")
             let $mime := ($request?parameters?type, xmldb:get-mime-type($path))[1]
             return
