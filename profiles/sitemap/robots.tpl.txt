@@ -16,6 +16,14 @@ Disallow: /odd-editor.html
 Disallow: /*/odd-editor.html
 Disallow: /api/document/
 Disallow: /*/api/document/*
+[% if $context?features?sitemap?collections instance of map(*) %]
+[% for $collection in map:keys($context?features?sitemap?collections) %]
+[% if $context?features?sitemap?collections($collection) = "document" %]
+Disallow: /[[ replace($collection, "^/+|/+$", "") ]]/*?
+Disallow: /*/[[ replace($collection, "^/+|/+$", "") ]]/*?
+[% endif %]
+[% endfor %]
+[% endif %]
 
 [% if $context?features?sitemap?base-uri %]
 Sitemap: [[ $context?features?sitemap?base-uri ]]/sitemap.xml

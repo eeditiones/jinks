@@ -67,6 +67,26 @@ Array of additional relative paths to include in the sitemap beyond those discov
 }
 ```
 
+#### `collections`
+
+Restricts which documents end up in the sitemap. Keys are collection paths relative to the data root; values select how much of each document is listed:
+
+* `"pages"` — one entry per page or division, as the crawler does by default
+* `"document"` — a single entry for the document itself, without paging through it. `robots.txt` additionally disallows URLs with a query string in that collection, so crawlers do not page through it either.
+
+Collections not listed are left out. Sub-collections inherit the setting of their parent, but can be given a different one; the longest matching path wins. If `collections` is omitted, every document is included with all its pages.
+
+```json
+"features": {
+    "sitemap": {
+        "collections": {
+            "doc": "pages",
+            "demo": "document"
+        }
+    }
+}
+```
+
 ### Usage
 
 After generating or updating content, regenerate the sitemap: open your application in Jinks and click **Sitemap** in the _Actions_ toolbar.

@@ -585,6 +585,17 @@
                                 ["index.html"],
                                 ["index.html", "browse.html"]
                             ]
+                        },
+                        "collections": {
+                            "type": "object",
+                            "description": "Restrict the sitemap to the listed collections (paths relative to the data root). The value controls what is listed: 'pages' adds every page of each document, 'document' adds only the document itself and disallows its paginated URLs in robots.txt. Collections not listed are excluded. If omitted, all documents are included with all pages.",
+                            "additionalProperties": {
+                                "type": "string",
+                                "enum": ["pages", "document"]
+                            },
+                            "examples": [
+                                {"doc": "pages", "demo": "document"}
+                            ]
                         }
                     }
                 },

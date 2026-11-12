@@ -72,7 +72,7 @@ declare function sitemap:generate-sitemap($request as map(*)) {
  : @return sitemap.xml document
  :)
 declare %private function sitemap:generate($config as map(*)) as document-node() {
-    let $urls := sitemap:crawl()
+    let $urls := sitemap:crawl($config?features?sitemap?collections)
     return
         document {
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -96,16 +96,47 @@ declare %private function sitemap:generate($config as map(*)) as document-node()
  : content=none): pages:load-xml to load a fragment and $config:next-page to
  : advance, collecting the stable xml:id (or node id as fallback) of each page.
  :
+ : If $collections is given, only documents in the listed collections (relative
+ : to $config:data-root) are included. The value for each collection determines
+ : the mode: "pages" lists every page of a document, "document" only the document
+ : itself. Without $collections, all documents are included in "pages" mode.
+ :
+ : @param $collections optional map of collection path to mode
  : @return sequence of relative URL strings (without base URI)
  :)
-declare %private function sitemap:crawl() as xs:string* {
+declare %private function sitemap:crawl($collections as map(*)?) as xs:string* {
     let $works := query:query-metadata((), "div", (), $config:sort-default)?all
     return
         distinct-values(
             for $doc in $works
+            let $mode := sitemap:mode($collections, config:get-relpath($doc))
+            where exists($mode)
             return
-                sitemap:document-urls($doc)
+                sitemap:document-urls($doc, $mode)
         )
+};
+
+(:~
+ : Determine the mode for a document from the collections map. The longest
+ : matching collection path wins, so a sub-collection can override its parent.
+ :
+ : @param $collections optional map of collection path to mode
+ : @param $relPath path of the document relative to $config:data-root
+ : @return "pages", "document", or the empty sequence if the document is excluded
+ :)
+declare %private function sitemap:mode($collections as map(*)?, $relPath as xs:string) as xs:string? {
+    if (empty($collections)) then
+        "pages"
+    else
+        let $matches :=
+            for $collection in map:keys($collections)
+            let $prefix := replace($collection, "^/+|/+$", "")
+            where $prefix = "" or starts-with($relPath, $prefix || "/")
+            order by string-length($prefix) descending
+            return
+                $collections($collection)
+        return
+            head($matches)[. = ("pages", "document")]
 };
 
 (:~
@@ -115,9 +146,10 @@ declare %private function sitemap:crawl() as xs:string* {
  : one URL.
  :
  : @param $doc a document node returned by query:query-metadata
+ : @param $mode "pages" to list every page, "document" for the document URL only
  : @return sequence of relative URL strings for the document
  :)
-declare %private function sitemap:document-urls($doc as node()) as xs:string* {
+declare %private function sitemap:document-urls($doc as node(), $mode as xs:string) as xs:string* {
     let $path := config:get-identifier($doc)
     let $documents := config:get-document($path)
     let $config := tpu:parse-pi(root($documents[1]), (), $config:default-odd)
@@ -125,7 +157,7 @@ declare %private function sitemap:document-urls($doc as node()) as xs:string* {
     return
         if (empty($documents)) then
             ()
-        else if ($view = "single") then
+        else if ($view = "single" or $mode = "document") then
             $path
         else
             sitemap:page-urls($documents, $view, $path, ())
