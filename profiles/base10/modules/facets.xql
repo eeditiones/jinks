@@ -150,7 +150,7 @@ declare function facets:display($config as map(*), $nodes as element()+) {
                     (: use source as URL to API endpoint from which to retrieve possible values :)
                     <pb-combo-box source="{$config?source}" close-after-select=""
                         on-update="pb-search-resubmit" placeholder="{$config?heading}">
-                        <select multiple="">
+                        <select multiple="" name="facet-{$config?dimension}">
                         {
                             for $param in facets:get-parameter("facet-" || $config?dimension)
                             let $label := facets:translate($config, $lang, $param)
