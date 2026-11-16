@@ -146,13 +146,23 @@ declare function page:content($context as map(*)) {
  : source/translation column). Pass the same expression as the pb-view.
  :)
 declare function page:content($context as map(*), $xpath as xs:string?) {
+    page:content($context, $xpath, ())
+};
+
+(:~
+ : As page:content#2, but passes additional parameters to the ODD, mirroring the
+ : <pb-param> elements of the pb-view (sent as user.* parameters by the parts API).
+ : Use this whenever the pb-view carries pb-param children which change the output,
+ : otherwise the server-side rendered fragment will differ from what pb-view would load.
+ :)
+declare function page:content($context as map(*), $xpath as xs:string?, $params as map(*)?) {
     if (exists($context?doc?content)) then
         let $fromCache := page:content-from-static($context, $xpath)
         return
             if (exists($fromCache)) then
                 $fromCache
             else
-                page:content-dynamic($context, $xpath)
+                page:content-dynamic($context, $xpath, $params)
     else
         ()
 };
@@ -297,7 +307,7 @@ declare %private function page:wrap-ssr($nodeId as item()?, $content as item()?,
 };
 
 (:~ Dynamic ODD transform path used when the static cache has no matching part. :)
-declare %private function page:content-dynamic($context as map(*), $xpath as xs:string?) {
+declare %private function page:content-dynamic($context as map(*), $xpath as xs:string?, $params as map(*)?) {
     let $view := head(($context?doc?view, $config:default-view))
     let $xml := page:fragment($context, $context?doc?content, $view, $context?doc?path, $xpath)
     return
@@ -309,7 +319,7 @@ declare %private function page:content-dynamic($context as map(*), $xpath as xs:
                     pages:get-content($xml?config, $xml?data)
             let $nodeId := util:node-id($xml?data[1])
             let $rendered := page:unwrap-body(
-                pages:process-content($content, $xml?data, $xml?config, map { "webcomponents": 7 }, ())
+                pages:process-content($content, $xml?data, $xml?config, map:merge((map { "webcomponents": 7 }, $params)), ())
             )
             (: process-content collects footnotes into a sibling <div class="footnotes">
              : (wrapping everything in a content div). Split it out so the markup
