@@ -17,7 +17,7 @@ PRODUCTION="${PRODUCTION:-false}"
 # This applies both to the server generating the apps and to the base of the
 # final demo image.
 LOCAL="${LOCAL:-false}"
-EXIST_VERSION="${EXIST_VERSION:-6.4.0}"
+EXIST_VERSION="${EXIST_VERSION:-6.4.1}"
 
 # Check if npx is available
 if ! command -v npx &> /dev/null; then
