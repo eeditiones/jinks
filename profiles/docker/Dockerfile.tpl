@@ -46,7 +46,7 @@ RUN  cd  [[$pkg?abbrev]] \
     && ant
 [% endif %]
 
-ADD http://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 001.xar
+ADD https://github.com/eeditiones/roaster/releases/download/v${ROUTER_VERSION}/roaster-${ROUTER_VERSION}.xar 001.xar
 [% if some $dep in $pkg?dependencies?* satisfies $dep?package = "http://existsolutions.com/ns/jwt" %]
 ADD http://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 002.xar
 [% endif %]

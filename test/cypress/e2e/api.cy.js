@@ -429,13 +429,15 @@ describe('API', () => {
       })
     })
 
-    it('POST /api/login returns 400 when body is missing', () => {
+    // the login body is optional (modules/api.json): without one,
+    // auth:login answers for the current session
+    it('POST /api/login without a body answers for the session', () => {
       cy.request({
         method: 'POST',
         url: '/api/login',
         failOnStatusCode: false
       }).then(res => {
-        cy.wrap(res.status).should('eq', 400)
+        cy.wrap(res.status).should('eq', 200)
       })
     })
   })

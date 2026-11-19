@@ -26,7 +26,7 @@ RUN set -eu; \
 
 FROM ghcr.io/eeditiones/builder:latest AS builder
 
-ARG ROUTER_VERSION=1.13.1
+ARG ROUTER_VERSION=2.1.4
 ARG CRYPTO_VERSION=6.0.1
 ARG JWT_VERSION=2.0.2
 
@@ -39,7 +39,7 @@ RUN  cd jinks \
     && ant
 
 ADD https://exist-db.org/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar 001.xar
-ADD https://exist-db.org/exist/apps/public-repo/public/roaster-${ROUTER_VERSION}.xar 002.xar
+ADD https://github.com/eeditiones/roaster/releases/download/v${ROUTER_VERSION}/roaster-${ROUTER_VERSION}.xar 002.xar
 ADD https://exist-db.org/exist/apps/public-repo/public/jwt-${JWT_VERSION}.xar 003.xar
 
 FROM duncdrum/existdb:${EXIST_VERSION} AS build_local
