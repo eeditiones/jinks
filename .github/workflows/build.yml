@@ -114,7 +114,7 @@ jobs:
         working-directory: build/
         run: |
           gh release download -R eeditiones/jinks-templates -p '*.xar' -O '_jinks-tmpl.xar'
-          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar' v1.12.1
+          gh release download -R eeditiones/roaster -p 'roaster-*.xar' -O '_roaster.xar' v2.1.4
           gh release download -R eeditiones/tei-publisher-lib -p '*.xar' -O '_tp-lib.xar'
           gh release download -R eXist-db/templating -p '*.xar' -O '_templating.xar'
           # Pinned: crypto 7.x and jwt 2.0.2 require eXist > 7.0.0-SNAPSHOT; CI matrix uses 6.4.x
