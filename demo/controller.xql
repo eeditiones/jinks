@@ -8,16 +8,15 @@ xquery version "3.0";
     ------------------------------------------------------- :)
 
 declare namespace c="http://exist-db.org/xquery/controller";
-declare namespace expath="http://expath.org/ns/pkg";
-
 import module namespace request="http://exist-db.org/xquery/request";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 
+(: Ask the package repository where TEI Publisher is installed rather than searching the whole repository root :)
 declare function local:get-tp() {
-	let $path := collection(repo:get-root())//expath:package[@name = "https://e-editiones.org/apps/tei-publisher"]
+    let $name := "https://e-editiones.org/apps/tei-publisher"
     return
-        if ($path) then
-            substring-after(util:collection-name($path), repo:get-root())
+        if ($name = repo:list()) then
+            parse-xml(util:binary-to-string(repo:get-resource($name, "repo.xml")))//repo:target/string()
         else
             ()
 };

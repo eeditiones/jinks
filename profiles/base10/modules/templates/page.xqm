@@ -9,13 +9,16 @@ import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "../lib
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../lib/util.xql";
 
-declare namespace expath="http://expath.org/ns/pkg";
-
+(:~
+ : Ask the package repository where eXide is installed: searching the whole
+ : repository root for its expath-pkg.xml takes seconds once large data
+ : packages are installed, and this variable is evaluated on every page.
+ :)
 declare variable $page:EXIDE :=
-    let $pkg := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    let $name := "http://exist-db.org/apps/eXide"
     let $appLink :=
-        if ($pkg) then
-            substring-after(util:collection-name($pkg), repo:get-root())
+        if ($name = repo:list()) then
+            parse-xml(util:binary-to-string(repo:get-resource($name, "repo.xml")))//repo:target/string()
         else
             ()
     let $path := string-join((request:get-context-path(), request:get-attribute("$exist:prefix"), $appLink, "index.html"), "/")

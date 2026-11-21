@@ -2,7 +2,6 @@ xquery version "3.1";
 
 module namespace oapi="http://teipublisher.com/api/odd";
 
-declare namespace expath="http://expath.org/ns/pkg";
 declare namespace pb="http://teipublisher.com/1.0";
 
 declare default element namespace "http://www.tei-c.org/ns/1.0";
@@ -15,11 +14,12 @@ import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 
+(: Ask the package repository where eXide is installed rather than searching the whole repository root :)
 declare variable $oapi:EXIDE :=
-    let $path := collection(repo:get-root())//expath:package[@name = "http://exist-db.org/apps/eXide"]
+    let $name := "http://exist-db.org/apps/eXide"
     return
-        if ($path) then
-            substring-after(util:collection-name($path), repo:get-root())
+        if ($name = repo:list()) then
+            parse-xml(util:binary-to-string(repo:get-resource($name, "repo.xml")))//repo:target/string()
         else
             ();
 
