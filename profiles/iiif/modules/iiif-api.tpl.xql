@@ -20,13 +20,25 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+(:~
+ : The text of an HTTP response body. eXist 7's EXPath HTTP client returns a JSON or other
+ : text body as xs:string, as the EXPath HTTP Client spec has it; eXist 6's returned it as
+ : xs:base64Binary.
+ :)
+declare %private function iiif:body-text($body as item()) as xs:string {
+    if ($body instance of xs:string) then
+        $body
+    else
+        util:binary-to-string(xs:base64Binary($body))
+};
+
 (:~ Contact the IIIF image api to get the dimensions of an image :)
 declare %private function iiif:image-info($path as xs:string) {
     let $request := <http:request method="GET" href="{string-join(($iiifc:IMAGE_API_BASE, $path), '/')}/info.json"/>
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
-            let $data := util:binary-to-string(xs:base64Binary($response[2]))
+            let $data := iiif:body-text($response[2])
             return
                 parse-json($data)
         else

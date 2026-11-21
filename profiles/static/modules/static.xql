@@ -12,6 +12,18 @@ declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare variable $static:ERROR_PART_LOAD_FAILED := QName("http://tei-publisher.com/jinks/static", "part-load-failed");
 declare variable $static:ERROR_LOAD_FAILED := QName("http://tei-publisher.com/jinks/static", "load-failed");
 
+(:~
+ : The text of an HTTP response body. eXist 7's EXPath HTTP client returns a JSON or other
+ : text body as xs:string, as the EXPath HTTP Client spec has it; eXist 6's returned it as
+ : xs:base64Binary.
+ :)
+declare %private function static:body-text($body as item()) as xs:string {
+    if ($body instance of xs:string) then
+        $body
+    else
+        util:binary-to-string(xs:base64Binary($body))
+};
+
 declare function static:preload-view($context as map(*), $config as map(*)) {
     let $path := path:mkcol($context, $config?path)
     let $entries := static:preload-view-next($context, $config, (), $path, 1)
@@ -154,7 +166,7 @@ declare %private function static:load-part($context as map(*), $path as xs:strin
     let $response := http:send-request($request)
     return
         if ($response[1]/@status = 200) then
-            let $data := util:binary-to-string(xs:base64Binary($response[2]))
+            let $data := static:body-text($response[2])
             let $json := parse-json($data)
             let $parsed := map:merge((
                 $json,
@@ -230,13 +242,13 @@ declare function static:load($context as map(*)?, $url as xs:string, $target as 
                     return
                         switch ($contentType)
                             case "application/json" return
-                                xmldb:store-as-binary(path:parent($targetPath), path:basename($targetPath), xs:base64Binary($response[2]))[2]
+                                xmldb:store-as-binary(path:parent($targetPath), path:basename($targetPath), static:body-text($response[2]))[2]
                             default return
                                 xmldb:store(path:parent($targetPath), path:basename($targetPath), $response[2])[2]
                 ) else
                     switch ($contentType)
                         case "application/json" return
-                            let $data := util:binary-to-string(xs:base64Binary($response[2]))
+                            let $data := static:body-text($response[2])
                             return
                                 parse-json($data)
                         case "text/html" return (
@@ -352,7 +364,7 @@ declare function static:index($context as map(*), $input as item()*, $collection
             let $response := http:send-request($request)
             return
                 if ($response[1]/@status = 200) then
-                    let $data := util:binary-to-string(xs:base64Binary($response[2]))
+                    let $data := static:body-text($response[2])
                     return
                         parse-json($data)?* ! serialize(., map { "method": "json", "indent": false() })
                 else

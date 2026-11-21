@@ -157,7 +157,7 @@ declare %private function anno:apply($node, $annotations) {
                 return
                     anno:apply($output, tail($annotations))
             else
-                let $output := anno:apply($node, xs:int($anno?start + 1), xs:int($anno?end + 1), $anno)
+                let $output := anno:apply($node, xs:integer($anno?start + 1), xs:integer($anno?end + 1), $anno)
                 return
                     anno:apply($output, tail($annotations))
 };
@@ -288,7 +288,7 @@ declare %private function anno:modify($nodes as node()*, $target as node(), $ann
                 $node
 };
 
-declare %private function anno:apply($node as node(), $startOffset as xs:int, $endOffset as xs:int, $annotation as map(*)) {
+declare %private function anno:apply($node as node(), $startOffset as xs:integer, $endOffset as xs:integer, $annotation as map(*)) {
     let $start := anno:find-offset($node, $startOffset, "start", $node instance of element(tei:note))
     let $end := anno:find-offset($node, $endOffset, "end", $node instance of element(tei:note))
     let $startAdjusted :=
@@ -330,7 +330,7 @@ declare %private function anno:find-outermost($context as node(), $node as node(
             $parent
 };
 
-declare %private function anno:find-offset($nodes as node()*, $offset as xs:int, $pos as xs:string, $isNote as xs:boolean?) {
+declare %private function anno:find-offset($nodes as node()*, $offset as xs:integer, $pos as xs:string, $isNote as xs:boolean?) {
     if (empty($nodes)) then
         ()
     else
@@ -388,7 +388,7 @@ declare %private function anno:string-length($nodes as node()*) {
  : Compute the string-length of the given node set, taking into account footnotes, choices and app,
  : which should be counted in part only or not at all.
  :)
-declare %private function anno:string-length($nodes as node()*, $length as xs:int) {
+declare %private function anno:string-length($nodes as node()*, $length as xs:integer) {
     if ($nodes) then
         let $node := head($nodes)
         let $newLength :=

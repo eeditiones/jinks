@@ -11,13 +11,25 @@ import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace router="http://e-editiones.org/roaster";
 
+(:~
+ : The text of an HTTP response body. eXist 7's EXPath HTTP client returns a JSON or other
+ : text body as xs:string, as the EXPath HTTP Client spec has it; eXist 6's returned it as
+ : xs:base64Binary.
+ :)
+declare %private function nlp:body-text($body as item()) as xs:string {
+    if ($body instance of xs:string) then
+        $body
+    else
+        util:binary-to-string(xs:base64Binary($body))
+};
+
 declare function nlp:status($request as map(*)) {
     try {
         let $request := <http:request method="GET" timeout="10"/>
         let $response := http:send-request($request, $nlp-config:api-endpoint || "/status/")
         return
             if ($response[1]/@status = "200") then
-                parse-json(util:binary-to-string($response[2]))
+                parse-json(nlp:body-text($response[2]))
             else
                 error($errors:BAD_REQUEST, $response[2])
     } catch * {
@@ -33,7 +45,7 @@ declare function nlp:models($request as map(*)) {
             let $response := http:send-request($request, $nlp-config:api-endpoint || "/model")
             return
                 if ($response[1]/@status = "200") then
-                    parse-json(util:binary-to-string($response[2]))
+                    parse-json(nlp:body-text($response[2]))
                 else
                     error($errors:BAD_REQUEST, $response[2])
         } catch * {
@@ -229,7 +241,7 @@ declare %private function nlp:training-data-from-blocks($blocks as element()*, $
  : Scan the sequence of arrays returned by nlp:training-data and extract the entities found,
  : recomputing the offsets.
  :)
-declare %private function nlp:collect-training-entities($data as array(*)*, $offset as xs:int, $result as array(*)*) {
+declare %private function nlp:collect-training-entities($data as array(*)*, $offset as xs:integer, $result as array(*)*) {
     if (exists($data)) then
         let $head := head($data)
         let $end := $offset + string-length($head?2)
@@ -391,7 +403,7 @@ declare function nlp:extract-plain-offsets($nodes as node()*, $skipNotes as xs:b
  : Accumulate the string lengths of a sequence of nodes to obtain an absolute character
  : offset. Some elements need special treatment, e.g. tei:note should be ignored.
  :)
-declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:int) {
+declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:integer) {
     if ($nodes) then
         let $head := head($nodes)
         let $offset :=
@@ -418,11 +430,11 @@ declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:in
  : The resulting data structure is later used by nlp:convert to re-map the
  : detected entities back to the XML being annotated.
  :)
-declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
+declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:integer, $debug as xs:boolean?) {
     nlp:mapping-table((), $pairs, $accum, $debug)
 };
 
-declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
+declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $accum as xs:integer, $debug as xs:boolean?) {
     if (empty($pairs)) then
         $result
     else
@@ -464,7 +476,7 @@ declare function nlp:convert($entities as array(*), $offsets as map(*)*, $doc as
         return
             (: element is not marked as entity :)
             if (exists($insertPoint) and empty($existingType)) then
-                let $start := xs:int($entity?start - $insertPoint?start[1])
+                let $start := xs:integer($entity?start - $insertPoint?start[1])
                 return
                     map {
                         "context": util:node-id($insertPoint?node),
@@ -603,7 +615,7 @@ declare function nlp:entities-remote($input as xs:string*, $model as xs:string) 
             string-join($input))
     return
         if ($response[1]/@status = "200") then
-            parse-json(util:binary-to-string($response[2]))
+            parse-json(nlp:body-text($response[2]))
         else
             error($errors:BAD_REQUEST, $response[2])
 };
@@ -627,7 +639,7 @@ declare function nlp:patterns-remote($input as xs:string*, $patterns as array(*)
         )
     return
         if ($response[1]/@status = "200") then
-            parse-json(util:binary-to-string($response[2]))
+            parse-json(nlp:body-text($response[2]))
         else
             error($errors:BAD_REQUEST, $response[2])
 };
@@ -648,7 +660,7 @@ declare function nlp:train-remote($name, $base, $lang, $vectors, $data) {
     let $response := http:send-request($request, $nlp-config:api-endpoint || "/train/", $serialized)
     return
         if ($response[1]/@status = "200") then
-            parse-json(util:binary-to-string($response[2]))
+            parse-json(nlp:body-text($response[2]))
         else
-            error($errors:BAD_REQUEST, parse-json(util:binary-to-string($response[2])))
+            error($errors:BAD_REQUEST, parse-json(nlp:body-text($response[2])))
 };
