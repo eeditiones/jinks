@@ -114,6 +114,7 @@ declare function vapi:view($request as map(*)) {
             return
                 tmpl:process($templateContent, $model, map {
                     "plainText": false(),
+                    "cache": $config:template-cache,
                     "resolver": vapi:resolver#1,
                     "modules": map {
                         "http://www.tei-c.org/tei-simple/config": map {
@@ -154,6 +155,7 @@ declare function vapi:handle-error($error) {
     let $html :=
         tmpl:process($template, $model, map {
             "plainText": false(),
+            "cache": $config:template-cache,
             "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
@@ -219,6 +221,7 @@ declare function vapi:html($request as map(*), $extConfig as map(*)?) {
     return
         tmpl:process($template, $context, map {
             "plainText": false(),
+            "cache": $config:template-cache,
             "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {
@@ -282,6 +285,7 @@ declare function vapi:text($request as map(*)) {
     return
         tmpl:process($template, $config, map {
             "plainText": false(),
+            "cache": $config:template-cache,
             "resolver": vapi:resolver#1,
             "modules": map {
                 "http://www.tei-c.org/tei-simple/config": map {

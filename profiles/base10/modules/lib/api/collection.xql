@@ -48,7 +48,8 @@ declare function capi:list($request as map(*)) {
             let $model := map:merge((vapi:load-config-json($request), map { "documents": $works, "language": $request?parameters?language }))
             return
                 tmpl:process($template, $model, map {
-                    "plainText": false(), 
+                    "plainText": false(),
+                    "cache": $config:template-cache,
                     "resolver": vapi:resolver#1,
                     "modules": map {
                         "http://www.tei-c.org/tei-simple/config": map {

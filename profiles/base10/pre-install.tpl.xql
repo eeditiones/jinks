@@ -1,6 +1,7 @@
 xquery version "1.0";
 
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
+import module namespace cache="http://exist-db.org/xquery/cache" at "java:org.exist.xquery.modules.cache.CacheModule";
 
 (: The following external variables are set by the repo:deploy function :)
 
@@ -26,6 +27,9 @@ declare function local:mkcol-recursive($collection, $components) {
 declare function local:mkcol($collection, $path) {
     local:mkcol-recursive($collection, tokenize($path, "/"))
 };
+
+(: Drop the compiled templates of the version being replaced ($config:template-cache) :)
+cache:destroy("jinks-templates-" || $target),
 
 local:mkcol(repo:get-root(), replace($target, "^.*/([^/]+)$", "$1")),
 sm:chgrp(xs:anyURI($target), "[[ $pkg?user?group]]"),
