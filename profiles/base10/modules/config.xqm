@@ -490,6 +490,17 @@ declare function config:in-document-roots($docs as node()*) as node()* {
         $doc
 };
 
+(:~
+ : Load the document at $path, or return the empty sequence if there is none.
+ : doc() raises FODC0002 for a missing document on eXist 7, where callers of
+ : config:get-document expect the empty sequence.
+ :)
+declare %private function config:doc-if-available($path as xs:string) as document-node()? {
+    let $uri := xmldb:encode-uri($path)
+    return
+        if (doc-available($uri)) then doc($uri) else ()
+};
+
 declare function config:get-document($idOrName as xs:string) {
     (: reject relative path segments to prevent escaping the document roots :)
     if (tokenize($idOrName, "/") = "..") then
@@ -499,9 +510,9 @@ declare function config:get-document($idOrName as xs:string) {
             if ($config:address-by-id) then
                 root(collection($config:data-root)/id($idOrName))
             else if (starts-with($idOrName, '/')) then
-                doc(xmldb:encode-uri($idOrName))
+                config:doc-if-available($idOrName)
             else
-                doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+                config:doc-if-available($config:data-root || "/" || $idOrName)
         let $document := config:in-document-roots($document)
         return
             if (exists($document)) then
@@ -511,8 +522,8 @@ declare function config:get-document($idOrName as xs:string) {
                 head(
                     config:in-document-roots((
                         root(collection($config:data-root)/id($idOrName)),
-                        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName)),
-                        doc(xmldb:encode-uri($config:data-default || "/" || $idOrName))
+                        config:doc-if-available($config:data-root || "/" || $idOrName),
+                        config:doc-if-available($config:data-default || "/" || $idOrName)
                     ))
                 )
 };
