@@ -5,9 +5,11 @@ concurrency:
   cancel-in-progress: false
 
 on:
+  # Other branches are tested through their pull request, as in build.yml.
   push:
     branches:
-      - '**'
+      - main
+      - 'release/**'
     tags:
       - v*
   pull_request:
