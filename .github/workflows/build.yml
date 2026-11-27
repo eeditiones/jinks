@@ -7,14 +7,14 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  # Other branches are built through their pull request. Building them on
-  # push too started a second run in the same concurrency group, which
-  # cancelled the first and listed its jobs as failed checks.
+  # Other branches are built through their pull request, whatever its base
+  # branch. Building them on push too started a second run in the same
+  # concurrency group, which cancelled the first and listed its jobs as
+  # failed checks.
   push:
     branches: [ main, 'release/**' ]
     tags: [ 'v*' ]
   pull_request:
-    branches: [ main ]
 
 jobs:
   build:
